@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate Qwen 2509/Nunchaku FP4 T2I references for the P7-5.7 frontal anchor.
 
-This is intentionally separate from the P7-5.2 full-body reference pilot:
+This is intentionally separate from the P7-5.3 full-body reference pilot:
 it has no image input and must not silently become an image-edit experiment.
 The ``edit`` filename token identifies the P7-5 editing workflow, not an
 image-to-image operation in this generator.

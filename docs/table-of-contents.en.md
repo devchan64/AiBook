@@ -816,7 +816,7 @@ Part 7 is not a separate Part for new theory. It is the practice space for mater
 #### Chapter 5. Verifying RAG Evidence `Project Practice`
 
 - **P7-5.1 Practicing the Retrieval, Evidence, and Answer Flow**: follows how retrieval candidates, selected evidence, and final answers connect within one pipeline.
-- **P7-5.2 Recording Retrieval Failures and Missing Evidence**: records inaccurate answers as retrieval failure, insufficient evidence, or answer-construction problems instead of collapsing them into `the LLM was wrong`.
+- **P7-5.3 Recording Retrieval Failures and Missing Evidence**: records inaccurate answers as retrieval failure, insufficient evidence, or answer-construction problems instead of collapsing them into `the LLM was wrong`.
 - **P7-5.3 Practicing the Question-Evidence Boundary**: changes question wording on the same document set and compares how `insufficient evidence`, `overreach risk`, and `grounded answer` states diverge.
 
 #### Chapter 6. Agent Execution and Approval Policies `Project Practice`

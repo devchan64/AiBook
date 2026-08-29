@@ -1,0 +1,46 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-2511-camera-official-direct",
+  "stage": "camera_angle",
+  "execution_mode": "direct Diffusers; official model-card path; no ComfyUI or GGUF",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "dtype": "bfloat16",
+    "device_placement": "sequential_cpu_offload",
+    "offload": "sequential"
+  },
+  "lora": {
+    "repository": "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA",
+    "weight": "qwen-image-edit-2511-multiple-angles-lora.safetensors",
+    "strength": "model-card default"
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png",
+    "sha256": "2b351ad4fc9e7a4cf8c544f36d2851f29c250e5fe64a722882951f4c4f13d43e"
+  },
+  "camera_preset": "a",
+  "camera": {
+    "azimuth": "front view",
+    "elevation": "elevated shot",
+    "distance": "medium shot"
+  },
+  "prompt": "<sks> front view elevated shot medium shot",
+  "prompt_format": "<sks> [azimuth] [elevation] [distance]",
+  "seed": 5420,
+  "steps": 20,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-front-view-elevated-shot-medium-shot-official-scene-a-v4-seed-5420-steps-20.png",
+    "sha256": "a2040db8f2e609d5b0a65ac3a1baef95a2dd89b2a9e47e68a19f0bd27f7821d0"
+  },
+  "elapsed_seconds": 274.47
+}

@@ -64,15 +64,15 @@ def sha256(path: Path) -> str:
 def core_records() -> list[dict[str, object]]:
     records: list[dict[str, object]] = []
     for view in VIEWS:
-        records.append({"source_id": f"identity-face-{view}", "image": f"p7-5-2-face-{view.replace('_', '-')}-reference.png", "caption": f"{IDENTITY}, face portrait, {VIEW_TAGS[view]}", "view": view, "pose_family": "face_identity"})
-        records.append({"source_id": f"identity-basic-{view}", "image": f"p7-5-2-fullbody-{view.replace('_', '-')}-reference.png", "caption": f"{IDENTITY}, full body, standing, charcoal crop top, teal wide-leg trousers, white sneakers, {VIEW_TAGS[view]}", "view": view, "pose_family": "turnaround_basic"})
-        records.append({"source_id": f"identity-refined-{view}", "image": f"p7-5-2-fullbody-{view.replace('_', '-')}-refined-reference.png", "caption": f"{IDENTITY}, full body, white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, {VIEW_TAGS[view]}", "view": view, "pose_family": "turnaround_refined"})
+        records.append({"source_id": f"identity-face-{view}", "image": f"p7-5-3-face-{view.replace('_', '-')}-reference.png", "caption": f"{IDENTITY}, face portrait, {VIEW_TAGS[view]}", "view": view, "pose_family": "face_identity"})
+        records.append({"source_id": f"identity-basic-{view}", "image": f"p7-5-3-fullbody-{view.replace('_', '-')}-reference.png", "caption": f"{IDENTITY}, full body, standing, charcoal crop top, teal wide-leg trousers, white sneakers, {VIEW_TAGS[view]}", "view": view, "pose_family": "turnaround_basic"})
+        records.append({"source_id": f"identity-refined-{view}", "image": f"p7-5-3-fullbody-{view.replace('_', '-')}-refined-reference.png", "caption": f"{IDENTITY}, full body, white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, {VIEW_TAGS[view]}", "view": view, "pose_family": "turnaround_refined"})
     for record in records:
         image_path = ASSETS / str(record["image"])
         if not image_path.is_file():
             raise FileNotFoundError(f"identity anchor missing: {image_path}")
         record["sha256"] = sha256(image_path)
-        record["review"] = "approved P7-5.2 reference"
+        record["review"] = "approved P7-5.3 reference"
     return records
 
 

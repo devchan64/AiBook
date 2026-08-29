@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw
 
 
 ROOT = Path(__file__).resolve().parents[4]
-OUTFIT = ROOT / "docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference.png"
+OUTFIT = ROOT / "docs/assets/part-07/chapter-05/p7-5-3-fullbody-front-refined-reference.png"
 STYLE = ROOT / "docs/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-v3-scene01-code-7a21c8-seed-420713-steps-30.png"
 OUTPUT = ROOT / "docs/assets/part-07/chapter-05/p7-5-11-outfit-and-watercolor-reference.png"
 

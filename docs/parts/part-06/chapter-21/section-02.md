@@ -71,7 +71,7 @@ sequential CPU offload는 메모리 절감 폭이 크지만 느릴 수 있습니
 
 ## 순차 CPU offload는 조립이 끝난 pipeline에 한 번 설정한다
 
-P7-5.1~P7-5.2, P7-5.4와 P7-5.11처럼 Diffusers pipeline을 쓰는 경우에는 다음 순서를 지킵니다.
+P7-5.1~P7-5.3, P7-5.4와 P7-5.11처럼 Diffusers pipeline을 쓰는 경우에는 다음 순서를 지킵니다.
 
 1. `from_pretrained(...)`로 pipeline을 만듭니다.
 2. ControlNet, IP-Adapter처럼 pipeline에 포함할 추가 구성요소를 모두 연결하고, 필요한 VAE·attention 메모리 설정을 합니다.
@@ -79,7 +79,7 @@ P7-5.1~P7-5.2, P7-5.4와 P7-5.11처럼 Diffusers pipeline을 쓰는 경우에는
 4. 이 방식을 쓸 때는 그 전에 `pipe.to("cuda")`로 pipeline 전체를 GPU에 올리지 않습니다. 먼저 GPU로 옮기면 순차 offload의 메모리 절감 효과가 거의 없어집니다. 호출 뒤에도 전체 pipeline을 다시 `.to("cuda")`로 옮기지 않습니다.
 5. 학습 기록에서는 model CPU offload와 sequential CPU offload 가운데 하나를 선택해 실행합니다. 속도를 우선하면 전자를, VRAM 절감을 우선하면 후자를 선택해 조건을 비교합니다. `device_map`으로 배치한 pipeline은 먼저 `reset_device_map()`으로 배치를 해제한 뒤 이 선택을 적용합니다.
 
-예를 들어 P7-5.1~P7-5.2와 P7-5.4의 FLUX 실행은 가중치를 읽은 뒤 순차 offload를 켜고 한 장면씩 생성합니다. P7-5.11의 SDXL 비교는 ControlNet과 IP-Adapter를 먼저 연결한 뒤 순차 offload를 켭니다. 이렇게 해야 offload hook이 실제 실행에 쓰일 전체 pipeline을 대상으로 동작합니다. 다만 모델마다 지원 구성요소와 호환성이 다르므로, 호출이 성공했다는 사실만으로 모든 adapter 조합이 같은 방식으로 작동한다고 단정하지 않습니다.
+예를 들어 P7-5.1~P7-5.3와 P7-5.4의 FLUX 실행은 가중치를 읽은 뒤 순차 offload를 켜고 한 장면씩 생성합니다. P7-5.11의 SDXL 비교는 ControlNet과 IP-Adapter를 먼저 연결한 뒤 순차 offload를 켭니다. 이렇게 해야 offload hook이 실제 실행에 쓰일 전체 pipeline을 대상으로 동작합니다. 다만 모델마다 지원 구성요소와 호환성이 다르므로, 호출이 성공했다는 사실만으로 모든 adapter 조합이 같은 방식으로 작동한다고 단정하지 않습니다.
 
 행별 생성 뒤에 보이는 `torch.cuda.empty_cache()`도 구별해야 합니다. 이것은 사용하지 않는 PyTorch 캐시 메모리를 GPU의 다른 응용 프로그램이 쓸 수 있게 반환하는 호출일 뿐, 현재 pipeline의 가중치나 활성 tensor를 CPU로 옮기지 않습니다. 그러므로 offload 방식이나 VRAM 절감의 증거로 기록하지 말고, 행 사이 캐시 정리 여부로 따로 남깁니다.
 

@@ -92,7 +92,7 @@ def main() -> int:
         raise RuntimeError("CUDA is required for the structure probe")
     rows = [json.loads(line) for line in (args.dataset / "heldout" / "metadata.jsonl").read_text().splitlines()]
     if len(rows) != 4:
-        raise ValueError("P7-5.2 requires exactly four held-out rows")
+        raise ValueError("P7-5.3 requires exactly four held-out rows")
     args.output.mkdir(parents=True, exist_ok=True)
     annotator_path = Path(
         snapshot_download(ANNOTATOR_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)

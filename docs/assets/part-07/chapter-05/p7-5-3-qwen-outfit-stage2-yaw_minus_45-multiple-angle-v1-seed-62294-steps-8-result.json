@@ -1,0 +1,58 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-outfit-yaw",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors",
+  "angle_lora": {
+    "repository": "dx8152/Qwen-Edit-2509-Multiple-angles",
+    "weight": {
+      "path": "/home/cbsim/.cache/huggingface/hub/models--dx8152--Qwen-Edit-2509-Multiple-angles/snapshots/c342b0e746c3a3275af1a4a0c6ae78e0e4802531/镜头转换.safetensors",
+      "sha256": "e0cea9508025a39e41f50da0e7d10fbd9db182d057c745136a42ef8829914c8f"
+    },
+    "applied_modules": 360
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "target": "yaw_minus_45",
+  "yaw_degrees": -45,
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+      "sha256": "c609cb7fb072f18727d53818152b5833a2be1d080f9ff8fed999edb6125e99b7"
+    }
+  ],
+  "input_roles": [
+    "outfit-stage2_reference"
+  ],
+  "seed": 62294,
+  "steps": 8,
+  "size": [
+    1024,
+    1536
+  ],
+  "true_cfg_scale": 4.0,
+  "negative_prompt": " ",
+  "prompt": "将镜头向左旋转45度。",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8.png",
+    "sha256": "af0fac22943f3e88a7805bb0fe259ae4de7537967bc5a59955d308790ef4f885"
+  },
+  "elapsed_seconds": 99.49,
+  "sequence": {
+    "index": 1,
+    "total": 1,
+    "targets": [
+      "yaw_minus_45"
+    ]
+  }
+}

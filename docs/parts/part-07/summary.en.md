@@ -174,7 +174,7 @@ Linked back to representative places in Part 7, the same procedure can be read a
 | Fix the question and input unit | `P7-1.1` |
 | Read the baseline and comparison table together | `P7-1.2`, `P7-2.2` |
 | Interpret structure and failure causes together | `P7-3.2`, `P7-4.2` |
-| Leave evidence and execution logs together | `P7-5.2`, `P7-6.2` |
+| Leave evidence and execution logs together | `P7-5.3`, `P7-6.2` |
 | Return operational failure to the next experiment | `P7-7.2` |
 
 In other words, the current blocked stage can be compared directly with the representative section that plays the same role. If the practice sections are included as well, it becomes possible to return not only to rereading explanations, but to changing values and rewriting results.

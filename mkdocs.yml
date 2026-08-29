@@ -559,7 +559,7 @@ nav:
       - "Module 3. 현재 모델 실행 실습":
           - "Chapter 5. 생성형 이미지 모델 실습":
               - "P7-5.1 공통 T2I 프롬프트로 화풍 데이터 축적하기": parts/part-07/chapter-05/section-01.md
-              - "P7-5.2 캐릭터 identity와 추가 페인팅으로 특징 완성하기": parts/part-07/chapter-05/section-02.md
+              - "P7-5.3 캐릭터 identity와 추가 페인팅으로 특징 완성하기": parts/part-07/chapter-05/section-03.md
               - "P7-5.4 컷신 생성: 참조 셋으로 pose·camera·장면 만들기": parts/part-07/chapter-05/section-04.md
               - "P7-5.11 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기": parts/part-07/chapter-05/section-11.md
               - "P7-5.7 캐릭터 멀티플 뷰 생성: identity 기준과 카메라 앵글 분리하기": parts/part-07/chapter-05/section-07.md

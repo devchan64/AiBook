@@ -76,7 +76,7 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 ## 삭제한 FLUX 학습셋은 LoRA 근거로 쓰지 않는다
 
-P7-5.2의 방향 원본과 P7-5.11의 동작 원본으로 구성했던 FLUX 승인 이미지·review·54컷 manifest는 모두 제거했다. 따라서 이 절은 해당 데이터셋의 LoRA 효과를 현재 근거로 사용하지 않는다. 새 학습셋은 생성 모델, 이미지, 사람 검수 기록, caption·hash manifest를 한 세트로 새로 승인한 뒤에만 실험에 연결한다.
+P7-5.3의 방향 원본과 P7-5.11의 동작 원본으로 구성했던 FLUX 승인 이미지·review·54컷 manifest는 모두 제거했다. 따라서 이 절은 해당 데이터셋의 LoRA 효과를 현재 근거로 사용하지 않는다. 새 학습셋은 생성 모델, 이미지, 사람 검수 기록, caption·hash manifest를 한 세트로 새로 승인한 뒤에만 실험에 연결한다.
 
 LoRA on은 off보다 화풍과 착장 경향을 끌어올 수 있지만, 정확한 얼굴·동작·가방을 단독으로 고정하지는 못한다. FacePlus와 FaceID를 함께 써도 얼굴 단서는 보조할 뿐 전신 계약을 통과시키지 못했다.
 
@@ -91,7 +91,7 @@ LoRA on은 off보다 화풍과 착장 경향을 끌어올 수 있지만, 정확�
 
 > **이 보조 실험이 확인한 것:** OpenPose는 팔·다리·접지의 2D 배치를 전달하지만, 고각도 카메라와 3D 가림 관계를 결정하지는 않는다.
 
-강화한 LoRA를 넣은 뒤에는 OpenPose가 무엇을 실제로 맡는지 다시 확인했다. P7-5.2의 승인 전신에서 저장한 우측 쿼터 skeleton map을 재사용해 detector를 매번 다시 실행하지 않도록 했다. 아래 비교는 왼쪽의 입력 map과 그 map을 사용한 ControlNet off/on 산출물을 함께 보여 준다.
+강화한 LoRA를 넣은 뒤에는 OpenPose가 무엇을 실제로 맡는지 다시 확인했다. P7-5.3의 승인 전신에서 저장한 우측 쿼터 skeleton map을 재사용해 detector를 매번 다시 실행하지 않도록 했다. 아래 비교는 왼쪽의 입력 map과 그 map을 사용한 ControlNet off/on 산출물을 함께 보여 준다.
 
 ![저장 우측 쿼터 OpenPose map과 ControlNet off/on 산출물](../../../assets/part-07/chapter-05/p7-5-11-openpose-static-quarter-right-contact-sheet.png)
 

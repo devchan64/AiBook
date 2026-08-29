@@ -11,7 +11,7 @@ from PIL import Image
 
 
 ASSET_DIR = Path(__file__).resolve().parent
-SOURCE = ASSET_DIR / "p7-5-2-fullbody-front-refined-reference.png"
+SOURCE = ASSET_DIR / "p7-5-3-fullbody-front-refined-reference.png"
 OUTPUT = ASSET_DIR / "p7-5-11-character-fullbody-front-square-padded.png"
 RECORD = ASSET_DIR / "p7-5-11-character-fullbody-front-square-padded.json"
 CANVAS_SIZE = 1152

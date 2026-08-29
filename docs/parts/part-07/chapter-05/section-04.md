@@ -34,19 +34,19 @@ P7-5.10의 Q4_K_S GGUF 저VRAM 경로에서 1280×1280, 20 step, CFG 4.0을 사�
 
 | Scene A: 해안 절벽 | Scene B: 야생화 초원 | Scene C: 도심 공원 |
 | --- | --- | --- |
-| ![1280 정사각형의 해안 절벽 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-3-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png) | ![1280 정사각형의 야생화 초원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-3-qwen-image-q4ks-style-contract-scene-b-v1_00001_.png) | ![1280 정사각형의 도심 공원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-3-qwen-image-q4ks-style-contract-scene-c-v1_00001_.png) |
+| ![1280 정사각형의 해안 절벽 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png) | ![1280 정사각형의 야생화 초원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-b-v1_00001_.png) | ![1280 정사각형의 도심 공원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-c-v1_00001_.png) |
 
-<details id="p7-5-3-q4ks-scene-a-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-image-q4ks-style-contract-scene-a-v1-seed-5420-steps-20-result.json" data-language="json">
+<details id="p7-5-3-q4ks-scene-a-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-a-v1-seed-5420-steps-20-result.json" data-language="json">
 <summary><code>Scene A result.json</code> · JSON · 1280 정사각형 T2I 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">모델, prompt, seed, step, CFG, ComfyUI graph를 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-q4ks-scene-b-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-image-q4ks-style-contract-scene-b-v1-seed-5421-steps-20-result.json" data-language="json">
+<details id="p7-5-3-q4ks-scene-b-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-b-v1-seed-5421-steps-20-result.json" data-language="json">
 <summary><code>Scene B result.json</code> · JSON · 1280 정사각형 T2I 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">모델, prompt, seed, step, CFG, ComfyUI graph를 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-q4ks-scene-c-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-image-q4ks-style-contract-scene-c-v1-seed-5422-steps-20-result.json" data-language="json">
+<details id="p7-5-3-q4ks-scene-c-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-c-v1-seed-5422-steps-20-result.json" data-language="json">
 <summary><code>Scene C result.json</code> · JSON · 1280 정사각형 T2I 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">모델, prompt, seed, step, CFG, ComfyUI graph를 불러옵니다.</div>
 </details>
@@ -61,33 +61,33 @@ P7-5.10의 Q4_K_S GGUF 저VRAM 경로에서 1280×1280, 20 step, CFG 4.0을 사�
 
 ~~~bash
 # 각 카메라 preset은 대응하는 최초 Scene PNG를 자동 입력으로 쓴다.
-python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_camera_direct.py --camera a
-python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_camera_direct.py --camera b
-python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_camera_direct.py --camera c
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --camera a
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --camera b
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --camera c
 ~~~
 
 | Scene A: 정면·elevated·미디엄 | Scene B: 우전방 쿼터·하이앵글·미디엄 | Scene C: 좌전방 쿼터·로우앵글·미디엄 |
 | --- | --- | --- |
-| ![공식 2511 카메라 LoRA로 생성한 해안 절벽 Scene A 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-view-elevated-shot-medium-shot-official-scene-a-v4-seed-5420-steps-20.png) | ![공식 2511 카메라 LoRA로 생성한 야생화 초원 Scene B 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-high-angle-shot-medium-shot-official-scene-b-v6-seed-5420-steps-20.png) | ![공식 2511 카메라 LoRA로 생성한 도심 공원 Scene C 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-medium-shot-official-scene-c-v5-seed-5420-steps-20.png) |
+| ![공식 2511 카메라 LoRA로 생성한 해안 절벽 Scene A 카메라판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-front-view-elevated-shot-medium-shot-official-scene-a-v4-seed-5420-steps-20.png) | ![공식 2511 카메라 LoRA로 생성한 야생화 초원 Scene B 카메라판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-front-right-quarter-view-high-angle-shot-medium-shot-official-scene-b-v6-seed-5420-steps-20.png) | ![공식 2511 카메라 LoRA로 생성한 도심 공원 Scene C 카메라판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-front-left-quarter-view-low-angle-shot-medium-shot-official-scene-c-v5-seed-5420-steps-20.png) |
 
-<details id="p7-5-3-official-camera-scene-a-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-view-elevated-shot-medium-shot-official-scene-a-v4-seed-5420-steps-20-result.json" data-language="json">
+<details id="p7-5-3-official-camera-scene-a-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-front-view-elevated-shot-medium-shot-official-scene-a-v4-seed-5420-steps-20-result.json" data-language="json">
 <summary><code>Scene A camera result.json</code> · JSON · 공식 2511 20 step 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">Scene A 입력 해시, 정확한 카메라 프롬프트, seed와 20 step 기록을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-official-camera-scene-b-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-high-angle-shot-medium-shot-official-scene-b-v6-seed-5420-steps-20-result.json" data-language="json">
+<details id="p7-5-3-official-camera-scene-b-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-front-right-quarter-view-high-angle-shot-medium-shot-official-scene-b-v6-seed-5420-steps-20-result.json" data-language="json">
 <summary><code>Scene B camera result.json</code> · JSON · 공식 2511 20 step 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">Scene B 입력 해시, 정확한 카메라 프롬프트, seed와 20 step 기록을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-official-camera-scene-c-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-medium-shot-official-scene-c-v5-seed-5420-steps-20-result.json" data-language="json">
+<details id="p7-5-3-official-camera-scene-c-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-front-left-quarter-view-low-angle-shot-medium-shot-official-scene-c-v5-seed-5420-steps-20-result.json" data-language="json">
 <summary><code>Scene C camera result.json</code> · JSON · 공식 2511 20 step 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">Scene C 입력 해시, 정확한 카메라 프롬프트, seed와 20 step 기록을 불러옵니다.</div>
 </details>
 
 이 세 장은 공식 모델 카드 형식과 Scene별 입력 매핑이 실제로 적용된 실행 기록이다. 카메라 축의 시각적 일치 여부는 PNG를 사람 눈으로 별도로 비교하며, 이 결과만으로 포즈·캐릭터 identity의 보존을 주장하지 않는다.
 
-<details id="p7-5-3-official-camera-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_camera_direct.py" data-language="python">
+<details id="p7-5-3-official-camera-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py" data-language="python">
 <summary>공식 Qwen Image Edit 2511 카메라 생성 코드 보기</summary>
 <div class="aibook-lazy-source__body">공식 Diffusers 모델, Multiple-angles LoRA, Scene별 입력 매핑, 20 step 기본값과 result.json 기록을 불러옵니다.</div>
 </details>
@@ -98,38 +98,38 @@ python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_camera_direct.py --c
 
 | Scene A 마스크 오버레이 | Scene B 마스크 오버레이 | Scene C 마스크 오버레이 |
 | --- | --- | --- |
-| ![해안 절벽 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v4-overlay.png) | ![야생화 초원 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-b-v6-overlay.png) | ![도심 공원 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-c-v5-overlay.png) |
+| ![해안 절벽 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-a-v4-overlay.png) | ![야생화 초원 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-b-v6-overlay.png) | ![도심 공원 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-c-v5-overlay.png) |
 
 | Scene A 포즈 컷아웃 | Scene B 포즈 컷아웃 | Scene C 포즈 컷아웃 |
 | --- | --- | --- |
-| ![해안 절벽 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-a-v4.png) | ![야생화 초원 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-b-v6.png) | ![도심 공원 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-c-v5.png) |
+| ![해안 절벽 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-a-v4.png) | ![야생화 초원 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-b-v6.png) | ![도심 공원 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-c-v5.png) |
 
-<details id="p7-5-3-q4ks-camera-scene-a-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v4-result.json" data-language="json">
+<details id="p7-5-3-q4ks-camera-scene-a-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-a-v4-result.json" data-language="json">
 <summary><code>Scene A mask result.json</code> · JSON · 검출 상자와 SAM2 마스크 기록 보기</summary>
 <div class="aibook-lazy-source__body">입력 해시, 선택한 인물 상자, 마스크 의미와 실행 환경을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-q4ks-camera-scene-a-cutout-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-a-v4-result.json" data-language="json">
+<details id="p7-5-3-q4ks-camera-scene-a-cutout-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-a-v4-result.json" data-language="json">
 <summary><code>Scene A cutout result.json</code> · JSON · 흰 배경 포즈 컷아웃 기록 보기</summary>
 <div class="aibook-lazy-source__body">장면·마스크 입력 해시와 흰 배경 출력의 관계를 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-q4ks-camera-scene-b-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-b-v6-result.json" data-language="json">
+<details id="p7-5-3-q4ks-camera-scene-b-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-b-v6-result.json" data-language="json">
 <summary><code>Scene B mask result.json</code> · JSON · 검출 상자와 SAM2 마스크 기록 보기</summary>
 <div class="aibook-lazy-source__body">입력 해시, 선택한 인물 상자, 마스크 의미와 실행 환경을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-q4ks-camera-scene-b-cutout-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-b-v6-result.json" data-language="json">
+<details id="p7-5-3-q4ks-camera-scene-b-cutout-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-b-v6-result.json" data-language="json">
 <summary><code>Scene B cutout result.json</code> · JSON · 흰 배경 포즈 컷아웃 기록 보기</summary>
 <div class="aibook-lazy-source__body">장면·마스크 입력 해시와 흰 배경 출력의 관계를 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-q4ks-camera-scene-c-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-c-v5-result.json" data-language="json">
+<details id="p7-5-3-q4ks-camera-scene-c-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-c-v5-result.json" data-language="json">
 <summary><code>Scene C mask result.json</code> · JSON · 검출 상자와 SAM2 마스크 기록 보기</summary>
 <div class="aibook-lazy-source__body">입력 해시, 선택한 인물 상자, 마스크 의미와 실행 환경을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-q4ks-camera-scene-c-cutout-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-c-v5-result.json" data-language="json">
+<details id="p7-5-3-q4ks-camera-scene-c-cutout-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-c-v5-result.json" data-language="json">
 <summary><code>Scene C cutout result.json</code> · JSON · 흰 배경 포즈 컷아웃 기록 보기</summary>
 <div class="aibook-lazy-source__body">장면·마스크 입력 해시와 흰 배경 출력의 관계를 불러옵니다.</div>
 </details>
@@ -144,14 +144,14 @@ python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_camera_direct.py --c
 
 | 장면 A | 카메라판 |
 | --- | --- |
-| ![해안 절벽과 공중 도약 인물이 있는 장면 A](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20.png) | ![완만한 높은 시점의 장면 A 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png) |
+| ![해안 절벽과 공중 도약 인물이 있는 장면 A](../../../assets/part-07/chapter-05/p7-5-4-qwen-storyboard-scene-a-349252-seed-5420-steps-20.png) | ![완만한 높은 시점의 장면 A 카메라판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png) |
 
-<details id="p7-5-3-scene-a-legacy-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20-result.json" data-language="json">
+<details id="p7-5-3-scene-a-legacy-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-storyboard-scene-a-349252-seed-5420-steps-20-result.json" data-language="json">
 <summary><code>장면 A result.json</code> · JSON · 이전 장면 생성 기록 보기</summary>
 <div class="aibook-lazy-source__body">모델, 입력 조건과 출력을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-scene-a-legacy-camera-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4-result.json" data-language="json">
+<details id="p7-5-3-scene-a-legacy-camera-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4-result.json" data-language="json">
 <summary><code>장면 A 카메라 result.json</code> · JSON · 이전 카메라 생성 기록 보기</summary>
 <div class="aibook-lazy-source__body">카메라 지시와 출력을 불러옵니다.</div>
 </details>
@@ -164,19 +164,19 @@ Grounding DINO와 SAM 2.1이 카메라판에서 인물을 찾아 흰색 마스�
 
 | 인물 마스크 검수 | 흰 배경 포즈 참조 | LaMa 배경판 |
 | --- | --- | --- |
-| ![카메라판의 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1-overlay.png) | ![흰 배경 위에 남긴 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-scene-a-white-v2.png) | ![인물이 제거된 해안 절벽 배경판](../../../assets/part-07/chapter-05/p7-5-3-lama-background-scene-a-v3.png) |
+| ![카메라판의 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-4-sam2-person-mask-scene-a-2511-elevated-v1-overlay.png) | ![흰 배경 위에 남긴 점프 포즈](../../../assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-scene-a-white-v2.png) | ![인물이 제거된 해안 절벽 배경판](../../../assets/part-07/chapter-05/p7-5-4-lama-background-scene-a-v3.png) |
 
-<details id="p7-5-3-scene-a-legacy-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1-result.json" data-language="json">
+<details id="p7-5-3-scene-a-legacy-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-scene-a-2511-elevated-v1-result.json" data-language="json">
 <summary><code>마스크 result.json</code> · JSON · 이전 마스크 생성 기록 보기</summary>
 <div class="aibook-lazy-source__body">검출 상자와 마스크 입력을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-scene-a-legacy-cutout-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-scene-a-white-v2-result.json" data-language="json">
+<details id="p7-5-3-scene-a-legacy-cutout-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-scene-a-white-v2-result.json" data-language="json">
 <summary><code>포즈 컷아웃 result.json</code> · JSON · 이전 컷아웃 생성 기록 보기</summary>
 <div class="aibook-lazy-source__body">장면·마스크 입력 해시와 출력을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-scene-a-legacy-background-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-lama-background-scene-a-v3-result.json" data-language="json">
+<details id="p7-5-3-scene-a-legacy-background-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-lama-background-scene-a-v3-result.json" data-language="json">
 <summary><code>LaMa 배경판 result.json</code> · JSON · 이전 배경 복원 기록 보기</summary>
 <div class="aibook-lazy-source__body">장면·마스크 입력과 복원 출력을 불러옵니다.</div>
 </details>
@@ -184,35 +184,35 @@ Grounding DINO와 SAM 2.1이 카메라판에서 인물을 찾아 흰색 마스�
 마스크 JSON은 카메라판의 SHA-256과 검출 상자·마스크 의미를 기록한다. LaMa 결과 JSON은 같은 카메라판과 마스크를 입력으로 삼고, 흰 영역만 주변 배경으로 복원했음을 기록한다.
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_3_generate_person_mask.py \
-  --reference docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
+python docs/assets/part-07/chapter-05/p7_5_4_generate_person_mask.py \
+  --reference docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
   --run-label scene-a-2511-elevated-v1
 
-python docs/assets/part-07/chapter-05/p7_5_3_extract_masked_character.py \
-  --scene docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
-  --mask docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1.png \
+python docs/assets/part-07/chapter-05/p7_5_4_extract_masked_character.py \
+  --scene docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
+  --mask docs/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-scene-a-2511-elevated-v1.png \
   --matte white --run-label pose-cutout-white-scene-a-white-v2
 
-python docs/assets/part-07/chapter-05/p7_5_3_restore_background_lama.py \
-  --scene docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
-  --mask docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1.png \
+python docs/assets/part-07/chapter-05/p7_5_4_restore_background_lama.py \
+  --scene docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
+  --mask docs/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-scene-a-2511-elevated-v1.png \
   --run-label scene-a-v3 --grow 25
 ~~~
 
 ## 포즈에 캐릭터를 이식한다
 
-Qwen Image Edit 2509에는 역할이 다른 두 이미지만 준다. 첫 번째는 위의 흰 배경 포즈 참조이고, 두 번째는 P7-5.2의 +90° 전신 착장 이미지다. 지시는 첫 이미지의 여성을 두 번째 이미지의 여성으로 바꾸되 포즈를 유지한다로 제한한다. 이 단계에서 배경을 넣지 않으므로, 배경의 색·화풍이 얼굴과 의상을 덮어쓰지 않는다.
+Qwen Image Edit 2509에는 역할이 다른 두 이미지만 준다. 첫 번째는 위의 흰 배경 포즈 참조이고, 두 번째는 P7-5.3의 +90° 전신 착장 이미지다. 지시는 첫 이미지의 여성을 두 번째 이미지의 여성으로 바꾸되 포즈를 유지한다로 제한한다. 이 단계에서 배경을 넣지 않으므로, 배경의 색·화풍이 얼굴과 의상을 덮어쓰지 않는다.
 
 | 포즈에 이식된 캐릭터 | 인물 알파 마스크 검수 |
 | --- | --- |
-| ![스플릿 점프 포즈에 이식된 흰 재킷과 짙은 청록 바지 캐릭터](../../../assets/part-07/chapter-05/p7-5-3-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10.png) | ![이식된 캐릭터의 SAM2 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-pose-transfer-plus90-replace-v2-overlay.png) |
+| ![스플릿 점프 포즈에 이식된 흰 재킷과 짙은 청록 바지 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10.png) | ![이식된 캐릭터의 SAM2 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-4-sam2-person-mask-pose-transfer-plus90-replace-v2-overlay.png) |
 
-<details id="p7-5-3-legacy-pose-transfer-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10-result.json" data-language="json">
+<details id="p7-5-3-legacy-pose-transfer-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10-result.json" data-language="json">
 <summary><code>포즈 이식 result.json</code> · JSON · 이전 포즈 이식 기록 보기</summary>
 <div class="aibook-lazy-source__body">두 입력의 역할과 생성 조건을 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-legacy-alpha-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-pose-transfer-plus90-replace-v2-result.json" data-language="json">
+<details id="p7-5-3-legacy-alpha-mask-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-pose-transfer-plus90-replace-v2-result.json" data-language="json">
 <summary><code>알파 마스크 result.json</code> · JSON · 이전 인물 마스크 기록 보기</summary>
 <div class="aibook-lazy-source__body">이식된 인물의 마스크 입력과 출력을 불러옵니다.</div>
 </details>
@@ -220,21 +220,21 @@ Qwen Image Edit 2509에는 역할이 다른 두 이미지만 준다. 첫 번째�
 포즈 이식 JSON에는 두 입력의 SHA-256, seed 62294, 10 step, true_cfg_scale 4.0이 기록돼 있다. 이후 SAM2 마스크는 이식된 캐릭터의 실루엣만 남겨 배경과 안전하게 합치기 위한 알파 채널이다.
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_pose_transfer.py \
-  --pose docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-scene-a-white-v2.png \
-  --character docs/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png \
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_pose_transfer.py \
+  --pose docs/assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-scene-a-white-v2.png \
+  --character docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png \
   --run-label plus90-replace-v2 --steps 10
 ~~~
 
 ### 포즈 참조와 초기 잠재값의 역할을 분리한다
 
-두 이미지 편집에서는 텍스트의 `Picture 1`, `Picture 2` 역할만으로 우선순위가 완전히 정해지지 않는다. 초기 잠재값을 어느 이미지에서 인코딩하는지도 결과의 출발점을 정한다. Scene B의 흰 배경 점프 컷아웃을 첫 번째 조건 참조로 두고, P7-5.2의 `+45°` 쿼터뷰 2단계 착장을 두 번째 조건 참조이자 초기 잠재값으로 사용했다. 카메라 LoRA와 카메라 지시는 넣지 않았다.
+두 이미지 편집에서는 텍스트의 `Picture 1`, `Picture 2` 역할만으로 우선순위가 완전히 정해지지 않는다. 초기 잠재값을 어느 이미지에서 인코딩하는지도 결과의 출발점을 정한다. Scene B의 흰 배경 점프 컷아웃을 첫 번째 조건 참조로 두고, P7-5.3의 `+45°` 쿼터뷰 2단계 착장을 두 번째 조건 참조이자 초기 잠재값으로 사용했다. 카메라 LoRA와 카메라 지시는 넣지 않았다.
 
 | 캐릭터 잠재값에서 시작한 포즈 이식 |
 | --- |
-| ![스플릿 점프 포즈와 청록 단발, 흰 재킷, 청록 와이드 팬츠를 함께 유지한 Qwen Image Edit 2511 Q4 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-cutout-quarter-plus45-q4-0-v2-seed-62294-steps-8.png) |
+| ![스플릿 점프 포즈와 청록 단발, 흰 재킷, 청록 와이드 팬츠를 함께 유지한 Qwen Image Edit 2511 Q4 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-transfer-cutout-quarter-plus45-q4-0-v2-seed-62294-steps-8.png) |
 
-<details id="p7-5-3-character-latent-pose-transfer-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-cutout-quarter-plus45-q4-0-v2-seed-62294-steps-8-result.json" data-language="json">
+<details id="p7-5-3-character-latent-pose-transfer-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-transfer-cutout-quarter-plus45-q4-0-v2-seed-62294-steps-8-result.json" data-language="json">
 <summary><code>포즈 이식 result.json</code> · JSON · 초기 잠재값 비교 기록 보기</summary>
 <div class="aibook-lazy-source__body">두 이미지의 역할과 초기 잠재값 선택을 불러옵니다.</div>
 </details>
@@ -256,14 +256,14 @@ Qwen Image Edit 2511 Q4_0에서 seed 62294, 8 step으로 실행하고, `A split 
 
 | 알파 합성 | 최종 화풍·광원 통일 |
 | --- | --- |
-| ![해안 배경에 캐릭터를 알파 합성한 이미지](../../../assets/part-07/chapter-05/p7-5-3-character-background-composite-scene-a-v1.png) | ![해안 배경과 캐릭터의 광원과 화풍을 정리한 최종 이미지](../../../assets/part-07/chapter-05/p7-5-3-qwen-2509-harmonized-composite-scene-a-v1-seed-62294-steps-10.png) |
+| ![해안 배경에 캐릭터를 알파 합성한 이미지](../../../assets/part-07/chapter-05/p7-5-4-character-background-composite-scene-a-v1.png) | ![해안 배경과 캐릭터의 광원과 화풍을 정리한 최종 이미지](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-harmonized-composite-scene-a-v1-seed-62294-steps-10.png) |
 
-<details id="p7-5-3-scene-a-composite-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-character-background-composite-scene-a-v1-result.json" data-language="json">
+<details id="p7-5-3-scene-a-composite-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-character-background-composite-scene-a-v1-result.json" data-language="json">
 <summary><code>알파 합성 result.json</code> · JSON · 합성 입력과 출력 기록 보기</summary>
 <div class="aibook-lazy-source__body">캐릭터·마스크·배경판 입력 해시를 불러옵니다.</div>
 </details>
 
-<details id="p7-5-3-scene-a-harmonize-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2509-harmonized-composite-scene-a-v1-seed-62294-steps-10-result.json" data-language="json">
+<details id="p7-5-3-scene-a-harmonize-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-harmonized-composite-scene-a-v1-seed-62294-steps-10-result.json" data-language="json">
 <summary><code>광원·화풍 통일 result.json</code> · JSON · 최종 보정 기록 보기</summary>
 <div class="aibook-lazy-source__body">합성 입력 해시와 광원·화풍 지시를 불러옵니다.</div>
 </details>
@@ -276,33 +276,33 @@ Scene A의 해안 절벽 예시는 그대로 두고, 같은 분리·합성 경�
 
 | Scene B 최종 화풍·광원 통일 |
 | --- |
-| ![하이앵글 야생화 초원에서 스플릿 점프하는 캐릭터의 Scene B 최종 이미지](../../../assets/part-07/chapter-05/p7-5-3-qwen-2509-harmonized-composite-scene-b-front-left-high-angle-plus45-v2-seed-62294-steps-10.png) |
+| ![하이앵글 야생화 초원에서 스플릿 점프하는 캐릭터의 Scene B 최종 이미지](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-harmonized-composite-scene-b-front-left-high-angle-plus45-v2-seed-62294-steps-10.png) |
 
-<details id="p7-5-3-scene-b-harmonize-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2509-harmonized-composite-scene-b-front-left-high-angle-plus45-v2-seed-62294-steps-10-result.json" data-language="json">
+<details id="p7-5-3-scene-b-harmonize-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-harmonized-composite-scene-b-front-left-high-angle-plus45-v2-seed-62294-steps-10-result.json" data-language="json">
 <summary><code>Scene B 최종 result.json</code> · JSON · 장면별 보정 기록 보기</summary>
 <div class="aibook-lazy-source__body">Scene B 합성 입력과 보정 조건을 불러옵니다.</div>
 </details>
 
-Scene B처럼 다른 장소를 보정할 때는 `p7_5_3_qwen_harmonize_composite.py`에 `--scene scene-b`를 지정한다. Scene A의 기본값과 해안 절벽 프롬프트는 그대로 유지된다.
+Scene B처럼 다른 장소를 보정할 때는 `p7_5_4_qwen_harmonize_composite.py`에 `--scene scene-b`를 지정한다. Scene A의 기본값과 해안 절벽 프롬프트는 그대로 유지된다.
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_3_composite_character_background.py \
-  --character docs/assets/part-07/chapter-05/p7-5-3-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10.png \
-  --mask docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-pose-transfer-plus90-replace-v2.png \
-  --background docs/assets/part-07/chapter-05/p7-5-3-lama-background-scene-a-v3.png \
+python docs/assets/part-07/chapter-05/p7_5_4_composite_character_background.py \
+  --character docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10.png \
+  --mask docs/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-pose-transfer-plus90-replace-v2.png \
+  --background docs/assets/part-07/chapter-05/p7-5-4-lama-background-scene-a-v3.png \
   --run-label scene-a-v1
 
-python docs/assets/part-07/chapter-05/p7_5_3_qwen_harmonize_composite.py \
-  --input docs/assets/part-07/chapter-05/p7-5-3-character-background-composite-scene-a-v1.png \
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_harmonize_composite.py \
+  --input docs/assets/part-07/chapter-05/p7-5-4-character-background-composite-scene-a-v1.png \
   --run-label scene-a-v1 --steps 10
 ~~~
 
-<details id="p7-5-3-pipeline-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_composite_character_background.py" data-language="python">
+<details id="p7-5-3-pipeline-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_4_composite_character_background.py" data-language="python">
 <summary>알파 합성 코드 보기</summary>
 <div class="aibook-lazy-source__body">SAM2 마스크를 알파 채널로 적용해 캐릭터를 LaMa 배경판에 합성하고, 입력과 결과 해시를 result.json에 기록합니다.</div>
 </details>
 
-<details id="p7-5-3-harmonize-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_harmonize_composite.py" data-language="python">
+<details id="p7-5-3-harmonize-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_4_qwen_harmonize_composite.py" data-language="python">
 <summary>광원·화풍 통일 코드 보기</summary>
 <div class="aibook-lazy-source__body">합성 이미지를 하나만 입력해 포즈와 구도를 유지하면서 일러스트 톤과 좌상단 자연광을 정리합니다.</div>
 </details>
