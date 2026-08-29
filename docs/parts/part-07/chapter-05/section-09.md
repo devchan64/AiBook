@@ -85,7 +85,11 @@ StoryDiffusion 공식 구현은 SD 1.5와 SDXL 기반 확산 모델에 붙일 �
 | --- | --- |
 | ![5.7 멀티뷰 앵커를 사용해 보강한 정면 토르소](../../../assets/part-07/chapter-05/p7-5-9-storydiffusion-torso-multiview-anchor-front-v1-seed-62295-steps-25.png) | ![5.7 멀티뷰 앵커를 사용해 보강한 좌45도 토르소](../../../assets/part-07/chapter-05/p7-5-9-storydiffusion-torso-multiview-anchor-left-45-v1-seed-62296-steps-25.png) |
 
-실행에 사용한 [정면 워크플로 JSON](../../../assets/part-07/chapter-05/p7-5-9-storydiffusion-torso-multiview-anchor-front-workflow-v1.json)과 [좌45도 워크플로 JSON](../../../assets/part-07/chapter-05/p7-5-9-storydiffusion-torso-multiview-anchor-left-45-workflow-v1.json)도 결과 자산과 함께 보관한다. 두 워크플로는 ComfyUI 입력 폴더에 5.7의 정면·좌45도·우45도 PNG를 각각 `front.png`, `left-45.png`, `right-45.png`로 배치하는 것을 전제로 한다.
+실행에 사용한 정면·좌45도 워크플로 JSON도 결과 자산과 함께 보관한다. 두 워크플로는 ComfyUI 입력 폴더에 5.7의 정면·좌45도·우45도 PNG를 각각 `front.png`, `left-45.png`, `right-45.png`로 배치하는 것을 전제로 한다.
+
+[정면 워크플로 JSON](../../../assets/part-07/chapter-05/p7-5-9-storydiffusion-torso-multiview-anchor-front-workflow-v1.json)
+
+[좌45도 워크플로 JSON](../../../assets/part-07/chapter-05/p7-5-9-storydiffusion-torso-multiview-anchor-left-45-workflow-v1.json)
 
 여기서 `denoise`는 출발 이미지를 얼마나 다시 그릴지 정하는 값이다. 이 실험의 `0.35`는 원본을 거의 그대로 복사하려는 값이 아니라, 방향과 인물 수는 남기되 얼굴·헤어·화풍을 cache와 함께 다시 정리하는 범위로 사용했다. 새 방향을 창작해야 한다면 먼저 그 방향의 기준 이미지를 준비해야 하며, `EmptyLatentImage`에서 바로 시작하는 것은 이 최단 경로에 포함하지 않는다.
 

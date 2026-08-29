@@ -40,10 +40,7 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 따라서 전신 결과에서 얼굴이나 정체성이 흔들린다고 해서 base model이 얼굴을 전혀 만들지 못한다고 해석할 수는 없다. 아래 실행 기록은 이 기준선의 prompt·seed·해상도와 제외한 조건을 보관한다.
 
-<details id="sdxl-base-face-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-base-face-50step-result.json" data-language="json">
-<summary><code>p7-5-11-sdxl-base-face-50step-result.json</code> · JSON · SDXL Base 얼굴 기준선 실행 기록 보기</summary>
-<div class="aibook-lazy-source__body">prompt·seed·해상도와 제외한 조건을 불러옵니다.</div>
-</details>
+[p7-5-11-sdxl-base-face-50step-result.json — JSON — SDXL Base 얼굴 기준선 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-base-face-50step-result.json)
 
 같은 생각으로 전신에서는 FaceID와 전신 착장 image adapter를 빼고 Plus Face `0.15`, character LoRA `0.30`, seed `62295`, CFG `5.0`, `960×1440`, 50 step을 고정해 OpenPose off/on을 비교했다. OpenPose를 켜면 다리·몸통의 2D 배치는 더 따랐지만, 머리 길이와 복장이 이탈했다. off도 얼굴 윤곽과 전신은 만들었으나 승인 재킷·바지·가방은 유지하지 못했다.
 
@@ -55,15 +52,9 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 저해상도 `512×768`에서 50/100 step도 비교했다. step을 늘려도 identity·outfit이 자동으로 승인 기준에 수렴하지 않았다. step과 해상도는 얼굴·구조 형성의 조건일 수 있지만, 캐릭터 고정이나 복장 가림 관계를 대신하지 않는다. 아래 기록에 전신 off/on 조건을 남겼다.
 
-<details id="sdxl-safe-face-off-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-without-openpose-960x1440-result.json" data-language="json">
-<summary><code>p7-5-11-sdxl-safe-face-without-openpose-960x1440-result.json</code> · JSON · OpenPose off 실행 기록 보기</summary>
-<div class="aibook-lazy-source__body">전신 조건과 생성 설정을 불러옵니다.</div>
-</details>
+[p7-5-11-sdxl-safe-face-without-openpose-960x1440-result.json — JSON — OpenPose off 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-without-openpose-960x1440-result.json)
 
-<details id="sdxl-safe-face-on-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json" data-language="json">
-<summary><code>p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json</code> · JSON · OpenPose on 실행 기록 보기</summary>
-<div class="aibook-lazy-source__body">전신 조건과 생성 설정을 불러옵니다.</div>
-</details>
+[p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json — JSON — OpenPose on 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json)
 
 얼굴 조건을 더 강하게 넣어도 전신 계약이 따라오지는 않았다. FaceID 단독은 전신 frame을 남겼지만 검은 장발·다른 착장으로 바뀌었고, FullFace 결합은 청록 단발·호박색 눈 단서를 늘렸지만 흉상 구도로 수렴했다. 이 비교는 얼굴 embedding을 세게 주는 것만으로 전신 캐릭터가 재현되지는 않는다는 뜻이다.
 
@@ -110,25 +101,13 @@ Animagine XL `960×1440`, 30 step에서 LoRA `0.6`을 고정했을 때, 저장 �
 
 이 결과가 가리킨 다음 문제는 분명했다. OpenPose는 팔·다리·접지의 **2D 배치**를 전달할 수 있지만, 카메라의 3D 원근, 머리·흉곽 회전, 가방의 앞뒤 가림을 결정하지는 못한다. 따라서 고각도에는 별도의 구조용 guide가 필요했다. 아래 실행 기록은 저장 map, 동작 off/on, LoRA scale, 카메라 문구 비교의 조건을 보관한다.
 
-<details id="openpose-static-quarter-right-report" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-static-quarter-right-report.json" data-language="json">
-<summary><code>p7-5-11-openpose-static-quarter-right-report.json</code> · JSON · 저장 map 비교 기록 보기</summary>
-<div class="aibook-lazy-source__body">저장한 우측 쿼터 map의 비교 조건을 불러옵니다.</div>
-</details>
+[p7-5-11-openpose-static-quarter-right-report.json — JSON — 저장 map 비교 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-static-quarter-right-report.json)
 
-<details id="openpose-declarative-controlnet-report" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-controlnet-ab-report.json" data-language="json">
-<summary><code>p7-5-11-openpose-declarative-reach-up-controlnet-ab-report.json</code> · JSON · 동작 OpenPose off/on 비교 기록 보기</summary>
-<div class="aibook-lazy-source__body">선언형 동작 map과 ControlNet 비교 조건을 불러옵니다.</div>
-</details>
+[p7-5-11-openpose-declarative-reach-up-controlnet-ab-report.json — JSON — 동작 OpenPose off/on 비교 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-controlnet-ab-report.json)
 
-<details id="openpose-declarative-lora-scale-report" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-lora-scale-ab-report.json" data-language="json">
-<summary><code>p7-5-11-openpose-declarative-reach-up-lora-scale-ab-report.json</code> · JSON · LoRA scale 비교 기록 보기</summary>
-<div class="aibook-lazy-source__body">LoRA scale 비교 조건을 불러옵니다.</div>
-</details>
+[p7-5-11-openpose-declarative-reach-up-lora-scale-ab-report.json — JSON — LoRA scale 비교 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-lora-scale-ab-report.json)
 
-<details id="openpose-declarative-camera-report" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-camera-ab-report.json" data-language="json">
-<summary><code>p7-5-11-openpose-declarative-reach-up-camera-ab-report.json</code> · JSON · 카메라 문구 비교 기록 보기</summary>
-<div class="aibook-lazy-source__body">카메라 문구만 바꾼 비교 조건을 불러옵니다.</div>
-</details>
+[p7-5-11-openpose-declarative-reach-up-camera-ab-report.json — JSON — 카메라 문구 비교 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-camera-ab-report.json)
 
 ## 고각도 guide와 캐릭터 전이는 따로 검증해야 했다
 
@@ -148,15 +127,9 @@ Animagine XL `960×1440`, 30 step에서 LoRA `0.6`을 고정했을 때, 저장 �
 
 구조 조건이 없으면 high-angle이 사라졌다. OpenPose만 켜면 위쪽 카메라의 단서는 일부 남아도 달리기 동작이 앉거나 쪼그린 자세로 바뀌었다. 배경 Canny만 켜면 타일 원근은 남지만 인물 실루엣이 중복되었다. 두 ControlNet을 함께 쓰는 조건은 `768×1152`와 `512×768` 모두 현재 8 GB sequential-offload Diffusers 경로에서 완료되지 않았다. 사람 외곽을 뺀 background Canny와 pose/camera 입력 분리는 유효한 체크포인트였지만, 이 SDXL 경로는 고각도·동작·Mira identity·복장을 함께 재현하는 제작 도구로는 미통과다. 아래 검수·실행 기록에 판정과 조건을 보관했다.
 
-<details id="sdxl-anonymous-high-angle-transfer-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-result.json" data-language="json">
-<summary><code>p7-5-11-sdxl-anonymous-high-angle-transfer-result.json</code> · JSON · 익명 고각도 전이 실행 결과 보기</summary>
-<div class="aibook-lazy-source__body">각 조건의 계약 판정을 불러옵니다.</div>
-</details>
+[p7-5-11-sdxl-anonymous-high-angle-transfer-result.json — JSON — 익명 고각도 전이 실행 결과 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-result.json)
 
-<details id="sdxl-anonymous-high-angle-transfer-report" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-report.json" data-language="json">
-<summary><code>p7-5-11-sdxl-anonymous-high-angle-transfer-report.json</code> · JSON · 익명 고각도 전이 실행 조건 보기</summary>
-<div class="aibook-lazy-source__body">생성 경로와 조건을 불러옵니다.</div>
-</details>
+[p7-5-11-sdxl-anonymous-high-angle-transfer-report.json — JSON — 익명 고각도 전이 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-report.json)
 
 ### depth·Canny는 원근을 남겨도 승인 복장을 보장하지 않았다
 
@@ -196,15 +169,9 @@ Canny도 카메라·실루엣의 보조 조건으로는 쓸 수 있었지만, �
 
 이 결과는 mask를 더 정교하게 그리거나 reference를 더 주는 일이 고각도에서 새로 보이거나 가려지는 팔·몸통·다리·가방의 관계를 대신하지 못한다는 뜻이다. 아래 실행 기록은 각 조건을 남긴다.
 
-<details id="fitdit-high-angle-upperbody-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-fitdit-high-angle-upperbody-complete-outfit-result.json" data-language="json">
-<summary><code>p7-5-11-fitdit-high-angle-upperbody-complete-outfit-result.json</code> · JSON · FitDiT 고각도 상반신 실행 기록 보기</summary>
-<div class="aibook-lazy-source__body">mask·착장 reference·생성 조건을 불러옵니다.</div>
-</details>
+[p7-5-11-fitdit-high-angle-upperbody-complete-outfit-result.json — JSON — FitDiT 고각도 상반신 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-fitdit-high-angle-upperbody-complete-outfit-result.json)
 
-<details id="sdxl-depth-role-separated-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-depth-role-separated-result.json" data-language="json">
-<summary><code>p7-5-11-sdxl-depth-role-separated-result.json</code> · JSON · SDXL depth 역할 분리 실행 기록 보기</summary>
-<div class="aibook-lazy-source__body">depth·adapter·LoRA 역할 분리 조건을 불러옵니다.</div>
-</details>
+[p7-5-11-sdxl-depth-role-separated-result.json — JSON — SDXL depth 역할 분리 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-depth-role-separated-result.json)
 
 ### 보조 조건의 결합은 보조 실험 안에 한정됐다
 
@@ -231,10 +198,7 @@ OpenPose와 depth·Canny는 구조 조건, FaceID·FacePlus·IP-Adapter·LoRA는
 | ![Qwen 2입력 고각도 결과](../../../assets/part-07/chapter-05/p7-5-11-qwen-edit-two-input-outfit-loss.png) | ![Qwen 역할 미분리 3입력 결과](../../../assets/part-07/chapter-05/p7-5-11-qwen-edit-three-input-uncompressed-outfit-drift.png) |
 | 재킷·가방·strap 미통과 | 흰 운동화·와이드 바지 미통과 |
 
-<details id="qwen-high-angle-role-comparison-source" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_11_qwen_edit_high_angle_role_comparison.py" data-language="python">
-<summary><code>p7_5_11_qwen_edit_high_angle_role_comparison.py</code> · Python · 2입력 착장 누락과 3입력 역할 분리 고각도 비교 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">두 조건의 입력 역할·seed·prompt·Nunchaku offload 설정과 SHA-256 실행 기록을 불러옵니다.</div>
-</details>
+[p7_5_11_qwen_edit_high_angle_role_comparison.py — Python — 2입력 착장 누락과 3입력 역할 분리 고각도 비교 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_11_qwen_edit_high_angle_role_comparison.py)
 
 이 코드는 `--condition two-input --seed 62294`로 왼쪽 PNG를, `--condition role-separated --seed 62295`로 아래 오른쪽 승인 PNG를 만든다. 재실행 결과는 패키지 버전과 런타임에 따라 픽셀까지 같지 않을 수 있으므로, 기록된 SHA-256 대조와 사람 검수를 새로 수행한다.
 

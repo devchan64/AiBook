@@ -57,7 +57,11 @@ flowchart LR
 
 실행 로그에서는 transformer 약 5.07GB를 GPU에 적재하고 약 6.73GB를 오프로딩한 상태가 기록됐다. 샘플링 중 관찰한 GPU 사용량은 약 6.88GB였으며, 실행이 끝난 뒤에는 약 1.04GB로 돌아왔다. 이 수치는 현재 데스크톱 세션이 이미 쓰고 있는 VRAM을 포함한 관찰값이므로, 다른 GPU나 해상도에 그대로 옮겨 적는 최소 요구사항이 아니다.
 
-실행의 전체 조건과 ComfyUI graph, 모델 해시, 출력 파일명은 [result JSON](../../../assets/part-07/chapter-05/p7-5-9-qwen-image-q4ks-low-vram-front-v1-seed-62294-steps-10-result.json)에 저장했다. [실행 Python 원문](../../../assets/part-07/chapter-05/p7_5_9_qwen_image_gguf_low_vram_probe.py){ .aibook-source-link }은 GGUF·텍스트 인코더·VAE를 ComfyUI 모델 경로에 연결하고, 그래프와 실행 결과를 함께 기록한다.
+실행의 전체 조건과 ComfyUI graph, 모델 해시, 출력 파일명은 result JSON에 저장했다. 실행 Python 원문은 GGUF·텍스트 인코더·VAE를 ComfyUI 모델 경로에 연결하고, 그래프와 실행 결과를 함께 기록한다.
+
+[Q4_K_S 저VRAM T2I result JSON](../../../assets/part-07/chapter-05/p7-5-9-qwen-image-q4ks-low-vram-front-v1-seed-62294-steps-10-result.json)
+
+[Q4_K_S 저VRAM T2I 실행 Python 원문](../../../assets/part-07/chapter-05/p7_5_9_qwen_image_gguf_low_vram_probe.py)
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_9_qwen_image_gguf_low_vram_probe.py \

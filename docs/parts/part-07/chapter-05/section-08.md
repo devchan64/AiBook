@@ -52,10 +52,7 @@ MoMask의 예시 기준 모션은 20fps다. 12포즈를 직접 생성하면 약 
 
 아래 준비 코드는 가중치·데이터셋을 설치하지 않고 MoMask 입력 파일과 실험 계획 JSON만 `.tmp/`에 만든다. 실제 추론은 다음 단계에서 별도 실행 기록으로 남긴다.
 
-<details id="p7-5-8-momask-preparation" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_8_prepare_momask_walk_keyframes.py" data-language="python">
-<summary>MoMask 보행 키프레임 준비 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
+[MoMask 보행 키프레임 준비 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_8_prepare_momask_walk_keyframes.py)
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_8_prepare_momask_walk_keyframes.py
