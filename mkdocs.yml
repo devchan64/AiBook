@@ -558,11 +558,11 @@ nav:
               - "P7-4.4 같은 평균, 다른 패턴 비교 연습": parts/part-07/chapter-04/section-04.md
       - "Module 3. 현재 모델 실행 실습":
           - "Chapter 5. 생성형 이미지 모델 실습":
-              - "P7-5.1 화풍 참조 셋 생성: 로컬 GPU로 프레임 없는 기준 만들기": parts/part-07/chapter-05/section-01.md
-              - "P7-5.2 캐릭터 착장·전신 참조 셋 생성: 역할과 승인 범위 정하기": parts/part-07/chapter-05/section-02.md
+              - "P7-5.1 공통 T2I 프롬프트로 화풍 데이터 축적하기": parts/part-07/chapter-05/section-01.md
+              - "P7-5.2 캐릭터 identity와 추가 페인팅으로 특징 완성하기": parts/part-07/chapter-05/section-02.md
               - "P7-5.3 컷신 생성: 참조 셋으로 pose·camera·장면 만들기": parts/part-07/chapter-05/section-03.md
               - "P7-5.4 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기": parts/part-07/chapter-05/section-04.md
-              - "P7-5.7 얼굴 정면과 카메라 회전: identity와 시점 역할 분리하기": parts/part-07/chapter-05/section-07.md
+              - "P7-5.7 캐릭터 멀티플 뷰 생성: identity 기준과 카메라 앵글 분리하기": parts/part-07/chapter-05/section-07.md
               - "P7-5.8 텍스트 모션으로 12개 OpenPose 키프레임 준비하기": parts/part-07/chapter-05/section-08.md
               - "P7-5.9 StoryDiffusion으로 여러 컷의 일관성 읽기": parts/part-07/chapter-05/section-09.md
               - "P7-5.10 Qwen-Image Q4 GGUF로 8GB에서 실행 기록 남기기": parts/part-07/chapter-05/section-10.md

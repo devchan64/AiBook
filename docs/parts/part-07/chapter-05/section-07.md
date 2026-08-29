@@ -1,9 +1,24 @@
-# P7-5.7 정면 얼굴과 체스트 카메라 앵글: identity와 시점 역할 분리하기
+# P7-5.7 캐릭터 멀티플 뷰 생성: identity 기준과 카메라 앵글 분리하기
 
 > Section ID: `P7-5.7`
-> Version: `v2026.08.23`
+> Version: `v2026.08.29`
 
 같은 인물의 얼굴을 여러 방향으로 만들 때, 정면 이미지와 회전 지시를 한 prompt 안에 모두 반복하면 헤어·이목구비·화풍이 쉽게 흔들린다. 이 절은 **정면 얼굴은 identity 기준을 마련하고, 가슴 중간까지 포함한 체스트 참조는 얼굴·헤어·어깨 연결을 전달하며, 전용 다중 앵글 LoRA는 카메라 변환만 맡는** Qwen 경로를 기록한다. 전신·착장·body-only OpenPose는 [P7-5.2](section-02.md)에서 별도로 다룬다.
+
+## 사용한 모델과 실행 구성
+
+이 절에서 쓰는 구성은 하나의 모델이 모든 일을 하는 방식이 아니다. 정면 기준을 새로 그리는 모델, 기준 이미지를 편집하는 모델, 카메라 변화에 특화된 adapter를 역할별로 나눴다. `Nunchaku`와 `Diffusers`는 모델이 아니라 이 구성을 로컬 GPU에서 불러 실행하기 위한 구현이다.
+
+| 구성 요소 | 이 절에서 맡은 역할 | 맡기지 않은 역할 |
+| --- | --- | --- |
+| `Qwen/Qwen-Image` | 이미지 입력 없이 정면 얼굴·체스트 기준 이미지를 text-to-image로 생성 | 이미 있는 체스트 이미지를 카메라 방향으로 편집 |
+| `Qwen/Qwen-Image-Edit-2509` | 체스트 기준 이미지를 받아 카메라 명령에 따라 image-to-image 편집 | 카메라 방향 자체를 정확한 3D 회전값으로 보정 |
+| `dx8152/Qwen-Edit-2509-Multiple-angles` LoRA | 기반 편집 모델에 카메라 이동·회전·위아래 보기 명령에 반응하는 추가 경향 제공 | identity·헤어·화풍을 독립적으로 새로 정의 |
+| Nunchaku FP4 transformer | 두 Qwen 모델을 로컬 GPU 메모리 조건에서 실행하는 저정밀 transformer 구현 | 출력의 identity·화풍·방향 품질을 보장 |
+
+`Qwen-Image`는 Qwen이 공개한 text-to-image 기반 모델이며, 이 절에서는 참조가 없는 정면 기준을 만드는 데만 쓴다. `Qwen-Image-Edit-2509`는 입력 이미지와 편집 지시를 함께 받는 image-to-image 모델이므로, 체스트 기준을 유지한 채 카메라 변화만 비교하는 다음 단계에 쓴다. 공식 모델 카드는 단일·다중 이미지 편집과 인물 편집 일관성 개선을 설명하지만, 이 절의 결과는 로컬 실행 기록에서만 판단한다. [Qwen, *Qwen-Image model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} [Qwen, *Qwen-Image-Edit-2509 model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}
+
+다중 앵글 LoRA는 별도 생성 모델이 아니라 `Qwen-Image-Edit-2509` 위에 적용하는 adapter다. 따라서 이 절의 비교는 ‘LoRA가 인물을 다시 설계했다’가 아니라, 체스트 입력이 주는 identity·헤어·상반신 연결과 LoRA가 보강한 카메라 명령을 분리해 관찰하는 실험이다. 저정밀 transformer는 메모리 사용량을 다루는 실행 선택일 뿐, 품질의 원인으로 단정하지 않는다. 적용한 LoRA 가중치와 transformer 경로·해시는 각 result JSON에 남긴다. [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"} [Nunchaku AI, *nunchaku-qwen-image-edit-2509 model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}
 
 ## 1. 정면 얼굴과 체스트가 서로 다른 기준을 제공한다
 
@@ -23,13 +38,13 @@
 
 ## 2. 카메라 변환은 LoRA와 한 축의 명령으로 분리한다
 
-이 경로의 기반 편집 모델은 `Qwen/Qwen-Image-Edit-2509`이다. Qwen의 공식 모델 카드는 이 모델을 이미지-투-이미지 편집 모델로 제공하며, 단일 입력에서 사람 편집의 얼굴 identity 보존을 개선 대상으로 설명한다. 이 절에서는 그 성질을 보장된 결과로 받아들이지 않고, **정면 참조 한 장을 기준 입력으로 놓은 실제 출력에서만** 확인한다. [Qwen, *Qwen-Image-Edit-2509 model card* (Hugging Face, 확인: 2026-08-22)](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}
+이 경로의 기반 편집 모델은 `Qwen/Qwen-Image-Edit-2509`이다. Qwen의 공식 모델 카드는 이 모델을 이미지-투-이미지 편집 모델로 제공하며, 단일 입력에서 사람 편집의 얼굴 identity 보존을 개선 대상으로 설명한다. 이 절에서는 그 성질을 보장된 결과로 받아들이지 않고, **정면 참조 한 장을 기준 입력으로 놓은 실제 출력에서만** 확인한다. [Qwen, *Qwen-Image-Edit-2509 model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}
 
-카메라 조건에는 `dx8152/Qwen-Edit-2509-Multiple-angles` LoRA를 덧붙였다. 이 adapter의 모델 카드는 기반 모델을 `Qwen-Image-Edit-2509`로 표시하고, 별도 trigger word 없이 카메라 이동·좌우 회전·위아래 보기 명령을 사용할 수 있다고 안내한다. 같은 카드가 일관성이 불안정할 수 있다는 사용자 보고와 재학습본 업로드도 함께 남기므로, 모델 카드의 예시만으로 출력 성질을 일반화하지 않는다. [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (Hugging Face, 확인: 2026-08-22)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
+카메라 조건에는 `dx8152/Qwen-Edit-2509-Multiple-angles` LoRA를 덧붙였다. 이 adapter의 모델 카드는 기반 모델을 `Qwen-Image-Edit-2509`로 표시하고, 별도 trigger word 없이 카메라 이동·좌우 회전·위아래 보기 명령을 사용할 수 있다고 안내한다. 같은 카드가 일관성이 불안정할 수 있다는 사용자 보고와 재학습본 업로드도 함께 남기므로, 모델 카드의 예시만으로 출력 성질을 일반화하지 않는다. [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
 
 ### 다중 앵글 LoRA는 카메라 제어용 adapter다
 
-LoRA는 기반 모델 전체를 다시 저장한 독립 모델이 아니라, 일부 가중치에 작은 추가 갱신을 붙여 특정 작업으로 출력을 유도하는 parameter-efficient adapter 방식이다. 이 가중치는 `Qwen-Image-Edit-2509` 위에 함께 로드되며, 이 절에서는 **입력 이미지가 인물 identity·헤어·화풍을, 다중 앵글 LoRA가 카메라 명령에 반응하는 경향을** 맡도록 역할을 나눈다. [Hugging Face, *LoRA documentation* (확인: 2026-08-22)](https://huggingface.co/docs/peft/v0.20.0/package_reference/lora){: target="_blank" rel="noopener noreferrer"} [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (확인: 2026-08-22)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
+LoRA는 기반 모델 전체를 다시 저장한 독립 모델이 아니라, 일부 가중치에 작은 추가 갱신을 붙여 특정 작업으로 출력을 유도하는 parameter-efficient adapter 방식이다. 이 가중치는 `Qwen-Image-Edit-2509` 위에 함께 로드되며, 이 절에서는 **입력 이미지가 인물 identity·헤어·화풍을, 다중 앵글 LoRA가 카메라 명령에 반응하는 경향을** 맡도록 역할을 나눈다. [Hugging Face, *LoRA documentation* (확인: 2026-08-22)](https://huggingface.co/docs/peft/v0.20.0/package_reference/lora){: target="_blank" rel="noopener noreferrer"} [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (확인: 2026-08-29)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
 
 이 adapter가 `왼쪽으로 45도 회전` 같은 문장을 받는다고 해서, 이미지 안의 인물을 측정 가능한 3차원 공간에서 정확히 회전시키는 것은 아니다. 보이지 않던 귀·머리카락·어깨·배경은 편집 모델이 새로 합성해야 한다. 따라서 result JSON의 `yaw`와 `pitch`는 이 실험에서 비교하기 위한 **카메라 명령 라벨**이며, 실제 카메라의 보정된 물리 각도라는 뜻은 아니다. 방향이 맞더라도 identity나 헤어가 달라질 수 있는 이유도 여기에 있다.
 
@@ -140,6 +155,8 @@ result JSON에는 입력 이미지 해시, LoRA 저장소와 가중치 해시, t
 - 정면 얼굴 기준의 생성 조건은 이 절에서 연결한 local 실행 기록을 기준으로 확인한다.
 - 체스트 참조와 yaw·pitch 카메라 앵글 결과의 입력·출력 해시는 각 local result JSON을 기준으로 확인한다.
 - 다중 앵글 LoRA의 저장소·가중치 정보는 result JSON에 기록한다. 외부 가중치는 재배포하지 않는다.
+- Qwen, [*Qwen-Image model card*](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
 - Hugging Face, [*LoRA documentation*](https://huggingface.co/docs/peft/v0.20.0/package_reference/lora){: target="_blank" rel="noopener noreferrer"}, 확인: 2026-08-22.
-- Qwen, [*Qwen-Image-Edit-2509 model card*](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-22.
-- dx8152, [*Qwen-Edit-2509-Multiple-angles model card*](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-22.
+- Qwen, [*Qwen-Image-Edit-2509 model card*](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
+- dx8152, [*Qwen-Edit-2509-Multiple-angles model card*](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
+- Nunchaku AI, [*nunchaku-qwen-image-edit-2509 model card*](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
