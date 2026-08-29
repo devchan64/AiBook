@@ -119,14 +119,11 @@ Qwen Image는 text-to-image와 이미지 편집을 지원하는 이미지 생성
 
 공통 계약의 원문에는 `common_contract`(모델에 전달할 짧은 조건), `fixed_checks`(사람이 결과에서 확인할 항목), `assembly_rule`(한 장면 prompt와 계약을 결합하는 규칙)을 둡니다. 본문에서는 세 필드의 역할을 먼저 읽고, 필요할 때만 아래 패널에서 전문을 확인합니다.
 
-<details id="p7-5-1-style-prompt-contract" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json" data-language="json">
-<summary>화풍 계약 JSON 원문 보기</summary>
-<div class="aibook-lazy-source__body">공통 prompt, 사람 검수 항목, 장면 prompt 결합 규칙을 불러옵니다.</div>
-</details>
+[화풍 계약 JSON 원문 보기](/AiBook/assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json)
 
 P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용할 수 있으며, 내장 이미지 생성으로 만든 자산은 입력·승인·manifest에서 제외했습니다.
 
-[스무 로컬 GPU 화풍 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py){.aibook-source-link}
+[스무 로컬 GPU 화풍 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py)
 
 ### 공통 화풍 계약과 장면 조건이 만나는 코드
 
