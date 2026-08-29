@@ -1,7 +1,7 @@
-# P7-5.3 스토리보드 장면에 캐릭터를 합성하는 최단 경로
+# P7-5.3 스토리보드 장면에 캐릭터를 합성하는 경로
 
 > Section ID: \`P7-5.3\`
-> Version: \`v2026.08.27\`
+> Version: \`v2026.08.29\`
 
 이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 현재 경로는 장면에서 포즈와 배경을 분리하고, P7-5.2에서 만든 캐릭터를 그 포즈에 이식한 뒤, 마지막에 두 레이어를 합친다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
 
@@ -60,6 +60,22 @@ python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_pose_transfer.py \
   --character docs/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png \
   --run-label plus90-replace-v2 --steps 10
 ~~~
+
+### 포즈 참조와 초기 잠재값의 역할을 분리한다
+
+두 이미지 편집에서는 텍스트의 `Picture 1`, `Picture 2` 역할만으로 우선순위가 완전히 정해지지 않는다. 초기 잠재값을 어느 이미지에서 인코딩하는지도 결과의 출발점을 정한다. Scene B의 흰 배경 점프 컷아웃을 첫 번째 조건 참조로 두고, P7-5.2의 `+45°` 쿼터뷰 2단계 착장을 두 번째 조건 참조이자 초기 잠재값으로 사용했다. 카메라 LoRA와 카메라 지시는 넣지 않았다.
+
+| 캐릭터 잠재값에서 시작한 포즈 이식 |
+| --- |
+| ![스플릿 점프 포즈와 청록 단발, 흰 재킷, 청록 와이드 팬츠를 함께 유지한 Qwen Image Edit 2511 Q4 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-cutout-quarter-plus45-q4-0-v2-seed-62294-steps-8.png) |
+| [result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-cutout-quarter-plus45-q4-0-v2-seed-62294-steps-8-result.json) |
+
+Qwen Image Edit 2511 Q4_0에서 seed 62294, 8 step으로 실행하고, `A split leap pose.`라는 짧은 양성 포즈 지시만 덧붙였다. 이 결과에서는 점프 자세는 첫 이미지의 조건 참조가, 청록 단발·흰 재킷·청록 와이드 팬츠는 두 번째 이미지의 초기 잠재값이 맡는다. 양쪽 다리와 신발은 생성됐지만, 컷아웃의 체커보드 배경도 함께 남았다. 따라서 이 결과는 포즈와 착장을 함께 전달하는 입력 역할의 관찰용이며, 최종 합성 배경으로 쓰지 않는다. result.json의 `initial_latent`와 `prompt` 필드로 이 선택을 재현할 수 있다.
+
+<details id="p7-5-3-qwen-2511-pose-transfer-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_pose_transfer_probe.py" data-language="python">
+<summary>Qwen Image Edit 2511 포즈 이식 비교 코드 보기</summary>
+<div class="aibook-lazy-source__body">첫 번째 이미지는 포즈 조건, 두 번째 이미지는 캐릭터 조건과 초기 잠재값으로 사용하며 카메라 LoRA를 사용하지 않습니다.</div>
+</details>
 
 ## 알파 합성 뒤에 광원과 화풍을 한 번만 정리한다
 
