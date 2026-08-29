@@ -39,8 +39,8 @@ ELEVATIONS = ("low-angle shot", "eye-level shot", "elevated shot", "high-angle s
 DISTANCES = ("close-up", "medium shot", "wide shot")
 CAMERA_PRESETS = {
     "a": ("front view", "elevated shot", "medium shot"),
-    "b": ("front-left quarter view", "high-angle shot", "medium shot"),
-    "c": ("front-right quarter view", "low-angle shot", "medium shot"),
+    "b": ("front-right quarter view", "high-angle shot", "medium shot"),
+    "c": ("front-left quarter view", "low-angle shot", "medium shot"),
 }
 SCENE_REFERENCES = {
     "a": "p7-5-3-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png",
@@ -79,7 +79,7 @@ def main() -> None:
     parser.add_argument("--elevation", choices=ELEVATIONS, default="eye-level shot")
     parser.add_argument("--distance", choices=DISTANCES, default="medium shot")
     parser.add_argument("--seed", type=int, default=5420)
-    parser.add_argument("--steps", type=int, default=4, help="Inference steps (default: 4).")
+    parser.add_argument("--steps", type=int, default=20, help="Inference steps (default: 20).")
     parser.add_argument("--run-label", default="official-direct")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--offload", choices=("none", "sequential"), default="sequential", help="'none' reproduces the model-card CUDA placement; 'sequential' keeps the official weights but uses CPU offload for 8GB VRAM.")

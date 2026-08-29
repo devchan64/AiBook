@@ -1,0 +1,18 @@
+{
+  "status": "generated",
+  "stage": "character_cutout",
+  "scene": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-medium-shot-official-scene-c-v5-seed-5420-steps-20.png",
+    "sha256": "d8a2f2b22de08ed0d122552a2306d59787b80a75a100fc6b6a8756d166305449"
+  },
+  "mask": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-c-v5.png",
+    "sha256": "df6059294e9aefd4604fd6709c609ff410d231474ea15da3eebf342f400b1ead",
+    "semantics": "white=character; black=background"
+  },
+  "matte": "white",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-c-v5.png",
+    "sha256": "66519121774782cf3cee08a56b90e16658df5590f527345ba7027ef6a8401f57"
+  }
+}
