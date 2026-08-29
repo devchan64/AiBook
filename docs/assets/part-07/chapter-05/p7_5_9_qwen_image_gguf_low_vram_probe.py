@@ -73,19 +73,19 @@ def gpu_memory() -> str:
     return completed.stdout.strip() if completed.returncode == 0 else "unavailable"
 
 
-def workflow(seed: int, steps: int, size: int, cfg: float) -> dict[str, object]:
+def workflow(seed: int, steps: int, size: int, cfg: float, prompt: str, output_prefix: str) -> dict[str, object]:
     """Build the smallest native Qwen T2I graph with the GGUF UNet loader."""
     return {
         "unet": {"class_type": "UnetLoaderGGUF", "inputs": {"unet_name": MODEL_NAME}},
         "sampling": {"class_type": "ModelSamplingAuraFlow", "inputs": {"model": ["unet", 0], "shift": 3.0}},
         "clip": {"class_type": "CLIPLoader", "inputs": {"clip_name": TEXT_ENCODER_NAME, "type": "qwen_image", "device": "default"}},
         "vae": {"class_type": "VAELoader", "inputs": {"vae_name": VAE_NAME}},
-        "positive": {"class_type": "CLIPTextEncode", "inputs": {"clip": ["clip", 0], "text": PROMPT}},
+        "positive": {"class_type": "CLIPTextEncode", "inputs": {"clip": ["clip", 0], "text": prompt}},
         "negative": {"class_type": "CLIPTextEncode", "inputs": {"clip": ["clip", 0], "text": ""}},
         "latent": {"class_type": "EmptySD3LatentImage", "inputs": {"width": size, "height": size, "batch_size": 1}},
         "sample": {"class_type": "KSampler", "inputs": {"model": ["sampling", 0], "positive": ["positive", 0], "negative": ["negative", 0], "latent_image": ["latent", 0], "seed": seed, "steps": steps, "cfg": cfg, "sampler_name": "euler", "scheduler": "simple", "denoise": 1.0}},
         "decode": {"class_type": "VAEDecode", "inputs": {"samples": ["sample", 0], "vae": ["vae", 0]}},
-        "save": {"class_type": "SaveImage", "inputs": {"images": ["decode", 0], "filename_prefix": OUTPUT_PREFIX}},
+        "save": {"class_type": "SaveImage", "inputs": {"images": ["decode", 0], "filename_prefix": output_prefix}},
     }
 
 
@@ -108,13 +108,15 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=512)
     parser.add_argument("--cfg", type=float, default=4.0)
+    parser.add_argument("--prompt", default=PROMPT, help="Positive T2I prompt; defaults to the P7-5.10 torso probe.")
+    parser.add_argument("--output-prefix", default=OUTPUT_PREFIX, help="Output stem prefix without the ComfyUI image counter.")
     parser.add_argument("--port", type=int, default=8192)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     if args.size % 16 or args.steps < 1:
         parser.error("--size must be divisible by 16 and --steps must be positive")
 
-    graph = workflow(args.seed, args.steps, args.size, args.cfg)
+    graph = workflow(args.seed, args.steps, args.size, args.cfg, args.prompt, args.output_prefix)
     if args.dry_run:
         print(json.dumps(graph, ensure_ascii=False, indent=2))
         return
@@ -150,19 +152,19 @@ def main() -> None:
 
     run = history[prompt_id]
     status = run["status"]["status_str"]
-    result = ASSETS / f"{OUTPUT_PREFIX}-seed-{args.seed}-steps-{args.steps}-result.json"
+    result = ASSETS / f"{args.output_prefix}-seed-{args.seed}-steps-{args.steps}-result.json"
     result.write_text(json.dumps({
         "status": "generated" if status == "success" else "failed",
         "experiment_id": "p7-5-9-qwen-image-q4ks-low-vram",
         "purpose": "Q4 GGUF 8GB-VRAM text-to-image feasibility; not reference-image character consistency",
         "model": {"repository": "unsloth/Qwen-Image-GGUF", "selector": MODEL_NAME, "sha256": sha256(WEIGHT), "bytes": WEIGHT.stat().st_size},
         "runtime_mode": {"comfy_arguments": ["--lowvram", "--cpu-vae"], "gpu_before": gpu_before},
-        "seed": args.seed, "steps": args.steps, "cfg": args.cfg, "size": [args.size, args.size], "prompt": PROMPT,
+        "seed": args.seed, "steps": args.steps, "cfg": args.cfg, "size": [args.size, args.size], "prompt": args.prompt,
         "workflow": graph, "history": run, "elapsed_seconds": round(time.monotonic() - started, 2), "gpu_after": gpu_memory(),
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if status != "success":
         raise RuntimeError(f"ComfyUI sampling failed; see {result}")
-    print(json.dumps({"image_prefix": OUTPUT_PREFIX, "result": str(result)}, ensure_ascii=False))
+    print(json.dumps({"image_prefix": args.output_prefix, "result": str(result)}, ensure_ascii=False))
 
 
 if __name__ == "__main__":

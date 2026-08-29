@@ -1,0 +1,49 @@
+{
+  "status": "generated",
+  "stage": "person_mask",
+  "purpose": "Person mask for Qwen Image Edit inpainting",
+  "models": {
+    "detector": "IDEA-Research/grounding-dino-tiny",
+    "segmenter": "facebook/sam2.1-hiera-small",
+    "licenses": {
+      "detector": "Apache-2.0",
+      "segmenter": "Apache-2.0"
+    }
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-eye-level-shot-wide-shot-q4ks-scene-c-v2-seed-5422-steps-4.png",
+    "sha256": "c0b46cc4e9666a85562845f10792eb7513c5f629782954aa092b17ba5bbd85ab"
+  },
+  "input_role": "stage_2_camera_angle",
+  "grounding_prompt": [
+    "a woman",
+    "a person"
+  ],
+  "selected_detection": {
+    "label": "a woman a person",
+    "score": 0.3965,
+    "box_xyxy": [
+      226.5,
+      383.45,
+      1091.44,
+      808.22
+    ]
+  },
+  "mask_semantics": "white=person to repaint; black=preserve",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-q4ks-camera-scene-c-v2.png",
+    "sha256": "112cec2312d72107e8fdd1bb8a654cb2c405460bb2a9fd97bb9bade471b7bf77"
+  },
+  "overlay": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-q4ks-camera-scene-c-v2-overlay.png",
+    "sha256": "324a58d2c0f3ac1ec0cbcdb14dffceea328cea4dc7d6a8bfa00abe938697217c"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "elapsed_seconds": 1.76
+}

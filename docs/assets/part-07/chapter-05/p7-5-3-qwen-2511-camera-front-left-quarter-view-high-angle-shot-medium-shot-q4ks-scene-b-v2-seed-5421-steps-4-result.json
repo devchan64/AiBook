@@ -1,0 +1,32 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-2511-camera-angle",
+  "stage": "camera_angle",
+  "model": "qwen-image-edit-2511-Q4_0.gguf",
+  "angle_lora": {
+    "repository": "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA",
+    "source": "https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA",
+    "weight": "qwen-image-edit-2511-multiple-angles-lora.safetensors",
+    "strength": 0.9
+  },
+  "lightning_lora": {
+    "weight": "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+    "strength": 1.0
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-image-q4ks-style-contract-scene-b-v1_00001_.png",
+    "sha256": "d12b5e3c3cb3f7ffdda67bf78d9ab61acb35dd25c182ebe999d06e44ca3ccd94"
+  },
+  "azimuth": "front-left quarter view",
+  "elevation": "high-angle shot",
+  "distance": "medium shot",
+  "prompt": "<sks> front-left quarter view high-angle shot medium shot",
+  "prompt_format": "<sks> [azimuth] [elevation] [distance]",
+  "seed": 5421,
+  "steps": 4,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-high-angle-shot-medium-shot-q4ks-scene-b-v2-seed-5421-steps-4.png",
+    "sha256": "f68a884c10cb7d18ac2764c3a9bc2b2f0843687cff6af282a3242e98d2dfd15f"
+  },
+  "elapsed_seconds": 113.2
+}

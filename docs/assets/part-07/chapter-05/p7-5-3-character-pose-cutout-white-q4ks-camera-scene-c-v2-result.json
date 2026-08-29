@@ -1,0 +1,18 @@
+{
+  "status": "generated",
+  "stage": "character_cutout",
+  "scene": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-eye-level-shot-wide-shot-q4ks-scene-c-v2-seed-5422-steps-4.png",
+    "sha256": "c0b46cc4e9666a85562845f10792eb7513c5f629782954aa092b17ba5bbd85ab"
+  },
+  "mask": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-q4ks-camera-scene-c-v2.png",
+    "sha256": "112cec2312d72107e8fdd1bb8a654cb2c405460bb2a9fd97bb9bade471b7bf77",
+    "semantics": "white=character; black=background"
+  },
+  "matte": "white",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-q4ks-camera-scene-c-v2.png",
+    "sha256": "5ff3c9834f44ed8ca302ad89bc84fe53fc72bd46fd7eb69a1326987dfb5e43c9"
+  }
+}

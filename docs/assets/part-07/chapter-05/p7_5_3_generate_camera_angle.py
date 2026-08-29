@@ -26,7 +26,7 @@ ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
 DEFAULT_REFERENCE = ASSETS / "p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20.png"
 DEFAULT_COMFY_ROOT = PROJECT_ROOT / ".tmp/p7-5-3-scail-runtime/ComfyUI"
-MODEL = "qwen-image-edit-2511-Q2_K.gguf"
+DEFAULT_MODEL = "qwen-image-edit-2511-Q4_0.gguf"
 TEXT_ENCODER = "qwen_2.5_vl_7b_fp8_scaled.safetensors"
 VAE = "qwen_image_vae.safetensors"
 ANGLE_LORA = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
@@ -55,11 +55,11 @@ def request_json(url: str, payload: dict | None = None) -> dict:
         return json.loads(response.read().decode())
 
 
-def workflow(image_name: str, prompt: str, seed: int, steps: int, prefix: str) -> dict:
+def workflow(model_name: str, image_name: str, prompt: str, seed: int, steps: int, prefix: str) -> dict:
     """Return the tested low-VRAM ComfyUI graph for Qwen Edit 2511."""
     return {
         "1": {"class_type": "LoadImage", "inputs": {"image": image_name}},
-        "2": {"class_type": "UnetLoaderGGUFAdvanced", "inputs": {"unet_name": MODEL, "dequant_dtype": "float16", "patch_dtype": "float16", "patch_on_device": False}},
+        "2": {"class_type": "UnetLoaderGGUFAdvanced", "inputs": {"unet_name": model_name, "dequant_dtype": "float16", "patch_dtype": "float16", "patch_on_device": False}},
         "3": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["2", 0], "lora_name": ANGLE_LORA, "strength_model": 0.9}},
         "4": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["3", 0], "lora_name": LIGHTNING_LORA, "strength_model": 1.0}},
         "5": {"class_type": "ModelSamplingAuraFlow", "inputs": {"model": ["4", 0], "shift": 3.1}},
@@ -80,6 +80,7 @@ def workflow(image_name: str, prompt: str, seed: int, steps: int, prefix: str) -
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--reference", type=Path, default=DEFAULT_REFERENCE)
+    parser.add_argument("--model", default=DEFAULT_MODEL, help="GGUF transformer file registered in ComfyUI/models/unet/.")
     parser.add_argument("--azimuth", choices=AZIMUTHS, default="front view")
     parser.add_argument("--elevation", choices=ELEVATIONS, default="eye-level shot")
     parser.add_argument("--distance", choices=DISTANCES, default="medium shot")
@@ -119,7 +120,7 @@ def main() -> None:
             request_json(f"{base_url}/system_stats")
         except (urllib.error.URLError, TimeoutError):
             env = {**os.environ, "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"}
-            process = subprocess.Popen([sys.executable, "main.py", "--listen", "127.0.0.1", "--port", str(args.port), "--disable-auto-launch"], cwd=comfy_root, env=env)
+            process = subprocess.Popen([sys.executable, "main.py", "--listen", "127.0.0.1", "--port", str(args.port), "--disable-auto-launch", "--lowvram", "--cpu-vae"], cwd=comfy_root, env=env)
             for _ in range(60):
                 try:
                     request_json(f"{base_url}/system_stats")
@@ -129,7 +130,7 @@ def main() -> None:
             else:
                 raise RuntimeError("ComfyUI did not start within 60 seconds")
         started = time.monotonic()
-        reply = request_json(f"{base_url}/prompt", {"prompt": workflow(input_name, prompt, args.seed, args.steps, stem)})
+        reply = request_json(f"{base_url}/prompt", {"prompt": workflow(args.model, input_name, prompt, args.seed, args.steps, stem)})
         prompt_id = reply["prompt_id"]
         for _ in range(300):
             history = request_json(f"{base_url}/history/{prompt_id}")
@@ -144,7 +145,7 @@ def main() -> None:
         shutil.copy2(generated, output)
         result.write_text(json.dumps({
             "status": "generated", "experiment_id": "p7-5-3-qwen-2511-camera-angle", "stage": "camera_angle",
-            "model": MODEL, "angle_lora": {"repository": "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA", "source": ANGLE_LORA_SOURCE, "weight": ANGLE_LORA, "strength": 0.9},
+            "model": args.model, "angle_lora": {"repository": "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA", "source": ANGLE_LORA_SOURCE, "weight": ANGLE_LORA, "strength": 0.9},
             "lightning_lora": {"weight": LIGHTNING_LORA, "strength": 1.0}, "input": {"path": str(reference), "sha256": sha256(reference)},
             "azimuth": None if args.omit_azimuth else args.azimuth, "elevation": args.elevation, "distance": args.distance,
             "prompt": prompt, "prompt_format": "<sks> [azimuth] [elevation] [distance]", "seed": args.seed, "steps": args.steps,
