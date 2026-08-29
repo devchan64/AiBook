@@ -13,6 +13,7 @@
     yaml: "yaml",
     yml: "yaml",
   };
+  const AUTO_LAZY_SOURCE_EXTENSIONS = new Set(["json", "py"]);
 
   function inferLanguageFromUrl(url) {
     const pathname = new URL(url, window.location.href).pathname;
@@ -24,6 +25,30 @@
     const pathname = new URL(url, window.location.href).pathname;
     const filename = pathname.split("/").filter(Boolean).pop();
     return filename || pathname;
+  }
+
+  function isAutoLazySourceLink(link) {
+    const url = new URL(link.href, window.location.href);
+    const extension = url.pathname.split(".").pop().toLowerCase();
+    const parent = link.parentElement;
+
+    if (
+      !AUTO_LAZY_SOURCE_EXTENSIONS.has(extension) ||
+      url.origin !== window.location.origin ||
+      !parent ||
+      parent.tagName.toLowerCase() !== "p" ||
+      parent.children.length !== 1
+    ) {
+      return false;
+    }
+
+    return Array.from(parent.childNodes).every(
+      (node) => node === link || (node.nodeType === Node.TEXT_NODE && !node.textContent.trim()),
+    );
+  }
+
+  function isLazySourceLink(link) {
+    return link.classList.contains("aibook-source-link") || isAutoLazySourceLink(link);
   }
 
   function addSourceSummaryMetadata(details, summary, label) {
@@ -171,7 +196,10 @@
   }
 
   function initSourceLinks() {
-    document.querySelectorAll("a.aibook-source-link[href]").forEach((link) => {
+    document.querySelectorAll("a[href]").forEach((link) => {
+      if (!isLazySourceLink(link)) {
+        return;
+      }
       if (link.dataset.lazySourceReady === "true") {
         return;
       }
