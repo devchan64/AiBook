@@ -1,6 +1,13 @@
 # 저장소 루트 보조 도구
 
-이 디렉터리는 원고 에셋 제작 과정에서 쓰는 독립 보조 도구를 둔다. 관리 문서 전용 도구는 `management/tools/`에, 모델 파일처럼 원고 자산 소스의 외부 실행 의존성을 다루는 도구는 이 디렉터리에 둔다.
+이 디렉터리는 원고 집필·검수와 에셋 제작 과정에서 쓰는 독립 보조 도구를 둔다. 실행 소스는 모두 저장소 루트의 `tool/`에서 관리하며, 실행 산출물은 원칙적으로 `.tmp/`에 둔다.
+
+## 근거 수집·번역 검수
+
+다음 두 도구의 전체 사용법은 [evidence-and-translation-tools.md](evidence-and-translation-tools.md)에 정리한다.
+
+- `evidence_collector.py`: 원고 Markdown의 외부 URL을 `.tmp/evidence/`에 수집한다. 실제 다운로드 전에 `--dry-run`으로 대상만 확인할 수 있다.
+- `translation_quality_report.py`: 한국어 원문과 영어·중국어 번역본을 대조해 추가 번역 또는 집중 검수 대상을 초기 단계에서 찾는다. Ollama 검수 모델이 없으면 `--pull-model`로 내려받을 수 있다.
 
 ## 모델 가중치 다운로드·검증
 

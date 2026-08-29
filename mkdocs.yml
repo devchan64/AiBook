@@ -17,6 +17,40 @@ not_in_nav: |
   reference/concept-glossary-parts/*.md
   reference/concept-glossary-pinyin/*.zh.md
   reference/concept-glossary-terms/*.md
+  parts/part-01/chapter-05/section-01.md
+  parts/part-01/chapter-05/section-02.md
+  parts/part-01/chapter-05/section-03.md
+  parts/part-01/chapter-07/section-04.md
+  parts/part-02/chapter-04/section-05.md
+  parts/part-02/chapter-04/section-06.md
+  parts/part-02/chapter-05/section-03.md
+  parts/part-02/chapter-05/section-04.md
+  parts/part-02/chapter-05/section-05.md
+  parts/part-02/chapter-07/section-04.md
+  parts/part-02/chapter-07/section-05.md
+  parts/part-02/chapter-07/section-06.md
+  parts/part-02/chapter-07/section-07.md
+  parts/part-02/chapter-07/section-08.md
+  parts/part-02/chapter-07/section-09.md
+  parts/part-03/chapter-04/section-05.md
+  parts/part-03/chapter-05/section-02.md
+  parts/part-03/chapter-05/section-03.md
+  parts/part-03/chapter-05/section-04.md
+  parts/part-03/chapter-05/section-05.md
+  parts/part-03/chapter-05/section-06.md
+  parts/part-03/chapter-05/section-07.md
+  parts/part-04/chapter-05/section-01.md
+  parts/part-04/chapter-05/section-02.md
+  parts/part-04/chapter-06/section-03.md
+  parts/part-04/chapter-06/section-04.md
+  parts/part-05/chapter-05/section-01.md
+  parts/part-05/chapter-05/section-02.md
+  parts/part-05/chapter-06/section-03.md
+  parts/part-05/chapter-06/section-04.md
+  parts/part-05/chapter-07/section-05.md
+  parts/part-05/chapter-07/section-06.md
+  parts/part-05/chapter-07/section-07.md
+  parts/part-05/chapter-07/section-08.md
   *.en.md
   *.zh.md
 

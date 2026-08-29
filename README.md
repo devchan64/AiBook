@@ -49,27 +49,24 @@ AI 도구는 커리큘럼 구성, 자료 조사, 초안 작성, 비교 정리, �
 - `docs/reference/concept-glossary.en.md`: 영어 개념사전
 - `docs/assets/`: 본문에서 쓰는 이미지, Mermaid, 차트 자산의 공용 루트
 - `model-inventory/`: 에셋 생성 소스가 참조한 외부 모델 가중치의 원본 경로·검토 상태를 담은 CycloneDX AI/ML-BOM
-- `tool/`: 모델 가중치 다운로드·SHA-256 검증처럼 원고 자산 소스의 외부 실행 의존성을 다루는 보조 도구
+- `tool/`: 근거 수집, 번역 검수, 모델 가중치 다운로드·SHA-256 검증처럼 원고 자산 소스와 검수 작업의 외부 실행 의존성을 다루는 보조 도구
 - `docs/stylesheets/`, `docs/javascripts/`: 사이트 보조 스타일과 스크립트
 - `management/`: 집필 기준, 조사 자료, 근거 분석, 릴리즈노트
 - `management/guidelines/`: 원고 작성, 메타데이터, 차트, 예제, 번역, 개념사전 가이드
 - `management/release-notes/sections/`: Section 단위 개정 이력
-- `management/tools/`: 집필, 근거 수집, 번역 검수를 돕는 관리 스크립트
 - `.tmp/`: 외부 자료 확인용 임시 작업공간. 커밋하지 않습니다.
 - `site/`, `site-dev/`: MkDocs 빌드 산출물. 명시적 지시 없이 커밋하지 않습니다.
 
 배포 목차는 `mkdocs.yml`의 `nav`에서 관리합니다. 관리 문서와 조사 메모는 배포 목차에 연결하지 않습니다.
 
-## 관리 도구
+## 보조 도구
 
-관리 도구의 자세한 사용법은 [`management/tools/README.md`](management/tools/README.md)를 봅니다.
+도구별 사용법은 [`tool/README.md`](tool/README.md)를 봅니다.
 
-모델 가중치 보조 도구의 사용법은 [`tool/README.md`](tool/README.md)를 봅니다.
-
-- 근거 원문 수집: [`management/tools/evidence_collector.py`](management/tools/evidence_collector.py)
+- 근거 원문 수집: [`tool/evidence_collector.py`](tool/evidence_collector.py)
   - 원고 Markdown 페이지에 연결된 외부 URL을 찾아 `.tmp/evidence/` 아래에 다운로드합니다.
   - 실제 다운로드 전에는 `--dry-run`으로 수집 대상만 확인할 수 있습니다.
-- 번역 게이트웨이 리포트: [`management/tools/translation_quality_report.py`](management/tools/translation_quality_report.py)
+- 번역 게이트웨이 리포트: [`tool/translation_quality_report.py`](tool/translation_quality_report.py)
   - 한국어 원문과 영어·중국어 번역본을 대조해 추가 번역이나 집중 검수가 필요한 파일을 초기에 걸러냅니다.
   - Ollama 기반 검수는 모델이 필요하며, 모델이 없으면 `--pull-model`로 내려받을 수 있습니다.
 

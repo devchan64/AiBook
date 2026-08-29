@@ -1,6 +1,6 @@
-# 관리 도구
+# 근거 수집·번역 검수 도구
 
-이 디렉터리는 책 본문 밖에서 사용하는 저장소 관리용 스크립트를 둔다. 공개 배포 본문이나 최종 원고가 아니라, 집필·검수·정리 작업을 돕는 보조 도구다.
+이 문서는 저장소 루트 `tool/`에서 관리하는 원고 근거 수집과 번역 검수 보조 도구의 사용법을 설명한다. 공개 배포 본문이나 최종 원고가 아니라, 집필·검수·정리 작업을 돕는 보조 도구다.
 
 ## 근거 원문 수집
 
@@ -9,14 +9,14 @@
 페이지 하나에 연결된 외부 근거를 수집한다.
 
 ```bash
-./.venv/bin/python management/tools/evidence_collector.py \
+./.venv/bin/python tool/evidence_collector.py \
   --target docs/parts/part-06/chapter-01/section-01.md
 ```
 
 실제 다운로드 전에 수집 대상만 확인하려면 `--dry-run`을 붙인다.
 
 ```bash
-./.venv/bin/python management/tools/evidence_collector.py \
+./.venv/bin/python tool/evidence_collector.py \
   --target docs/parts/part-06/chapter-01/section-01.md \
   --dry-run
 ```
@@ -32,7 +32,7 @@ URL 해시는 원문 URL의 SHA-256 앞 16자리로 만든다. 따라서 같은 
 URL을 직접 지정하거나 URL 목록 파일을 지정할 수도 있다.
 
 ```bash
-./.venv/bin/python management/tools/evidence_collector.py \
+./.venv/bin/python tool/evidence_collector.py \
   --url https://example.com/paper.pdf \
   --label p6-example-evidence
 ```
@@ -69,7 +69,7 @@ Ollama 점검 항목:
 사용 예:
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --locale en \
   --root docs/parts/part-06 \
   --model qwen2.5:14b
@@ -78,7 +78,7 @@ Ollama 점검 항목:
 단일 번역 파일만 점검할 때는 `--target`을 사용한다. 번역 파일 경로에 `.en.md` 또는 `.zh.md` suffix가 있으면 `--locale`은 생략할 수 있다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --target docs/parts/part-06/chapter-01/section-01.en.md \
   --model qwen2.5:14b
 ```
@@ -86,7 +86,7 @@ Ollama 점검 항목:
 한국어 원문 파일을 기준으로 대응 번역본을 점검할 때는 `--locale`을 함께 지정한다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --target docs/parts/part-06/chapter-01/section-01.md \
   --locale en
 ```
@@ -98,7 +98,7 @@ Ollama 점검 항목:
 구간 크기와 문맥 범위는 다음 옵션으로 조정한다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --locale en \
   --root docs/parts/part-06 \
   --segment-max-chars 7000 \
@@ -108,7 +108,7 @@ Ollama 점검 항목:
 역번역 토큰 비교의 라인 윈도우와 민감도는 다음 옵션으로 조정한다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --target docs/parts/part-06/chapter-01/section-01.en.md \
   --line-window-size 24 \
   --line-window-stride 16 \
@@ -121,7 +121,7 @@ Ollama 구간 검수는 쓰되 역번역 토큰 비교만 끄려면 `--skip-back
 Ollama 없이 기계 점검만 실행하려면 다음처럼 실행한다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --locale en \
   --root docs/parts/part-06 \
   --skip-llm
@@ -130,7 +130,7 @@ Ollama 없이 기계 점검만 실행하려면 다음처럼 실행한다.
 배치나 CI에서 게이트웨이 차단 신호를 종료 코드로 받고 싶다면 `--fail-on-review`를 붙인다. 이 옵션은 추가 번역 또는 검수가 필요한 파일이 하나라도 있으면 종료 코드 `3`을 반환한다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --locale en \
   --root docs/parts/part-06 \
   --fail-on-review
@@ -139,7 +139,7 @@ Ollama 없이 기계 점검만 실행하려면 다음처럼 실행한다.
 기본 리포트 위치는 `.tmp/translation-quality/`이다. `.tmp/`는 `.gitignore`로 제외되므로 실행 산출물을 일괄 관리하기 쉽다. 특정 파일로 저장하려면 `--output`을 지정한다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --locale zh \
   --root docs/parts \
   --output .tmp/translation-quality/zh-report.md
@@ -155,7 +155,7 @@ ollama serve
 모델이 없을 때 스크립트가 먼저 내려받게 하려면 `--pull-model`을 붙인다. 모델 다운로드는 용량과 시간이 클 수 있으므로 명시적으로 지정한 경우에만 수행한다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --target docs/parts/part-01/chapter-01/section-01.md \
   --locale en \
   --pull-model
@@ -166,7 +166,7 @@ ollama serve
 분석 단계의 저수준 로그가 필요하면 `--verbose`를 붙인다. 선택된 파일 수, 파일별 문자 수, 기계 점검 결과, 제목 구간 수, 역번역 라인 윈도우 범위, 리포트 저장 경로가 stderr에 출력된다.
 
 ```bash
-./.venv/bin/python management/tools/translation_quality_report.py \
+./.venv/bin/python tool/translation_quality_report.py \
   --target docs/parts/part-01/chapter-01/section-01.md \
   --locale en \
   --pull-model \
