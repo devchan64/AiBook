@@ -60,18 +60,6 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - 일반 IP-Adapter와 흰 재킷 reference의 scale·padding·border sweep은 포켓·소매 끝만 전달하고 흰 몸판·open-front·긴 소매를 안정화하지 못했다. CatVTON으로 전환한 이유는 person·garment·mask 계약을 분리하기 위해서다.
 - SD15 OpenPose와 SDXL Canny는 구조·silhouette 보조로는 부분 통과했지만, identity·화풍·가방 geometry를 보장하지 않았다. 구조 gate와 identity/style gate를 합치지 않는다.
 
-### P7-5.5 — FLUX 다중참조 보충학습
-
-- 참조 수를 늘리는 것이 아니라 `style`, `character_identity`, `pose_structure`, `scene_context`, `local_detail` 역할을 분리해 관찰한다.
-- 한 참조가 다른 계약을 덮어쓸 수 있으므로 다중참조에서도 P7-5.1~5.4의 역할·조건·한계를 함께 기록한다.
-- 8 GB 환경에서는 참조를 하나씩 추가하는 ablation을 우선하며, 후속 입력을 재사용할 때에는 역할과 한계를 결과 파일에 다시 적는다.
-
-### P7-5.6 — 3D 선화·depth+선화 보충학습
-
-- 선화는 윤곽·관절·화면 위치, depth는 상대 거리·앞뒤 가림을 전달한다.
-- 둘 다 identity·화풍·세부 해부학을 보장하지 않으므로 P7-5.2 얼굴/전신 입력과 역할을 분리해 비교한다.
-- 구조 맵 생성 예제는 입력 의미를 설명하는 실습이며, 사람의 상태 판정을 자동화하는 파이프라인으로 취급하지 않는다.
-
 ### P7-5.8 — 텍스트 모션·OpenPose 키프레임 준비
 
 - 텍스트 모션 모델은 시간 순서가 있는 3D 관절 시퀀스를 만들고, OpenPose는 이를 같은 camera에서 2D 구조 guide로 기록하는 다음 단계로 분리한다.
@@ -343,7 +331,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - source-aligned CatVTON 후보: `.tmp/p7-5-4-face-fixed-catvton-jacket-aligned/`, `.tmp/p7-5-4-face-fixed-catvton-pants/`, `.tmp/p7-5-4-face-fixed-catvton-outfit/`
 - 쌍별·3중 결합 후보: `.tmp/p7-5-4-outfit-plus-proportion-*`, `.tmp/p7-5-4-triple-grid-*`
 - `.tmp/`는 재현·검수용 임시 기록이며 커밋 대상이 아니다.
-- 기존 `management/release-notes/sections/part-07/P7-5.1.md`~`P7-5.6.md`는 Section별 릴리즈 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
+- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.4와 P7-5.7 이후 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
 - 아래 `authoring/` 공통 노트 8개는 고유 내용을 이 문서의 6절로 흡수한 뒤 삭제한다. 오픈 체크리스트와 Section 분석은 Part 전체 운영 문서이므로 유지한다.
   - `part-07-character-pack-generation-research-2026-08-03.md`
   - `part-07-controlnet-webtoon-pipeline-v1.md`

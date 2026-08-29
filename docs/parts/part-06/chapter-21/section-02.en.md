@@ -128,7 +128,7 @@ Part 7 turns the concepts in this Section into actual records in current-model e
 
 | Part 7 location | Standard to carry forward |
 | --- | --- |
-| P7-5.1~P7-5.5 FLUX image experiments | Read sequential CPU offload as a device for execution feasibility, and record model file, dtype, reference input, resolution, and human-review ledger together |
+| P7-5.1~P7-5.4 image experiments | Read sequential CPU offload as a device for execution feasibility, and record model file, dtype, reference input, resolution, and human-review ledger together |
 | P7-6.1 local LLM experiment | Compare quantization, context length, execution time, and answer stability with the same questions |
 | P7-7.1 vision model experiment | Separate prompt input structure and execution burden from mask-quality judgment |
 

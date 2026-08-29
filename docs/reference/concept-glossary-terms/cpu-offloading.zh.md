@@ -6,4 +6,4 @@
 - 为什么重要：它能帮助读者把“模型能不能在有限 GPU 内存中跑起来”和“生成结果质量好不好”分开记录。CPU offloading 可以降低 out-of-memory 失败的风险，但不会直接提升 prompt 遵循、pose 控制或输出质量。
 - 相关概念：`计算限制(computational limit)`, `张量(tensor)`, `推断(inference)`, `开放权重模型(open-weight model)`
 - 中心 Section: `P6-21.2`
-- 出现 Section: `P7-5.1`, `P7-5.2`, `P7-5.3`, `P7-5.4`, `P7-5.5`
+- 出现 Section: `P7-5.1`, `P7-5.2`, `P7-5.3`, `P7-5.4`

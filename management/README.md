@@ -12,7 +12,7 @@
 - `release-notes/sections/`: Section별 버전 코드 기준, 수정일 기준 개정 이력, 번역본 동기화 메모를 둔다.
 - `tools/`: 번역 품질 리포트 생성처럼 집필·검수 작업을 돕는 보조 스크립트를 둔다.
 
-P7-5.1~P7-5.6의 Section별 개정 이력은 `release-notes/sections/part-07/`에서 각각 유지한다. 이번 세션과 공통 관리노트 8개의 고유 실험 결론·공통 gate는 보조 문서인 [`authoring/part-07-p7-5-integrated-management-note.md`](authoring/part-07-p7-5-integrated-management-note.md)에 통합한다. `part-07-open-checklist.md`와 `part-07-section-analysis.md`는 별도 유지한다.
+P7-5.1~P7-5.4와 P7-5.7 이후 Section별 개정 이력은 `release-notes/sections/part-07/`에서 각각 유지한다. 이번 세션과 공통 관리노트의 고유 실험 결론·공통 gate는 보조 문서인 [`authoring/part-07-p7-5-integrated-management-note.md`](authoring/part-07-p7-5-integrated-management-note.md)에 통합한다. `part-07-open-checklist.md`와 `part-07-section-analysis.md`는 별도 유지한다.
 
 ## 우선 확인 순서
 
