@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parents[4]
 ASSETS = ROOT / "docs/assets/part-07/chapter-05"
 DEFAULT_MODEL_ID = "stabilityai/stable-diffusion-xl-base-1.0"
 HF_HUB_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub"
-DEFAULT_DATASET = ASSETS / "p7-5-4-lora-style-dataset-manifest.json"
+DEFAULT_DATASET = ASSETS / "p7-5-11-lora-style-dataset-manifest.json"
 
 # These captions carry only the learned rendering token plus the scene contract.
 # No character, garment, pose, or prop word may enter a style-only LoRA sample.
@@ -73,7 +73,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
     parser.add_argument("--model", type=Path, help="override the managed local SDXL base-model snapshot")
-    parser.add_argument("--output", type=Path, default=ROOT / ".tmp/p7-5-4-style-lora")
+    parser.add_argument("--output", type=Path, default=ROOT / ".tmp/p7-5-11-style-lora")
     parser.add_argument("--steps", type=int, default=300)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--seed", type=int, default=5415)

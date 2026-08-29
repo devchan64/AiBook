@@ -19,7 +19,7 @@ BASE_MODEL_ID = "cagliostrolab/animagine-xl-4.0"
 CONTROLNET_ID = "diffusers/controlnet-canny-sdxl-1.0"
 HF_HUB_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 SOURCE = ROOT / "docs/assets/part-07/chapter-05/p7-5-2-mira-single-reference-14-side-walk-pause.png"
-OUTPUT_DIR = Path("/tmp/p7-5-4-sdxl-canny-structure-only")
+OUTPUT_DIR = Path("/tmp/p7-5-11-sdxl-canny-structure-only")
 PROMPT = (
     "clean illustrated line art, one adult woman in left side profile, full body from head to both shoes, "
     "one hand holds a single crossbody bag strap, wide-leg trousers, white sneakers, white studio background"

@@ -1,4 +1,4 @@
-# P7-5.4 Qwen 구도·화풍·캐릭터 일관성 실험 노트
+# P7-5.11 Qwen 구도·화풍·캐릭터 일관성 실험 노트
 
 작성일: 2026-08-16
 
@@ -87,7 +87,7 @@ depth-ControlNet 1단계의 출력을 첫 번째 guide로 사용하고, Qwen Edi
 
 #### 유효 A 단일 변수 실행 결과 (사람 검수 대기)
 
-- 실행 ID: `p7-5-4-qwen-scene-a-controlnet-guide-face-sheet`
+- 실행 ID: `p7-5-11-qwen-scene-a-controlnet-guide-face-sheet`
 - 고정 조건: A depth-ControlNet guide SHA-256 `b3037ae…21fbd69`, 같은 완성 착장 reference, prompt, seed `62294`, 40 step, `true_cfg_scale 4.0`.
 - 변경 조건: 기존 768×768 정면 얼굴 1장 대신, 동일 768×768 캔버스의 정면·좌측 프로필 2패널 시트(SHA-256 `eb22750c…c124f3`).
 - 실행 결과: `scene-a-controlnet-guide-face-sheet-seed-62294-steps-40.png`, SHA-256 `1a2890ac…3ebf15`, 1,151.73초.
@@ -109,7 +109,7 @@ GPU 실행 중 발생한 OOM은 서로 겹친 이전 Qwen 프로세스가 각각
 
 #### 고해상도 A 실행 결과 (사람 검수 대기)
 
-- 실행 ID: `p7-5-4-qwen-scene-a-controlnet-guide-face-sheet-1024`
+- 실행 ID: `p7-5-11-qwen-scene-a-controlnet-guide-face-sheet-1024`
 - 결과: `scene-a-controlnet-guide-face-sheet-1024-seed-62294-steps-40.png` (run JSON에 입력 SHA-256·runtime·seed·prompt를 기록).
 - AI 예비 관찰: 구도·흰 재킷·청록 바지·남색 bag은 768×768 결과와 같이 남았지만, 헤어는 여전히 검은색이다. 즉 해상도 증가만으로는 guide 인물 RGB와 identity reference의 충돌을 해소하지 못한 것으로 보인다. 사람 검수의 구도·캐릭터·소품·화풍 판정 전에는 이 관찰을 최종 결론으로 사용하지 않는다.
 - 사람 검수(2026-08-17): **구도·화풍 통과, 캐릭터·소품 탈락**. 의상은 별도 판정하지 않았다.
@@ -154,9 +154,9 @@ ControlNet Stage 1의 협곡 이미지를 source로 두고, 인물 영역만 흰
 
 같은 Scene A structure guide와 같은 1024×1152 완성 캐릭터 시트, seed `62294`, 40 step, `true_cfg_scale 4.0`, prompt를 유지한 채 두 입력의 순서만 반전했다. 기존 2입력 실험은 `structure guide → 캐릭터 시트`였고, 이번 조건은 `캐릭터 시트 → structure guide`다. prompt도 첫 이미지를 identity·착장, 둘째 이미지를 협곡·점프·지면으로 한정하도록 순서에 맞춰 바꿨다.
 
-- 실행 기록: `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/scene-a-character-first-structure-second-seed-62294-steps-40-run.json`
-- 출력: `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/scene-a-character-first-structure-second-seed-62294-steps-40.png` (SHA-256 `ed8f82ce2bcb1fbb487e9f3a44f0afa3f30074324b7970bdc804afd210589d03`, 685.52초)
-- 사람 검수 JSON: `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/scene-a-character-first-structure-second-seed-62294-steps-40-human-review.json`
+- 실행 기록: `.tmp/p7-5-11-qwen-edit-p753-remaining-scenes/scene-a-character-first-structure-second-seed-62294-steps-40-run.json`
+- 출력: `.tmp/p7-5-11-qwen-edit-p753-remaining-scenes/scene-a-character-first-structure-second-seed-62294-steps-40.png` (SHA-256 `ed8f82ce2bcb1fbb487e9f3a44f0afa3f30074324b7970bdc804afd210589d03`, 685.52초)
+- 사람 검수 JSON: `.tmp/p7-5-11-qwen-edit-p753-remaining-scenes/scene-a-character-first-structure-second-seed-62294-steps-40-human-review.json`
 - 사용자 최종 검수(2026-08-17): **구도·캐릭터·소품·화풍은 모두 통과**. 다만 흰 재킷 안의 회색 이너 탑이 재현되지 않아 착장 계약은 탈락했다.
 - 따라서 `캐릭터 시트 → structure guide` 순서 반전은 같은 seed에서 앞선 `structure guide → 캐릭터 시트`의 캐릭터·소품·화풍 탈락을 해소했다. 이 조건에서 입력 순서는 structure guide보다 캐릭터 시트의 identity·소품·화풍 단서를 우선시키는 방향으로 작동한 증거다. 그러나 회색 이너 탑 누락 때문에 완전한 캐릭터 재현 경로·승인 storyboard 대체·LoRA 학습 입력으로 승격하지 않는다.
 - 다음 제안: 다른 조건을 바꾸지 않고 출력 해상도만 1024²→1536²로 높여 얼굴 묘사 개선 여부를 비교한다. 다만 EditPlus가 reference 이미지를 고정 크기의 잠재 표현으로 변환하면, 출력 해상도만 높여서는 캐릭터 시트의 얼굴 단서 자체가 부족한 문제를 해결하지 못할 수 있다. 따라서 이 실험은 **얼굴 표현의 해상도 가설**만 검증하며, identity reference의 설계 개선과 혼동하지 않는다.
@@ -166,7 +166,7 @@ ControlNet Stage 1의 협곡 이미지를 source로 두고, 인물 영역만 흰
 캐릭터 시트→structure guide 순서, 같은 두 입력의 SHA-256, seed `62294`, 40 step, `true_cfg_scale 4.0`, prompt와 offload를 고정했다. 출력 해상도만 바꿨다.
 
 - 1536² 사전 시도: 40 step 샘플링은 완료했지만 VAE 복호화에서 추가 `1.27 GiB` 할당이 필요해 RTX 5070 Laptop 8GiB GPU에서 `CUDA out of memory`로 중단됐다. 산출물·사람 검수 JSON은 만들지 못했다.
-- 대체 실행: 1280²는 완료했다. 출력 `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/scene-a-character-first-structure-second-1280-seed-62294-steps-40.png`, SHA-256 `8cf4929cf9fac66fbd159753deca7543dd4727b2ff7a025c3c56af829257c7c4`, 934.02초. 실행 기록은 같은 이름의 `-run.json`에 남겼다.
+- 대체 실행: 1280²는 완료했다. 출력 `.tmp/p7-5-11-qwen-edit-p753-remaining-scenes/scene-a-character-first-structure-second-1280-seed-62294-steps-40.png`, SHA-256 `8cf4929cf9fac66fbd159753deca7543dd4727b2ff7a025c3c56af829257c7c4`, 934.02초. 실행 기록은 같은 이름의 `-run.json`에 남겼다.
 - 사람 검수(2026-08-17): 1280²는 **구도·소품만 통과**, 캐릭터·화풍은 탈락했다. 착장은 별도 판정하지 않았다.
 - 결론: 1280²는 1024² 기준선의 네 핵심 계약 동시 통과를 재현하지 못했으므로, 이 조건에서 출력 해상도 증가는 얼굴 표현의 개선책이 아니라 캐릭터·화풍을 후퇴시킨 변수다. 1536²도 복호화 메모리 부족으로 실행 불가였으므로, 해상도를 더 올리는 후속 seed는 실행하지 않는다.
 
@@ -180,7 +180,7 @@ ControlNet Stage 1의 협곡 이미지를 source로 두고, 인물 영역만 흰
 | B | `e58390a007215bcb213215f489736e09f68900222be4ca5da887421387de5a83` | 1388.33초 | 대기 |
 | C | `34e9290be5a6f5b56ff5cf6f87e7cbdace1e5c44e38477341834d7248c40c8cb` | 1377.25초 | 대기 |
 
-- 실행·검수 JSON과 PNG는 `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/`의 `scene-{a,b,c}-character-first-structure-second-1280-steps60-*`에 남겼다.
+- 실행·검수 JSON과 PNG는 `.tmp/p7-5-11-qwen-edit-p753-remaining-scenes/`의 `scene-{a,b,c}-character-first-structure-second-1280-steps60-*`에 남겼다.
 - 사람 검수에서 각 Scene의 구도·캐릭터·소품·화풍을 같은 기준으로 판정하기 전에는, 이 공통 조건이 장면 간 재현성을 개선했다고 주장하지 않는다.
 
 ### 80 step 재실행 (사람 검수 대기)
@@ -193,7 +193,7 @@ ControlNet Stage 1의 협곡 이미지를 source로 두고, 인물 영역만 흰
 | B | `c5f86543b737667f97fe6e8804ab23c4b8fc734f2b9129da3cc67ca83a32a0cf` | 1857.28초 | 대기 |
 | C | `ce9e373c675f643b89eaffc8965e53cc0f749da96b5b03b3b3aada3a0979348d` | 1866.67초 | 대기 |
 
-- 산출물·실행 기록·검수 JSON은 `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/scene-{a,b,c}-character-first-structure-second-1280-steps80-*`에 있다.
+- 산출물·실행 기록·검수 JSON은 `.tmp/p7-5-11-qwen-edit-p753-remaining-scenes/scene-{a,b,c}-character-first-structure-second-1280-steps80-*`에 있다.
 - 사용자 검수(2026-08-17): 1280 조건은 기존보다 캐릭터·구도·소품을 더 많이 재현했다. 그러나 **A·B의 화풍은 재현하지 못했다.** C의 화풍 계약은 이번 검수에서 별도 통과·탈락을 판정하지 않았다.
 - 원인 1 — **참조 자산 선택·역할 배정의 불일치**: 당시 사용한 FLUX 정면 얼굴·전신 승인 자산은 제거됐다. 다음 Edit 실행은 현재 승인된 Qwen identity·착장 자산만을 명시 입력으로 사용하고, 각 입력의 승인 범위를 다시 확인해야 한다.
 - 원인 2 — **구도 자산 선택·역할 배정의 불일치**: 당시 A·B·C의 FLUX 승인 contract와 storyboard RGB·relative depth도 제거됐다. 다음 실행은 새 storyboard를 장면 계약과 함께 다시 검수한 뒤, 승인 depth와 RGB의 역할을 명시해야 한다.
@@ -203,12 +203,12 @@ ControlNet Stage 1의 협곡 이미지를 source로 두고, 인물 영역만 흰
 
 현재 기록 위치:
 
-- 고각도 보행: `.tmp/p7-5-4-qwen-edit-high-angle/`
-- 고각도 화풍 문장 비교: `.tmp/p7-5-4-qwen-edit-style-ab/`
-- P7-5.3 Scene C 비교: `.tmp/p7-5-4-qwen-edit-p753-scene-c/`
-- Scene C guide-first 비교: `.tmp/p7-5-4-qwen-edit-p753-guide-first/`
-- Scene C identity-free 구조 guide: `.tmp/p7-5-4-qwen-edit-p753-structure-guide/`
-- Scene A/B identity-free 구조 guide 실험: `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/`
+- 고각도 보행: `.tmp/p7-5-11-qwen-edit-high-angle/`
+- 고각도 화풍 문장 비교: `.tmp/p7-5-11-qwen-edit-style-ab/`
+- P7-5.3 Scene C 비교: `.tmp/p7-5-11-qwen-edit-p753-scene-c/`
+- Scene C guide-first 비교: `.tmp/p7-5-11-qwen-edit-p753-guide-first/`
+- Scene C identity-free 구조 guide: `.tmp/p7-5-11-qwen-edit-p753-structure-guide/`
+- Scene A/B identity-free 구조 guide 실험: `.tmp/p7-5-11-qwen-edit-p753-remaining-scenes/`
 
 ## 다음 가설과 최소 비교
 
@@ -253,7 +253,7 @@ P7-5.3 Scene C의 depth map에서 split leap 실루엣만 남기고, 결정적 s
 - A/B/C 모두 가방과 외부 strap은 남았다. 화풍 참조를 세 번째 이미지 역할로 연결하면 B/C의 off-white paper·wash·charcoal contour는 재현 가능했다. 다만 A는 선화 쪽으로 붕괴했다.
 - 결론: **승인 3입력 파이프라인은 화풍과 일부 소품 재현을 개선했지만, 세 장면 모두 네 계약을 동시에 통과하지 못했다.** 특히 relative depth를 일반 Edit 참조로 넣는 방식은 카메라·인물 방향·바닥/그림자 세부를 강제하지 못한다. 원본 RGB 조건과 direct-depth 조건을 분리 비교하고, 홍채가 보이는 얼굴 증거를 유지하는 다음 실험이 필요하다.
 
-실행·검수 JSON과 PNG는 `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/scene-{a,b,c}-approved-three-role-depth-style-1280-steps80-*`에 있다.
+실행·검수 JSON과 PNG는 `.tmp/p7-5-11-qwen-edit-p753-remaining-scenes/scene-{a,b,c}-approved-three-role-depth-style-1280-steps80-*`에 있다.
 
 ### 해상도 상승 드리프트 관찰 (2026-08-18, 매트릭스 중단)
 
@@ -278,7 +278,7 @@ high-angle role comparison과의 품질 차이는 해상도 단독 비교가 아
 
 - **해석**: 2:3 정렬은 프레이밍에는 영향을 줬지만 와이드팬츠·신발·가방의 재현을 회복하지 못했다. 따라서 이 direct-depth 2입력 경로에서 비율 불일치는 의상 실패의 주원인이 아니다.
 - **실행 한계**: 두 실행은 실제 입력이 두 장인데도 prompt가 존재하지 않는 image 3 화풍 참조를 언급하는 결함을 공유했다. 상대 비교에는 같은 결함이 적용됐지만, 화풍 품질의 최종 판정 근거로 쓰지 않는다. 실행기에서는 style image가 실제로 있을 때만 image 3 문장을 추가하도록 수정했다.
-- 실행 PNG·JSON과 관찰 기록은 `docs/assets/part-07/chapter-05/p7-5-4-qwen-edit-grid-output/`에 보존한다.
+- 실행 PNG·JSON과 관찰 기록은 `docs/assets/part-07/chapter-05/p7-5-11-qwen-edit-grid-output/`에 보존한다.
 
 ## 사람 검수 기록 양식
 
@@ -287,7 +287,7 @@ high-angle role comparison과의 품질 차이는 해상도 단독 비교가 아
 ```json
 {
   "status": "human_review_pending",
-  "experiment_id": "p7-5-4-qwen-scene-c-b1",
+  "experiment_id": "p7-5-11-qwen-scene-c-b1",
   "seed": 62294,
   "contracts": {
     "structure": "pending",

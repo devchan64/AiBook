@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare approved identity anchors and P7-5.4 action images for character-LoRA training.
+"""Prepare approved identity anchors and P7-5.11 action images for character-LoRA training.
 
 The approved PNG files stay in the documentation asset directory.  This tool
 creates a local training directory containing symbolic links, one caption per
@@ -16,9 +16,9 @@ from pathlib import Path
 
 
 ASSETS = Path(__file__).resolve().parent
-DATASET_ASSETS = ASSETS / "p7-5-4-character-lora-54"
+DATASET_ASSETS = ASSETS / "p7-5-11-character-lora-54"
 ACTION_ASSETS = DATASET_ASSETS / "actions"
-DEFAULT_OUTPUT = ASSETS.parents[3] / ".tmp" / "p7-5-4-character-lora-identity-action-54"
+DEFAULT_OUTPUT = ASSETS.parents[3] / ".tmp" / "p7-5-11-character-lora-identity-action-54"
 APPROVED = {
     "approved_for_character_lora_candidate_pool",
     "approved_for_styled_character_lora_dataset",
@@ -84,7 +84,7 @@ def approved_records() -> list[dict[str, object]]:
         if str(record["source_id"]).startswith(("pose-extra-", "sport-"))
     }
     records: list[dict[str, object]] = []
-    for review_path in sorted(ACTION_ASSETS.glob("p7-5-4-character-lora-pose-stage2-*-reference-review.json")):
+    for review_path in sorted(ACTION_ASSETS.glob("p7-5-11-character-lora-pose-stage2-*-reference-review.json")):
         review = json.loads(review_path.read_text(encoding="utf-8"))
         if review.get("status") not in APPROVED:
             continue
@@ -124,7 +124,7 @@ def link(source: Path, destination: Path) -> None:
 
 def manifest(records: list[dict[str, object]]) -> dict[str, object]:
     return {
-        "dataset_id": "p7-5-4-character-lora-approved-identity-action-54",
+        "dataset_id": "p7-5-11-character-lora-approved-identity-action-54",
         "status": "prepared_from_human_approved_sources",
         "purpose": "Character identity anchors plus style-conditioned full-body pose diversity for a later character-LoRA experiment.",
         "image_link_mode": "symlink_when_prepared_locally",

@@ -1,9 +1,9 @@
 {
   "status": "generated_for_human_review",
-  "purpose": "Declarative stored OpenPose map + 54-image Animagine character LoRA; no image reference, Canny, Inpaint, or VTON.",
+  "purpose": "Declarative stored OpenPose map + 54-image Animagine character LoRA scale AB; no image reference, Canny, Inpaint, or VTON.",
   "model": "/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96",
   "controlnet": "/home/cbsim/.cache/huggingface/hub/models--xinsir--controlnet-openpose-sdxl-1.0/snapshots/23f966cd5cfdd3f7729c903e243d87152162d2b7",
-  "lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-animagine-character-lora-54-640-1200-gc",
+  "lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-11-animagine-character-lora-54-640-1200-gc",
   "pose_points": {
     "nose": [
       480,
@@ -84,11 +84,11 @@
   ],
   "steps": 30,
   "seed": 62301,
-  "lora_scale": 0.6,
-  "controlnet_scales": [
-    0.0,
-    1.0
+  "lora_scales": [
+    0.6,
+    0.8
   ],
-  "elapsed_seconds": 112.9,
+  "controlnet_scale": 1.0,
+  "elapsed_seconds": 113.4,
   "peak_vram_mib": 3370.6
 }

@@ -2,11 +2,11 @@
   "status": "generated_for_human_review",
   "purpose": "SDXL Mira LoRA transfer from anonymous Animagine guide: no guide RGB or guide identity input",
   "base_model": "/home/cbsim/.cache/huggingface/hub/models--stabilityai--stable-diffusion-xl-base-1.0/snapshots/462165984030d82259a11f4367a4eed129e94a7b",
-  "character_lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-character-lora-768-b-1200",
+  "character_lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-11-character-lora-768-b-1200",
   "character_lora_scale": 0.6,
   "controls": {
-    "openpose": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-anonymous-high-angle-controls/anonymous-high-angle-openpose.png",
-    "background_only_canny": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-anonymous-high-angle-controls/anonymous-high-angle-background-only-canny.png"
+    "openpose": "/home/cbsim/ws/AiBook/.tmp/p7-5-11-anonymous-high-angle-controls/anonymous-high-angle-openpose.png",
+    "background_only_canny": "/home/cbsim/ws/AiBook/.tmp/p7-5-11-anonymous-high-angle-controls/anonymous-high-angle-background-only-canny.png"
   },
   "prompt": "p7mira, adult Korean woman, full body, high-angle view, white cropped jacket, charcoal crop top, high-waisted deep-teal wide-leg trousers, white sneakers, navy crossbody bag, webtoon watercolor",
   "negative_prompt": "multiple people, cropped feet, extra arms, extra legs, text, watermark",

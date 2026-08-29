@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Letterbox a vertical character reference for the P7-5.4 aspect-ratio ablation."""
+"""Letterbox a vertical character reference for the P7-5.11 aspect-ratio ablation."""
 
 from __future__ import annotations
 
@@ -12,8 +12,8 @@ from PIL import Image
 
 ASSET_DIR = Path(__file__).resolve().parent
 SOURCE = ASSET_DIR / "p7-5-2-fullbody-front-refined-reference.png"
-OUTPUT = ASSET_DIR / "p7-5-4-character-fullbody-front-square-padded.png"
-RECORD = ASSET_DIR / "p7-5-4-character-fullbody-front-square-padded.json"
+OUTPUT = ASSET_DIR / "p7-5-11-character-fullbody-front-square-padded.png"
+RECORD = ASSET_DIR / "p7-5-11-character-fullbody-front-square-padded.json"
 CANVAS_SIZE = 1152
 BACKGROUND = (247, 245, 239)
 
@@ -35,7 +35,7 @@ def main() -> None:
     RECORD.write_text(
         json.dumps(
             {
-                "purpose": "P7-5.4 Qwen A-scene aspect-ratio ablation input",
+                "purpose": "P7-5.11 Qwen A-scene aspect-ratio ablation input",
                 "source": {"path": str(SOURCE), "size": list(source.size), "sha256": sha256(SOURCE)},
                 "transform": {
                     "type": "fit_inside_with_horizontal_padding",

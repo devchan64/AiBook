@@ -27,12 +27,12 @@ REFERENCES = {
 
 def detector_class():
     root = Path(sysconfig.get_paths()["purelib"]) / "controlnet_aux"
-    parent = types.ModuleType("p7_5_4_openpose_assets_aux")
+    parent = types.ModuleType("p7_5_11_openpose_assets_aux")
     parent.__path__ = [str(root)]
     sys.modules[parent.__name__] = parent
     directory = root / "open_pose"
     spec = importlib.util.spec_from_file_location(
-        "p7_5_4_openpose_assets_aux.open_pose",
+        "p7_5_11_openpose_assets_aux.open_pose",
         directory / "__init__.py",
         submodule_search_locations=[str(directory)],
     )
@@ -53,7 +53,7 @@ def main() -> int:
         source = ASSETS / filename
         if not source.is_file():
             raise FileNotFoundError(source)
-        output = ASSETS / f"p7-5-4-openpose-fullbody-{label}-reference.png"
+        output = ASSETS / f"p7-5-11-openpose-fullbody-{label}-reference.png"
         pose = detector(Image.open(source).convert("RGB"), hand_and_face=False).convert("RGB")
         if pose.size != Image.open(source).size:
             pose = pose.resize(Image.open(source).size, Image.Resampling.NEAREST)

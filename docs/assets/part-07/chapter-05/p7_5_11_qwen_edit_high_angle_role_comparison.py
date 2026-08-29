@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Reproduce the P7-5.4 high-angle Qwen input-role comparison.
+"""Reproduce the P7-5.11 high-angle Qwen input-role comparison.
 
 The ``two-input`` condition generated
-``p7-5-4-qwen-edit-two-input-outfit-loss.png``: composition plus face identity
+``p7-5-11-qwen-edit-two-input-outfit-loss.png``: composition plus face identity
 leave the complete outfit unconstrained. The ``role-separated`` condition
 generated the approved seed 62294/62295 pair by adding a third, outfit-only
 reference. Outputs are candidates and require human review before reuse.
@@ -29,8 +29,8 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 ROOT = Path(__file__).resolve().parents[4]
 ASSETS = ROOT / "docs" / "assets" / "part-07" / "chapter-05"
 HF_HUB_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub"
-DEFAULT_OUTPUT_DIR = ROOT / ".tmp" / "p7-5-4-qwen-edit-high-angle"
-GUIDE = ASSETS / "p7-5-4-experimental-animagine-high-angle-guide.png"
+DEFAULT_OUTPUT_DIR = ROOT / ".tmp" / "p7-5-11-qwen-edit-high-angle"
+GUIDE = ASSETS / "p7-5-11-experimental-animagine-high-angle-guide.png"
 FACE = ASSETS / "p7-5-2-face-front-reference.png"
 OUTFIT = ASSETS / "p7-5-2-prop-reference-complete-outfit-front-hip.png"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
@@ -138,7 +138,7 @@ def main() -> None:
     expected_hash = EXPECTED_SHA256.get((args.condition, args.seed))
     record = {
         "status": "human_review_required",
-        "experiment_id": f"p7-5-4-qwen-high-angle-{args.condition}",
+        "experiment_id": f"p7-5-11-qwen-high-angle-{args.condition}",
         "model": "Qwen-Image-Edit-2509 with Nunchaku FP4 r128 per-layer CPU offload",
         "runtime": runtime_record(),
         "input_roles": {"composition": asset_record(GUIDE), "face_identity": asset_record(FACE), "complete_outfit": asset_record(OUTFIT) if args.condition == "role-separated" else None},

@@ -18,7 +18,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[4]
 SOURCE = ROOT / "docs/assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-depth.png"
-OUTPUT = ROOT / "docs/assets/part-07/chapter-05/p7-5-4-scene-a-depth-derived-semantic-guide.png"
+OUTPUT = ROOT / "docs/assets/part-07/chapter-05/p7-5-11-scene-a-depth-derived-semantic-guide.png"
 
 
 def figure_mask(values: np.ndarray) -> np.ndarray:

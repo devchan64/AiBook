@@ -22,7 +22,7 @@ rag-vector-db,item-08,error,외부 모델 다운로드 방지 조건,ready,yes,a
 rag-vector-db,item-09,limitation,실제 대규모 ANN 운영 제외,ready,yes,author,본문 범위를 로컬 실습으로 제한한다
 rag-vector-db,item-10,next_action,다음 검색 설정 실험,ready,yes,author,num_probes 변경 실험을 유지한다
 rag-vector-db,item-11,handoff,P7-5.1 검색 후보 기록 연결,stale,no,author,P7-5.1과 역할 분담 문장을 보강한다
-rag-vector-db,item-12,release_note,릴리즈노트 연결,ready,yes,author,P7-5.4 릴리즈노트 버전을 확인한다
+rag-vector-db,item-12,release_note,릴리즈노트 연결,ready,yes,author,P7-5.11 릴리즈노트 버전을 확인한다
 agent-ops,item-01,question,agent 운영 실행 질문,ready,yes,author,장애 티켓과 안전한 다음 행동 질문을 유지한다
 agent-ops,item-02,input,도구 실행 단계 CSV,ready,yes,author,p7-11-agent-triage-steps.csv 링크를 유지한다
 agent-ops,item-03,code,권한 로그 분석 코드,ready,yes,author,blocked와 failure 분리 출력을 유지한다

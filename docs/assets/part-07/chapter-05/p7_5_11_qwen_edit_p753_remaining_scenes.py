@@ -25,10 +25,10 @@ TMP_HELPERS = ROOT / ".tmp"
 if str(TMP_HELPERS) not in sys.path:
     sys.path.insert(0, str(TMP_HELPERS))
 
-from p7_5_4_qwen_experiment_utils import asset_record, runtime_record, sha256
+from p7_5_11_qwen_experiment_utils import asset_record, runtime_record, sha256
 
 
-OUT = ROOT / "docs" / "assets" / "part-07" / "chapter-05" / "p7-5-4-qwen-edit-grid-output"
+OUT = ROOT / "docs" / "assets" / "part-07" / "chapter-05" / "p7-5-11-qwen-edit-grid-output"
 SUBJECT = ROOT / "docs/assets/part-07/chapter-05/p7-5-2-face-front-reference.png"
 # The approved front full-body reference already shows the inner shirt, bag,
 # strap, trousers, and shoes.  Do not default to the older hip crop, which
@@ -159,7 +159,7 @@ def main() -> None:
         guide = args.guide.resolve()
         structure_source = "explicit-guide"
     elif args.structure_source == "controlnet-rgb":
-        guide = ROOT / ".tmp/p7-5-4-qwen-edit-p753-structure-guide" / f"scene-{args.scene}-identity-free-watercolor-structure-guide.png"
+        guide = ROOT / ".tmp/p7-5-11-qwen-edit-p753-structure-guide" / f"scene-{args.scene}-identity-free-watercolor-structure-guide.png"
         structure_source = args.structure_source
     else:
         guide = STORYBOARD[args.scene][args.structure_source]
@@ -230,7 +230,7 @@ def main() -> None:
     output = OUT / f"{stem}.png"
     result.save(output)
     record = {
-        "status": "completed", "experiment_id": f"p7-5-4-qwen-scene-{args.scene}-{route}",
+        "status": "completed", "experiment_id": f"p7-5-11-qwen-scene-{args.scene}-{route}",
         "scene": args.scene.upper(), "model": "Qwen-Image-Edit-2509 with Nunchaku FP4 r128",
         "runtime": runtime_record(), "inputs": {"structure_reference": asset_record(guide), "subject": asset_record(subject), "identity_contract": asset_record(IDENTITY_CONTRACT), "outfit": asset_record(OUTFIT) if not args.no_outfit else None, "style_reference": asset_record(style) if style else None, "outfit_style_reference": asset_record(outfit_style) if outfit_style else None, "repair_source": asset_record(repair_source) if repair_source else None, "repair_outfit_reference": asset_record(repair_outfit) if repair_source else None, "repair_style_reference": asset_record(repair_style) if repair_style else None},
         "structure_source": structure_source,

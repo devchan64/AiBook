@@ -1,17 +1,9 @@
 {
   "status": "generated_for_human_review",
-  "purpose": "Fixed OpenPose/LoRA camera AB: eye-level vs high-angle; no image reference, Canny, inpaint, or VTON.",
+  "purpose": "Declarative stored OpenPose map + 54-image Animagine character LoRA; no image reference, Canny, Inpaint, or VTON.",
   "model": "/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96",
   "controlnet": "/home/cbsim/.cache/huggingface/hub/models--xinsir--controlnet-openpose-sdxl-1.0/snapshots/23f966cd5cfdd3f7729c903e243d87152162d2b7",
-  "lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-animagine-character-lora-54-640-1200-gc",
-  "resolution": [
-    960,
-    1440
-  ],
-  "steps": 30,
-  "seed": 62302,
-  "lora_scale": 0.6,
-  "controlnet_scale": 1.0,
+  "lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-11-animagine-character-lora-54-640-1200-gc",
   "pose_points": {
     "nose": [
       480,
@@ -86,11 +78,17 @@
       325
     ]
   },
-  "camera_prompts": {
-    "eye-level": "eye-level full-body camera",
-    "high-angle": "high-angle full-body camera looking down from above, visible studio floor perspective"
-  },
-  "elapsed_seconds": 112.5,
-  "peak_vram_mib": 3370.6,
-  "human_review": "pending"
+  "resolution": [
+    960,
+    1440
+  ],
+  "steps": 30,
+  "seed": 62301,
+  "lora_scale": 0.6,
+  "controlnet_scales": [
+    0.0,
+    1.0
+  ],
+  "elapsed_seconds": 112.9,
+  "peak_vram_mib": 3370.6
 }

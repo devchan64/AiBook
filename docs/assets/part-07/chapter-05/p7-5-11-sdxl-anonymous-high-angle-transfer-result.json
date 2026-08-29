@@ -4,16 +4,16 @@
   "guide_contract": {
     "identity_inputs": [],
     "excluded_from_guide": ["Mira identity", "Mira face reference", "Mira outfit reference", "character LoRA"],
-    "selected_guide": "../p7-5-4-animagine-anonymous-high-angle-guide/anonymous-high-angle-guide-seed-62431-steps-30.png"
+    "selected_guide": "../p7-5-11-animagine-anonymous-high-angle-guide/anonymous-high-angle-guide-seed-62431-steps-30.png"
   },
   "structural_inputs": {
-    "openpose": "../p7-5-4-anonymous-high-angle-controls/anonymous-high-angle-openpose.png",
-    "background_only_canny": "../p7-5-4-anonymous-high-angle-controls/anonymous-high-angle-background-only-canny.png",
+    "openpose": "../p7-5-11-anonymous-high-angle-controls/anonymous-high-angle-openpose.png",
+    "background_only_canny": "../p7-5-11-anonymous-high-angle-controls/anonymous-high-angle-background-only-canny.png",
     "canny_person_exclusion": "OpenPose-localized GrabCut foreground plus safety dilation; anonymous guide hair, clothes, limbs, and face edges are excluded."
   },
   "sdxl_fixed_conditions": {
     "base": "stabilityai/stable-diffusion-xl-base-1.0",
-    "character_lora": ".tmp/p7-5-4-character-lora-768-b-1200",
+    "character_lora": ".tmp/p7-5-11-character-lora-768-b-1200",
     "lora_scale": 0.6,
     "seed": 62431,
     "steps": 50,
