@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Qwen 2509/Nunchaku FP4 T2I references for the P7-5.7 frontal anchor.
+"""Generate Qwen 2509/Nunchaku FP4 T2I references for the P7-5.2 frontal anchor.
 
 This is intentionally separate from the P7-5.3 full-body reference pilot:
 it has no image input and must not silently become an image-edit experiment.
@@ -25,9 +25,9 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
 ASSETS = Path(__file__).resolve().parent
-IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
-STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
-ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
+IDENTITY_CONTRACT = ASSETS / "p7-5-2-face-identity-contract.json"
+STYLE_CONTRACT = ASSETS / "p7-5-2-face-style-prompt-contract.json"
+ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image"
 TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image.safetensors"
@@ -130,14 +130,14 @@ def main() -> None:
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
     if missing := [path for path in (IDENTITY_CONTRACT, STYLE_CONTRACT, ILLUSTRATION_CONTRACT) if not path.is_file()]:
-        raise FileNotFoundError("missing P7-5.7 face contract: " + ", ".join(map(str, missing)))
+        raise FileNotFoundError("missing P7-5.2 face contract: " + ", ".join(map(str, missing)))
 
     illustration_contract = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))
     illustration_prompt = illustration_contract["front_face_illustration_prompt"]
     prompt = f"{illustration_prompt} {FRAMING_PROMPTS[args.framing]}"
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-7-qwen-face-{args.framing}-{args.run_label}-seed-{args.seed}-steps-{args.steps}-size-{args.size}"
+    stem = f"p7-5-2-qwen-face-{args.framing}-{args.run_label}-seed-{args.seed}-steps-{args.steps}-size-{args.size}"
     output = output_dir / f"{stem}.png"
     result_record = output_dir / f"{stem}-result.json"
 
@@ -156,7 +156,7 @@ def main() -> None:
     image.save(output)
     record = {
         "status": "generated",
-        "experiment_id": f"p7-5-7-qwen-face-{args.framing}",
+        "experiment_id": f"p7-5-2-qwen-face-{args.framing}",
         "model": MODEL_ID,
         "transformer": TRANSFORMER_ID,
         "runtime": runtime_record(),

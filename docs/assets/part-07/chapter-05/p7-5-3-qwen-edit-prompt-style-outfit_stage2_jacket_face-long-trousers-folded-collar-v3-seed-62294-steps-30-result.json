@@ -17,15 +17,15 @@
     "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
   },
   "identity_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-identity-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-identity-contract.json",
     "sha256": "8cb07881c8069ef558a17cb61d6efe633507f62ec1d3b3ce398da136abe06947"
   },
   "style_prompt_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-style-prompt-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-style-prompt-contract.json",
     "sha256": "d9d65da60a677ec9d6d396ccc43a4103cb1764f61b6b3d67bc4515a6f1867885"
   },
   "illustration_prompt_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-illustration-prompt-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json",
     "sha256": "ed17491213f4c7ddd14ddb46df3637b573a654131f71faa2e60a22b6aafea01d"
   },
   "prompt_contracts_applied": {
@@ -40,7 +40,7 @@
       "sha256": "f4c8f39f0d981d1cac24f7f19d7397fc883822d7969f8d3f2ed0551f347ff7cf"
     },
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png",
       "sha256": "795b498af159faa74135b953f41df7769c20e99f4c354fae110cc83c7ec1290d"
     }
   ],

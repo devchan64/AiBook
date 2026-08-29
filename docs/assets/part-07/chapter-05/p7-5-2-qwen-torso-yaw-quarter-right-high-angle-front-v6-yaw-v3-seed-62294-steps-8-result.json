@@ -1,6 +1,6 @@
 {
   "status": "generated",
-  "experiment_id": "p7-5-7-qwen-camera-angle-2509",
+  "experiment_id": "p7-5-2-qwen-camera-angle-2509",
   "model": "Qwen/Qwen-Image-Edit-2509",
   "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors",
   "angle_lora": {
@@ -25,8 +25,8 @@
   },
   "inputs": [
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-low-angle-front-pitch-v6-seed-62294-steps-8.png",
-      "sha256": "188cfc93092a26d6bbb1958981fe38619d2a611deb5ce621925b01c5e120633b"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-torso-pitch-high-angle-front-pitch-v6-seed-62294-steps-8.png",
+      "sha256": "b37f1f835392b01364cdd7ed14b97bdbbbc24a95e4b9e91092402438f223b7a8"
     }
   ],
   "input_roles": [
@@ -69,8 +69,8 @@
   "prompt_word_count": 1,
   "prompt_character_count": 11,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-low-angle-front-v6-yaw-v3-seed-62294-steps-8.png",
-    "sha256": "f11086edb8c0b3824e51fa4a867a5c49e1ba194d9ac99c2cecc9bbfcbb80cd4c"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-right-high-angle-front-v6-yaw-v3-seed-62294-steps-8.png",
+    "sha256": "d374ac55549190eda5e8d1f9c1bb83b912339a1a6f729849e579d0f71de27cf5"
   },
-  "elapsed_seconds": 73.42
+  "elapsed_seconds": 73.23
 }

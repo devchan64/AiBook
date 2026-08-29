@@ -22,17 +22,17 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 ASSETS = Path(__file__).resolve().parent
 HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
-IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
-STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
-ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
+IDENTITY_CONTRACT = ASSETS / "p7-5-2-face-identity-contract.json"
+STYLE_CONTRACT = ASSETS / "p7-5-2-face-style-prompt-contract.json"
+ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image-edit-2509"
 TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
-QWEN_FACE_REFERENCE = "p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
-FRONT_TORSO_REFERENCE = "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
+QWEN_FACE_REFERENCE = "p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
+FRONT_TORSO_REFERENCE = "p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
 STAGE2_BODY_ONLY_OPENPOSE = "p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"
 
 
@@ -260,7 +260,7 @@ def main() -> None:
     if missing := [str(path) for path in inputs if not path.is_file()]:
         raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
     if not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
-        raise FileNotFoundError("missing P7-5.7 identity, style, or illustration contract")
+        raise FileNotFoundError("missing P7-5.2 identity, style, or illustration contract")
     style_prompt = json.loads(STYLE_CONTRACT.read_text(encoding="utf-8"))["portrait_style_prompt"]
     illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["front_face_illustration_prompt"]
     prompt_parts = []

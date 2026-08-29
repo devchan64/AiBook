@@ -1,6 +1,6 @@
 {
   "status": "generated",
-  "experiment_id": "p7-5-7-qwen-camera-angle-2509",
+  "experiment_id": "p7-5-2-qwen-camera-angle-2509",
   "model": "Qwen/Qwen-Image-Edit-2509",
   "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors",
   "angle_lora": {
@@ -25,8 +25,8 @@
   },
   "inputs": [
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-high-angle-front-pitch-v6-seed-62294-steps-8.png",
-      "sha256": "b37f1f835392b01364cdd7ed14b97bdbbbc24a95e4b9e91092402438f223b7a8"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-face-torso-chest-v1-seed-62294-steps-10.png",
+      "sha256": "219392aef60de7a95efc5bdf8991bdc83e6e3590e968ebca403dd470ae19069d"
     }
   ],
   "input_roles": [
@@ -38,16 +38,15 @@
   "angle_lora_applied_modules": 360,
   "angle_lora_strength": 1.0,
   "axis": "yaw",
-  "axis_value": "quarter_right",
-  "yaw_degrees": 45,
+  "axis_value": "front",
+  "yaw_degrees": 0,
   "prompt_language": "chinese",
   "sequence": {
-    "index": 2,
-    "total": 2,
+    "index": 1,
+    "total": 1,
     "axis": "yaw",
     "values": [
-      "quarter_left",
-      "quarter_right"
+      "front"
     ]
   },
   "seed": 62294,
@@ -59,18 +58,18 @@
   "true_cfg_scale": 4.0,
   "guidance_scale": 1.0,
   "negative_prompt": " ",
-  "prompt": "将镜头向右旋转45度。",
+  "prompt": "保持正面镜头。",
   "prompt_components": {
-    "yaw": "将镜头向右旋转45度。",
+    "yaw": "保持正面镜头。",
     "pitch": "",
     "translation": "",
     "lens": ""
   },
   "prompt_word_count": 1,
-  "prompt_character_count": 11,
+  "prompt_character_count": 7,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-high-angle-front-v6-yaw-v3-seed-62294-steps-8.png",
-    "sha256": "d374ac55549190eda5e8d1f9c1bb83b912339a1a6f729849e579d0f71de27cf5"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png",
+    "sha256": "05b0c44fb2f7c4859057dd457e0de97f845534ecd27e7b6551b1576f41e89f69"
   },
-  "elapsed_seconds": 73.23
+  "elapsed_seconds": 73.72
 }

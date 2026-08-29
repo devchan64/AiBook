@@ -1,6 +1,6 @@
 {
   "status": "generated",
-  "experiment_id": "p7-5-7-qwen-camera-angle-2509",
+  "experiment_id": "p7-5-2-qwen-camera-angle-2509",
   "model": "Qwen/Qwen-Image-Edit-2509",
   "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors",
   "angle_lora": {
@@ -25,7 +25,7 @@
   },
   "inputs": [
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png",
       "sha256": "05b0c44fb2f7c4859057dd457e0de97f845534ecd27e7b6551b1576f41e89f69"
     }
   ],
@@ -38,11 +38,11 @@
   "angle_lora_applied_modules": 360,
   "angle_lora_strength": 1.0,
   "axis": "yaw",
-  "axis_value": "quarter_right",
-  "yaw_degrees": 45,
+  "axis_value": "profile_right",
+  "yaw_degrees": 90,
   "prompt_language": "chinese",
   "sequence": {
-    "index": 3,
+    "index": 4,
     "total": 4,
     "axis": "yaw",
     "values": [
@@ -61,9 +61,9 @@
   "true_cfg_scale": 4.0,
   "guidance_scale": 1.0,
   "negative_prompt": " ",
-  "prompt": "将镜头向右旋转45度。",
+  "prompt": "将镜头向右旋转90度。",
   "prompt_components": {
-    "yaw": "将镜头向右旋转45度。",
+    "yaw": "将镜头向右旋转90度。",
     "pitch": "",
     "translation": "",
     "lens": ""
@@ -71,8 +71,8 @@
   "prompt_word_count": 1,
   "prompt_character_count": 11,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
-    "sha256": "1df1f2cae988acbc5aa6f933640b03a7e7180c64449f44777b7f7a15fcf6305d"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-profile-right-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+    "sha256": "57586b0e00369a9b6452fd76b25fa07208e682809596e97b71bfa1013b8058a3"
   },
-  "elapsed_seconds": 73.39
+  "elapsed_seconds": 73.57
 }

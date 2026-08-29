@@ -1,5 +1,5 @@
 {
-  "contract_id": "p7-5-7-face-style-v1",
-  "purpose": "Portrait-only rendering contract for P7-5.7 Qwen face candidates. It replaces the P7-5.1 background contract for head rotations.",
+  "contract_id": "p7-5-2-face-style-v1",
+  "purpose": "Portrait-only rendering contract for P7-5.2 Qwen face candidates. It replaces the P7-5.1 background contract for head rotations.",
   "portrait_style_prompt": "Character-reference illustration on plain warm off-white paper; thin charcoal contours, restrained transparent watercolor color blocks, subtle pigment pooling, and clean untextured background. No paint splashes, radial lines, action lines, speed lines, rays, bursts, halo, vignette, hatching, screentone, frame, text, panel, logo, or background scene."
 }

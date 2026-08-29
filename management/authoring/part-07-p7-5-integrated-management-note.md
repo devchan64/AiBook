@@ -331,7 +331,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - source-aligned CatVTON 후보: `.tmp/p7-5-11-face-fixed-catvton-jacket-aligned/`, `.tmp/p7-5-11-face-fixed-catvton-pants/`, `.tmp/p7-5-11-face-fixed-catvton-outfit/`
 - 쌍별·3중 결합 후보: `.tmp/p7-5-11-outfit-plus-proportion-*`, `.tmp/p7-5-11-triple-grid-*`
 - `.tmp/`는 재현·검수용 임시 기록이며 커밋 대상이 아니다.
-- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.3, P7-5.4와 P7-5.7 이후 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
+- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.4와 P7-5.8~P7-5.11 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
 - 아래 `authoring/` 공통 노트 8개는 고유 내용을 이 문서의 6절로 흡수한 뒤 삭제한다. 오픈 체크리스트와 Section 분석은 Part 전체 운영 문서이므로 유지한다.
   - `part-07-character-pack-generation-research-2026-08-03.md`
   - `part-07-controlnet-webtoon-pipeline-v1.md`

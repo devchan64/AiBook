@@ -45,7 +45,7 @@ TRANSFORMER_FILENAME = (
 )
 ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
 ANGLE_LORA_FILE = "镜头转换.safetensors"
-DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
+DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
 SIZE = (1024, 1024)
 LIGHTNING_SCHEDULER_CONFIG = {
     "base_image_seq_len": 256,
@@ -270,7 +270,7 @@ def main() -> None:
         prompt = build_camera_prompt(args.axis, value)
         camera_suffix = f"{args.axis}-{value.replace('_', '-')}"
         stem = (
-            f"p7-5-7-qwen-{args.subject_region}-{camera_suffix}-"
+            f"p7-5-2-qwen-{args.subject_region}-{camera_suffix}-"
             f"{args.run_label}-seed-{args.seed}-steps-{args.steps}"
         )
         output = output_dir / f"{stem}.png"
@@ -290,7 +290,7 @@ def main() -> None:
         image.save(output)
         record = {
             "status": "generated",
-            "experiment_id": "p7-5-7-qwen-camera-angle-2509",
+            "experiment_id": "p7-5-2-qwen-camera-angle-2509",
             "model": MODEL_ID,
             "transformer": TRANSFORMER_ID,
             "angle_lora": {"repository": ANGLE_LORA_REPO, "weight": asset_record(angle_lora)},

@@ -2,7 +2,7 @@
   "status": "generated",
   "purpose": "Deterministic common-coordinate face and full-body OpenPose relation maps for ratio adjustment.",
   "reference_direction_sheet": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-face-torso-chest-v1-seed-62294-steps-10.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-face-torso-chest-v1-seed-62294-steps-10.png",
     "sha256": "219392aef60de7a95efc5bdf8991bdc83e6e3590e968ebca403dd470ae19069d"
   },
   "prior_openpose_detection_review": null,

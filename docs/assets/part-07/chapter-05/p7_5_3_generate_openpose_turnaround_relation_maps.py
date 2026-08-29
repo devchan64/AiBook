@@ -40,10 +40,10 @@ from PIL import Image
 
 
 ASSETS = Path(__file__).resolve().parent
-# Direction inspection uses the P7-5.7 chest reference that P7-5.3 already
+# Direction inspection uses the P7-5.2 chest reference that P7-5.3 already
 # supplies to the full-body editor; the deterministic BODY_18 template itself
 # does not derive identity or body coordinates from this image.
-DEFAULT_REFERENCE = ASSETS / "p7-5-7-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
+DEFAULT_REFERENCE = ASSETS / "p7-5-2-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
 # File names encode the run, so candidate output stays directly in the chapter
 # asset root instead of creating a directory per candidate.
 DEFAULT_OUTPUT = ASSETS
