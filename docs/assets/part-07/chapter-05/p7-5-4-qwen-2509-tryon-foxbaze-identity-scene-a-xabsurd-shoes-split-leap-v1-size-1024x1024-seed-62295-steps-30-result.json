@@ -1,0 +1,48 @@
+{
+  "status": "generated",
+  "stage": "subject_first_multi_reference_tryon",
+  "execution_mode": "direct Diffusers; Qwen Image Edit 2509 compatibility probe; no ComfyUI",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "lora": {
+    "repository": "FoxBaze/Try_On_Qwen_Edit_Lora_Alpha",
+    "weight": "Try_On_Qwen_Edit_Lora.safetensors",
+    "adapter": "foxbaze_tryon"
+  },
+  "inputs": [
+    {
+      "role": "subject (first/top input)",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-direct-1280-steps50-v1-size-1280x1280-seed-62294-steps-50.png",
+      "sha256": "3bebc75f41ade6b6fc193dca9a0ec8097bbabcfdf7c5e4d6dba21d72064ae649"
+    },
+    {
+      "role": "garment (second/bottom input)",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "75629c0a730fa9d1a15d0fbfe3d07281619a0fba8499b22e7ece5139baccb3ed"
+    }
+  ],
+  "image_order": [
+    "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-direct-1280-steps50-v1-size-1280x1280-seed-62294-steps-50.png",
+    "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png"
+  ],
+  "prompt": "Style the woman in the top of the image, with every article of clothing on the bottom. She is performing a split leap.",
+  "seed": 62295,
+  "steps": 30,
+  "lora_scale": 1.0,
+  "true_cfg_scale": 2.5,
+  "guidance_scale": 1.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-tryon-foxbaze-identity-scene-a-xabsurd-shoes-split-leap-v1-size-1024x1024-seed-62295-steps-30.png",
+    "sha256": "fd0605fbbcaa9c3127eae130ad26de336a69333a07e804c705d376265641c763"
+  },
+  "elapsed_seconds": 1023.38
+}
