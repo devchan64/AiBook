@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 멀티플 뷰 생성: identity 기준과 카메라 앵글 분리하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.29`
+> Version: `v2026.08.30`
 
 같은 인물의 얼굴을 여러 방향으로 만들 때, 정면 이미지와 회전 지시를 한 prompt 안에 모두 반복하면 헤어·이목구비·화풍이 쉽게 흔들린다. 이 절은 **정면 얼굴은 identity 기준을 마련하고, 가슴 중간까지 포함한 체스트 참조는 얼굴·헤어·어깨 연결을 전달하며, 전용 다중 앵글 LoRA는 카메라 변환만 맡는** Qwen 경로를 기록한다. 전신·착장·body-only OpenPose는 [P7-5.3](section-03.md)에서 별도로 다룬다.
 
@@ -30,7 +30,7 @@
 
 정면 얼굴 생성의 기본값은 이 기준 이미지와 같은 10 step이다. 카메라 앵글 생성의 step 수까지 이 값으로 고정하지 않는다.
 
-[얼굴 identity 계약](../../../assets/part-07/chapter-05/p7-5-2-face-identity-contract.json)
+[캐릭터 identity 계약](../../../assets/part-07/chapter-05/p7-5-2-character-identity-contract.json)
 
 [얼굴 화풍 계약](../../../assets/part-07/chapter-05/p7-5-2-face-style-prompt-contract.json)
 

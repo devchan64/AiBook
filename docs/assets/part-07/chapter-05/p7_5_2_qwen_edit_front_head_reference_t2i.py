@@ -25,7 +25,7 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
 ASSETS = Path(__file__).resolve().parent
-IDENTITY_CONTRACT = ASSETS / "p7-5-2-face-identity-contract.json"
+IDENTITY_CONTRACT = ASSETS / "p7-5-2-character-identity-contract.json"
 STYLE_CONTRACT = ASSETS / "p7-5-2-face-style-prompt-contract.json"
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
