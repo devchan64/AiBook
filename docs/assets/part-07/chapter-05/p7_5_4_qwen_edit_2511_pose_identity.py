@@ -112,7 +112,13 @@ def main() -> None:
         if not pose.is_file():
             raise FileNotFoundError(pose)
         stem = f"p7-5-4-qwen-2511-pose-identity-official-camera-scene-{scene}-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
-        plans.append({"scene": scene, "pose": pose, "output": output_dir / f"{stem}.png", "result": output_dir / f"{stem}-result.json"})
+        plans.append({
+            "scene": scene,
+            "pose": pose,
+            "pose_sha256": sha256(pose),
+            "output": output_dir / f"{stem}.png",
+            "result": output_dir / f"{stem}-result.json",
+        })
     if args.dry_run:
         print(json.dumps({
             "execution_mode": "direct Diffusers; no ComfyUI or GGUF",
@@ -137,6 +143,8 @@ def main() -> None:
     )
     pipeline.enable_sequential_cpu_offload()
     output_dir.mkdir(parents=True, exist_ok=True)
+    character_sha256 = sha256(character)
+    identity_contract_sha256 = sha256(identity_contract)
     character_image = square_canvas(character, args.size)
     for plan in plans:
         started = time.monotonic()
@@ -160,11 +168,11 @@ def main() -> None:
             "runtime": runtime_record(),
             "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
             "inputs": [
-                {"role": "Picture 1: pose and framing", "path": str(plan["pose"]), "sha256": sha256(plan["pose"])},
-                {"role": "Picture 2: character identity and outfit", "path": str(character), "sha256": sha256(character)},
+                {"role": "Picture 1: pose and framing", "path": str(plan["pose"]), "sha256": plan["pose_sha256"]},
+                {"role": "Picture 2: character identity and outfit", "path": str(character), "sha256": character_sha256},
             ],
             "reference_order": "pose-character",
-            "identity_contract": {"path": str(identity_contract), "sha256": sha256(identity_contract)},
+            "identity_contract": {"path": str(identity_contract), "sha256": identity_contract_sha256},
             "camera": "not used; fixed by the input cutout",
             "generation_canvas": {"width": args.size, "height": args.size, "background": "white"},
             "base_prompt": BASE_PROMPT,

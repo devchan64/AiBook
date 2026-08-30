@@ -1,7 +1,7 @@
 # P7-5.4 스토리보드 장면에 캐릭터를 합성하는 경로
 
 > Section ID: \`P7-5.4\`
-> Version: \`v2026.08.29\`
+> Version: \`v2026.08.30\`
 
 이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 기본 경로는 Qwen-Image가 참조 없이 첫 장면을 만들고, 카메라판에서 포즈 컷아웃을 만든 뒤 Qwen Image Edit 2511로 캐릭터 identity를 이식하는 순서다. 카메라판을 바로 캐릭터로 교체한 비교는 identity를 온전히 반영하지 못해 기본 경로로 채택하지 않는다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
 
@@ -52,6 +52,8 @@ P7-5.10의 Q4_K_S GGUF 저VRAM 경로에서 1280×1280, 20 step, CFG 4.0을 사�
 
 카메라 생성기는 `--camera a|b|c`에 맞는 원본 Scene PNG를 코드 안에서 선택한다. A는 `front view elevated shot medium shot`, B는 `front-right quarter view high-angle shot medium shot`, C는 `front-left quarter view low-angle shot medium shot`이다. 따라서 다른 장면을 실수로 입력하는 문제를 줄이고, 필요할 때만 `--reference`로 명시적으로 덮어쓴다. 기본값은 seed `5420`, 20 step이다.
 
+> 주의: 8GB VRAM에 맞춘 양자화 경로는 실행 가능성을 우선한 구성이다. 방위·높이·거리 같은 카메라 의도가 모두 충분히 반영되지 않을 수 있으므로, result.json의 프롬프트·입력 매핑 확인과 별도로 PNG에서 시점 변화를 직접 비교해야 한다. 이 경로의 실행 성공만으로 카메라 지시가 충족됐다고 판단하지 않는다.
+
 ~~~bash
 # 각 카메라 preset은 대응하는 최초 Scene PNG를 자동 입력으로 쓴다.
 python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --camera a
@@ -100,6 +102,20 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --c
 세 마스크는 머리·양팔·양다리·발끝을 포함했다. 다만 Scene C 컷아웃의 오른손 끝에는 원본 배경의 작은 녹색 잔여물이 남아 있다. 이처럼 마스크가 완벽하지 않을 때는 컷아웃을 캐릭터 identity의 기준으로 쓰지 않으며, 픽셀 단위 외곽이 필요한 단계에서만 그 경계를 정제한다.
 
 흰 배경 컷아웃은 알파 채널을 보존하는 최종 합성 자산이 아니다. 현재 경로에서는 이 컷아웃을 `Picture 1`과 초기 잠재값으로 쓴다. 컷아웃은 포즈·인물 크기·프레이밍만, `Picture 2`의 캐릭터 identity 기준은 얼굴·헤어·착장만 맡도록 역할을 분리한다. 인물 레이어 보관과 빈 배경판 생성도 같은 마스크의 별도 활용이다.
+
+### 생성본에서 얼굴·헤어·착장을 함께 보강한다
+
+Scene A의 50 step 직접 이식 결과는 위 Scene A 포즈 컷아웃을 입력으로 만든 다음 단계의 Picture 1이다. 이 이미지는 포즈와 프레이밍을 이미 갖고 있으므로 다시 포즈를 설명하지 않는다. 얼굴·헤어는 정면 머리 참조를 Picture 2로, 흰 크롭 재킷·회색 이너·청록 와이드 팬츠·흰 신발은 착장 참조를 Picture 3으로 분리한다. 짧은 프롬프트는 세 이미지의 역할만 지정한다. 따라서 일반화한 전신 identity 문장으로 얼굴 특징을 덮어쓰지 않는다.
+
+| Scene A 직접 이식 결과 |
+| --- |
+| ![흰 배경 스플릿 점프 포즈에 이식된 청록 단발과 흰 크롭 재킷 착장의 Scene A 직접 이식 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-direct-1280-steps50-v1-size-1280x1280-seed-62294-steps-50.png) |
+
+[Scene A 직접 이식 result.json — JSON — 입력과 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-direct-1280-steps50-v1-size-1280x1280-seed-62294-steps-50-result.json)
+
+보강기는 Scene A를 기본 입력으로 두며, Scene B·C는 각 생성본을 `--source b=...`, `--source c=...`로 명시해 같은 세 참조 역할을 적용한다. 기본값인 50 step과 1280×1280은 바꿔 비교할 수 있다. 관찰할 점은 포즈가 다시 바뀌지 않는지, 얼굴·헤어가 정면 참조에 가까워지는지, 재킷·이너·바지·신발이 착장 참조에서 유지되는지다.
+
+[아이덴티티·착장 보강 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_refine_identity_outfit.py)
 
 ## 장면 A를 카메라판으로 고정한다
 

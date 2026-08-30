@@ -38,9 +38,9 @@ AZIMUTHS = (
 ELEVATIONS = ("low-angle shot", "eye-level shot", "elevated shot", "high-angle shot")
 DISTANCES = ("close-up", "medium shot", "wide shot")
 CAMERA_PRESETS = {
-    "a": ("front view", "elevated shot", "medium shot"),
+    "a": ("front-left quarter view", "elevated shot", "medium shot"),
     "b": ("front-right quarter view", "high-angle shot", "medium shot"),
-    "c": ("front-left quarter view", "low-angle shot", "medium shot"),
+    "c": ("front-left quarter view", "low-angle shot", "close-up"),
 }
 SCENE_REFERENCES = {
     "a": "p7-5-4-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png",

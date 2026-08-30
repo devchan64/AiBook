@@ -1,7 +1,7 @@
 # P7-5.3 캐릭터 identity와 추가 페인팅으로 특징 완성하기
 
 > Section ID: `P7-5.3`
-> Version: `v2026.08.29`
+> Version: `v2026.08.30`
 
 같은 캐릭터를 다른 장면과 자세에서도 이어 그리려면, 얼굴·착장·전신 구조를 한 이미지나 한 프롬프트에 모두 맡기지 않아야 한다. 이 절에서는 [P7-5.2](section-02.md)의 얼굴 identity를 기준으로 두고, 전신 비례·기본 의상·재킷 같은 특징을 이전 결과 위에 한 단계씩 추가 페인팅하는 Qwen 편집 경로를 기록한다. 얼굴 정면 identity와 캐릭터 멀티플 뷰 생성은 P7-5.2에서 별도로 관리한다.
 
@@ -55,6 +55,18 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 [2단계 960×1440, 30-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30-result.json)
 
+## OpenPose는 전신 비율과 프레이밍만 정한다
+
+1단계의 정면 body-only OpenPose는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지하고 다리 길이만 15% 늘린 v7 맵이다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라 전신의 머리·몸통·다리 비율과 화면 안 위치를 맞추는 기준이다.
+
+![양팔을 벌린 정면 body-only OpenPose, 다리 15% 연장](../../../assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png)
+
+[정면 v7 OpenPose 좌표 JSON](/AiBook/assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.json)
+
+[정면 v7 OpenPose result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-result.json)
+
+FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하를 다시 지정해 토르소의 얼굴형과 경쟁하므로 현재 입력에서 제외한다.
+
 ## 회전한 착장은 카메라 조건만 바꾼다
 
 방향이 바뀌면 의상이 몸을 가리는 방식이 달라진다. 이 회전 실험은 정면 2단계 착장에서 재킷·크롭티·팬츠·스니커즈·손의 가림 관계가 어떻게 바뀌는지만 대조한다. 다방향 OpenPose를 추가해 인체의 회전까지 고정하려고 하지 않았다.
@@ -76,16 +88,6 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 [2단계 착장 `yaw +45°` result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_45-multiple-angle-v1-seed-62294-steps-8-result.json)
 
 [2단계 착장 `yaw +90°` result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8-result.json)
-
-1단계의 정면 body-only OpenPose는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지하고 다리 길이만 15% 늘린 v7 맵이다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라 전신의 머리·몸통·다리 비율과 화면 안 위치를 맞추는 기준이다.
-
-![양팔을 벌린 정면 body-only OpenPose, 다리 15% 연장](../../../assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png)
-
-[정면 v7 OpenPose 좌표 JSON](/AiBook/assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.json)
-
-[정면 v7 OpenPose result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-result.json)
-
-FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하를 다시 지정해 토르소의 얼굴형과 경쟁하므로 현재 입력에서 제외한다.
 
 ## 동적 장면은 전신 기준을 조합해 시험한다
 
