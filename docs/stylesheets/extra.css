@@ -343,6 +343,84 @@
   max-width: 100%;
 }
 
+@media screen and (min-width: 45em) {
+  .md-typeset img {
+    height: auto;
+    max-height: 480px;
+    max-width: 100%;
+    width: auto;
+  }
+
+  .md-typeset img[data-aibook-expandable="true"] {
+    cursor: zoom-in;
+  }
+}
+
+.aibook-image-dialog {
+  background: color-mix(in srgb, var(--md-default-bg-color) 96%, transparent);
+  border: 0;
+  box-sizing: border-box;
+  height: 100dvh;
+  margin: 0;
+  max-height: none;
+  max-width: none;
+  padding: 2rem;
+  width: 100dvw;
+}
+
+.aibook-image-dialog::backdrop {
+  background: rgb(0 0 0 / 78%);
+}
+
+.aibook-image-dialog__figure {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  margin: 0;
+  width: 100%;
+}
+
+.aibook-image-dialog__image {
+  display: block;
+  height: auto;
+  max-height: calc(100dvh - 4rem);
+  max-width: calc(100dvw - 4rem);
+  object-fit: contain;
+  width: auto;
+}
+
+.aibook-image-dialog__close {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 999px;
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  font: inherit;
+  height: 2.25rem;
+  padding: 0;
+  position: fixed;
+  right: 1rem;
+  top: 1rem;
+  width: 2.25rem;
+}
+
+.aibook-image-dialog__close:hover,
+.aibook-image-dialog__close:focus-visible {
+  background: var(--md-accent-fg-color--transparent);
+}
+
+@media screen and (max-width: 44.9375em) {
+  .aibook-image-dialog {
+    padding: 1rem;
+  }
+
+  .aibook-image-dialog__image {
+    max-height: calc(100dvh - 2rem);
+    max-width: calc(100dvw - 2rem);
+  }
+}
+
 @media screen and (max-width: 76.1875em) {
   .md-content__inner {
     --aibook-line-gutter: 1.75rem;
