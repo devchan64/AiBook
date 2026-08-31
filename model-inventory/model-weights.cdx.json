@@ -81,7 +81,7 @@
   ],
   "dependencies": [
     {"ref": "model:qwen-image", "dependsOn": ["weight:nunchaku-qwen-image-fp4-r128", "weight:unsloth-qwen-image-q4-ks-gguf"]},
-    {"ref": "model:qwen-image-edit-2509", "dependsOn": []},
+    {"ref": "model:qwen-image-edit-2509", "dependsOn": ["weight:foxbaze-try-on-qwen-edit-alpha"]},
     {"ref": "model:qwen-image-edit-2511", "dependsOn": ["weight:comfy-qwen-image-text-encoder-fp8", "weight:comfy-qwen-image-vae", "weight:unsloth-qwen-image-edit-2511-q4-0-gguf", "weight:fal-qwen-image-edit-2511-multiple-angles", "weight:lightx2v-qwen-image-edit-2511-lightning-4steps"]}
   ]
 }

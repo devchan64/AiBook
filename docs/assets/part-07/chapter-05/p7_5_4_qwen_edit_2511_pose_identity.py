@@ -26,9 +26,8 @@ PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 DEFAULT_CHARACTER = ASSETS / "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png"
-DEFAULT_IDENTITY_CONTRACT = ASSETS / "p7-5-2-character-identity-contract.json"
 POSES = {
-    "a": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-a-v4.png",
+    "a": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-a-v5.png",
     "b": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-b-v6.png",
     "c": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-c-v5.png",
 }
@@ -83,7 +82,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scenes", nargs="+", choices=tuple(POSES), default=("a", "b", "c"))
     parser.add_argument("--character", type=Path, default=DEFAULT_CHARACTER)
-    parser.add_argument("--identity-contract", type=Path, default=DEFAULT_IDENTITY_CONTRACT)
+    parser.add_argument("--identity-contract", type=Path, help="Optional JSON containing outfit_identity_description.")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=20)
     parser.add_argument("--size", type=int, default=1280, help="Square input/output canvas edge in pixels.")
@@ -100,11 +99,11 @@ def main() -> None:
     character = args.character.resolve()
     if not character.is_file():
         raise FileNotFoundError(character)
-    identity_contract = args.identity_contract.resolve()
-    if not identity_contract.is_file():
+    identity_contract = args.identity_contract.resolve() if args.identity_contract else None
+    if identity_contract is not None and not identity_contract.is_file():
         raise FileNotFoundError(identity_contract)
-    outfit_identity = load_outfit_identity(identity_contract)
-    prompt = f"{BASE_PROMPT} {outfit_identity}"
+    outfit_identity = load_outfit_identity(identity_contract) if identity_contract else None
+    prompt = f"{BASE_PROMPT} {outfit_identity}" if outfit_identity else BASE_PROMPT
     output_dir = args.output_dir.resolve()
     plans = []
     for scene in dict.fromkeys(args.scenes):
@@ -144,7 +143,7 @@ def main() -> None:
     pipeline.enable_sequential_cpu_offload()
     output_dir.mkdir(parents=True, exist_ok=True)
     character_sha256 = sha256(character)
-    identity_contract_sha256 = sha256(identity_contract)
+    identity_contract_sha256 = sha256(identity_contract) if identity_contract else None
     character_image = square_canvas(character, args.size)
     for plan in plans:
         started = time.monotonic()
@@ -172,7 +171,10 @@ def main() -> None:
                 {"role": "Picture 2: character identity and outfit", "path": str(character), "sha256": character_sha256},
             ],
             "reference_order": "pose-character",
-            "identity_contract": {"path": str(identity_contract), "sha256": identity_contract_sha256},
+            "identity_contract": (
+                {"path": str(identity_contract), "sha256": identity_contract_sha256}
+                if identity_contract else None
+            ),
             "camera": "not used; fixed by the input cutout",
             "generation_canvas": {"width": args.size, "height": args.size, "background": "white"},
             "base_prompt": BASE_PROMPT,

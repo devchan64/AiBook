@@ -20,8 +20,8 @@
   "inputs": [
     {
       "role": "Picture 1: pose and framing",
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-a-v4.png",
-      "sha256": "e71e21e58e9e8a07d2743ba0524363859fbd51ccc92f8547d46a6b5d4ce9c6a1"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-a-v5.png",
+      "sha256": "d71368a2f5e18c344fbc7a6f210b04776a320a5c5aa90a2c4ad3ff0f9c3b06b5"
     },
     {
       "role": "Picture 2: character identity and outfit",
@@ -30,6 +30,7 @@
     }
   ],
   "reference_order": "pose-character",
+  "identity_contract": null,
   "camera": "not used; fixed by the input cutout",
   "generation_canvas": {
     "width": 1280,
@@ -37,15 +38,17 @@
     "background": "white"
   },
   "base_prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose.",
+  "outfit_identity": null,
+  "prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose.",
   "seed": 62294,
   "steps": 50,
   "true_cfg_scale": 4.0,
   "guidance_scale": 1.0,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-direct-1280-steps50-v1-size-1280x1280-seed-62294-steps-50.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-direct-v2-size-1280x1280-seed-62294-steps-50.png",
     "width": 1280,
     "height": 1280,
-    "sha256": "3bebc75f41ade6b6fc193dca9a0ec8097bbabcfdf7c5e4d6dba21d72064ae649"
+    "sha256": "d332b6507bd8023b22a39b6d212c09914a030a3b48abb749efd9ffaae6162ac0"
   },
-  "elapsed_seconds": 1894.76
+  "elapsed_seconds": 1885.43
 }

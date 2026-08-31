@@ -30,17 +30,17 @@
   },
   "camera_preset": "a",
   "camera": {
-    "azimuth": "front view",
+    "azimuth": "front-left quarter view",
     "elevation": "elevated shot",
     "distance": "medium shot"
   },
-  "prompt": "<sks> front view elevated shot medium shot",
+  "prompt": "<sks> front-left quarter view elevated shot medium shot",
   "prompt_format": "<sks> [azimuth] [elevation] [distance]",
   "seed": 5420,
   "steps": 20,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-front-view-elevated-shot-medium-shot-official-scene-a-v4-seed-5420-steps-20.png",
-    "sha256": "a2040db8f2e609d5b0a65ac3a1baef95a2dd89b2a9e47e68a19f0bd27f7821d0"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-elevated-shot-medium-shot-official-direct-v2-seed-5420-steps-20.png",
+    "sha256": "aa0de46118383580f0d3f4b3f4fff639e183e1217a030e93de22cfb32a859151"
   },
-  "elapsed_seconds": 274.47
+  "elapsed_seconds": 284.42
 }
