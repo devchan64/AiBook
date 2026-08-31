@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Apply the character reference to the P7-5.4 A/B/C pose cutouts.
+"""Apply the character reference to P7-5.4 layout images.
 
 This follows the official Qwen-Image-Edit-2511 multi-image Diffusers example.
-Picture 1 supplies pose and framing; Picture 2 supplies character identity and
-outfit. Camera control was completed before these cutouts, so this runner uses
-no camera LoRA, GGUF transformer, ComfyUI graph, or latent override.
+Picture 1 supplies the layout: a pose cutout or an already fixed camera image.
+Picture 2 supplies character identity and outfit. Camera control was completed
+before this edit, so this runner uses no camera LoRA, GGUF transformer, ComfyUI
+graph, or latent override.
 """
 
 from __future__ import annotations
@@ -180,8 +181,12 @@ def main() -> None:
                 {"path": str(identity_contract), "sha256": identity_contract_sha256}
                 if identity_contract else None
             ),
-            "camera": "not used; fixed by the input cutout",
-            "generation_canvas": {"width": args.size, "height": args.size, "background": "white"},
+            "camera": "not used; fixed by Picture 1",
+            "generation_canvas": {
+                "width": args.size,
+                "height": args.size,
+                "background": "determined by Picture 1",
+            },
             "base_prompt": BASE_PROMPT,
             "outfit_identity": outfit_identity,
             "prompt": prompt,

@@ -3,7 +3,7 @@
 > Section ID: \`P7-5.4\`
 > Version: \`v2026.08.31\`
 
-이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 기본 경로는 Qwen-Image가 참조 없이 첫 장면을 만들고, 카메라판에서 포즈 컷아웃을 만든 뒤 Qwen Image Edit 2511로 캐릭터 identity를 이식하는 순서다. 카메라판을 바로 캐릭터로 교체한 비교는 identity를 온전히 반영하지 못해 기본 경로로 채택하지 않는다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
+이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 기본 경로는 Qwen-Image가 참조 없이 첫 장면을 만들고, 카메라판에서 포즈 컷아웃을 만든 뒤 Qwen Image Edit 2511로 캐릭터 identity를 이식하는 순서다. 카메라판을 곧바로 원본 캐릭터 참조로 교체하는 방식은 identity를 온전히 반영하지 못해 기본 경로로 채택하지 않는다. 다만 포즈와 착장을 먼저 단일 인물 결과로 정리한 뒤에는, 그 결과를 두 번째 입력으로 하여 카메라판의 인물 자리에 다시 이식할 수 있다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
 
 ## 한 모델이 아니라 역할이 다른 일곱 구성 요소
 
@@ -13,6 +13,7 @@ P7-5.4의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니
 | --- | --- | --- |
 | `Qwen/Qwen-Image` Q4_K_S GGUF + ComfyUI-GGUF | 장면 A·B·C의 최초 RGB 스토리보드 생성 | 텍스트 장면 계약 → 스토리보드 |
 | `Qwen/Qwen-Image-Edit-2511` + Multiple-angles LoRA | 카메라판의 방위·높이·거리 변환 | 스토리보드 한 장 → 카메라판 한 장 |
+| `Qwen/Qwen-Image-Edit-2511` | 카메라판의 인물 자리에 단일 인물 Try-On 결과 이식 | 카메라판·단일 인물 → 배경이 포함된 장면 한 장 |
 | Grounding DINO Tiny | `a woman`, `a person` 텍스트로 인물 상자 탐색 | 카메라판 → 인물 상자 |
 | SAM 2.1 Hiera Small | 선택된 상자를 흰색 인물 마스크로 정밀화 | 인물 상자·카메라판 → 마스크 |
 | LaMa ONNX | 마스크 영역만 메워 빈 배경판 생성 | 카메라판·마스크 → 배경판 |
@@ -155,6 +156,20 @@ Try-On의 `Picture 1`은 바로 위 직접 이식 결과로, 포즈·얼굴·헤
 [FoxBaze Try-On 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_tryon_foxbaze.py)
 
 [Scene A Try-On result.json — JSON — Picture 1·Picture 2 입력, LoRA와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-tryon-foxbaze-subject-only-v1-size-1280x1280-seed-62294-steps-30-result.json)
+
+### 카메라 A의 인물 자리에 Try-On 결과를 이식한다
+
+여기서는 카메라 A를 다시 생성하지 않는다. 공식 `Qwen/Qwen-Image-Edit-2511`의 두 이미지 편집에서 카메라 A를 `Picture 1`로 넣어 해안 배경·화면 안의 인물 위치·점프 구도를 맡기고, 바로 위의 단일 인물 Try-On 결과를 `Picture 2`로 넣어 얼굴·헤어·재킷·이너·바지·신발을 맡긴다. 프롬프트는 `Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose.` 한 문장만 쓴다. Multiple-angles LoRA와 추가 카메라 지시는 이 단계에 넣지 않는다.
+
+| Scene A 카메라판에 이식한 Try-On 인물 |
+| --- |
+| ![해안 절벽 카메라판의 공중 스플릿 점프 인물 자리에 흰 크롭 재킷, 회색 이너, 청록 바지와 흰 신발을 이식한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-tryon-camera-replace-v1-size-1280x1280-seed-62294-steps-20.png) |
+
+실행은 1280×1280, seed `62294`, 20 step, true CFG `4.0`이며 순차 CPU 오프로딩을 사용했다. 결과에서 확인할 항목은 인물이 한 명만 남는지, 카메라 A의 해안 배경과 점프 구도가 남는지, 그리고 Try-On 결과의 흰 재킷·회색 이너·청록 바지·흰 신발이 함께 유지되는지다. 그림자의 원근과 정확한 접지감은 이 이식 단계만으로 확정하지 않는다.
+
+[Qwen 2511 카메라판 인물 이식 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py)
+
+[Scene A 카메라판 Try-On 이식 result.json — JSON — Picture 1·Picture 2 입력과 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-tryon-camera-replace-v1-size-1280x1280-seed-62294-steps-20-result.json)
 
 ## 장면 A를 카메라판으로 고정한다
 

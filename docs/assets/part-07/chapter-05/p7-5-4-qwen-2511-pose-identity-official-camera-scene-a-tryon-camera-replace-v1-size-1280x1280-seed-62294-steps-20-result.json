@@ -1,0 +1,54 @@
+{
+  "status": "generated",
+  "stage": "camera_character_replacement",
+  "execution_mode": "direct Diffusers; official QwenImageEditPlusPipeline; no ComfyUI or GGUF",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "dtype": "bfloat16",
+    "device_placement": "sequential_cpu_offload"
+  },
+  "inputs": [
+    {
+      "role": "Picture 1: pose and framing",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-eye-level-shot-medium-shot-official-direct-seed-5420-steps-20.png",
+      "sha256": "3fd7324d8541fa2b5c5cdd42272e6a43df7ef9a9ce6c17b16767076eb7b7e5c8"
+    },
+    {
+      "role": "Picture 2: character identity and outfit",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-tryon-foxbaze-subject-only-v1-size-1280x1280-seed-62294-steps-30.png",
+      "sha256": "6ec182c41a38957667480f6e90431d461ed893a6364148bc38a2c05a4980a2a6"
+    }
+  ],
+  "reference_order": "pose-character",
+  "identity_contract": null,
+  "camera": "not used; fixed by Picture 1",
+  "generation_canvas": {
+    "width": 1280,
+    "height": 1280,
+    "background": "determined by Picture 1"
+  },
+  "base_prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose.",
+  "outfit_identity": null,
+  "prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose.",
+  "seed": 62294,
+  "steps": 20,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-tryon-camera-replace-v1-size-1280x1280-seed-62294-steps-20.png",
+    "width": 1280,
+    "height": 1280,
+    "sha256": "9d1da0d53c6e1ab1e0f50e755d50ea576720e5806fdc116d0f36b9e2d2ae4c70"
+  },
+  "elapsed_seconds": 800.61
+}
