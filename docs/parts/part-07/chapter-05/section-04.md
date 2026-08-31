@@ -103,6 +103,20 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --c
 
 흰 배경 컷아웃은 알파 채널을 보존하는 최종 합성 자산이 아니다. 현재 경로에서는 이 컷아웃을 `Picture 1`과 초기 잠재값으로 쓴다. 컷아웃은 포즈·인물 크기·프레이밍만, `Picture 2`의 캐릭터 identity 기준은 얼굴·헤어·착장만 맡도록 역할을 분리한다. 인물 레이어 보관과 빈 배경판 생성도 같은 마스크의 별도 활용이다.
 
+### 착장과 신발을 흰 배경 기준물로 분리한다
+
+컷아웃이 포즈와 프레이밍을 고정한 다음에는, 착장 자체를 사람·배경과 분리해 확인할 수 있다. Xabsurd Clothing Extractor는 P7-5.3의 `-45°` 2단계 착장 이미지를 하나의 입력으로 받아, 흰 배경에 재킷·회색 이너·청록 바지·한 쌍의 흰 신발만 남긴 1280×1280 기준물을 만들었다. 이 결과는 사람을 새로 그리거나 포즈를 바꾸는 단계가 아니다. [Xabsurd Clothing Extractor 모델 카드](https://huggingface.co/Xabsurd/Clothing-Extractor){: target="_blank" rel="noopener noreferrer"}
+
+| 착장·신발 추출 결과 |
+| --- |
+| ![흰 배경에 분리된 흰 크롭 재킷, 회색 이너, 청록 와이드 팬츠와 한 쌍의 흰 신발](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png) |
+
+[착장·신발 추출 result.json — JSON — 입력 착장, 프롬프트와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10-result.json)
+
+Qwen Image Edit 2511과 Xabsurd LoRA를 직접 Diffusers 경로에서 seed `62294`, 10 step, true CFG `4.0`으로 실행했다. 출력에는 의류와 신발이 함께 남지만, 현재 Scene A 직접 identity 이식의 `Picture 2`는 이 추출본이 아니라 P7-5.3 2단계 착장 PNG다. 따라서 이 추출본은 현재 경로의 독립 검수 기준물로 유지하며, 후속 단계의 입력으로 채택하려면 별도의 result.json으로 연결 관계를 다시 검증해야 한다.
+
+[Xabsurd 착장·신발 추출 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_extract_outfit_gear.py)
+
 ### 직접 이식 결과를 기준으로 검수한다
 
 Scene A의 50 step 직접 이식 결과는 위 Scene A 포즈 컷아웃을 입력으로 만든 결과다. 이 이미지는 포즈와 프레이밍을 이미 갖고 있으므로 다시 포즈를 설명하지 않는다. 이전의 얼굴·헤어·착장 보강 실험은 현재 경로에서 제외했으며, 아래 결과는 다음 단계의 비교 기준으로만 사용한다.
