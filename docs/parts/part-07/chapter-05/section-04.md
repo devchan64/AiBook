@@ -19,9 +19,9 @@ P7-5.4의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니
 | LaMa ONNX | 마스크 영역만 메워 빈 배경판 생성 | 카메라판·마스크 → 배경판 |
 | `Qwen/Qwen-Image-Edit-2509` + Nunchaku FP4 r128 transformer | 캐릭터 포즈 이식과 마지막 광원·화풍 통일 | 포즈 참조·착장 또는 합성본 → 캐릭터·최종 장면 |
 | `Qwen/Qwen-Image-Edit-2509` + FoxBaze Try-On LoRA | 분리된 착장 기준물을 한 명의 포즈 인물에 다시 입힘 | 인물 한 장·착장 한 장 → 단일 인물 한 장 |
-| `Qwen/Qwen-Image-Edit-2509` + Light Restoration V2 LoRA + Lightning V1.0 | 통합 장면의 방향광 색조와 과도한 하이라이트를 중립화 | 방향광이 적용된 Try-On·배경 통합 장면 → 중립 광원 장면 |
+| `Qwen/Qwen-Image-Edit-2509` + Studio DeLight LoRA | 통합 장면의 방향광 색조를 중립화 | 방향광이 적용된 Try-On·배경 통합 장면 → 중립 광원 장면 |
 
-`Qwen-Image`는 텍스트에서 이미지를 만드는 기반 모델이고, 이 절에서는 스토리보드만 맡긴다. 이번 A·B·C 첫 장면은 P7-5.10에서 검증한 Q4_K_S GGUF 저VRAM 경로로 생성했다. `Qwen-Image-Edit-2509`은 한 장에서 세 장까지의 이미지 입력을 조합해 편집할 수 있어 포즈 참조와 착장을 역할별로 나누는 단계에 쓴다. Q4 GGUF와 Nunchaku FP4 r128은 각각 로컬 GPU에서 실행하기 위한 양자화 형식이며, 캐릭터나 카메라 규칙을 새로 추가하는 모델은 아니다. FoxBaze Try-On LoRA는 이 편집 파이프라인에서 두 번째 입력을 착장 기준물로 해석하도록 보강한다. Light Restoration V2 LoRA는 조명 설계가 아니라 이미 생긴 방향광의 색조와 광택을 줄이는 마지막 중립화 단계다. [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Nunchaku Qwen-Image-Edit-2509 배포](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"} · [FoxBaze Try-On LoRA 모델 카드](https://huggingface.co/FoxBaze/Try_On_Qwen_Edit_Lora_Alpha){: target="_blank" rel="noopener noreferrer"} · [Light Restoration 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Light_restoration){: target="_blank" rel="noopener noreferrer"}
+`Qwen-Image`는 텍스트에서 이미지를 만드는 기반 모델이고, 이 절에서는 스토리보드만 맡긴다. 이번 A·B·C 첫 장면은 P7-5.10에서 검증한 Q4_K_S GGUF 저VRAM 경로로 생성했다. `Qwen-Image-Edit-2509`은 한 장에서 세 장까지의 이미지 입력을 조합해 편집할 수 있어 포즈 참조와 착장을 역할별로 나누는 단계에 쓴다. Q4 GGUF와 Nunchaku FP4 r128은 각각 로컬 GPU에서 실행하기 위한 양자화 형식이며, 캐릭터나 카메라 규칙을 새로 추가하는 모델은 아니다. FoxBaze Try-On LoRA는 이 편집 파이프라인에서 두 번째 입력을 착장 기준물로 해석하도록 보강한다. Studio DeLight LoRA는 이미 생긴 방향광을 균일한 스튜디오 광원으로 중립화하는 마지막 단계다. 모델 카드는 2511을 기본 모델로 제시하면서 2509·2511 호환도 명시한다. 이 절에서는 2509 경로로 검증했다. [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Nunchaku Qwen-Image-Edit-2509 배포](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"} · [FoxBaze Try-On LoRA 모델 카드](https://huggingface.co/FoxBaze/Try_On_Qwen_Edit_Lora_Alpha){: target="_blank" rel="noopener noreferrer"} · [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}
 
 카메라판에는 공식 `Qwen/Qwen-Image-Edit-2511` Diffusers 파이프라인과 Multiple-angles LoRA만 사용한다. 8 GB VRAM 환경에서는 가중치를 순차 CPU 오프로딩하고, 모델 카드가 정한 순서대로 `<sks> [azimuth] [elevation] [distance]` 세 항을 한 프롬프트에 넣는다. 이 단계는 캐릭터 identity를 새로 정하는 것이 아니라 장면의 카메라 조건을 바꾸는 단계다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} · [Multiple-angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
@@ -172,21 +172,21 @@ Try-On의 `Picture 1`은 바로 위 직접 이식 결과로, 포즈·얼굴·헤
 
 [Scene A 카메라판 Try-On 이식 result.json — JSON — Picture 1·Picture 2 입력과 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-tryon-camera-replace-v1-size-1280x1280-seed-62294-steps-20-result.json)
 
-### 방향광을 중립화해 통합 장면의 색조를 정리한다
+### Studio DeLight로 통합 장면의 방향광을 중립화한다
 
-Try-On 인물을 배경에 이식한 뒤에는 합성 단계에서 더해진 방향광이 캐릭터와 배경을 서로 다른 색조로 보이게 할 수 있다. 여기서는 바로 위 Try-On·배경 통합 결과에 상단 우측의 따뜻한 방향광을 추가한 이미지를 입력으로 두고, `dx8152/Qwen-Image-Edit-2509-Light_restoration`의 V2 LoRA로 그 색조와 과도한 하이라이트를 중립화했다. V2의 모델 카드 고정 프롬프트는 `移除光影,使用柔和光线（无明显光斑和阴影）对图片进行重新照明`이다.
+Try-On 인물을 배경에 이식한 뒤에는 합성 단계에서 더해진 방향광이 캐릭터와 배경을 서로 다른 색조로 보이게 할 수 있다. 여기서는 바로 위 Try-On·배경 통합 결과에 상단 우측의 따뜻한 방향광을 추가한 이미지를 입력으로 두고, `prithivMLmods/QIE-2511-Studio-DeLight` LoRA로 균일한 중립 광원으로 바꿨다. 모델 카드의 trigger prompt는 `Neutral uniform lighting Preserve identity and composition`이다.
 
-| 방향광이 적용된 Try-On·배경 통합 장면 | 디라이트 V2 결과 |
+| 방향광이 적용된 Try-On·배경 통합 장면 | Studio DeLight 결과 |
 | --- | --- |
-| ![상단 우측의 따뜻한 방향광이 적용된 해안 배경의 Try-On 통합 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-upper-right-v1-size-1280x1280-seed-62294-steps-10.png) | ![따뜻한 하이라이트를 줄이고 중립 광원으로 정리한 Try-On 배경 통합 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-light-restoration-camera-a-upper-right-relight-v2-card-prompt-size-1024x1024-seed-62294-steps-8.png) |
+| ![상단 우측의 따뜻한 방향광이 적용된 해안 배경의 Try-On 통합 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-upper-right-v1-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 방향광을 중립화한 Try-On 배경 통합 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-camera-a-upper-right-relight-v1-size-1024x1024-seed-62294-steps-10.png) |
 
-왼쪽의 머리카락·재킷·바지에 있던 황금색 림 라이트가 오른쪽에서는 줄어들고, 인물의 포즈·착장·해안 배경의 구조는 유지됐다. 다만 이 단계는 지면의 구조 그림자를 지우거나 새 그림자를 설계하는 기능이 아니다. 남아 있는 지면 그림자는 이후 장면의 광원 연출에서 별도로 검수한다.
+왼쪽의 황금색 방향광은 오른쪽에서 균일한 광원으로 바뀌고, 인물의 포즈·착장은 유지됐다. 다만 야외 장면에서는 모델 카드가 경고한 것처럼 강한 햇빛도 중립화돼 하늘이 거의 흰색으로 바뀐다. 따라서 이 출력은 디라이트가 실제로 적용된 검증 결과이며, 해안 배경의 색을 보존해야 하는 최종 장면으로는 채택하지 않는다. 이 단계는 지면 그림자를 지우거나 새 그림자를 설계하는 기능도 아니다.
 
-실행은 Qwen Image Edit 2509 bfloat16 직접 Diffusers 경로에서 순차 CPU 오프로딩을 사용해, Qwen Image Lightning 8-step V1.0과 Light Restoration V2를 함께 적용했다. 캔버스는 1024×1024, seed `62294`, 8 step, true CFG `1.0`이다.
+실행은 Qwen Image Edit 2509 bfloat16 직접 Diffusers 경로에서 순차 CPU 오프로딩을 사용해 Studio DeLight LoRA 하나만 적용했다. 캔버스는 1024×1024, seed `62294`, 10 step, true CFG `4.0`이다.
 
-[디라이트 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_light_restoration.py)
+[Studio DeLight 2509 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_studio_delight.py)
 
-[디라이트 result.json — JSON — 방향광 입력, V2 고정 프롬프트와 LoRA 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-light-restoration-camera-a-upper-right-relight-v2-card-prompt-size-1024x1024-seed-62294-steps-8-result.json)
+[Studio DeLight result.json — JSON — 방향광 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-camera-a-upper-right-relight-v1-size-1024x1024-seed-62294-steps-10-result.json)
 
 ### 전역 얼굴·헤어 이식은 기준 경로로 채택하지 않는다
 
