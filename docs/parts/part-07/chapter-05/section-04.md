@@ -115,20 +115,6 @@ Scene A의 50 step 직접 이식 결과는 위 Scene A 포즈 컷아웃을 입�
 
 관찰할 점은 포즈가 다시 바뀌지 않는지, 얼굴·헤어·재킷·이너·바지·신발의 형태가 다음 이식 단계에서 유지되는지다.
 
-### 추출한 착장을 subject-first 입력으로 다시 입힌다
-
-포즈와 캐릭터가 이미 있는 PNG의 착장만 보완하려면, 착장 참조를 곧바로 인물 사진에 덮어 쓰기보다 두 입력의 순서를 고정해 검증한다. 여기서는 앞 절의 Scene A 직접 이식 결과를 첫 번째(subject) 입력으로, Xabsurd 추출기로 만든 흰 배경 착장·신발 PNG를 두 번째(garment) 입력으로 사용했다. FoxBaze Try-On LoRA의 모델 카드가 제시한 subject-first 입력 순서와 기본 지시를 따르고, 동작 조건은 `She is performing a split leap.` 한 문장만 덧붙였다. [FoxBaze Try-On LoRA 모델 카드](https://huggingface.co/FoxBaze/Try_On_Qwen_Edit_Lora_Alpha){: target="_blank" rel="noopener noreferrer"}
-
-| Scene A 30 step 착장 이식 |
-| --- |
-| ![스플릿 점프 포즈에 흰 크롭 재킷, 회색 이너, 청록 와이드 팬츠와 흰 신발을 다시 입힌 FoxBaze 착장 이식 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-tryon-foxbaze-identity-scene-a-xabsurd-shoes-split-leap-v1-size-1024x1024-seed-62295-steps-30.png) |
-
-[FoxBaze 30 step result.json — JSON — subject·garment 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-tryon-foxbaze-identity-scene-a-xabsurd-shoes-split-leap-v1-size-1024x1024-seed-62295-steps-30-result.json)
-
-이 실행은 Qwen Image Edit 2509의 직접 Diffusers 경로에서 1024×1024, seed `62295`, 30 step, true CFG `2.5`로 완료됐다. PNG에서는 스플릿 점프 실루엣과 흰 크롭 재킷·회색 이너·청록 와이드 팬츠·흰 신발이 함께 남는다. 다만 한 장의 결과만으로 다른 포즈나 다른 착장에도 같은 보존을 일반화하지 않는다. 다음 장면에 쓰기 전에는 result.json의 두 입력 순서와 실제 PNG의 의상·신발·손발을 함께 검수한다.
-
-[FoxBaze subject-first 착장 이식 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_tryon_foxbaze.py)
-
 ## 장면 A를 카메라판으로 고정한다
 
 먼저 해안 절벽 장면을 만들고, 완만한 높은 시점의 와이드 카메라판 한 장을 선택한다. 이 카메라판은 이후 포즈와 배경의 공통 기준이다.
