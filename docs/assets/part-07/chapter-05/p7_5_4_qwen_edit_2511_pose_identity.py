@@ -27,7 +27,7 @@ CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 DEFAULT_CHARACTER = ASSETS / "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png"
 POSES = {
-    "a": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-a-v5.png",
+    "a": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png",
     "b": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-b-v6.png",
     "c": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-c-v5.png",
 }
@@ -82,6 +82,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scenes", nargs="+", choices=tuple(POSES), default=("a", "b", "c"))
     parser.add_argument("--character", type=Path, default=DEFAULT_CHARACTER)
+    parser.add_argument("--pose", type=Path, help="Optional Picture 1 override; requires exactly one scene.")
+    parser.add_argument("--pose-suffix", default="", help="Optional short preservation instruction appended to the baseline prompt.")
     parser.add_argument("--identity-contract", type=Path, help="Optional JSON containing outfit_identity_description.")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=20)
@@ -97,17 +99,20 @@ def main() -> None:
     if args.size < 32 or args.size % 32:
         parser.error("--size must be a multiple of 32")
     character = args.character.resolve()
+    if args.pose is not None and len(args.scenes) != 1:
+        parser.error("--pose requires exactly one scene")
     if not character.is_file():
         raise FileNotFoundError(character)
     identity_contract = args.identity_contract.resolve() if args.identity_contract else None
     if identity_contract is not None and not identity_contract.is_file():
         raise FileNotFoundError(identity_contract)
     outfit_identity = load_outfit_identity(identity_contract) if identity_contract else None
-    prompt = f"{BASE_PROMPT} {outfit_identity}" if outfit_identity else BASE_PROMPT
+    prompt_parts = [BASE_PROMPT, args.pose_suffix.strip(), outfit_identity]
+    prompt = " ".join(part for part in prompt_parts if part)
     output_dir = args.output_dir.resolve()
     plans = []
     for scene in dict.fromkeys(args.scenes):
-        pose = POSES[scene].resolve()
+        pose = args.pose.resolve() if args.pose is not None else POSES[scene].resolve()
         if not pose.is_file():
             raise FileNotFoundError(pose)
         stem = f"p7-5-4-qwen-2511-pose-identity-official-camera-scene-{scene}-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"

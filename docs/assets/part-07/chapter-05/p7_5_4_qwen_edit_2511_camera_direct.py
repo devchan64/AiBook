@@ -38,7 +38,7 @@ AZIMUTHS = (
 ELEVATIONS = ("low-angle shot", "eye-level shot", "elevated shot", "high-angle shot")
 DISTANCES = ("close-up", "medium shot", "wide shot")
 CAMERA_PRESETS = {
-    "a": ("front-left quarter view", "elevated shot", "medium shot"),
+    "a": ("front-left quarter view", "eye-level shot", "medium shot"),
     "b": ("front-right quarter view", "high-angle shot", "medium shot"),
     "c": ("front-left quarter view", "low-angle shot", "close-up"),
 }

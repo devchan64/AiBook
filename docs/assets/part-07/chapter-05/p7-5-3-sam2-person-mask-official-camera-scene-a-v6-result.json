@@ -11,8 +11,8 @@
     }
   },
   "input": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-elevated-shot-medium-shot-official-direct-v2-seed-5420-steps-20.png",
-    "sha256": "aa0de46118383580f0d3f4b3f4fff639e183e1217a030e93de22cfb32a859151"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-eye-level-shot-medium-shot-official-direct-seed-5420-steps-20.png",
+    "sha256": "3fd7324d8541fa2b5c5cdd42272e6a43df7ef9a9ce6c17b16767076eb7b7e5c8"
   },
   "input_role": "stage_2_camera_angle",
   "grounding_prompt": [
@@ -21,22 +21,22 @@
   ],
   "selected_detection": {
     "label": "a woman a person",
-    "score": 0.3825,
+    "score": 0.3978,
     "box_xyxy": [
-      183.42,
-      185.87,
-      851.66,
-      516.6
+      180.92,
+      183.61,
+      852.49,
+      520.8
     ]
   },
   "mask_semantics": "white=person to repaint; black=preserve",
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v5.png",
-    "sha256": "52975a8cc753d174a5a32ebe23ad453f43c86c215df30f31161bcf9389a2ae32"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v6.png",
+    "sha256": "7265302cd3c6a49cdea2dab29ab0df1853e00e9463129b5d320cba48321045f1"
   },
   "overlay": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v5-overlay.png",
-    "sha256": "a1713991d5975d723d2fa6a1cabf26293ac49f71dbe989eae78fbcf000e94005"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v6-overlay.png",
+    "sha256": "d2d65da1838a35e90af8a5e530235f9502193ddcc475db3a7410c7c0c46e96b8"
   },
   "runtime": {
     "python": "3.12.3",
@@ -45,5 +45,5 @@
     "torch": "2.11.0+cu128",
     "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
   },
-  "elapsed_seconds": 3.22
+  "elapsed_seconds": 2.84
 }

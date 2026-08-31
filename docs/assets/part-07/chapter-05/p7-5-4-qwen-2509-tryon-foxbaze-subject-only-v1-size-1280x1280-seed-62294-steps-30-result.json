@@ -1,0 +1,48 @@
+{
+  "status": "generated",
+  "stage": "subject_only_tryon",
+  "execution_mode": "direct Diffusers; Qwen Image Edit 2509; no ComfyUI",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "lora": {
+    "repository": "FoxBaze/Try_On_Qwen_Edit_Lora_Alpha",
+    "weight": "Try_On_Qwen_Edit_Lora.safetensors",
+    "adapter": "foxbaze_tryon"
+  },
+  "inputs": [
+    {
+      "role": "subject and sole output (Picture 1)",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-cutout-shadow-v1-size-1280x1280-seed-62294-steps-20.png",
+      "sha256": "01a99ef5ec2821882af10c6f3073156ce450fe1a1f68c1124575cea6c212eead"
+    },
+    {
+      "role": "garment reference only (Picture 2)",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "75629c0a730fa9d1a15d0fbfe3d07281619a0fba8499b22e7ece5139baccb3ed"
+    }
+  ],
+  "prompt": "A single full-body image of the woman in Picture 1, wearing every article of clothing from Picture 2",
+  "seed": 62294,
+  "steps": 30,
+  "lora_scale": 1.0,
+  "true_cfg_scale": 2.5,
+  "guidance_scale": 1.0,
+  "generation_canvas": [
+    1280,
+    1280
+  ],
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-tryon-foxbaze-subject-only-v1-size-1280x1280-seed-62294-steps-30.png",
+    "sha256": "6ec182c41a38957667480f6e90431d461ed893a6364148bc38a2c05a4980a2a6"
+  },
+  "elapsed_seconds": 1295.78
+}
