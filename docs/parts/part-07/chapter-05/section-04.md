@@ -1,11 +1,11 @@
 # P7-5.4 스토리보드 장면에 캐릭터를 합성하는 경로
 
 > Section ID: \`P7-5.4\`
-> Version: \`v2026.08.31\`
+> Version: \`v2026.09.01\`
 
 이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 기본 경로는 Qwen-Image가 참조 없이 첫 장면을 만들고, 카메라판에서 포즈 컷아웃을 만든 뒤 Qwen Image Edit 2511로 캐릭터 identity를 이식하는 순서다. 카메라판을 곧바로 원본 캐릭터 참조로 교체하는 방식은 identity를 온전히 반영하지 못해 기본 경로로 채택하지 않는다. 다만 포즈와 착장을 먼저 단일 인물 결과로 정리한 뒤에는, 그 결과를 두 번째 입력으로 하여 카메라판의 인물 자리에 다시 이식할 수 있다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
 
-## 한 모델이 아니라 역할이 다른 일곱 구성 요소
+## 한 모델이 아니라 역할이 다른 구성 요소
 
 P7-5.4의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니다. 장면을 새로 그리는 일, 카메라 위치만 바꾸는 일, 인물의 영역을 찾는 일, 빈 배경을 복원하는 일, 캐릭터를 포즈에 이식하는 일을 분리했다. 같은 입력을 여러 모델에 반복해 넣기보다, 각 단계에 필요한 정보만 넘기는 것이 이 절의 핵심이다.
 
@@ -19,8 +19,9 @@ P7-5.4의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니
 | LaMa ONNX | 마스크 영역만 메워 빈 배경판 생성 | 카메라판·마스크 → 배경판 |
 | `Qwen/Qwen-Image-Edit-2509` + Nunchaku FP4 r128 transformer | 캐릭터 포즈 이식과 마지막 광원·화풍 통일 | 포즈 참조·착장 또는 합성본 → 캐릭터·최종 장면 |
 | `Qwen/Qwen-Image-Edit-2509` + FoxBaze Try-On LoRA | 분리된 착장 기준물을 한 명의 포즈 인물에 다시 입힘 | 인물 한 장·착장 한 장 → 단일 인물 한 장 |
+| `Qwen/Qwen-Image-Edit-2509` + Light Restoration V2 LoRA + Lightning V1.0 | 통합 장면의 방향광 색조와 과도한 하이라이트를 중립화 | 방향광이 적용된 Try-On·배경 통합 장면 → 중립 광원 장면 |
 
-`Qwen-Image`는 텍스트에서 이미지를 만드는 기반 모델이고, 이 절에서는 스토리보드만 맡긴다. 이번 A·B·C 첫 장면은 P7-5.10에서 검증한 Q4_K_S GGUF 저VRAM 경로로 생성했다. `Qwen-Image-Edit-2509`은 한 장에서 세 장까지의 이미지 입력을 조합해 편집할 수 있어 포즈 참조와 착장을 역할별로 나누는 단계에 쓴다. Q4 GGUF와 Nunchaku FP4 r128은 각각 로컬 GPU에서 실행하기 위한 양자화 형식이며, 캐릭터나 카메라 규칙을 새로 추가하는 모델은 아니다. FoxBaze Try-On LoRA는 이 편집 파이프라인에서 두 번째 입력을 착장 기준물로 해석하도록 보강한다. [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Nunchaku Qwen-Image-Edit-2509 배포](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"} · [FoxBaze Try-On LoRA 모델 카드](https://huggingface.co/FoxBaze/Try_On_Qwen_Edit_Lora_Alpha){: target="_blank" rel="noopener noreferrer"}
+`Qwen-Image`는 텍스트에서 이미지를 만드는 기반 모델이고, 이 절에서는 스토리보드만 맡긴다. 이번 A·B·C 첫 장면은 P7-5.10에서 검증한 Q4_K_S GGUF 저VRAM 경로로 생성했다. `Qwen-Image-Edit-2509`은 한 장에서 세 장까지의 이미지 입력을 조합해 편집할 수 있어 포즈 참조와 착장을 역할별로 나누는 단계에 쓴다. Q4 GGUF와 Nunchaku FP4 r128은 각각 로컬 GPU에서 실행하기 위한 양자화 형식이며, 캐릭터나 카메라 규칙을 새로 추가하는 모델은 아니다. FoxBaze Try-On LoRA는 이 편집 파이프라인에서 두 번째 입력을 착장 기준물로 해석하도록 보강한다. Light Restoration V2 LoRA는 조명 설계가 아니라 이미 생긴 방향광의 색조와 광택을 줄이는 마지막 중립화 단계다. [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Nunchaku Qwen-Image-Edit-2509 배포](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"} · [FoxBaze Try-On LoRA 모델 카드](https://huggingface.co/FoxBaze/Try_On_Qwen_Edit_Lora_Alpha){: target="_blank" rel="noopener noreferrer"} · [Light Restoration 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Light_restoration){: target="_blank" rel="noopener noreferrer"}
 
 카메라판에는 공식 `Qwen/Qwen-Image-Edit-2511` Diffusers 파이프라인과 Multiple-angles LoRA만 사용한다. 8 GB VRAM 환경에서는 가중치를 순차 CPU 오프로딩하고, 모델 카드가 정한 순서대로 `<sks> [azimuth] [elevation] [distance]` 세 항을 한 프롬프트에 넣는다. 이 단계는 캐릭터 identity를 새로 정하는 것이 아니라 장면의 카메라 조건을 바꾸는 단계다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} · [Multiple-angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
@@ -170,6 +171,38 @@ Try-On의 `Picture 1`은 바로 위 직접 이식 결과로, 포즈·얼굴·헤
 [Qwen 2511 카메라판 인물 이식 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py)
 
 [Scene A 카메라판 Try-On 이식 result.json — JSON — Picture 1·Picture 2 입력과 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-tryon-camera-replace-v1-size-1280x1280-seed-62294-steps-20-result.json)
+
+### 방향광을 중립화해 통합 장면의 색조를 정리한다
+
+Try-On 인물을 배경에 이식한 뒤에는 합성 단계에서 더해진 방향광이 캐릭터와 배경을 서로 다른 색조로 보이게 할 수 있다. 여기서는 바로 위 Try-On·배경 통합 결과에 상단 우측의 따뜻한 방향광을 추가한 이미지를 입력으로 두고, `dx8152/Qwen-Image-Edit-2509-Light_restoration`의 V2 LoRA로 그 색조와 과도한 하이라이트를 중립화했다. V2의 모델 카드 고정 프롬프트는 `移除光影,使用柔和光线（无明显光斑和阴影）对图片进行重新照明`이다.
+
+| 방향광이 적용된 Try-On·배경 통합 장면 | 디라이트 V2 결과 |
+| --- | --- |
+| ![상단 우측의 따뜻한 방향광이 적용된 해안 배경의 Try-On 통합 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-upper-right-v1-size-1280x1280-seed-62294-steps-10.png) | ![따뜻한 하이라이트를 줄이고 중립 광원으로 정리한 Try-On 배경 통합 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-light-restoration-camera-a-upper-right-relight-v2-card-prompt-size-1024x1024-seed-62294-steps-8.png) |
+
+왼쪽의 머리카락·재킷·바지에 있던 황금색 림 라이트가 오른쪽에서는 줄어들고, 인물의 포즈·착장·해안 배경의 구조는 유지됐다. 다만 이 단계는 지면의 구조 그림자를 지우거나 새 그림자를 설계하는 기능이 아니다. 남아 있는 지면 그림자는 이후 장면의 광원 연출에서 별도로 검수한다.
+
+실행은 Qwen Image Edit 2509 bfloat16 직접 Diffusers 경로에서 순차 CPU 오프로딩을 사용해, Qwen Image Lightning 8-step V1.0과 Light Restoration V2를 함께 적용했다. 캔버스는 1024×1024, seed `62294`, 8 step, true CFG `1.0`이다.
+
+[디라이트 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_light_restoration.py)
+
+[디라이트 result.json — JSON — 방향광 입력, V2 고정 프롬프트와 LoRA 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-light-restoration-camera-a-upper-right-relight-v2-card-prompt-size-1024x1024-seed-62294-steps-8-result.json)
+
+### 전역 얼굴·헤어 이식은 기준 경로로 채택하지 않는다
+
+카메라 A의 Try-On 이식 결과를 `Picture 1`로, 5.2에서 만든 인물 참조를 `Picture 2`로 두고 공식 `Qwen/Qwen-Image-Edit-2511`로 얼굴과 헤어만 바꾸는 실험을 했다. 먼저 정면 얼굴 참조를 사용한 뒤, 화면 속 인물이 오른쪽을 향하므로 같은 방향의 왼쪽 프로필 참조로 다시 실행했다. 두 실행 모두 1280×1280, seed `62294`, 20 step, true CFG `4.0`, 순차 CPU 오프로딩 조건이다.
+
+| 정면 얼굴 참조 | 방향을 맞춘 왼쪽 프로필 참조 |
+| --- | --- |
+| ![정면 얼굴 참조를 사용한 Camera A 전역 얼굴 헤어 이식 결과. 하늘과 절벽 배경에 점상 노이즈가 생기고 얼굴 아이덴티 개선이 뚜렷하지 않다](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-camera-scene-a-face-identity-v1-size-1280x1280-seed-62294-steps-20.png) | ![왼쪽 프로필 얼굴 참조를 사용한 Camera A 전역 얼굴 헤어 이식 결과. 방향을 맞춰도 배경 점상 노이즈와 아이덴티 개선 부재가 남는다](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-camera-scene-a-side-face-identity-v1-size-1280x1280-seed-62294-steps-20.png) |
+
+방향 일치 참조로 바꿔도 얼굴형·헤어·눈의 식별 가능한 개선은 확인되지 않았고, 두 결과 모두 하늘과 절벽에 점상 노이즈가 생겼다. 따라서 장면 전체를 두 이미지로 다시 편집하는 얼굴 이식은 카메라 A 결과를 대체하지 않는다. 다음 개선은 참조 수를 더 늘리지 않고, 얼굴 영역만 다루는 국소 편집 경로에서 검증한다.
+
+[Qwen 2511 얼굴·헤어 identity 이식 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_face_identity.py)
+
+[정면 얼굴 참조 result.json — JSON — Picture 1·Picture 2 입력과 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-camera-scene-a-face-identity-v1-size-1280x1280-seed-62294-steps-20-result.json)
+
+[왼쪽 프로필 얼굴 참조 result.json — JSON — 방향 일치 재실험의 입력과 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-camera-scene-a-side-face-identity-v1-size-1280x1280-seed-62294-steps-20-result.json)
 
 ## 장면 A를 카메라판으로 고정한다
 
