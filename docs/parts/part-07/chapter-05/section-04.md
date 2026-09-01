@@ -18,11 +18,11 @@ P7-5.4의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니
 | SAM 2.1 Hiera Small | 선택된 상자를 흰색 인물 마스크로 정밀화 | 인물 상자·카메라판 → 마스크 |
 | LaMa ONNX | 마스크 영역만 메워 빈 배경판 생성 | 카메라판·마스크 → 배경판 |
 | `Qwen/Qwen-Image-Edit-2509` + Nunchaku FP4 r128 transformer | 캐릭터 포즈 이식과 마지막 광원·화풍 통일 | 포즈 참조·착장 또는 합성본 → 캐릭터·최종 장면 |
-| `Qwen/Qwen-Image-Edit-2509` + FoxBaze Try-On LoRA | 분리된 착장 기준물을 한 명의 포즈 인물에 다시 입힘 | 인물 한 장·착장 한 장 → 단일 인물 한 장 |
+| `Qwen/Qwen-Image-Edit-2511` + FoxBaze Try-On LoRA | 분리된 착장 기준물을 직접 이식 인물에 다시 입힘 | 인물 한 장·착장 한 장 → 단일 인물 한 장 |
 | `Qwen/Qwen-Image-Edit-2509` + Studio DeLight LoRA | 배경판 또는 통합 장면의 방향광 색조를 중립화 | 배경판 또는 방향광 장면 → 중립 광원 장면 |
 | `Qwen/Qwen-Image-Edit-2509` + dx8152 Relight LoRA | 통합 장면의 방향광을 다시 부여 | 중립화된 통합 장면 → 방향광 장면 |
 
-`Qwen-Image`는 텍스트에서 이미지를 만드는 기반 모델이고, 이 절에서는 스토리보드만 맡긴다. 이번 A·B·C 첫 장면은 P7-5.10에서 검증한 Q4_K_S GGUF 저VRAM 경로로 생성했다. `Qwen-Image-Edit-2509`은 한 장에서 세 장까지의 이미지 입력을 조합해 편집할 수 있어 포즈 참조와 착장을 역할별로 나누는 단계에 쓴다. Q4 GGUF와 Nunchaku FP4 r128은 각각 로컬 GPU에서 실행하기 위한 양자화 형식이며, 캐릭터나 카메라 규칙을 새로 추가하는 모델은 아니다. FoxBaze Try-On LoRA는 이 편집 파이프라인에서 두 번째 입력을 착장 기준물로 해석하도록 보강한다. Studio DeLight LoRA는 이미 생긴 방향광을 균일한 스튜디오 광원으로 중립화하는 마지막 단계다. 모델 카드는 2511을 기본 모델로 제시하면서 2509·2511 호환도 명시한다. 이 절에서는 2509 경로로 검증했다. [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Nunchaku Qwen-Image-Edit-2509 배포](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"} · [FoxBaze Try-On LoRA 모델 카드](https://huggingface.co/FoxBaze/Try_On_Qwen_Edit_Lora_Alpha){: target="_blank" rel="noopener noreferrer"} · [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}
+`Qwen-Image`는 텍스트에서 이미지를 만드는 기반 모델이고, 이 절에서는 스토리보드만 맡긴다. 이번 A·B·C 첫 장면은 P7-5.10에서 검증한 Q4_K_S GGUF 저VRAM 경로로 생성했다. `Qwen-Image-Edit-2509`은 DeLight·리라이트처럼 한 장에서 조명을 편집하는 단계에 쓴다. Q4 GGUF와 Nunchaku FP4 r128은 각각 로컬 GPU에서 실행하기 위한 양자화 형식이며, 캐릭터나 카메라 규칙을 새로 추가하는 모델은 아니다. FoxBaze Try-On LoRA는 공식 Qwen Image Edit 2511 파이프라인에서 두 번째 입력을 착장 기준물로 해석하도록 보강한다. Studio DeLight LoRA는 이미 생긴 방향광을 균일한 스튜디오 광원으로 중립화하는 마지막 단계다. [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} · [Nunchaku Qwen-Image-Edit-2509 배포](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"} · [FoxBaze Try-On LoRA 모델 카드](https://huggingface.co/FoxBaze/Try_On_Qwen_Edit_Lora_Alpha){: target="_blank" rel="noopener noreferrer"} · [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}
 
 카메라판에는 공식 `Qwen/Qwen-Image-Edit-2511` Diffusers 파이프라인과 Multiple-angles LoRA만 사용한다. 8 GB VRAM 환경에서는 가중치를 순차 CPU 오프로딩하고, 모델 카드가 정한 순서대로 `<sks> [azimuth] [elevation] [distance]` 세 항을 한 프롬프트에 넣는다. 이 단계는 캐릭터 identity를 새로 정하는 것이 아니라 장면의 카메라 조건을 바꾸는 단계다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} · [Multiple-angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
@@ -105,31 +105,53 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --c
 
 세 마스크는 머리·양팔·양다리·발끝을 포함했다. 다만 Scene C 컷아웃의 오른손 끝에는 원본 배경의 작은 녹색 잔여물이 남아 있다. 이처럼 마스크가 완벽하지 않을 때는 컷아웃을 캐릭터 identity의 기준으로 쓰지 않으며, 픽셀 단위 외곽이 필요한 단계에서만 그 경계를 정제한다.
 
-흰 배경 컷아웃은 알파 채널을 보존하는 최종 합성 자산이 아니다. 현재 경로에서는 이 컷아웃을 `Picture 1`과 초기 잠재값으로 쓴다. 컷아웃은 포즈·인물 크기·프레이밍만, `Picture 2`의 캐릭터 identity 기준은 얼굴·헤어·착장만 맡도록 역할을 분리한다. 인물 레이어 보관과 빈 배경판 생성도 같은 마스크의 별도 활용이다.
+흰 배경 컷아웃은 알파 채널을 보존하는 최종 합성 자산이 아니다. 포즈 아이덴티 이식에서는 먼저 이 컷아웃에 그림자를 만들고, **그림자 포함 컷아웃**을 `Picture 1`과 초기 잠재값으로 쓴다. `Picture 1`은 포즈·인물 크기·프레이밍·그림자만, `Picture 2`의 캐릭터 identity 기준은 얼굴·헤어·착장만 맡도록 역할을 분리한다. 인물 레이어 보관과 빈 배경판 생성도 같은 마스크의 별도 활용이다.
 
 ### 컷아웃의 그림자는 따로 만들고 인물 주변을 보호한다
 
-Scene A 원본에는 분리해 유지할 수 있는 캐릭터 그림자가 없었다. 그래서 흰 배경 컷아웃을 Qwen Image Edit 2511에 넣어 바닥 그림자만 생성하고, 마지막에는 원본 인물 마스크를 40 px 확장해 원래 캐릭터와 주변의 흰 배경을 다시 덮었다. 이 보호 영역은 Qwen이 인물 바깥에 새 팔·머리 같은 잔상을 그린 범위를 지운다.
+Scene A·B 원본에는 분리해 유지할 수 있는 캐릭터 그림자가 없었다. 그래서 흰 배경 컷아웃을 Qwen Image Edit 2511에 넣어 바닥 그림자만 생성하고, 마지막에는 원본 인물 마스크를 40 px 확장해 원래 캐릭터와 주변의 흰 배경을 다시 덮었다. 이 보호 영역은 Qwen이 인물 바깥에 새 팔·머리 같은 잔상을 그린 범위를 지운다.
 
-![Qwen 2511로 생성한 Scene A 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png)
+| Scene A 그림자 포함 컷아웃 | Scene B 그림자 포함 컷아웃 |
+| --- | --- |
+| ![Qwen 2511로 생성한 Scene A 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png) | ![Qwen 2511로 생성한 Scene B 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-이 결과는 **잔상 제거 구조**만 확인한다. 그림자 실루엣과 지면 원근은 아직 자연스럽지 않으므로, 이를 실제 장면에 바로 합성할 최종 그림자로 채택하지 않는다.
+이 결과는 **잔상 제거 구조**만 확인한다. 그림자 실루엣과 지면 원근은 아직 자연스럽지 않으므로, 이를 실제 장면에 바로 합성할 최종 그림자로 채택하지 않는다. 포즈 아이덴티 생성기는 A·B에서 이 그림자 포함 컷아웃을 자동으로 `Picture 1`에 사용한다. C도 먼저 같은 그림자 산출물을 만든 뒤에만 자동 실행할 수 있으며, 그림자 자산이 없으면 생성기가 중단해 흰 배경 원본 컷아웃으로 조용히 되돌아가지 않는다.
 
 [Qwen 2511 컷아웃 그림자 생성기 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_generate_cutout_shadow.py)
 
 [Scene A cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10-result.json)
 
-### 직접 이식 결과를 먼저 기준으로 검수한다
+[Scene B cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-Scene A의 20 step 직접 이식 결과는 그림자가 포함된 Scene A 포즈 컷아웃을 입력으로 만든 결과다. 이 이미지는 포즈·프레이밍·바닥 그림자를 이미 갖고 있으므로 다시 포즈를 설명하지 않는다. 아래 결과는 착장을 별도로 추출하거나 보완하기 전의 캐릭터·포즈·그림자 기준이다.
+### 그림자 포함 포즈에 측면 캐릭터 identity를 이식한다
 
-| Scene A 직접 이식 결과 |
-| --- |
-| ![그림자가 포함된 흰 배경 스플릿 점프 포즈에 이식된 청록 단발과 흰 크롭 재킷 착장의 Scene A 직접 이식 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-cutout-shadow-v1-size-1280x1280-seed-62294-steps-20.png) |
+Scene A의 20 step 직접 이식 결과는 그림자가 포함된 Scene A 포즈 컷아웃을 입력으로 만든 결과다. Scene B는 그림자 포함 Scene B 컷아웃을 `Picture 1`, 왼쪽 프로필이 보이는 `yaw_plus_90` 측면 전신을 `Picture 2`로 넣어 같은 20 step으로 생성했다. `Picture 1`에는 스플릿 점프와 그 아래 그림자를 보존한다는 짧은 양성 지시를 더했다. 이 이미지는 포즈·프레이밍·바닥 그림자를 이미 갖고 있으므로, 이식 단계에서 카메라를 다시 설명하지 않는다.
+
+| Scene A 직접 이식 결과 | Scene B 측면 참조 직접 이식 결과 |
+| --- | --- |
+| ![그림자가 포함된 흰 배경 스플릿 점프 포즈에 이식된 청록 단발과 흰 크롭 재킷 착장의 Scene A 직접 이식 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-cutout-shadow-v1-size-1280x1280-seed-62294-steps-20.png) | ![그림자 포함 스플릿 점프 포즈에 왼쪽 프로필 청록 단발과 흰 재킷을 이식한 Scene B 20 step 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-side-profile-v2-size-1280x1280-seed-62294-steps-20.png) |
 
 [Scene A 직접 이식 result.json — JSON — 그림자 컷아웃과 identity 참조 입력, 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-cutout-shadow-v1-size-1280x1280-seed-62294-steps-20-result.json)
 
-관찰할 점은 포즈와 그림자가 다시 바뀌지 않는지, 얼굴·헤어·재킷·이너·바지·신발의 형태가 다음 착장 처리 전에도 함께 유지되는지다.
+[Scene B 직접 이식 result.json — JSON — 그림자 포함 컷아웃, 측면 전신 참조, 프롬프트와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-side-profile-v2-size-1280x1280-seed-62294-steps-20-result.json)
+
+Scene B에서는 옆얼굴·청록 단발·재킷·스플릿 점프와 그림자가 함께 남았다. 반면 운동화는 발레 컷아웃의 발끝 형태에 다시 약해졌다. 따라서 포즈와 그림자를 고정하는 `Picture 1`과 측면 identity를 주는 `Picture 2`가 있어도, 작은 신발 특징까지 자동으로 보존되는지는 별도 착장 이식 단계에서 확인해야 한다.
+
+### 측면 직접 이식 결과에 추출 착장을 다시 입힌다
+
+Scene A에서는 그림자 포함 포즈에 캐릭터를 직접 이식한 결과를, Scene B에서는 바로 위 측면 직접 이식 결과를 각각 Try-On의 `Picture 1`로 사용했다. 두 결과는 포즈·얼굴·헤어·프레이밍을 맡고, Xabsurd 착장·신발 기준물을 공통 `Picture 2`로 사용한다. FoxBaze LoRA를 공식 Qwen Image Edit 2511 직접 Diffusers 경로에 로드해 1280×1280·seed `62294`·10 step·true CFG `4.0`으로 실행했다.
+
+| Scene A 직접 이식 Try-On 결과 | Scene B 측면 직접 이식 Try-On 결과 |
+| --- | --- |
+| ![공중 스플릿 점프 포즈에 흰 크롭 재킷, 회색 이너, 청록 바지와 양쪽 흰 운동화를 이식한 Qwen 2511 Scene A Try-On 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-tryon-foxbaze-scene-a-direct-v1-size-1280x1280-seed-62294-steps-10.png) | ![측면 공중 스플릿 점프 인물에 흰 크롭 재킷, 회색 이너와 청록 바지를 이식한 Qwen 2511 Try-On 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-tryon-foxbaze-scene-b-side-profile-direct-v1-size-1280x1280-seed-62294-steps-10.png) |
+
+두 열은 같은 2511·10 step 조건에서 직접 이식 결과를 Try-On의 `Picture 1`로 재사용한 비교다. A·B 모두 모자 없이 청록 단발·흰 재킷·회색 이너·청록 바지가 유지됐다. A에서는 양쪽 흰 운동화까지 이식됐고, B에서는 바닥 그림자가 유지됐지만 신발은 발레 컷아웃의 발끝 형태로 남았다. 따라서 이 단계는 포즈·헤어·그림자 보존과 신발 이식을 함께 보장하지 않으며, 장면별로 결과를 검수해야 한다.
+
+[Qwen 2511 FoxBaze Try-On 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_tryon_foxbaze.py)
+
+[Scene A 직접 이식 Try-On result.json — JSON — Picture 1·Picture 2 입력, 2511·LoRA와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-tryon-foxbaze-scene-a-direct-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+[Scene B 측면 직접 이식 Try-On result.json — JSON — Picture 1·Picture 2 입력, 2511·LoRA와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-tryon-foxbaze-scene-b-side-profile-direct-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 컷아웃 캐릭터 identity에 Studio DeLight를 적용한다
 
@@ -226,20 +248,6 @@ DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에
 Qwen Image Edit 2511과 Xabsurd LoRA를 직접 Diffusers 경로에서 seed `62294`, 10 step, true CFG `4.0`으로 실행했다. 출력에는 의류와 신발이 함께 남으며, 바로 앞의 직접 이식 결과에 착장을 다시 적용하는 다음 단계의 garment 입력으로 쓴다.
 
 [Xabsurd 착장·신발 추출 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_extract_outfit_gear.py)
-
-### 추출한 착장을 단일 인물 결과에 다시 입힌다
-
-Try-On의 `Picture 1`은 바로 위 직접 이식 결과로, 포즈·얼굴·헤어·프레이밍을 맡는다. `Picture 2`는 바로 위 Xabsurd 착장·신발 추출 결과로, 흰 크롭 재킷·회색 이너·청록 바지·흰 신발만 맡는다. FoxBaze Try-On LoRA는 두 입력을 1280×1280에서 직접 편집해 **인물 한 명만** 출력한다. 두 번째 기준물을 결과 캔버스에 함께 배치하지 않는지가 첫 검수 조건이다.
-
-| Scene A 단일 인물 Try-On 결과 |
-| --- |
-| ![흰 배경의 공중 스플릿 점프 포즈에 흰 크롭 재킷, 회색 이너, 청록 바지와 흰 신발이 적용된 단일 인물 Try-On 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-tryon-foxbaze-subject-only-v1-size-1280x1280-seed-62294-steps-30.png) |
-
-이번 실행은 Qwen Image Edit 2509와 FoxBaze Try-On LoRA를 seed `62294`, 30 step, LoRA scale `1.0`, true CFG `2.5`로 사용했다. 이 단계에서는 바닥 그림자의 정밀도는 검수 기준이 아니다. 검수는 한 명만 출력됐는지와 재킷·이너·바지·신발이 Picture 2의 구성을 유지하는지에 집중한다.
-
-[FoxBaze Try-On 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_tryon_foxbaze.py)
-
-[Scene A Try-On result.json — JSON — Picture 1·Picture 2 입력, LoRA와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-tryon-foxbaze-subject-only-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
 ### 카메라 A의 인물 자리에 Try-On 결과를 이식한다
 

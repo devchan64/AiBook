@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a cast shadow for a white-background character cutout with Qwen 2511.
+"""Generate a cast shadow for one A/B/C white-background character cutout.
 
 Qwen creates only the shadow.  The original character pixels are composited
 back with the supplied person mask, so the experiment cannot alter the pose,
@@ -22,8 +22,16 @@ ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
-DEFAULT_CUTOUT = ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png"
-DEFAULT_PERSON_MASK = ASSETS / "p7-5-3-sam2-person-mask-official-camera-scene-a-v6.png"
+CUTOUTS = {
+    "a": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png",
+    "b": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-b-v7.png",
+    "c": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-c-v5.png",
+}
+PERSON_MASKS = {
+    "a": ASSETS / "p7-5-3-sam2-person-mask-official-camera-scene-a-v6.png",
+    "b": ASSETS / "p7-5-4-sam2-person-mask-official-camera-scene-b-v7.png",
+    "c": ASSETS / "p7-5-4-sam2-person-mask-official-camera-scene-c-v5.png",
+}
 DEFAULT_PROMPT = (
     "Picture 1 is a woman airborne above a white floor. Add one soft gray cast "
     "shadow on the floor directly below her. Keep the white background clean. "
@@ -37,8 +45,9 @@ def sha256(path: Path) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--cutout", type=Path, default=DEFAULT_CUTOUT)
-    parser.add_argument("--person-mask", type=Path, default=DEFAULT_PERSON_MASK, help="White=character pixels restored after Qwen sampling.")
+    parser.add_argument("--scene", choices=tuple(CUTOUTS), default="a", help="Select the matching A/B/C cutout and SAM2 person mask.")
+    parser.add_argument("--cutout", type=Path, help="Override the selected scene cutout.")
+    parser.add_argument("--person-mask", type=Path, help="Override the selected scene mask; white=character pixels restored after Qwen sampling.")
     parser.add_argument("--prompt", default=DEFAULT_PROMPT)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=10)
@@ -50,7 +59,8 @@ def main() -> None:
     args = parser.parse_args()
     if args.steps < 1 or args.size < 32 or args.size % 32 or args.protect_pixels < 0:
         parser.error("--steps must be positive, --size a multiple of 32, and --protect-pixels non-negative")
-    cutout_path, mask_path = args.cutout.resolve(), args.person_mask.resolve()
+    cutout_path = (args.cutout or CUTOUTS[args.scene]).resolve()
+    mask_path = (args.person_mask or PERSON_MASKS[args.scene]).resolve()
     if not cutout_path.is_file() or not mask_path.is_file():
         raise FileNotFoundError("--cutout and --person-mask must exist")
 
@@ -58,7 +68,7 @@ def main() -> None:
     person_mask = Image.open(mask_path).convert("L").resize((args.size, args.size), Image.Resampling.NEAREST)
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-4-qwen-2511-cutout-shadow-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-4-qwen-2511-cutout-shadow-scene-{args.scene}-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     qwen_shadow, protect_mask_path = output_dir / f"{stem}-qwen.png", output_dir / f"{stem}-protect-mask.png"
     output, result = output_dir / f"{stem}.png", output_dir / f"{stem}-result.json"
     candidate = args.qwen_candidate.resolve() if args.qwen_candidate else None
@@ -99,7 +109,7 @@ def main() -> None:
     result.write_text(
         json.dumps(
             {
-                "status": "generated", "stage": "qwen_cutout_cast_shadow", "model": MODEL_ID,
+                "status": "generated", "stage": "qwen_cutout_cast_shadow", "scene": args.scene, "model": MODEL_ID,
                 "inputs": {
                     "cutout": {"path": str(cutout_path), "sha256": sha256(cutout_path), "role": "Picture 1"},
                     "person_mask": {"path": str(mask_path), "sha256": sha256(mask_path), "semantics": "white=hard-restored source character"},

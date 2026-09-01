@@ -2,7 +2,8 @@
 """Apply the character reference to P7-5.4 layout images.
 
 This follows the official Qwen-Image-Edit-2511 multi-image Diffusers example.
-Picture 1 supplies the layout: a pose cutout or an already fixed camera image.
+Picture 1 supplies the layout: a shadow-preserved pose cutout or an already
+fixed camera image.
 Picture 2 supplies character identity and outfit. Camera control was completed
 before this edit, so this runner uses no camera LoRA, GGUF transformer, ComfyUI
 graph, or latent override.
@@ -26,15 +27,16 @@ ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
-DEFAULT_CHARACTER = ASSETS / "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png"
-POSES = {
-    "a": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png",
-    "b": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-b-v6.png",
-    "c": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-c-v5.png",
+DEFAULT_CHARACTER = ASSETS / "p7-5-3-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png"
+SHADOW_POSES = {
+    "a": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png",
+    "b": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
+    "c": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-c-v1-size-1280x1280-seed-62294-steps-10.png",
 }
 # Baseline prompt validated by the P7-5.4 Qwen-Image-Edit-2509 pose-transfer run.
 # Keep this exact wording as the common prompt for A/B/C identity-transfer tests.
 BASE_PROMPT = "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose."
+DEFAULT_POSE_SUFFIX = "Preserve the split-leap pose and the cast shadow beneath the woman."
 
 
 def sha256(path: Path) -> str:
@@ -81,10 +83,10 @@ def load_outfit_identity(contract_path: Path) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--scenes", nargs="+", choices=tuple(POSES), default=("a", "b", "c"))
+    parser.add_argument("--scenes", nargs="+", choices=tuple(SHADOW_POSES), default=("a", "b", "c"))
     parser.add_argument("--character", type=Path, default=DEFAULT_CHARACTER)
-    parser.add_argument("--pose", type=Path, help="Optional Picture 1 override; requires exactly one scene.")
-    parser.add_argument("--pose-suffix", default="", help="Optional short preservation instruction appended to the baseline prompt.")
+    parser.add_argument("--pose", type=Path, help="Optional shadow-preserved Picture 1 override; requires exactly one scene.")
+    parser.add_argument("--pose-suffix", default=DEFAULT_POSE_SUFFIX, help="Short positive pose-and-shadow preservation instruction appended to the baseline prompt.")
     parser.add_argument("--identity-contract", type=Path, help="Optional JSON containing outfit_identity_description.")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=20)
@@ -113,9 +115,12 @@ def main() -> None:
     output_dir = args.output_dir.resolve()
     plans = []
     for scene in dict.fromkeys(args.scenes):
-        pose = args.pose.resolve() if args.pose is not None else POSES[scene].resolve()
+        pose = args.pose.resolve() if args.pose is not None else SHADOW_POSES[scene].resolve()
         if not pose.is_file():
-            raise FileNotFoundError(pose)
+            raise FileNotFoundError(
+                f"Missing shadow-preserved pose for Scene {scene.upper()}: {pose}. "
+                "Generate the scene cutout shadow before pose identity transfer, or pass --pose explicitly."
+            )
         stem = f"p7-5-4-qwen-2511-pose-identity-official-camera-scene-{scene}-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
         plans.append({
             "scene": scene,
@@ -132,7 +137,7 @@ def main() -> None:
             "outfit_identity": outfit_identity,
             "prompt": prompt,
             "size": [args.size, args.size],
-            "reference_order": "Picture 1 pose/framing, Picture 2 character identity/outfit",
+            "reference_order": "Picture 1 shadow-preserved pose/framing, Picture 2 character identity/outfit",
             "plans": [{"scene": plan["scene"], "pose": str(plan["pose"]), "output": str(plan["output"]), "result": str(plan["result"])} for plan in plans],
         }, ensure_ascii=False, indent=2))
         return
@@ -173,7 +178,7 @@ def main() -> None:
             "runtime": runtime_record(),
             "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
             "inputs": [
-                {"role": "Picture 1: pose and framing", "path": str(plan["pose"]), "sha256": plan["pose_sha256"]},
+                {"role": "Picture 1: shadow-preserved pose and framing", "path": str(plan["pose"]), "sha256": plan["pose_sha256"]},
                 {"role": "Picture 2: character identity and outfit", "path": str(character), "sha256": character_sha256},
             ],
             "reference_order": "pose-character",
