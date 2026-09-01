@@ -9,9 +9,9 @@
 
 ## 한 이름으로 부르지 않는 실행 조합
 
-P7-5.3의 결과는 이름이 하나인 단일 모델에서 나오지 않는다. `result.json`에 남긴 실행 기록에는 편집 모델, 로컬 실행용 양자화 transformer, 카메라 회전 전용 LoRA, 구조 guide를 만드는 OpenPose 도구가 서로 다른 역할로 기록된다. 이들을 모두 캐릭터를 만드는 모델이라고 부르면, 어느 조건을 바꿨을 때 결과가 달라졌는지 알 수 없다.
+P7-5.3의 결과는 이름이 하나인 단일 모델에서 나오지 않는다. 현재 이 절에 연결한 `result.json`에는 편집 모델, 로컬 실행용 양자화 transformer, 카메라 회전 전용 LoRA, 구조 guide를 만드는 OpenPose 도구가 서로 다른 역할로 기록된다. 이들을 모두 캐릭터를 만드는 모델이라고 부르면, 어느 조건을 바꿨을 때 결과가 달라졌는지 알 수 없다.
 
-| 요소 | P7-5.3에서 맡긴 일 | 적용 범위 |
+| 요소 | 현재 연결한 2509 실행 기록에서 맡긴 일 | 적용 범위 |
 | --- | --- | --- |
 | `Qwen/Qwen-Image-Edit-2509` | 얼굴·착장·구조 이미지를 함께 읽고, prompt가 지시한 전신 결과를 편집 | 1·2단계 착장과 동적 전신 |
 | Nunchaku SVDQuant FP4 r128 transformer | Qwen 편집 모델의 transformer를 로컬 GPU 메모리에 맞춰 실행 | 1·2단계 착장과 동적 전신 |
@@ -93,7 +93,7 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 
 [전신 착장 yaw 회전 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py)
 
-향후 회전 자산은 `Qwen/Qwen-Image-Edit-2511`과 `fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA`로 재생성한다. 생성기는 2단계 정면 착장 한 장을 유일한 이미지 입력으로 두고, `yaw_minus_90`, `yaw_minus_45`, `yaw_plus_45`, `yaw_plus_90`마다 `<sks> [azimuth] [elevation] [distance]` 형식의 카메라 조건만 적용한다. OpenPose와 별도 얼굴 참조를 넣지 않으며, 입력 착장이 의상·전신 비례를, Multiple-Angles LoRA가 카메라 yaw를 맡는다. 현재 표와 `result.json`은 이전 2509 실험 기록이므로, 새 2511 산출물로 대체하기 전까지 2511의 품질 근거로 해석하지 않는다.
+향후 회전 자산은 `Qwen/Qwen-Image-Edit-2511`과 `fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA`로 재생성한다. 생성기는 2단계 정면 착장 한 장을 유일한 이미지 입력으로 두고, `yaw_minus_90`, `yaw_minus_45`, `yaw_plus_45`, `yaw_plus_90`마다 `<sks> [azimuth] [elevation] [distance]` 형식의 카메라 조건만 적용한다. OpenPose와 별도 얼굴 참조를 넣지 않으며, 입력 착장이 의상·전신 비례를, Multiple-Angles LoRA가 카메라 yaw를 맡는다. 이 형식과 카메라 방향 이름은 [fal Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}를 따른다. 2511의 이미지 편집·일관성 기능은 [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}에서 확인한다. 현재 표와 `result.json`은 이전 2509 실험 기록이므로, 새 2511 산출물로 대체하기 전까지 2511의 품질 근거로 해석하지 않는다.
 
 ## 동적 장면은 전신 기준을 조합해 시험한다
 
@@ -121,4 +121,9 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 
 - 전신·착장·OpenPose의 실행 조건은 이 절에서 연결한 로컬 `result.json`에서 확인한다.
 - 캐릭터 멀티플 뷰 생성의 identity·카메라 앵글 기준은 [P7-5.2](section-02.md)에서 확인한다.
-- Qwen 편집 모델·양자화 transformer·Multiple-angles LoRA·OpenPose renderer의 공개 기능과 배포 정보는 위 모델 카드와 저장소에서 확인한다. 확인일: 2026-08-29.
+- Qwen, [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}. 다중 이미지 입력, 인물 편집 일관성, native ControlNet 조건의 공개 기능을 확인했다. 확인일: 2026-09-01.
+- nunchaku, [nunchaku-qwen-image-edit-2509 모델 카드](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}. FP4 r128 양자화 transformer와 품질·속도 차이를 확인했다. 확인일: 2026-09-01.
+- dx8152, [Qwen-Edit-2509-Multiple-angles 모델 카드](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}. 현재 연결한 2509 yaw 실험의 카메라 지시·기반 모델을 확인했다. 확인일: 2026-09-01.
+- fal, [Qwen-Image-Edit-2511-Multiple-Angles-LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}. 향후 재생성 코드의 `<sks> [azimuth] [elevation] [distance]` 조건과 방향 이름을 확인했다. 확인일: 2026-09-01.
+- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}. 향후 회전 재생성에 쓰는 편집 모델과 공개된 일관성 개선을 확인했다. 확인일: 2026-09-01.
+- Fannovel16, [ComfyUI ControlNet Auxiliary Preprocessors](https://github.com/Fannovel16/comfyui_controlnet_aux){: target="_blank" rel="noopener noreferrer"}. OpenPose renderer는 구조 hint 이미지를 만드는 전처리 도구라는 역할을 확인했다. BODY_18 좌표의 정규화·프레이밍은 이 절의 로컬 생성 코드와 `result.json`이 근거다. 확인일: 2026-09-01.

@@ -89,7 +89,7 @@ def main() -> None:
     parser.add_argument("--pose-suffix", default=DEFAULT_POSE_SUFFIX, help="Short positive pose-and-shadow preservation instruction appended to the baseline prompt.")
     parser.add_argument("--identity-contract", type=Path, help="Optional JSON containing outfit_identity_description.")
     parser.add_argument("--seed", type=int, default=62294)
-    parser.add_argument("--steps", type=int, default=20)
+    parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--size", type=int, default=1280, help="Square input/output canvas edge in pixels.")
     parser.add_argument("--run-label", default="direct-v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
