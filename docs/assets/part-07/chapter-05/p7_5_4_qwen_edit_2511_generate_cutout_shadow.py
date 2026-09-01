@@ -3,7 +3,8 @@
 
 Qwen creates only the shadow.  The original character pixels are composited
 back with the supplied person mask, so the experiment cannot alter the pose,
-face, or outfit while sampling the shadow.
+face, or outfit while sampling the shadow.  Scene C may also receive its
+source scene as Picture 2 to preserve the scene's body-to-shadow separation.
 """
 
 from __future__ import annotations
@@ -15,7 +16,7 @@ import json
 import time
 from pathlib import Path
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageOps
 
 
 ASSETS = Path(__file__).resolve().parent
@@ -25,17 +26,27 @@ MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 CUTOUTS = {
     "a": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png",
     "b": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-b-v7.png",
-    "c": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-c-v6-size-1280x1280.png",
+    "c": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-c-no-closeup-v9-size-1280x1280.png",
 }
 PERSON_MASKS = {
     "a": ASSETS / "p7-5-3-sam2-person-mask-official-camera-scene-a-v6.png",
     "b": ASSETS / "p7-5-4-sam2-person-mask-official-camera-scene-b-v7.png",
-    "c": ASSETS / "p7-5-4-sam2-person-mask-official-camera-scene-c-v8.png",
+    "c": ASSETS / "p7-5-4-sam2-person-mask-official-camera-scene-c-no-closeup-v9.png",
+}
+SCENE_REFERENCES: dict[str, Path] = {
+    "c": ASSETS / "p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-no-closeup-v7-seed-5420-steps-20.png",
 }
 DEFAULT_PROMPT = (
     "Picture 1 is a woman airborne above a white floor. Add one soft gray cast "
     "shadow on the floor directly below her. Keep the white background clean. "
     "No additional people, objects, scenery, text, or changes to the woman."
+)
+SCENE_REFERENCE_PROMPT = (
+    "Picture 1 is a woman airborne above a white floor. Picture 2 is the source "
+    "scene. Add one soft gray cast shadow on the white floor directly below the woman. "
+    "Match only the vertical separation between the woman and her floor shadow in Picture 2. "
+    "Keep the white background clean. No additional people, objects, scenery, text, "
+    "or changes to the woman."
 )
 
 
@@ -48,21 +59,32 @@ def main() -> None:
     parser.add_argument("--scene", choices=tuple(CUTOUTS), default="a", help="Select the matching A/B/C cutout and SAM2 person mask.")
     parser.add_argument("--cutout", type=Path, help="Override the selected scene cutout.")
     parser.add_argument("--person-mask", type=Path, help="Override the selected scene mask; white=character pixels restored after Qwen sampling.")
-    parser.add_argument("--prompt", default=DEFAULT_PROMPT)
+    parser.add_argument("--scene-reference", type=Path, help="Optional Picture 2 source scene used only to match body-to-shadow separation.")
+    parser.add_argument("--prompt", help="Override the scene-aware shadow prompt.")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=1280)
     parser.add_argument("--protect-pixels", type=int, default=40, help="Expand the original character mask by this many pixels before restoring it.")
+    parser.add_argument("--shadow-min-y", type=int, help="Keep only sampled shadow pixels at or below this y coordinate; Scene C defaults to 900 when its source scene is used.")
     parser.add_argument("--qwen-candidate", type=Path, help="Reuse a saved Qwen shadow candidate for compositing-only validation.")
     parser.add_argument("--run-label", default="v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     args = parser.parse_args()
-    if args.steps < 1 or args.size < 32 or args.size % 32 or args.protect_pixels < 0:
+    protect_pixels = args.protect_pixels
+    if args.steps < 1 or args.size < 32 or args.size % 32 or protect_pixels < 0:
         parser.error("--steps must be positive, --size a multiple of 32, and --protect-pixels non-negative")
     cutout_path = (args.cutout or CUTOUTS[args.scene]).resolve()
     mask_path = (args.person_mask or PERSON_MASKS[args.scene]).resolve()
     if not cutout_path.is_file() or not mask_path.is_file():
         raise FileNotFoundError("--cutout and --person-mask must exist")
+    scene_reference_path = (args.scene_reference or SCENE_REFERENCES.get(args.scene))
+    scene_reference_path = scene_reference_path.resolve() if scene_reference_path else None
+    if scene_reference_path is not None and not scene_reference_path.is_file():
+        raise FileNotFoundError(scene_reference_path)
+    prompt = args.prompt or (SCENE_REFERENCE_PROMPT if scene_reference_path else DEFAULT_PROMPT)
+    shadow_min_y = args.shadow_min_y if args.shadow_min_y is not None else (900 if args.scene == "c" and scene_reference_path else None)
+    if shadow_min_y is not None and not 0 <= shadow_min_y < args.size:
+        parser.error("--shadow-min-y must be within the output canvas")
 
     cutout = Image.open(cutout_path).convert("RGB").resize((args.size, args.size), Image.Resampling.LANCZOS)
     person_mask = Image.open(mask_path).convert("L").resize((args.size, args.size), Image.Resampling.NEAREST)
@@ -86,8 +108,13 @@ def main() -> None:
         pipeline.enable_attention_slicing("max")
         pipeline.enable_sequential_cpu_offload()
         try:
+            reference_images = [cutout]
+            if scene_reference_path is not None:
+                reference_images.append(
+                    Image.open(scene_reference_path).convert("RGB").resize((args.size, args.size), Image.Resampling.LANCZOS)
+                )
             shadowed = pipeline(
-                image=[cutout], prompt=args.prompt, height=args.size, width=args.size,
+                image=reference_images, prompt=prompt, height=args.size, width=args.size,
                 generator=torch.Generator("cpu").manual_seed(args.seed), true_cfg_scale=4.0,
                 guidance_scale=1.0, negative_prompt=" ", num_inference_steps=args.steps,
                 num_images_per_prompt=1,
@@ -103,10 +130,22 @@ def main() -> None:
     # Qwen can extend limbs outside the exact segmentation boundary.  Restoring
     # a white buffer around the original person removes those residual pixels
     # while leaving the detached floor shadow available outside the buffer.
-    kernel = args.protect_pixels * 2 + 1
+    kernel = protect_pixels * 2 + 1
     protect_mask = person_mask.filter(ImageFilter.MaxFilter(kernel)) if kernel > 1 else person_mask
     protect_mask.save(protect_mask_path)
-    Image.composite(cutout, shadowed, protect_mask).save(output)
+    if shadow_min_y is None:
+        output_image = Image.composite(cutout, shadowed, protect_mask)
+    else:
+        # Picture 2 can make Qwen redraw limbs outside the person mask.  For C,
+        # retain only the detached lower-floor shadow and restore all character
+        # pixels directly from the original cutout.
+        output_image = cutout.copy()
+        shadow_alpha = ImageOps.invert(shadowed.convert("L")).point(
+            lambda value: min(255, max(0, (value - 10) * 8))
+        )
+        shadow_alpha.paste(0, (0, 0, args.size, shadow_min_y))
+        output_image.paste(shadowed, mask=shadow_alpha)
+    output_image.save(output)
     result.write_text(
         json.dumps(
             {
@@ -114,11 +153,16 @@ def main() -> None:
                 "inputs": {
                     "cutout": {"path": str(cutout_path), "sha256": sha256(cutout_path), "role": "Picture 1"},
                     "person_mask": {"path": str(mask_path), "sha256": sha256(mask_path), "semantics": "white=hard-restored source character"},
+                    "scene_reference": (
+                        {"path": str(scene_reference_path), "sha256": sha256(scene_reference_path), "role": "Picture 2: body-to-shadow separation only"}
+                        if scene_reference_path is not None else None
+                    ),
                 },
-                "prompt": args.prompt, "seed": args.seed, "steps": args.steps, "true_cfg_scale": 4.0,
+                "prompt": prompt, "seed": args.seed, "steps": args.steps, "true_cfg_scale": 4.0,
                 "outputs": {
                     "qwen_shadow_candidate": {"path": str(qwen_shadow), "sha256": sha256(qwen_shadow), "reused": candidate is not None},
-                    "expanded_character_protection_mask": {"path": str(protect_mask_path), "sha256": sha256(protect_mask_path), "pixels": args.protect_pixels},
+                    "expanded_character_protection_mask": {"path": str(protect_mask_path), "sha256": sha256(protect_mask_path), "pixels": protect_pixels},
+                    "shadow_min_y": shadow_min_y,
                     "character_restored_shadow_cutout": {"path": str(output), "sha256": sha256(output)},
                 },
                 "runtime": {name: importlib.metadata.version(name) for name in ("diffusers", "torch", "transformers", "accelerate")},

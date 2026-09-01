@@ -112,11 +112,11 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --c
 
 ### 컷아웃의 그림자는 따로 만들고 인물 주변을 보호한다
 
-Scene A·B 원본에는 분리해 유지할 수 있는 캐릭터 그림자가 없었다. 그래서 흰 배경 컷아웃을 Qwen Image Edit 2511에 넣어 바닥 그림자만 생성하고, 마지막에는 원본 인물 마스크를 40 px 확장해 원래 캐릭터와 주변의 흰 배경을 다시 덮었다. 이 보호 영역은 Qwen이 인물 바깥에 새 팔·머리 같은 잔상을 그린 범위를 지운다.
+Scene A·B 원본에는 분리해 유지할 수 있는 캐릭터 그림자가 없었다. 그래서 흰 배경 컷아웃을 Qwen Image Edit 2511에 넣어 바닥 그림자만 생성하고, 마지막에는 원본 인물 마스크를 40 px 확장해 원래 캐릭터와 주변의 흰 배경을 다시 덮었다. 이 보호 영역은 Qwen이 인물 바깥에 새 팔·머리 같은 잔상을 그린 범위를 지운다. Scene C는 거리 토큰을 생략한 카메라판을 두 번째 참조로 넣어, 본체와 그림자의 세로 간격만 따르게 했다. C에서는 본체를 다시 그리지 않도록 하단 영역의 생성 픽셀만 남긴다.
 
-| Scene A 그림자 포함 컷아웃 | Scene B 그림자 포함 컷아웃 |
-| --- | --- |
-| ![Qwen 2511로 생성한 Scene A 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png) | ![Qwen 2511로 생성한 Scene B 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) |
+| Scene A 그림자 포함 컷아웃 | Scene B 그림자 포함 컷아웃 | Scene C 그림자 포함 컷아웃 |
+| --- | --- | --- |
+| ![Qwen 2511로 생성한 Scene A 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png) | ![Qwen 2511로 생성한 Scene B 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![거리 토큰 없는 카메라 C의 본체-그림자 간격을 참조해 생성한 흰 배경 컷아웃 그림자](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 이 결과는 **잔상 제거 구조**만 확인한다. 그림자 실루엣과 지면 원근은 아직 자연스럽지 않으므로, 이를 실제 장면에 바로 합성할 최종 그림자로 채택하지 않는다. 포즈 아이덴티 생성기는 A·B에서 이 그림자 포함 컷아웃을 자동으로 `Picture 1`에 사용한다. C도 먼저 같은 그림자 산출물을 만든 뒤에만 자동 실행할 수 있으며, 그림자 자산이 없으면 생성기가 중단해 흰 배경 원본 컷아웃으로 조용히 되돌아가지 않는다.
 
@@ -125,6 +125,8 @@ Scene A·B 원본에는 분리해 유지할 수 있는 캐릭터 그림자가 �
 [Scene A cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10-result.json)
 
 [Scene B cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+[Scene C cutout shadow result.json — JSON — 카메라판 참조와 하단 그림자 합성 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 그림자 포함 포즈에 측면 캐릭터 identity를 이식한다
 
