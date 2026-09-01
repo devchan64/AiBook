@@ -1,7 +1,7 @@
 # P7-5.3 캐릭터 identity와 추가 페인팅으로 특징 완성하기
 
 > Section ID: `P7-5.3`
-> Version: `v2026.08.30`
+> Version: `v2026.09.01`
 
 같은 캐릭터를 다른 장면과 자세에서도 이어 그리려면, 얼굴·착장·전신 구조를 한 이미지나 한 프롬프트에 모두 맡기지 않아야 한다. 이 절에서는 [P7-5.2](section-02.md)의 얼굴 identity를 기준으로 두고, 전신 비례·기본 의상·재킷 같은 특징을 이전 결과 위에 한 단계씩 추가 페인팅하는 Qwen 편집 경로를 기록한다. 얼굴 정면 identity와 캐릭터 멀티플 뷰 생성은 P7-5.2에서 별도로 관리한다.
 
@@ -55,6 +55,8 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 [2단계 960×1440, 30-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30-result.json)
 
+[정면 착장 1~2단계 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py)
+
 ## OpenPose는 전신 비율과 프레이밍만 정한다
 
 1단계의 정면 body-only OpenPose는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지하고 다리 길이만 15% 늘린 v7 맵이다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라 전신의 머리·몸통·다리 비율과 화면 안 위치를 맞추는 기준이다.
@@ -89,6 +91,10 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 
 [2단계 착장 `yaw +90°` result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8-result.json)
 
+[전신 착장 yaw 회전 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py)
+
+향후 회전 자산은 `Qwen/Qwen-Image-Edit-2511`과 `fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA`로 재생성한다. 생성기는 2단계 정면 착장 한 장을 유일한 이미지 입력으로 두고, `yaw_minus_90`, `yaw_minus_45`, `yaw_plus_45`, `yaw_plus_90`마다 `<sks> [azimuth] [elevation] [distance]` 형식의 카메라 조건만 적용한다. OpenPose와 별도 얼굴 참조를 넣지 않으며, 입력 착장이 의상·전신 비례를, Multiple-Angles LoRA가 카메라 yaw를 맡는다. 현재 표와 `result.json`은 이전 2509 실험 기록이므로, 새 2511 산출물로 대체하기 전까지 2511의 품질 근거로 해석하지 않는다.
+
 ## 동적 장면은 전신 기준을 조합해 시험한다
 
 정면 2단계 착장은 전신 의상·비례를, P7-5.2 정면 토르소는 얼굴·헤어·선과 음영을 맡긴다. 이 두 이미지만 입력으로 넣어 실내 코트에서 공중에 뜬 앨리웁 직전 동작을 만들었다. 공 하나를 든 오른팔, 균형을 잡는 왼팔, 앞쪽으로 든 왼 무릎과 뒤로 뻗은 오른다리를 짧게 지시했다.
@@ -97,15 +103,9 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 
 [앨리웁 1024×1536, 20-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-fullbody-alley-oop-v1-seed-62294-steps-20-result.json)
 
+[앨리웁 전신 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_fullbody_alley_oop.py)
+
 이 결과는 정면 기준을 대체하지 않는다. 전신 참조 두 장으로도 공중 자세와 농구 장면을 만들 수 있는지 살피는 실험이며, 장면·소품·동작의 일치는 다음 생성에서 다시 비교한다.
-
-## 재현에 필요한 조건을 기록한다
-
-전신 생성 기록에는 입력 파일과 각 입력의 역할, seed, step, 크기, prompt, `prompt_word_count`를 남긴다. `prompt_word_count`는 품질 점수가 아니라 같은 특징을 반복해서 지시하면서 계약이 비대해졌는지 확인하는 보조 정보다.
-
-[Qwen 정면 착장 1~2단계 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py)
-
-[Qwen 앨리웁 전신 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_fullbody_alley_oop.py)
 
 ## 캐릭터 입력 역할을 점검한다
 
