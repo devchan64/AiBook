@@ -32,15 +32,15 @@
   "camera": {
     "azimuth": "front-left quarter view",
     "elevation": "low-angle shot",
-    "distance": "close-up"
+    "distance": null
   },
-  "prompt": "<sks> front-left quarter view low-angle shot close-up",
+  "prompt": "<sks> front-left quarter view low-angle shot",
   "prompt_format": "<sks> [azimuth] [elevation] [distance]",
   "seed": 5420,
   "steps": 20,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-close-up-official-camera-scene-c-v6-seed-5420-steps-20.png",
-    "sha256": "661293ed6528efafa4b391c44fbd603fd01b9262cf73984abddcdfbf4d97dba2"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-no-closeup-v7-seed-5420-steps-20.png",
+    "sha256": "de856e75a56c7eef2fbc8bd217ee8d1f69774d221e516d0b780277649e540ff4"
   },
-  "elapsed_seconds": 256.51
+  "elapsed_seconds": 266.54
 }
