@@ -597,6 +597,7 @@ nav:
               - "P7-5.3 캐릭터 identity와 추가 페인팅으로 특징 완성하기": parts/part-07/chapter-05/section-03.md
               - "P7-5.4 컷신 생성: 참조 셋으로 pose·camera·장면 만들기": parts/part-07/chapter-05/section-04.md
               - "P7-5.11 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기": parts/part-07/chapter-05/section-11.md
+              - "P7-5.12 착장 추출과 Try-On LoRA: 별도 착장 이식 경로를 검수하기": parts/part-07/chapter-05/section-12.md
               - "P7-5.8 텍스트 모션으로 12개 OpenPose 키프레임 준비하기": parts/part-07/chapter-05/section-08.md
               - "P7-5.9 StoryDiffusion으로 여러 컷의 일관성 읽기": parts/part-07/chapter-05/section-09.md
               - "P7-5.10 Qwen-Image Q4 GGUF로 8GB에서 실행 기록 남기기": parts/part-07/chapter-05/section-10.md
