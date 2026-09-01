@@ -27,11 +27,11 @@ ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
-DEFAULT_CHARACTER = ASSETS / "p7-5-3-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png"
+DEFAULT_CHARACTER = ASSETS / "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png"
 SHADOW_POSES = {
     "a": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png",
     "b": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
-    "c": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-c-v1-size-1280x1280-seed-62294-steps-10.png",
+    "c": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-c-low-angle-closeup-v1-size-1280x1280-seed-62294-steps-10.png",
 }
 # Baseline prompt validated by the P7-5.4 Qwen-Image-Edit-2509 pose-transfer run.
 # Keep this exact wording as the common prompt for A/B/C identity-transfer tests.
@@ -151,6 +151,9 @@ def main() -> None:
         cache_dir=CACHE_DIR,
         local_files_only=not args.allow_download,
     )
+    # Keep transformer attention within the 8GB laptop-GPU budget. This trades
+    # generation time for a lower peak allocation during long 1280px runs.
+    pipeline.enable_attention_slicing("max")
     pipeline.enable_sequential_cpu_offload()
     output_dir.mkdir(parents=True, exist_ok=True)
     character_sha256 = sha256(character)

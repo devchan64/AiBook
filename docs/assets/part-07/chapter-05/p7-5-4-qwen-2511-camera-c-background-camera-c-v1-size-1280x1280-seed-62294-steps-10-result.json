@@ -1,0 +1,25 @@
+{
+  "status": "generated",
+  "stage": "camera_character_removal",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-close-up-official-camera-scene-c-v6-seed-5420-steps-20.png",
+    "sha256": "661293ed6528efafa4b391c44fbd603fd01b9262cf73984abddcdfbf4d97dba2",
+    "role": "Camera C composition source"
+  },
+  "prompt": "Remove the woman from Picture 1. Preserve the city park trees, lamps, benches, pavement, distant buildings, and composition.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "0d198710f8e4757e5d2fa485f4eae543c5806f4784ac95532423624c1cf8d9c5"
+  },
+  "runtime": {
+    "diffusers": "0.37.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.13.0"
+  },
+  "elapsed_seconds": 276.73
+}

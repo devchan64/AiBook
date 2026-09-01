@@ -25,12 +25,12 @@ MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 CUTOUTS = {
     "a": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png",
     "b": ASSETS / "p7-5-3-character-pose-cutout-white-official-camera-scene-b-v7.png",
-    "c": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-c-v5.png",
+    "c": ASSETS / "p7-5-4-character-pose-cutout-white-official-camera-scene-c-v6-size-1280x1280.png",
 }
 PERSON_MASKS = {
     "a": ASSETS / "p7-5-3-sam2-person-mask-official-camera-scene-a-v6.png",
     "b": ASSETS / "p7-5-4-sam2-person-mask-official-camera-scene-b-v7.png",
-    "c": ASSETS / "p7-5-4-sam2-person-mask-official-camera-scene-c-v5.png",
+    "c": ASSETS / "p7-5-4-sam2-person-mask-official-camera-scene-c-v8.png",
 }
 DEFAULT_PROMPT = (
     "Picture 1 is a woman airborne above a white floor. Add one soft gray cast "
@@ -83,6 +83,7 @@ def main() -> None:
         pipeline = QwenImageEditPlusPipeline.from_pretrained(
             MODEL_ID, torch_dtype=torch.bfloat16, cache_dir=CACHE_DIR, local_files_only=True
         )
+        pipeline.enable_attention_slicing("max")
         pipeline.enable_sequential_cpu_offload()
         try:
             shadowed = pipeline(

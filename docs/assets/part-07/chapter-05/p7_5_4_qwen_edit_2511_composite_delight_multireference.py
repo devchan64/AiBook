@@ -72,6 +72,7 @@ def main() -> None:
     pipeline = QwenImageEditPlusPipeline.from_pretrained(
         MODEL_ID, torch_dtype=torch.bfloat16, cache_dir=CACHE_DIR, local_files_only=True
     )
+    pipeline.enable_attention_slicing("max")
     pipeline.enable_sequential_cpu_offload()
     try:
         image = pipeline(

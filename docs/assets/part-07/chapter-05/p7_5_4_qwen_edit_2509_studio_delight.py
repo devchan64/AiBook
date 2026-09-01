@@ -32,6 +32,14 @@ STUDIO_DELIGHT_DIR = PROJECT_ROOT / ".tmp" / "download" / "weight-prithivmlmods-
 STUDIO_DELIGHT_FILE = "QIE-2511-Studio-DeLight-5000.safetensors"
 PROMPT = "Neutral uniform lighting Preserve identity and composition"
 DEFAULT_IMAGE = ASSETS / "p7-5-4-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10.png"
+ASSET_PRESETS: dict[str, Path | None] = {
+    "character-a": ASSETS / "p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png",
+    "character-b": ASSETS / "p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png",
+    "character-c": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-c-low-angle-closeup-v1-size-1280x1280-seed-62294-steps-10.png",
+    "background-a": ASSETS / "p7-5-4-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10.png",
+    "background-b": ASSETS / "p7-5-4-qwen-2511-camera-b-background-camera-b-v1-size-1280x1280-seed-62294-steps-10.png",
+    "background-c": ASSETS / "p7-5-4-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10.png",
+}
 
 
 def sha256(path: Path) -> str:
@@ -56,7 +64,12 @@ def runtime_record() -> dict[str, object]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--image", type=Path, default=DEFAULT_IMAGE, help="One image or a character-free background plate to de-light.")
+    parser.add_argument("--image", type=Path, default=DEFAULT_IMAGE, help="One image or a character-free background plate to de-light; used when --asset is omitted.")
+    parser.add_argument(
+        "--asset",
+        choices=tuple(ASSET_PRESETS),
+        help="Choose one of the prepared character-a|b|c or background-a|b|c inputs.",
+    )
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=1280, help="Square output edge.")
     parser.add_argument("--seed", type=int, default=62294)
@@ -64,25 +77,28 @@ def main() -> None:
                         help="Local Studio DeLight LoRA file.")
     parser.add_argument("--prompt", default=PROMPT, help="Studio DeLight trigger prompt recorded in result.json.")
     parser.add_argument("--delight-scale", type=float, default=1.0)
-    parser.add_argument("--run-label", default="camera-a-background-v1")
+    parser.add_argument("--run-label", help="Optional output label; defaults to the selected --asset or camera-a-background-v1.")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
     if args.steps <= 0 or args.size < 32 or args.size % 32 or args.delight_scale <= 0:
         parser.error("--steps and --delight-scale must be positive; --size must be a positive multiple of 32")
-    source = args.image.resolve()
+    preset_source = ASSET_PRESETS.get(args.asset) if args.asset else None
+    source = (preset_source or args.image).resolve()
     if not source.is_file():
         raise FileNotFoundError(source)
     delight_weight = args.delight_weight.resolve()
     if not delight_weight.is_file():
         raise FileNotFoundError(delight_weight)
     output_dir = args.output_dir.resolve()
-    stem = f"p7-5-4-qwen-2509-studio-delight-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
+    run_label = args.run_label or args.asset or "camera-a-background-v1"
+    stem = f"p7-5-4-qwen-2509-studio-delight-{run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     output = output_dir / f"{stem}.png"
     result = output_dir / f"{stem}-result.json"
     plan = {
         "model": MODEL_ID,
+        "asset_preset": args.asset,
         "input": str(source),
         "prompt": args.prompt,
         "lora": {"repository": STUDIO_DELIGHT_ID, "weight": str(delight_weight), "scale": args.delight_scale},
@@ -112,6 +128,7 @@ def main() -> None:
         torch_dtype=torch.bfloat16,
         local_files_only=True,
     )
+    pipeline.enable_attention_slicing("max")
     pipeline.enable_sequential_cpu_offload()
     pipeline.load_lora_weights(delight_weight.parent, weight_name=delight_weight.name, adapter_name="studio_delight", local_files_only=True)
     pipeline.set_adapters(["studio_delight"], adapter_weights=[args.delight_scale])
@@ -138,7 +155,11 @@ def main() -> None:
         "execution_mode": "direct Diffusers; Qwen Image Edit 2509; Studio DeLight LoRA; no ComfyUI",
         "runtime": runtime_record(),
         "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
-        "input": {"role": "image or character-free background plate", "path": str(source), "sha256": sha256(source)},
+        "input": {
+            "role": args.asset or "custom image or character-free background plate",
+            "path": str(source),
+            "sha256": sha256(source),
+        },
         "prompt": args.prompt,
         "lora": {"repository": STUDIO_DELIGHT_ID, "weight": delight_weight.name, "adapter": "studio_delight", "scale": args.delight_scale},
         "seed": args.seed,

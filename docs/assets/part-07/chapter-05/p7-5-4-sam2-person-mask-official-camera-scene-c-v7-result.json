@@ -1,0 +1,59 @@
+{
+  "status": "generated",
+  "stage": "person_mask",
+  "purpose": "Person mask for Qwen Image Edit compositing or inpainting",
+  "models": {
+    "detector": "IDEA-Research/grounding-dino-tiny",
+    "segmenter": "facebook/sam2.1-hiera-small",
+    "licenses": {
+      "detector": "Apache-2.0",
+      "segmenter": "Apache-2.0"
+    }
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-close-up-official-camera-scene-c-v6-seed-5420-steps-20.png",
+    "sha256": "661293ed6528efafa4b391c44fbd603fd01b9262cf73984abddcdfbf4d97dba2"
+  },
+  "input_role": "single-person image",
+  "grounding_prompt": [
+    "a woman",
+    "a person"
+  ],
+  "selected_detection": {
+    "label": "a woman a person",
+    "score": 0.426,
+    "box_xyxy": [
+      113.71,
+      252.73,
+      932.51,
+      703.58
+    ]
+  },
+  "mask_semantics": "white=person to repaint; black=preserve",
+  "postprocess": {
+    "excluded_rectangles_xyxy": [
+      [
+        100,
+        380,
+        430,
+        520
+      ]
+    ]
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-c-v7.png",
+    "sha256": "9c631c83731ef9de291d6fb9154cd8b16c91e715ca209de18c318d00fecba3a6"
+  },
+  "overlay": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-c-v7-overlay.png",
+    "sha256": "4fdbaa8c2861db818a88535efab472578d864b6ade3f87a05f0efb8edf733cf9"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "elapsed_seconds": 1.59
+}
