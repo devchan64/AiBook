@@ -1,0 +1,25 @@
+{
+  "status": "generated",
+  "stage": "camera_character_removal",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-high-angle-shot-medium-shot-official-direct-seed-5420-steps-20.png",
+    "sha256": "cdebc9e0eef2acd7cf837985638a32822dbd9a3229a9e726490e7622a35096bd",
+    "role": "Camera B composition source"
+  },
+  "prompt": "Remove the woman from Picture 1. Preserve the wildflower meadow, distant hills, grasses, yellow flowers, and composition.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-b-background-camera-b-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "ed0c07ded9ef0251010399133be44e087b2956e70d094d64566dcb2d7f1d9abc"
+  },
+  "runtime": {
+    "diffusers": "0.37.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.13.0"
+  },
+  "elapsed_seconds": 318.79
+}

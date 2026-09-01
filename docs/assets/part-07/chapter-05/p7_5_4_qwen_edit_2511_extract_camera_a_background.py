@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Remove the character from Camera A and produce one background plate.
+"""Remove a character from one camera panel and produce a background plate.
 
 This is a single-image Qwen Image Edit 2511 edit.  It intentionally uses a
-short positive instruction: Camera A supplies the composition and the model
+short positive instruction: the camera panel supplies the composition and the model
 only fills the former character region with the surrounding coastal scene.
 """
 
@@ -36,7 +36,8 @@ def sha256(path: Path) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--camera", type=Path, default=DEFAULT_CAMERA, help="Camera A image containing the character.")
+    parser.add_argument("--camera", type=Path, default=DEFAULT_CAMERA, help="Camera image containing the character.")
+    parser.add_argument("--scene-id", default="a", help="Short scene identifier recorded in the output filename.")
     parser.add_argument("--prompt", default=DEFAULT_PROMPT)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=10)
@@ -52,7 +53,10 @@ def main() -> None:
     if not camera.is_file():
         raise FileNotFoundError(camera)
     output_dir = args.output_dir.resolve()
-    stem = f"p7-5-4-qwen-2511-camera-a-background-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
+    scene_id = args.scene_id.strip().lower()
+    if not scene_id.replace("-", "").isalnum():
+        parser.error("--scene-id must contain only letters, digits, or hyphens")
+    stem = f"p7-5-4-qwen-2511-camera-{scene_id}-background-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     output, result = output_dir / f"{stem}.png", output_dir / f"{stem}-result.json"
     if args.dry_run:
         print(json.dumps({"camera": str(camera), "prompt": args.prompt, "output": str(output), "result": str(result)}, ensure_ascii=False))
@@ -80,8 +84,8 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     image.save(output)
     result.write_text(json.dumps({
-        "status": "generated", "stage": "camera_a_character_removal", "model": MODEL_ID,
-        "input": {"path": str(camera), "sha256": sha256(camera), "role": "Camera A composition source"},
+        "status": "generated", "stage": "camera_character_removal", "model": MODEL_ID,
+        "input": {"path": str(camera), "sha256": sha256(camera), "role": f"Camera {scene_id.upper()} composition source"},
         "prompt": args.prompt, "seed": args.seed, "steps": args.steps, "true_cfg_scale": 4.0,
         "output": {"path": str(output), "sha256": sha256(output)},
         "runtime": {name: importlib.metadata.version(name) for name in ("diffusers", "torch", "transformers", "accelerate")},
