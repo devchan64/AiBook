@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 멀티플 뷰 생성: identity 기준과 카메라 앵글 분리하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.30`
+> Version: `v2026.09.01`
 
 같은 인물의 얼굴을 여러 방향으로 만들 때, 정면 이미지와 회전 지시를 한 prompt 안에 모두 반복하면 헤어·이목구비·화풍이 쉽게 흔들린다. 이 절은 **정면 얼굴은 identity 기준을 마련하고, 가슴 중간까지 포함한 체스트 참조는 얼굴·헤어·어깨 연결을 전달하며, 전용 다중 앵글 LoRA는 카메라 변환만 맡는** Qwen 경로를 기록한다. 전신·착장·body-only OpenPose는 [P7-5.3](section-03.md)에서 별도로 다룬다.
 
@@ -27,6 +27,44 @@
 ![Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png)
 
 [정면 얼굴 result.json — T2I 입력 조건과 출력 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024-result.json)
+
+[정면 얼굴 T2I Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_front_head_reference_t2i.py)
+
+이 기준 이미지를 만드는 핵심 코드는 다음과 같습니다. 이 호출에는 `inputs`가 없으므로 참조 이미지를 넣는 Qwen Edit가 아니라 Qwen Image의 text-to-image 실행입니다. 일러스트 계약과 `FRAMING_PROMPTS["head"]`만 결합하고, 정면 기준 PNG와 `result.json`을 한 쌍으로 기록합니다.
+
+```python
+DEFAULT_STEPS = 10
+SIZE = (1024, 1024)
+
+illustration_contract = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))
+illustration_prompt = illustration_contract["front_face_illustration_prompt"]
+prompt = f"{illustration_prompt} {FRAMING_PROMPTS[args.framing]}"
+
+transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
+transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
+pipe = QwenImagePipeline.from_pretrained(
+    model_path, transformer=transformer, torch_dtype=torch.bfloat16,
+    local_files_only=True,
+)
+pipe.enable_sequential_cpu_offload()
+
+image = pipe(
+    prompt=prompt,
+    generator=torch.Generator("cpu").manual_seed(args.seed),
+    true_cfg_scale=4.0,
+    guidance_scale=1.0,
+    negative_prompt=" ",
+    num_inference_steps=args.steps,
+    width=args.size,
+    height=args.size,
+).images[0]
+image.save(output)
+result_record.write_text(
+    json.dumps(record, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8"
+)
+```
+
+`result.json`에는 사용 모델과 Nunchaku transformer, 세 프롬프트 계약의 SHA-256, 실행 환경, 완성 PNG의 SHA-256도 함께 기록합니다. 본문 코드 발췌는 생성의 핵심을, 위 Python 원문과 실행 기록은 전체 조건을 제공합니다.
 
 정면 얼굴 생성의 기본값은 이 기준 이미지와 같은 10 step이다. 카메라 앵글 생성의 step 수까지 이 값으로 고정하지 않는다.
 
@@ -62,6 +100,52 @@ LoRA는 기반 모델 전체를 다시 저장한 독립 모델이 아니라, 일
 현재 로컬 실행기는 저정밀 Nunchaku transformer에 일반 PEFT 로더 대신 전용 `apply_lora` 처리를 사용한다. 적용된 transformer 모듈 수, LoRA 가중치 해시, 강도(`1.0`)를 result JSON에 남겨 가중치가 실제 적용되지 않은 실행과 구분한다. 또한 yaw·pitch·이동·렌즈를 한 prompt에 섞지 않고 한 축만 허용한다. 이는 복합 명령에서 화면 전체가 불안정하게 회전했던 이 실험의 관찰을 분리해 재현 가능하게 비교하기 위한 설계다.
 
 카메라 앵글 생성에는 체스트 참조 한 장만 이미지 입력으로 넣는다. 이 입력이 identity·헤어·일러스트 표현과 어깨·상반신의 연결을 맡는다. 다중 앵글 LoRA와 짧은 중국어 카메라 명령은 yaw·pitch 변환만 맡는다. 얼굴 OpenPose, 전신 OpenPose, 착장 이미지는 이 경로에 넣지 않는다.
+
+### 회전 축을 적용하는 코드
+
+[Qwen 2509 다중 앵글 체스트 카메라 앵글 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_camera_angle_2509_probe.py)
+
+회전 실행기는 기준 체스트 이미지를 유일한 이미지 입력으로 읽고, `yaw` 또는 `pitch` 중 하나의 짧은 중국어 카메라 명령만 만든 뒤 LoRA를 적용한 `QwenImageEditPlusPipeline`에 넘깁니다. 다음 발췌에서 `camera_prompt_components()`는 다른 축을 빈 문자열로 남겨 복합 명령을 만들지 않으며, `result.json`에는 입력 이미지와 적용한 LoRA의 해시·축·값·출력 해시를 기록합니다.
+
+```python
+YAW_PROMPTS = {
+    "quarter_right": "将镜头向右旋转45度。",
+    "quarter_left": "将镜头向左旋转45度。",
+    "profile_right": "将镜头向右旋转90度。",
+    "profile_left": "将镜头向左旋转90度。",
+}
+PITCH_PROMPTS = {
+    "high_angle": "将镜头转为俯视。",
+    "level": "",
+    "low_angle": "将镜头转为仰视。",
+}
+
+prompt_components = camera_prompt_components(args.axis, value)
+prompt = build_camera_prompt(args.axis, value)  # yaw 또는 pitch 한 축
+image = pipeline(
+    prompt=prompt,
+    image=[load_image(str(reference_image)).convert("RGB")],
+    generator=torch.Generator("cpu").manual_seed(args.seed),
+    true_cfg_scale=4.0,
+    guidance_scale=1.0,
+    negative_prompt=" ",
+    num_inference_steps=args.steps,
+    width=SIZE[0],
+    height=SIZE[1],
+).images[0]
+image.save(output)
+
+record = {
+    "inputs": [asset_record(reference_image)],
+    "input_roles": ["reference_identity_and_illustration"],
+    "angle_lora": {"repository": ANGLE_LORA_REPO, "weight": asset_record(angle_lora)},
+    "axis": args.axis,
+    "axis_value": value,
+    "prompt_components": prompt_components,
+    "output": asset_record(output),
+}
+result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\\n")
+```
 
 | 입력 또는 조건 | 맡는 역할 | 맡지 않는 역할 |
 | --- | --- | --- |
@@ -148,31 +232,6 @@ pitch와 yaw를 한 prompt에 결합하지 않는다. 먼저 만든 high/low 체
 | 화풍 | 체스트 기준의 선, 대비, 음영이 단순화되거나 사진풍으로 바뀌지 않았는가? |
 
 방향만 맞고 머리카락·상반신 연결이나 이목구비가 달라진 출력과, 닮았지만 카메라 방향이 달라진 출력을 구분해 읽는다. 이 비교는 다음에 step·LoRA 강도·명령 문구를 한 축씩 바꾸는 근거로 남긴다.
-
-## 5. 재실행 기록을 남긴다
-
-[Qwen 정면 얼굴·체스트 참조 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_front_head_reference_t2i.py)
-
-[Qwen 2509 다중 앵글 체스트 카메라 앵글 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_2_qwen_camera_angle_2509_probe.py)
-
-로컬 가중치와 CUDA 환경이 준비되어 있다면 아래처럼 다시 실행할 수 있다.
-
-```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_front_head_reference_t2i.py \
-  --framing torso --seed 62294 --steps 10 --size 1024
-
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_camera_angle_2509_probe.py \
-  --axis yaw --targets profile_left quarter_left front quarter_right profile_right \
-  --seed 62294 --steps 8 --angle-lora-strength 1.0 --subject-region torso
-
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_camera_angle_2509_probe.py \
-  --axis pitch --camera-views high_angle level low_angle \
-  --seed 62294 --steps 8 --angle-lora-strength 1.0 --subject-region torso
-```
-
-첫 명령의 `--framing`은 정면 기준의 크롭(`head` 또는 `torso`)을, `--seed`·`--steps`·`--size`는 재현 조건을 정한다. 두 번째와 세 번째 명령은 `yaw`와 `pitch`를 분리한다. 한 번의 비교에서는 seed, steps, LoRA 세기 중 하나만 바꾸고, 머리 외곽·앞머리 가림·홍채색·얼굴 비율이 기준 정면과 얼마나 달라지는지 기록한다.
-
-result JSON에는 입력 이미지 해시, LoRA 저장소와 가중치 해시, target yaw·pitch, seed, step, prompt, `prompt_word_count`, 출력 해시를 함께 남긴다. 출력 파일은 chapter asset 루트에 `p7-5-2-qwen-head-…` 또는 `p7-5-2-qwen-torso-…` 이름으로 저장한다.
 
 ## 체크리스트
 
