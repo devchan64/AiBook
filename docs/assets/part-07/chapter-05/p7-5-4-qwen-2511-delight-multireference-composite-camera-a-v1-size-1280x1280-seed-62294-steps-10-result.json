@@ -1,0 +1,35 @@
+{
+  "status": "generated",
+  "stage": "delight_multireference_composite",
+  "execution_mode": "direct Diffusers; Qwen Image Edit 2511; no mask; no ComfyUI",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": [
+    {
+      "role": "Picture 1: DeLight character-free background",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-camera-a-background-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "4100010d2a257a7d3635d99eba5fb55ff29b7fbe87de85258bf53d367ca1e023"
+    },
+    {
+      "role": "Picture 2: DeLight character identity, pose, and outfit",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "db73c4d25cbd9cf1eb7ee459ec3d0e5d42435df4c9e37b8c82c31394f02426b0"
+    }
+  ],
+  "prompt": "Place the woman in Picture 2 into Picture 1. Preserve the coastal background and composition of Picture 1. Preserve the split-leap pose, identity, and outfit of the woman in Picture 2.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-camera-a-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "8a217b17bad25bcfe49b07bfb82aa16e678c575ca85f3115b7049995bf5f90e1",
+    "width": 1280,
+    "height": 1280
+  },
+  "runtime": {
+    "diffusers": "0.37.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.13.0"
+  },
+  "elapsed_seconds": 429.99
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Neutralize lighting in a Try-On background composite with Studio DeLight.
+"""Neutralize lighting in one image or a character-free background plate.
 
 The Studio DeLight model card identifies Qwen Image Edit 2511 as its base and
 also states compatibility with 2509.  This runner deliberately uses the
@@ -31,7 +31,7 @@ STUDIO_DELIGHT_ID = "prithivMLmods/QIE-2511-Studio-DeLight"
 STUDIO_DELIGHT_DIR = PROJECT_ROOT / ".tmp" / "download" / "weight-prithivmlmods-qie-2511-studio-delight"
 STUDIO_DELIGHT_FILE = "QIE-2511-Studio-DeLight-5000.safetensors"
 PROMPT = "Neutral uniform lighting Preserve identity and composition"
-DEFAULT_IMAGE = ASSETS / "p7-5-4-qwen-2509-relight-camera-a-upper-right-v1-size-1280x1280-seed-62294-steps-10.png"
+DEFAULT_IMAGE = ASSETS / "p7-5-4-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10.png"
 
 
 def sha256(path: Path) -> str:
@@ -56,15 +56,15 @@ def runtime_record() -> dict[str, object]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--image", type=Path, default=DEFAULT_IMAGE, help="One Try-On and background composite to de-light.")
+    parser.add_argument("--image", type=Path, default=DEFAULT_IMAGE, help="One image or a character-free background plate to de-light.")
     parser.add_argument("--steps", type=int, default=10)
-    parser.add_argument("--size", type=int, default=1024, help="Square output edge.")
+    parser.add_argument("--size", type=int, default=1280, help="Square output edge.")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--delight-weight", type=Path, default=STUDIO_DELIGHT_DIR / STUDIO_DELIGHT_FILE,
                         help="Local Studio DeLight LoRA file.")
     parser.add_argument("--prompt", default=PROMPT, help="Studio DeLight trigger prompt recorded in result.json.")
     parser.add_argument("--delight-scale", type=float, default=1.0)
-    parser.add_argument("--run-label", default="camera-a-upper-right-relight-v1")
+    parser.add_argument("--run-label", default="camera-a-background-v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -138,7 +138,7 @@ def main() -> None:
         "execution_mode": "direct Diffusers; Qwen Image Edit 2509; Studio DeLight LoRA; no ComfyUI",
         "runtime": runtime_record(),
         "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
-        "input": {"role": "try-on and background composite", "path": str(source), "sha256": sha256(source)},
+        "input": {"role": "image or character-free background plate", "path": str(source), "sha256": sha256(source)},
         "prompt": args.prompt,
         "lora": {"repository": STUDIO_DELIGHT_ID, "weight": delight_weight.name, "adapter": "studio_delight", "scale": args.delight_scale},
         "seed": args.seed,

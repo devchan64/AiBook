@@ -1,0 +1,49 @@
+{
+  "status": "generated",
+  "stage": "person_mask",
+  "purpose": "Person mask for Qwen Image Edit compositing or inpainting",
+  "models": {
+    "detector": "IDEA-Research/grounding-dino-tiny",
+    "segmenter": "facebook/sam2.1-hiera-small",
+    "licenses": {
+      "detector": "Apache-2.0",
+      "segmenter": "Apache-2.0"
+    }
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "db73c4d25cbd9cf1eb7ee459ec3d0e5d42435df4c9e37b8c82c31394f02426b0"
+  },
+  "input_role": "single-person image",
+  "grounding_prompt": [
+    "a woman",
+    "a person"
+  ],
+  "selected_detection": {
+    "label": "a woman a person",
+    "score": 0.4405,
+    "box_xyxy": [
+      229.76,
+      257.43,
+      1038.02,
+      690.35
+    ]
+  },
+  "mask_semantics": "white=person to repaint; black=preserve",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-delight-cutout-identity-v1.png",
+    "sha256": "6d1b52d4ed29f0330b4af9f0ad4585b75a76823f4f8342424adb67d401d5876d"
+  },
+  "overlay": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-delight-cutout-identity-v1-overlay.png",
+    "sha256": "2bb5564ae46543914a25fab9cb1e4396705bb6c62c7c6dbc0eba0f53fdcb8cd8"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "elapsed_seconds": 3.28
+}

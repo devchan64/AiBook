@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a person mask for P7-5.3 Qwen inpainting with Apache-2.0 models."""
+"""Create a person mask for a Qwen image with Apache-2.0 models."""
 
 from __future__ import annotations
 
@@ -51,7 +51,7 @@ def main() -> None:
         "--reference",
         type=Path,
         required=True,
-        help="Stage 2 camera-angle PNG whose person area will be repainted.",
+        help="Image whose single person will be segmented.",
     )
     parser.add_argument("--run-label", default="v1")
     parser.add_argument("--threshold", type=float, default=0.20)
@@ -99,7 +99,7 @@ def main() -> None:
     masks = sam_processor.post_process_masks(sam_outputs.pred_masks.cpu(), sam_inputs["original_sizes"])[0]
     mask = masks[0, 0].to(torch.uint8).numpy() * 255
 
-    stem = f"p7-5-3-sam2-person-mask-{args.run_label}"
+    stem = f"p7-5-4-sam2-person-mask-{args.run_label}"
     args.output_dir.mkdir(parents=True, exist_ok=True)
     output = args.output_dir / f"{stem}.png"
     overlay = args.output_dir / f"{stem}-overlay.png"
@@ -117,14 +117,14 @@ def main() -> None:
             {
                 "status": "generated",
                 "stage": "person_mask",
-                "purpose": "Person mask for Qwen Image Edit inpainting",
+                "purpose": "Person mask for Qwen Image Edit compositing or inpainting",
                 "models": {
                     "detector": GROUNDING_DINO_ID,
                     "segmenter": SAM2_ID,
                     "licenses": {"detector": "Apache-2.0", "segmenter": "Apache-2.0"},
                 },
                 "input": record(reference),
-                "input_role": "stage_2_camera_angle",
+                "input_role": "single-person image",
                 "grounding_prompt": labels[0],
                 "selected_detection": {"label": label, "score": score, "box_xyxy": box},
                 "mask_semantics": "white=person to repaint; black=preserve",
