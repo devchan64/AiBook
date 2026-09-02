@@ -5,9 +5,9 @@ flowchart TD
   review["4. 사람 관찰 기록<br/>외곽 · 선 · 색 · 장소 · 시간 · 카메라"]
   repair["관찰한 이탈을 장면 구조로 바꿔<br/>해당 행을 다시 생성"]
   coverage["5. 스무 행의 공통점과 이탈을<br/>비교 기록으로 정리"]
-  manifest["6. 참조 목록 기록<br/>원본·화풍 계약·관찰 범위"]
+  originals["6. 원본 표 확인<br/>파일명·scene ID·관찰 범위"]
 
   contract --> matrix --> generate --> review
   review --> coverage
   coverage --> repair --> generate
-  coverage --> manifest
+  coverage --> originals

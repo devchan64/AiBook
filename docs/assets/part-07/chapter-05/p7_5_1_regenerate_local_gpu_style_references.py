@@ -1,9 +1,10 @@
-"""Generate P7-5.1 style-reference review candidates with Qwen Image.
+"""Generate P7-5.1 style-reference candidates with Qwen Image.
 
 Outputs are generation records. This script does not assign approval states.
 Set ``P7_STYLE_SCENE`` to regenerate one named existing or extension scene.
 The default run covers all twenty contract rows. Outputs are candidates only;
 human observation records describe each image's reference role and limitations.
+Each saved PNG receives a neighboring ``-result.json`` generation record.
 """
 
 import json
@@ -193,8 +194,16 @@ def main() -> None:
         pipe.enable_sequential_cpu_offload()
         for scene in scenes:
             scene_started = time.monotonic()
+            prompt = scene["prompt"] + COMMON_CONTRACT
+            run_contract = {
+                "model": MODEL_ID,
+                "transformer": TRANSFORMER_ID,
+                "prompt": prompt,
+                "size": size,
+                "true_cfg_scale": TRUE_CFG_SCALE,
+            }
             image = pipe(
-                prompt=scene["prompt"] + COMMON_CONTRACT,
+                prompt=prompt,
                 width=size[0],
                 height=size[1],
                 num_inference_steps=steps,
@@ -202,17 +211,45 @@ def main() -> None:
                 negative_prompt=" ",
                 generator=torch.Generator(device="cpu").manual_seed(scene["seed"]),
             ).images[0]
-            image_name = f"{candidate_stem(f'p7-5-1-style-{scene["id"]}-qwen-image-{run_label}', seed=scene['seed'], steps=steps, contract={'model': MODEL_ID, 'transformer': TRANSFORMER_ID, 'prompt': scene['prompt'] + COMMON_CONTRACT, 'size': size, 'true_cfg_scale': TRUE_CFG_SCALE})}.png"
+            output_stem = candidate_stem(
+                f"p7-5-1-style-{scene['id']}-qwen-image-{run_label}",
+                seed=scene["seed"],
+                steps=steps,
+                contract=run_contract,
+            )
+            image_name = f"{output_stem}.png"
+            result_name = f"{output_stem}-result.json"
             image.save(ASSET_DIR / image_name)
+            elapsed_seconds = round(time.monotonic() - scene_started, 1)
+            result = {
+                "status": "generated",
+                "record_kind": "generation_result",
+                "scene_id": scene["id"],
+                "model": MODEL_ID,
+                "transformer": TRANSFORMER_ID,
+                "runtime": "local GPU via Diffusers QwenImagePipeline with Nunchaku FP4 r128 sequential CPU offload",
+                "prompt": prompt,
+                "seed": scene["seed"],
+                "size": list(size),
+                "steps": steps,
+                "true_cfg_scale": TRUE_CFG_SCALE,
+                "output": {"path": image_name},
+                "elapsed_seconds": elapsed_seconds,
+            }
+            (ASSET_DIR / result_name).write_text(
+                json.dumps(result, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
             runs.append(
                 {
                     "id": scene["id"],
                     "seed": scene["seed"],
-                    "prompt": scene["prompt"] + COMMON_CONTRACT,
-                    "prompt_word_count": len((scene["prompt"] + COMMON_CONTRACT).split()),
+                    "prompt": prompt,
+                    "prompt_word_count": len(prompt.split()),
                     "asset": image_name,
-                    "elapsed_seconds": round(time.monotonic() - scene_started, 1),
-                    "record_kind": "generation_record",
+                    "result": result_name,
+                    "elapsed_seconds": elapsed_seconds,
+                    "record_kind": "generation_result",
                 }
             )
             torch.cuda.empty_cache()

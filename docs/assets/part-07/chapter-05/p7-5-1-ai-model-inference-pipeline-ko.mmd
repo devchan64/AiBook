@@ -28,7 +28,7 @@ flowchart TD
     direction TB
     output["PNG 저장<br/>scene ID · run label"]
     review["사람 검수와 ledger<br/>프레임 · 선 · 색 · 장소 · 시간 · 카메라"]
-    manifest["참조 manifest<br/>P7-5.3 입력 후보"]
+    originals["원본 표<br/>파일명·scene ID"]
   end
 
   prompt_input --> input_bundle
@@ -46,4 +46,4 @@ flowchart TD
   latent --> transformer
   schedule --> transformer
   transformer -->|기본 30 steps| transformer
-  transformer --> decode --> output --> review --> manifest
+  transformer --> decode --> output --> review --> originals
