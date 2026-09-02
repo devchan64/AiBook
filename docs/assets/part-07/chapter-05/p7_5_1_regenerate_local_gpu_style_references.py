@@ -1,9 +1,9 @@
 """Generate P7-5.1 style-reference review candidates with Qwen Image.
 
-Outputs are review candidates. This script never marks an image approved.
+Outputs are generation records. This script does not assign approval states.
 Set ``P7_STYLE_SCENE`` to regenerate one named existing or extension scene.
 The default run covers all twenty contract rows. Outputs are candidates only;
-human review remains the authority for downstream use.
+human observation records describe each image's reference role and limitations.
 """
 
 import json
@@ -212,7 +212,7 @@ def main() -> None:
                     "prompt_word_count": len((scene["prompt"] + COMMON_CONTRACT).split()),
                     "asset": image_name,
                     "elapsed_seconds": round(time.monotonic() - scene_started, 1),
-                    "status": "review_required",
+                    "record_kind": "generation_record",
                 }
             )
             torch.cuda.empty_cache()
@@ -221,7 +221,7 @@ def main() -> None:
         observer.join(timeout=2)
 
     record = {
-        "status": "review_required",
+        "record_kind": "generation_record",
         "model_id": MODEL_ID,
         "transformer_id": TRANSFORMER_ID,
         "runtime": "local GPU via Diffusers QwenImagePipeline with Nunchaku FP4 r128 sequential CPU offload",

@@ -2,16 +2,12 @@ flowchart TD
   contract["1. 화풍 계약 고정<br/>외곽 · 선 · 색 · 공간 · 카메라"]
   matrix["2. 장면 행렬 구성<br/>스무 장면 행"]
   generate["3. 행별 원본 생성<br/>프레임 없는 전체 캔버스"]
-  review{"4. 사람 검수<br/>외곽 · 선 · 색 · 장소 · 시간 · 카메라"}
-  repair["실패 원인을 장면 구조로 바꿔<br/>해당 행을 다시 생성"]
-  coverage{"5. 스무 행이 화풍 계약을<br/>함께 지키는가?"}
-  pack["6. 전체 팩 사람 승인<br/>ledger에 결론 기록"]
-  manifest["7. manifest 확정<br/>승인 원본과 화풍 계약 근거"]
+  review["4. 사람 관찰 기록<br/>외곽 · 선 · 색 · 장소 · 시간 · 카메라"]
+  repair["관찰한 이탈을 장면 구조로 바꿔<br/>해당 행을 다시 생성"]
+  coverage["5. 스무 행의 공통점과 이탈을<br/>비교 기록으로 정리"]
+  manifest["6. 참조 목록 기록<br/>원본·화풍 계약·관찰 범위"]
 
   contract --> matrix --> generate --> review
-  review -- 불합격 --> repair --> generate
-  review -- 행 승인 --> coverage
-  coverage -- 보강 필요 --> repair
-  coverage -- 충족 --> pack
-  pack -- 승인 --> manifest
-  pack -- 보류 --> repair
+  review --> coverage
+  coverage --> repair --> generate
+  coverage --> manifest

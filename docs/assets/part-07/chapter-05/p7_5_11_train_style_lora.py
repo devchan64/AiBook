@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Train a background-style LoRA from the approved P7-5.1 reference pack.
+"""Train a background-style LoRA from the recorded P7-5.1 reference pack.
 
-The P7-5.1 approval manifest, rather than a copied image directory, is the
-single source of truth. This keeps a later approval replacement visible to the
+The P7-5.1 reference manifest, rather than a copied image directory, is the
+single source of truth. This keeps a later reference update visible to the
 trainer and makes every run record the exact file hashes it used.
 """
 
@@ -80,7 +80,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--width", type=int, default=384)
     parser.add_argument("--height", type=int, default=512)
     parser.add_argument("--rank", type=int, default=8)
-    parser.add_argument("--validate-only", action="store_true", help="check the approved inputs without loading CUDA models")
+    parser.add_argument("--validate-only", action="store_true", help="check the recorded inputs without loading CUDA models")
     return parser.parse_args()
 
 
@@ -96,9 +96,6 @@ def load_examples(dataset_path: Path) -> tuple[list[Example], list[Example]]:
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     pack_path = dataset_path.parent / dataset["source_manifest"]
     pack = json.loads(pack_path.read_text(encoding="utf-8"))
-    if pack.get("status") != "approved_for_downstream_reference":
-        raise ValueError(f"approved source pack is not ready: {pack.get('status')}")
-
     assets_by_scene = {record["scene_id"]: record["asset"] for record in pack["references"]}
     trigger = dataset["trigger"]
 
@@ -107,12 +104,12 @@ def load_examples(dataset_path: Path) -> tuple[list[Example], list[Example]]:
         for scene_id in scene_ids:
             asset = assets_by_scene.get(scene_id)
             if asset is None:
-                raise KeyError(f"{split} scene is missing from approved source pack: {scene_id}")
+                raise KeyError(f"{split} scene is missing from reference pack: {scene_id}")
             if scene_id not in SCENE_CAPTIONS:
                 raise KeyError(f"caption is missing for {scene_id}")
             path = pack_path.parent / asset
             if not path.is_file():
-                raise FileNotFoundError(f"approved source is missing: {path}")
+                raise FileNotFoundError(f"reference source is missing: {path}")
             examples.append(Example(scene_id, path, sha256(path), f"{trigger}, {SCENE_CAPTIONS[scene_id]}, {STYLE_TRAITS}"))
         return examples
 

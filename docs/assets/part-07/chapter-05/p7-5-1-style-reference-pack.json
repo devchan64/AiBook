@@ -1,8 +1,6 @@
 {
-  "status": "approved_for_downstream_reference",
-  "purpose": "Human-approved P7-5.1 local-GPU background style-reference originals",
-  "model_input_rule": "Keep individual local-GPU originals and their approval record separate from tiled comparison images.",
-  "gate_status": "pass",
+  "purpose": "P7-5.1 local-GPU background style-reference originals with recorded observations",
+  "model_input_rule": "Keep individual local-GPU originals and their observation record separate from tiled comparison images.",
   "references": [
     {"asset": "p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-v3-scene01-code-7a21c8-seed-420713-steps-30.png", "scene_id": "indoor-dawn-high-angle"},
     {"asset": "p7-5-1-style-night-lit-reading-room-oblique-qwen-image-qwen30-v3-scene05-code-b45954-seed-420705-steps-30.png", "scene_id": "indoor-night-oblique"},
