@@ -89,6 +89,11 @@
       "properties": [{"name": "aibook:component-role", "value": "camera-angle LoRA"}, {"name": "aibook:download-selector", "value": "qwen-image-edit-2511-multiple-angles-lora.safetensors"}, {"name": "aibook:observed-revision", "value": "e3066224ab74263f4a5b6179cd1a3b0a15577e44"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py; docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py; docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_camera_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
+      "type": "machine-learning-model", "bom-ref": "weight:mr2along-bfs-head-v5-2511", "publisher": "mr2along", "name": "BFS Head V5 for Qwen-Image-Edit-2511", "version": "d9ffba9012dfa1b299a4294572791c3275ae6ae4",
+      "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/mr2along/BFS"}, {"type": "model-card", "url": "https://huggingface.co/mr2along/BFS/blob/main/README.md"}],
+      "properties": [{"name": "aibook:component-role", "value": "face and hair identity replacement LoRA experiment"}, {"name": "aibook:download-selector", "value": "bfs_head_v5_2511_original.safetensors"}, {"name": "aibook:observed-revision", "value": "d9ffba9012dfa1b299a4294572791c3275ae6ae4"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_bfs_head_identity.py"}, {"name": "aibook:cache-status", "value": "not-downloaded"}, {"name": "aibook:license-review", "value": "MIT model card observed; source suitability still review-required"}]
+    },
+    {
       "type": "machine-learning-model", "bom-ref": "weight:zooeyy-qwen-edit-2511-lighting-remap-alpha-0-2", "publisher": "zooeyy", "name": "Qwen-Edit-2511 LightingRemap Alpha 0.2", "version": "Alpha0.2",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/zooeyy/Qwen-Edit-2511_LightingRemap_Alpha0.2"}, {"type": "model-card", "url": "https://huggingface.co/zooeyy/Qwen-Edit-2511_LightingRemap_Alpha0.2"}],
       "properties": [{"name": "aibook:component-role", "value": "color-block-guided relighting LoRA"}, {"name": "aibook:download-selector", "value": "Qwen-编辑-2511_LightningRemap_Alpha0.2.safetensors"}, {"name": "aibook:observed-revision", "value": "5388003"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_lighting_remap.py"}, {"name": "aibook:cache-status", "value": "not-downloaded"}, {"name": "aibook:license-review", "value": "model card declares MIT; source suitability still review-required"}]
@@ -117,6 +122,6 @@
   "dependencies": [
     {"ref": "model:qwen-image", "dependsOn": ["weight:nunchaku-qwen-image-fp4-r128", "weight:unsloth-qwen-image-q4-ks-gguf"]},
     {"ref": "model:qwen-image-edit-2509", "dependsOn": ["weight:foxbaze-try-on-qwen-edit-alpha", "weight:prithivmlmods-qie-2511-studio-delight"]},
-    {"ref": "model:qwen-image-edit-2511", "dependsOn": ["weight:comfy-qwen-image-text-encoder-fp8", "weight:comfy-qwen-image-vae", "weight:unsloth-qwen-image-edit-2511-q4-0-gguf", "weight:fal-qwen-image-edit-2511-multiple-angles", "weight:lightx2v-qwen-image-edit-2511-lightning-4steps", "weight:kun1009-qwen-image-edit-2511-relight"]}
+    {"ref": "model:qwen-image-edit-2511", "dependsOn": ["weight:comfy-qwen-image-text-encoder-fp8", "weight:comfy-qwen-image-vae", "weight:unsloth-qwen-image-edit-2511-q4-0-gguf", "weight:fal-qwen-image-edit-2511-multiple-angles", "weight:lightx2v-qwen-image-edit-2511-lightning-4steps", "weight:kun1009-qwen-image-edit-2511-relight", "weight:mr2along-bfs-head-v5-2511"]}
   ]
 }

@@ -27,19 +27,16 @@ PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 DEFAULT_SCENE = ASSETS / (
-    "p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-"
-    "tryon-camera-replace-v1-size-1280x1280-seed-62294-steps-20.png"
+    "p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-"
+    "size-1280x1280-seed-62294-steps-10.png"
 )
-# Scene A faces screen-right, so its default identity anchor uses the matching
-# screen-right profile.  Supply the frontal portrait explicitly with --face
-# only when testing a frontal-view target.
-DEFAULT_FACE = ASSETS / "p7-5-2-qwen-torso-yaw-profile-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png"
+DEFAULT_FACE = ASSETS / "p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
 
 # Keep the edit instruction short.  The portrait is the identity source; the
 # first image already carries the desired pose, outfit, camera and background.
 BASE_PROMPT = (
     "Replace the woman's face and hairstyle in Picture 1 with the woman in Picture 2. "
-    "Preserve the side-facing split-leap pose, outfit, coastal background, and composition."
+    "Preserve Picture 1's pose, outfit, scene, lighting, and composition."
 )
 
 
@@ -79,12 +76,13 @@ def square_canvas(path: Path, size: int) -> Image.Image:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--scene-id", choices=("a", "b", "c"), default="a", help="Label used only in output filenames and result metadata.")
     parser.add_argument("--scene", type=Path, default=DEFAULT_SCENE, help="Picture 1: transferred scene to preserve.")
     parser.add_argument("--face", type=Path, default=DEFAULT_FACE, help="Picture 2: character face and hair identity reference.")
     parser.add_argument("--seed", type=int, default=62294)
-    parser.add_argument("--steps", type=int, default=20)
+    parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=1280, help="Square output edge; must be a multiple of 32.")
-    parser.add_argument("--run-label", default="side-face-identity-v1")
+    parser.add_argument("--run-label", default="relight-multireference-v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
@@ -101,7 +99,7 @@ def main() -> None:
             raise FileNotFoundError(path)
     output_dir = args.output_dir.resolve()
     stem = (
-        "p7-5-4-qwen-2511-face-identity-camera-scene-a-"
+        f"p7-5-4-qwen-2511-face-identity-scene-{args.scene_id}-"
         f"{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     )
     output = output_dir / f"{stem}.png"
@@ -111,6 +109,7 @@ def main() -> None:
         "reference_order": "scene-face",
         "prompt": BASE_PROMPT,
         "scene": str(scene),
+        "scene_id": args.scene_id,
         "face": str(face),
         "output": str(output),
         "result": str(result),
@@ -123,6 +122,8 @@ def main() -> None:
         print(json.dumps(plan, ensure_ascii=False, indent=2))
         return
 
+    output_dir.mkdir(parents=True, exist_ok=True)
+    started = time.monotonic()
     import torch
     from diffusers import QwenImageEditPlusPipeline
 
@@ -133,8 +134,6 @@ def main() -> None:
         local_files_only=not args.allow_download,
     )
     pipeline.enable_sequential_cpu_offload()
-    output_dir.mkdir(parents=True, exist_ok=True)
-    started = time.monotonic()
     image = pipeline(
         image=[square_canvas(scene, args.size), square_canvas(face, args.size)],
         prompt=BASE_PROMPT,
@@ -159,6 +158,7 @@ def main() -> None:
             {"role": "Picture 2: face and hair identity", "path": str(face), "sha256": sha256(face)},
         ],
         "reference_order": "scene-face",
+        "scene_id": args.scene_id,
         "prompt": BASE_PROMPT,
         "seed": args.seed,
         "steps": args.steps,

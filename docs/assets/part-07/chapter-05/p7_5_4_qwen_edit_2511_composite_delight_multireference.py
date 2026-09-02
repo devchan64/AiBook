@@ -22,9 +22,11 @@ ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
-DEFAULT_BACKGROUND = ASSETS / "p7-5-4-qwen-2509-studio-delight-camera-a-background-v1-size-1280x1280-seed-62294-steps-10.png"
-DEFAULT_CHARACTER = ASSETS / "p7-5-4-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png"
-PROMPT = "Place the woman in Picture 2 into Picture 1. Preserve the coastal background and composition of Picture 1. Preserve the split-leap pose, identity, and outfit of the woman in Picture 2."
+SCENE_CONFIG = {
+    "a": {"background": "p7-5-4-qwen-2509-studio-delight-camera-a-background-v1-size-1280x1280-seed-62294-steps-10.png", "character": "p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-a-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png", "place": "coastal"},
+    "b": {"background": "p7-5-4-qwen-2509-studio-delight-background-b-size-1280x1280-seed-62294-steps-10.png", "character": "p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-b-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png", "place": "wildflower meadow"},
+    "c": {"background": "p7-5-4-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10.png", "character": "p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png", "place": "city park"},
+}
 
 
 def sha256(path: Path) -> str:
@@ -42,27 +44,32 @@ def square(path: Path, size: int) -> Image.Image:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--background", type=Path, default=DEFAULT_BACKGROUND, help="Picture 1: character-free DeLight background.")
-    parser.add_argument("--character", type=Path, default=DEFAULT_CHARACTER, help="Picture 2: DeLight character.")
-    parser.add_argument("--prompt", default=PROMPT)
+    parser.add_argument("--scene-id", choices=tuple(SCENE_CONFIG), default="c")
+    parser.add_argument("--background", type=Path, help="Override the Scene's character-free DeLight background.")
+    parser.add_argument("--character", type=Path, help="Override the Scene's BFS-refined DeLight character.")
+    parser.add_argument("--prompt", help="Override the scene-aware positive integration prompt.")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=1280)
-    parser.add_argument("--run-label", default="camera-a-v1")
+    parser.add_argument("--run-label", help="Defaults to the selected Scene's BFS 45-degree integration label.")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     if args.steps < 1 or args.size < 32 or args.size % 32:
         parser.error("--steps must be positive and --size must be a positive multiple of 32")
-    background, character = args.background.resolve(), args.character.resolve()
+    config = SCENE_CONFIG[args.scene_id]
+    background = (args.background or ASSETS / config["background"]).resolve()
+    character = (args.character or ASSETS / config["character"]).resolve()
+    prompt = args.prompt or f"Place the woman in Picture 2 into Picture 1. Preserve the {config['place']} background and composition of Picture 1. Preserve the split-leap pose, identity, and outfit of the woman in Picture 2."
+    run_label = args.run_label or f"scene-{args.scene_id}-bfs-quarter-left-v1"
     for path in (background, character):
         if not path.is_file():
             raise FileNotFoundError(path)
     output_dir = args.output_dir.resolve()
-    stem = f"p7-5-4-qwen-2511-delight-multireference-composite-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-4-qwen-2511-delight-multireference-composite-{run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     output, result = output_dir / f"{stem}.png", output_dir / f"{stem}-result.json"
     if args.dry_run:
-        print(json.dumps({"background": str(background), "character": str(character), "prompt": args.prompt, "output": str(output), "result": str(result)}, ensure_ascii=False))
+        print(json.dumps({"scene_id": args.scene_id, "background": str(background), "character": str(character), "prompt": prompt, "output": str(output), "result": str(result)}, ensure_ascii=False))
         return
 
     import torch
@@ -77,7 +84,7 @@ def main() -> None:
     try:
         image = pipeline(
             image=[square(background, args.size), square(character, args.size)],
-            prompt=args.prompt,
+            prompt=prompt,
             width=args.size,
             height=args.size,
             generator=torch.Generator("cpu").manual_seed(args.seed),
@@ -102,7 +109,8 @@ def main() -> None:
                     {"role": "Picture 1: DeLight character-free background", "path": str(background), "sha256": sha256(background)},
                     {"role": "Picture 2: DeLight character identity, pose, and outfit", "path": str(character), "sha256": sha256(character)},
                 ],
-                "prompt": args.prompt,
+                "scene_id": args.scene_id,
+                "prompt": prompt,
                 "seed": args.seed,
                 "steps": args.steps,
                 "true_cfg_scale": 4.0,

@@ -173,6 +173,18 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py \
 
 [Scene C DeLight 캐릭터 result.json — JSON — Stage 2 착장 아이덴티 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10-result.json)
 
+### DeLight 캐릭터에 45도 얼굴 identity를 이식한다
+
+DeLight 캐릭터는 배경과 분리된 상태이므로, 얼굴·헤어만 바꾸는 BFS Head V5의 입력으로 사용하기 좋다. Picture 1에는 Scene C DeLight 캐릭터 컷아웃, Picture 2에는 화면 오른쪽을 향한 45도 얼굴 참조를 넣었다. 포즈·흰 재킷·회색 이너·청록 바지·바닥 그림자는 Picture 1에 남기고, 얼굴 방향·앰버 홍채·청록 헤어의 기준만 Picture 2가 맡는다.
+
+![45도 얼굴 참조를 이식한 Scene C DeLight 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png)
+
+10 step에서 45도 얼굴 방향과 앰버 홍채가 반영됐고, 30 step은 눈·머리카락의 세부를 뚜렷하게 개선하지 못했다. 따라서 이 실행기의 기본값은 10 step으로 둔다. 이 결과는 다음 리라이트 통합본의 얼굴 이식 결과와 비교할 수 있도록, DeLight 캐릭터 컷아웃을 입력으로 남긴다.
+
+[BFS Head V5 얼굴·헤어 이식 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_bfs_head_identity.py)
+
+[45도 얼굴 참조 BFS result.json — JSON — 두 입력의 순서, LoRA 파일, seed와 step 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
 ### 카메라판에서 캐릭터를 제거해 배경판을 만든다
 
 컷아웃에 캐릭터 identity를 이식한 뒤에는, 같은 카메라판에서 인물을 비운 배경판도 별도 자산으로 만든다. 이 배경판은 인물의 얼굴·착장 기준을 다시 넣지 않는다. Qwen Image Edit 2511에 카메라판 한 장만 넣고, 인물 자리만 주변 배경으로 메우며 장소의 주요 지형·식생·구도를 보존하도록 짧게 지시했다. 이 단계의 목적은 포즈를 만들거나 캐릭터를 보정하는 것이 아니라, 이후 합성에서 쓸 배경 입력을 한 장으로 고정하는 것이다.
@@ -209,25 +221,15 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py \
 
 [Scene C DeLight 배경판 result.json — JSON — 배경판 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10-result.json)
 
-### 새 캐릭터 마스크는 보관하고, 통합은 다중 참조로 먼저 시도한다
-
-DeLight 캐릭터의 팔과 다리는 원래 카메라 A의 마스크와 픽셀 단위로 일치하지 않는다. 그래서 Grounding DINO와 SAM 2.1로 **DeLight 캐릭터 자체**에서 새 마스크를 만들었다. 빨간 오버레이는 인물 외곽이 새 입력과 맞는지 확인하기 위한 것이며, 이 마스크는 알파 합성이나 그림자 보정이 꼭 필요할 때의 후속 입력으로 보관한다.
-
-| DeLight 캐릭터 새 마스크 오버레이 |
-| --- |
-| ![DeLight 캐릭터의 머리, 팔, 손, 바지와 신발을 덮은 SAM2 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-4-sam2-person-mask-delight-cutout-identity-v1-overlay.png) |
-
-[DeLight 캐릭터 마스크 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_generate_person_mask.py)
-
-[DeLight 캐릭터 마스크 result.json — JSON — 검출 상자, SAM2 마스크와 입력 해시 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-delight-cutout-identity-v1-result.json)
+### DeLight 배경과 캐릭터를 다중 참조로 통합한다
 
 첫 통합에서는 이 마스크를 쓰지 않았다. Qwen Image Edit 2511의 다중 참조에 DeLight 배경판을 `Picture 1`, DeLight 캐릭터를 `Picture 2`로만 넣었다. 프롬프트도 배경은 Picture 1의 장소·구도, 인물은 Picture 2의 스플릿 점프·identity·착장을 각각 보존하라는 양성 지시로 한정했다. B·C 모두 Stage 2 착장을 가진 DeLight 캐릭터를 입력으로 썼다.
 
 | Scene A 마스크 없는 DeLight 통합 | Scene B 마스크 없는 DeLight 통합 | Scene C 마스크 없는 DeLight 통합 |
 | --- | --- | --- |
-| ![DeLight 해안 배경과 DeLight 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-camera-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![DeLight 야생화 초원 배경과 DeLight B 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![DeLight 도심 공원 배경과 DeLight C Stage 2 착장 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-10.png) |
+| ![DeLight 해안 배경과 DeLight 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-camera-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![DeLight 야생화 초원 배경과 DeLight B 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![BFS Head V5의 45도 얼굴 참조를 이식한 DeLight C 캐릭터와 도심 공원 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 회색 컷아웃 배경은 남지 않고 각 장소와 인물 경계가 통합됐다. B는 꽃밭과 흰 재킷·청록 바지 캐릭터가 함께 남았고, C도 공원 배경에 흰 재킷·회색 이너·청록 바지가 함께 남았다. 즉 다중 참조 통합은 두 이미지의 역할을 따르며, `Picture 2`에 없는 착장을 새로 복원하지 않는다. 공중 인물의 지면 그림자는 새로 설계되지 않았으므로, 이 결과는 마스크 없는 다중 참조 합성의 관찰용 출력이며 접지 그림자 보정까지 끝난 최종 장면은 아니다.
+1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 회색 컷아웃 배경은 남지 않고 각 장소와 인물 경계가 통합됐다. B는 꽃밭과 흰 재킷·청록 바지 캐릭터가 함께 남았고, C는 공원 배경에 45도 얼굴 참조의 앰버 홍채·청록 헤어와 흰 재킷·회색 이너·청록 바지가 함께 남았다. 즉 다중 참조 통합은 두 이미지의 역할을 따르며, `Picture 2`에 없는 착장을 새로 복원하지 않는다. 공중 인물의 지면 그림자는 새로 설계되지 않았으므로, 이 결과는 마스크 없는 다중 참조 합성의 관찰용 출력이며 접지 그림자 보정까지 끝난 최종 장면은 아니다.
 
 [Qwen 2511 DeLight 다중 참조 통합 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_composite_delight_multireference.py)
 
@@ -235,17 +237,17 @@ DeLight 캐릭터의 팔과 다리는 원래 카메라 A의 마스크와 픽셀 
 
 [Scene B DeLight 다중 참조 통합 result.json — JSON — 꽃밭 배경·B 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C DeLight 다중 참조 통합 result.json — JSON — 공원 배경·C Stage 2 착장 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C DeLight 다중 참조 통합 result.json — JSON — 공원 배경·45도 얼굴 참조 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 통합 장면에 방향광을 다시 적용한다
 
 DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에는 단일 이미지 리라이트로 장면의 광원 방향을 다시 정할 수 있다. 여기서는 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용해 앞의 통합 이미지를 한 장만 입력하고, trigger `重新照明`과 `soft sunlight from the upper right`만 지시했다. 새 캐릭터 참조나 마스크는 이 단계에 넣지 않는다. [dx8152 Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}
 
-| Scene A DeLight 통합 리라이트 | Scene B DeLight 통합 리라이트 | Scene C DeLight 통합 리라이트 |
-| --- | --- | --- |
-| ![상단 우측의 따뜻한 햇빛이 공중 스플릿 점프 캐릭터와 해안 바위, 풀, 바다에 함께 적용된 Scene A 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene B의 야생화 초원과 스플릿 점프 캐릭터에 함께 적용된 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene C의 공원과 Stage 2 착장 스플릿 점프 캐릭터에 함께 적용된 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-delight-multireference-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-10.png) |
+| Scene A DeLight 통합 리라이트 | Scene B DeLight 통합 리라이트 |
+| --- | --- |
+| ![상단 우측의 따뜻한 햇빛이 공중 스플릿 점프 캐릭터와 해안 바위, 풀, 바다에 함께 적용된 Scene A 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene B의 야생화 초원과 스플릿 점프 캐릭터에 함께 적용된 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-1280×1280, seed `62294`, 10 step, LoRA scale `1.0`, true CFG `4.0`에서 A·B·C 모두 상단 우측은 따뜻하게 밝아지고 반대편은 더 어두워졌다. 인물의 포즈·착장과 각 장소의 구도는 유지됐지만, 이 단일 이미지 리라이트가 공중 인물에 맞는 별도 접지 그림자를 새로 설계한 것은 아니다.
+1280×1280, seed `62294`, 10 step, LoRA scale `1.0`, true CFG `4.0`에서 A·B는 상단 우측이 따뜻하게 밝아지고 반대편은 더 어두워졌다. 인물의 포즈·착장과 각 장소의 구도는 유지됐지만, 이 단일 이미지 리라이트가 공중 인물에 맞는 별도 접지 그림자를 새로 설계한 것은 아니다. Scene C는 BFS 45도 얼굴 참조 통합본을 입력으로 다시 생성할 때 이 단계에 추가한다.
 
 [Qwen 2509 Relight 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_relight.py)
 
@@ -253,7 +255,23 @@ DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에
 
 [Scene B DeLight 통합 리라이트 result.json — JSON — 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-delight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C DeLight 통합 리라이트 result.json — JSON — 공원 배경·Stage 2 착장 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-delight-multireference-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-10-result.json)
+### 리라이트 결과에서 얼굴·헤어만 보강한다
+
+리라이트는 광원과 장면을 정리하는 단계이므로 캐릭터 얼굴의 기준을 새로 넣지 않는다. 그 다음 2511 다중 참조 편집에서 리라이트 통합본을 `Picture 1`, P7-5.2 정면 얼굴을 `Picture 2`로 둔다. 지시는 얼굴·헤어 교체와 기존 포즈·착장·장면·광원·구도 보존만 남긴다. 따라서 이 단계는 새 포즈나 착장을 만들지 않고, 앞 단계의 작은 얼굴에 5.2의 청록 단발과 얼굴 인상을 다시 연결하는 실험이다.
+
+| Scene A 얼굴·헤어 보강 | Scene B 얼굴·헤어 보강 | Scene C 얼굴·헤어 보강 |
+| --- | --- | --- |
+| ![5.2 정면 얼굴 참조를 다중 참조로 적용한 해안 절벽 리라이트 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-a-relight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![5.2 정면 얼굴 참조를 다중 참조로 적용한 야생화 초원 리라이트 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-b-relight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![5.2 정면 얼굴 참조를 다중 참조로 적용한 도심 공원 리라이트 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-c-relight-multireference-stage2-outfit-no-closeup-v1-size-1280x1280-seed-62294-steps-10.png) |
+
+1280×1280, seed `62294`, 10 step, true CFG `4.0`을 사용했다. 전신 장면에서 얼굴이 차지하는 픽셀이 작으므로, 이 결과는 헤어 색·실루엣과 얼굴 인상 보강을 비교하는 자료다. 홍채색처럼 매우 작은 요소는 PNG 확대 검수와 다음 단계의 국소 편집 후보로 남긴다.
+
+[Qwen 2511 얼굴·헤어 다중 참조 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_face_identity.py)
+
+[Scene A 얼굴·헤어 보강 result.json — JSON — 리라이트 통합본과 5.2 정면 얼굴의 입력 순서 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-a-relight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+[Scene B 얼굴·헤어 보강 result.json — JSON — 리라이트 통합본과 5.2 정면 얼굴의 입력 순서 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-b-relight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+[Scene C 얼굴·헤어 보강 result.json — JSON — 리라이트 통합본과 5.2 정면 얼굴의 입력 순서 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-c-relight-multireference-stage2-outfit-no-closeup-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ## 출처와 참고 자료
 
