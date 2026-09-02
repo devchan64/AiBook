@@ -241,17 +241,19 @@ DeLight 캐릭터의 팔과 다리는 원래 카메라 A의 마스크와 픽셀 
 
 DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에는 단일 이미지 리라이트로 장면의 광원 방향을 다시 정할 수 있다. 여기서는 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용해 앞의 통합 이미지를 한 장만 입력하고, trigger `重新照明`과 `soft sunlight from the upper right`만 지시했다. 새 캐릭터 참조나 마스크는 이 단계에 넣지 않는다. [dx8152 Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}
 
-| Scene A DeLight 통합 리라이트 | Scene B DeLight 통합 리라이트 |
-| --- | --- |
-| ![상단 우측의 따뜻한 햇빛이 공중 스플릿 점프 캐릭터와 해안 바위, 풀, 바다에 함께 적용된 Scene A 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene B의 야생화 초원과 스플릿 점프 캐릭터에 함께 적용된 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) |
+| Scene A DeLight 통합 리라이트 | Scene B DeLight 통합 리라이트 | Scene C DeLight 통합 리라이트 |
+| --- | --- | --- |
+| ![상단 우측의 따뜻한 햇빛이 공중 스플릿 점프 캐릭터와 해안 바위, 풀, 바다에 함께 적용된 Scene A 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene B의 야생화 초원과 스플릿 점프 캐릭터에 함께 적용된 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene C의 공원과 Stage 2 착장 스플릿 점프 캐릭터에 함께 적용된 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-delight-multireference-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-10.png) |
 
-1280×1280, seed `62294`, 10 step, LoRA scale `1.0`, true CFG `4.0`에서 A·B 모두 상단 우측은 따뜻하게 밝아지고 반대편은 더 어두워졌다. 인물의 포즈·착장과 각 장소의 구도는 유지됐지만, 이 단일 이미지 리라이트가 공중 인물에 맞는 별도 접지 그림자를 새로 설계한 것은 아니다.
+1280×1280, seed `62294`, 10 step, LoRA scale `1.0`, true CFG `4.0`에서 A·B·C 모두 상단 우측은 따뜻하게 밝아지고 반대편은 더 어두워졌다. 인물의 포즈·착장과 각 장소의 구도는 유지됐지만, 이 단일 이미지 리라이트가 공중 인물에 맞는 별도 접지 그림자를 새로 설계한 것은 아니다.
 
 [Qwen 2509 Relight 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_relight.py)
 
 [Scene A DeLight 통합 리라이트 result.json — JSON — 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 [Scene B DeLight 통합 리라이트 result.json — JSON — 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-delight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+[Scene C DeLight 통합 리라이트 result.json — JSON — 공원 배경·Stage 2 착장 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-delight-multireference-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-10-result.json)
 
 ## 출처와 참고 자료
 
