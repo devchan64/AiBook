@@ -231,19 +231,19 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 ### DeLight 배경과 캐릭터를 다중 참조로 통합한다
 
-첫 통합에서는 이 마스크를 쓰지 않았다. Qwen Image Edit 2511의 다중 참조에 DeLight 배경판을 `Picture 1`, DeLight 캐릭터를 `Picture 2`로만 넣었다. 프롬프트도 배경은 Picture 1의 장소·구도, 인물은 Picture 2의 스플릿 점프·identity·착장을 각각 보존하라는 양성 지시로 한정했다. B·C 모두 Stage 2 착장을 가진 DeLight 캐릭터를 입력으로 썼다.
+첫 통합에서는 이 마스크를 쓰지 않았다. Qwen Image Edit 2511의 다중 참조에 DeLight 배경판을 `Picture 1`, BFS 45도 얼굴 참조를 이식한 캐릭터를 `Picture 2`로만 넣었다. 프롬프트도 배경은 Picture 1의 장소·구도, 인물은 Picture 2의 스플릿 점프·identity·착장을 각각 보존하라는 양성 지시로 한정했다.
 
-| Scene A 마스크 없는 DeLight 통합 | Scene B 마스크 없는 DeLight 통합 | Scene C 마스크 없는 DeLight 통합 |
+| Scene A BFS DeLight 통합 | Scene B BFS DeLight 통합 | Scene C BFS DeLight 통합 |
 | --- | --- | --- |
-| ![DeLight 해안 배경과 DeLight 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-camera-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![DeLight 야생화 초원 배경과 DeLight B 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![BFS Head V5의 45도 얼굴 참조를 이식한 DeLight C 캐릭터와 도심 공원 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![BFS 45도 얼굴 참조를 이식한 Scene A 그림자 캐릭터와 DeLight 해안 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![BFS 45도 얼굴 참조를 이식한 Scene B 캐릭터와 DeLight 야생화 초원 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![BFS Head V5의 45도 얼굴 참조를 이식한 DeLight C 캐릭터와 도심 공원 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 회색 컷아웃 배경은 남지 않고 각 장소와 인물 경계가 통합됐다. B는 꽃밭과 흰 재킷·청록 바지 캐릭터가 함께 남았고, C는 공원 배경에 45도 얼굴 참조의 앰버 홍채·청록 헤어와 흰 재킷·회색 이너·청록 바지가 함께 남았다. 즉 다중 참조 통합은 두 이미지의 역할을 따르며, `Picture 2`에 없는 착장을 새로 복원하지 않는다. 공중 인물의 지면 그림자는 새로 설계되지 않았으므로, 이 결과는 마스크 없는 다중 참조 합성의 관찰용 출력이며 접지 그림자 보정까지 끝난 최종 장면은 아니다.
+1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 회색 컷아웃 배경은 남지 않고 각 장소와 인물 경계가 통합됐다. A·B·C 모두 45도 얼굴 참조의 청록 헤어를 가진 흰 재킷·회색 이너·청록 바지 캐릭터를 각 배경에 넣었다. 즉 다중 참조 통합은 두 이미지의 역할을 따르며, `Picture 2`에 없는 착장을 새로 복원하지 않는다. 공중 인물의 지면 그림자는 새로 설계되지 않았으므로, 이 결과는 마스크 없는 다중 참조 합성의 관찰용 출력이며 접지 그림자 보정까지 끝난 최종 장면은 아니다.
 
 [Qwen 2511 DeLight 다중 참조 통합 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_composite_delight_multireference.py)
 
-[Scene A DeLight 다중 참조 통합 result.json — JSON — Picture 1·Picture 2 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-camera-a-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene A BFS DeLight 다중 참조 통합 result.json — JSON — 해안 배경·그림자 포함 BFS 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene B DeLight 다중 참조 통합 result.json — JSON — 꽃밭 배경·B 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene B BFS DeLight 다중 참조 통합 result.json — JSON — 꽃밭 배경·BFS 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 [Scene C DeLight 다중 참조 통합 result.json — JSON — 공원 배경·45도 얼굴 참조 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
@@ -251,17 +251,19 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에는 단일 이미지 리라이트로 장면의 광원 방향을 다시 정할 수 있다. 여기서는 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용해 앞의 통합 이미지를 한 장만 입력하고, trigger `重新照明`과 `soft sunlight from the upper right`만 지시했다. 새 캐릭터 참조나 마스크는 이 단계에 넣지 않는다. [dx8152 Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}
 
-| Scene A DeLight 통합 리라이트 | Scene B DeLight 통합 리라이트 |
-| --- | --- |
-| ![상단 우측의 따뜻한 햇빛이 공중 스플릿 점프 캐릭터와 해안 바위, 풀, 바다에 함께 적용된 Scene A 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene B의 야생화 초원과 스플릿 점프 캐릭터에 함께 적용된 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-delight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) |
+| Scene A BFS 통합 리라이트 | Scene B BFS 통합 리라이트 | Scene C BFS 통합 리라이트 |
+| --- | --- | --- |
+| ![상단 우측의 따뜻한 햇빛이 Scene A 해안의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene B 야생화 초원의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene C 공원의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-1280×1280, seed `62294`, 10 step, LoRA scale `1.0`, true CFG `4.0`에서 A·B는 상단 우측이 따뜻하게 밝아지고 반대편은 더 어두워졌다. 인물의 포즈·착장과 각 장소의 구도는 유지됐지만, 이 단일 이미지 리라이트가 공중 인물에 맞는 별도 접지 그림자를 새로 설계한 것은 아니다. Scene C는 BFS 45도 얼굴 참조 통합본을 입력으로 다시 생성할 때 이 단계에 추가한다.
+1280×1280, seed `62294`, 10 step, LoRA scale `1.0`, true CFG `4.0`에서 A·B·C는 상단 우측이 따뜻하게 밝아지고 반대편은 더 어두워졌다. 인물의 포즈·착장과 각 장소의 구도는 유지됐지만, 이 단일 이미지 리라이트가 공중 인물에 맞는 별도 접지 그림자를 새로 설계한 것은 아니다.
 
 [Qwen 2509 Relight 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_relight.py)
 
-[Scene A DeLight 통합 리라이트 result.json — JSON — 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene A BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene B DeLight 통합 리라이트 result.json — JSON — 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-delight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene B BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+[Scene C BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 리라이트 결과에서 얼굴·헤어만 보강한다
 

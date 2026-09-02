@@ -15,6 +15,7 @@
       "sha256": "83ba9d133e12b7cbf0e449415466f62fef6fa4dfad239b02e502a8c461b5c8f4"
     }
   ],
+  "scene_id": "c",
   "prompt": "Place the woman in Picture 2 into Picture 1. Preserve the city park background and composition of Picture 1. Preserve the split-leap pose, identity, and outfit of the woman in Picture 2.",
   "seed": 62294,
   "steps": 10,
@@ -31,5 +32,5 @@
     "transformers": "4.57.6",
     "accelerate": "1.13.0"
   },
-  "elapsed_seconds": 352.69
+  "elapsed_seconds": 345.69
 }
