@@ -38,9 +38,12 @@ AZIMUTHS = (
 ELEVATIONS = ("low-angle shot", "eye-level shot", "elevated shot", "high-angle shot")
 DISTANCES = ("close-up", "medium shot", "wide shot")
 CAMERA_PRESETS = {
-    "a": ("front view", "elevated shot", "medium shot"),
+    "a": ("front-left quarter view", "eye-level shot", "medium shot"),
     "b": ("front-right quarter view", "high-angle shot", "medium shot"),
-    "c": ("front-left quarter view", "low-angle shot", "medium shot"),
+    # Scene C keeps the low angle but deliberately omits a distance token.
+    # ``close-up`` enlarged the subject and made the source-scene shadow
+    # distortion much more conspicuous.
+    "c": ("front-left quarter view", "low-angle shot"),
 }
 SCENE_REFERENCES = {
     "a": "p7-5-4-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png",
@@ -67,8 +70,8 @@ def runtime_record() -> dict[str, object]:
     return {"python": sys.version.split()[0], "platform": platform.platform(), "packages": packages}
 
 
-def prompt_for(camera: tuple[str, str, str]) -> str:
-    return f"<sks> {camera[0]} {camera[1]} {camera[2]}"
+def prompt_for(camera: tuple[str, ...]) -> str:
+    return "<sks> " + " ".join(camera)
 
 
 def main() -> None:
@@ -112,7 +115,11 @@ def main() -> None:
         "offload": args.offload,
         "local_files_only": not args.allow_download,
         "input": str(reference),
-        "camera": {"azimuth": camera[0], "elevation": camera[1], "distance": camera[2]},
+        "camera": {
+            "azimuth": camera[0],
+            "elevation": camera[1],
+            "distance": camera[2] if len(camera) > 2 else None,
+        },
         "prompt": prompt,
         "output": str(output),
         "result": str(result),

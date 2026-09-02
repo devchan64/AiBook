@@ -1,0 +1,42 @@
+{
+  "status": "generated",
+  "stage": "studio_delight",
+  "execution_mode": "direct Diffusers; Qwen Image Edit 2509; Studio DeLight LoRA; no ComfyUI",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2509",
+    "dtype": "bfloat16",
+    "device_placement": "sequential_cpu_offload"
+  },
+  "input": {
+    "role": "background-c",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "0d198710f8e4757e5d2fa485f4eae543c5806f4784ac95532423624c1cf8d9c5"
+  },
+  "prompt": "Neutral uniform lighting Preserve identity and composition",
+  "lora": {
+    "repository": "prithivMLmods/QIE-2511-Studio-DeLight",
+    "weight": "QIE-2511-Studio-DeLight-5000.safetensors",
+    "adapter": "studio_delight",
+    "scale": 1.0
+  },
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "653a6085430f8ce0a523ae6f8753bae43c433d25c9ece1a568f34f96d18c926f",
+    "width": 1280,
+    "height": 1280
+  },
+  "elapsed_seconds": 308.38
+}

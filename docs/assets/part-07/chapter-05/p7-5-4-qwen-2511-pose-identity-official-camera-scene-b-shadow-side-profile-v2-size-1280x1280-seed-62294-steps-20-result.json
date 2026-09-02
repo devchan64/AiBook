@@ -1,0 +1,54 @@
+{
+  "status": "generated",
+  "stage": "pose_cutout_identity_transfer",
+  "execution_mode": "direct Diffusers; official QwenImageEditPlusPipeline; no ComfyUI or GGUF",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "dtype": "bfloat16",
+    "device_placement": "sequential_cpu_offload"
+  },
+  "inputs": [
+    {
+      "role": "Picture 1: shadow-preserved pose and framing",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "f2c5de1be785b51243d961d55fb84076ae34d406b46456a6a648eecee0c0e910"
+    },
+    {
+      "role": "Picture 2: character identity and outfit",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png",
+      "sha256": "67abaa9389723d692d9c635974cebbfd21527cc68da385f5ed8a4c36c1f22d72"
+    }
+  ],
+  "reference_order": "pose-character",
+  "identity_contract": null,
+  "camera": "not used; fixed by Picture 1",
+  "generation_canvas": {
+    "width": 1280,
+    "height": 1280,
+    "background": "determined by Picture 1"
+  },
+  "base_prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose.",
+  "outfit_identity": null,
+  "prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose. Preserve the split-leap pose and the cast shadow beneath the woman.",
+  "seed": 62294,
+  "steps": 20,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-side-profile-v2-size-1280x1280-seed-62294-steps-20.png",
+    "width": 1280,
+    "height": 1280,
+    "sha256": "58cf2b2a42a43ae2dcb11286e603c0d63b3e7151baa76b73c068a31152d43813"
+  },
+  "elapsed_seconds": 778.56
+}

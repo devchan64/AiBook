@@ -1,0 +1,36 @@
+{
+  "status": "generated",
+  "stage": "delight_multireference_composite",
+  "execution_mode": "direct Diffusers; Qwen Image Edit 2511; no mask; no ComfyUI",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": [
+    {
+      "role": "Picture 1: DeLight character-free background",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "653a6085430f8ce0a523ae6f8753bae43c433d25c9ece1a568f34f96d18c926f"
+    },
+    {
+      "role": "Picture 2: DeLight character identity, pose, and outfit",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "83ba9d133e12b7cbf0e449415466f62fef6fa4dfad239b02e502a8c461b5c8f4"
+    }
+  ],
+  "scene_id": "c",
+  "prompt": "Place the woman in Picture 2 into Picture 1. Preserve the city park background and composition of Picture 1. Preserve the split-leap pose, identity, and outfit of the woman in Picture 2.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "b45d97860f1be274053b7d4a49cd47f0cd570f105586ef752d9de1b610d1deb8",
+    "width": 1280,
+    "height": 1280
+  },
+  "runtime": {
+    "diffusers": "0.37.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.13.0"
+  },
+  "elapsed_seconds": 345.69
+}

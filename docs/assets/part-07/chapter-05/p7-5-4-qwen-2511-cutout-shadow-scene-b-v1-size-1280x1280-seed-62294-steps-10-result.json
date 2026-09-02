@@ -1,0 +1,45 @@
+{
+  "status": "generated",
+  "stage": "qwen_cutout_cast_shadow",
+  "scene": "b",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": {
+    "cutout": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-b-v7.png",
+      "sha256": "70288f0d4e8c2043e04eb4f703fa9e4fea3cd1a7eb27f34562e989e13cdd65df",
+      "role": "Picture 1"
+    },
+    "person_mask": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-b-v7.png",
+      "sha256": "6d01af403e051a41af913e577fb02b1caa39dd354d1dca62cd170104c19301e5",
+      "semantics": "white=hard-restored source character"
+    }
+  },
+  "prompt": "Picture 1 is a woman airborne above a white floor. Add one soft gray cast shadow on the floor directly below her. Keep the white background clean. No additional people, objects, scenery, text, or changes to the woman.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "outputs": {
+    "qwen_shadow_candidate": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10-qwen.png",
+      "sha256": "3bec40ceb632f9489800b80340f2a5bc977dad73861391e1cf962c13a904e442",
+      "reused": false
+    },
+    "expanded_character_protection_mask": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10-protect-mask.png",
+      "sha256": "3f72a42005f600b6a88aa37e314322841a8f24a4c2fc35ce621852d251da2715",
+      "pixels": 40
+    },
+    "character_restored_shadow_cutout": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "f2c5de1be785b51243d961d55fb84076ae34d406b46456a6a648eecee0c0e910"
+    }
+  },
+  "runtime": {
+    "diffusers": "0.37.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.13.0"
+  },
+  "elapsed_seconds": 310.22
+}
