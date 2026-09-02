@@ -51,6 +51,7 @@ def runtime_record() -> dict[str, object]:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--image", type=Path, default=DEFAULT_IMAGE)
+    parser.add_argument("--scene", choices=("a", "b", "c"), default="a", help="Scene label used in the output filename and result record.")
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=1280)
     parser.add_argument("--lora-scale", type=float, default=1.0)
@@ -70,7 +71,7 @@ def main() -> None:
             raise FileNotFoundError(path)
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-4-qwen-2509-relight-camera-a-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-4-qwen-2509-relight-scene-{args.scene}-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     output_path = output_dir / f"{stem}.png"
     result_path = output_dir / f"{stem}-result.json"
 
@@ -100,6 +101,7 @@ def main() -> None:
         "status": "generated", "stage": "relight", "execution_mode": "direct Diffusers; Qwen Image Edit 2509; no ComfyUI",
         "runtime": runtime_record(), "model": MODEL_ID,
         "lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "adapter": "dx8152_relight", "trigger": "重新照明"},
+        "scene": args.scene,
         "input": {"path": str(source), "sha256": sha256(source)},
         "prompt": PROMPT, "seed": args.seed, "steps": args.steps, "lora_scale": args.lora_scale,
         "true_cfg_scale": args.true_cfg_scale, "guidance_scale": 1.0, "generation_canvas": [args.size, args.size],
