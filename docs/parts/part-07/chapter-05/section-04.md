@@ -221,13 +221,13 @@ DeLight 캐릭터의 팔과 다리는 원래 카메라 A의 마스크와 픽셀 
 
 [DeLight 캐릭터 마스크 result.json — JSON — 검출 상자, SAM2 마스크와 입력 해시 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-delight-cutout-identity-v1-result.json)
 
-첫 통합에서는 이 마스크를 쓰지 않았다. Qwen Image Edit 2511의 다중 참조에 DeLight 배경판을 `Picture 1`, DeLight 캐릭터를 `Picture 2`로만 넣었다. 프롬프트도 배경은 Picture 1의 장소·구도, 인물은 Picture 2의 스플릿 점프·identity·착장을 각각 보존하라는 양성 지시로 한정했다. B는 Stage 2 착장을 가진 DeLight 캐릭터를 입력으로 썼다. C의 표에는 현재 Stage 2 착장을 적용한 DeLight 결과를 두되, 아래 C 통합 이미지는 이전 원시 C DeLight 컷아웃을 사용한 비교 결과로 남긴다.
+첫 통합에서는 이 마스크를 쓰지 않았다. Qwen Image Edit 2511의 다중 참조에 DeLight 배경판을 `Picture 1`, DeLight 캐릭터를 `Picture 2`로만 넣었다. 프롬프트도 배경은 Picture 1의 장소·구도, 인물은 Picture 2의 스플릿 점프·identity·착장을 각각 보존하라는 양성 지시로 한정했다. B·C 모두 Stage 2 착장을 가진 DeLight 캐릭터를 입력으로 썼다.
 
 | Scene A 마스크 없는 DeLight 통합 | Scene B 마스크 없는 DeLight 통합 | Scene C 마스크 없는 DeLight 통합 |
 | --- | --- | --- |
-| ![DeLight 해안 배경과 DeLight 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-camera-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![DeLight 야생화 초원 배경과 DeLight B 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![DeLight 도심 공원 배경과 DeLight C 원시 포즈 컷아웃 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![DeLight 해안 배경과 DeLight 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-camera-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![DeLight 야생화 초원 배경과 DeLight B 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![DeLight 도심 공원 배경과 DeLight C Stage 2 착장 스플릿 점프 캐릭터를 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-10.png) |
 
-1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 회색 컷아웃 배경은 남지 않고 각 장소와 인물 경계가 통합됐다. B는 꽃밭과 흰 재킷·청록 바지 캐릭터가 함께 남았고, C는 공원과 C 입력의 민소매·회색 하의가 함께 남았다. 즉 다중 참조 통합은 두 이미지의 역할을 따르며, `Picture 2`에 없는 착장을 새로 복원하지 않는다. 공중 인물의 지면 그림자는 새로 설계되지 않았으므로, 이 결과는 마스크 없는 다중 참조 합성의 관찰용 출력이며 접지 그림자 보정까지 끝난 최종 장면은 아니다.
+1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 회색 컷아웃 배경은 남지 않고 각 장소와 인물 경계가 통합됐다. B는 꽃밭과 흰 재킷·청록 바지 캐릭터가 함께 남았고, C도 공원 배경에 흰 재킷·회색 이너·청록 바지가 함께 남았다. 즉 다중 참조 통합은 두 이미지의 역할을 따르며, `Picture 2`에 없는 착장을 새로 복원하지 않는다. 공중 인물의 지면 그림자는 새로 설계되지 않았으므로, 이 결과는 마스크 없는 다중 참조 합성의 관찰용 출력이며 접지 그림자 보정까지 끝난 최종 장면은 아니다.
 
 [Qwen 2511 DeLight 다중 참조 통합 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_composite_delight_multireference.py)
 
@@ -235,7 +235,7 @@ DeLight 캐릭터의 팔과 다리는 원래 카메라 A의 마스크와 픽셀 
 
 [Scene B DeLight 다중 참조 통합 result.json — JSON — 꽃밭 배경·B 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C DeLight 다중 참조 통합 result.json — JSON — 공원 배경·C 원시 포즈 컷아웃의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C DeLight 다중 참조 통합 result.json — JSON — 공원 배경·C Stage 2 착장 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 통합 장면에 방향광을 다시 적용한다
 
