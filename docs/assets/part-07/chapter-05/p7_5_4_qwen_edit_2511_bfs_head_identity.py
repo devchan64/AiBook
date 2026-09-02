@@ -28,7 +28,7 @@ LORA_REF = "weight:mr2along-bfs-head-v5-2511"
 LORA_DIR = PROJECT_ROOT / ".tmp" / "download" / LORA_REF.replace(":", "-")
 LORA_FILE = "bfs_head_v5_2511_original.safetensors"
 SCENE_SOURCES = {
-    "a": ASSETS / "p7-5-4-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png",
+    "a": ASSETS / "p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v2-size-1280x1280-seed-62294-steps-30.png",
     "b": ASSETS / "p7-5-4-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10.png",
     "c": ASSETS / "p7-5-4-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10.png",
 }

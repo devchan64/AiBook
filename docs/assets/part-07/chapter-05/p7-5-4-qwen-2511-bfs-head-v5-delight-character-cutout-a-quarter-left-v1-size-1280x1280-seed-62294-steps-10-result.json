@@ -1,0 +1,53 @@
+{
+  "status": "generated",
+  "stage": "bfs_head_v5_face_hair_identity",
+  "execution_mode": "direct Diffusers; QwenImageEditPlusPipeline; sequential CPU offload",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "dtype": "bfloat16"
+  },
+  "lora": {
+    "repository": "mr2along/BFS",
+    "revision": "d9ffba9012dfa1b299a4294572791c3275ae6ae4",
+    "file": "bfs_head_v5_2511_original.safetensors",
+    "sha256": "5055ec271228d4767fd327efa59dbdea6f2a628d6d890101eb4fd5015cb1ac57",
+    "weight": 1.0
+  },
+  "inputs": [
+    {
+      "role": "Picture 1: scene to preserve",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v2-size-1280x1280-seed-62294-steps-30.png",
+      "sha256": "afe0b1819f497c7c6b04c46f8464b5b7d04fc94d9910b6c6571241a49040ec4d"
+    },
+    {
+      "role": "Picture 2: face and hair identity",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+      "sha256": "da434480f9598079cdced2f4267e85713809ad00483ee28dc7ce45630aee2f42"
+    }
+  ],
+  "reference_order": "scene-face",
+  "scene_id": "a",
+  "run_label": "delight-character-cutout-a-quarter-left-v1",
+  "prompt": "head_swap: start with Picture 1 as the base image, keeping its lighting, environment, and background. remove the head from Picture 1 completely and replace it with the head from Picture 2, strictly preserving the hair, eye color, and nose structure of Picture 2. copy the eye direction, head rotation, and micro-expressions from Picture 1. high quality, sharp details, 4k",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-a-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png",
+    "width": 1280,
+    "height": 1280,
+    "sha256": "4ce36d3da893db2ac185b9b42a01eab56dbff8a59149352dffcb9847a9ff8983"
+  },
+  "elapsed_seconds": 387.72
+}
