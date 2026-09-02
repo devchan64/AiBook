@@ -31,7 +31,7 @@ DEFAULT_CHARACTER = ASSETS / "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket
 SHADOW_POSES = {
     "a": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png",
     "b": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
-    "c": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-c-low-angle-closeup-v1-size-1280x1280-seed-62294-steps-10.png",
+    "c": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10.png",
 }
 # Baseline prompt validated by the P7-5.4 Qwen-Image-Edit-2509 pose-transfer run.
 # Keep this exact wording as the common prompt for A/B/C identity-transfer tests.

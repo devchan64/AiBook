@@ -134,11 +134,11 @@ Scene B·C는 각각 그림자 포함 컷아웃을 `Picture 1`, P7-5.3의 2단�
 
 | Scene B 그림자 컷아웃 다중 참조 결과 | Scene C 그림자 컷아웃 다중 참조 결과 |
 | --- | --- |
-| ![그림자 포함 스플릿 점프 포즈에 Stage 2 착장의 청록 단발, 흰 크롭 재킷, 회색 이너와 청록 바지를 이식한 30 step 다중 참조 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png) | ![Scene C의 저각 클로즈업 포즈와 Stage 2 착장을 다중 참조로 이식한 30 step 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png) |
+| ![그림자 포함 스플릿 점프 포즈에 Stage 2 착장의 청록 단발, 흰 크롭 재킷, 회색 이너와 청록 바지를 이식한 30 step 다중 참조 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png) | ![거리 토큰 없는 Scene C 그림자 컷아웃과 Stage 2 착장을 다중 참조로 이식한 30 step 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30.png) |
 
 [Scene B 다중 참조 result.json — JSON — 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
-[Scene C 다중 참조 result.json — JSON — 저각 클로즈업 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30-result.json)
+[Scene C 다중 참조 result.json — JSON — 거리 토큰 없는 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30-result.json)
 
 1280×1280, seed `62294`, 30 step, true CFG `4.0`에서 공중 스플릿 점프와 그 아래 그림자는 유지됐고, 두 번째 참조의 재킷·회색 이너·청록 바지도 함께 반영됐다. 따라서 5.4의 기본 경로는 별도 착장 추출이나 Try-On LoRA가 아니라, 역할을 나눈 두 이미지의 Qwen Image Edit 2511 다중 참조 이식으로 둔다. 착장 추출과 Try-On LoRA의 비교 실험은 P7-5.12에서 별도로 다룬다.
 
