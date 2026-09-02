@@ -161,9 +161,9 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py \
 
 | Scene A DeLight 캐릭터 | Scene B DeLight 캐릭터 | Scene C DeLight 캐릭터 |
 | --- | --- | --- |
-| ![Studio DeLight로 중립 조명을 적용한 흰 크롭 재킷과 청록 바지의 공중 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 Scene B의 청록 단발, 흰 재킷과 청록 바지 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 Scene C 원시 포즈 컷아웃 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-c-size-1280x1280-seed-62294-steps-10.png) |
+| ![Studio DeLight로 중립 조명을 적용한 흰 크롭 재킷과 청록 바지의 공중 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 Scene B의 청록 단발, 흰 재킷과 청록 바지 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 Scene C의 Stage 2 착장 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10.png) |
 
-1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 A·B는 포즈·얼굴 방향·헤어·재킷·이너·바지·신발을 유지했다. C는 Stage 2 착장 이식 전의 원시 포즈 컷아웃을 입력으로 사용했으므로, 민소매 상의와 회색 하의도 그대로 남았다. 회색 바탕과 바닥 그림자는 중립화됐지만, 그림자의 지면 원근은 최종 합성의 접지감으로 판단하지 않는다.
+1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 A·B·C는 포즈·얼굴 방향·헤어·재킷·이너·바지·신발을 유지했다. C는 거리 토큰 없는 그림자 포함 포즈에 이식한 Stage 2 착장을 입력으로 사용했다. 회색 바탕과 바닥 그림자는 중립화됐지만, 그림자의 지면 원근은 최종 합성의 접지감으로 판단하지 않는다.
 
 [Studio DeLight 2509 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_studio_delight.py)
 
@@ -171,7 +171,7 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py \
 
 [Scene B DeLight 캐릭터 result.json — JSON — 캐릭터 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C DeLight 캐릭터 result.json — JSON — 원시 포즈 컷아웃 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-c-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C DeLight 캐릭터 result.json — JSON — Stage 2 착장 아이덴티 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 카메라판에서 캐릭터를 제거해 배경판을 만든다
 
@@ -221,7 +221,7 @@ DeLight 캐릭터의 팔과 다리는 원래 카메라 A의 마스크와 픽셀 
 
 [DeLight 캐릭터 마스크 result.json — JSON — 검출 상자, SAM2 마스크와 입력 해시 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-delight-cutout-identity-v1-result.json)
 
-첫 통합에서는 이 마스크를 쓰지 않았다. Qwen Image Edit 2511의 다중 참조에 DeLight 배경판을 `Picture 1`, DeLight 캐릭터를 `Picture 2`로만 넣었다. 프롬프트도 배경은 Picture 1의 장소·구도, 인물은 Picture 2의 스플릿 점프·identity·착장을 각각 보존하라는 양성 지시로 한정했다. B는 Stage 2 착장을 가진 DeLight 캐릭터를 입력으로 썼고, C는 비교를 위해 Stage 2 이식 전의 원시 DeLight 컷아웃을 입력으로 썼다.
+첫 통합에서는 이 마스크를 쓰지 않았다. Qwen Image Edit 2511의 다중 참조에 DeLight 배경판을 `Picture 1`, DeLight 캐릭터를 `Picture 2`로만 넣었다. 프롬프트도 배경은 Picture 1의 장소·구도, 인물은 Picture 2의 스플릿 점프·identity·착장을 각각 보존하라는 양성 지시로 한정했다. B는 Stage 2 착장을 가진 DeLight 캐릭터를 입력으로 썼다. C의 표에는 현재 Stage 2 착장을 적용한 DeLight 결과를 두되, 아래 C 통합 이미지는 이전 원시 C DeLight 컷아웃을 사용한 비교 결과로 남긴다.
 
 | Scene A 마스크 없는 DeLight 통합 | Scene B 마스크 없는 DeLight 통합 | Scene C 마스크 없는 DeLight 통합 |
 | --- | --- | --- |

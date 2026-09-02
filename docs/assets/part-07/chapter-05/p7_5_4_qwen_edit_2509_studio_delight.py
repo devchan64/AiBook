@@ -35,7 +35,7 @@ DEFAULT_IMAGE = ASSETS / "p7-5-4-qwen-2511-camera-a-background-camera-a-v1-size-
 ASSET_PRESETS: dict[str, Path | None] = {
     "character-a": ASSETS / "p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png",
     "character-b": ASSETS / "p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png",
-    "character-c": ASSETS / "p7-5-4-qwen-2511-cutout-shadow-scene-c-low-angle-closeup-v1-size-1280x1280-seed-62294-steps-10.png",
+    "character-c": ASSETS / "p7-5-4-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30.png",
     "background-a": ASSETS / "p7-5-4-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10.png",
     "background-b": ASSETS / "p7-5-4-qwen-2511-camera-b-background-camera-b-v1-size-1280x1280-seed-62294-steps-10.png",
     "background-c": ASSETS / "p7-5-4-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10.png",
