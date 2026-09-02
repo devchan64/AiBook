@@ -265,24 +265,6 @@ DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에
 
 [Scene C BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-### 리라이트 결과에서 얼굴·헤어만 보강한다
-
-리라이트는 광원과 장면을 정리하는 단계이므로 캐릭터 얼굴의 기준을 새로 넣지 않는다. 그 다음 2511 다중 참조 편집에서 리라이트 통합본을 `Picture 1`, P7-5.2 정면 얼굴을 `Picture 2`로 둔다. 지시는 얼굴·헤어 교체와 기존 포즈·착장·장면·광원·구도 보존만 남긴다. 따라서 이 단계는 새 포즈나 착장을 만들지 않고, 앞 단계의 작은 얼굴에 5.2의 청록 단발과 얼굴 인상을 다시 연결하는 실험이다.
-
-| Scene A 얼굴·헤어 보강 | Scene B 얼굴·헤어 보강 | Scene C 얼굴·헤어 보강 |
-| --- | --- | --- |
-| ![5.2 정면 얼굴 참조를 다중 참조로 적용한 해안 절벽 리라이트 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-a-relight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![5.2 정면 얼굴 참조를 다중 참조로 적용한 야생화 초원 리라이트 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-b-relight-multireference-v1-size-1280x1280-seed-62294-steps-10.png) | ![5.2 정면 얼굴 참조를 다중 참조로 적용한 도심 공원 리라이트 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-c-relight-multireference-stage2-outfit-no-closeup-v1-size-1280x1280-seed-62294-steps-10.png) |
-
-1280×1280, seed `62294`, 10 step, true CFG `4.0`을 사용했다. 전신 장면에서 얼굴이 차지하는 픽셀이 작으므로, 이 결과는 헤어 색·실루엣과 얼굴 인상 보강을 비교하는 자료다. 홍채색처럼 매우 작은 요소는 PNG 확대 검수와 다음 단계의 국소 편집 후보로 남긴다.
-
-[Qwen 2511 얼굴·헤어 다중 참조 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_face_identity.py)
-
-[Scene A 얼굴·헤어 보강 result.json — JSON — 리라이트 통합본과 5.2 정면 얼굴의 입력 순서 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-a-relight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
-
-[Scene B 얼굴·헤어 보강 result.json — JSON — 리라이트 통합본과 5.2 정면 얼굴의 입력 순서 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-b-relight-multireference-v1-size-1280x1280-seed-62294-steps-10-result.json)
-
-[Scene C 얼굴·헤어 보강 result.json — JSON — 리라이트 통합본과 5.2 정면 얼굴의 입력 순서 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-face-identity-scene-c-relight-multireference-stage2-outfit-no-closeup-v1-size-1280x1280-seed-62294-steps-10-result.json)
-
 ## 출처와 참고 자료
 
 - [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"}: 최초 T2I 장면 생성에 사용한 기반 모델의 공개 배포 정보입니다.
