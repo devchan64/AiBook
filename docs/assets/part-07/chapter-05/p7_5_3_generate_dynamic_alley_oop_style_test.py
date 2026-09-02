@@ -109,7 +109,7 @@ def main() -> None:
                     "image_size": list(IMAGE_SIZE),
                     "inputs": [{"role": role, "file": path.name} for role, path in REFERENCE_INPUTS],
                     "elapsed_seconds": elapsed,
-                    "observation_focus": "face, outfit, bag strap, limb count, ball position, ball-rim separation, and camera",
+                    "observation_focus": "face, outfit, limb count, ball position, ball-rim separation, and camera",
                 },
                 ensure_ascii=False,
                 indent=2,

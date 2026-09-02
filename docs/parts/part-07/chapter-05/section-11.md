@@ -1,7 +1,7 @@
 # P7-5.11 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기
 
 > Section ID: `P7-5.11`
-> Version: `v2026.08.29`
+> Version: `v2026.09.02`
 
 같은 캐릭터를 다른 카메라와 동작에서도 다시 그릴 수 있을까? 이 절에서는 한 장이 그럴듯한지를 보지 않고, 아래 네 계약을 동시에 확인했다. 실험은 하나의 도구를 고르는 과정이 아니라, 어느 계약이 깨지는지 찾아 다음 입력의 역할을 좁히는 과정이었다.
 
@@ -10,13 +10,13 @@
 | structure | 카메라, 인체 동작, 거리와 가림이 장면 의도에 맞는가? |
 | identity | 얼굴과 신체 비율이 같은 캐릭터로 읽히는가? |
 | outfit | 재킷·상의·바지·신발·가방의 형태와 레이어가 유지됐는가? |
-| style | 승인한 선화·색·질감의 범위 안에 있는가? |
+| style | 기준 선화·색·질감의 범위 안에 있는가? |
 
-여기서 **계약**은 생성기에 요구하는 문장이 아니라, 결과를 보고 사람이 판정하는 약속이다. structure는 “카메라와 몸의 큰 배치가 맞는가”, identity는 “같은 사람으로 보이는가”, outfit은 “옷과 소품의 형태·겹침이 맞는가”, style은 “승인한 그림 방식과 어울리는가”로 읽는다. 한 계약만 통과해도 다른 계약의 실패를 덮어쓰지 않는다.
+여기서 **계약**은 생성기에 요구하는 문장이 아니라, 결과를 보고 사람이 판정하는 약속이다. structure는 “카메라와 몸의 큰 배치가 맞는가”, identity는 “같은 사람으로 보이는가”, outfit은 “옷과 소품의 형태·겹침이 맞는가”, style은 “기준 그림 방식과 어울리는가”로 읽는다. 한 항목의 일치가 다른 항목의 이탈을 덮어쓰지 않는다.
 
 !!! abstract "실험 결론"
 
-    수평 시점에서 확인한 캐릭터 계약은 고각도에서 함께 깨졌다. 얼굴·동작·카메라·복장을 하나의 조건에 맡긴 보조 실험들은 각각 일부 계약만 보존했다. 최종적으로 고각도 guide, 정면 얼굴, 완성 착장을 서로 다른 입력 역할로 나눈 Qwen 편집에서 네 계약을 함께 통과했다. 아래의 `보조 실험`은 이 역할 분리가 필요한 이유와 적용 범위를 확인한 기록이다.
+    수평 시점에서 확인한 캐릭터 계약은 고각도에서 함께 깨졌다. 얼굴·동작·카메라·복장을 하나의 조건에 맡긴 보조 실험들은 각각 일부 계약만 보존했다. 고각도 guide, 정면 얼굴, 완성 착장을 서로 다른 입력 역할로 나눈 Qwen 편집에서는 네 항목의 일치를 함께 관찰했다. 아래의 `보조 실험`은 이 역할 분리가 필요한 이유와 적용 범위를 확인한 기록이다.
 
 아래 흐름은 도구의 이름이 아니라 **실패한 계약이 다음 선택을 어떻게 바꾸었는지**를 압축한다. 뒤의 보조 실험은 각 화살표의 근거다.
 
@@ -34,7 +34,7 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 > **이 보조 실험이 확인한 것:** 50 step의 base model은 얼굴을 만들 수 있지만, 전신에 조건을 결합한 뒤의 identity·outfit 실패를 그 문제로 환원할 수는 없다.
 
-먼저 reference·ControlNet·LoRA를 모두 제외한 SDXL Base 1.0 단독으로 정상적인 정면 얼굴이 형성되는지 확인했다. `1024×1024`, 50 step, CFG `5.0`, seed `62295`에서 청록 단발·호박색 눈·수채화 웹툰이라는 텍스트만 주었다. 이 결과는 Mira identity의 승인 기준이 아니라, **base model이 얼굴 자체를 만들 수 있는가**를 분리한 기준선이다.
+먼저 reference·ControlNet·LoRA를 모두 제외한 SDXL Base 1.0 단독으로 정상적인 정면 얼굴이 형성되는지 확인했다. `1024×1024`, 50 step, CFG `5.0`, seed `62295`에서 청록 단발·호박색 눈·수채화 웹툰이라는 텍스트만 주었다. 이 결과는 Mira identity의 기준이 아니라, **base model이 얼굴 자체를 만들 수 있는가**를 분리한 기준선이다.
 
 ![SDXL Base 1.0 단독 50 step 얼굴 probe](../../../assets/part-07/chapter-05/p7-5-11-sdxl-base-face-50steps.png)
 
@@ -42,15 +42,15 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 [p7-5-11-sdxl-base-face-50step-result.json — JSON — SDXL Base 얼굴 기준선 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-base-face-50step-result.json)
 
-같은 생각으로 전신에서는 FaceID와 전신 착장 image adapter를 빼고 Plus Face `0.15`, character LoRA `0.30`, seed `62295`, CFG `5.0`, `960×1440`, 50 step을 고정해 OpenPose off/on을 비교했다. OpenPose를 켜면 다리·몸통의 2D 배치는 더 따랐지만, 머리 길이와 복장이 이탈했다. off도 얼굴 윤곽과 전신은 만들었으나 승인 재킷·바지·가방은 유지하지 못했다.
+같은 생각으로 전신에서는 FaceID와 전신 착장 image adapter를 빼고 Plus Face `0.15`, character LoRA `0.30`, seed `62295`, CFG `5.0`, `960×1440`, 50 step을 고정해 OpenPose off/on을 비교했다. OpenPose를 켜면 다리·몸통의 2D 배치는 더 따랐지만, 머리 길이와 복장이 이탈했다. off도 얼굴 윤곽과 전신은 만들었으나 기준 재킷·바지·가방은 유지하지 못했다.
 
 ![SDXL 전신 safe-face 조건의 OpenPose off/on 비교](../../../assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-openpose-ab-contact-sheet.png)
 
-![SDXL safe-face 전신 후보와 승인 얼굴 기준 비교](../../../assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-contact-sheet.png)
+![SDXL safe-face 전신 후보와 기준 얼굴 비교](../../../assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-contact-sheet.png)
 
-이 두 비교에서는 “얼굴이 그럴듯한가”만 보지 않는다. OpenPose on/off 시트에서는 다리·몸통의 배치가 map에 가까워졌는지를, 얼굴 기준 비교에서는 그 과정에서 청록 단발·승인 재킷·와이드 바지·가방이 같은 캐릭터 계약으로 남았는지를 따로 본다. 즉 구조 단서가 좋아진 한 후보를 곧바로 전체 통과로 읽지 않는 비교다.
+이 두 비교에서는 “얼굴이 그럴듯한가”만 보지 않는다. OpenPose on/off 시트에서는 다리·몸통의 배치가 map에 가까워졌는지를, 얼굴 기준 비교에서는 그 과정에서 청록 단발·기준 재킷·와이드 바지·가방이 같은 캐릭터 계약으로 남았는지를 따로 본다. 즉 구조 단서가 좋아진 한 후보를 곧바로 전체 재현의 근거로 읽지 않는 비교다.
 
-저해상도 `512×768`에서 50/100 step도 비교했다. step을 늘려도 identity·outfit이 자동으로 승인 기준에 수렴하지 않았다. step과 해상도는 얼굴·구조 형성의 조건일 수 있지만, 캐릭터 고정이나 복장 가림 관계를 대신하지 않는다. 아래 기록에 전신 off/on 조건을 남겼다.
+저해상도 `512×768`에서 50/100 step도 비교했다. step을 늘려도 identity·outfit이 자동으로 기준에 수렴하지 않았다. step과 해상도는 얼굴·구조 형성의 조건일 수 있지만, 캐릭터 고정이나 복장 가림 관계를 대신하지 않는다. 아래 기록에 전신 off/on 조건을 남겼다.
 
 [p7-5-11-sdxl-safe-face-without-openpose-960x1440-result.json — JSON — OpenPose off 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-without-openpose-960x1440-result.json)
 
@@ -61,20 +61,20 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 | FaceID 단독 | FaceID + FullFace |
 | --- | --- |
 | ![FaceID 단독 후보](../../../assets/part-07/chapter-05/p7-5-11-faceid-only-candidate.png) | ![FaceID와 FullFace 결합 후보](../../../assets/part-07/chapter-05/p7-5-11-faceid-fullface-candidate.png) |
-| 전신 frame 일부 유지, identity·outfit 미통과 | 얼굴 단서는 일부 회복, 전신·outfit 미통과 |
+| 전신 frame 일부 유지, identity·outfit 이탈 | 얼굴 단서는 일부 회복, 전신·outfit 이탈 |
 
-왼쪽 후보는 전신 구도를 남겼지만 얼굴과 착장이 승인 기준에서 벗어나고, 오른쪽 후보는 얼굴 단서를 늘리는 대신 흉상으로 좁아진다. 이 교환은 얼굴 reference의 강도를 올리는 일이 전신 구도·복장을 보존하는 조건과 독립적이지 않음을 보여 준다. 따라서 이 절에서는 두 후보 모두 전체 캐릭터 재현의 통과 사례로 쓰지 않는다.
+왼쪽 후보는 전신 구도를 남겼지만 얼굴과 착장이 기준에서 벗어나고, 오른쪽 후보는 얼굴 단서를 늘리는 대신 흉상으로 좁아진다. 이 교환은 얼굴 reference의 강도를 올리는 일이 전신 구도·복장을 보존하는 조건과 독립적이지 않음을 보여 준다. 따라서 이 절에서는 두 후보 모두 전체 캐릭터 재현의 근거로 쓰지 않는다.
 
 ## 삭제한 FLUX 학습셋은 LoRA 근거로 쓰지 않는다
 
-P7-5.3의 방향 원본과 P7-5.11의 동작 원본으로 구성했던 FLUX 승인 이미지·review·54컷 manifest는 모두 제거했다. 따라서 이 절은 해당 데이터셋의 LoRA 효과를 현재 근거로 사용하지 않는다. 새 학습셋은 생성 모델, 이미지, 사람 검수 기록, caption·hash manifest를 한 세트로 새로 승인한 뒤에만 실험에 연결한다.
+P7-5.3의 방향 원본과 P7-5.11의 동작 원본으로 구성했던 FLUX 이전 실험 이미지·비교 기록·54컷 manifest는 모두 제거했다. 따라서 이 절은 해당 데이터셋의 LoRA 효과를 현재 근거로 사용하지 않는다. 새 학습셋은 생성 모델, 이미지, 사람 검수 기록, caption·hash manifest를 한 세트로 새로 기록한 뒤에만 실험에 연결한다.
 
-LoRA on은 off보다 화풍과 착장 경향을 끌어올 수 있지만, 정확한 얼굴·동작·가방을 단독으로 고정하지는 못한다. FacePlus와 FaceID를 함께 써도 얼굴 단서는 보조할 뿐 전신 계약을 통과시키지 못했다.
+LoRA on은 off보다 화풍과 착장 경향을 끌어올 수 있지만, 정확한 얼굴·동작·가방을 단독으로 고정하지는 못한다. FacePlus와 FaceID를 함께 써도 얼굴 단서는 보조할 뿐 전신 계약의 이탈을 해소하지 못했다.
 
 | character LoRA on/off | FacePlus + FaceID |
 | --- | --- |
 | ![character LoRA on/off 비교](../../../assets/part-07/chapter-05/p7-5-11-character-lora-on-off-contact-sheet.png) | ![FacePlus와 FaceID 결합 후보](../../../assets/part-07/chapter-05/p7-5-11-faceplus-faceid-contact-sheet.png) |
-| 화풍·착장 경향은 보조 | 얼굴 단서는 생겨도 전신 계약 미통과 |
+| 화풍·착장 경향은 보조 | 얼굴 단서는 생겨도 전신 계약 이탈 |
 
 이 비교가 말하는 것은 데이터 수만으로 새 동작을 모두 해결할 수 없다는 점이다. 얼굴·동작·가방의 정확한 관계는 별도 조건 없이는 흔들리므로, 얼굴 개선만을 성공으로 세지 않는다.
 
@@ -82,11 +82,11 @@ LoRA on은 off보다 화풍과 착장 경향을 끌어올 수 있지만, 정확�
 
 > **이 보조 실험이 확인한 것:** OpenPose는 팔·다리·접지의 2D 배치를 전달하지만, 고각도 카메라와 3D 가림 관계를 결정하지는 않는다.
 
-강화한 LoRA를 넣은 뒤에는 OpenPose가 무엇을 실제로 맡는지 다시 확인했다. P7-5.3의 승인 전신에서 저장한 우측 쿼터 skeleton map을 재사용해 detector를 매번 다시 실행하지 않도록 했다. 아래 비교는 왼쪽의 입력 map과 그 map을 사용한 ControlNet off/on 산출물을 함께 보여 준다.
+강화한 LoRA를 넣은 뒤에는 OpenPose가 무엇을 실제로 맡는지 다시 확인했다. 당시 P7-5.3 전신에서 저장한 우측 쿼터 skeleton map을 재사용해 detector를 매번 다시 실행하지 않도록 했다. 아래 비교는 왼쪽의 입력 map과 그 map을 사용한 ControlNet off/on 산출물을 함께 보여 준다.
 
 ![저장 우측 쿼터 OpenPose map과 ControlNet off/on 산출물](../../../assets/part-07/chapter-05/p7-5-11-openpose-static-quarter-right-contact-sheet.png)
 
-검수 시트의 왼쪽은 입력 map, 가운데는 ControlNet off, 오른쪽은 `1.0` 조건이다. 오른쪽 후보의 다리·발 배치가 map 쪽으로 더 가까워진 것이 이 실험에서 확인할 수 있는 효과다. 반면 map에는 카메라가 어디에 있는지, 머리와 흉곽이 얼마나 회전했는지, 가방이 몸의 앞·뒤 어느 쪽을 지나야 하는지가 들어 있지 않다. 그래서 이 비교는 2D 관절 배치의 보조 효과만 보여 주며, 고각도 전체 컷의 통과 증거는 아니다.
+검수 시트의 왼쪽은 입력 map, 가운데는 ControlNet off, 오른쪽은 `1.0` 조건이다. 오른쪽 후보의 다리·발 배치가 map 쪽으로 더 가까워진 것이 이 실험에서 확인할 수 있는 효과다. 반면 map에는 카메라가 어디에 있는지, 머리와 흉곽이 얼마나 회전했는지, 가방이 몸의 앞·뒤 어느 쪽을 지나야 하는지가 들어 있지 않다. 그래서 이 비교는 2D 관절 배치의 보조 효과만 보여 주며, 고각도 전체 컷 재현의 근거는 아니다.
 
 Animagine XL `960×1440`, 30 step에서 LoRA `0.6`을 고정했을 때, 저장 우측 쿼터 map의 ControlNet `1.0`은 `0.0`보다 다리·발의 2D 배치를 더 잘 따르면서 단발·눈·재킷·와이드 바지·가방을 일부 남겼다. 선언형 오른팔 올리기 map에서도 `1.0`은 팔의 방향을 따라갔다. 반면 LoRA를 `0.8`로 올리면 바지가 거의 흰색이 되고, high-angle 문구를 보태도 위에서 내려다보는 원근은 생기지 않았다.
 
@@ -117,7 +117,7 @@ Animagine XL `960×1440`, 30 step에서 LoRA `0.6`을 고정했을 때, 저장 �
 
 ### SDXL에서는 구조 조건을 나눠도 네 계약을 합치지 못했다
 
-> **이 보조 실험이 확인한 것:** 인물 외곽을 뺀 background Canny와 OpenPose는 분리할 수 있지만, 현 8 GB SDXL 경로는 고각도·동작·identity·outfit을 함께 통과시키지 못했다.
+> **이 보조 실험이 확인한 것:** 인물 외곽을 뺀 background Canny와 OpenPose는 분리할 수 있지만, 현 8 GB SDXL 경로는 고각도·동작·identity·outfit을 함께 유지하지 못했다.
 
 그 guide의 인물 RGB·얼굴·복장은 버리고, OpenPose와 **인물을 제외한 배경 Canny**만 SDXL에 전달했다. SDXL Base 1.0, character LoRA `0.6`, seed `62431`, 50 step, `768×1152`에서 구조 조건을 하나씩 켠 비교다.
 
@@ -125,19 +125,19 @@ Animagine XL `960×1440`, 30 step에서 LoRA `0.6`을 고정했을 때, 저장 �
 
 여기서 익명 guide는 최종 캐릭터 reference가 아니다. 원본 guide의 인물 RGB·얼굴·복장을 버린 뒤, 몸의 2D 배치와 사람을 뺀 배경의 원근 단서만 각각 전달했을 때를 비교한다. 따라서 시트의 후보가 guide 인물과 닮지 않는 것은 실패가 아니라, 구조 조건과 캐릭터 조건을 섞지 않았는지 확인하기 위한 전제다.
 
-구조 조건이 없으면 high-angle이 사라졌다. OpenPose만 켜면 위쪽 카메라의 단서는 일부 남아도 달리기 동작이 앉거나 쪼그린 자세로 바뀌었다. 배경 Canny만 켜면 타일 원근은 남지만 인물 실루엣이 중복되었다. 두 ControlNet을 함께 쓰는 조건은 `768×1152`와 `512×768` 모두 현재 8 GB sequential-offload Diffusers 경로에서 완료되지 않았다. 사람 외곽을 뺀 background Canny와 pose/camera 입력 분리는 유효한 체크포인트였지만, 이 SDXL 경로는 고각도·동작·Mira identity·복장을 함께 재현하는 제작 도구로는 미통과다. 아래 검수·실행 기록에 판정과 조건을 보관했다.
+구조 조건이 없으면 high-angle이 사라졌다. OpenPose만 켜면 위쪽 카메라의 단서는 일부 남아도 달리기 동작이 앉거나 쪼그린 자세로 바뀌었다. 배경 Canny만 켜면 타일 원근은 남지만 인물 실루엣이 중복되었다. 두 ControlNet을 함께 쓰는 조건은 `768×1152`와 `512×768` 모두 현재 8 GB sequential-offload Diffusers 경로에서 완료되지 않았다. 사람 외곽을 뺀 background Canny와 pose/camera 입력 분리는 유효한 체크포인트였지만, 이 SDXL 경로는 고각도·동작·Mira identity·복장을 함께 재현하는 제작 도구로 사용하지 않는다. 아래 검수·실행 기록에 관찰과 조건을 보관했다.
 
 [p7-5-11-sdxl-anonymous-high-angle-transfer-result.json — JSON — 익명 고각도 전이 실행 결과 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-result.json)
 
 [p7-5-11-sdxl-anonymous-high-angle-transfer-report.json — JSON — 익명 고각도 전이 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-report.json)
 
-### depth·Canny는 원근을 남겨도 승인 복장을 보장하지 않았다
+### depth·Canny는 원근을 남겨도 기준 복장을 보장하지 않았다
 
 depth와 역할 분리 adapter도 같은 경계를 보였다. 고각도 depth scaffold, 전신 완성 착장 global 조건, 얼굴 face 조건, character·outfit LoRA를 나눠 연결하면 타일 바닥 원근과 머리·눈 단서는 일부 남았다. 그러나 흰 크롭 재킷은 짧은 흰 상의가 되고 가방·strap은 사라졌다.
 
 ![SDXL depth와 역할 분리 adapter의 고각도 결과](../../../assets/part-07/chapter-05/p7-5-11-sdxl-depth-role-separated-review-sheet.png)
 
-Canny도 카메라·실루엣의 보조 조건으로는 쓸 수 있었지만, 최근 사선 보행 후보에서는 얼굴·바지·가방 일부가 남는 대신 흰 재킷 레이어가 빠졌다. 구조를 더 강하게 전달하는 일과 승인 복장을 보존하는 일은 여전히 경쟁했다.
+Canny도 카메라·실루엣의 보조 조건으로는 쓸 수 있었지만, 최근 사선 보행 후보에서는 얼굴·바지·가방 일부가 남는 대신 흰 재킷 레이어가 빠졌다. 구조를 더 강하게 전달하는 일과 기준 복장을 보존하는 일은 여전히 경쟁했다.
 
 ![Canny camera 조건의 사선 보행 비교](../../../assets/part-07/chapter-05/p7-5-11-canny-camera-condition-contact-sheet.png)
 
@@ -163,9 +163,9 @@ Canny도 카메라·실루엣의 보조 조건으로는 쓸 수 있었지만, �
 | DiffEdit 자동 mask | FitDiT 고각도 상반신 | CatVTON 수평 재킷 |
 | --- | --- | --- |
 | ![DiffEdit 자동 mask 실패](../../../assets/part-07/chapter-05/p7-5-11-diffedit-first-probe-contact-sheet.png) | ![FitDiT 고각도 상반신 착장 교체](../../../assets/part-07/chapter-05/p7-5-11-fitdit-high-angle-upperbody-complete-outfit-review-sheet.png) | ![CatVTON 전면 재킷 비교](../../../assets/part-07/chapter-05/p7-5-11-catvton-jacket-contact-sheet.png) |
-| 편집 범위가 전신으로 확산 | 어깨·재킷·가방의 새 가림 관계 미통과 | 수평 재킷 레이어만 부분 통과 |
+| 편집 범위가 전신으로 확산 | 어깨·재킷·가방의 새 가림 관계가 재현되지 않음 | 수평 재킷 레이어가 일부 유지됨 |
 
-세 결과는 같은 실패가 아니다. DiffEdit은 고칠 영역을 충분히 좁히지 못했고, FitDiT는 좁힌 영역 안에서도 새 카메라가 요구한 어깨·가방의 앞뒤 관계를 만들지 못했다. CatVTON은 수평 전면에서 이미 성립한 레이어를 옮긴 사례다. 따라서 마지막 결과를 고각도 전신의 증거로 확장하지 않고, 국소 보정은 구조가 먼저 통과한 뒤에만 쓰는 후보로 남긴다.
+세 결과는 같은 실패가 아니다. DiffEdit은 고칠 영역을 충분히 좁히지 못했고, FitDiT는 좁힌 영역 안에서도 새 카메라가 요구한 어깨·가방의 앞뒤 관계를 만들지 못했다. CatVTON은 수평 전면에서 이미 성립한 레이어를 옮긴 사례다. 따라서 마지막 결과를 고각도 전신의 증거로 확장하지 않고, 국소 보정은 구조 관계가 먼저 확보된 뒤에만 쓰는 후보로 남긴다.
 
 이 결과는 mask를 더 정교하게 그리거나 reference를 더 주는 일이 고각도에서 새로 보이거나 가려지는 팔·몸통·다리·가방의 관계를 대신하지 못한다는 뜻이다. 아래 실행 기록은 각 조건을 남긴다.
 
@@ -196,11 +196,11 @@ OpenPose와 depth·Canny는 구조 조건, FaceID·FacePlus·IP-Adapter·LoRA는
 | 2입력: 착장·가방 누락 | 역할 미분리 3입력: 신발·바지 드리프트 |
 | --- | --- |
 | ![Qwen 2입력 고각도 결과](../../../assets/part-07/chapter-05/p7-5-11-qwen-edit-two-input-outfit-loss.png) | ![Qwen 역할 미분리 3입력 결과](../../../assets/part-07/chapter-05/p7-5-11-qwen-edit-three-input-uncompressed-outfit-drift.png) |
-| 재킷·가방·strap 미통과 | 흰 운동화·와이드 바지 미통과 |
+| 재킷·가방·strap 이탈 | 흰 운동화·와이드 바지 이탈 |
 
 [p7_5_11_qwen_edit_high_angle_role_comparison.py — Python — 2입력 착장 누락과 3입력 역할 분리 고각도 비교 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_11_qwen_edit_high_angle_role_comparison.py)
 
-이 코드는 `--condition two-input --seed 62294`로 왼쪽 PNG를, `--condition role-separated --seed 62295`로 아래 오른쪽 승인 PNG를 만든다. 재실행 결과는 패키지 버전과 런타임에 따라 픽셀까지 같지 않을 수 있으므로, 기록된 SHA-256 대조와 사람 검수를 새로 수행한다.
+이 코드는 `--condition two-input --seed 62294`로 왼쪽 PNG를, `--condition role-separated --seed 62295`로 아래 오른쪽 비교 PNG를 만든다. 재실행 결과는 패키지 버전과 런타임에 따라 픽셀까지 같지 않을 수 있으므로, 기록된 SHA-256 대조와 사람 검수를 새로 수행한다.
 
 이 비교의 핵심은 입력 수 자체가 아니라 입력마다 맡긴 정보다. 2입력에서 구조와 얼굴을 우선하면 완성 착장의 레이어가 빠졌고, 역할이 겹친 3입력에서는 착장 단서끼리 충돌해 신발·바지가 바뀌었다. 그래서 다음 조건에서는 guide가 장면 구조만, 얼굴 reference가 identity만, 완성 착장이 옷·가방만 맡도록 서로의 판정 범위를 좁혔다.
 
@@ -209,15 +209,15 @@ Nunchaku FP4 r128과 per-layer CPU offload에서 `768×1152`, 40 step으로 실�
 | seed `62294` | seed `62295` |
 | --- | --- |
 | ![Qwen 역할 분리 고각도 후보 seed 62294](../../../assets/part-07/chapter-05/p7-5-11-qwen-edit-high-angle-seed-62294-reference.png) | ![Qwen 역할 분리 고각도 후보 seed 62295](../../../assets/part-07/chapter-05/p7-5-11-qwen-edit-high-angle-seed-62295-reference.png) |
-| 네 계약 통과 | 같은 입력 역할에서 교차 seed 통과 |
+| 네 항목의 일치 관찰 | 같은 입력 역할에서 교차 seed 비교 |
 
-따라서 고정한 보행 guide 범위에서는 **구조용 guide로 카메라·행동·배경을 정하고, 얼굴과 완성 착장을 역할별 reference로 분리하는 경로**가 8 GB에서도 기본적인 컷신 구성과 캐릭터 재현을 가능하게 했다. 다른 pose·guide·후면·강한 가림에는 같은 역할 분리를 유지한 새 후보와 사람 검수가 필요하다. 이 두 결과는 P7-5.4 스토리보드를 자동으로 교체하거나 LoRA 학습 데이터로 승격하지 않는다.
+따라서 고정한 보행 guide 범위에서는 **구조용 guide로 카메라·행동·배경을 정하고, 얼굴과 완성 착장을 역할별 reference로 분리하는 경로**에서 네 항목의 일치를 관찰했다. 다른 pose·guide·후면·강한 가림에는 같은 역할 분리를 유지한 새 후보와 사람 검수가 필요하다. 이 두 결과는 P7-5.4 스토리보드를 자동으로 교체하거나 LoRA 학습 데이터로 사용하지 않는다.
 
 ## 체크리스트
 
 - OpenPose off/on 비교에서 달라진 부분을 하나 고르고, 그것이 structure·identity·outfit·style 중 어느 계약인지 적는다. 다른 세 계약은 결과 이미지에서 따로 판정한다.
-- DiffEdit·FitDiT·CatVTON 비교에서 “부분 보정이 통과했다”와 “새 고각도 전신 컷이 통과했다”를 구분한다. 후자에는 네 계약이 모두 필요하다.
-- Qwen의 두 seed 결과를 보고 네 계약을 각각 통과·미통과로 표시한다. 두 seed가 통과했더라도, 다른 pose·후면·강한 가림까지 자동 통과한다고 결론내리지 않는다.
+- DiffEdit·FitDiT·CatVTON 비교에서 부분 보정에서 관찰된 변화와 새 고각도 전신 컷의 네 항목 일치를 구분한다.
+- Qwen의 두 seed 결과에서 네 항목의 일치·이탈을 각각 기록한다. 두 seed에서 같은 특징이 보여도, 다른 pose·후면·강한 가림까지 일반화하지 않는다.
 
 ## 출처와 참고 자료
 

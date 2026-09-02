@@ -48,7 +48,7 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
         "prompt": (
             "Photorealistic front full-body woman with a clearly narrow, defined waist. Image 1: exact face and hair identity. Image 2: strict-front skeleton; do not render it. "
             "Wear only a slim charcoal-gray micro crop T-shirt whose hem ends immediately below the bust, leaving a wide bare midriff above deep-teal high-waisted feminine full-length wide-leg trousers that reach the tops of white low-top sneakers. "
-            "Both arms and complete hands are visible. No jacket, bag, or strap. Warm off-white background."
+            "Both arms and complete hands are visible. Warm off-white background."
         ),
     },
     "outfit_stage2_jacket_face": {
@@ -64,7 +64,7 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
             "Front full-body woman. Image 1: retain the stage-1 crop top, wide trousers, sneakers, and proportions. "
-            "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; a flat folded-down pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves, bag, or strap. Warm off-white background."
+            "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; a flat folded-down pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves. Warm off-white background."
         ),
     },
     "outfit_stage3_headless": {

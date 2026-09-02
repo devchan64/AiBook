@@ -339,7 +339,7 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
 
     # Camera-left elbow stays close to the torso, then the lowered hand bends
     # outward beyond the body silhouette.  This keeps the hand visible instead
-    # of letting the shoulder bag conceal it.
+    # while keeping the outer arm visible.
     posed[3] = endpoint(points[2], (-0.08, -1.0, -0.15), right_upper)
     posed[4] = endpoint(posed[3], (-0.68, -0.72, -0.04), right_lower)
     # Camera-right arm lowers gently beside the torso.  Keeping the wrist
