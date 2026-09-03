@@ -92,13 +92,14 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--size", type=int, default=1280)
+    parser.add_argument("--adapter-weight", type=float, default=0.9, help="Multiple-Angles LoRA strength; the model card recommends 0.8 to 1.0.")
     parser.add_argument("--run-label", default="v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    if args.steps < 1 or args.size < 32 or args.size % 32:
-        parser.error("--steps must be positive; --size must be a multiple of 32 and at least 32")
+    if args.steps < 1 or args.size < 32 or args.size % 32 or not 0 < args.adapter_weight <= 1:
+        parser.error("--steps must be positive; --size must be a multiple of 32 and at least 32; --adapter-weight must be in (0, 1]")
     head = args.head.resolve()
     if not head.is_file():
         raise FileNotFoundError(head)
@@ -119,7 +120,7 @@ def main() -> None:
         parser.error("the selected grid contains no jobs after exclusions")
     plan = {
         "model": MODEL_ID,
-        "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME},
+        "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "adapter_weight": args.adapter_weight},
         "execution_mode": "direct Diffusers; sequential CPU offload; no ComfyUI server or HTTP API",
         "input": {"role": "Picture 1: Mira frontal appearance reference", "path": str(head), "sha256": sha256(head)},
         "prompt_format": "<sks> [azimuth] [elevation] [distance]",
@@ -156,6 +157,10 @@ def main() -> None:
         cache_dir=CACHE_DIR,
         local_files_only=not args.allow_download,
     )
+    active_adapters = pipeline.get_active_adapters()
+    if len(active_adapters) != 1:
+        raise RuntimeError(f"expected exactly one active Multiple-Angles adapter, got {active_adapters!r}")
+    pipeline.set_adapters(active_adapters, adapter_weights=args.adapter_weight)
     pipeline.enable_sequential_cpu_offload()
     reference = load_image(str(head))
     shared_input = {"role": "Picture 1: Mira frontal appearance reference", "path": str(head), "sha256": sha256(head)}
@@ -187,7 +192,7 @@ def main() -> None:
             "execution_mode": "direct Diffusers; QwenImageEditPlusPipeline; no ComfyUI server",
             "runtime": runtime_record(),
             "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
-            "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "prompt_format": "<sks> [azimuth] [elevation] [distance]"},
+            "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "active_adapter": active_adapters[0], "adapter_weight": args.adapter_weight, "prompt_format": "<sks> [azimuth] [elevation] [distance]"},
             "inputs": [shared_input],
             "camera": {
                 "yaw_degrees": YAW_VIEWS[yaw]["degrees"],

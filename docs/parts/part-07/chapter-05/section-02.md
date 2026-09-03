@@ -1,7 +1,7 @@
 # P7-5.2 Mira 정면 머리 기준 만들기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.09.03`
+> Version: `v2026.09.04`
 
 같은 인물을 다음 단계에서 다시 사용할 때는 먼저 얼굴·머리 기준을 한 장으로 고정한다. 이 절은 캐릭터 **Mira**의 정면 머리 기준을 text-to-image로 생성하고, 그 머리 한 장을 참조한 카메라 각도 실험의 입력·실행 조건을 `result.json`에 남긴다. 전신·착장·자세는 [P7-5.3](section-03.md) 이후의 별도 작업이다.
 
@@ -72,6 +72,14 @@ image = pipeline(
 [로우 우측 프로필 result.json — 단일 머리 참조·LoRA·카메라 토큰 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-low-yaw-plus-90-steps30-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
 [Mira 머리 15방향 Multiple-Angles 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_head_multiview.py)
+
+생성기는 LoRA를 로드한 뒤 활성 어댑터가 하나인지 확인하고, 모델 카드의 권장 범위 안인 기본 `adapter_weight=0.9`를 명시해 적용한다. 강도와 활성 어댑터명은 각 result JSON에 기록한다. 동일한 정면 참조·시드·10 step에서 `front-left quarter view`와 `front-right quarter view`는 서로 반대 방향으로 분리됐다.
+
+![Mira 좌전방 쿼터뷰, LoRA 0.9](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-level-yaw-minus-45-adapter09-v1-size-1280x1280-seed-62294-steps-10.png)
+
+![Mira 우전방 쿼터뷰, LoRA 0.9](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-level-yaw-plus-45-adapter09-v1-size-1280x1280-seed-62294-steps-10.png)
+
+[좌전방 쿼터뷰 result.json](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-level-yaw-minus-45-adapter09-v1-size-1280x1280-seed-62294-steps-10-result.json) · [우전방 쿼터뷰 result.json](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-level-yaw-plus-45-adapter09-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 30 step은 로우 우측 프로필의 윤곽과 헤어 경계를 더 또렷하게 구성했다. 다만 단일 정면 참조만으로는 보이지 않는 방향의 머리·어깨·옷을 새로 그릴 수 있으므로, 이 결과는 카메라 토큰이 방향 변화를 유도하는지 관찰하는 실험 기록이지 Mira identity가 유지된 회전 기준으로 사용하지 않는다. 생성기는 수평 `−90°, −45°, 0°, +45°, +90°`와 수직 `low`, `level`, `elevated`의 15개 조합을 지원하며 기본 step은 30이다.
 
