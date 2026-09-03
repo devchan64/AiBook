@@ -88,7 +88,7 @@ def main() -> None:
         help="Skip a completed pair, for example --exclude elevated:minus-45. Repeat as needed.",
     )
     parser.add_argument("--seed", type=int, default=62294)
-    parser.add_argument("--steps", type=int, default=20)
+    parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--size", type=int, default=1280)
     parser.add_argument("--run-label", default="v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)

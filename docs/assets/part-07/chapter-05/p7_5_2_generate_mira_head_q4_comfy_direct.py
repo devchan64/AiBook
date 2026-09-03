@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Mira's head with Q4_K_S GGUF through direct Comfy nodes.
+"""Generate Mira's head with a Qwen-Image GGUF through direct Comfy nodes.
 
 This runner opens no HTTP port and does not start a ComfyUI server. It reuses
 the low-VRAM Qwen setup proven by P7-5.9: a GGUF diffusion model, FP8-scaled
@@ -67,19 +67,24 @@ def prompt() -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--weight", type=Path, default=WEIGHT, help="Managed Qwen-Image GGUF transformer.")
+    parser.add_argument("--quant", default="Q4_K_S", help="Quantization label written to the result record.")
     parser.add_argument("--size", type=int, default=1280)
     parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--cfg", type=float, default=4.0)
+    parser.add_argument("--prompt", help="Override the default Mira head prompt for a controlled quantization comparison.")
     parser.add_argument("--label", default="front-v1")
     args = parser.parse_args()
     if args.size % 16 or args.steps < 1:
         parser.error("--size must be divisible by 16 and --steps must be positive")
-    weight = require(WEIGHT)
+    weight = require(args.weight.resolve())
     require(IDENTITY)
     require(ILLUSTRATION)
     expose(weight)
-    output = ASSETS / f"p7-5-2-mira-head-qwen-image-q4ks-comfy-direct-{args.label}-seed-{args.seed}-steps-{args.steps}-size-{args.size}.png"
+    generation_prompt = args.prompt or prompt()
+    quant_slug = args.quant.lower().replace("_", "")
+    output = ASSETS / f"p7-5-2-mira-head-qwen-image-{quant_slug}-comfy-direct-{args.label}-seed-{args.seed}-steps-{args.steps}-size-{args.size}.png"
     result = output.with_name(f"{output.stem}-result.json")
     stage = "initialization"
     started = time.monotonic()
@@ -101,7 +106,7 @@ def main() -> None:
             # Let --lowvram choose the same placement used by the proven P7-5.9 graph.
             clip = classes["CLIPLoader"]().load_clip(TEXT_ENCODER, "qwen_image", "default")[0]
             vae = classes["VAELoader"]().load_vae(VAE)[0]
-            positive = classes["CLIPTextEncode"]().encode(clip, prompt())[0]
+            positive = classes["CLIPTextEncode"]().encode(clip, generation_prompt)[0]
             negative = classes["CLIPTextEncode"]().encode(clip, "")[0]
             latent = classes["EmptySD3LatentImage"]().generate(args.size, args.size, 1)[0]
             stage = "sample"
@@ -116,15 +121,15 @@ def main() -> None:
         Image.fromarray((image * 255).clip(0, 255).astype("uint8")).save(output)
         payload = {
             "status": "generated", "execution_mode": "direct Comfy nodes; no server, port, or HTTP API",
-            "quant": "Q4_K_S", "model": {"path": str(weight), "sha256": digest(weight)},
+            "quant": args.quant, "model": {"path": str(weight), "sha256": digest(weight)},
             "text_encoder": TEXT_ENCODER, "vae": VAE, "size": [args.size, args.size], "steps": args.steps,
-            "cfg": args.cfg, "seed": args.seed, "prompt": prompt(), "output": str(output),
+            "cfg": args.cfg, "seed": args.seed, "prompt": generation_prompt, "output": str(output),
             "elapsed_seconds": round(time.monotonic() - started, 2),
         }
     except Exception as error:
         payload = {
             "status": "failed", "execution_mode": "direct Comfy nodes; no server, port, or HTTP API",
-            "quant": "Q4_K_S", "stage": stage, "error": str(error),
+            "quant": args.quant, "stage": stage, "error": str(error),
             "traceback": traceback.format_exc(), "elapsed_seconds": round(time.monotonic() - started, 2),
         }
     result.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

@@ -53,15 +53,15 @@ image = pipeline(
 
 ## 엘리베이티드 쿼터뷰를 머리 참조 한 장으로 실험한다
 
-`Qwen-Image-Edit-2511`에 `fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA`를 로드해, Mira 정면 머리 기준만 Picture 1로 입력했다. 모델 카드의 토큰 순서 `<sks> [azimuth] [elevation] [distance]`를 그대로 사용하며, 이 실험의 prompt는 `<sks> front-left quarter view elevated shot medium shot`이다. [fal, *Qwen-Image-Edit-2511 Multiple-Angles LoRA model card*](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
+`Qwen-Image-Edit-2511`에 `fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA`를 로드해, Mira 정면 머리 기준만 Picture 1로 입력했다. 모델 카드의 토큰 순서 `<sks> [azimuth] [elevation] [distance]`를 그대로 사용하며, 이 실험의 prompt는 `<sks> right side view low-angle shot medium shot`이다. [fal, *Qwen-Image-Edit-2511 Multiple-Angles LoRA model card*](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
-![Mira 엘리베이티드 좌전방 쿼터뷰 20 step](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-elevated-yaw-minus-45-steps20-v1-size-1280x1280-seed-62294-steps-20.png)
+![Mira 로우 우측 프로필 30 step](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-low-yaw-plus-90-steps30-v1-size-1280x1280-seed-62294-steps-30.png)
 
-[엘리베이티드 좌전방 쿼터뷰 result.json — 단일 머리 참조·LoRA·카메라 토큰 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-elevated-yaw-minus-45-steps20-v1-size-1280x1280-seed-62294-steps-20-result.json)
+[로우 우측 프로필 result.json — 단일 머리 참조·LoRA·카메라 토큰 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-low-yaw-plus-90-steps30-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
 [Mira 머리 15방향 Multiple-Angles 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_head_multiview.py)
 
-20 step은 10 step보다 선과 얼굴 디테일을 정리했지만, 단발 실루엣이 길어지고 참조에 없던 상반신·옷도 새로 그렸다. 따라서 이 결과는 카메라 토큰이 방향 변화를 유도하는지 관찰하는 실험 기록이지, Mira identity가 유지된 회전 기준으로 사용하지 않는다. 생성기는 수평 `−90°, −45°, 0°, +45°, +90°`와 수직 `low`, `level`, `elevated`의 15개 조합을 지원하며 기본 step은 20이다.
+30 step은 로우 우측 프로필의 윤곽과 헤어 경계를 더 또렷하게 구성했다. 다만 단일 머리 참조만으로는 상반신과 옷을 새로 그릴 수 있으므로, 이 결과는 카메라 토큰이 방향 변화를 유도하는지 관찰하는 실험 기록이지 Mira identity가 유지된 회전 기준으로 사용하지 않는다. 생성기는 수평 `−90°, −45°, 0°, +45°, +90°`와 수직 `low`, `level`, `elevated`의 15개 조합을 지원하며 기본 step은 30이다.
 
 ## 체크리스트
 
