@@ -4,7 +4,8 @@
 The ``torso-reference`` stage takes Mira's face as Picture 1 and the current
 frontal torso composition as Picture 2.  It produces the frontal torso basis.
 The ``multi-angle`` stage then takes that torso as Picture 1 and Mira's face
-as Picture 2, so a single camera-view instruction can change the viewpoint.
+as Picture 2. It loads the Multiple-Angles LoRA and gives that adapter only
+its ``<sks> [azimuth] [elevation] [distance]`` camera contract.
 
 The runner calls Diffusers directly.  It does not start a ComfyUI server.
 """
@@ -27,6 +28,8 @@ ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
+ANGLE_LORA_ID = "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"
+ANGLE_LORA_FILENAME = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
 DEFAULT_HEAD = ASSETS / (
     "p7-5-2-mira-head-qwen-image-q4ks-comfy-direct-young-adult-v1-"
     "seed-62294-steps-30-size-1280.png"
@@ -44,6 +47,8 @@ VIEWS = {
     "front-right-quarter": "front-right quarter view",
     "right-profile": "right side profile view",
 }
+CAMERA_ELEVATIONS = ("low-angle shot", "eye-level shot", "elevated shot", "high-angle shot")
+CAMERA_DISTANCES = ("close-up", "medium shot", "wide shot")
 
 def sha256(path: Path) -> str:
     """Return a stable content digest for a result record."""
@@ -112,13 +117,11 @@ def torso_reference_prompt(inner_top_identity: str) -> str:
     )
 
 
-def multiview_prompt(view: str, inner_top_identity: str) -> str:
-    """Keep the multi-angle instruction to identity, outfit, and view."""
-    return (
-        "Picture 1 is Mira's torso and inner top. Picture 2 is Mira's face "
-        f"identity. Generate a {VIEWS[view]} of Mira. Preserve {inner_top_identity} "
-        "Preserve her amber eyes and petrol-teal bob. Plain warm off-white background."
-    )
+def multiview_prompt(view: str, elevation: str, distance: str, use_angle_lora: bool) -> str:
+    """Use LoRA tokens only when the Multiple-Angles adapter is loaded."""
+    if use_angle_lora:
+        return f"<sks> {VIEWS[view]} {elevation} {distance}"
+    return f"{elevation} {VIEWS[view]}"
 
 
 def main() -> None:
@@ -128,7 +131,14 @@ def main() -> None:
     parser.add_argument("--torso", type=Path, default=DEFAULT_TORSO, help="Frontal torso used as Picture 1 only for --stage multi-angle.")
     parser.add_argument("--torso-framing", type=Path, default=DEFAULT_TORSO_FRAMING, help="Frontal torso composition used as Picture 2 only for --stage torso-reference.")
     parser.add_argument("--identity-contract", type=Path, default=DEFAULT_IDENTITY_CONTRACT, help="Shared Mira identity JSON; supplies the inner-top description.")
-    parser.add_argument("--view", choices=tuple(VIEWS), default="front-left-quarter", help="The only requested camera change.")
+    parser.add_argument("--view", choices=tuple(VIEWS), default="front-left-quarter", help="Camera yaw / azimuth for --stage multi-angle.")
+    parser.add_argument("--elevation", choices=CAMERA_ELEVATIONS, default="eye-level shot", help="Camera pitch for --stage multi-angle.")
+    parser.add_argument("--distance", choices=CAMERA_DISTANCES, default="medium shot", help="Camera distance for --stage multi-angle.")
+    parser.add_argument(
+        "--no-angle-lora",
+        action="store_true",
+        help="Do not load the Multiple-Angles LoRA; use the minimal plain-text camera prompt instead.",
+    )
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=1280, help="Square output edge; must be a multiple of 32.")
@@ -164,7 +174,7 @@ def main() -> None:
         view_prompt = VIEWS[view]
         run_label = args.run_label or "identity-framing-neutral-gray-v3"
     else:
-        prompt = multiview_prompt(args.view, inner_top_identity)
+        prompt = multiview_prompt(args.view, args.elevation, args.distance, not args.no_angle_lora)
         reference_order = "torso-inner_top, mira-face_identity"
         image_inputs = [square_canvas(torso, args.size), square_canvas(head, args.size)]
         image_records = [
@@ -188,6 +198,11 @@ def main() -> None:
         "prompt": prompt,
         "view": view,
         "view_prompt": view_prompt,
+        "camera": {
+            "azimuth": VIEWS[view],
+            "elevation": args.elevation if args.stage == "multi-angle" else None,
+            "distance": args.distance if args.stage == "multi-angle" else None,
+        },
         "head": str(head),
         "torso": str(torso),
         "torso_framing": str(torso_framing),
@@ -199,6 +214,11 @@ def main() -> None:
         "seed": args.seed,
         "steps": args.steps,
         "true_cfg_scale": 4.0,
+        "angle_lora": (
+            {"repository": ANGLE_LORA_ID, "weight": ANGLE_LORA_FILENAME}
+            if args.stage == "multi-angle" and not args.no_angle_lora
+            else None
+        ),
     }
     if args.dry_run:
         print(json.dumps(plan, ensure_ascii=False, indent=2))
@@ -215,6 +235,13 @@ def main() -> None:
         cache_dir=CACHE_DIR,
         local_files_only=not args.allow_download,
     )
+    if args.stage == "multi-angle" and not args.no_angle_lora:
+        pipeline.load_lora_weights(
+            ANGLE_LORA_ID,
+            weight_name=ANGLE_LORA_FILENAME,
+            cache_dir=CACHE_DIR,
+            local_files_only=not args.allow_download,
+        )
     pipeline.enable_sequential_cpu_offload()
     image = pipeline(
         image=image_inputs,
@@ -239,6 +266,16 @@ def main() -> None:
             "dtype": "bfloat16",
             "device_placement": "sequential_cpu_offload",
         },
+        "angle_lora": (
+            {
+                "repository": ANGLE_LORA_ID,
+                "weight": ANGLE_LORA_FILENAME,
+                "strength": "model-card default",
+                "prompt_format": "<sks> [azimuth] [elevation] [distance]",
+            }
+            if args.stage == "multi-angle" and not args.no_angle_lora
+            else None
+        ),
         "inputs": [
             *image_records,
             {
@@ -250,6 +287,11 @@ def main() -> None:
         "reference_order": reference_order,
         "view": view,
         "view_prompt": view_prompt,
+        "camera": {
+            "azimuth": VIEWS[view],
+            "elevation": args.elevation if args.stage == "multi-angle" else None,
+            "distance": args.distance if args.stage == "multi-angle" else None,
+        },
         "identity_contract": str(identity_contract),
         "inner_top_identity_description": inner_top_identity,
         "prompt": prompt,
