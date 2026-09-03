@@ -45,7 +45,7 @@ TRANSFORMER_FILENAME = (
 )
 ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
 ANGLE_LORA_FILE = "镜头转换.safetensors"
-DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-2-qwen-2511-mira-torso-front-identity-framing-gray-inner-top-multiref-v2-size-1280x1280-seed-62294-steps-10.png"
+DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-2-qwen-2511-mira-torso-front-identity-framing-neutral-gray-v3-size-1280x1280-seed-62294-steps-10.png"
 SIZE = (1024, 1024)
 LIGHTNING_SCHEDULER_CONFIG = {
     "base_image_seq_len": 256,

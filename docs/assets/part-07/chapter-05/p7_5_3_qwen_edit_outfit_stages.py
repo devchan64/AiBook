@@ -32,7 +32,7 @@ TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
 QWEN_FACE_REFERENCE = "p7-5-2-mira-head-qwen-image-q4ks-comfy-direct-young-adult-v1-seed-62294-steps-30-size-1280.png"
-FRONT_TORSO_REFERENCE = "p7-5-2-qwen-2511-mira-torso-front-identity-framing-gray-inner-top-multiref-v2-size-1280x1280-seed-62294-steps-10.png"
+FRONT_TORSO_REFERENCE = "p7-5-2-qwen-2511-mira-torso-front-identity-framing-neutral-gray-v3-size-1280x1280-seed-62294-steps-10.png"
 STAGE2_BODY_ONLY_OPENPOSE = "p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"
 
 

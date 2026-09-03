@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Generate one frontal Mira torso reference from two Qwen-Image-Edit-2511 inputs.
+"""Generate a Mira torso reference or its 1280px multi-angle variants.
 
-Picture 1 supplies Mira's current front-face identity.  Picture 2 supplies
-only the established head-and-chest framing.  Keeping those roles separate
-avoids asking one reference to carry both identity and composition.
+The ``torso-reference`` stage takes Mira's face as Picture 1 and the current
+frontal torso composition as Picture 2.  It produces the frontal torso basis.
+The ``multi-angle`` stage then takes that torso as Picture 1 and Mira's face
+as Picture 2, so a single camera-view instruction can change the viewpoint.
 
 The runner calls Diffusers directly.  It does not start a ComfyUI server.
 """
@@ -30,11 +31,19 @@ DEFAULT_HEAD = ASSETS / (
     "p7-5-2-mira-head-qwen-image-q4ks-comfy-direct-young-adult-v1-"
     "seed-62294-steps-30-size-1280.png"
 )
-DEFAULT_TORSO_FRAMING = ASSETS / (
-    "p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-"
-    "seed-62294-steps-8.png"
+DEFAULT_TORSO = ASSETS / (
+    "p7-5-2-qwen-2511-mira-torso-front-identity-framing-neutral-gray-v3-"
+    "size-1280x1280-seed-62294-steps-10.png"
 )
+DEFAULT_TORSO_FRAMING = DEFAULT_TORSO
 DEFAULT_IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
+VIEWS = {
+    "front": "front view",
+    "front-left-quarter": "front-left quarter view",
+    "left-profile": "left side profile view",
+    "front-right-quarter": "front-right quarter view",
+    "right-profile": "right side profile view",
+}
 
 def sha256(path: Path) -> str:
     """Return a stable content digest for a result record."""
@@ -74,21 +83,56 @@ def square_canvas(path: Path, size: int) -> Image.Image:
 def load_inner_top_identity(path: Path) -> str:
     """Read torso-visible clothing from the shared Mira identity contract."""
     contract = json.loads(path.read_text(encoding="utf-8"))
-    value = contract.get("inner_top_identity_description")
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError("identity contract needs inner_top_identity_description")
-    return value.strip()
+    value = contract.get("inner_top_identity")
+    if not isinstance(value, dict):
+        raise ValueError("identity contract needs inner_top_identity")
+    color = value.get("color")
+    if not isinstance(color, dict):
+        raise ValueError("inner_top_identity needs a color object")
+    fields = ("garment", "fit", "neckline", "sleeves", "hem")
+    if any(not isinstance(value.get(field), str) or not value[field].strip() for field in fields):
+        raise ValueError("inner_top_identity is missing a garment, fit, neckline, sleeves, or hem")
+    color_name = color.get("name")
+    if not isinstance(color_name, str) or not color_name.strip():
+        raise ValueError("inner_top_identity color needs a name")
+    return (
+        f"a {value['fit'].strip()} {color_name.strip()} {value['garment'].strip()} "
+        f"with a {value['neckline'].strip()} neckline and {value['sleeves'].strip()} sleeves, "
+        f"ending {value['hem'].strip()}."
+    )
+
+
+def torso_reference_prompt(inner_top_identity: str) -> str:
+    """Make a frontal torso from face identity and framing-only references."""
+    return (
+        "Picture 1 is Mira's face identity. Picture 2 is only frontal "
+        "head-and-upper-torso framing. Generate one frontal torso reference of Mira. "
+        f"Preserve her amber eyes, petrol-teal bob, and {inner_top_identity} "
+        "Plain warm off-white background."
+    )
+
+
+def multiview_prompt(view: str, inner_top_identity: str) -> str:
+    """Keep the multi-angle instruction to identity, outfit, and view."""
+    return (
+        "Picture 1 is Mira's torso and inner top. Picture 2 is Mira's face "
+        f"identity. Generate a {VIEWS[view]} of Mira. Preserve {inner_top_identity} "
+        "Preserve her amber eyes and petrol-teal bob. Plain warm off-white background."
+    )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--head", type=Path, default=DEFAULT_HEAD, help="Picture 1: Mira front-face identity.")
-    parser.add_argument("--torso-framing", type=Path, default=DEFAULT_TORSO_FRAMING, help="Picture 2: existing frontal chest composition.")
+    parser.add_argument("--stage", choices=("torso-reference", "multi-angle"), default="torso-reference")
+    parser.add_argument("--head", type=Path, default=DEFAULT_HEAD, help="Mira front-face identity reference.")
+    parser.add_argument("--torso", type=Path, default=DEFAULT_TORSO, help="Frontal torso used as Picture 1 only for --stage multi-angle.")
+    parser.add_argument("--torso-framing", type=Path, default=DEFAULT_TORSO_FRAMING, help="Frontal torso composition used as Picture 2 only for --stage torso-reference.")
     parser.add_argument("--identity-contract", type=Path, default=DEFAULT_IDENTITY_CONTRACT, help="Shared Mira identity JSON; supplies the inner-top description.")
+    parser.add_argument("--view", choices=tuple(VIEWS), default="front-left-quarter", help="The only requested camera change.")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=1280, help="Square output edge; must be a multiple of 32.")
-    parser.add_argument("--run-label", default="front-identity-framing-gray-inner-top-multiref-v2")
+    parser.add_argument("--run-label", help="Optional filename suffix. The stage-specific default is used when omitted.")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
@@ -100,32 +144,52 @@ def main() -> None:
         parser.error("--size must be a multiple of 32")
 
     head = args.head.resolve()
+    torso = args.torso.resolve()
     torso_framing = args.torso_framing.resolve()
     identity_contract = args.identity_contract.resolve()
-    for path in (head, torso_framing, identity_contract):
+    required_paths = (head, torso_framing, identity_contract) if args.stage == "torso-reference" else (torso, head, identity_contract)
+    for path in required_paths:
         if not path.is_file():
             raise FileNotFoundError(path)
     inner_top_identity = load_inner_top_identity(identity_contract)
-    prompt = (
-        "Picture 1 is Mira's facial identity. Picture 2 is only the frontal "
-        "head-and-upper-torso framing. Generate one frontal chest reference of "
-        "Mira: preserve Picture 1's young adult face, amber eyes, and "
-        "petrol-teal bob; use Picture 2 only for centered shoulders and "
-        f"mid-chest framing. She wears {inner_top_identity} "
-        "Plain warm off-white background."
-    )
+    if args.stage == "torso-reference":
+        prompt = torso_reference_prompt(inner_top_identity)
+        reference_order = "mira-face_identity, torso-framing"
+        image_inputs = [square_canvas(head, args.size), square_canvas(torso_framing, args.size)]
+        image_records = [
+            {"role": "Picture 1: Mira face and hair identity", "path": str(head), "sha256": sha256(head)},
+            {"role": "Picture 2: frontal head-and-chest framing only", "path": str(torso_framing), "sha256": sha256(torso_framing)},
+        ]
+        view = "front"
+        view_prompt = VIEWS[view]
+        run_label = args.run_label or "identity-framing-neutral-gray-v3"
+    else:
+        prompt = multiview_prompt(args.view, inner_top_identity)
+        reference_order = "torso-inner_top, mira-face_identity"
+        image_inputs = [square_canvas(torso, args.size), square_canvas(head, args.size)]
+        image_records = [
+            {"role": "Picture 1: frontal torso and inner top", "path": str(torso), "sha256": sha256(torso)},
+            {"role": "Picture 2: Mira face and hair identity", "path": str(head), "sha256": sha256(head)},
+        ]
+        view = args.view
+        view_prompt = VIEWS[view]
+        run_label = args.run_label or "multiview-v1"
     output_dir = args.output_dir.resolve()
     stem = (
-        f"p7-5-2-qwen-2511-mira-torso-{args.run_label}-"
+        f"p7-5-2-qwen-2511-mira-torso-{view}-{run_label}-"
         f"size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     )
     output = output_dir / f"{stem}.png"
     result = output_dir / f"{stem}-result.json"
     plan = {
         "model": MODEL_ID,
-        "reference_order": "mira-face_identity, torso-framing",
+        "stage": args.stage,
+        "reference_order": reference_order,
         "prompt": prompt,
+        "view": view,
+        "view_prompt": view_prompt,
         "head": str(head),
+        "torso": str(torso),
         "torso_framing": str(torso_framing),
         "identity_contract": str(identity_contract),
         "inner_top_identity_description": inner_top_identity,
@@ -153,7 +217,7 @@ def main() -> None:
     )
     pipeline.enable_sequential_cpu_offload()
     image = pipeline(
-        image=[square_canvas(head, args.size), square_canvas(torso_framing, args.size)],
+        image=image_inputs,
         prompt=prompt,
         height=args.size,
         width=args.size,
@@ -167,7 +231,7 @@ def main() -> None:
     image.save(output)
     record = {
         "status": "generated",
-        "stage": "mira_torso_multireference_generation",
+        "stage": "mira_torso_reference_generation" if args.stage == "torso-reference" else "mira_torso_multiview_generation",
         "execution_mode": "direct Diffusers; QwenImageEditPlusPipeline; no ComfyUI server",
         "runtime": runtime_record(),
         "model": {
@@ -176,23 +240,16 @@ def main() -> None:
             "device_placement": "sequential_cpu_offload",
         },
         "inputs": [
-            {
-                "role": "Picture 1: Mira face and hair identity",
-                "path": str(head),
-                "sha256": sha256(head),
-            },
-            {
-                "role": "Picture 2: frontal head-and-chest framing only",
-                "path": str(torso_framing),
-                "sha256": sha256(torso_framing),
-            },
+            *image_records,
             {
                 "role": "Mira identity contract: torso-visible inner top",
                 "path": str(identity_contract),
                 "sha256": sha256(identity_contract),
             },
         ],
-        "reference_order": "mira-face_identity, torso-framing",
+        "reference_order": reference_order,
+        "view": view,
+        "view_prompt": view_prompt,
         "identity_contract": str(identity_contract),
         "inner_top_identity_description": inner_top_identity,
         "prompt": prompt,

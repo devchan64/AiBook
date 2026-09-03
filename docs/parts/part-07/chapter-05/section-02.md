@@ -13,7 +13,8 @@ Mira는 매우 밝은 피치 피부, 가늘고 작은 타원형 얼굴과 V자 �
 | --- | --- | --- |
 | `identity_description` | 피부색, 얼굴형, 코·입·눈 비율, 호박빛 갈색 홍채, 앞머리와 단발 실루엣 | 포즈, 카메라 방향, 전신 비례 |
 | `rear_hair_identity` | 뒷머리 실루엣, 목덜미 헤어라인, 머리색 | 새로운 헤어스타일 생성 |
-| `outfit_identity_description` | 흰 크롭 재킷, 차콜 회색 크롭탑, 딥틸 와이드 팬츠, 흰 스니커즈 | 옷의 가림 관계와 손·팔다리 형태 |
+| `outfit_identity_description` | 흰 크롭 재킷, 중성 미디엄 그레이 크롭탑, 딥틸 와이드 팬츠, 흰 스니커즈 | 옷의 가림 관계와 손·팔다리 형태 |
+| `inner_top_identity` | 크롭탑의 핏·중성 미디엄 그레이(`#5B5B5B`)·넥라인·소매·기장 | 헤어 색이나 카메라 변화 |
 
 `unsloth/Qwen-Image-GGUF`의 `qwen-image-Q4_K_S.gguf`로 Mira 정면 머리를 T2I 생성하는 코드는 P7-5.9의 저메모리 구성과 같은 관리형 모델 경로를 사용한다. 단, ComfyUI 서버·포트·HTTP 워크플로를 시작하지 않고 Comfy 노드를 하나의 Python 프로세스에서 직접 호출한다. GGUF transformer, FP8 텍스트 인코더, CPU VAE를 저메모리 정책으로 배치하며, 이 생성은 참조 이미지를 입력하지 않고 Mira 계약과 일러스트 계약만 prompt에 결합한다.
 
@@ -75,7 +76,7 @@ image = vae.decode(samples["samples"])[0][0].cpu().numpy()
 
 [일러스트 계약](../../../assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json)
 
-가슴 중간까지 포함한 체스트 참조는 얼굴뿐 아니라 어깨·쇄골·상반신이 카메라 앵글 변화에서 어떻게 이어지는지 확인하기 위한 입력이다. 현재 카메라 앵글 생성기의 기본 입력으로 사용한다. 정면 Mira 얼굴은 첫 번째 참조, 기존 체스트 이미지는 프레이밍 전용 두 번째 참조이며, 회색 이너 크롭탑은 Mira identity 계약의 `inner_top_identity_description`으로 관리한다. 전신·재킷·바지·장면 조건은 이 파일에 넣지 않는다.
+가슴 중간까지 포함한 체스트 참조는 얼굴뿐 아니라 어깨·쇄골·상반신이 카메라 앵글 변화에서 어떻게 이어지는지 확인하기 위한 입력이다. 현재 카메라 앵글 생성기의 기본 입력으로 사용한다. 정면 Mira 얼굴은 첫 번째 참조, 기존 체스트 이미지는 프레이밍 전용 두 번째 참조이며, 회색 이너 크롭탑은 Mira identity 계약의 `inner_top_identity`에서 핏·중성 미디엄 그레이(`#5B5B5B`)·넥라인·소매·기장으로 관리한다. 전신·재킷·바지·장면 조건은 이 파일에 넣지 않는다.
 
 ![Mira 이너탑 포함 체스트 정면 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-identity-framing-gray-inner-top-multiref-v2-size-1280x1280-seed-62294-steps-10.png)
 
