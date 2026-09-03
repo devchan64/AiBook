@@ -1,0 +1,50 @@
+{
+  "experiment_id": "p7-5-2-mira-head-bf16-t2i",
+  "purpose": "Mira frontal-head text-to-image reference; no reference-image input",
+  "model": "Qwen/Qwen-Image",
+  "dtype": "bfloat16",
+  "runtime": {
+    "execution_mode": "direct Diffusers; no ComfyUI server, port, or HTTP API",
+    "offload": "sequential_cpu_offload",
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "gpu_memory_before": "NVIDIA GeForce RTX 5070 Laptop GPU, 8151 MiB, 837 MiB, 6872 MiB",
+  "identity_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "sha256": "bcb4eb58f240786b723a5a4c3d412754d032efcba44062a0dc0eaaee8a1c6add",
+    "bytes": 1634
+  },
+  "illustration_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json",
+    "sha256": "865cce164c5baf09305e14a8e1f42a841fdfae46724e28d344c782a916e92be8",
+    "bytes": 525
+  },
+  "inputs": [],
+  "input_roles": [],
+  "prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Young adult woman in her early twenties with very fair pale-peach skin. A balanced soft oval face with subtly defined cheekbones, balanced lower-face length, slender V-shaped jawline, and gently tapered chin. High slim nose bridge, small rounded tip, and small lips with a fuller lower lip. Symmetric proportionate almond-shaped eyes with gently upturned outer corners, moderately narrow eyelid openings, and centered pupils; both eyes have chestnut-brown and orange-amber irises. Deep petrol-teal, controlled voluminous jaw-length bob with medium-density hair. A deep viewer-right side part and full short fringe sweep across the viewer-left forehead, ending above the eyebrow. Large loose S-waves, inward C-curls, and tapered side locks retain the jaw-length bob silhouette. Strict frontal head-and-neck studio reference of Mira, an adult Korean woman. Complete hair crown visible with clear empty margin above it; no hair cropped by any edge. Face centered and facing the camera; both eyes and ears visible. Plain warm off-white background. No text, accessories, panel, collage, or background scene.",
+  "seed": 62294,
+  "steps": 30,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": " ",
+  "status": "generated",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+    "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
+    "bytes": 1310873
+  },
+  "gpu_memory_after": "NVIDIA GeForce RTX 5070 Laptop GPU, 8151 MiB, 6950 MiB, 759 MiB",
+  "elapsed_seconds": 447.91
+}

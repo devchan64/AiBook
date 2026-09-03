@@ -28,7 +28,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 ### P7-5.3 — 얼굴·전신·소품 기준
 
 - 방향 얼굴, 정면 전신, 방향 전신, 리파인 전신, 소품은 각각 다른 입력 역할과 관찰 범위로 분리한다.
-- 공용 identity·비율 계약은 현재 `p7-5-2-character-identity-contract.json`과 `p7-5-3-fullbody-proportion-contract.json`의 통합 방향을 따른다. 눈 색·머리·착장을 각 생성기의 prompt에 중복 확장하지 않는다.
+- Mira identity·비율 계약은 현재 `p7-5-2-mira-identity-contract.json`과 `p7-5-3-fullbody-proportion-contract.json`의 통합 방향을 따른다. 눈 색·머리·착장을 각 생성기의 prompt에 중복 확장하지 않는다.
 - 전신 생성은 정면 얼굴과 방향에 맞는 얼굴 시트를 참조하며, 방향·pose·camera 범위를 얼굴 이미지가 보장하는 범위로 오인하지 않는다.
 - 기본 seed는 `62294` 계열을 사용하되, seed 변경은 별도의 생성 조건으로 기록한다.
 - 정면 전신 고해상도 기준은 `960×1440`, 전신 기본 생성은 1차 `3 step`, 2차 `6 step`으로 비교한다. 좌·우 측면의 2차 고스텝 실험은 질감 개선을 보장하지 않았으므로 기본 조건으로 일반화하지 않는다.
