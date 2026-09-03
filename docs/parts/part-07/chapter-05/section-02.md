@@ -51,9 +51,21 @@ image = pipeline(
 
 [일러스트 계약](../../../assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json)
 
+## 멀티뷰의 정면 머리·어깨 참조를 만든다
+
+카메라 변환에는 위의 정면 머리 생성물을 Picture 1로 넣어, 머리와 어깨가 함께 보이는 정면 참조를 한 장 더 만든다. 이 단계에서는 얼굴·헤어·피부·홍채를 텍스트로 다시 설명하지 않고 Picture 1에만 맡긴다. 텍스트는 회색 이너탑과 배경만 짧게 지정한다.
+
+![Mira 정면 머리·어깨 참조 30 step](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-front-shoulders-gray-inner-top-minimal-v1-size-1280x1280-seed-62294-steps-30.png)
+
+[정면 머리·어깨 result.json — Picture 1·이너탑 계약·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-front-shoulders-gray-inner-top-minimal-v1-size-1280x1280-seed-62294-steps-30-result.json)
+
+[정면 머리·어깨 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_front_shoulders.py)
+
+기본 prompt는 `Picture 1, frontal head, fitted neutral medium gray micro crop top, warm off-white background.`이다. 결과 JSON은 Picture 1의 해시와 이너탑 계약을 남긴다. 이후 멀티뷰 생성기는 이 정면 머리·어깨 이미지를 유일한 입력 참조로 사용한다.
+
 ## 엘리베이티드 쿼터뷰를 머리 참조 한 장으로 실험한다
 
-`Qwen-Image-Edit-2511`에 `fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA`를 로드해, Mira 정면 머리 기준만 Picture 1로 입력했다. 모델 카드의 토큰 순서 `<sks> [azimuth] [elevation] [distance]`를 그대로 사용하며, 이 실험의 prompt는 `<sks> right side view low-angle shot medium shot`이다. [fal, *Qwen-Image-Edit-2511 Multiple-Angles LoRA model card*](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
+`Qwen-Image-Edit-2511`에 `fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA`를 로드해, 위 정면 머리·어깨 참조만 Picture 1로 입력한다. 모델 카드의 토큰 순서 `<sks> [azimuth] [elevation] [distance]`를 그대로 사용하며, 이 실험의 prompt는 `<sks> right side view low-angle shot medium shot`이다. [fal, *Qwen-Image-Edit-2511 Multiple-Angles LoRA model card*](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
 ![Mira 로우 우측 프로필 30 step](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-head-multiview-vertical-low-yaw-plus-90-steps30-v1-size-1280x1280-seed-62294-steps-30.png)
 
@@ -61,7 +73,7 @@ image = pipeline(
 
 [Mira 머리 15방향 Multiple-Angles 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_head_multiview.py)
 
-30 step은 로우 우측 프로필의 윤곽과 헤어 경계를 더 또렷하게 구성했다. 다만 단일 머리 참조만으로는 상반신과 옷을 새로 그릴 수 있으므로, 이 결과는 카메라 토큰이 방향 변화를 유도하는지 관찰하는 실험 기록이지 Mira identity가 유지된 회전 기준으로 사용하지 않는다. 생성기는 수평 `−90°, −45°, 0°, +45°, +90°`와 수직 `low`, `level`, `elevated`의 15개 조합을 지원하며 기본 step은 30이다.
+30 step은 로우 우측 프로필의 윤곽과 헤어 경계를 더 또렷하게 구성했다. 다만 단일 정면 참조만으로는 보이지 않는 방향의 머리·어깨·옷을 새로 그릴 수 있으므로, 이 결과는 카메라 토큰이 방향 변화를 유도하는지 관찰하는 실험 기록이지 Mira identity가 유지된 회전 기준으로 사용하지 않는다. 생성기는 수평 `−90°, −45°, 0°, +45°, +90°`와 수직 `low`, `level`, `elevated`의 15개 조합을 지원하며 기본 step은 30이다.
 
 ## 체크리스트
 
@@ -71,7 +83,7 @@ image = pipeline(
 | 정면 구도 | 정수리 전체, 양쪽 눈과 귀, 목선이 잘리지 않았는가? |
 | identity | 피부·얼굴형·호박빛 갈색 홍채·petrol-teal 단발이 계약과 같은 인물로 읽히는가? |
 | 재현 | seed, step, CFG, 크기와 오프로딩 조건이 result JSON에 남아 있는가? |
-| 범위 | 단일 머리 참조의 카메라 변환에서 새 상반신·옷·헤어가 생긴 경우, 이를 Mira identity 보존 결과로 해석하지 않았는가? |
+| 범위 | 단일 정면 참조의 카메라 변환에서 보이지 않던 머리·어깨·옷이 생긴 경우, 이를 Mira identity 보존 결과로 해석하지 않았는가? |
 
 ## 출처와 참고 자료
 

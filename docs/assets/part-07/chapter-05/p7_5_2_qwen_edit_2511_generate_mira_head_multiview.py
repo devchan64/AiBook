@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Generate Mira head-reference camera variants with Multiple-Angles LoRA.
+"""Generate Mira front-reference camera variants with Multiple-Angles LoRA.
 
-The only image input is the BF16-generated Mira frontal head reference.
+The only image input is the latest generated Mira frontal head-and-shoulders
+reference. It is used to carry the approved frontal appearance into every
+camera variant.
 The batch combines five horizontal yaw labels with three vertical camera
 labels, producing 15 variants. It uses ``elevated shot`` rather than a high
 angle: the vertical labels are low, eye-level, and elevated.
@@ -29,8 +31,8 @@ MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 LORA_ID = "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"
 LORA_FILENAME = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
 DEFAULT_HEAD = ASSETS / (
-    "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-"
-    "seed-62294-steps-30-size-1280.png"
+    "p7-5-2-qwen-2511-mira-front-shoulders-gray-inner-top-minimal-v1-"
+    "size-1280x1280-seed-62294-steps-30.png"
 )
 YAW_VIEWS = {
     "minus-90": {"degrees": -90, "prompt": "left side view"},
@@ -77,7 +79,7 @@ def selected_values(values: dict[str, object], selection: str) -> tuple[str, ...
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--head", type=Path, default=DEFAULT_HEAD, help="Mira frontal head reference, used as the only image input.")
+    parser.add_argument("--head", type=Path, default=DEFAULT_HEAD, help="Mira frontal appearance reference, used as the only image input.")
     parser.add_argument("--yaw", choices=("all", *YAW_VIEWS), default="all")
     parser.add_argument("--vertical", choices=("all", *VERTICAL_VIEWS), default="all")
     parser.add_argument(
@@ -119,7 +121,7 @@ def main() -> None:
         "model": MODEL_ID,
         "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME},
         "execution_mode": "direct Diffusers; sequential CPU offload; no ComfyUI server or HTTP API",
-        "input": {"role": "Picture 1: Mira frontal head identity", "path": str(head), "sha256": sha256(head)},
+        "input": {"role": "Picture 1: Mira frontal appearance reference", "path": str(head), "sha256": sha256(head)},
         "prompt_format": "<sks> [azimuth] [elevation] [distance]",
         "vertical_labels": {key: value["prompt"] for key, value in VERTICAL_VIEWS.items()},
         "excluded": [{"vertical": vertical, "yaw": yaw} for vertical, yaw in sorted(excluded)],
@@ -156,7 +158,7 @@ def main() -> None:
     )
     pipeline.enable_sequential_cpu_offload()
     reference = load_image(str(head))
-    shared_input = {"role": "Picture 1: Mira frontal head identity", "path": str(head), "sha256": sha256(head)}
+    shared_input = {"role": "Picture 1: Mira frontal appearance reference", "path": str(head), "sha256": sha256(head)}
     results: list[dict[str, object]] = []
     for yaw, vertical in jobs:
         prompt = prompt_for(yaw, vertical)

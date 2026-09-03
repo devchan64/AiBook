@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Generate a frontal Mira head-and-shoulders reference with a gray inner top.
 
-Picture 1 is the BF16-generated frontal Mira head.  The fitted neutral-gray
+Picture 1 is the only source of head identity. The fitted neutral-gray
 inner-top specification comes from the Mira identity contract rather than a
-second image, so the result record distinguishes visual identity input from
-garment text constraints.  This is a direct Diffusers runner; it starts no
-ComfyUI server or HTTP API.
+second image, so the result record distinguishes image-only head identity
+from garment text constraints. This is a direct Diffusers runner; it starts
+no ComfyUI server or HTTP API.
 """
 
 from __future__ import annotations
@@ -52,13 +52,7 @@ def runtime_record() -> dict[str, object]:
 def prompt_for(identity: dict[str, object]) -> str:
     top = identity["inner_top_identity"]
     color = top["color"]
-    return (
-        "Expand Picture 1 into a strict frontal head-and-shoulders studio portrait of the same adult woman. "
-        "Preserve her face, jaw-length petrol-teal bob, pale-peach skin, and amber-brown eyes. "
-        "Show both shoulders and the upper chest. "
-        f"She wears a fitted {color['name']} {top['garment']} with a {top['neckline']} neckline and {top['sleeves']} sleeves. "
-        "Use a plain warm off-white background."
-    )
+    return f"Picture 1, frontal head, fitted {color['name']} {top['garment']}, warm off-white background."
 
 
 def main() -> None:
@@ -92,8 +86,8 @@ def main() -> None:
     plan = {
         "model": MODEL_ID,
         "inputs": [
-            {"role": "Picture 1: Mira frontal head identity", "path": str(head), "sha256": sha256(head)},
-            {"role": "text contract: gray inner-top identity", "path": str(identity_path), "sha256": sha256(identity_path)},
+            {"role": "Picture 1: sole head-identity source", "path": str(head), "sha256": sha256(head)},
+            {"role": "text contract: gray inner-top only", "path": str(identity_path), "sha256": sha256(identity_path)},
         ],
         "prompt": prompt,
         "size": [args.size, args.size],
@@ -139,10 +133,8 @@ def main() -> None:
         "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
         "inputs": plan["inputs"],
         "prompt": prompt,
-        "identity_contract": {
-            "character_name": identity["character_name"],
-            "inner_top": identity["inner_top_identity"],
-        },
+        "head_identity_source": "Picture 1 only; no text face, hair, skin, or iris description is provided.",
+        "inner_top_contract": identity["inner_top_identity"],
         "seed": args.seed,
         "steps": args.steps,
         "size": [args.size, args.size],
