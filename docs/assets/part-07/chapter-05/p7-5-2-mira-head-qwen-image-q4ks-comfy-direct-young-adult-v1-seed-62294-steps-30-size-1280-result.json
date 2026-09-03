@@ -1,0 +1,21 @@
+{
+  "status": "generated",
+  "execution_mode": "direct Comfy nodes; no server, port, or HTTP API",
+  "quant": "Q4_K_S",
+  "model": {
+    "path": "/home/cbsim/ws/AiBook/.tmp/download/weight-unsloth-qwen-image-q4-ks-gguf/qwen-image-Q4_K_S.gguf",
+    "sha256": "2548135d745e022b19e55b83c1a730987eda7e9128860d5bfa625fc0e12944b3"
+  },
+  "text_encoder": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+  "vae": "qwen_image_vae.safetensors",
+  "size": [
+    1280,
+    1280
+  ],
+  "steps": 30,
+  "cfg": 4.0,
+  "seed": 62294,
+  "prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Young adult woman in her early twenties with very fair pale-peach skin. A balanced soft oval face with subtly defined cheekbones, balanced lower-face length, slender V-shaped jawline, and gently tapered chin. High slim nose bridge, small rounded tip, and small lips with a fuller lower lip. Symmetric proportionate almond-shaped eyes with gently upturned outer corners, moderately narrow eyelid openings, and centered pupils; both eyes have chestnut-brown and orange-amber irises. Deep petrol-teal, controlled voluminous jaw-length bob with medium-density hair. A deep viewer-right side part and full short fringe sweep across the viewer-left forehead, ending above the eyebrow. Large loose S-waves, inward C-curls, and tapered side locks retain the jaw-length bob silhouette. Strict frontal head-and-shoulders studio portrait of Mira at a comfortable distance. Complete hair crown, centered face, both eyes and ears visible. Plain warm off-white background. No text or accessories.",
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-q4ks-comfy-direct-young-adult-v1-seed-62294-steps-30-size-1280.png",
+  "elapsed_seconds": 446.33
+}

@@ -30,7 +30,7 @@ DEFAULT_SCENE = ASSETS / (
     "p7-5-4-qwen-2509-relight-camera-a-delight-multireference-v1-"
     "size-1280x1280-seed-62294-steps-10.png"
 )
-DEFAULT_FACE = ASSETS / "p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
+DEFAULT_FACE = ASSETS / "p7-5-2-mira-head-qwen-image-q4ks-comfy-direct-young-adult-v1-seed-62294-steps-30-size-1280.png"
 
 # Keep the edit instruction short.  The portrait is the identity source; the
 # first image already carries the desired pose, outfit, camera and background.

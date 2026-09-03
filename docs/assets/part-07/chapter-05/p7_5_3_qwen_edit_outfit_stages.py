@@ -22,7 +22,7 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 ASSETS = Path(__file__).resolve().parent
 HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
-IDENTITY_CONTRACT = ASSETS / "p7-5-2-character-identity-contract.json"
+IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
 STYLE_CONTRACT = ASSETS / "p7-5-2-face-style-prompt-contract.json"
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
@@ -31,8 +31,8 @@ TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image-edit-2509"
 TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
-QWEN_FACE_REFERENCE = "p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
-FRONT_TORSO_REFERENCE = "p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
+QWEN_FACE_REFERENCE = "p7-5-2-mira-head-qwen-image-q4ks-comfy-direct-young-adult-v1-seed-62294-steps-30-size-1280.png"
+FRONT_TORSO_REFERENCE = "p7-5-2-qwen-2511-mira-torso-front-identity-framing-gray-inner-top-multiref-v2-size-1280x1280-seed-62294-steps-10.png"
 STAGE2_BODY_ONLY_OPENPOSE = "p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"
 
 
