@@ -13,17 +13,17 @@ P7-5.3의 결과는 이름이 하나인 단일 모델에서 나오지 않는다.
 
 | 요소 | 현재 경로에서 맡긴 일 | 적용 범위 |
 | --- | --- | --- |
-| `Qwen/Qwen-Image-Edit-2511` | 얼굴·착장·구조 이미지를 함께 읽고, prompt가 지시한 전신 결과를 편집 | 1·2단계 착장 |
+| `Qwen/Qwen-Image-Edit-2511` | 얼굴·착장·구조 이미지를 함께 읽고, prompt가 지시한 전신 결과를 편집 | 1·2단계 착장, 15방향 회전 |
 | `Qwen/Qwen-Image-Edit-2509` | 앞선 착장·토르소 입력을 함께 읽어 동적 전신을 편집 | 현재 연결한 앨리웁 실험 |
-| BF16 순차 CPU offload | 공식 BF16 Qwen 모듈을 CPU에 두고, 추론 중 필요한 모듈만 GPU로 옮겨 실행 | 1·2단계 착장 |
-| `Qwen-Edit-2509-Multiple-angles` LoRA | 2단계 착장 한 장에서 카메라 yaw만 바꾸는 보조 조건 | −90°·−45°·+45°·+90° 착장 |
+| BF16 순차 CPU offload | 공식 BF16 Qwen 모듈을 CPU에 두고, 추론 중 필요한 모듈만 GPU로 옮겨 실행 | 1·2단계 착장, 15방향 회전 |
+| Multiple-Angles·Lightning LoRA | 2단계 착장 한 장에서 카메라 방향을 바꾸고 4-step 샘플링을 적용 | 저각·아이레벨·엘리베이티드 × −90°·−45°·0°·+45°·+90° |
 | `controlnet_aux` OpenPose renderer | BODY_18 좌표를 정면 body-only 구조 PNG로 렌더링 | 최소 프롬프트 1단계의 전신 포즈·프레이밍 참조 |
 
 Qwen-Image-Edit-2511은 여러 이미지 입력을 함께 읽어 편집하는 모델이다. 여기서는 정면 머리와 body-only OpenPose, 또는 앞 단계 착장과 정면 머리를 입력으로 두어 각 이미지가 맡는 정보를 분리했다. 이 절의 1단계는 native ControlNet 경로가 아니라 **body-only OpenPose PNG를 일반 이미지 참조로 넣는 편집 경로**를 사용했다. 따라서 구조 맵이 얼굴·의상 정보를 직접 보존한다고 해석하면 안 된다. 앨리웁 결과만 이전 2509 실행 기록으로 남아 있다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}
 
 1·2단계 착장 생성기는 양자화 transformer를 교체하지 않고 공식 BF16 Qwen pipeline을 읽는다. `enable_sequential_cpu_offload()`는 현재 필요한 모듈만 GPU로 옮기고 나머지는 CPU에 보관한다. 따라서 메모리 사용량은 줄지만, 모듈 이동 때문에 생성 시간은 늘어난다. 이 설정은 캐릭터 identity를 강화하는 조건이 아니라 8GB GPU에서 BF16 실행을 가능하게 하는 런타임 선택이다. [Diffusers CPU offload 문서](https://huggingface.co/docs/diffusers/optimization/memory#cpu-offloading){: target="_blank" rel="noopener noreferrer"}
 
-네 방향 착장에만 사용한 Multiple-angles LoRA는 `将镜头向左旋转45度。` 같은 짧은 카메라 지시를 보강한다. 이 LoRA에는 정면 2단계 착장 하나만 입력으로 넣었다. 얼굴 참조와 OpenPose를 함께 넣지 않은 이유는 LoRA가 담당해야 할 질문을 yaw 변화로 제한하기 위해서다. LoRA는 얼굴·헤어·관절·의상을 새 기준으로 정하는 모델이 아니며, 회전 결과에서도 그 정보는 원래 착장 참조와 이후의 별도 입력이 맡는다. [Multiple-angles LoRA 모델 카드](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
+15방향 착장에 사용한 Multiple-Angles LoRA는 `<sks> [azimuth] [elevation] [distance]` 형식의 짧은 카메라 조건을 보강한다. Lightning LoRA는 같은 실행을 4-step 샘플링으로 맞춘다. 두 LoRA에는 정면 2단계 착장 하나만 입력으로 넣었다. 얼굴 참조와 OpenPose를 함께 넣지 않은 이유는 LoRA가 담당해야 할 질문을 카메라 변화로 제한하기 위해서다. LoRA는 얼굴·헤어·관절·의상을 새 기준으로 정하는 모델이 아니며, 회전 결과에서도 그 정보는 원래 착장 참조가 맡는다. [Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
 OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 BODY_18 관절 좌표를 색 선과 점으로 렌더링할 뿐, 캐릭터의 얼굴·옷·화풍을 생성하지 않는다. 최소 프롬프트 1단계에서는 이 맵을 일반 이미지 참조로 넣어 포즈와 프레이밍만 맡긴다. 생성 결과가 이를 얼마나 따르는지는 별도 오버레이로 비교한다. [ComfyUI ControlNet Auxiliary Preprocessors](https://github.com/Fannovel16/comfyui_controlnet_aux){: target="_blank" rel="noopener noreferrer"}
 
@@ -38,9 +38,9 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 | 2단계 전신 착장 출력 | 열린 흰 크롭 재킷, 손, 1단계 착장·비례 | 네 방향 yaw 착장의 유일한 입력, 앨리웁의 첫 번째 입력 |
 | 정면 body-only OpenPose PNG | BODY_18 기반 전신 포즈와 프레임 안 관절 위치 | 최소 프롬프트 1단계의 첫 번째 입력 |
 | P7-5.2 정면 토르소 PNG | 얼굴·헤어·선과 음영 | 앨리웁의 두 번째 입력 |
-| 네 방향 yaw 착장 출력 | 정면 2단계 착장을 카메라 yaw만 바꾼 관찰 결과 | 현재 연결한 `result.json`에서는 다음 생성의 입력으로 사용하지 않음 |
+| 15방향 회전 착장 출력 | 정면 2단계 착장을 카메라 높이·yaw만 바꾼 관찰 결과 | 현재 연결한 `result.json`에서는 다음 생성의 입력으로 사용하지 않음 |
 
-따라서 정면 머리 참조와 정면 토르소 참조는 사용되는 생성 단계가 다르며, 모두 의상·신체 비례를 정하지 않는다. 착장 이미지는 얼굴 identity를 다시 정하지 않고, OpenPose는 얼굴·손가락·의상 픽셀이 없는 전신 포즈·프레이밍 참조로만 쓴다. 네 방향 yaw 이미지는 현재 결과에서 회전 관찰용 출력일 뿐, 다음 생성의 기준 입력으로 재사용하지 않는다. 새 입력을 더할 때는 먼저 이 표의 기존 역할과 겹치는지 확인한다.
+따라서 정면 머리 참조와 정면 토르소 참조는 사용되는 생성 단계가 다르며, 모두 의상·신체 비례를 정하지 않는다. 착장 이미지는 얼굴 identity를 다시 정하지 않고, OpenPose는 얼굴·손가락·의상 픽셀이 없는 전신 포즈·프레이밍 참조로만 쓴다. 15방향 회전 이미지는 현재 결과에서 카메라 변화 관찰용 출력일 뿐, 다음 생성의 기준 입력으로 재사용하지 않는다. 새 입력을 더할 때는 먼저 이 표의 기존 역할과 겹치는지 확인한다.
 
 ## 기본 의상은 얼굴 참조와 구조 맵으로 만든다
 
@@ -74,29 +74,61 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 
 ## 회전한 착장은 카메라 조건만 바꾼다
 
-방향이 바뀌면 의상이 몸을 가리는 방식이 달라진다. 이 회전 실험은 정면 2단계 착장에서 재킷·크롭티·팬츠·스니커즈·손의 가림 관계가 어떻게 바뀌는지만 대조한다. 다방향 OpenPose를 추가해 인체의 회전까지 고정하려고 하지 않았다.
+방향과 카메라 높이가 바뀌면 의상이 몸을 가리는 방식도 달라진다. 이 회전 실험은 정면 2단계 착장에서 재킷·크롭티·팬츠·스니커즈·손의 가림 관계가 어떻게 바뀌는지만 대조한다. 다방향 OpenPose를 추가해 인체의 회전까지 고정하려고 하지 않았다.
 
-정면 2단계 착장을 유일한 이미지 입력으로 사용하고, 멀티플 앵글 LoRA의 카메라 yaw 지시만 더해 네 방향의 착장을 만들었다. 얼굴 identity나 관절 구조를 별도 이미지로 중복 지시하지 않았다.
+정면 2단계 착장을 유일한 이미지 입력으로 사용하고, `Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning LoRA를 함께 적용했다. 프롬프트는 `<sks> [azimuth] [elevation] [distance]` 카메라 토큰만 사용한다. 960×1440, 4-step, 순차 CPU offload로 저각·아이레벨·엘리베이티드와 yaw −90°·−45°·0°·+45°·+90°를 조합한 15방향을 만들었다. 얼굴 identity나 관절 구조를 별도 이미지로 중복 지시하지 않았다.
 
-| −90° 2단계 착장 | −45° 2단계 착장 |
-| --- | --- |
-| ![−90도 2단계 멀티플 앵글 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_minus_90-multiple-angle-v1-seed-62294-steps-8.png) | ![−45도 2단계 멀티플 앵글 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8.png) |
+### 저각 5방향
 
-| +45° 2단계 착장 | +90° 2단계 착장 |
-| --- | --- |
-| ![+45도 2단계 멀티플 앵글 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_45-multiple-angle-v1-seed-62294-steps-8.png) | ![+90도 2단계 멀티플 앵글 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png) |
+| −90° | −45° | 정면 | +45° | +90° |
+| --- | --- | --- | --- | --- |
+| ![저각 −90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 −45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 정면 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 +45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 +90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) |
 
-[2단계 착장 `yaw −90°` result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_minus_90-multiple-angle-v1-seed-62294-steps-8-result.json)
+[저각 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[2단계 착장 `yaw −45°` result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8-result.json)
+[저각 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[2단계 착장 `yaw +45°` result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_45-multiple-angle-v1-seed-62294-steps-8-result.json)
+[저각 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[2단계 착장 `yaw +90°` result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8-result.json)
+[저각 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[전신 착장 yaw 회전 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py)
+[저각 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-향후 회전 자산은 `Qwen/Qwen-Image-Edit-2511`과 `fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA`로 재생성한다. 생성기는 2단계 정면 착장 한 장을 유일한 이미지 입력으로 두고, `yaw_minus_90`, `yaw_minus_45`, `yaw_plus_45`, `yaw_plus_90`마다 `<sks> [azimuth] [elevation] [distance]` 형식의 카메라 조건만 적용한다. OpenPose와 별도 얼굴 참조를 넣지 않으며, 입력 착장이 의상·전신 비례를, Multiple-Angles LoRA가 카메라 yaw를 맡는다. 이 형식과 카메라 방향 이름은 [fal Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}를 따른다. 2511의 이미지 편집·일관성 기능은 [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}에서 확인한다. 현재 표와 `result.json`은 이전 2509 실험 기록이므로, 새 2511 산출물로 대체하기 전까지 2511의 품질 근거로 해석하지 않는다.
+### 아이레벨 5방향
+
+| −90° | −45° | 정면 | +45° | +90° |
+| --- | --- | --- | --- | --- |
+| ![아이레벨 −90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 −45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 정면 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 +45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 +90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) |
+
+[아이레벨 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[아이레벨 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[아이레벨 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[아이레벨 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[아이레벨 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+### 엘리베이티드 5방향
+
+| −90° | −45° | 정면 | +45° | +90° |
+| --- | --- | --- | --- | --- |
+| ![엘리베이티드 −90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 −45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 정면 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 +45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 +90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) |
+
+[엘리베이티드 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[엘리베이티드 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[엘리베이티드 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[엘리베이티드 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[엘리베이티드 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[전신 착장 15방향 회전 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py)
+
+각 `result.json`은 하나의 입력 착장, 카메라 조건, LoRA 강도, Lightning 4-step 샘플링, 출력 크기와 순차 CPU offload 기록을 남긴다. 이 15개 결과는 같은 seed와 입력으로 만든 카메라 변화 관찰용 출력이다. 특정 이미지 하나가 다음 단계의 기준 입력이 되지는 않는다. 이 형식과 카메라 방향 이름은 [fal Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}를 따른다.
 
 ## 동적 장면은 전신 기준을 조합해 시험한다
 
@@ -126,7 +158,6 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 - 캐릭터 멀티플 뷰 생성의 identity·카메라 앵글 기준은 [P7-5.2](section-02.md)에서 확인한다.
 - Qwen, [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}. 다중 이미지 입력, 인물 편집 일관성, native ControlNet 조건의 공개 기능을 확인했다. 확인일: 2026-09-01.
 - nunchaku, [nunchaku-qwen-image-edit-2509 모델 카드](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}. FP4 r128 양자화 transformer와 품질·속도 차이를 확인했다. 확인일: 2026-09-01.
-- dx8152, [Qwen-Edit-2509-Multiple-angles 모델 카드](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}. 현재 연결한 2509 yaw 실험의 카메라 지시·기반 모델을 확인했다. 확인일: 2026-09-01.
-- fal, [Qwen-Image-Edit-2511-Multiple-Angles-LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}. 향후 재생성 코드의 `<sks> [azimuth] [elevation] [distance]` 조건과 방향 이름을 확인했다. 확인일: 2026-09-01.
-- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}. 향후 회전 재생성에 쓰는 편집 모델과 공개된 일관성 개선을 확인했다. 확인일: 2026-09-01.
+- fal, [Qwen-Image-Edit-2511-Multiple-Angles-LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}. 현재 회전 생성의 `<sks> [azimuth] [elevation] [distance]` 조건과 방향 이름을 확인했다. 확인일: 2026-09-01.
+- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}. 현재 회전에 쓰는 편집 모델과 공개된 일관성 개선을 확인했다. 확인일: 2026-09-01.
 - Fannovel16, [ComfyUI ControlNet Auxiliary Preprocessors](https://github.com/Fannovel16/comfyui_controlnet_aux){: target="_blank" rel="noopener noreferrer"}. OpenPose renderer는 구조 hint 이미지를 만드는 전처리 도구라는 역할을 확인했다. BODY_18 좌표의 정규화·프레이밍은 이 절의 로컬 생성 코드와 `result.json`이 근거다. 확인일: 2026-09-01.

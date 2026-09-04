@@ -37,10 +37,15 @@ DEFAULT_REFERENCE = ASSETS / (
 YAW_CAMERA_VIEWS = {
     "yaw_minus_90": ("left side view", -90),
     "yaw_minus_45": ("front-left quarter view", -45),
+    "yaw_zero": ("front view", 0),
     "yaw_plus_45": ("front-right quarter view", 45),
     "yaw_plus_90": ("right side view", 90),
 }
-ELEVATION = "eye-level shot"
+VERTICAL_CAMERA_VIEWS = {
+    "low": "low-angle shot",
+    "level": "eye-level shot",
+    "elevated": "elevated shot",
+}
 DISTANCE = "medium shot"
 DEFAULT_STEPS = 4
 DEFAULT_LORA_SCALE = 0.9
@@ -72,14 +77,31 @@ def runtime_record() -> dict[str, object]:
     return {"python": sys.version.split()[0], "platform": platform.platform(), "packages": packages}
 
 
-def prompt_for(azimuth: str) -> str:
+def prompt_for(azimuth: str, elevation: str) -> str:
     """Use the Multiple-Angles LoRA's documented camera-token format."""
-    return f"<sks> {azimuth} {ELEVATION} {DISTANCE}"
+    return f"<sks> {azimuth} {elevation} {DISTANCE}"
+
+
+def selected_values(values: dict[str, object], selections: list[str] | None) -> tuple[str, ...]:
+    if not selections or "all" in selections:
+        return tuple(values)
+    return tuple(selections)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--targets", nargs="+", choices=tuple(YAW_CAMERA_VIEWS), default=tuple(YAW_CAMERA_VIEWS))
+    parser.add_argument(
+        "--yaw",
+        action="append",
+        choices=("all", *YAW_CAMERA_VIEWS),
+        help="Select one or more horizontal views; omit or use all for the five-view set.",
+    )
+    parser.add_argument(
+        "--vertical",
+        action="append",
+        choices=("all", *VERTICAL_CAMERA_VIEWS),
+        help="Select one or more vertical views; omit or use all for the three-view set.",
+    )
     parser.add_argument("--reference-image", type=Path, default=DEFAULT_REFERENCE)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS, help="Lightning 4-step profile; only 4 is supported.")
@@ -112,33 +134,41 @@ def main() -> None:
         raise FileNotFoundError(lightning_weight)
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     local_files_only = not args.allow_download
+    yaws = selected_values(YAW_CAMERA_VIEWS, args.yaw)
+    verticals = selected_values(VERTICAL_CAMERA_VIEWS, args.vertical)
     plans = []
-    for target in args.targets:
-        azimuth, yaw_degrees = YAW_CAMERA_VIEWS[target]
-        stem = f"p7-5-3-qwen-outfit-stage2-{target}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
-        plans.append({
-            "target": target,
-            "model": MODEL_ID,
-            "angle_lora": ANGLE_LORA_ID,
-            "lightning_lora": LIGHTNING_ID,
-            "reference": str(reference),
-            "camera": {"azimuth": azimuth, "elevation": ELEVATION, "distance": DISTANCE, "yaw_degrees": yaw_degrees},
-            "prompt": prompt_for(azimuth),
-            "output": str(output_dir / f"{stem}.png"),
-            "result": str(output_dir / f"{stem}-result.json"),
-            "offload": args.offload,
-            "lora_scale": args.lora_scale,
-            "steps": args.steps,
-            "sampling": {
-                "profile": "lightning4",
+    for vertical in verticals:
+        elevation = VERTICAL_CAMERA_VIEWS[vertical]
+        for yaw in yaws:
+            azimuth, yaw_degrees = YAW_CAMERA_VIEWS[yaw]
+            stem = (
+                f"p7-5-3-qwen-outfit-stage2-vertical-{vertical}-{yaw}-"
+                f"{args.run_label}-size-{args.width}x{args.height}-"
+                f"seed-{args.seed}-steps-{args.steps}"
+            )
+            plans.append({
+                "target": {"vertical": vertical, "yaw": yaw},
+                "model": MODEL_ID,
+                "angle_lora": ANGLE_LORA_ID,
+                "lightning_lora": LIGHTNING_ID,
+                "reference": str(reference),
+                "camera": {"azimuth": azimuth, "elevation": elevation, "distance": DISTANCE, "yaw_degrees": yaw_degrees},
+                "prompt": prompt_for(azimuth, elevation),
+                "output": str(output_dir / f"{stem}.png"),
+                "result": str(output_dir / f"{stem}-result.json"),
+                "offload": args.offload,
+                "lora_scale": args.lora_scale,
                 "steps": args.steps,
-                "true_cfg_scale": 1.0,
-                "negative_prompt": None,
-                "guidance_scale": 1.0,
-            },
-            "local_files_only": local_files_only,
-            "size": [args.width, args.height],
-        })
+                "sampling": {
+                    "profile": "lightning4",
+                    "steps": args.steps,
+                    "true_cfg_scale": 1.0,
+                    "negative_prompt": None,
+                    "guidance_scale": 1.0,
+                },
+                "local_files_only": local_files_only,
+                "size": [args.width, args.height],
+            })
     if args.dry_run:
         print(json.dumps({"plans": plans}, ensure_ascii=False, indent=2))
         return
@@ -240,10 +270,10 @@ def main() -> None:
             "size": [image.width, image.height],
             "output": {**asset_record(output), "width": image.width, "height": image.height},
             "elapsed_seconds": round(time.monotonic() - started, 2),
-            "sequence": {"index": index, "total": len(plans), "targets": args.targets},
+            "sequence": {"index": index, "total": len(plans), "yaws": yaws, "verticals": verticals},
         }
         result_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        outputs.append({"target": plan["target"], "output": str(output), "result_record": str(result_path)})
+        outputs.append({**plan["target"], "output": str(output), "result_record": str(result_path)})
         print(json.dumps(outputs[-1], ensure_ascii=False), flush=True)
     batch_result = output_dir / (
         f"p7-5-3-qwen-outfit-stage2-yaw-batch-{args.run_label}-"
