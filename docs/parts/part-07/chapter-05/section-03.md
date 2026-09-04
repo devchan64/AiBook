@@ -54,9 +54,9 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 2단계는 1단계 전신 착장 결과와 같은 P7-5.2 BF16 1280×1280 정면 Mira 머리 참조만 사용한다. OpenPose를 다시 넣지 않아 1단계에서 정한 바지·신발·비례와 경쟁하지 않게 한다. 이 단계에서는 앞판이 서로 닿지 않는 열린 흰 크롭 재킷, 접혀 내려오는 칼라, 손목까지 오는 소매와 소매 끝 아래의 양손을 더한다. 회색 크롭티의 몸통과 맨허리 띠는 보이게 하고, 이너 소매는 재킷 밖으로 드러나지 않게 한다.
 
-![2단계 Qwen 열린 자켓 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png)
+![2단계 Qwen 열린 자켓 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-bf16-2511-stage1-v9-jacket-v4-seed-62294-steps-10.png)
 
-[2단계 960×1440, 30-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30-result.json)
+[2단계 960×1440, 10-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-bf16-2511-stage1-v9-jacket-v4-seed-62294-steps-10-result.json)
 
 [정면 착장 1~2단계 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py)
 

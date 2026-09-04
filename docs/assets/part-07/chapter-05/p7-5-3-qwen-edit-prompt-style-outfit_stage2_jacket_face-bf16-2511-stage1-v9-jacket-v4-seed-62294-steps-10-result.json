@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-edit-outfit_stage2_jacket_face",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "dtype": "bfloat16",
+  "transformer": "official_bf16",
+  "offload_mode": "sequential_cpu_offload",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "identity_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "sha256": "bcb4eb58f240786b723a5a4c3d412754d032efcba44062a0dc0eaaee8a1c6add"
+  },
+  "style_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-style-prompt-contract.json",
+    "sha256": "1915fc26dd68a0c54406e5ef5270cf6179ee45031c3ad078b8b202a3d60ebf70"
+  },
+  "illustration_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json",
+    "sha256": "865cce164c5baf09305e14a8e1f42a841fdfae46724e28d344c782a916e92be8"
+  },
+  "prompt_contracts_applied": {
+    "watercolor_style": false,
+    "illustration": false
+  },
+  "target": "outfit_stage2_jacket_face",
+  "run_label": "bf16-2511-stage1-v9-jacket-v4",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-bf16-2511-openpose-waist-up-legs-down-arms-v9-seed-62294-steps-10.png",
+      "sha256": "c542e7fc2fa5a68f6f5c4b1fa0eee61f9fa00f3cdff147656e6de7177a57d650"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+      "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539"
+    }
+  ],
+  "input_roles": [
+    "stage_1_outfit_fullbody",
+    "frontal_head_identity_hair_1280"
+  ],
+  "seed": 62294,
+  "steps": 10,
+  "size": [
+    960,
+    1440
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+  "prompt": "Front full-body woman. Image 1: retain the stage-1 crop top, wide trousers, sneakers, and proportions. Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; a flat folded-down pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves. Warm off-white background.",
+  "prompt_word_count": 82,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-bf16-2511-stage1-v9-jacket-v4-seed-62294-steps-10.png",
+    "sha256": "29367dd690aba2c07873d567f6e953c4020d314dfb9c9efff73930d7b7363900"
+  },
+  "elapsed_seconds": 381.03,
+  "decision": "Generated staged front outfit reference; compare the stated inputs and outfit change."
+}

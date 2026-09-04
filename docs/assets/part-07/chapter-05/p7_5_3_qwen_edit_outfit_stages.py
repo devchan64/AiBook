@@ -49,13 +49,13 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
     },
     "outfit_stage2_jacket_face": {
         "inputs": (
-            "p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-long-trousers-defined-waist-v4-seed-62294-steps-30.png",
+            "p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-bf16-2511-openpose-waist-up-legs-down-arms-v9-seed-62294-steps-10.png",
             QWEN_FACE_REFERENCE,
         ),
         "input_roles": ["stage_1_outfit_fullbody", "frontal_head_identity_hair_1280"],
         "append_style_prompt": False,
         "append_illustration_prompt": False,
-        "default_steps": 30,
+        "default_steps": 10,
         "size": (960, 1440),
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
