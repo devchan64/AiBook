@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Generate Mira front-reference camera variants with Multiple-Angles LoRA.
 
-The only image input is the latest generated Mira frontal head-and-shoulders
-reference. It is used to carry the approved frontal appearance into every
-camera variant.
+The only image input is the generated Mira frontal head reference. It is used
+to carry the approved frontal appearance into every camera variant.
 The batch combines five horizontal yaw labels with three vertical camera
 labels, producing 15 variants. It uses ``elevated shot`` rather than a high
 angle: the vertical labels are low, eye-level, and elevated.
@@ -31,8 +30,8 @@ MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 LORA_ID = "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"
 LORA_FILENAME = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
 DEFAULT_HEAD = ASSETS / (
-    "p7-5-2-qwen-2511-mira-front-shoulders-gray-inner-top-minimal-v1-"
-    "size-1280x1280-seed-62294-steps-30.png"
+    "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-"
+    "seed-62294-steps-30-size-1280.png"
 )
 YAW_VIEWS = {
     "minus-90": {"degrees": -90, "prompt": "left side view"},
@@ -174,11 +173,11 @@ def main() -> None:
         output = output_dir / f"{stem}.png"
         result = output_dir / f"{stem}-result.json"
         image = pipeline(
-            image=[reference],
+            image=reference,
             prompt=prompt,
             height=args.size,
             width=args.size,
-            generator=torch.Generator("cpu").manual_seed(args.seed),
+            generator=torch.Generator(device="cuda").manual_seed(args.seed),
             true_cfg_scale=4.0,
             guidance_scale=1.0,
             negative_prompt=" ",
