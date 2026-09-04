@@ -1,7 +1,7 @@
 # P7-5.12 착장 추출과 Try-On LoRA: 별도 착장 이식 경로를 검수하기
 
 > Section ID: `P7-5.12`
-> Version: `v2026.09.03`
+> Version: `v2026.09.05`
 
 이 절은 포즈·프레이밍을 가진 인물에 의상만 다시 입히려 했던 별도 실험 경로를 기록한다. P7-5.5의 기본 경로는 Qwen Image Edit 2511 다중 참조로 포즈 기준 이미지와 캐릭터·착장 기준 이미지를 함께 넣는 방식이다. 여기서는 그 경로를 대체하지 않고, **착장을 흰 배경 기준물로 분리한 뒤 Try-On LoRA에 넣으면 무엇이 달라지는지**를 확인한다.
 
@@ -11,13 +11,13 @@ Xabsurd Clothing Extractor는 P7-5.3의 `-45°` 2단계 착장 이미지를 하�
 
 | Xabsurd 착장·신발 추출 |
 | --- |
-| ![흰 배경에 분리된 흰 크롭 재킷, 회색 이너, 청록 와이드 팬츠와 흰 신발](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png) |
+| ![흰 배경에 분리된 흰 크롭 재킷, 회색 이너, 청록 와이드 팬츠와 흰 신발](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png) |
 
-[Xabsurd 추출 result.json — JSON — 원본 착장 입력, 추출 프롬프트와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10-result.json)
+[Xabsurd 추출 result.json — JSON — 원본 착장 입력, 추출 프롬프트와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10-result.json)
 
-이 실행은 Qwen Image Edit 2511 직접 Diffusers 경로에서 1280×1280, seed `62294`, 10 step, true CFG `4.0`으로 만들었다. 결과 PNG와 JSON의 실행 파일명은 이미 생성 당시의 P7-5.4 식별자를 갖지만, 이 절에서는 그 기록을 P7-5.5 기본 경로와 구분한 착장 추출 실험의 근거로만 사용한다.
+이 실행은 Qwen Image Edit 2511 직접 Diffusers 경로에서 1280×1280, seed `62294`, 10 step, true CFG `4.0`으로 만들었다. 결과 PNG와 JSON은 현재 P7-5.5 식별자로 정리되어 있으며, 이 절에서는 그 기록을 P7-5.5 기본 경로와 구분한 착장 추출 실험의 근거로만 사용한다.
 
-[Xabsurd 착장·신발 추출 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_extract_outfit_gear.py)
+[Xabsurd 착장·신발 추출 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_extract_outfit_gear.py)
 
 ## James와 FoxBaze의 입력 계약을 분리해 읽는다
 
@@ -27,15 +27,15 @@ FoxBaze는 같은 두 이미지 편집 형식에서 별도 LoRA를 사용한 비
 
 | FoxBaze Scene A | FoxBaze Scene B |
 | --- | --- |
-| ![공중 스플릿 점프 포즈에 흰 크롭 재킷, 회색 이너와 청록 바지를 다시 입힌 FoxBaze Scene A 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-tryon-foxbaze-scene-a-direct-v1-size-1280x1280-seed-62294-steps-10.png) | ![측면 공중 스플릿 점프 인물에 흰 재킷, 회색 이너와 청록 바지를 이식한 FoxBaze Scene B 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-tryon-foxbaze-scene-b-side-profile-direct-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![공중 스플릿 점프 포즈에 흰 크롭 재킷, 회색 이너와 청록 바지를 다시 입힌 FoxBaze Scene A 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-tryon-foxbaze-scene-a-direct-v1-size-1280x1280-seed-62294-steps-10.png) | ![측면 공중 스플릿 점프 인물에 흰 재킷, 회색 이너와 청록 바지를 이식한 FoxBaze Scene B 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-tryon-foxbaze-scene-b-side-profile-direct-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-[FoxBaze Scene A result.json — JSON — 두 입력과 2511·LoRA 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-tryon-foxbaze-scene-a-direct-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[FoxBaze Scene A result.json — JSON — 두 입력과 2511·LoRA 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-tryon-foxbaze-scene-a-direct-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[FoxBaze Scene B result.json — JSON — 측면 인물·garment 입력과 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-tryon-foxbaze-scene-b-side-profile-direct-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[FoxBaze Scene B result.json — JSON — 측면 인물·garment 입력과 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-tryon-foxbaze-scene-b-side-profile-direct-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[James Try-On 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_tryon_james.py)
+[James Try-On 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_tryon_james.py)
 
-[FoxBaze Try-On 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_tryon_foxbaze.py)
+[FoxBaze Try-On 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_tryon_foxbaze.py)
 
 ## 별도 Try-On은 기준 경로가 아니다
 

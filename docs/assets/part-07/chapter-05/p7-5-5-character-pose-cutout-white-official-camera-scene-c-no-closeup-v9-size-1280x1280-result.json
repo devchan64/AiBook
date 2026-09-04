@@ -1,0 +1,24 @@
+{
+  "status": "generated",
+  "stage": "white_background_pose_cutout",
+  "purpose": "Pose, framing, and perspective reference for later character identity transfer",
+  "inputs": {
+    "camera_frame": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-no-closeup-v7-seed-5420-steps-20.png",
+      "sha256": "de856e75a56c7eef2fbc8bd217ee8d1f69774d221e516d0b780277649e540ff4"
+    },
+    "person_mask": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-official-camera-scene-c-no-closeup-v9.png",
+      "sha256": "f992fe9fe814cbae86c6061e56ad73724e05abe0dc6742fbc125e1932ab5610f",
+      "semantics": "white=source character copied; black=white background"
+    }
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-character-pose-cutout-white-official-camera-scene-c-no-closeup-v9-size-1280x1280.png",
+    "sha256": "e092b1676a3cf4abe58a6bffe78126bc62fe8f41d2453aa7d1ba5bccc222051c",
+    "width": 1280,
+    "height": 1280
+  },
+  "canvas": "opaque white; this is a pose reference, not an alpha compositing asset",
+  "elapsed_seconds": 0.1
+}

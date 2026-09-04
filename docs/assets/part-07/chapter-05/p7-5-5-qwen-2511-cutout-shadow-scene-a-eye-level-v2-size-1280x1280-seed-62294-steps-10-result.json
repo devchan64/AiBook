@@ -1,0 +1,44 @@
+{
+  "status": "generated",
+  "stage": "qwen_cutout_cast_shadow",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": {
+    "cutout": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png",
+      "sha256": "16b619dbd8b57ec6342fef0a910b1278439e32925aa28d30e72587173d4ba354",
+      "role": "Picture 1"
+    },
+    "person_mask": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v6.png",
+      "sha256": "7265302cd3c6a49cdea2dab29ab0df1853e00e9463129b5d320cba48321045f1",
+      "semantics": "white=hard-restored source character"
+    }
+  },
+  "prompt": "Picture 1 is a woman airborne above a white floor. Add one soft gray cast shadow on the floor directly below her. Keep the white background clean. No additional people, objects, scenery, text, or changes to the woman.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "outputs": {
+    "qwen_shadow_candidate": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-a-eye-level-v1-size-1280x1280-seed-62294-steps-10-qwen.png",
+      "sha256": "a3c7937fe585e27f8f54a211862dfebb05af720bb4ee4a99fcccde73c6bb5aed",
+      "reused": true
+    },
+    "expanded_character_protection_mask": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10-protect-mask.png",
+      "sha256": "06bd6749a88cb3f9f05f58908ca8a9aec6a71549e6647f2d1843eb9b191ccac1",
+      "pixels": 40
+    },
+    "character_restored_shadow_cutout": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "7b8cfff29614308ce6dd37ff230d89877a2bde5e8556f902f6d483b5ea825380"
+    }
+  },
+  "runtime": {
+    "diffusers": "0.37.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.13.0"
+  },
+  "elapsed_seconds": 6.82
+}

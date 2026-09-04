@@ -1,7 +1,7 @@
 # P7-5.5 스토리보드 장면에 캐릭터를 합성하는 경로
 
 > Section ID: \`P7-5.5\`
-> Version: \`v2026.09.03\`
+> Version: \`v2026.09.05\`
 
 이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 기본 경로는 Qwen-Image가 참조 없이 첫 장면을 만들고, 카메라판에서 포즈 컷아웃을 만든 뒤 Qwen Image Edit 2511로 캐릭터 identity를 이식하는 순서다. 카메라판을 곧바로 원본 캐릭터 참조로 교체하는 방식은 identity를 온전히 반영하지 못해 기본 경로로 채택하지 않는다. 다만 포즈와 착장을 먼저 단일 인물 결과로 정리한 뒤에는, 그 결과를 두 번째 입력으로 하여 카메라판의 인물 자리에 다시 이식할 수 있다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
 
@@ -35,13 +35,13 @@ P7-5.10의 Q4_K_S GGUF 저VRAM 경로에서 1280×1280, 20 step, CFG 4.0을 사�
 
 | Scene A: 해안 절벽 | Scene B: 야생화 초원 | Scene C: 도심 공원 |
 | --- | --- | --- |
-| ![1280 정사각형의 해안 절벽 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png) | ![1280 정사각형의 야생화 초원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-b-v1_00001_.png) | ![1280 정사각형의 도심 공원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-c-v1_00001_.png) |
+| ![1280 정사각형의 해안 절벽 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png) | ![1280 정사각형의 야생화 초원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-b-v1_00001_.png) | ![1280 정사각형의 도심 공원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-c-v1_00001_.png) |
 
-[Scene A result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-a-v1-seed-5420-steps-20-result.json)
+[Scene A result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-a-v1-seed-5420-steps-20-result.json)
 
-[Scene B result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-b-v1-seed-5421-steps-20-result.json)
+[Scene B result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-b-v1-seed-5421-steps-20-result.json)
 
-[Scene C result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-image-q4ks-style-contract-scene-c-v1-seed-5422-steps-20-result.json)
+[Scene C result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-c-v1-seed-5422-steps-20-result.json)
 
 세 result JSON에는 같은 모델·해상도·step·CFG와 각 장면의 prompt, seed, ComfyUI graph가 남는다. 이 결과는 장면·포즈·공통 화풍을 가진 출발 이미지라는 관찰일 뿐, 토르소 기준 얼굴이나 최종 착장이 유지된다는 근거는 아니다. 캐릭터 identity와 의상은 다음 2511 편집 단계에서 별도 입력으로 이식한다. 실행 코드는 P7-5.10 Q4 GGUF 생성기를 사용한다.
 
@@ -57,9 +57,9 @@ P7-5.10의 Q4_K_S GGUF 저VRAM 경로에서 1280×1280, 20 step, CFG 4.0을 사�
 
 ~~~bash
 # 각 카메라 preset은 대응하는 최초 Scene PNG를 자동 입력으로 쓴다.
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --camera a
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --camera b
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --camera c
+python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py --camera a
+python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py --camera b
+python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py --camera c
 ~~~
 
 | Scene A: 좌전방 쿼터·아이레벨·미디엄 | Scene B: 우전방 쿼터·하이앵글·미디엄 | Scene C: 좌전방 쿼터·로우앵글 |
@@ -74,7 +74,7 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --c
 
 이 세 장은 공식 모델 카드 형식과 Scene별 입력 매핑이 실제로 적용된 실행 기록이다. 카메라 축의 시각적 일치 여부는 PNG를 사람 눈으로 별도로 비교하며, 이 결과만으로 포즈·캐릭터 identity의 보존을 주장하지 않는다.
 
-[공식 Qwen Image Edit 2511 카메라 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py)
+[공식 Qwen Image Edit 2511 카메라 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py)
 
 ### 마스크와 컷아웃을 쓴다
 
@@ -82,29 +82,29 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_camera_direct.py --c
 
 | Scene A 마스크 오버레이 | Scene B 마스크 오버레이 | Scene C 마스크 오버레이 |
 | --- | --- | --- |
-| ![해안 절벽 아이레벨 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v6-overlay.png) | ![야생화 초원 재생성 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-b-v7-overlay.png) | ![거리 토큰 없는 도심 공원 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-c-no-closeup-v9-overlay.png) |
+| ![해안 절벽 아이레벨 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v6-overlay.png) | ![야생화 초원 재생성 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-official-camera-scene-b-v7-overlay.png) | ![거리 토큰 없는 도심 공원 카메라판의 전신 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-official-camera-scene-c-no-closeup-v9-overlay.png) |
 
 | Scene A 포즈 컷아웃 | Scene B 포즈 컷아웃 | Scene C 포즈 컷아웃 |
 | --- | --- | --- |
-| ![해안 절벽 아이레벨 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png) | ![야생화 초원 재생성 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-b-v7.png) | ![거리 토큰 없는 도심 공원 카메라판에서 추출한 흰 배경 스플릿 포즈](../../../assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-c-no-closeup-v9-size-1280x1280.png) |
+| ![해안 절벽 아이레벨 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6.png) | ![야생화 초원 재생성 카메라판에서 추출한 흰 배경 스플릿 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-b-v7.png) | ![거리 토큰 없는 도심 공원 카메라판에서 추출한 흰 배경 스플릿 포즈](../../../assets/part-07/chapter-05/p7-5-5-character-pose-cutout-white-official-camera-scene-c-no-closeup-v9-size-1280x1280.png) |
 
 [Scene A mask result.json — JSON — 아이레벨 카메라판의 검출 상자와 SAM2 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-official-camera-scene-a-v6-result.json)
 
 [Scene A cutout result.json — JSON — 아이레벨 카메라판의 흰 배경 포즈 컷아웃 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-a-v6-result.json)
 
-[Scene B mask result.json — JSON — 재생성 카메라판의 검출 상자와 SAM2 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-b-v7-result.json)
+[Scene B mask result.json — JSON — 재생성 카메라판의 검출 상자와 SAM2 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-official-camera-scene-b-v7-result.json)
 
 [Scene B cutout result.json — JSON — 재생성 카메라판의 흰 배경 포즈 컷아웃 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-official-camera-scene-b-v7-result.json)
 
-[Scene C mask result.json — JSON — 거리 토큰 없는 카메라판의 검출 상자와 SAM2 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-sam2-person-mask-official-camera-scene-c-no-closeup-v9-result.json)
+[Scene C mask result.json — JSON — 거리 토큰 없는 카메라판의 검출 상자와 SAM2 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-official-camera-scene-c-no-closeup-v9-result.json)
 
-[Scene C cutout result.json — JSON — 거리 토큰 없는 카메라판의 흰 배경 포즈 컷아웃 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-character-pose-cutout-white-official-camera-scene-c-no-closeup-v9-size-1280x1280-result.json)
+[Scene C cutout result.json — JSON — 거리 토큰 없는 카메라판의 흰 배경 포즈 컷아웃 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-character-pose-cutout-white-official-camera-scene-c-no-closeup-v9-size-1280x1280-result.json)
 
 세 마스크는 머리·양팔·양다리·발끝을 포함했다. 거리 토큰을 생략해 다시 만든 Scene C에서는 SAM2 마스크가 인물만 분리하고, 하단의 분리된 그림자는 배경으로 남겼다. 이처럼 마스크가 완벽하지 않을 때는 컷아웃을 캐릭터 identity의 기준으로 쓰지 않으며, 픽셀 단위 외곽이 필요한 단계에서만 그 경계를 정제한다.
 
-[인물 마스크 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_generate_person_mask.py)
+[인물 마스크 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py)
 
-[흰 배경 포즈 컷아웃 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_extract_pose_cutout.py)
+[흰 배경 포즈 컷아웃 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)
 
 흰 배경 컷아웃은 알파 채널을 보존하는 최종 합성 자산이 아니다. 포즈 아이덴티 이식에서는 먼저 이 컷아웃에 그림자를 만들고, **그림자 포함 컷아웃**을 `Picture 1`과 초기 잠재값으로 쓴다. `Picture 1`은 포즈·인물 크기·프레이밍·그림자만, `Picture 2`의 캐릭터 identity 기준은 얼굴·헤어·착장만 맡도록 역할을 분리한다. 인물 레이어 보관과 빈 배경판 생성도 같은 마스크의 별도 활용이다.
 
@@ -114,17 +114,17 @@ Scene A·B 원본에는 분리해 유지할 수 있는 캐릭터 그림자가 �
 
 | Scene A 그림자 포함 컷아웃 | Scene B 그림자 포함 컷아웃 | Scene C 그림자 포함 컷아웃 |
 | --- | --- | --- |
-| ![Qwen 2511로 생성한 Scene A 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png) | ![Qwen 2511로 생성한 Scene B 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![거리 토큰 없는 카메라 C의 본체-그림자 간격을 참조해 생성한 흰 배경 컷아웃 그림자](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![Qwen 2511로 생성한 Scene A 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png) | ![Qwen 2511로 생성한 Scene B 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![거리 토큰 없는 카메라 C의 본체-그림자 간격을 참조해 생성한 흰 배경 컷아웃 그림자](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 이 결과는 **잔상 제거 구조**만 확인한다. 그림자 실루엣과 지면 원근은 아직 자연스럽지 않으므로, 이를 실제 장면에 바로 합성할 최종 그림자로 채택하지 않는다. 포즈 아이덴티 생성기는 A·B에서 이 그림자 포함 컷아웃을 자동으로 `Picture 1`에 사용한다. C도 먼저 같은 그림자 산출물을 만든 뒤에만 자동 실행할 수 있으며, 그림자 자산이 없으면 생성기가 중단해 흰 배경 원본 컷아웃으로 조용히 되돌아가지 않는다.
 
-[Qwen 2511 컷아웃 그림자 생성기 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_generate_cutout_shadow.py)
+[Qwen 2511 컷아웃 그림자 생성기 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_generate_cutout_shadow.py)
 
-[Scene A cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene A cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene B cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene B cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C cutout shadow result.json — JSON — 카메라판 참조와 하단 그림자 합성 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C cutout shadow result.json — JSON — 카메라판 참조와 하단 그림자 합성 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 그림자 포함 포즈에 측면 캐릭터 identity를 이식한다
 
@@ -132,28 +132,28 @@ Scene B·C는 각각 그림자 포함 컷아웃을 `Picture 1`, P7-5.3의 2단�
 
 | Scene A 그림자 컷아웃 다중 참조 결과 | Scene B 그림자 컷아웃 다중 참조 결과 | Scene C 그림자 컷아웃 다중 참조 결과 |
 | --- | --- | --- |
-| ![그림자 포함 Scene A 스플릿 점프 포즈에 Stage 2 착장을 이식한 30 step 다중 참조 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v2-size-1280x1280-seed-62294-steps-30.png) | ![그림자 포함 스플릿 점프 포즈에 Stage 2 착장의 청록 단발, 흰 크롭 재킷, 회색 이너와 청록 바지를 이식한 30 step 다중 참조 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png) | ![거리 토큰 없는 Scene C 그림자 컷아웃과 Stage 2 착장을 다중 참조로 이식한 30 step 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30.png) |
+| ![그림자 포함 Scene A 스플릿 점프 포즈에 Stage 2 착장을 이식한 30 step 다중 참조 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v2-size-1280x1280-seed-62294-steps-30.png) | ![그림자 포함 스플릿 점프 포즈에 Stage 2 착장의 청록 단발, 흰 크롭 재킷, 회색 이너와 청록 바지를 이식한 30 step 다중 참조 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png) | ![거리 토큰 없는 Scene C 그림자 컷아웃과 Stage 2 착장을 다중 참조로 이식한 30 step 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30.png) |
 
-[Scene A 다중 참조 result.json — JSON — 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v2-size-1280x1280-seed-62294-steps-30-result.json)
+[Scene A 다중 참조 result.json — JSON — 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v2-size-1280x1280-seed-62294-steps-30-result.json)
 
-[Scene B 다중 참조 result.json — JSON — 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30-result.json)
+[Scene B 다중 참조 result.json — JSON — 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
-[Scene C 다중 참조 result.json — JSON — 거리 토큰 없는 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30-result.json)
+[Scene C 다중 참조 result.json — JSON — 거리 토큰 없는 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30-result.json)
 
-1280×1280, seed `62294`, 30 step, true CFG `4.0`에서 공중 스플릿 점프와 그 아래 그림자는 유지됐고, 두 번째 참조의 재킷·회색 이너·청록 바지도 함께 반영됐다. 따라서 5.4의 기본 경로는 별도 착장 추출이나 Try-On LoRA가 아니라, 역할을 나눈 두 이미지의 Qwen Image Edit 2511 다중 참조 이식으로 둔다. 착장 추출과 Try-On LoRA의 비교 실험은 P7-5.12에서 별도로 다룬다.
+1280×1280, seed `62294`, 30 step, true CFG `4.0`에서 공중 스플릿 점프와 그 아래 그림자는 유지됐고, 두 번째 참조의 재킷·회색 이너·청록 바지도 함께 반영됐다. 따라서 P7-5.5의 기본 경로는 별도 착장 추출이나 Try-On LoRA가 아니라, 역할을 나눈 두 이미지의 Qwen Image Edit 2511 다중 참조 이식으로 둔다. 착장 추출과 Try-On LoRA의 비교 실험은 P7-5.12에서 별도로 다룬다.
 
 아래 실행은 위 result.json을 만든 기준 Python 코드다. `--pose`는 그림자 포함 포즈를 `Picture 1`로 고정하고, `--character`는 Stage 2 착장을 `Picture 2`로 넣는다. `--steps`를 바꾸면 동일한 입력·seed에서 step 수에 따른 의상·신발 세부 표현 변화를 비교할 수 있고, `--run-label`을 바꾸면 기존 결과 파일을 덮어쓰지 않는다.
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py \
+python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py \
   --scenes b \
-  --pose docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png \
+  --pose docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png \
   --character docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png \
   --run-label shadow-stage2-outfit-v1 \
   --steps 30
 ~~~
 
-[Qwen Image Edit 2511 다중 참조 이식 Python 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py)
+[Qwen Image Edit 2511 다중 참조 이식 Python 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py)
 
 ### 컷아웃 캐릭터 identity에 Studio DeLight를 적용한다
 
@@ -161,17 +161,17 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_pose_identity.py \
 
 | Scene A DeLight 캐릭터 | Scene B DeLight 캐릭터 | Scene C DeLight 캐릭터 |
 | --- | --- | --- |
-| ![Studio DeLight로 중립 조명을 적용한 흰 크롭 재킷과 청록 바지의 공중 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 Scene B의 청록 단발, 흰 재킷과 청록 바지 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 Scene C의 Stage 2 착장 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10.png) |
+| ![Studio DeLight로 중립 조명을 적용한 흰 크롭 재킷과 청록 바지의 공중 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 Scene B의 청록 단발, 흰 재킷과 청록 바지 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 Scene C의 Stage 2 착장 스플릿 점프 캐릭터](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10.png) |
 
 1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 A·B·C는 포즈·얼굴 방향·헤어·재킷·이너·바지·신발을 유지했다. C는 거리 토큰 없는 그림자 포함 포즈에 이식한 Stage 2 착장을 입력으로 사용했다. 회색 바탕과 바닥 그림자는 중립화됐지만, 그림자의 지면 원근은 최종 합성의 접지감으로 판단하지 않는다.
 
-[Studio DeLight 2509 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_studio_delight.py)
+[Studio DeLight 2509 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py)
 
-[Scene A DeLight 캐릭터 result.json — JSON — identity 이식 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene A DeLight 캐릭터 result.json — JSON — identity 이식 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene B DeLight 캐릭터 result.json — JSON — 캐릭터 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene B DeLight 캐릭터 result.json — JSON — 캐릭터 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C DeLight 캐릭터 result.json — JSON — Stage 2 착장 아이덴티 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C DeLight 캐릭터 result.json — JSON — Stage 2 착장 아이덴티 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### DeLight 캐릭터에 45도 얼굴 identity를 이식한다
 
@@ -179,17 +179,17 @@ DeLight 캐릭터는 배경과 분리된 상태이므로, 얼굴·헤어만 바�
 
 | Scene A BFS 45도 얼굴 이식 | Scene B BFS 45도 얼굴 이식 | Scene C BFS 45도 얼굴 이식 |
 | --- | --- | --- |
-| ![45도 얼굴 참조를 이식한 Scene A 그림자 포함 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-a-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![45도 얼굴 참조를 이식한 Scene B DeLight 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-b-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![45도 얼굴 참조를 이식한 Scene C DeLight 캐릭터](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![45도 얼굴 참조를 이식한 Scene A 그림자 포함 캐릭터](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-a-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![45도 얼굴 참조를 이식한 Scene B DeLight 캐릭터](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-b-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![45도 얼굴 참조를 이식한 Scene C DeLight 캐릭터](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반영됐다. C의 30 step 비교는 눈·머리카락의 세부를 뚜렷하게 개선하지 못했으므로, 이 실행기의 기본값은 10 step으로 둔다. 이 결과는 다음 리라이트 통합본의 얼굴 이식 결과와 비교할 수 있도록, 그림자 포함 캐릭터와 DeLight 캐릭터 컷아웃을 입력으로 남긴다.
 
-[BFS Head V5 얼굴·헤어 이식 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_bfs_head_identity.py)
+[BFS Head V5 얼굴·헤어 이식 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_head_identity.py)
 
-[Scene A 45도 얼굴 참조 BFS result.json — JSON — 그림자 포함 입력과 얼굴 참조의 순서, LoRA 파일, seed와 step 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-a-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene A 45도 얼굴 참조 BFS result.json — JSON — 그림자 포함 입력과 얼굴 참조의 순서, LoRA 파일, seed와 step 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-a-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene B 45도 얼굴 참조 BFS result.json — JSON — 두 입력의 순서, LoRA 파일, seed와 step 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-b-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene B 45도 얼굴 참조 BFS result.json — JSON — 두 입력의 순서, LoRA 파일, seed와 step 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-b-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C 45도 얼굴 참조 BFS result.json — JSON — 두 입력의 순서, LoRA 파일, seed와 step 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C 45도 얼굴 참조 BFS result.json — JSON — 두 입력의 순서, LoRA 파일, seed와 step 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 카메라판에서 캐릭터를 제거해 배경판을 만든다
 
@@ -197,17 +197,17 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 | Scene A 캐릭터 제거 배경판 | Scene B 캐릭터 제거 배경판 | Scene C 캐릭터 제거 배경판 |
 | --- | --- | --- |
-| ![카메라 A에서 공중 스플릿 점프 인물을 제거하고 해안 절벽과 바다를 남긴 1280 정사각형 배경판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![카메라 B에서 공중 스플릿 점프 인물을 제거하고 야생화 초원과 먼 산을 남긴 1280 정사각형 배경판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-b-background-camera-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![카메라 C에서 인물을 제거하고 공원 나무, 벤치, 가로등과 보도를 남긴 1280 정사각형 배경판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![카메라 A에서 공중 스플릿 점프 인물을 제거하고 해안 절벽과 바다를 남긴 1280 정사각형 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![카메라 B에서 공중 스플릿 점프 인물을 제거하고 야생화 초원과 먼 산을 남긴 1280 정사각형 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-camera-b-background-camera-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![카메라 C에서 인물을 제거하고 공원 나무, 벤치, 가로등과 보도를 남긴 1280 정사각형 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 두 실행은 모두 1280×1280, seed `62294`, 10 step, true CFG `4.0`이다. 인물은 사라졌지만, A의 하늘은 밝고 단순한 색면으로 바뀌었고 B의 초원 중심부도 원본보다 단순해졌다. 따라서 인물 제거와 원본 배경의 모든 색·질감을 픽셀 단위로 보존하는 일은 같은 요구가 아니다.
 
-[카메라판 배경 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_extract_camera_a_background.py)
+[카메라판 배경 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_extract_camera_a_background.py)
 
-[카메라 A 배경판 result.json — JSON — 카메라 입력, 인물 제거 지시와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[카메라 A 배경판 result.json — JSON — 카메라 입력, 인물 제거 지시와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[카메라 B 배경판 result.json — JSON — 카메라 입력, 인물 제거 지시와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-b-background-camera-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[카메라 B 배경판 result.json — JSON — 카메라 입력, 인물 제거 지시와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-camera-b-background-camera-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[카메라 C 배경판 result.json — JSON — 카메라 입력, 인물 제거 지시와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[카메라 C 배경판 result.json — JSON — 카메라 입력, 인물 제거 지시와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 배경판에 Studio DeLight를 적용한다
 
@@ -215,17 +215,17 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 | Scene A DeLight 배경판 | Scene B DeLight 배경판 | Scene C DeLight 배경판 |
 | --- | --- | --- |
-| ![Studio DeLight로 중립 조명을 적용한 인물 없는 해안 절벽 배경판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-camera-a-background-v1-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 인물 없는 야생화 초원 배경판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-background-b-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 인물 없는 도심 공원 배경판](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10.png) |
+| ![Studio DeLight로 중립 조명을 적용한 인물 없는 해안 절벽 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-camera-a-background-v1-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 인물 없는 야생화 초원 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-background-b-size-1280x1280-seed-62294-steps-10.png) | ![Studio DeLight로 중립 조명을 적용한 인물 없는 도심 공원 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10.png) |
 
 1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 하늘·바다는 더 균일하고 밝아졌고 바위·풀·해안의 배치는 남았다. 그러나 야외 장면의 하늘은 거의 흰색에 가까워졌다. 이 출력은 중립화가 적용되는지 확인하는 배경 후보이며, 해안의 원래 광원과 색감을 보존해야 하는 최종 배경으로 자동 채택하지 않는다.
 
-[Studio DeLight 2509 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_studio_delight.py)
+[Studio DeLight 2509 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py)
 
-[Studio DeLight 배경판 result.json — JSON — 배경판 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-camera-a-background-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Studio DeLight 배경판 result.json — JSON — 배경판 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-camera-a-background-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene B DeLight 배경판 result.json — JSON — 배경판 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-background-b-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene B DeLight 배경판 result.json — JSON — 배경판 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-background-b-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C DeLight 배경판 result.json — JSON — 배경판 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C DeLight 배경판 result.json — JSON — 배경판 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### DeLight 배경과 캐릭터를 다중 참조로 통합한다
 
@@ -233,17 +233,17 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 | Scene A BFS DeLight 통합 | Scene B BFS DeLight 통합 | Scene C BFS DeLight 통합 |
 | --- | --- | --- |
-| ![BFS 45도 얼굴 참조를 이식한 Scene A 그림자 캐릭터와 DeLight 해안 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![BFS 45도 얼굴 참조를 이식한 Scene B 캐릭터와 DeLight 야생화 초원 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![BFS Head V5의 45도 얼굴 참조를 이식한 DeLight C 캐릭터와 도심 공원 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![BFS 45도 얼굴 참조를 이식한 Scene A 그림자 캐릭터와 DeLight 해안 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![BFS 45도 얼굴 참조를 이식한 Scene B 캐릭터와 DeLight 야생화 초원 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![BFS Head V5의 45도 얼굴 참조를 이식한 DeLight C 캐릭터와 도심 공원 배경을 Qwen 2511 다중 참조로 통합한 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 1280×1280, seed `62294`, 10 step, true CFG `4.0`에서 회색 컷아웃 배경은 남지 않고 각 장소와 인물 경계가 통합됐다. A·B·C 모두 45도 얼굴 참조의 청록 헤어를 가진 흰 재킷·회색 이너·청록 바지 캐릭터를 각 배경에 넣었다. 즉 다중 참조 통합은 두 이미지의 역할을 따르며, `Picture 2`에 없는 착장을 새로 복원하지 않는다. 공중 인물의 지면 그림자는 새로 설계되지 않았으므로, 이 결과는 마스크 없는 다중 참조 합성의 관찰용 출력이며 접지 그림자 보정까지 끝난 최종 장면은 아니다.
 
-[Qwen 2511 DeLight 다중 참조 통합 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_composite_delight_multireference.py)
+[Qwen 2511 DeLight 다중 참조 통합 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_composite_delight_multireference.py)
 
-[Scene A BFS DeLight 다중 참조 통합 result.json — JSON — 해안 배경·그림자 포함 BFS 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene A BFS DeLight 다중 참조 통합 result.json — JSON — 해안 배경·그림자 포함 BFS 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene B BFS DeLight 다중 참조 통합 result.json — JSON — 꽃밭 배경·BFS 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene B BFS DeLight 다중 참조 통합 result.json — JSON — 꽃밭 배경·BFS 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C DeLight 다중 참조 통합 result.json — JSON — 공원 배경·45도 얼굴 참조 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C DeLight 다중 참조 통합 result.json — JSON — 공원 배경·45도 얼굴 참조 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 통합 장면에 방향광을 다시 적용한다
 
@@ -251,17 +251,17 @@ DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에
 
 | Scene A BFS 통합 리라이트 | Scene B BFS 통합 리라이트 | Scene C BFS 통합 리라이트 |
 | --- | --- | --- |
-| ![상단 우측의 따뜻한 햇빛이 Scene A 해안의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene B 야생화 초원의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene C 공원의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![상단 우측의 따뜻한 햇빛이 Scene A 해안의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene B 야생화 초원의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![상단 우측의 따뜻한 햇빛이 Scene C 공원의 BFS 캐릭터와 배경에 적용된 통합 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 1280×1280, seed `62294`, 10 step, LoRA scale `1.0`, true CFG `4.0`에서 A·B·C는 상단 우측이 따뜻하게 밝아지고 반대편은 더 어두워졌다. 인물의 포즈·착장과 각 장소의 구도는 유지됐지만, 이 단일 이미지 리라이트가 공중 인물에 맞는 별도 접지 그림자를 새로 설계한 것은 아니다.
 
-[Qwen 2509 Relight 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2509_relight.py)
+[Qwen 2509 Relight 실행 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight.py)
 
-[Scene A BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene A BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene B BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene B BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-[Scene C BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+[Scene C BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ## 출처와 참고 자료
 

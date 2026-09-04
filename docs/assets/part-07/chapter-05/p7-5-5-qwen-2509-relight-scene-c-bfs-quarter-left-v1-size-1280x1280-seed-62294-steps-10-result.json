@@ -1,0 +1,42 @@
+{
+  "status": "generated",
+  "stage": "relight",
+  "execution_mode": "direct Diffusers; Qwen Image Edit 2509; no ComfyUI",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "lora": {
+    "repository": "dx8152/Qwen-Image-Edit-2509-Relight",
+    "weight": "Qwen-Edit-Relight.safetensors",
+    "adapter": "dx8152_relight",
+    "trigger": "重新照明"
+  },
+  "scene": "c",
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "b45d97860f1be274053b7d4a49cd47f0cd570f105586ef752d9de1b610d1deb8"
+  },
+  "prompt": "重新照明, soft sunlight from the upper right.",
+  "seed": 62294,
+  "steps": 10,
+  "lora_scale": 1.0,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generation_canvas": [
+    1280,
+    1280
+  ],
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "2e078bda483d5777d3284327794a02d32307d9529a949d72a4d21e51a8d1feaf"
+  },
+  "elapsed_seconds": 280.51
+}

@@ -1,0 +1,36 @@
+{
+  "status": "generated",
+  "stage": "delight_multireference_composite",
+  "execution_mode": "direct Diffusers; Qwen Image Edit 2511; no mask; no ComfyUI",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": [
+    {
+      "role": "Picture 1: DeLight character-free background",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-background-b-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "cbee13d7b74ac96d90e3d30854c30c910b9c47ba1d8d1a75ff2e448945e027cd"
+    },
+    {
+      "role": "Picture 2: DeLight character identity, pose, and outfit",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-b-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "d6d113af51eb9401d1548df421d52025dbbce09f5d8021d5da0fe27ce4fb9ce6"
+    }
+  ],
+  "scene_id": "b",
+  "prompt": "Place the woman in Picture 2 into Picture 1. Preserve the wildflower meadow background and composition of Picture 1. Preserve the split-leap pose, identity, and outfit of the woman in Picture 2.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "0baf65f6caa780ee59eda2dc984afabeaa409ae4231615bbd2e4103523dbd703",
+    "width": 1280,
+    "height": 1280
+  },
+  "runtime": {
+    "diffusers": "0.37.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.13.0"
+  },
+  "elapsed_seconds": 350.37
+}
