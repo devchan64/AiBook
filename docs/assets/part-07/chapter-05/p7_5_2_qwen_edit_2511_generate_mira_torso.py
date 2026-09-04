@@ -29,7 +29,7 @@ DEFAULT_FACE = ASSETS / (
     "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-"
     "seed-62294-steps-30-size-1280.png"
 )
-DEFAULT_PROMPT = "<sks> front view eye-level shot medium shot, fitted gray crop top"
+DEFAULT_IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
 
 
 def sha256(path: Path) -> str:
@@ -50,10 +50,19 @@ def runtime_record() -> dict[str, object]:
     return {"python": sys.version.split()[0], "platform": platform.platform(), "packages": packages}
 
 
+def load_outfit_identity(contract_path: Path) -> tuple[dict[str, object], str]:
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    outfit = contract.get("outfit_identity_description")
+    if not isinstance(outfit, str) or not outfit.strip():
+        raise ValueError(f"outfit_identity_description is required: {contract_path}")
+    return contract, outfit.strip()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--face", type=Path, default=DEFAULT_FACE, help="Frontal Mira face reference.")
-    parser.add_argument("--prompt", default=DEFAULT_PROMPT)
+    parser.add_argument("--identity-contract", type=Path, default=DEFAULT_IDENTITY_CONTRACT)
+    parser.add_argument("--prompt", help="Override the prompt; omit to append the contract's outfit identity.")
     parser.add_argument("--size", type=int, default=1280)
     parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--seed", type=int, default=62294)
@@ -67,6 +76,12 @@ def main() -> None:
     face = args.face.resolve()
     if not face.is_file():
         raise FileNotFoundError(face)
+    contract_path = args.identity_contract.resolve()
+    if not contract_path.is_file():
+        raise FileNotFoundError(contract_path)
+    contract, outfit_identity = load_outfit_identity(contract_path)
+    outfit_clause = outfit_identity.removeprefix("She wears ")
+    prompt = args.prompt or f"<sks> front view eye-level shot medium shot, {outfit_clause}"
     output_dir = args.output_dir.resolve()
     stem = (
         f"p7-5-2-qwen-2511-mira-torso-front-{args.run_label}-"
@@ -79,7 +94,13 @@ def main() -> None:
         "model": MODEL_ID,
         "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "strength": "model-card default"},
         "input": {"role": "Mira frontal face reference", "path": str(face), "sha256": sha256(face)},
-        "prompt": args.prompt,
+        "identity_contract": {
+            "path": str(contract_path),
+            "sha256": sha256(contract_path),
+            "contract_id": contract.get("contract_id"),
+            "outfit_identity_description": outfit_identity,
+        },
+        "prompt": prompt,
         "size": [args.size, args.size],
         "steps": args.steps,
         "seed": args.seed,
@@ -111,7 +132,7 @@ def main() -> None:
     face_image = load_image(str(face)).convert("RGB").resize((args.size, args.size))
     image = pipe(
         image=face_image,
-        prompt=args.prompt,
+        prompt=prompt,
         generator=torch.Generator(device="cuda").manual_seed(args.seed),
         num_inference_steps=args.steps,
     ).images[0]
@@ -126,7 +147,8 @@ def main() -> None:
         "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
         "angle_lora": plan["angle_lora"],
         "inputs": [plan["input"]],
-        "prompt": args.prompt,
+        "identity_contract": plan["identity_contract"],
+        "prompt": prompt,
         "prompt_format": "<sks> [azimuth] [elevation] [distance], torso garment",
         "seed": args.seed,
         "steps": args.steps,
