@@ -30,9 +30,12 @@ CACHE_DIR = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 LORA_ID = "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"
 LORA_FILENAME = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
+LIGHTNING_ID = "lightx2v/Qwen-Image-Edit-2511-Lightning"
+LIGHTNING_FILENAME = "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors"
+LIGHTNING_DIR = ROOT / ".tmp" / "download" / "weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
 DEFAULT_TORSO = ASSETS / (
     "p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-"
-    "size-320x320-seed-62294-steps-20.png"
+    "size-1280x1280-seed-62294-steps-30.png"
 )
 YAW_VIEWS = {
     "minus-90": {"degrees": -90, "prompt": "left side view"},
@@ -71,17 +74,27 @@ def prompt_for(yaw: str, vertical: str) -> str:
     return f"<sks> {YAW_VIEWS[yaw]['prompt']} {VERTICAL_VIEWS[vertical]['prompt']} {DEFAULT_DISTANCE}"
 
 
-def selected_values(values: dict[str, object], selection: str) -> tuple[str, ...]:
-    if selection == "all":
+def selected_values(values: dict[str, object], selections: list[str] | None) -> tuple[str, ...]:
+    if not selections or "all" in selections:
         return tuple(values)
-    return (selection,)
+    return tuple(selections)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--torso", type=Path, default=DEFAULT_TORSO, help="Mira frontal torso reference, used as the only image input.")
-    parser.add_argument("--yaw", choices=("all", *YAW_VIEWS), default="all")
-    parser.add_argument("--vertical", choices=("all", *VERTICAL_VIEWS), default="all")
+    parser.add_argument(
+        "--yaw",
+        action="append",
+        choices=("all", *YAW_VIEWS),
+        help="Select one or more horizontal views; omit or use all for the five-view set.",
+    )
+    parser.add_argument(
+        "--vertical",
+        action="append",
+        choices=("all", *VERTICAL_VIEWS),
+        help="Select one or more vertical views; omit or use all for the three-view set.",
+    )
     parser.add_argument(
         "--exclude",
         action="append",
@@ -91,7 +104,19 @@ def main() -> None:
     )
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=30, help="Standard Qwen sampling steps.")
-    parser.add_argument("--size", type=int, default=320, help="Square reference and output size for this probe.")
+    parser.add_argument("--size", type=int, default=1280, help="Square reference and output size.")
+    parser.add_argument(
+        "--sampling-profile",
+        choices=("standard", "lightning4"),
+        default="standard",
+        help="lightning4 uses the local 4-step LoRA for a low-cost probe.",
+    )
+    parser.add_argument(
+        "--angle-lora-weight",
+        type=float,
+        default=0.9,
+        help="Multiple-Angles LoRA strength; the model card recommends 0.8 to 1.0.",
+    )
     parser.add_argument("--run-label", default="v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--allow-download", action="store_true")
@@ -99,6 +124,10 @@ def main() -> None:
     args = parser.parse_args()
     if args.steps < 1 or args.size < 32 or args.size % 32:
         parser.error("--steps must be positive; --size must be a multiple of 32 and at least 32")
+    if not 0.0 <= args.angle_lora_weight <= 1.5:
+        parser.error("--angle-lora-weight must be between 0.0 and 1.5")
+    if args.sampling_profile == "lightning4" and not (LIGHTNING_DIR / LIGHTNING_FILENAME).is_file():
+        raise FileNotFoundError(LIGHTNING_DIR / LIGHTNING_FILENAME)
     torso = args.torso.resolve()
     if not torso.is_file():
         raise FileNotFoundError(torso)
@@ -119,7 +148,8 @@ def main() -> None:
         parser.error("the selected grid contains no jobs after exclusions")
     plan = {
         "model": MODEL_ID,
-        "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "adapter_weight": "model-card default"},
+        "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "adapter_weight": args.angle_lora_weight},
+        "sampling_profile": args.sampling_profile,
         "sampling": {"steps": args.steps, "scheduler": "FlowMatchEulerDiscreteScheduler", "dynamic_shift": True},
         "execution_mode": "direct Diffusers; sequential CPU offload; no ComfyUI server or HTTP API",
         "input": {"role": "Picture 1: Mira frontal torso reference", "path": str(torso), "sha256": sha256(torso)},
@@ -154,9 +184,22 @@ def main() -> None:
     pipeline.load_lora_weights(
         LORA_ID,
         weight_name=LORA_FILENAME,
+        adapter_name="multiple_angles",
         cache_dir=CACHE_DIR,
         local_files_only=not args.allow_download,
     )
+    adapters = ["multiple_angles"]
+    adapter_weights = [args.angle_lora_weight]
+    if args.sampling_profile == "lightning4":
+        pipeline.load_lora_weights(
+            str(LIGHTNING_DIR),
+            weight_name=LIGHTNING_FILENAME,
+            adapter_name="lightning4",
+            local_files_only=True,
+        )
+        adapters.append("lightning4")
+        adapter_weights.append(1.0)
+    pipeline.set_adapters(adapters, adapter_weights=adapter_weights)
     pipeline.enable_sequential_cpu_offload()
     reference = load_image(str(torso)).convert("RGB").resize((args.size, args.size))
     shared_input = {"role": "Picture 1: Mira frontal torso reference", "path": str(torso), "sha256": sha256(torso)}
@@ -175,17 +218,24 @@ def main() -> None:
                 prompt=prompt,
                 generator=torch.Generator(device="cuda").manual_seed(args.seed),
                 num_inference_steps=args.steps,
+                height=args.size,
+                width=args.size,
+                true_cfg_scale=1.0 if args.sampling_profile == "lightning4" else 4.0,
+                negative_prompt=None if args.sampling_profile == "lightning4" else " ",
+                guidance_scale=1.0,
+                num_images_per_prompt=1,
             ).images[0]
         image.save(output)
         record = {
             "status": "generated",
             "experiment_id": "p7-5-2-mira-torso-multiview",
             "stage": "torso_multiview_camera",
-            "execution_mode": "direct Diffusers; QwenImageEditPlusPipeline; no ComfyUI server",
+            "execution_mode": "direct Diffusers; DiffusionPipeline; no ComfyUI server",
             "runtime": runtime_record(),
             "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
-            "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "strength": "model-card default", "prompt_format": "<sks> [azimuth] [elevation] [distance]"},
-            "sampling": {"steps": args.steps, "scheduler": "FlowMatchEulerDiscreteScheduler", "dynamic_shift": True, "execution": "direct Diffusers; no ComfyUI server"},
+            "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "strength": args.angle_lora_weight, "prompt_format": "<sks> [azimuth] [elevation] [distance]"},
+            "sampling": {"profile": args.sampling_profile, "steps": args.steps, "scheduler": "FlowMatchEulerDiscreteScheduler", "dynamic_shift": True, "true_cfg_scale": 1.0 if args.sampling_profile == "lightning4" else 4.0, "negative_prompt": None if args.sampling_profile == "lightning4" else " ", "execution": "direct Diffusers; no ComfyUI server"},
+            "lightning_lora": {"repository": LIGHTNING_ID, "weight": LIGHTNING_FILENAME, "strength": 1.0} if args.sampling_profile == "lightning4" else None,
             "inputs": [shared_input],
             "camera": {
                 "yaw_degrees": YAW_VIEWS[yaw]["degrees"],

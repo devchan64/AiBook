@@ -1,0 +1,198 @@
+{
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "angle_lora": {
+    "repository": "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA",
+    "weight": "qwen-image-edit-2511-multiple-angles-lora.safetensors",
+    "adapter_weight": 0.9
+  },
+  "sampling_profile": "lightning4",
+  "sampling": {
+    "steps": 4,
+    "scheduler": "FlowMatchEulerDiscreteScheduler",
+    "dynamic_shift": true
+  },
+  "execution_mode": "direct Diffusers; sequential CPU offload; no ComfyUI server or HTTP API",
+  "input": {
+    "role": "Picture 1: Mira frontal torso reference",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+    "sha256": "4567515590b73cb6392698e0eee15e82b1f47f66fa28c43696f520807ef5a095"
+  },
+  "prompt_format": "<sks> [azimuth] [elevation] [distance]",
+  "vertical_labels": {
+    "low": {
+      "prompt": "low-angle shot"
+    },
+    "level": {
+      "prompt": "eye-level shot"
+    },
+    "elevated": {
+      "prompt": "elevated shot"
+    }
+  },
+  "excluded": [
+    {
+      "vertical": "level",
+      "yaw": "minus-45"
+    },
+    {
+      "vertical": "level",
+      "yaw": "plus-45"
+    }
+  ],
+  "jobs": [
+    {
+      "yaw": "minus-90",
+      "vertical": "low",
+      "prompt": "<sks> left side view low-angle shot medium shot"
+    },
+    {
+      "yaw": "minus-45",
+      "vertical": "low",
+      "prompt": "<sks> front-left quarter view low-angle shot medium shot"
+    },
+    {
+      "yaw": "zero",
+      "vertical": "low",
+      "prompt": "<sks> front view low-angle shot medium shot"
+    },
+    {
+      "yaw": "plus-45",
+      "vertical": "low",
+      "prompt": "<sks> front-right quarter view low-angle shot medium shot"
+    },
+    {
+      "yaw": "plus-90",
+      "vertical": "low",
+      "prompt": "<sks> right side view low-angle shot medium shot"
+    },
+    {
+      "yaw": "minus-90",
+      "vertical": "level",
+      "prompt": "<sks> left side view eye-level shot medium shot"
+    },
+    {
+      "yaw": "zero",
+      "vertical": "level",
+      "prompt": "<sks> front view eye-level shot medium shot"
+    },
+    {
+      "yaw": "plus-90",
+      "vertical": "level",
+      "prompt": "<sks> right side view eye-level shot medium shot"
+    },
+    {
+      "yaw": "minus-90",
+      "vertical": "elevated",
+      "prompt": "<sks> left side view elevated shot medium shot"
+    },
+    {
+      "yaw": "minus-45",
+      "vertical": "elevated",
+      "prompt": "<sks> front-left quarter view elevated shot medium shot"
+    },
+    {
+      "yaw": "zero",
+      "vertical": "elevated",
+      "prompt": "<sks> front view elevated shot medium shot"
+    },
+    {
+      "yaw": "plus-45",
+      "vertical": "elevated",
+      "prompt": "<sks> front-right quarter view elevated shot medium shot"
+    },
+    {
+      "yaw": "plus-90",
+      "vertical": "elevated",
+      "prompt": "<sks> right side view elevated shot medium shot"
+    }
+  ],
+  "expected_count": 13,
+  "size": [
+    640,
+    640
+  ],
+  "steps": 4,
+  "seed": 62294,
+  "status": "generated",
+  "outputs": [
+    {
+      "yaw": "minus-90",
+      "vertical": "low",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "minus-45",
+      "vertical": "low",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "zero",
+      "vertical": "low",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "plus-45",
+      "vertical": "low",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "plus-90",
+      "vertical": "low",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "minus-90",
+      "vertical": "level",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "zero",
+      "vertical": "level",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "plus-90",
+      "vertical": "level",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "minus-90",
+      "vertical": "elevated",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "minus-45",
+      "vertical": "elevated",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "zero",
+      "vertical": "elevated",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "plus-45",
+      "vertical": "elevated",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    },
+    {
+      "yaw": "plus-90",
+      "vertical": "elevated",
+      "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4-result.json"
+    }
+  ],
+  "elapsed_seconds": 475.98
+}

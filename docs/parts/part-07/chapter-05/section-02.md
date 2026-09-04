@@ -51,6 +51,40 @@ image = pipeline(
 
 [일러스트 계약](../../../assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json)
 
+## 상반신 기준에서 15방향 카메라 참조를 만든다
+
+정면 머리 기준만 회전시키면 어깨와 이너탑을 새로 추측해야 한다. 그래서 정면 머리를 참조해 회색 이너탑과 어깨가 보이는 상반신 기준 한 장을 먼저 만들고, 그 이미지만 `Picture 1`로 넣어 카메라 조건을 바꿨다. 이 단계는 새 포즈나 새 착장을 만드는 단계가 아니라, 이후 캐릭터 시트에서 비교할 **카메라 참조 묶음**을 만드는 단계다.
+
+![Mira 정면 상반신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png)
+
+[정면 상반신 기준 result JSON](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30-result.json)
+
+`Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning 4-step LoRA를 함께 적용했다. 카메라 prompt는 `<sks> [azimuth] [elevation] [distance]` 순서만 사용하고, 각 결과는 `640×640`, seed `62294`, 4 step으로 생성했다. 이 저비용 조건에서는 Lightning이 없던 앞선 표준 경로에서 좌우 쿼터뷰가 정면으로 겹쳤고, Lightning 4-step 경로에서는 좌우 방향과 수직 시점이 분리됐다. 이 관찰은 현재의 직접 Diffusers 실행 경로에 한정한다.
+
+[상반신 15방향 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py)
+
+생성기에서 `--sampling-profile lightning4 --size 640 --steps 4`를 저비용 실험 조건으로 선택한다. `--yaw`와 `--vertical`을 반복 지정하면 필요한 카메라 조합만 만들 수 있고, 이미 생성한 방향은 `--exclude vertical:yaw`로 건너뛴다. 이 실행기는 출력 `height`와 `width`를 명시하므로, 파일 이름과 실제 PNG 크기가 다르게 기록되지 않는다.
+
+[아이레벨 −45도 result JSON](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4-result.json)
+
+[아이레벨 +45도 result JSON](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4-result.json)
+
+[나머지 13개 방향 batch result JSON](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-lowcost-v2-size-640x640-seed-62294-steps-4-batch-result.json)
+
+| 로우앵글 `−90°` | 로우앵글 `−45°` | 로우앵글 `0°` | 로우앵글 `+45°` | 로우앵글 `+90°` |
+| --- | --- | --- | --- | --- |
+| ![Mira 로우앵글 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 로우앵글 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 로우앵글 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 로우앵글 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 로우앵글 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) |
+
+| 아이레벨 `−90°` | 아이레벨 `−45°` | 아이레벨 `0°` | 아이레벨 `+45°` | 아이레벨 `+90°` |
+| --- | --- | --- | --- | --- |
+| ![Mira 아이레벨 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 아이레벨 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 아이레벨 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 아이레벨 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 아이레벨 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) |
+
+| 엘리베이티드 `−90°` | 엘리베이티드 `−45°` | 엘리베이티드 `0°` | 엘리베이티드 `+45°` | 엘리베이티드 `+90°` |
+| --- | --- | --- | --- | --- |
+| ![Mira 엘리베이티드 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 엘리베이티드 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 엘리베이티드 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) |
+
+세 행을 함께 보면 yaw와 수직 시점은 대부분 분리되지만, 로우앵글 `−90°`는 배경색과 프레이밍이 더 크게 흔들린다. 따라서 이 15장은 회전·시점 조건을 비교하는 참조 자산이며, 어느 한 장의 프레이밍 이탈을 새 캐릭터·새 착장의 정보로 해석하지 않는다.
+
 ## 체크리스트
 
 | 확인할 것 | 스스로 답할 질문 |
@@ -64,3 +98,6 @@ image = pipeline(
 
 - 정면 얼굴 기준의 생성 조건과 해시는 이 절에서 연결한 local result JSON을 기준으로 확인한다.
 - Qwen, [*Qwen-Image model card*](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
+- Qwen, [*Qwen-Image-Edit-2511 model card*](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-04.
+- fal, [*Qwen-Image-Edit-2511 Multiple-Angles LoRA model card*](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-04.
+- lightx2v, [*Qwen-Image-Edit-2511 Lightning model card*](https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-04.
