@@ -50,6 +50,16 @@ VERTICAL_VIEWS = {
     "elevated": {"prompt": "elevated shot"},
 }
 DEFAULT_DISTANCE = "medium shot"
+DEFAULT_SIZE = 640
+DEFAULT_RUN_LABEL = "lowcost-v2"
+DEFAULT_SEED = 62294
+DEFAULT_STEPS = 4
+DEFAULT_SAMPLING_PROFILE = "lightning4"
+DEFAULT_ANGLE_LORA_WEIGHT = 0.9
+DEFAULT_OUTPUT_DIR = ASSETS
+DEFAULT_VIEW_SELECTION: tuple[str, ...] | None = None
+DEFAULT_EXCLUDES: tuple[str, ...] = ()
+SAMPLING_PROFILES = ("standard", "lightning4")
 
 
 def sha256(path: Path) -> str:
@@ -86,39 +96,41 @@ def main() -> None:
     parser.add_argument(
         "--yaw",
         action="append",
+        default=DEFAULT_VIEW_SELECTION,
         choices=("all", *YAW_VIEWS),
         help="Select one or more horizontal views; omit or use all for the five-view set.",
     )
     parser.add_argument(
         "--vertical",
         action="append",
+        default=DEFAULT_VIEW_SELECTION,
         choices=("all", *VERTICAL_VIEWS),
         help="Select one or more vertical views; omit or use all for the three-view set.",
     )
     parser.add_argument(
         "--exclude",
         action="append",
-        default=[],
+        default=DEFAULT_EXCLUDES,
         metavar="VERTICAL:YAW",
         help="Skip a completed pair, for example --exclude elevated:minus-45. Repeat as needed.",
     )
-    parser.add_argument("--seed", type=int, default=62294)
-    parser.add_argument("--steps", type=int, default=30, help="Standard Qwen sampling steps.")
-    parser.add_argument("--size", type=int, default=1280, help="Square reference and output size.")
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    parser.add_argument("--steps", type=int, default=DEFAULT_STEPS, help="Lightning 4-step sampling (default: 4).")
+    parser.add_argument("--size", type=int, default=DEFAULT_SIZE, help="Square reference and output size (default: 640).")
     parser.add_argument(
         "--sampling-profile",
-        choices=("standard", "lightning4"),
-        default="standard",
-        help="lightning4 uses the local 4-step LoRA for a low-cost probe.",
+        choices=SAMPLING_PROFILES,
+        default=DEFAULT_SAMPLING_PROFILE,
+        help="lightning4 is the default local 4-step LoRA profile; standard remains available for longer runs.",
     )
     parser.add_argument(
         "--angle-lora-weight",
         type=float,
-        default=0.9,
+        default=DEFAULT_ANGLE_LORA_WEIGHT,
         help="Multiple-Angles LoRA strength; the model card recommends 0.8 to 1.0.",
     )
-    parser.add_argument("--run-label", default="v1")
-    parser.add_argument("--output-dir", type=Path, default=ASSETS)
+    parser.add_argument("--run-label", default=DEFAULT_RUN_LABEL)
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -162,6 +174,7 @@ def main() -> None:
         ],
         "expected_count": len(jobs),
         "size": [args.size, args.size],
+        "run_label": args.run_label,
         "steps": args.steps,
         "seed": args.seed,
     }

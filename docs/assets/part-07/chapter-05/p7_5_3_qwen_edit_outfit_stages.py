@@ -22,8 +22,6 @@ from diffusers.utils import load_image
 ASSETS = Path(__file__).resolve().parent
 HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
-STYLE_CONTRACT = ASSETS / "p7-5-2-face-style-prompt-contract.json"
-ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 10
@@ -253,10 +251,12 @@ def main() -> None:
     inputs = [ASSETS / name for name in target["inputs"]]
     if missing := [str(path) for path in inputs if not path.is_file()]:
         raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
-    if not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
-        raise FileNotFoundError("missing P7-5.2 identity, style, or illustration contract")
-    style_prompt = json.loads(STYLE_CONTRACT.read_text(encoding="utf-8"))["portrait_style_prompt"]
-    illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["front_face_illustration_prompt"]
+    if not IDENTITY_CONTRACT.is_file():
+        raise FileNotFoundError("missing Mira identity contract")
+    identity = json.loads(IDENTITY_CONTRACT.read_text(encoding="utf-8"))
+    rendering = identity["rendering_contract"]
+    style_prompt = rendering["portrait_style_prompt"]
+    illustration_prompt = rendering["front_face_illustration_prompt"]
     prompt_parts = []
     if target.get("append_style_prompt", True):
         prompt_parts.append(style_prompt)
@@ -293,8 +293,10 @@ def main() -> None:
         "offload_mode": "sequential_cpu_offload",
         "runtime": runtime_record(),
         "identity_contract": asset_record(IDENTITY_CONTRACT),
-        "style_prompt_contract": asset_record(STYLE_CONTRACT),
-        "illustration_prompt_contract": asset_record(ILLUSTRATION_CONTRACT),
+        "rendering_contract": {
+            "source": "identity_contract.rendering_contract",
+            "components": ["portrait_style_prompt", "front_face_illustration_prompt"],
+        },
         "prompt_contracts_applied": {
             "watercolor_style": target.get("append_style_prompt", True),
             "illustration": target.get("append_illustration_prompt", False),

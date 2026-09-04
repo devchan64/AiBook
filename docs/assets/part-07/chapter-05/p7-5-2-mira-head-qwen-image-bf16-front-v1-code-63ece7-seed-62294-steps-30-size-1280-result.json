@@ -22,10 +22,12 @@
     "sha256": "bcb4eb58f240786b723a5a4c3d412754d032efcba44062a0dc0eaaee8a1c6add",
     "bytes": 1634
   },
-  "illustration_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json",
-    "sha256": "865cce164c5baf09305e14a8e1f42a841fdfae46724e28d344c782a916e92be8",
-    "bytes": 525
+  "rendering_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "components": [
+      "front_face_illustration_prompt"
+    ],
+    "historical_component_sha256": "865cce164c5baf09305e14a8e1f42a841fdfae46724e28d344c782a916e92be8"
   },
   "inputs": [],
   "input_roles": [],

@@ -1,5 +1,5 @@
 {
-  "contract_id": "p7-5-2-mira-identity-v2",
+  "contract_id": "p7-5-2-mira-identity-v3",
   "character_name": "Mira",
   "scope": "Mira's face, hair, and outfit identity. It does not define pose, camera angle, scene, or image quality.",
   "identity_description": "Young adult woman in her early twenties with very fair pale-peach skin. A balanced soft oval face with subtly defined cheekbones, balanced lower-face length, slender V-shaped jawline, and gently tapered chin. High slim nose bridge, small rounded tip, and small lips with a fuller lower lip. Symmetric proportionate almond-shaped eyes with gently upturned outer corners, moderately narrow eyelid openings, and centered pupils; both eyes have chestnut-brown and orange-amber irises. Deep petrol-teal, controlled voluminous jaw-length bob with medium-density hair. A deep viewer-right side part and full short fringe sweep across the viewer-left forehead, ending above the eyebrow. Large loose S-waves, inward C-curls, and tapered side locks retain the jaw-length bob silhouette.",
@@ -15,5 +15,10 @@
     "neckline": "rounded",
     "sleeves": "short",
     "hem": "well above the waist"
+  },
+  "rendering_contract": {
+    "portrait_style_prompt": "Character-reference illustration on plain warm off-white paper; thin charcoal contours, restrained transparent watercolor color blocks, subtle pigment pooling, and clean untextured background. No paint splashes, radial lines, action lines, speed lines, rays, bursts, halo, vignette, hatching, screentone, frame, text, panel, logo, or background scene.",
+    "illustration_prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Upper-left light, deep four-value shading, and strong highlights.",
+    "front_face_illustration_prompt": "Clean character illustration, not a photograph; dark outlines and solid colors."
   }
 }

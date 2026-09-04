@@ -21,13 +21,16 @@
     "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
     "sha256": "bcb4eb58f240786b723a5a4c3d412754d032efcba44062a0dc0eaaee8a1c6add"
   },
-  "style_prompt_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-style-prompt-contract.json",
-    "sha256": "1915fc26dd68a0c54406e5ef5270cf6179ee45031c3ad078b8b202a3d60ebf70"
-  },
-  "illustration_prompt_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json",
-    "sha256": "865cce164c5baf09305e14a8e1f42a841fdfae46724e28d344c782a916e92be8"
+  "rendering_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "components": [
+      "portrait_style_prompt",
+      "front_face_illustration_prompt"
+    ],
+    "historical_component_sha256": {
+      "portrait_style_prompt": "1915fc26dd68a0c54406e5ef5270cf6179ee45031c3ad078b8b202a3d60ebf70",
+      "front_face_illustration_prompt": "865cce164c5baf09305e14a8e1f42a841fdfae46724e28d344c782a916e92be8"
+    }
   },
   "prompt_contracts_applied": {
     "watercolor_style": false,

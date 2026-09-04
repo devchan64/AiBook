@@ -29,7 +29,6 @@ ROOT = ASSETS.parents[3]
 HF_HUB_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image"
 IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
-ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-face-illustration-prompt-contract.json"
 DEFAULT_SIZE = 1280
 DEFAULT_STEPS = 30
 DEFAULT_CFG = 4.0
@@ -102,11 +101,9 @@ def main() -> None:
         raise RuntimeError("CUDA is required for BF16 Qwen-Image generation")
 
     identity_path = require(IDENTITY_CONTRACT)
-    illustration_path = require(ILLUSTRATION_CONTRACT)
     identity = json.loads(identity_path.read_text(encoding="utf-8"))
-    illustration = json.loads(illustration_path.read_text(encoding="utf-8"))
     prompt = " ".join((
-        illustration["front_face_illustration_prompt"],
+        identity["rendering_contract"]["front_face_illustration_prompt"],
         identity["identity_description"],
         FRONTAL_HEAD_PROMPT,
     ))
@@ -134,7 +131,10 @@ def main() -> None:
         "runtime": runtime_record(),
         "gpu_memory_before": gpu_memory(),
         "identity_contract": asset_record(identity_path),
-        "illustration_contract": asset_record(illustration_path),
+        "rendering_contract": {
+            "source": "identity_contract.rendering_contract",
+            "components": ["front_face_illustration_prompt"],
+        },
         "inputs": [],
         "input_roles": [],
         "prompt": prompt,

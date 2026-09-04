@@ -1,6 +1,0 @@
-{
-  "contract_id": "p7-5-2-face-illustration-v1",
-  "purpose": "Shared non-photographic rendering contract for text-only P7-5.2 frontal-face candidates. It deliberately excludes transparent watercolor washes and pigment pooling.",
-  "illustration_prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Upper-left light, deep four-value shading, and strong highlights.",
-  "front_face_illustration_prompt": "Clean character illustration, not a photograph; dark outlines and solid colors."
-}
