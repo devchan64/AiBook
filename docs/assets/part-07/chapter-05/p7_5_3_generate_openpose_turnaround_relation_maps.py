@@ -37,27 +37,32 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image
+import cv2
 
 
 ASSETS = Path(__file__).resolve().parent
-# Direction inspection uses the P7-5.2 chest reference that P7-5.3 already
+# Direction inspection uses the P7-5.2 frontal Mira head that P7-5.3 already
 # supplies to the full-body editor; the deterministic BODY_18 template itself
 # does not derive identity or body coordinates from this image.
-DEFAULT_REFERENCE = ASSETS / "p7-5-2-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
+DEFAULT_REFERENCE = ASSETS / "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png"
 # File names encode the run, so candidate output stays directly in the chapter
 # asset root instead of creating a directory per candidate.
 DEFAULT_OUTPUT = ASSETS
-FULLBODY_WIDTH, FULLBODY_HEIGHT = 768, 1152
+# Full-body maps share the 960×1440 canvas used by the stage-1 full-body
+# editor.  This prevents the editor from upscaling a lower-resolution pose
+# image before it reads the BODY_18 geometry.
+FULLBODY_WIDTH, FULLBODY_HEIGHT = 960, 1440
 SHOULDERS_WIDTH, SHOULDERS_HEIGHT = 768, 768
 WIDTH, HEIGHT = FULLBODY_WIDTH, FULLBODY_HEIGHT
-# One seven-head unit is 150 px: crown-to-sole is therefore 1,050 px.
-CENTER_X, SCALE = WIDTH / 2, 150
+# One seven-head unit is 187.5 px: crown-to-sole is therefore 1,312.5 px.
+# This is the former 768×1152 map geometry scaled by 1.25.
+CENTER_X, SCALE = WIDTH / 2, 187.5
 # Screen-space y coordinate occupied by the face pivot.  Keep this separate
 # from the ground/body template so a generation experiment can reserve a
 # larger lower-frame safety margin without changing body proportions.
-# With a 150 px head unit, the nose pivot at y=120 leaves room for both the
-# virtual crown (~42 px) and sole (~1,092 px) on the 768×1152 canvas.
-DEFAULT_FRAME_ORIGIN_Y = 120
+# With a 187.5 px head unit, the nose pivot at y=150 leaves room for both the
+# virtual crown (~52.5 px) and sole (~1,365 px) on the 960×1440 canvas.
+DEFAULT_FRAME_ORIGIN_Y = 150
 # Square head-and-shoulders maps centre the BODY_18 nose/eye/ear cluster. The
 # shoulders then remain below the centre without cutting off the crop.
 DEFAULT_SHOULDERS_FRAME_ORIGIN_Y = SHOULDERS_HEIGHT / 2
@@ -72,6 +77,11 @@ DEFAULT_PERSPECTIVE_HORIZONTAL_FOV_DEGREES = 30.5
 # so experiments can separately change camera distance (perspective strength).
 DEFAULT_PERSPECTIVE_CAMERA_DISTANCE = 10.8
 DEFAULT_SHOULDERS_CAMERA_DISTANCE = 4.5
+# controlnet_aux renders BODY_18 with a 4 px limb half-width and 4 px joint
+# radius.  Thicker marks make the guide legible after it is supplied beside a
+# full-body reference at 960×1440 without altering any normalized coordinate.
+BODY_LIMB_HALF_WIDTH_PX = 7
+BODY_JOINT_RADIUS_PX = 7
 YAWS = (-90, -45, 0, 45, 90)
 # Positive pitch is a raised chin / camera looking upward; negative is down.
 PITCHES = (55, 27, 0, -27, -55)
@@ -120,37 +130,38 @@ HEIGHT_NORMALIZED_BODY_TEMPLATES = {
         "head_ratio": 0.12987013, "face_width_ratio": 0.10909091,
         "torso_ratio": 0.22077922, "leg_ratio": 0.62337662, "arm_ratio": 0.37012987,
         "hip_half_width_ratio": 0.08051948, "knee_half_width_ratio": 0.09350649,
-        "fullbody_frame_origin_y": 145.0,
+        "fullbody_frame_origin_y": 181.25,
     },
     "stage2_front_compact_head_shoulders": {
         "default_height": 7.56,
         "head_ratio": 0.11375661, "face_width_ratio": 0.09523810,
         "torso_ratio": 0.22486772, "leg_ratio": 0.63492063, "arm_ratio": 0.37698413,
         "hip_half_width_ratio": 0.08201058, "knee_half_width_ratio": 0.09523810,
-        "fullbody_frame_origin_y": 145.0,
+        "fullbody_frame_origin_y": 181.25,
     },
     "stage2_front_compact_pelvis": {
         "default_height": 7.56,
         "head_ratio": 0.11375661, "face_width_ratio": 0.09523810,
         "torso_ratio": 0.22486772, "leg_ratio": 0.58862434, "arm_ratio": 0.37698413,
         "hip_half_width_ratio": 0.06613757, "knee_half_width_ratio": 0.08465608,
-        "fullbody_frame_origin_y": 145.0,
+        "fullbody_frame_origin_y": 181.25,
     },
     "stage2_front_compact_pelvis_short_arms": {
         "default_height": 7.56,
         "head_ratio": 0.11375661, "face_width_ratio": 0.09523810,
         "torso_ratio": 0.22486772, "leg_ratio": 0.58862434, "arm_ratio": 0.31746032,
         "hip_half_width_ratio": 0.06613757, "knee_half_width_ratio": 0.08465608,
-        "fullbody_frame_origin_y": 145.0,
+        "fullbody_frame_origin_y": 181.25,
     },
-    # Preserve the compact torso, head, and short-arm calibration while
-    # extending only the hip-to-sole span by 15 percent for the next test.
+    # Keep the 90%-scale head and arm calibration, then transfer 10% of the
+    # leg share to the torso so the waist is longer and the hip-to-sole span
+    # is shorter without moving the neck, face, or overall crown-to-sole height.
     "stage2_front_compact_pelvis_short_arms_long_legs": {
-        "default_height": 8.2275,
+        "default_height": 7.40475,
         "head_ratio": 0.10452750, "face_width_ratio": 0.08751139,
-        "torso_ratio": 0.20662413, "leg_ratio": 0.62199939, "arm_ratio": 0.29170465,
+        "torso_ratio": 0.26882407, "leg_ratio": 0.55979945, "arm_ratio": 0.29170465,
         "hip_half_width_ratio": 0.06077180, "knee_half_width_ratio": 0.07783349,
-        "fullbody_frame_origin_y": 145.0,
+        "fullbody_frame_origin_y": 181.25,
     },
 }
 DEFAULT_PROPORTION_PROFILE = "seven_head_standing"
@@ -631,6 +642,35 @@ def move_face_toward_fixed_body_head_anchors(
         row["normalized_xy"] = [round((x + dx) / WIDTH, 6), round((y + dy) / HEIGHT, 6)]
 
 
+def draw_thick_body_overlay(canvas: np.ndarray, body: list[dict[str, object] | None]) -> np.ndarray:
+    """Redraw BODY_18 with thicker marks while preserving standard OpenPose colours."""
+    height, width, _ = canvas.shape
+    limb_sequence = (
+        (2, 3), (2, 6), (3, 4), (4, 5), (6, 7), (7, 8), (2, 9), (9, 10),
+        (10, 11), (2, 12), (12, 13), (13, 14), (2, 1), (1, 15), (15, 17),
+        (1, 16), (16, 18),
+    )
+    colours = (
+        (255, 0, 0), (255, 85, 0), (255, 170, 0), (255, 255, 0), (170, 255, 0),
+        (85, 255, 0), (0, 255, 0), (0, 255, 85), (0, 255, 170), (0, 255, 255),
+        (0, 170, 255), (0, 85, 255), (0, 0, 255), (85, 0, 255), (170, 0, 255),
+        (255, 0, 255), (255, 0, 170), (255, 0, 85),
+    )
+    for (first, second), colour in zip(limb_sequence, colours):
+        start, end = body[first - 1], body[second - 1]
+        if start is None or end is None:
+            continue
+        start_xy = (round(start["normalized_xy"][0] * width), round(start["normalized_xy"][1] * height))
+        end_xy = (round(end["normalized_xy"][0] * width), round(end["normalized_xy"][1] * height))
+        cv2.line(canvas, start_xy, end_xy, tuple(round(channel * 0.6) for channel in colour), BODY_LIMB_HALF_WIDTH_PX * 2)
+    for point, colour in zip(body, colours):
+        if point is None:
+            continue
+        center = (round(point["normalized_xy"][0] * width), round(point["normalized_xy"][1] * height))
+        cv2.circle(canvas, center, BODY_JOINT_RADIUS_PX, colour, thickness=-1)
+    return canvas
+
+
 def render_map(renderer, body: list[dict[str, object] | None], face: list[dict[str, object]] | None) -> Image.Image:
     body_points = [
         renderer.Keypoint(x=row["normalized_xy"][0], y=row["normalized_xy"][1], score=1.0) if row is not None else None
@@ -648,7 +688,7 @@ def render_map(renderer, body: list[dict[str, object] | None], face: list[dict[s
         face=face_points,
     )
     canvas = renderer.draw_poses([pose], HEIGHT, WIDTH, draw_body=True, draw_hand=False, draw_face=face is not None)
-    return Image.fromarray(np.ascontiguousarray(canvas)).convert("RGB")
+    return Image.fromarray(np.ascontiguousarray(draw_thick_body_overlay(canvas, body))).convert("RGB")
 
 
 def main() -> None:
@@ -713,7 +753,7 @@ def main() -> None:
         default_frame_origin_y = DEFAULT_SHOULDERS_FRAME_ORIGIN_Y
         default_camera_distance = DEFAULT_SHOULDERS_CAMERA_DISTANCE
     else:
-        WIDTH, HEIGHT, CENTER_X, SCALE = FULLBODY_WIDTH, FULLBODY_HEIGHT, FULLBODY_WIDTH / 2, 150
+        WIDTH, HEIGHT, CENTER_X, SCALE = FULLBODY_WIDTH, FULLBODY_HEIGHT, FULLBODY_WIDTH / 2, 187.5
         default_frame_origin_y = DEFAULT_FRAME_ORIGIN_Y
         default_camera_distance = DEFAULT_PERSPECTIVE_CAMERA_DISTANCE
     frame_origin_y = (

@@ -17,7 +17,6 @@ import torch
 from diffusers import QwenImageEditPlusPipeline
 from huggingface_hub import snapshot_download
 from diffusers.utils import load_image
-from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
 ASSETS = Path(__file__).resolve().parent
@@ -25,30 +24,27 @@ HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
 STYLE_CONTRACT = ASSETS / "p7-5-2-face-style-prompt-contract.json"
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-face-illustration-prompt-contract.json"
-MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
-TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
-TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image-edit-2509"
-TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image-edit-2509.safetensors"
+MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 OUTPUT_DIR = ASSETS
-DEFAULT_STEPS = 30
-QWEN_FACE_REFERENCE = "p7-5-2-mira-head-qwen-image-q4ks-comfy-direct-young-adult-v1-seed-62294-steps-30-size-1280.png"
+DEFAULT_STEPS = 10
+QWEN_FACE_REFERENCE = "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png"
 FRONT_TORSO_REFERENCE = "p7-5-2-qwen-2511-mira-torso-front-identity-framing-neutral-gray-v3-size-1280x1280-seed-62294-steps-10.png"
+# 960×1440 BODY_18 map: 90% overall figure height with 7 px-radius joints.
 STAGE2_BODY_ONLY_OPENPOSE = "p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"
 
 
 OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
     "outfit_stage1_face_openpose": {
-        "inputs": (QWEN_FACE_REFERENCE, STAGE2_BODY_ONLY_OPENPOSE),
-        "input_roles": ["frontal_head_identity_hair_1024", "stage_2_calibrated_front_body_only_openpose"],
+        "inputs": (STAGE2_BODY_ONLY_OPENPOSE, QWEN_FACE_REFERENCE),
+        "input_roles": ["stage_2_calibrated_front_body_only_openpose", "frontal_head_identity_hair_1280"],
         "append_style_prompt": False,
         "append_illustration_prompt": False,
-        "default_steps": 30,
+        "default_steps": 10,
         "size": (960, 1440),
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
-            "Photorealistic front full-body woman with a clearly narrow, defined waist. Image 1: exact face and hair identity. Image 2: strict-front skeleton; do not render it. "
-            "Wear only a slim charcoal-gray micro crop T-shirt whose hem ends immediately below the bust, leaving a wide bare midriff above deep-teal high-waisted feminine full-length wide-leg trousers that reach the tops of white low-top sneakers. "
-            "Both arms and complete hands are visible. Warm off-white background."
+            "Picture 1 defines the strict front full-body pose and framing; do not render its lines. "
+            "Picture 2 defines Mira's identity. Front full-body illustrated woman with both arms and hands visible, in a charcoal-gray micro crop tee, deep-teal high-waisted wide-leg trousers, and white low-top sneakers."
         ),
     },
     "outfit_stage2_jacket_face": {
@@ -56,7 +52,7 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
             "p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-long-trousers-defined-waist-v4-seed-62294-steps-30.png",
             QWEN_FACE_REFERENCE,
         ),
-        "input_roles": ["stage_1_outfit_fullbody", "frontal_head_identity_hair_1024"],
+        "input_roles": ["stage_1_outfit_fullbody", "frontal_head_identity_hair_1280"],
         "append_style_prompt": False,
         "append_illustration_prompt": False,
         "default_steps": 30,
@@ -188,7 +184,7 @@ def asset_record(path: Path) -> dict[str, str]:
 
 def runtime_record() -> dict[str, object]:
     packages: dict[str, str] = {}
-    for name in ("nunchaku", "diffusers", "torch", "transformers", "accelerate"):
+    for name in ("diffusers", "torch", "transformers", "accelerate"):
         try:
             packages[name] = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
@@ -203,17 +199,15 @@ def runtime_record() -> dict[str, object]:
 
 
 def load_pipeline() -> QwenImageEditPlusPipeline:
-    transformer_path = Path(snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)) / TRANSFORMER_FILENAME
     model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
     pipe = QwenImageEditPlusPipeline.from_pretrained(
         model_path,
-        transformer=transformer,
         torch_dtype=torch.bfloat16,
         local_files_only=True,
     )
-    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
-    pipe._exclude_from_cpu_offload.append("transformer")
+    # Keep the official BF16 modules on CPU except for the module being used.
+    # This avoids the FP4 Nunchaku transformer path and fits the 8 GB GPU run.
+    pipe.enable_attention_slicing("max")
     pipe.enable_sequential_cpu_offload()
     return pipe
 
@@ -294,7 +288,9 @@ def main() -> None:
         "status": "generated",
         "experiment_id": f"p7-5-3-qwen-edit-{args.target}",
         "model": MODEL_ID,
-        "transformer": TRANSFORMER_ID,
+        "dtype": "bfloat16",
+        "transformer": "official_bf16",
+        "offload_mode": "sequential_cpu_offload",
         "runtime": runtime_record(),
         "identity_contract": asset_record(IDENTITY_CONTRACT),
         "style_prompt_contract": asset_record(STYLE_CONTRACT),

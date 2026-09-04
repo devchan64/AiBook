@@ -1,0 +1,69 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-edit-outfit_stage1_face_openpose",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "dtype": "bfloat16",
+  "transformer": "official_bf16",
+  "offload_mode": "sequential_cpu_offload",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "identity_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "sha256": "bcb4eb58f240786b723a5a4c3d412754d032efcba44062a0dc0eaaee8a1c6add"
+  },
+  "style_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-style-prompt-contract.json",
+    "sha256": "1915fc26dd68a0c54406e5ef5270cf6179ee45031c3ad078b8b202a3d60ebf70"
+  },
+  "illustration_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json",
+    "sha256": "865cce164c5baf09305e14a8e1f42a841fdfae46724e28d344c782a916e92be8"
+  },
+  "prompt_contracts_applied": {
+    "watercolor_style": false,
+    "illustration": false
+  },
+  "target": "outfit_stage1_face_openpose",
+  "run_label": "bf16-2511-openpose-waist-up-legs-down-arms-v9",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png",
+      "sha256": "9934dc796c087fcf474654d3c8f27462e6c1056f19cfbf55d3180251f8e24010"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+      "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539"
+    }
+  ],
+  "input_roles": [
+    "stage_2_calibrated_front_body_only_openpose",
+    "frontal_head_identity_hair_1280"
+  ],
+  "seed": 62294,
+  "steps": 10,
+  "size": [
+    960,
+    1440
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+  "prompt": "Picture 1 defines the strict front full-body pose and framing; do not render its lines. Picture 2 defines Mira's identity. Front full-body illustrated woman with both arms and hands visible, in a charcoal-gray micro crop tee, deep-teal high-waisted wide-leg trousers, and white low-top sneakers.",
+  "prompt_word_count": 44,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-bf16-2511-openpose-waist-up-legs-down-arms-v9-seed-62294-steps-10.png",
+    "sha256": "c542e7fc2fa5a68f6f5c4b1fa0eee61f9fa00f3cdff147656e6de7177a57d650"
+  },
+  "elapsed_seconds": 310.55,
+  "decision": "Generated staged front outfit reference; compare the stated inputs and outfit change."
+}

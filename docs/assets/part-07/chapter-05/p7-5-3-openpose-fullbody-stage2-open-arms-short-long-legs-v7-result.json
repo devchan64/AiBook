@@ -2,8 +2,8 @@
   "status": "generated",
   "purpose": "Deterministic common-coordinate face and full-body OpenPose relation maps for ratio adjustment.",
   "reference_direction_sheet": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-face-torso-chest-v1-seed-62294-steps-10.png",
-    "sha256": "219392aef60de7a95efc5bdf8991bdc83e6e3590e968ebca403dd470ae19069d"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+    "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539"
   },
   "prior_openpose_detection_review": null,
   "method": "BODY_18 was generated from one normalized 3D template and perspective projected. FACE_70 was not included.",
@@ -11,27 +11,39 @@
     "world": "x right, y up, z toward camera; origin at ground centre",
     "screen": "x right, y down",
     "canvas": [
-      768,
-      1152
+      960,
+      1440
     ],
-    "frame_origin_y": 145.0,
+    "frame_origin_y": 181.25,
     "projection": "perspective",
     "camera_distance": 10.8,
     "horizontal_fov_degrees": 30.5,
-    "focal_length_px": 1408.496
+    "focal_length_px": 1760.62
   },
-  "human_proportion_profile": {
+  "human_proportion_template": {
     "name": "stage2_front_compact_pelvis_short_arms_long_legs",
-    "values": {
-      "head_face_height": 0.86,
-      "face_width": 0.72,
-      "upper_body_neck_base_to_crotch": 1.7,
-      "leg_hip_to_sole": 5.1175,
-      "arm_shoulder_to_wrist": 2.4,
-      "total_crown_to_sole": 8.2275,
-      "hip_half_width": 0.5,
-      "knee_half_width": 0.64,
-      "fullbody_frame_origin_y": 145.0
+    "height_normalized_values": {
+      "default_height": 7.40475,
+      "head_ratio": 0.1045275,
+      "face_width_ratio": 0.08751139,
+      "torso_ratio": 0.26882407,
+      "leg_ratio": 0.55979945,
+      "arm_ratio": 0.29170465,
+      "hip_half_width_ratio": 0.0607718,
+      "knee_half_width_ratio": 0.07783349,
+      "fullbody_frame_origin_y": 181.25
+    },
+    "resolved_height": 7.40475,
+    "resolved_values": {
+      "total_crown_to_sole": 7.40475,
+      "head_face_height": 0.7740000056249999,
+      "face_width": 0.6479999651024999,
+      "upper_body_neck_base_to_crotch": 1.9905750323325002,
+      "leg_hip_to_sole": 4.1451749773875,
+      "arm_shoulder_to_wrist": 2.1600000070875,
+      "hip_half_width": 0.44999998605,
+      "knee_half_width": 0.5763375350775001,
+      "fullbody_frame_origin_y": 181.25
     }
   },
   "body_pose": "stage2-open-arms",

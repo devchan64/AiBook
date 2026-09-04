@@ -1,7 +1,7 @@
 # P7-5.3 캐릭터 identity와 추가 페인팅으로 특징 완성하기
 
 > Section ID: `P7-5.3`
-> Version: `v2026.09.03`
+> Version: `v2026.09.05`
 
 같은 캐릭터를 다른 장면과 자세에서도 이어 그리려면, 얼굴·착장·전신 구조를 한 이미지나 한 프롬프트에 모두 맡기지 않아야 한다. 이 절에서는 [P7-5.2](section-02.md)의 얼굴 identity를 기준으로 두고, 전신 비례·기본 의상·재킷 같은 특징을 이전 결과 위에 한 단계씩 추가 페인팅하는 Qwen 편집 경로를 기록한다. 얼굴 정면 identity와 캐릭터 멀티플 뷰 생성은 P7-5.2에서 별도로 관리한다.
 
@@ -11,20 +11,21 @@
 
 P7-5.3의 결과는 이름이 하나인 단일 모델에서 나오지 않는다. 현재 이 절에 연결한 `result.json`에는 편집 모델, 로컬 실행용 양자화 transformer, 카메라 회전 전용 LoRA, 구조 guide를 만드는 OpenPose 도구가 서로 다른 역할로 기록된다. 이들을 모두 캐릭터를 만드는 모델이라고 부르면, 어느 조건을 바꿨을 때 결과가 달라졌는지 알 수 없다.
 
-| 요소 | 현재 연결한 2509 실행 기록에서 맡긴 일 | 적용 범위 |
+| 요소 | 현재 경로에서 맡긴 일 | 적용 범위 |
 | --- | --- | --- |
-| `Qwen/Qwen-Image-Edit-2509` | 얼굴·착장·구조 이미지를 함께 읽고, prompt가 지시한 전신 결과를 편집 | 1·2단계 착장과 동적 전신 |
-| Nunchaku SVDQuant FP4 r128 transformer | Qwen 편집 모델의 transformer를 로컬 GPU 메모리에 맞춰 실행 | 1·2단계 착장과 동적 전신 |
+| `Qwen/Qwen-Image-Edit-2511` | 얼굴·착장·구조 이미지를 함께 읽고, prompt가 지시한 전신 결과를 편집 | 1·2단계 착장 |
+| `Qwen/Qwen-Image-Edit-2509` | 앞선 착장·토르소 입력을 함께 읽어 동적 전신을 편집 | 현재 연결한 앨리웁 실험 |
+| BF16 순차 CPU offload | 공식 BF16 Qwen 모듈을 CPU에 두고, 추론 중 필요한 모듈만 GPU로 옮겨 실행 | 1·2단계 착장 |
 | `Qwen-Edit-2509-Multiple-angles` LoRA | 2단계 착장 한 장에서 카메라 yaw만 바꾸는 보조 조건 | −90°·−45°·+45°·+90° 착장 |
-| `controlnet_aux` OpenPose renderer | BODY_18 좌표를 정면 body-only 구조 PNG로 그려 Qwen에 참조 입력으로 제공 | 1단계 전신 비례·프레이밍 guide |
+| `controlnet_aux` OpenPose renderer | BODY_18 좌표를 정면 body-only 구조 PNG로 렌더링 | 최소 프롬프트 1단계의 전신 포즈·프레이밍 참조 |
 
-Qwen-Image-Edit-2509은 한 장에서 세 장의 이미지 입력을 함께 편집하도록 공개된 모델이다. 여기서는 정면 머리와 body-only OpenPose, 또는 앞 단계 착장과 정면 머리를 입력으로 두어 각 이미지가 맡는 정보를 분리했다. 이 모델 자체는 keypoint·depth 같은 ControlNet 조건도 지원하지만, 이 절의 1단계는 native ControlNet 경로가 아니라 **body-only OpenPose PNG를 일반 이미지 참조로 넣는 편집 경로**를 사용했다. 따라서 구조 맵이 얼굴·의상 정보를 직접 보존한다고 해석하면 안 된다. [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}
+Qwen-Image-Edit-2511은 여러 이미지 입력을 함께 읽어 편집하는 모델이다. 여기서는 정면 머리와 body-only OpenPose, 또는 앞 단계 착장과 정면 머리를 입력으로 두어 각 이미지가 맡는 정보를 분리했다. 이 절의 1단계는 native ControlNet 경로가 아니라 **body-only OpenPose PNG를 일반 이미지 참조로 넣는 편집 경로**를 사용했다. 따라서 구조 맵이 얼굴·의상 정보를 직접 보존한다고 해석하면 안 된다. 앨리웁 결과만 이전 2509 실행 기록으로 남아 있다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}
 
-Nunchaku transformer는 별도의 그림 스타일이나 캐릭터 조건이 아니다. 이 실행에서는 Qwen의 큰 transformer를 FP4 r128 양자화 가중치로 바꾸고 순차 CPU offload와 함께 사용해 로컬 GPU에서 실행했다. r128은 같은 계열에서 더 빠른 r32보다 품질 우선인 선택이다. 그러므로 “Nunchaku를 적용했다”는 말은 캐릭터 identity가 강화됐다는 뜻이 아니라, 같은 Qwen 편집을 가능한 메모리·속도 조건으로 실행했다는 뜻이다. [Nunchaku Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}
+1·2단계 착장 생성기는 양자화 transformer를 교체하지 않고 공식 BF16 Qwen pipeline을 읽는다. `enable_sequential_cpu_offload()`는 현재 필요한 모듈만 GPU로 옮기고 나머지는 CPU에 보관한다. 따라서 메모리 사용량은 줄지만, 모듈 이동 때문에 생성 시간은 늘어난다. 이 설정은 캐릭터 identity를 강화하는 조건이 아니라 8GB GPU에서 BF16 실행을 가능하게 하는 런타임 선택이다. [Diffusers CPU offload 문서](https://huggingface.co/docs/diffusers/optimization/memory#cpu-offloading){: target="_blank" rel="noopener noreferrer"}
 
 네 방향 착장에만 사용한 Multiple-angles LoRA는 `将镜头向左旋转45度。` 같은 짧은 카메라 지시를 보강한다. 이 LoRA에는 정면 2단계 착장 하나만 입력으로 넣었다. 얼굴 참조와 OpenPose를 함께 넣지 않은 이유는 LoRA가 담당해야 할 질문을 yaw 변화로 제한하기 위해서다. LoRA는 얼굴·헤어·관절·의상을 새 기준으로 정하는 모델이 아니며, 회전 결과에서도 그 정보는 원래 착장 참조와 이후의 별도 입력이 맡는다. [Multiple-angles LoRA 모델 카드](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
 
-OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 BODY_18 관절 좌표를 색 선과 점으로 렌더링할 뿐, 캐릭터의 얼굴·옷·화풍을 생성하지 않는다. P7-5.3의 최종 경로에서는 다방향 스켈레톤을 전신 회전의 입력으로 사용하지 않고, **정면 body-only 맵 하나만** 1단계의 머리·어깨·골반·다리 비례와 프레이밍을 맞추는 기준으로 사용했다. 그러므로 guide의 팔 길이나 프레임을 수정하는 일은 Qwen prompt를 고치는 일과 다른 실험 조건이다. [ComfyUI ControlNet Auxiliary Preprocessors](https://github.com/Fannovel16/comfyui_controlnet_aux){: target="_blank" rel="noopener noreferrer"}
+OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 BODY_18 관절 좌표를 색 선과 점으로 렌더링할 뿐, 캐릭터의 얼굴·옷·화풍을 생성하지 않는다. 최소 프롬프트 1단계에서는 이 맵을 일반 이미지 참조로 넣어 포즈와 프레이밍만 맡긴다. 생성 결과가 이를 얼마나 따르는지는 별도 오버레이로 비교한다. [ComfyUI ControlNet Auxiliary Preprocessors](https://github.com/Fannovel16/comfyui_controlnet_aux){: target="_blank" rel="noopener noreferrer"}
 
 ## 한 이미지에 모든 조건을 맡기지 않는다
 
@@ -35,23 +36,23 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 | P7-5.2 정면 머리 PNG | 얼굴과 헤어 identity | 1단계·2단계 착장의 두 번째 입력 |
 | 1단계 전신 착장 출력 | 회색 크롭탑, 와이드 팬츠, 흰 운동화와 정면 전신 비례 | 2단계 착장의 첫 번째 입력 |
 | 2단계 전신 착장 출력 | 열린 흰 크롭 재킷, 손, 1단계 착장·비례 | 네 방향 yaw 착장의 유일한 입력, 앨리웁의 첫 번째 입력 |
-| 정면 body-only OpenPose PNG | BODY_18 기반 전신 비례와 프레임 안 관절 위치 | 1단계 착장의 두 번째 입력 |
+| 정면 body-only OpenPose PNG | BODY_18 기반 전신 포즈와 프레임 안 관절 위치 | 최소 프롬프트 1단계의 첫 번째 입력 |
 | P7-5.2 정면 토르소 PNG | 얼굴·헤어·선과 음영 | 앨리웁의 두 번째 입력 |
 | 네 방향 yaw 착장 출력 | 정면 2단계 착장을 카메라 yaw만 바꾼 관찰 결과 | 현재 연결한 `result.json`에서는 다음 생성의 입력으로 사용하지 않음 |
 
-따라서 정면 머리 참조와 정면 토르소 참조는 사용되는 생성 단계가 다르며, 모두 의상·신체 비례를 정하지 않는다. 착장 이미지는 얼굴 identity를 다시 정하지 않고, OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵으로만 쓴다. 네 방향 yaw 이미지는 현재 결과에서 회전 관찰용 출력일 뿐, 다음 생성의 기준 입력으로 재사용하지 않는다. 새 입력을 더할 때는 먼저 이 표의 기존 역할과 겹치는지 확인한다.
+따라서 정면 머리 참조와 정면 토르소 참조는 사용되는 생성 단계가 다르며, 모두 의상·신체 비례를 정하지 않는다. 착장 이미지는 얼굴 identity를 다시 정하지 않고, OpenPose는 얼굴·손가락·의상 픽셀이 없는 전신 포즈·프레이밍 참조로만 쓴다. 네 방향 yaw 이미지는 현재 결과에서 회전 관찰용 출력일 뿐, 다음 생성의 기준 입력으로 재사용하지 않는다. 새 입력을 더할 때는 먼저 이 표의 기존 역할과 겹치는지 확인한다.
 
 ## 기본 의상은 얼굴 참조와 구조 맵으로 만든다
 
-1단계는 P7-5.2의 1024×1024 정면 머리 참조와 양팔을 자연스럽게 내린 정면 body-only OpenPose를 입력으로 사용한다. 머리 참조는 얼굴·헤어만, OpenPose는 정면 전신 구조만 맡는다. 결과에는 가슴 바로 아래에서 끝나는 회색 슬림 크롭탑, 딥틸 하이웨이스트 여성용 와이드 팬츠, 흰 스니커즈를 구성한다.
+압축 프롬프트 1단계는 양팔을 자연스럽게 내린 정면 body-only OpenPose를 첫 입력으로, P7-5.2에서 BF16으로 만든 1280×1280 정면 Mira 머리를 두 번째 입력으로 사용한다. 첫 입력은 엄격한 정면 포즈와 프레이밍만, 두 번째 입력은 Mira identity만 맡는다. 착장은 회색 마이크로 크롭티·딥틸 하이웨이스트 와이드 팬츠·흰 로우탑 스니커즈와 양팔·양손의 완결만 짧은 긍정 지시로 더한다.
 
-![1단계 Qwen 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-long-trousers-defined-waist-v4-seed-62294-steps-30.png)
+![1단계 Qwen 전신 착장 기준, 양팔과 손 포함](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-bf16-2511-openpose-waist-up-legs-down-arms-v9-seed-62294-steps-10.png)
 
-[1단계 960×1440, 30-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-long-trousers-defined-waist-v4-seed-62294-steps-30-result.json)
+[1단계 960×1440, 10-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-bf16-2511-openpose-waist-up-legs-down-arms-v9-seed-62294-steps-10-result.json)
 
 ## 자켓은 다음 단계에서 더한다
 
-2단계는 1단계 전신 착장 결과와 P7-5.2의 1024×1024 정면 머리 참조만 사용한다. OpenPose를 다시 넣지 않아 1단계에서 정한 바지·신발·비례와 경쟁하지 않게 한다. 이 단계에서는 앞판이 서로 닿지 않는 열린 흰 크롭 재킷, 접혀 내려오는 칼라, 손목까지 오는 소매와 소매 끝 아래의 양손을 더한다. 회색 크롭티의 몸통과 맨허리 띠는 보이게 하고, 이너 소매는 재킷 밖으로 드러나지 않게 한다.
+2단계는 1단계 전신 착장 결과와 같은 P7-5.2 BF16 1280×1280 정면 Mira 머리 참조만 사용한다. OpenPose를 다시 넣지 않아 1단계에서 정한 바지·신발·비례와 경쟁하지 않게 한다. 이 단계에서는 앞판이 서로 닿지 않는 열린 흰 크롭 재킷, 접혀 내려오는 칼라, 손목까지 오는 소매와 소매 끝 아래의 양손을 더한다. 회색 크롭티의 몸통과 맨허리 띠는 보이게 하고, 이너 소매는 재킷 밖으로 드러나지 않게 한다.
 
 ![2단계 Qwen 열린 자켓 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png)
 
@@ -61,9 +62,9 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 ## OpenPose는 전신 비율과 프레이밍만 정한다
 
-1단계의 정면 body-only OpenPose는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지하고 다리 길이만 15% 늘린 v7 맵이다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라 전신의 머리·몸통·다리 비율과 화면 안 위치를 맞추는 기준이다.
+정면 body-only OpenPose는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지한 v7 맵이다. 이전 긴 다리 템플릿에서 다리 비중의 10%를 상체·허리 구간으로 옮겨, 전체 키는 그대로 두고 허리는 길게·다리는 짧게 조정했다. 전체 키는 90%로 축소해 960×1440 캔버스에 다시 렌더링했으며, 선과 관절은 각각 반폭·반지름 7px로 키웠다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라, 생성 결과의 머리·몸통·다리 비율과 화면 안 위치를 비교하는 기준이다.
 
-![양팔을 벌린 정면 body-only OpenPose, 다리 15% 연장](../../../assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png)
+![양팔을 벌린 정면 body-only OpenPose, 긴 허리·짧아진 다리·전체 키 10% 축소](../../../assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png)
 
 [정면 v7 OpenPose 좌표 JSON](/AiBook/assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.json)
 
