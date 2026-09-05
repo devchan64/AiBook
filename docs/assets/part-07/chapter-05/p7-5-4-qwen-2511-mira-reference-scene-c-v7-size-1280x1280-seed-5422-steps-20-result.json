@@ -1,0 +1,47 @@
+{
+  "status": "generated",
+  "stage": "storyboard_scene_image_guided",
+  "scene": "c",
+  "execution_mode": "direct Diffusers; BF16; sequential CPU offload; no ComfyUI server",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "dtype": "bfloat16",
+    "device_placement": "sequential_cpu_offload"
+  },
+  "inputs": [
+    {
+      "role": "Picture 1: Mira full-body outfit reference",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+      "sha256": "c609cb7fb072f18727d53818152b5833a2be1d080f9ff8fed999edb6125e99b7"
+    }
+  ],
+  "reference_order": "mira-fullbody-outfit",
+  "scene_prompt": "Create a two-person scene on a hillside overlook: the woman in Picture 1 reads on the left, beside a second person with books, a stone railing, and a city skyline.",
+  "mira_linework_reference_prompt": "Render the central protagonist with the clean, delicate linework, soft facial rendering, and restrained color treatment of Mira in Picture 1.",
+  "prompt": "Create a two-person scene on a hillside overlook: the woman in Picture 1 reads on the left, beside a second person with books, a stone railing, and a city skyline. Render the central protagonist with the clean, delicate linework, soft facial rendering, and restrained color treatment of Mira in Picture 1.",
+  "seed": 5422,
+  "steps": 20,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "size": [
+    1280,
+    1280
+  ],
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-c-v7-size-1280x1280-seed-5422-steps-20.png",
+    "sha256": "b5f7930b6de96468f7d0338c6fe9dec31d862242cdca1799a119ad0055cfebda",
+    "width": 1280,
+    "height": 1280
+  },
+  "elapsed_seconds": 528.56
+}

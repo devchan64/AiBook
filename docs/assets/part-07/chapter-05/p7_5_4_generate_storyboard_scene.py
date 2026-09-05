@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Generate one Mira storyboard scene with Qwen-Image-Edit-2511.
 
-Pictures 1 and 2 are Mira's outfit and frontal-head references. Scene layout,
-pose, setting, and composition are defined only by each scene prompt; no prior
-scene image is used as an input. The runner uses direct Diffusers BF16 with
-sequential CPU offload and never starts a ComfyUI server.
+Picture 1 is Mira's full-body outfit reference. Scene layout, pose, setting,
+and composition are defined only by each scene prompt; no prior scene image or
+separate face image is used as an input. The runner uses direct Diffusers BF16
+with sequential CPU offload and never starts a ComfyUI server.
 """
 
 from __future__ import annotations
@@ -23,24 +23,19 @@ from PIL import Image
 ASSETS = Path(__file__).resolve().parent
 ROOT = ASSETS.parents[3]
 CACHE_DIR = ROOT / ".tmp" / "download" / "huggingface" / "hub"
-STYLE_CONTRACT_PATH = ASSETS / "p7-5-1-style-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 
 DEFAULT_MIRA_FULLBODY = ASSETS / (
     "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-"
     "folded-collar-v3-seed-62294-steps-30.png"
 )
-DEFAULT_MIRA_HEAD = ASSETS / (
-    "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-"
-    "seed-62294-steps-30-size-1280.png"
-)
 DEFAULT_SIZE = 1280
 DEFAULT_STEPS = 20
 DEFAULT_TRUE_CFG_SCALE = 4.0
-DEFAULT_RUN_LABEL = "v5"
+DEFAULT_RUN_LABEL = "v7"
 MIRA_LINEWORK_REFERENCE_PROMPT = (
     "Render the central protagonist with the clean, delicate linework, soft facial rendering, "
-    "and restrained color treatment of Mira in Pictures 1 and 2."
+    "and restrained color treatment of Mira in Picture 1."
 )
 SCENE_SEEDS = {"a": 5420, "b": 5421, "c": 5422}
 
@@ -49,14 +44,14 @@ SCENE_SEEDS = {"a": 5420, "b": 5421, "c": 5422}
 SCENE_PROMPTS = {
     "a": (
         "Create one central female protagonist running frontally toward the viewer through a city street, "
-        "with a crowd of runners behind her. Use the woman in Pictures 1 and 2."
+        "with a crowd of runners behind her. Use the woman in Picture 1."
     ),
     "b": (
         "Create one central female protagonist performing a grand jeté in a wide side view on a beach at sunset, "
-        "with her reflection on the wet shore. Use the woman in Pictures 1 and 2."
+        "with her reflection on the wet shore. Use the woman in Picture 1."
     ),
     "c": (
-        "Create a two-person scene on a hillside overlook: the woman in Pictures 1 and 2 reads on the left, "
+        "Create a two-person scene on a hillside overlook: the woman in Picture 1 reads on the left, "
         "beside a second person with books, a stone railing, and a city skyline."
     ),
 }
@@ -115,7 +110,6 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scene", choices=tuple(SCENE_PROMPTS), default="a")
     parser.add_argument("--mira-fullbody", type=Path, default=DEFAULT_MIRA_FULLBODY)
-    parser.add_argument("--mira-head", type=Path, default=DEFAULT_MIRA_HEAD)
     parser.add_argument("--prompt", help="One-off scene-only prompt override; no identity text is added.")
     parser.add_argument("--seed", type=int, help="Defaults to the selected scene's recorded seed.")
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
@@ -136,9 +130,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def build_plan(args: argparse.Namespace) -> dict[str, object]:
-    """Build the scene-text plus two-reference Mira identity contract."""
-    contract_path = require_file(STYLE_CONTRACT_PATH, "style contract")
-    style = json.loads(contract_path.read_text(encoding="utf-8"))["character_scene_style_prompt"]
+    """Build the scene-text plus one-reference Mira identity contract."""
     seed = args.seed if args.seed is not None else SCENE_SEEDS[args.scene]
     scene_prompt = args.prompt or SCENE_PROMPTS[args.scene]
     stem = (
@@ -148,25 +140,19 @@ def build_plan(args: argparse.Namespace) -> dict[str, object]:
     return {
         "scene": args.scene,
         "fullbody": require_file(args.mira_fullbody, "Mira full-body reference"),
-        "head": require_file(args.mira_head, "Mira frontal head reference"),
         "scene_prompt": scene_prompt,
         "mira_linework_reference_prompt": MIRA_LINEWORK_REFERENCE_PROMPT,
-        "prompt": f"{scene_prompt} {style} {MIRA_LINEWORK_REFERENCE_PROMPT}",
+        "prompt": f"{scene_prompt} {MIRA_LINEWORK_REFERENCE_PROMPT}",
         "seed": seed,
         "steps": args.steps,
         "size": args.size,
         "true_cfg_scale": args.true_cfg_scale,
-        "style_contract": {
-            "path": str(contract_path),
-            "sha256": sha256(contract_path),
-            "key": "character_scene_style_prompt",
-        },
         "output": args.output_dir.resolve() / f"{stem}.png",
     }
 
 
 def generate(plan: dict[str, object], *, allow_download: bool) -> tuple[Image.Image, float]:
-    """Generate the scene from text plus both Mira references and CPU offload."""
+    """Generate the scene from text plus Mira's full-body reference and CPU offload."""
     import torch
     from diffusers import QwenImageEditPlusPipeline
 
@@ -183,7 +169,6 @@ def generate(plan: dict[str, object], *, allow_download: bool) -> tuple[Image.Im
     image = pipeline(
         image=[
             square_canvas(plan["fullbody"], size),
-            square_canvas(plan["head"], size),
         ],
         prompt=str(plan["prompt"]),
         negative_prompt=" ",
@@ -217,14 +202,8 @@ def write_result(plan: dict[str, object], output: Path, elapsed_seconds: float) 
                 "path": str(plan["fullbody"]),
                 "sha256": sha256(plan["fullbody"]),
             },
-            {
-                "role": "Picture 2: Mira frontal face and hair identity reference",
-                "path": str(plan["head"]),
-                "sha256": sha256(plan["head"]),
-            },
         ],
-        "reference_order": "mira-fullbody-outfit-mira-head",
-        "style_contract": plan["style_contract"],
+        "reference_order": "mira-fullbody-outfit",
         "scene_prompt": plan["scene_prompt"],
         "mira_linework_reference_prompt": plan["mira_linework_reference_prompt"],
         "prompt": plan["prompt"],
@@ -255,7 +234,7 @@ def main() -> None:
             "status": "planned",
             "execution_mode": "direct Diffusers; BF16; sequential CPU offload; no ComfyUI server",
             "model": MODEL_ID,
-            "reference_order": "Picture 1 Mira outfit, Picture 2 Mira head",
+            "reference_order": "Picture 1 Mira outfit",
             **printable_plan,
         }, ensure_ascii=False, indent=2))
         return

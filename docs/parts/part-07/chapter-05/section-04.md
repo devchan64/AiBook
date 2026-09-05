@@ -9,32 +9,32 @@
 
 | 구성 요소 | 맡긴 일 | 입력·출력 경계 |
 | --- | --- | --- |
-| `Qwen/Qwen-Image-Edit-2511` BF16 + Diffusers | Mira 참조를 반영한 장면 A·B·C의 최초 RGB 스토리보드 생성 | Mira 전신 착장·정면 머리 참조와 장면 계약 → 스토리보드 |
+| `Qwen/Qwen-Image-Edit-2511` BF16 + Diffusers | Mira 참조를 반영한 장면 A·B·C의 최초 RGB 스토리보드 생성 | Mira 전신 착장 참조와 장면 계약 → 스토리보드 |
 | `Qwen/Qwen-Image-Edit-2511` + Multiple-angles LoRA | 카메라판의 방위·높이·거리 변환 | 스토리보드 한 장 → 카메라판 한 장 |
 
-P7-5.4 생성기는 `Qwen-Image-Edit-2511` 공식 Diffusers 파이프라인에 Mira 전신 착장과 Mira 정면 머리를 순서대로 넣는다. 장면의 위치·포즈·프레이밍·배경은 장면 프롬프트가 맡고, 두 입력은 Mira identity와 선화 기준을 맡는다. 장면 프롬프트는 Mira의 헤어·얼굴·피부·눈·착장을 텍스트로 반복하지 않고, Pictures 1·2의 깨끗하고 섬세한 선화·부드러운 얼굴 렌더링을 주인공에 적용하도록만 지시한다. BF16 가중치는 모듈별로 순차 CPU 오프로딩하므로 ComfyUI 서버나 GGUF 경로를 거치지 않으며, 실행 시간은 늘어날 수 있지만 모든 가중치를 GPU 메모리에 동시에 올리지 않는다.
+P7-5.4 생성기는 `Qwen-Image-Edit-2511` 공식 Diffusers 파이프라인에 Mira 전신 착장만 넣는다. 장면의 위치·포즈·프레이밍·배경은 장면 프롬프트가 맡고, 입력은 Mira의 착장과 선화 기준을 맡는다. 별도 얼굴 이미지는 넣지 않으며, 장면 프롬프트는 Mira의 헤어·얼굴·피부·눈·착장을 텍스트로 반복하지 않는다. BF16 가중치는 모듈별로 순차 CPU 오프로딩하므로 ComfyUI 서버나 GGUF 경로를 거치지 않으며, 실행 시간은 늘어날 수 있지만 모든 가중치를 GPU 메모리에 동시에 올리지 않는다.
 
 카메라판에는 공식 `Qwen/Qwen-Image-Edit-2511` Diffusers 파이프라인과 Multiple-angles LoRA만 사용한다. 8 GB VRAM 환경에서는 가중치를 순차 CPU 오프로딩하고, `<sks>` 뒤에 방위·높이·필요할 때만 거리 토큰을 넣는다. 이 단계는 캐릭터 identity를 새로 정하는 것이 아니라 장면의 카메라 조건을 바꾸는 단계다.
 
-## Mira 참조와 같은 화풍 계약으로 정사각형 A·B·C 장면을 만든다
+## Mira 전신 착장 참조로 정사각형 A·B·C 장면을 만든다
 
-첫 장면은 Mira 전신 착장과 정면 머리만 참조하는 다중 참조 생성이다. 장소·동작·구도만 장면별 프롬프트로 바꾸고, 공통 화풍은 P7-5.1 스타일 계약의 `character_scene_style_prompt`에서 그대로 가져온다. 배경 전용 `common_contract`에는 사람을 금지하는 조건이 있으므로, 인물이 있는 이 세 장면에는 쓰지 않는다.
+첫 장면은 Mira 전신 착장만 참조하는 생성이다. 장소·동작·구도만 장면별 프롬프트로 지정한다. P7-5.1의 수채화 스타일 계약은 이 프롬프트에 넣지 않으며, 생성 모델과 Mira 착장 참조가 화풍을 결정한다.
 
-생성기의 기본값은 1280×1280, 20 step, true CFG 4.0이다. 1280은 32의 배수인 정사각형 캔버스다. Scene A는 Mira가 붐비는 도시 거리에서 카메라를 향해 달리고, Scene B는 해 질 무렵 해변 위에서 grand jeté를 하며, Scene C는 도시 전망의 언덕에서 동료와 책을 읽는다. 아래 기존 그림과 JSON은 이전 Q4 실행 기록이며, 새 2512 실행 결과를 만들면 해당 자산으로 교체한다.
+생성기의 기본값은 1280×1280, 20 step, true CFG 4.0이다. 1280은 32의 배수인 정사각형 캔버스다. Scene A는 Mira가 붐비는 도시 거리에서 카메라를 향해 달리고, Scene B는 해 질 무렵 해변 위에서 점프하며, Scene C는 도시 전망의 언덕에서 동료와 책을 읽는다. 모든 Scene은 Mira 전신 착장 한 장만 Picture 1로 사용한다. 아래 PNG와 JSON은 이 입력 계약으로 실행한 Qwen-Image-Edit-2511 v7 기록이다.
 
-| Scene A: 해안 절벽 | Scene B: 야생화 초원 | Scene C: 도심 공원 |
+| Scene A: 도심 러닝 | Scene B: 해 질 녘 해변 점프 | Scene C: 언덕에서 독서 |
 | --- | --- | --- |
-| ![1280 정사각형의 해안 절벽 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png) | ![1280 정사각형의 야생화 초원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-b-v1_00001_.png) | ![1280 정사각형의 도심 공원 공중 스플릿 장면](../../../assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-c-v1_00001_.png) |
+| ![Mira가 도시 거리에서 달리는 1280 정사각형 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-a-v7-size-1280x1280-seed-5420-steps-20.png) | ![Mira가 해 질 녘 해변에서 점프하는 1280 정사각형 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-b-v7-size-1280x1280-seed-5421-steps-20.png) | ![Mira가 도시 전망의 언덕에서 책을 읽는 1280 정사각형 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-c-v7-size-1280x1280-seed-5422-steps-20.png) |
 
-[Scene A result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-a-v1-seed-5420-steps-20-result.json)
+[Scene A result.json — JSON — 1280 정사각형 2511 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-a-v7-size-1280x1280-seed-5420-steps-20-result.json)
 
-[Scene B result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-b-v1-seed-5421-steps-20-result.json)
+[Scene B result.json — JSON — 1280 정사각형 2511 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-b-v7-size-1280x1280-seed-5421-steps-20-result.json)
 
-[Scene C result.json — JSON — 1280 정사각형 T2I 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-image-q4ks-style-contract-scene-c-v1-seed-5422-steps-20-result.json)
+[Scene C result.json — JSON — 1280 정사각형 2511 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-c-v7-size-1280x1280-seed-5422-steps-20-result.json)
 
-세 result JSON에는 같은 모델·해상도·step·CFG와 각 장면의 prompt, seed, 실행 환경이 남는다. 두 Mira 참조를 쓰더라도 얼굴·착장 보존 정도는 산출 PNG로 별도 검수한다. P7-5.5에서는 이 출발 장면을 카메라판으로 변환한 뒤, 후속 character identity·착장 이식 절차를 다룬다.
+세 result JSON에는 같은 모델·해상도·step·CFG와 각 장면의 prompt, seed, 실행 환경이 남는다. 한 장의 Mira 착장 참조를 쓰므로 얼굴·착장 보존 정도는 산출 PNG로 별도 검수한다. P7-5.5에서는 이 출발 장면을 카메라판으로 변환한 뒤, 후속 character identity·착장 이식 절차를 다룬다.
 
-P7-5.4 생성기의 `SCENE_PROMPTS`는 A·B·C의 장소·동작·구도만 구분하고, `p7-5-1-style-prompt-contract.json`의 `character_scene_style_prompt`를 뒤에 붙인다. 기본값 `--scene a`, `--size 1280`, `--steps 20`은 Mira가 도시 거리에서 카메라 쪽으로 달려오는 장면이다. `--mira-fullbody`는 Picture 1의 착장 참조이고 `--mira-head`는 Picture 2의 identity 참조다. `--prompt`는 비교용 장면 지시 대체일 뿐 identity 설명을 보충하지 않는다. `--run-label`은 기존 결과를 덮어쓰지 않게 한다.
+P7-5.4 생성기의 `SCENE_PROMPTS`는 A·B·C의 장소·동작·구도만 구분한다. 기본값 `--scene a`, `--size 1280`, `--steps 20`은 Mira가 도시 거리에서 카메라 쪽으로 달려오는 장면이다. `--mira-fullbody`는 모든 Scene에서 유일한 Picture 1 착장 참조이며 별도 얼굴 참조 옵션은 없다. `--prompt`는 비교용 장면 지시 대체일 뿐 identity 설명을 보충하지 않는다. `--run-label`은 기존 결과를 덮어쓰지 않게 한다.
 
 ~~~bash
 python docs/assets/part-07/chapter-05/p7_5_4_generate_storyboard_scene.py --scene a --dry-run
@@ -73,14 +73,14 @@ python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py --c
 
 ## 체크리스트
 
-- [ ] 장면 A·B·C는 공통 화풍 계약과 장면별 장소·포즈만으로 만든 T2I 출발 이미지인가?
+- [ ] 장면 A·B·C는 Mira 전신 착장 한 장과 장면별 장소·포즈 지시만으로 만든 출발 이미지인가?
 - [ ] 카메라판은 대응하는 최초 Scene PNG를 입력으로 썼는가?
 - [ ] 카메라판 PNG와 result.json을 함께 보고 방위·높이·거리 변화가 실제로 보이는지 확인했는가?
 - [ ] 다음 P7-5.5에서 쓸 포즈·프레이밍 기준을 최초 장면이 아닌 카메라판으로 고정했는가?
 
 ## 출처와 참고 자료
 
-- [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}: Mira 전신·머리 참조를 입력으로 쓰는 공식 다중 이미지 편집 파이프라인의 입력 형식과 사용 예제입니다.
+- [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}: Mira 전신 착장 참조를 입력으로 쓰는 공식 이미지 편집 파이프라인의 입력 형식과 사용 예제입니다.
 - [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}: 카메라판 편집에 사용한 공식 파이프라인의 입력 형식과 사용 예제를 확인합니다.
 - [Qwen-Image-Edit-2511 Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}: 카메라 방위·높이·거리 변환의 `<sks> [azimuth] [elevation] [distance]` 입력 형식을 확인합니다.
 
