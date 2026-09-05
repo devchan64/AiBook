@@ -32,8 +32,6 @@ FaceID와 전신 착장 image adapter를 빼고 Plus Face `0.15`, character LoRA
 
 [p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json — JSON — OpenPose on 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json)
 
-FaceID·FullFace 조건이 identity와 전신 구도에 보인 교환 관계는 [P7-5.15 FaceID 조건으로 얼굴 identity와 전신 구도의 경계 읽기](section-15.md)로 분리한다.
-
 ## OpenPose는 2D 관절 배치까지만 전달했다
 
 > **이 보조 실험이 확인한 것:** OpenPose는 팔·다리·접지의 2D 배치를 전달하지만, 고각도 카메라와 3D 가림 관계를 결정하지는 않는다.
@@ -84,8 +82,6 @@ guide의 인물 RGB·얼굴·복장은 버리고, OpenPose와 **인물을 제외
 [p7-5-11-sdxl-anonymous-high-angle-transfer-result.json — JSON — 익명 고각도 전이 실행 결과 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-result.json)
 
 [p7-5-11-sdxl-anonymous-high-angle-transfer-report.json — JSON — 익명 고각도 전이 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-report.json)
-
-depth·Canny가 원근과 실루엣을 보조하면서도 기준 복장을 보장하지 못한 비교는 [P7-5.14 depth·Canny 구조 조건으로 원근과 복장 계약을 분리해 읽기](section-14.md)로 분리한다.
 
 ## 결과를 다음 입력 역할로 번역한다
 
