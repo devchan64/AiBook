@@ -32,7 +32,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - 전신 생성은 정면 얼굴과 방향에 맞는 얼굴 시트를 참조하며, 방향·pose·camera 범위를 얼굴 이미지가 보장하는 범위로 오인하지 않는다.
 - 기본 seed는 `62294` 계열을 사용하되, seed 변경은 별도의 생성 조건으로 기록한다.
 - 정면 전신 고해상도 기준은 `960×1440`, 전신 기본 생성은 1차 `3 step`, 2차 `6 step`으로 비교한다. 좌·우 측면의 2차 고스텝 실험은 질감 개선을 보장하지 않았으므로 기본 조건으로 일반화하지 않는다.
-- 얼굴 6장, 기본 전신 6장, 리파인 전신 6장은 P7-5.11 학습·증강에서 역할·조건·한계를 명시한 참고 입력이다. JSON은 상태 판정이 아니라 실행 결과와 관찰을 남긴다.
+- 얼굴 6장, 기본 전신 6장, 리파인 전신 6장은 역할·조건·한계를 명시한 참고 입력이다. JSON은 상태 판정이 아니라 실행 결과와 관찰을 남긴다.
 - 원고 표는 방향별 이미지를 반복 행으로 배치하며, `1열·2열·3열` 같은 구현 열 이름을 독자용 기준으로 노출하지 않는다.
 
 ### P7-5.5 — 장면·카메라·편집 경로
@@ -41,23 +41,6 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - RGB·카메라판·마스크는 얼굴·복장·화풍·사지 비율을 보장하지 않으며, 각 입력이 관찰한 범위만 전달한다. 상대 depth와 Canny는 현재 채택 경로에서 사용하지 않는다.
 - 그림자 포함 컷아웃과 Stage 2 착장 다중 참조 이식은 포즈·그림자와 캐릭터·착장 조건을 분리해 기록한다. 다중 전신 참조·crop 합성·lineart-only 경로는 형태 붕괴·사각형 이음새·추가 사지 때문에 제작 경로에서 제외했다.
 - P7-5.5는 최종 캐릭터 일관성 학습 단계가 아니라 pose·camera·장면을 독립적으로 관찰하는 단계다.
-
-### P7-5.11 — 화풍·연속성·LoRA·VTON 보정
-
-- LoRA 학습 데이터는 P7-5.1 화풍 참조와 P7-5.3 인물 기준의 역할을 분리한다. 화풍 없는 전신과 화풍 포함 증강을 섞을 때는 학습 목표를 명시하고 별도 검수한다.
-- 손·발·관절 수, 얼굴 identity, 복장, 화풍, 배경 유무는 한 결과에 묶어 상태 판정하지 않는다. 학습 세트에는 입력 역할, 권리 근거, 생성 조건, 관찰된 한계를 명시한 자료만 넣는다.
-- DiffEdit·수동 SDXL inpaint·일반 IP-Adapter의 반복 mask/CFG/strength sweep은 자동 mask 범위와 색·재질 전달 한계를 확인한 뒤 중단했다. mask가 얼굴·바지·신발까지 번지면 step 증가로 해결된다고 보지 않는다.
-- CatVTON은 person·garment·mask를 분리하는 복장 후보 경로로 채택했다. source와 mask의 종횡비·좌표가 맞지 않으면 팔 바깥과 하체가 재킷으로 칠해진다.
-- source-aligned mask 실험에서는 재킷과 바지의 부분 보존 신호가 있었고, 가방은 스트랩·실루엣 보존에 실패했다. 가방 포함 조합은 현재 일반화된 입력 경로로 쓰지 않는다.
-- LoRA는 얼굴·복장·신체 비율을 동시에 보장하는 만능 제어로 해석하지 않는다. 학습 실패는 데이터 역할, 해상도, caption, rank/alpha, 추론 조건을 분리해 재검증한다.
-
-역사적으로 P7-5.11에서 확인한 대표 경계도 다음처럼 압축한다.
-
-- P7-5.1 배경 20장과 P7-5.3 얼굴·전신 기준으로 화풍 포함 스포츠 후보를 36장까지 확장했지만, 손발 수·비율·화풍 불일치 후보가 반복 탈락했다. 승인 전 후보와 review JSON은 학습 입력이 아니다.
-- Animagine XL 화풍 LoRA pilot·SDXL base style LoRA는 8 GB에서 실행·adapter 저장까지 가능했지만, held-out 장면의 화풍 이득과 구도 안정성을 제작 gate로 승인할 근거는 얻지 못했다. 화풍 LoRA를 얼굴·복장·pose 해결책으로 일반화하지 않는다.
-- DiffEdit 자동 mask와 수동 SDXL inpaint의 10회 이상 반복은 얼굴·하체·신발로 번지는 mask 또는 회색 재킷을 만들었다. step·CFG·strength·seed만 반복하는 경로는 중단하고, 입력 mask·garment conditioning·모델 선택을 별도 가설로 분리했다.
-- 일반 IP-Adapter와 흰 재킷 reference의 scale·padding·border sweep은 포켓·소매 끝만 전달하고 흰 몸판·open-front·긴 소매를 안정화하지 못했다. CatVTON으로 전환한 이유는 person·garment·mask 계약을 분리하기 위해서다.
-- SD15 OpenPose와 SDXL Canny는 구조·silhouette 보조로는 부분 통과했지만, identity·화풍·가방 geometry를 보장하지 않았다. 구조 gate와 identity/style gate를 합치지 않는다.
 
 ### P7-5.8 — 텍스트 모션·OpenPose 키프레임 준비
 
@@ -289,7 +272,6 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - [FitDiT](https://github.com/BoyuanJiang/FitDiT)는 garment transformer와 VTON transformer를 분리한 virtual try-on 모델이다. 공식 데모의 aggressive offload 구현은 offload 전에 전체 pipeline을 GPU로 이동시키므로, 8 GB 조건에서는 이를 건너뛰고 처음부터 sequential CPU offload로 올리는 최소 실행기로 재현했다. `768×1024`, 30 step, guidance `2.5`, seed `62431`에서 두 실행 모두 약 `33초`에 완료됐다.
 - camera-approved 고각도 source와 pose map은 고정하고, 사람 검수로 만든 상체 mask만 전달했다. 단독 `jacket-crop-top-front` reference와 승인 `complete-outfit-front-hip` reference를 각각 비교했다. 두 조건 모두 흰 재킷의 중앙 몸판, 포켓, 앞여밈, crop 밑단을 새로 만들었지만, 이는 승인 의상 객체의 고유 구조가 아니라 일반적인 재킷 문법에 가까웠다.
 - 두 조건 모두 탑뷰의 양팔·소매 영역은 회색 덩어리로 바뀌었고, 전면 착장 reference도 기준의 소매·레이어·스트랩을 복원하지 못했다. 따라서 FitDiT는 **8 GB 실행성 및 mask 내부 형태 변화만 부분 통과**이며, 의상 객체 identity·전신 의상 계약은 미통과다. 더 중요한 결론은 mask 기반 VTON/inpaint가 새 camera에서 동일 의상 객체를 재표현해야 하는 현재 목표의 주 경로에 맞지 않는다는 점이다. 이 결과를 camera 복구나 의상 identity 생성 경로로 사용하지 않는다.
-- 재현 기록: `.tmp/p7-5-11-fitdit-high-angle-upperbody-tight-mask/`, `.tmp/p7-5-11-fitdit-high-angle-upperbody-complete-outfit-tight-mask/`.
 
 ### DreamFit 의상 참조와 착용자 참조 대리 실험
 
@@ -300,14 +282,6 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - 평면 의상 대신 승인 `fullbody-front-refined-reference`처럼 **같은 의상을 입은 Mira 전신 이미지**를 전달한 대리 조건에서는 재킷·가방 스트랩·가방·청록 바지·청록 단발이 동시에 유지됐다. 얼굴은 여전히 비식별형이어서 최종 캐릭터 생성에는 미통과지만, 착용자 참조가 의상 객체의 실제 착용 형태와 소품 관계를 보강한다는 신호는 확인됐다.
 - 이 신호는 RefTon의 `cloth + person + image_ref` 설계와 정합한다. RefTon은 실제 착용자 `image_ref`를 지원하지만 FLUX-Kontext가 필요하며, 공식 스크립트는 전체 파이프라인을 GPU로 이동한다. 따라서 8 GB에서는 CPU offload를 적용한 `512×384`, 단일 샘플의 상위 비교군으로만 검토한다. DreamFit은 의상 객체 조건의 실용 검증 경로이고, RefTon은 그 착용자 참조 가설을 검증할 후속 경로다.
 - 재현 기록: `.tmp/p7-5-11-dreamfit-sd15-jacket-ab/`, `.tmp/p7-5-11-dreamfit-sd15-worn-reference-proxy/`, `.tmp/p7-5-11-dreamfit-sd15-high-angle-prompt/`, `.tmp/p7-5-11-dreamfit-sd15-high-angle-ab/`.
-
-### Qwen-Image-Edit-2509 3입력 역할 분리 고각도 편집
-
-- [Qwen-Image-Edit-2509 공식 문서](https://github.com/QwenLM/Qwen-Image/blob/main/Qwen-Image-Edit-2509.md)의 1–3 입력 편집 범위와 [Nunchaku의 Qwen 편집 예제](https://github.com/nunchaku-ai/nunchaku/blob/main/examples/v1/qwen-image-edit-2509.py)를 바탕으로, Nunchaku FP4 r128·per-layer CPU offload로 실행했다. `768×1152`, 40 step, 약 `16분 32초`, GPU 사용량 약 `3.5–3.7 GiB`로 두 실행 모두 8 GB 안에서 완료했다.
-- 입력 역할은 고정했다. image 1은 승인된 고각도 지붕 구도·camera·보행·배경, image 2는 승인된 정면 얼굴 identity, image 3은 승인된 전면 complete outfit이다. prompt는 네 역할을 혼합하지 않고, image 1의 구도 보존·image 2의 청록 단발과 양쪽 호박색 눈·image 3의 흰 크롭 재킷/청록 와이드 바지/흰 운동화/남색 crossbody bag 및 재킷 바깥 strap만 짧게 계약했다.
-- seed `62294`와 `62295`에서 모두 고각도 투영, 청록 턱선 단발, 양쪽 호박색 눈, 흰 크롭 재킷, 청록 바지, 흰 운동화, 남색 가방과 외부 strap을 함께 유지했다. 전신이 화면 안에서 축소·가려지는 고각도 pose에서도 팔·다리 수와 비율에는 눈에 띄는 붕괴가 없었다. **이 조합은 현재까지 8 GB에서 camera·face·style·outfit·body gate를 동시에 통과한 첫 고각도 1차 생성 체크포인트**다.
-- 범위: 고정한 guide와 보행 pose의 두 seed만 검수한 결과다. `p7-5-11-qwen-edit-high-angle-*-reference.png`와 대응 review JSON은 P7-5.11 승인 실험 자산으로 승격했지만, 다른 guide·다른 동작·후면/가림·밀집 소품까지 일반화되었다고 보지 않는다. LoRA 학습 입력으로는 사용하지 않으며, 다음 검증은 guide 하나를 바꾸고 동일한 세 역할을 유지해 camera와 캐릭터 계약이 동시에 남는지 확인한다.
-- 재현 기록: `docs/assets/part-07/chapter-05/p7-5-11-qwen-edit-high-angle-*-reference.png`, `p7-5-11-qwen-edit-high-angle-reference-review.json`, `.tmp/p7-5-11-qwen-edit-face-outfit-contract.log`, `.tmp/p7-5-11-qwen-edit-face-outfit-seed-62295.log`.
 
 ## 4. 현재 승인 경계와 다음 실험 규칙
 
@@ -330,7 +304,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - source-aligned CatVTON 후보: `.tmp/p7-5-11-face-fixed-catvton-jacket-aligned/`, `.tmp/p7-5-11-face-fixed-catvton-pants/`, `.tmp/p7-5-11-face-fixed-catvton-outfit/`
 - 쌍별·3중 결합 후보: `.tmp/p7-5-11-outfit-plus-proportion-*`, `.tmp/p7-5-11-triple-grid-*`
 - `.tmp/`는 재현·검수용 임시 기록이며 커밋 대상이 아니다.
-- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.3, P7-5.5와 P7-5.8~P7-5.11 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
+- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.3, P7-5.5, P7-5.8~P7-5.10과 P7-5.12~P7-5.13 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
 - 아래 `authoring/` 공통 노트 8개는 고유 내용을 이 문서의 6절로 흡수한 뒤 삭제한다. 오픈 체크리스트와 Section 분석은 Part 전체 운영 문서이므로 유지한다.
   - `part-07-character-pack-generation-research-2026-08-03.md`
   - `part-07-controlnet-webtoon-pipeline-v1.md`
