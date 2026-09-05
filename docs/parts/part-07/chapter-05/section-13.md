@@ -14,15 +14,7 @@
 
 !!! abstract "실험 결론"
 
-    OpenPose와 ControlNet은 팔·다리·접지의 2D 배치를 보조했다. 그러나 high-angle 문구나 map만으로는 위에서 내려다보는 원근, 머리·흉곽의 회전, 가방의 앞뒤 가림을 결정하지 못했다. 익명 고각도 guide와 OpenPose·배경 Canny를 분리해도 현재 8 GB SDXL 경로에서는 동작·구도·identity·outfit을 함께 유지하지 못했다. 따라서 이 절의 map은 인체 동작과 2D 배치 확인에만 쓰며, 최종 캐릭터 컷의 단일 제어 수단으로 사용하지 않는다.
-
-## 실험 흐름: 동작과 구도 조건을 분리한다
-
-아래 흐름은 OpenPose가 맡을 수 있는 정보와 맡을 수 없는 정보를 구분한 순서다. 최종 이미지가 한 번 그럴듯해도, 각 조건이 실제로 전달한 정보를 따로 확인한다.
-
-```mermaid
---8<-- "assets/part-07/chapter-05/p7-5-11-experiment-decision-flow-ko.mmd"
-```
+    OpenPose와 ControlNet은 팔·다리·접지의 2D 배치를 보조했다. 그러나 high-angle 문구나 map만으로는 위에서 내려다보는 원근, 머리·흉곽의 회전, 가방의 앞뒤 가림을 결정하지 못했다. 익명 고각도 guide와 OpenPose를 분리해도 현재 8 GB SDXL 경로에서는 동작·구도·identity·outfit을 함께 유지하지 못했다. 따라서 이 절의 map은 인체 동작과 2D 배치 확인에만 쓰며, 최종 캐릭터 컷의 단일 제어 수단으로 사용하지 않는다.
 
 ## 전신 조건에서 OpenPose off/on을 먼저 비교했다
 
@@ -40,14 +32,7 @@ FaceID와 전신 착장 image adapter를 빼고 Plus Face `0.15`, character LoRA
 
 [p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json — JSON — OpenPose on 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json)
 
-얼굴 조건을 더 강하게 넣어도 전신 계약이 따라오지는 않았다. FaceID 단독은 전신 frame을 남겼지만 검은 장발·다른 착장으로 바뀌었고, FullFace 결합은 청록 단발·호박색 눈 단서를 늘렸지만 흉상 구도로 수렴했다.
-
-| FaceID 단독 | FaceID + FullFace |
-| --- | --- |
-| ![FaceID 단독 후보](../../../assets/part-07/chapter-05/p7-5-11-faceid-only-candidate.png) | ![FaceID와 FullFace 결합 후보](../../../assets/part-07/chapter-05/p7-5-11-faceid-fullface-candidate.png) |
-| 전신 frame 일부 유지, identity·outfit 이탈 | 얼굴 단서는 일부 회복, 전신·outfit 이탈 |
-
-왼쪽 후보는 전신 구도를 남겼지만 얼굴과 착장이 기준에서 벗어나고, 오른쪽 후보는 얼굴 단서를 늘리는 대신 흉상으로 좁아진다. 얼굴 reference의 강도를 올리는 일이 전신 구도·복장을 보존하는 조건과 독립적이지 않다는 관찰이다.
+FaceID·FullFace 조건이 identity와 전신 구도에 보인 교환 관계는 [P7-5.15 FaceID 조건으로 얼굴 identity와 전신 구도의 경계 읽기](section-15.md)로 분리한다.
 
 ## OpenPose는 2D 관절 배치까지만 전달했다
 
@@ -100,34 +85,13 @@ guide의 인물 RGB·얼굴·복장은 버리고, OpenPose와 **인물을 제외
 
 [p7-5-11-sdxl-anonymous-high-angle-transfer-report.json — JSON — 익명 고각도 전이 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-report.json)
 
-### depth·Canny는 원근을 남겨도 기준 복장을 보장하지 않았다
-
-depth와 역할 분리 adapter도 같은 경계를 보였다. 고각도 depth scaffold, 전신 완성 착장 global 조건, 얼굴 face 조건, character·outfit LoRA를 나눠 연결하면 타일 바닥 원근과 머리·눈 단서는 일부 남았다. 그러나 흰 크롭 재킷은 짧은 흰 상의가 되고 가방·strap은 사라졌다.
-
-![SDXL depth와 역할 분리 adapter의 고각도 결과](../../../assets/part-07/chapter-05/p7-5-11-sdxl-depth-role-separated-review-sheet.png)
-
-[p7-5-11-sdxl-depth-role-separated-result.json — JSON — SDXL depth 역할 분리 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-depth-role-separated-result.json)
-
-Canny도 카메라·실루엣의 보조 조건으로는 쓸 수 있었지만, 최근 사선 보행 후보에서는 얼굴·바지·가방 일부가 남는 대신 흰 재킷 레이어가 빠졌다. 구조를 더 강하게 전달하는 일과 기준 복장을 보존하는 일은 여전히 경쟁했다.
-
-![Canny camera 조건의 사선 보행 비교](../../../assets/part-07/chapter-05/p7-5-11-canny-camera-condition-contact-sheet.png)
-
-두 시트는 depth나 Canny가 쓸모없다는 판정이 아니다. depth 시트는 바닥 원근과 얼굴 단서가 남아도 재킷·가방의 겹침까지 보장하지 않는 사례이고, Canny 시트는 사선 camera와 실루엣을 보조해도 의상 레이어를 독립적으로 지켜 주지 않는 사례다. 따라서 구조 조건을 더 세게 누적하기보다, 최종 캐릭터 생성에서는 얼굴과 완성 착장을 독립 reference로 유지해야 했다.
-
-### 보조 조건의 결합은 보조 실험 안에 한정됐다
-
-OpenPose와 depth·Canny는 구조 조건, FaceID·FacePlus·IP-Adapter·LoRA는 캐릭터 조건, mask·VTON은 생성 뒤 국소 보정으로 분리했다. 아래 도식은 **SDXL·Animagine 보조 실험에서만** 이 조건들이 만나는 위치를 보여 준다. Qwen의 세 입력 경로에는 이 adapter·ControlNet·mask·VTON 조건을 연결하지 않았다.
-
-```mermaid
---8<-- "assets/part-07/chapter-05/p7-5-11-supporting-pipeline-ko.mmd"
-```
+depth·Canny가 원근과 실루엣을 보조하면서도 기준 복장을 보장하지 못한 비교는 [P7-5.14 depth·Canny 구조 조건으로 원근과 복장 계약을 분리해 읽기](section-14.md)로 분리한다.
 
 ## 결과를 다음 입력 역할로 번역한다
 
 | 관찰한 결과 | 피한 해석 | 다음 선택 |
 | --- | --- | --- |
 | OpenPose는 팔·다리의 2D 배치를 따르게 함 | OpenPose가 카메라 회전까지 결정한다는 해석 | 카메라 구도는 별도 guide로 제공 |
-| depth·Canny는 원근 또는 실루엣을 남기지만 재킷·가방이 빠짐 | 구조 조건을 강하게 주면 복장도 따라온다는 해석 | 얼굴·완성 착장을 독립 reference로 유지 |
 | 두 ControlNet 결합은 8 GB 경로에서 완료되지 않음 | 조건을 더 누적하면 네 계약을 합칠 수 있다는 해석 | 완료한 단일 조건 관찰과 최종 reference 편집을 구분 |
 
 이 표의 목적은 “어떤 모델이 좋았는가”를 정하는 일이 아니라, 실패를 다음 입력의 역할로 번역하는 데 있다. 동작·구도·identity·outfit은 서로를 대체하지 않는다.
@@ -136,7 +100,7 @@ OpenPose와 depth·Canny는 구조 조건, FaceID·FacePlus·IP-Adapter·LoRA는
 
 - OpenPose off/on 비교에서 달라진 부분을 하나 고르고, 그것이 structure·identity·outfit·style 중 어느 계약인지 적는다. 다른 세 계약은 결과 이미지에서 따로 판정한다.
 - 선언형 동작 map의 off/on과 LoRA scale 비교를 읽고, 2D 팔 방향의 변화와 의상 색 이탈을 같은 성공으로 세지 않는다.
-- 고각도 guide 비교에서 OpenPose, background Canny, depth가 각각 남긴 단서를 적고, 카메라 원근·동작·복장이 한 조건으로 고정되었다고 일반화하지 않는다.
+- 고각도 guide 비교에서 OpenPose가 남긴 동작 단서를 적고, 카메라 원근·동작·복장이 한 조건으로 고정되었다고 일반화하지 않는다.
 
 ## 출처와 참고 자료
 
@@ -144,6 +108,4 @@ OpenPose와 depth·Canny는 구조 조건, FaceID·FacePlus·IP-Adapter·LoRA는
 - Cagliostro Research Lab, [Animagine XL 4.0 model card](https://huggingface.co/cagliostrolab/animagine-xl-4.0){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-16. guide와 LoRA 비교에 쓴 SDXL 계열 모델의 실행·제한 정보를 확인했다.
 - Cao et al., [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-16. 2D 신체 keypoint map의 출발점을 확인했다.
 - Hu et al., [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-16. low-rank adapter의 기본 개념을 확인했다.
-- cubiq, [ComfyUI InstantID](https://github.com/cubiq/ComfyUI_InstantID){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-16. FaceID·얼굴 reference 조건의 실행 경계를 확인했다.
 - Zhang et al., [ControlNet](https://github.com/lllyasviel/ControlNet){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-15. 구조 조건의 기본 역할을 참고했다.
-- Tencent AI Lab, [IP-Adapter](https://github.com/tencent-ailab/IP-Adapter){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-15. 이미지 참조 조건의 기본 역할을 참고했다.
