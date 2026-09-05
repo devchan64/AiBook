@@ -3,25 +3,25 @@
 > Section ID: `P7-5.3`
 > Version: `v2026.09.05`
 
-같은 캐릭터를 다른 장면과 자세에서도 이어 그리려면, 얼굴·착장·전신 구조를 한 이미지나 한 프롬프트에 모두 맡기지 않아야 한다. 이 절에서는 [P7-5.2](section-02.md)의 얼굴 identity를 기준으로 두고, 전신 비례·기본 의상·재킷 같은 특징을 이전 결과 위에 한 단계씩 추가 페인팅하는 Qwen 편집 경로를 기록한다. 얼굴 정면 identity와 캐릭터 멀티플 뷰 생성은 P7-5.2에서 별도로 관리한다.
+같은 캐릭터를 다른 장면과 자세에서도 이어 그리려면, 얼굴·착장·전신 구조를 한 이미지나 한 프롬프트에 모두 맡기지 않아야 한다. 이 절에서는 [P7-5.2](section-02.md)에서 이미 만든 정면 머리와 상반신 기준을 **입력 자산**으로 사용하고, 전신 비례·기본 의상·재킷·동작을 이전 결과 위에 한 단계씩 추가하는 Qwen 편집 경로를 기록한다. 얼굴 identity 계약, 정면 머리 T2I, 상반신 15방향 카메라 기준은 P7-5.2의 범위이므로 여기서 다시 설명하지 않는다.
 
 이 절의 질문은 간단하다. 캐릭터 identity를 잃지 않으면서 전신 비례·기본 의상·재킷·동작 같은 특징을 어떤 순서로 추가 페인팅해야 서로의 정보를 덮어쓰지 않을까?
 
 ## 한 이름으로 부르지 않는 실행 조합
 
-P7-5.3의 결과는 이름이 하나인 단일 모델에서 나오지 않는다. 현재 이 절에 연결한 `result.json`에는 편집 모델, 로컬 실행용 양자화 transformer, 카메라 회전 전용 LoRA, 구조 guide를 만드는 OpenPose 도구가 서로 다른 역할로 기록된다. 이들을 모두 캐릭터를 만드는 모델이라고 부르면, 어느 조건을 바꿨을 때 결과가 달라졌는지 알 수 없다.
+P7-5.3의 결과는 이름이 하나인 단일 모델에서 나오지 않는다. 편집 모델은 이미지 조건을 합치고, 두 LoRA는 회전 단계에서만 카메라와 속도를 보조하며, OpenPose renderer는 픽셀 구조 guide만 만든다. 이들을 모두 캐릭터를 만드는 모델이라고 부르면, 어느 조건을 바꿨을 때 결과가 달라졌는지 알 수 없다.
 
-| 요소 | 현재 경로에서 맡긴 일 | 적용 범위 |
+| 요소 | 이 절에서 맡긴 일 | 맡기지 않는 일 |
 | --- | --- | --- |
-| `Qwen/Qwen-Image-Edit-2511` | 얼굴·착장·구조 이미지를 함께 읽고, prompt가 지시한 전신 결과를 편집 | 1·2단계 착장, 15방향 회전 |
-| `Qwen/Qwen-Image-Edit-2509` | 앞선 착장·토르소 입력을 함께 읽어 동적 전신을 편집 | 현재 연결한 앨리웁 실험 |
-| BF16 순차 CPU offload | 공식 BF16 Qwen 모듈을 CPU에 두고, 추론 중 필요한 모듈만 GPU로 옮겨 실행 | 1·2단계 착장, 15방향 회전 |
-| Multiple-Angles·Lightning LoRA | 2단계 착장 한 장에서 카메라 방향을 바꾸고 4-step 샘플링을 적용 | 저각·아이레벨·엘리베이티드 × −90°·−45°·0°·+45°·+90° |
-| `controlnet_aux` OpenPose renderer | BODY_18 좌표를 정면 body-only 구조 PNG로 렌더링 | 최소 프롬프트 1단계의 전신 포즈·프레이밍 참조 |
+| `Qwen/Qwen-Image-Edit-2511` | 입력 이미지의 역할을 읽고, 단계별 착장·동적 장면을 편집 | 카메라 회전의 정해진 문법이나 4-step 가속 |
+| Multiple-Angles LoRA | 2단계 착장 한 장에 azimuth·elevation·distance 카메라 조건을 적용 | 얼굴·헤어·의상·관절의 새 기준 생성 |
+| Lightning 4-step LoRA | 회전 후보 15장을 같은 저비용 샘플링 규격으로 생성 | 20-step 동적 장면의 세부 묘사 보장 |
+| `controlnet_aux` OpenPose renderer | BODY_18 좌표를 body-only guide PNG로 렌더링 | 얼굴 identity·착장 픽셀·카메라 회전 |
+| attention slicing·순차 CPU offload | 8GB GPU에서 BF16 실행의 메모리 배치를 조절 | 캐릭터 identity나 포즈의 품질 향상 |
 
-Qwen-Image-Edit-2511은 여러 이미지 입력을 함께 읽어 편집하는 모델이다. 여기서는 정면 머리와 body-only OpenPose, 또는 앞 단계 착장과 정면 머리를 입력으로 두어 각 이미지가 맡는 정보를 분리했다. 이 절의 1단계는 native ControlNet 경로가 아니라 **body-only OpenPose PNG를 일반 이미지 참조로 넣는 편집 경로**를 사용했다. 따라서 구조 맵이 얼굴·의상 정보를 직접 보존한다고 해석하면 안 된다. 앨리웁 결과만 이전 2509 실행 기록으로 남아 있다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}
+Qwen-Image-Edit-2511은 이 절의 중심 편집 모델이다. 1단계에서는 `Picture 1`인 body-only OpenPose가 프레임 안 몸 위치만, `Picture 2`인 정면 머리가 얼굴·헤어만 맡는다. 2단계에서는 1단계 전신과 정면 머리를 읽어 재킷만 더한다. 앨리웁에서는 2단계 전신과 정면 토르소를 읽어 의상·비례와 얼굴·헤어·선의 역할을 나눈다. 즉 같은 모델을 쓰더라도 **입력 순서와 단계가 달라지면 모델이 보존하려는 정보도 달라진다.** 이 절의 1단계는 native ControlNet 경로가 아니라 body-only OpenPose PNG를 일반 이미지 참조로 넣는 편집 경로이므로, 구조 맵이 얼굴·의상을 직접 보존한다고 해석하면 안 된다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}
 
-1·2단계 착장 생성기는 양자화 transformer를 교체하지 않고 공식 BF16 Qwen pipeline을 읽는다. `enable_sequential_cpu_offload()`는 현재 필요한 모듈만 GPU로 옮기고 나머지는 CPU에 보관한다. 따라서 메모리 사용량은 줄지만, 모듈 이동 때문에 생성 시간은 늘어난다. 이 설정은 캐릭터 identity를 강화하는 조건이 아니라 8GB GPU에서 BF16 실행을 가능하게 하는 런타임 선택이다. [Diffusers CPU offload 문서](https://huggingface.co/docs/diffusers/optimization/memory#cpu-offloading){: target="_blank" rel="noopener noreferrer"}
+착장 생성기는 attention slicing과 순차 CPU offload를, 회전과 앨리웁 생성기는 순차 CPU offload를 사용한다. 이는 P7-5.2에서 설명한 BF16 실행 전략을 여기의 전신·동적 장면에 적용한 것이다. 메모리 여유를 만드는 대신 실행 시간이 길어지며, 모델이 포즈나 identity를 더 잘 보존하게 만드는 조건은 아니다. [Diffusers CPU offload 문서](https://huggingface.co/docs/diffusers/optimization/memory#cpu-offloading){: target="_blank" rel="noopener noreferrer"}
 
 15방향 착장에 사용한 Multiple-Angles LoRA는 `<sks> [azimuth] [elevation] [distance]` 형식의 짧은 카메라 조건을 보강한다. Lightning LoRA는 같은 실행을 4-step 샘플링으로 맞춘다. 두 LoRA에는 정면 2단계 착장 하나만 입력으로 넣었다. 얼굴 참조와 OpenPose를 함께 넣지 않은 이유는 LoRA가 담당해야 할 질문을 카메라 변화로 제한하기 위해서다. LoRA는 얼굴·헤어·관절·의상을 새 기준으로 정하는 모델이 아니며, 회전 결과에서도 그 정보는 원래 착장 참조가 맡는다. [Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
@@ -35,7 +35,7 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 | --- | --- | --- |
 | P7-5.2 정면 머리 PNG | 얼굴과 헤어 identity | 1단계·2단계 착장의 두 번째 입력 |
 | 1단계 전신 착장 출력 | 회색 크롭탑, 와이드 팬츠, 흰 운동화와 정면 전신 비례 | 2단계 착장의 첫 번째 입력 |
-| 2단계 전신 착장 출력 | 열린 흰 크롭 재킷, 손, 1단계 착장·비례 | 네 방향 yaw 착장의 유일한 입력, 앨리웁의 첫 번째 입력 |
+| 2단계 전신 착장 출력 | 열린 흰 크롭 재킷, 손, 1단계 착장·비례 | 15방향 회전의 유일한 입력, 앨리웁의 첫 번째 입력 |
 | 정면 body-only OpenPose PNG | BODY_18 기반 전신 포즈와 프레임 안 관절 위치 | 최소 프롬프트 1단계의 첫 번째 입력 |
 | P7-5.2 정면 토르소 PNG | 얼굴·헤어·선과 음영 | 앨리웁의 두 번째 입력 |
 | 15방향 회전 착장 출력 | 정면 2단계 착장을 카메라 높이·yaw만 바꾼 관찰 결과 | 현재 연결한 `result.json`에서는 다음 생성의 입력으로 사용하지 않음 |
@@ -60,6 +60,8 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 [정면 착장 1~2단계 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py)
 
+생성기는 `OUTFIT_STAGE_TARGETS`에 각 단계의 입력 순서, 양성 prompt, 음성 prompt, 기본 크기와 기본 step을 함께 둔다. `--target`은 한 단계만, `--targets`는 같은 실행 파일을 단계 순서대로 다시 호출한다. 따라서 단계 2만 수정할 때도 단계 1의 입력 정의를 코드 밖에서 복사하지 않는다. `--steps`, `--size`, `--run-label`은 비교할 때 바꿀 값이고, `result.json`에는 선택한 target·두 입력의 해시·조합된 prompt·메모리 배치·출력 해시가 남는다.
+
 ## OpenPose는 전신 비율과 프레이밍만 정한다
 
 정면 body-only OpenPose는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지한 v7 맵이다. 이전 긴 다리 템플릿에서 다리 비중의 10%를 상체·허리 구간으로 옮겨, 전체 키는 그대로 두고 허리는 길게·다리는 짧게 조정했다. 전체 키는 90%로 축소해 960×1440 캔버스에 다시 렌더링했으며, 선과 관절은 각각 반폭·반지름 7px로 키웠다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라, 생성 결과의 머리·몸통·다리 비율과 화면 안 위치를 비교하는 기준이다.
@@ -70,7 +72,9 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 [정면 v7 OpenPose result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-result.json)
 
-FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하를 다시 지정해 토르소의 얼굴형과 경쟁하므로 현재 입력에서 제외한다.
+[OpenPose 관계 맵 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_generate_openpose_turnaround_relation_maps.py)
+
+관계 맵 생성기는 높이로 정규화한 `seven_head_standing` 템플릿에 `stage2-open-arms` 포즈를 적용한 뒤, BODY_18 좌표와 PNG를 함께 쓴다. `--body-pose`, `--frame`, `--targets`, `--height`는 구조 비교를 위해 바꿀 수 있는 값이다. 이 절의 1단계에는 `fullbody`·body-only 출력만 사용한다. FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하를 다시 지정해 P7-5.2의 얼굴 기준과 경쟁하므로 현재 입력에서 제외한다.
 
 ## 회전한 착장은 카메라 조건만 바꾼다
 
@@ -128,19 +132,19 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 
 [전신 착장 15방향 회전 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py)
 
-각 `result.json`은 하나의 입력 착장, 카메라 조건, LoRA 강도, Lightning 4-step 샘플링, 출력 크기와 순차 CPU offload 기록을 남긴다. 이 15개 결과는 같은 seed와 입력으로 만든 카메라 변화 관찰용 출력이다. 특정 이미지 하나가 다음 단계의 기준 입력이 되지는 않는다. 이 형식과 카메라 방향 이름은 [fal Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}를 따른다.
+회전 생성기는 `YAW_CAMERA_VIEWS`와 `VERTICAL_CAMERA_VIEWS`의 곱으로 15개 실행 계획을 먼저 만든 뒤, 각 계획을 하나씩 실행한다. `--yaw`와 `--vertical`로 필요한 방향만 고르고, `--dry-run`으로 이미지 생성 전 prompt·파일명·출력 크기를 확인할 수 있다. Lightning 프로필은 4 step만 허용하며, `--width`와 `--height`는 32의 배수여야 한다. 각 `result.json`은 한 입력 착장, 카메라 조건, LoRA 강도, 4-step 샘플링, 출력 크기와 순차 CPU offload 기록을 남긴다. 이 15개 결과는 같은 seed와 입력으로 만든 카메라 변화 관찰용 출력이며, 특정 이미지 하나가 다음 단계의 기준 입력이 되지는 않는다. 이 형식과 카메라 방향 이름은 [fal Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}를 따른다.
 
 ## 동적 장면은 전신 기준을 조합해 시험한다
 
-정면 2단계 착장은 전신 의상·비례를, P7-5.2 정면 토르소는 얼굴·헤어·선과 음영을 맡긴다. 이 두 이미지만 입력으로 넣어 실내 코트에서 공중에 뜬 앨리웁 직전 동작을 만들었다. 공 하나를 든 오른팔, 균형을 잡는 왼팔, 앞쪽으로 든 왼 무릎과 뒤로 뻗은 오른다리를 짧게 지시했다.
+정면 2단계 착장은 전신 의상·비례를, P7-5.2 정면 토르소는 얼굴·헤어·선과 음영을 맡긴다. 앨리웁 생성기는 이 두 이미지만 `Qwen/Qwen-Image-Edit-2511` 공식 BF16 pipeline에 입력한다. 공 하나를 든 오른팔, 균형을 잡는 왼팔, 앞쪽으로 든 왼 무릎과 뒤로 뻗은 오른다리를 짧게 지시하며, 직접 Diffusers와 순차 CPU offload만 사용한다.
 
-![2단계 전신 기준으로 생성한 앨리웁 동작](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-fullbody-alley-oop-v1-seed-62294-steps-20.png)
+![2단계 전신과 정면 토르소 기준으로 생성한 2511 앨리웁 동작](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-2511-fullbody-alley-oop-2511-v1-size-1024x1536-seed-62294-steps-20.png)
 
-[앨리웁 1024×1536, 20-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-fullbody-alley-oop-v1-seed-62294-steps-20-result.json)
+[2511 앨리웁 1024×1536, 20-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-2511-fullbody-alley-oop-2511-v1-size-1024x1536-seed-62294-steps-20-result.json)
 
 [앨리웁 전신 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_fullbody_alley_oop.py)
 
-이 결과는 정면 기준을 대체하지 않는다. 전신 참조 두 장으로도 공중 자세와 농구 장면을 만들 수 있는지 살피는 실험이며, 장면·소품·동작의 일치는 다음 생성에서 다시 비교한다.
+앨리웁 생성기는 `OUTFIT_REFERENCE`와 `TORSO_REFERENCE`를 고정 순서로 `image` 목록에 넣고, `--steps`, `--size`, `--run-label`만 비교값으로 노출한다. 기본값은 1024×1536·20 step이다. 이 동적 장면은 Lightning 4-step을 쓰지 않는다. 공·골대·공중 자세처럼 한 번에 새로 그려야 할 정보가 많기 때문에, 회전 후보를 빠르게 훑는 단계와 같은 속도 프로필로 읽지 않는다. 실행 기록에는 두 입력의 해시, prompt, step, 크기, 출력 해시와 실행 시간이 남는다. 새 2511 산출물은 정면 기준을 대체하지 않는다. 전신 참조 두 장으로도 공중 자세와 농구 장면을 만들 수 있는지 살피는 실험이며, 장면·소품·동작의 일치는 생성 뒤 다시 비교한다.
 
 ## 캐릭터 입력 역할을 점검한다
 
@@ -156,8 +160,6 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 
 - 전신·착장·OpenPose의 실행 조건은 이 절에서 연결한 로컬 `result.json`에서 확인한다.
 - 캐릭터 멀티플 뷰 생성의 identity·카메라 앵글 기준은 [P7-5.2](section-02.md)에서 확인한다.
-- Qwen, [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}. 다중 이미지 입력, 인물 편집 일관성, native ControlNet 조건의 공개 기능을 확인했다. 확인일: 2026-09-01.
-- nunchaku, [nunchaku-qwen-image-edit-2509 모델 카드](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}. FP4 r128 양자화 transformer와 품질·속도 차이를 확인했다. 확인일: 2026-09-01.
 - fal, [Qwen-Image-Edit-2511-Multiple-Angles-LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}. 현재 회전 생성의 `<sks> [azimuth] [elevation] [distance]` 조건과 방향 이름을 확인했다. 확인일: 2026-09-01.
-- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}. 현재 회전에 쓰는 편집 모델과 공개된 일관성 개선을 확인했다. 확인일: 2026-09-01.
+- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}. 현재 회전과 동적 장면에 쓰는 편집 모델과 공개된 일관성 개선을 확인했다. 확인일: 2026-09-01.
 - Fannovel16, [ComfyUI ControlNet Auxiliary Preprocessors](https://github.com/Fannovel16/comfyui_controlnet_aux){: target="_blank" rel="noopener noreferrer"}. OpenPose renderer는 구조 hint 이미지를 만드는 전처리 도구라는 역할을 확인했다. BODY_18 좌표의 정규화·프레이밍은 이 절의 로컬 생성 코드와 `result.json`이 근거다. 확인일: 2026-09-01.

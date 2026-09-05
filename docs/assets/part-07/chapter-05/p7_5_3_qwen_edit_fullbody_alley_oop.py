@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Generate a single dynamic alley-oop full-body reference for P7-5.3."""
+"""Generate a single dynamic alley-oop full-body reference for P7-5.3.
+
+The stage-2 outfit and the frontal torso are the two image references.  This
+script uses the official Qwen Image Edit 2511 BF16 pipeline directly, without
+requiring a ComfyUI server.
+"""
 
 from __future__ import annotations
 
@@ -13,20 +18,20 @@ import time
 from pathlib import Path
 
 import torch
-from diffusers import QwenImageEditPlusPipeline
-from huggingface_hub import snapshot_download
-from diffusers.utils import load_image
-from nunchaku import NunchakuQwenImageTransformer2DModel
-
 
 ASSETS = Path(__file__).resolve().parent
-HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
-MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
-TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
-TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image-edit-2509"
-TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image-edit-2509.safetensors"
-OUTFIT_REFERENCE = ASSETS / "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png"
-TORSO_REFERENCE = ASSETS / "p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
+PROJECT_ROOT = ASSETS.parents[3]
+CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
+MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
+OUTFIT_REFERENCE = ASSETS / (
+    "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-"
+    "bf16-2511-stage1-v9-jacket-v4-seed-62294-steps-10.png"
+)
+TORSO_REFERENCE = ASSETS / "p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png"
+DEFAULT_SEED = 62294
+DEFAULT_STEPS = 20
+DEFAULT_SIZE = (1024, 1536)
+DEFAULT_RUN_LABEL = "2511-v1"
 
 
 def sha256(path: Path) -> str:
@@ -43,7 +48,7 @@ def asset_record(path: Path) -> dict[str, str]:
 
 def runtime_record() -> dict[str, object]:
     packages: dict[str, str] = {}
-    for name in ("nunchaku", "diffusers", "torch", "transformers", "accelerate"):
+    for name in ("diffusers", "torch", "transformers", "accelerate"):
         try:
             packages[name] = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
@@ -63,36 +68,36 @@ def parse_size(value: str) -> tuple[int, int]:
         width, height = int(width_text), int(height_text)
     except ValueError as error:
         raise argparse.ArgumentTypeError("--size must use WIDTHxHEIGHT") from error
-    if width < 16 or height < 16 or width % 16 or height % 16:
-        raise argparse.ArgumentTypeError("--size values must be positive multiples of 16")
+    if width < 32 or height < 32 or width % 32 or height % 32:
+        raise argparse.ArgumentTypeError("--size values must be positive multiples of 32")
     return width, height
 
 
-def load_pipeline() -> QwenImageEditPlusPipeline:
-    transformer_path = Path(snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)) / TRANSFORMER_FILENAME
-    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
-    pipeline = QwenImageEditPlusPipeline.from_pretrained(
-        model_path,
-        transformer=transformer,
+def load_pipeline():
+    """Load 2511 locally and retain inactive modules in CPU memory."""
+    from diffusers import DiffusionPipeline
+
+    pipeline = DiffusionPipeline.from_pretrained(
+        MODEL_ID,
         torch_dtype=torch.bfloat16,
+        cache_dir=CACHE_DIR,
         local_files_only=True,
     )
-    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
-    pipeline._exclude_from_cpu_offload.append("transformer")
     pipeline.enable_sequential_cpu_offload()
     return pipeline
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--seed", type=int, default=62294)
-    parser.add_argument("--steps", type=int, default=20)
-    parser.add_argument("--size", type=parse_size, default=(1024, 1536))
-    parser.add_argument("--run-label", default="v1")
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
+    parser.add_argument("--size", type=parse_size, default=DEFAULT_SIZE)
+    parser.add_argument("--run-label", default=DEFAULT_RUN_LABEL)
     args = parser.parse_args()
     if args.steps < 1:
         parser.error("--steps must be at least 1")
+    from diffusers.utils import load_image
+
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
     for path in (OUTFIT_REFERENCE, TORSO_REFERENCE):
@@ -104,14 +109,17 @@ def main() -> None:
         "Airborne alley-oop dunk at the jump apex on an indoor basketball court: one basketball in her raised right hand toward one hoop, left arm balancing, left knee forward, right leg trailing, both shoes visible above the court. Low front-left dynamic camera."
     )
     width, height = args.size
-    stem = f"p7-5-3-qwen-edit-fullbody-alley-oop-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+    stem = (
+        f"p7-5-3-qwen-edit-2511-fullbody-alley-oop-{args.run_label}-"
+        f"size-{width}x{height}-seed-{args.seed}-steps-{args.steps}"
+    )
     output = ASSETS / f"{stem}.png"
     result_record = ASSETS / f"{stem}-result.json"
     started = time.monotonic()
     pipeline = load_pipeline()
     generation = {
         "prompt": prompt,
-        "generator": torch.Generator("cpu").manual_seed(args.seed),
+        "generator": torch.Generator(device="cuda").manual_seed(args.seed),
         "true_cfg_scale": 4.0,
         "negative_prompt": "text, panel, collage, extra person, extra ball, extra hoop",
         "num_inference_steps": args.steps,
@@ -120,16 +128,17 @@ def main() -> None:
         "height": height,
         "image": [load_image(str(OUTFIT_REFERENCE)).convert("RGB"), load_image(str(TORSO_REFERENCE)).convert("RGB")],
     }
-    image = pipeline(**generation).images[0]
+    with torch.inference_mode():
+        image = pipeline(**generation).images[0]
     image.save(output)
     result_record.write_text(
         json.dumps(
             {
                 "status": "generated",
                 "experiment_id": "p7-5-3-qwen-edit-fullbody-alley-oop",
-                "model": MODEL_ID,
-                "transformer": TRANSFORMER_ID,
                 "runtime": runtime_record(),
+                "execution_mode": "direct Diffusers; sequential CPU offload; no ComfyUI server",
+                "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
                 "inputs": [asset_record(OUTFIT_REFERENCE), asset_record(TORSO_REFERENCE)],
                 "input_roles": ["stage_2_fullbody_outfit", "frontal_torso_face_hair_style"],
                 "seed": args.seed,

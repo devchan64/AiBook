@@ -1,13 +1,10 @@
 {
   "status": "generated",
   "experiment_id": "p7-5-3-qwen-edit-fullbody-alley-oop",
-  "model": "Qwen/Qwen-Image-Edit-2509",
-  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
   "runtime": {
     "python": "3.12.3",
-    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
     "packages": {
-      "nunchaku": "1.2.1+cu12.8torch2.11",
       "diffusers": "0.37.0",
       "torch": "2.11.0+cu128",
       "transformers": "4.57.6",
@@ -16,14 +13,20 @@
     "cuda_available": true,
     "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
   },
+  "execution_mode": "direct Diffusers; sequential CPU offload; no ComfyUI server",
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "dtype": "bfloat16",
+    "device_placement": "sequential_cpu_offload"
+  },
   "inputs": [
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
-      "sha256": "c609cb7fb072f18727d53818152b5833a2be1d080f9ff8fed999edb6125e99b7"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-bf16-2511-stage1-v9-jacket-v4-seed-62294-steps-10.png",
+      "sha256": "29367dd690aba2c07873d567f6e953c4020d314dfb9c9efff73930d7b7363900"
     },
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png",
-      "sha256": "05b0c44fb2f7c4859057dd457e0de97f845534ecd27e7b6551b1576f41e89f69"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+      "sha256": "4567515590b73cb6392698e0eee15e82b1f47f66fa28c43696f520807ef5a095"
     }
   ],
   "input_roles": [
@@ -42,9 +45,9 @@
   "prompt": "Full-body woman. Image 1 defines her outfit and proportions. Image 2 defines her face, hair, line work, color, and shading. Airborne alley-oop dunk at the jump apex on an indoor basketball court: one basketball in her raised right hand toward one hoop, left arm balancing, left knee forward, right leg trailing, both shoes visible above the court. Low front-left dynamic camera.",
   "prompt_word_count": 61,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-fullbody-alley-oop-v1-seed-62294-steps-20.png",
-    "sha256": "b576b99cc036ff2c3358027fdbd93ce8f628fe66ef173be9693e0ce793b0a236"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-2511-fullbody-alley-oop-2511-v1-size-1024x1536-seed-62294-steps-20.png",
+    "sha256": "1aa72df678460c84ddddba5ce80294a66230f416917cc29e3145b8cfdece2a11"
   },
-  "elapsed_seconds": 470.55,
+  "elapsed_seconds": 780.47,
   "decision": "Generate a dynamic alley-oop full-body pose from the current outfit and torso references."
 }
