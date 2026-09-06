@@ -1,87 +1,68 @@
-# P7-5.4 스토리보드 장면과 카메라판 만들기
+# P7-5.4 라인아트 구도에서 스토리보드 장면까지
 
 > Section ID: `P7-5.4`
-> Version: `v2026.09.05`
+> Version: `v2026.09.07`
 
-한 장면을 구성하기 전에 먼저 장소·동작·공통 화풍을 가진 출발 장면을 만들고, 그 장면을 카메라판으로 변환한다. 이 절은 이 두 단계까지만 다룬다. 카메라판에서 인물을 분리하고 Mira의 얼굴·헤어·착장을 이식해 배경과 통합하는 절차는 [P7-5.5](section-05.md)에서 이어진다. 각 단계의 `result.json`에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다.
+스토리보드 장면을 한 번의 생성으로 완성하려 하면, 카메라·인물 아이덴티티·착장·소품이 서로 영향을 주어 구도가 흔들리기 쉽다. 이 절에서는 먼저 라인아트로 장면의 구도와 동작을 고정하고, 이어 이미지 편집 단계에서 Mira와 필요한 오브젝트를 보강하는 두 단계 경로를 사용한다. 각 단계의 PNG와 `result.json`은 프롬프트, seed, step, 모델, 입력 파일을 따로 기록한다.
 
-## 장면 생성과 카메라 변환은 다른 입력 계약을 쓴다
+## 라인아트로 장면의 구도만 먼저 만든다
 
-| 구성 요소 | 맡긴 일 | 입력·출력 경계 |
-| --- | --- | --- |
-| `Qwen/Qwen-Image-Edit-2511` BF16 + Diffusers | Mira 참조를 반영한 장면 A·B·C의 최초 RGB 스토리보드 생성 | Mira 전신 착장 참조와 장면 계약 → 스토리보드 |
-| `Qwen/Qwen-Image-Edit-2511` + Multiple-angles LoRA | 카메라판의 방위·높이·거리 변환 | 스토리보드 한 장 → 카메라판 한 장 |
+첫 단계는 `Qwen/Qwen-Image-2512` 텍스트-이미지 모델로 수행한다. 이 단계에는 Mira 참조를 넣지 않는다. 인물의 정확한 얼굴이나 착장을 결정하려 하지 않고, 장면의 카메라 높이, 인물의 동작, 배경의 공간, 화면의 여백만 라인아트로 만든다. 정보량을 줄인 구도판이므로 다음 편집 단계에서 캐릭터를 바꾸더라도 포즈와 배경의 관계를 읽기 쉽다.
 
-P7-5.4 생성기는 `Qwen-Image-Edit-2511` 공식 Diffusers 파이프라인에 Mira 전신 착장만 넣는다. 장면의 위치·포즈·프레이밍·배경은 장면 프롬프트가 맡고, 입력은 Mira의 착장과 선화 기준을 맡는다. 별도 얼굴 이미지는 넣지 않으며, 장면 프롬프트는 Mira의 헤어·얼굴·피부·눈·착장을 텍스트로 반복하지 않는다. BF16 가중치는 모듈별로 순차 CPU 오프로딩하므로 ComfyUI 서버나 GGUF 경로를 거치지 않으며, 실행 시간은 늘어날 수 있지만 모든 가중치를 GPU 메모리에 동시에 올리지 않는다.
+공통 화풍 표현은 생성기의 `STYLE_PROMPT` 상수에 한 번만 둔다. `SCENE_PROMPTS`는 장면마다 달라지는 구도와 사건만 맡는다.
 
-카메라판에는 공식 `Qwen/Qwen-Image-Edit-2511` Diffusers 파이프라인과 Multiple-angles LoRA만 사용한다. 8 GB VRAM 환경에서는 가중치를 순차 CPU 오프로딩하고, `<sks>` 뒤에 방위·높이·필요할 때만 거리 토큰을 넣는다. 이 단계는 캐릭터 identity를 새로 정하는 것이 아니라 장면의 카메라 조건을 바꾸는 단계다.
+- Scene A: 카메라를 향해 달리는 인물, 지면 높이 시점, 열린 하늘
+- Scene B: 해 질 무렵 숲 공터에서 하는 grand jeté
+- Scene C: 도시가 내려다보이는 언덕에서 두 사람이 책을 읽는 장면
 
-## Mira 전신 착장 참조로 정사각형 A·B·C 장면을 만든다
+생성기는 `--scene a`, `--scene b`, `--scene c`로 이 세 장면을 고른다. 기본 캔버스는 640×640이며, `--steps`와 `--prompt`를 바꾸면 같은 장면에서 구도 지시의 민감도를 비교할 수 있다. 아래 결과는 Scene A를 5 step으로 빠르게 확인한 기록이다. 하늘, 전방 달리기, 들린 앞발의 밑창이 함께 나타나는지 관찰한다.
 
-첫 장면은 Mira 전신 착장만 참조하는 생성이다. 장소·동작·구도만 장면별 프롬프트로 지정한다. P7-5.1의 수채화 스타일 계약은 이 프롬프트에 넣지 않으며, 생성 모델과 Mira 착장 참조가 화풍을 결정한다.
+![Qwen Image 2512으로 만든 Scene A 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-worm-eye-front-running-v15-size-640x640-seed-5420-steps-5.png)
 
-생성기의 기본값은 1280×1280, 20 step, true CFG 4.0이다. 1280은 32의 배수인 정사각형 캔버스다. Scene A는 Mira가 붐비는 도시 거리에서 카메라를 향해 달리고, Scene B는 해 질 무렵 해변 위에서 점프하며, Scene C는 도시 전망의 언덕에서 동료와 책을 읽는다. 모든 Scene은 Mira 전신 착장 한 장만 Picture 1로 사용한다. 아래 PNG와 JSON은 이 입력 계약으로 실행한 Qwen-Image-Edit-2511 v7 기록이다.
+[Scene A line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-worm-eye-front-running-v15-size-640x640-seed-5420-steps-5-result.json)
 
-| Scene A: 도심 러닝 | Scene B: 해 질 녘 해변 점프 | Scene C: 언덕에서 독서 |
-| --- | --- | --- |
-| ![Mira가 도시 거리에서 달리는 1280 정사각형 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-a-v7-size-1280x1280-seed-5420-steps-20.png) | ![Mira가 해 질 녘 해변에서 점프하는 1280 정사각형 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-b-v7-size-1280x1280-seed-5421-steps-20.png) | ![Mira가 도시 전망의 언덕에서 책을 읽는 1280 정사각형 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-c-v7-size-1280x1280-seed-5422-steps-20.png) |
+Scene B는 같은 공통 화풍 상수에 숲 공터·석양·grand jeté만 추가해 20 step으로 생성했다. 이 결과에서는 점프 동작, 열린 하늘, 나무와 양치식물의 공간을 먼저 확인하고, Mira의 얼굴·착장·필요한 소품은 다음 편집 단계에서 보강한다.
 
-[Scene A result.json — JSON — 1280 정사각형 2511 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-a-v7-size-1280x1280-seed-5420-steps-20-result.json)
+![Qwen Image 2512으로 만든 Scene B 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-v1-size-640x640-seed-5421-steps-20.png)
 
-[Scene B result.json — JSON — 1280 정사각형 2511 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-b-v7-size-1280x1280-seed-5421-steps-20-result.json)
+[Scene B line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-v1-size-640x640-seed-5421-steps-20-result.json)
 
-[Scene C result.json — JSON — 1280 정사각형 2511 실행 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-4-qwen-2511-mira-reference-scene-c-v7-size-1280x1280-seed-5422-steps-20-result.json)
+Scene C도 같은 방식으로 생성했다. 두 인물, 책, 언덕 난간, 먼 도시 스카이라인이 장면의 기본 관계를 만든다. 이 단계에서 인물별 아이덴티티를 확정하지 않으므로, 이후 편집 단계에서 Mira와 두 번째 인물의 참조를 나누어 적용한다.
 
-세 result JSON에는 같은 모델·해상도·step·CFG와 각 장면의 prompt, seed, 실행 환경이 남는다. 한 장의 Mira 착장 참조를 쓰므로 얼굴·착장 보존 정도는 산출 PNG로 별도 검수한다. P7-5.5에서는 이 출발 장면을 카메라판으로 변환한 뒤, 후속 character identity·착장 이식 절차를 다룬다.
+![Qwen Image 2512으로 만든 Scene C 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-v1-size-640x640-seed-5422-steps-20.png)
 
-P7-5.4 생성기의 `SCENE_PROMPTS`는 A·B·C의 장소·동작·구도만 구분한다. 기본값 `--scene a`, `--size 1280`, `--steps 20`은 Mira가 도시 거리에서 카메라 쪽으로 달려오는 장면이다. `--mira-fullbody`는 모든 Scene에서 유일한 Picture 1 착장 참조이며 별도 얼굴 참조 옵션은 없다. `--prompt`는 비교용 장면 지시 대체일 뿐 identity 설명을 보충하지 않는다. `--run-label`은 기존 결과를 덮어쓰지 않게 한다.
+[Scene C line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-v1-size-640x640-seed-5422-steps-20-result.json)
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_4_generate_storyboard_scene.py --scene a --dry-run
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene a --steps 5
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene b
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene c
 ~~~
 
-[P7-5.4 씬 생성기](../../../assets/part-07/chapter-05/p7_5_4_generate_storyboard_scene.py)
+[P7-5.4 라인아트 씬 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py)
 
-## 멀티플 앵글 카메라판을 먼저 만든다
+## 편집 단계에서 캐릭터와 오브젝트를 보강한다
 
-마스크와 컷아웃은 최초 T2I 장면에서 바로 만들지 않는다. 먼저 Qwen Image Edit 2511 Multiple-angles LoRA로 카메라의 방위·높이·거리를 전환한 카메라판을 만들고, P7-5.5는 **그 카메라판**에서만 인물을 마스크하고 잘라낸다. 따라서 이후 캐릭터 이식에 전달되는 포즈·화면 위치·원근은 최초 장면이 아니라 카메라 전환 뒤의 결과를 따른다.
+다음 단계에서는 라인아트 구도판을 Picture 1로 넣고, Mira의 전신 착장·머리 참조와 장면에 필요한 오브젝트 참조를 추가한다. 이때 편집 모델이 맡을 일은 새 구도를 다시 발명하는 것이 아니라, 구도판의 카메라·포즈·배경 관계를 유지한 채 일반 인물을 Mira로 바꾸고 착장과 소품을 보강하는 것이다.
 
-카메라 생성기는 `--camera a|b|c`에 맞는 원본 Scene PNG를 코드 안에서 선택한다. A는 `front-left quarter view eye-level shot medium shot`, B는 `front-right quarter view high-angle shot medium shot`, C는 `front-left quarter view low-angle shot`이다. 따라서 다른 장면을 실수로 입력하는 문제를 줄이고, 필요할 때만 `--reference`로 명시적으로 덮어쓴다. 기본값은 seed `5420`, 20 step이다.
-
-> 주의: 8GB VRAM에 맞춘 양자화 경로는 실행 가능성을 우선한 구성이다. 방위·높이·거리 같은 카메라 의도가 모두 충분히 반영되지 않을 수 있으므로, result.json의 프롬프트·입력 매핑 확인과 별도로 PNG에서 시점 변화를 직접 비교해야 한다. 이 경로의 실행 성공만으로 카메라 지시가 충족됐다고 판단하지 않는다.
-
-~~~bash
-# 각 카메라 preset은 대응하는 최초 Scene PNG를 자동 입력으로 쓴다.
-python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py --camera a
-python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py --camera b
-python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py --camera c
-~~~
-
-| Scene A: 좌전방 쿼터·아이레벨·미디엄 | Scene B: 우전방 쿼터·하이앵글·미디엄 | Scene C: 좌전방 쿼터·로우앵글 |
+| 단계 | 입력 | 유지하거나 보강할 내용 |
 | --- | --- | --- |
-| ![공식 2511 카메라 LoRA로 재생성한 해안 절벽 Scene A 아이레벨 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-eye-level-shot-medium-shot-official-direct-seed-5420-steps-20.png) | ![공식 2511 카메라 LoRA로 재생성한 야생화 초원 Scene B 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-high-angle-shot-medium-shot-official-direct-seed-5420-steps-20.png) | ![공식 2511 카메라 LoRA로 재생성한 도심 공원 Scene C 카메라판; 거리 토큰 없음](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-no-closeup-v7-seed-5420-steps-20.png) |
+| 라인아트 구도 | 텍스트 | 카메라, 동작, 배경 공간, 화면 여백 |
+| 캐릭터·오브젝트 편집 | 라인아트 구도판, Mira 참조, 필요한 오브젝트 참조 | Mira의 얼굴·헤어·착장과 장면 소품 |
 
-[Scene A camera result.json — JSON — 공식 2511 아이레벨 20 step 재생성 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-eye-level-shot-medium-shot-official-direct-seed-5420-steps-20-result.json)
+공식 Qwen 컬렉션에서 2512는 텍스트-이미지 모델이고, 현재 공개된 이미지 편집 릴리스는 `Qwen-Image-Edit-2511`이다. 따라서 이 워크플로의 후속 편집 단계는 `Qwen-Image-Edit-2511`로 기록한다. 이후 편집 산출물을 만들 때도 라인아트 구도판과 Mira 참조의 순서, 보강할 오브젝트, 결과 파일을 `result.json`에 남긴다.
 
-[Scene B camera result.json — JSON — 공식 2511 20 step 재생성 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-high-angle-shot-medium-shot-official-direct-seed-5420-steps-20-result.json)
-
-[Scene C camera result.json — JSON — 거리 토큰 없이 실행한 공식 2511 20 step 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-low-angle-shot-no-closeup-v7-seed-5420-steps-20-result.json)
-
-이 세 장은 공식 모델 카드 형식과 Scene별 입력 매핑이 실제로 적용된 실행 기록이다. 카메라 축의 시각적 일치 여부는 PNG를 사람 눈으로 별도로 비교하며, 이 결과만으로 포즈·캐릭터 identity의 보존을 주장하지 않는다.
-
-[공식 Qwen Image Edit 2511 카메라 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py)
+이 역할 분리는 “한 장의 프롬프트로 모든 요구를 강제한다”는 접근과 다르다. 구도가 만족스럽지 않으면 첫 단계의 장면 프롬프트를 바꾸고, 인물·착장·소품이 부족하면 두 번째 단계의 참조를 바꾼다. 어느 단계가 실패했는지 결과 이미지와 입력 기록을 분리해 판단할 수 있다.
 
 ## 체크리스트
 
-- [ ] 장면 A·B·C는 Mira 전신 착장 한 장과 장면별 장소·포즈 지시만으로 만든 출발 이미지인가?
-- [ ] 카메라판은 대응하는 최초 Scene PNG를 입력으로 썼는가?
-- [ ] 카메라판 PNG와 result.json을 함께 보고 방위·높이·거리 변화가 실제로 보이는지 확인했는가?
-- [ ] 다음 P7-5.5에서 쓸 포즈·프레이밍 기준을 최초 장면이 아닌 카메라판으로 고정했는가?
+- [ ] Scene A·B·C의 라인아트 구도는 화풍 상수와 장면별 프롬프트를 분리해 생성했는가?
+- [ ] 라인아트 결과에서는 카메라·동작·배경 공간을, 이후 편집 결과에서는 Mira·착장·오브젝트를 각각 검수하는가?
+- [ ] 편집 단계가 구도를 다시 바꾸지 않고 구도판을 유지하는지 입력 순서와 결과 이미지로 확인하는가?
+- [ ] 각 단계의 PNG와 `result.json`을 함께 보관해 어떤 입력과 설정이 결과를 만들었는지 추적할 수 있는가?
 
 ## 출처와 참고 자료
 
-- [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}: Mira 전신 착장 참조를 입력으로 쓰는 공식 이미지 편집 파이프라인의 입력 형식과 사용 예제입니다.
-- [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}: 카메라판 편집에 사용한 공식 파이프라인의 입력 형식과 사용 예제를 확인합니다.
-- [Qwen-Image-Edit-2511 Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}: 카메라 방위·높이·거리 변환의 `<sks> [azimuth] [elevation] [distance]` 입력 형식을 확인합니다.
-
-모델 카드의 일반 기능 설명과 별도로, 이 절에서 실제로 사용한 입력 순서·파일 해시·seed·step·출력 경로는 각 `result.json`을 기준으로 확인한다.
+- [Qwen-Image-2512 모델 카드](https://huggingface.co/Qwen/Qwen-Image-2512){: target="_blank" rel="noopener noreferrer"}: 텍스트-이미지 파이프라인과 Apache-2.0 라이선스 정보를 확인한 자료입니다.
+- [Qwen-Image 컬렉션](https://huggingface.co/collections/Qwen/qwen-image){: target="_blank" rel="noopener noreferrer"}: 2512 텍스트-이미지 모델과 현재 공개된 `Qwen-Image-Edit-2511` 편집 모델의 구분을 확인한 자료입니다.
+- [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}: 다중 이미지 참조를 포함한 후속 편집 단계의 입력 형식과 사용 예제를 확인하는 자료입니다.
