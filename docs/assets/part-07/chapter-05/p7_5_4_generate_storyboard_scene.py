@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Generate one Mira storyboard scene with Qwen-Image-Edit-2511.
 
-Picture 1 is Mira's full-body outfit reference. Scene layout, pose, setting,
-and composition are defined only by each scene prompt; no prior scene image or
-separate face image is used as an input. The runner uses direct Diffusers BF16
-with sequential CPU offload and never starts a ComfyUI server.
+Picture 1 is Mira's full-body outfit image. It is a visual-style reference for
+the protagonist's linework, palette, and outfit silhouette; the scene prompt
+alone defines layout, pose, setting, and composition. The runner uses direct
+Diffusers BF16 with sequential CPU offload and never starts a ComfyUI server.
 """
 
 from __future__ import annotations
@@ -32,10 +32,11 @@ DEFAULT_MIRA_FULLBODY = ASSETS / (
 DEFAULT_SIZE = 1280
 DEFAULT_STEPS = 20
 DEFAULT_TRUE_CFG_SCALE = 4.0
-DEFAULT_RUN_LABEL = "v7"
-MIRA_LINEWORK_REFERENCE_PROMPT = (
-    "Render the central protagonist with the clean, delicate linework, soft facial rendering, "
-    "and restrained color treatment of Mira in Picture 1."
+DEFAULT_RUN_LABEL = "v8"
+MIRA_OUTFIT_STYLE_REFERENCE_PROMPT = (
+    "Use Picture 1 as the visual-style reference for the central protagonist: retain its clean, "
+    "delicate linework, restrained color treatment, and outfit silhouette. Do not copy Picture 1's "
+    "pose or framing."
 )
 SCENE_SEEDS = {"a": 5420, "b": 5421, "c": 5422}
 
@@ -47,8 +48,8 @@ SCENE_PROMPTS = {
         "with a crowd of runners behind her. Use the woman in Picture 1."
     ),
     "b": (
-        "Create one central female protagonist performing a grand jeté in a wide side view on a beach at sunset, "
-        "with her reflection on the wet shore. Use the woman in Picture 1."
+        "Create one central female protagonist performing a grand jeté in a wide side view in a forest clearing at sunset, "
+        "with tall trees and ferns behind her. Use the woman in Picture 1."
     ),
     "c": (
         "Create a two-person scene on a hillside overlook: the woman in Picture 1 reads on the left, "
@@ -129,8 +130,13 @@ def parse_args() -> argparse.Namespace:
     return args
 
 
+def prompt_word_count(prompt: str) -> int:
+    """Count whitespace-delimited prompt words for the result record."""
+    return len(prompt.split())
+
+
 def build_plan(args: argparse.Namespace) -> dict[str, object]:
-    """Build the scene-text plus one-reference Mira identity contract."""
+    """Build the scene-text plus one-image outfit-style reference contract."""
     seed = args.seed if args.seed is not None else SCENE_SEEDS[args.scene]
     scene_prompt = args.prompt or SCENE_PROMPTS[args.scene]
     stem = (
@@ -141,8 +147,8 @@ def build_plan(args: argparse.Namespace) -> dict[str, object]:
         "scene": args.scene,
         "fullbody": require_file(args.mira_fullbody, "Mira full-body reference"),
         "scene_prompt": scene_prompt,
-        "mira_linework_reference_prompt": MIRA_LINEWORK_REFERENCE_PROMPT,
-        "prompt": f"{scene_prompt} {MIRA_LINEWORK_REFERENCE_PROMPT}",
+        "mira_outfit_style_reference_prompt": MIRA_OUTFIT_STYLE_REFERENCE_PROMPT,
+        "prompt": f"{scene_prompt} {MIRA_OUTFIT_STYLE_REFERENCE_PROMPT}",
         "seed": seed,
         "steps": args.steps,
         "size": args.size,
@@ -198,15 +204,17 @@ def write_result(plan: dict[str, object], output: Path, elapsed_seconds: float) 
         },
         "inputs": [
             {
-                "role": "Picture 1: Mira full-body outfit reference",
+                "role": "Picture 1: Mira full-body outfit visual-style reference",
                 "path": str(plan["fullbody"]),
                 "sha256": sha256(plan["fullbody"]),
             },
         ],
-        "reference_order": "mira-fullbody-outfit",
+        "reference_order": "mira-fullbody-outfit-style",
+        "reference_role": "linework, restrained palette, and outfit silhouette; not pose or framing",
         "scene_prompt": plan["scene_prompt"],
-        "mira_linework_reference_prompt": plan["mira_linework_reference_prompt"],
+        "mira_outfit_style_reference_prompt": plan["mira_outfit_style_reference_prompt"],
         "prompt": plan["prompt"],
+        "prompt_word_count": prompt_word_count(str(plan["prompt"])),
         "seed": plan["seed"],
         "steps": plan["steps"],
         "true_cfg_scale": plan["true_cfg_scale"],
