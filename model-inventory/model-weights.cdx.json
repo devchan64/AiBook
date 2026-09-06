@@ -81,7 +81,7 @@
     {
       "type": "machine-learning-model", "bom-ref": "model:qwen-image-2512", "publisher": "Qwen", "name": "Qwen-Image-2512", "version": "2512",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/Qwen/Qwen-Image-2512"}, {"type": "model-card", "url": "https://huggingface.co/Qwen/Qwen-Image-2512"}],
-      "properties": [{"name": "aibook:component-role", "value": "P7-5.4 historical direct storyboard text-to-image output"}, {"name": "aibook:default-execution", "value": "Diffusers DiffusionPipeline, torch.bfloat16, sequential CPU offload, no server"}, {"name": "aibook:source-files", "value": "none; retained for recorded Scene A result provenance"}, {"name": "aibook:cache-status", "value": "verified: .tmp/download/huggingface/hub/models--Qwen--Qwen-Image-2512"}, {"name": "aibook:license-review", "value": "Apache-2.0 model card observed; source suitability still review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "P7-5.4 direct line-art storyboard scene text-to-image generator"}, {"name": "aibook:default-execution", "value": "Diffusers QwenImagePipeline, torch.bfloat16, sequential CPU offload, no server"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py"}, {"name": "aibook:cache-status", "value": "verified: .tmp/download/huggingface/hub/models--Qwen--Qwen-Image-2512"}, {"name": "aibook:license-review", "value": "Apache-2.0 model card observed; source suitability still review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "weight:foxbaze-try-on-qwen-edit-alpha", "publisher": "FoxBaze", "name": "Try_On_Qwen_Edit_Lora_Alpha", "version": "9ddcc92b6d5e85804055d25d97e841f9b4dfc869",
