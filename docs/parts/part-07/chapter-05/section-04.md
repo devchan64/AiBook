@@ -1,9 +1,9 @@
 # P7-5.4 라인아트 구도에서 스토리보드 장면까지
 
 > Section ID: `P7-5.4`
-> Version: `v2026.09.07`
+> Version: `v2026.09.08`
 
-스토리보드 장면을 한 번의 생성으로 완성하려 하면, 카메라·인물 아이덴티티·착장·소품이 서로 영향을 주어 구도가 흔들리기 쉽다. 이 절에서는 먼저 라인아트로 장면의 구도와 동작을 고정하고, 이어 이미지 편집 단계에서 Mira와 필요한 오브젝트를 보강하는 두 단계 경로를 사용한다. 각 단계의 PNG와 `result.json`은 프롬프트, seed, step, 모델, 입력 파일을 따로 기록한다.
+스토리보드 장면을 한 번의 생성으로 완성하려 하면, 카메라·인물 아이덴티티·착장·소품이 서로 영향을 주어 구도가 흔들리기 쉽다. 이 절에서는 라인아트로 장면의 구도와 동작을 만들고, Mira의 아이덴티티를 이식한 뒤 주변 인물과 오브젝트를 추가한다. 각 단계의 PNG와 `result.json`은 프롬프트, seed, step, 모델, 입력 파일을 따로 기록한다.
 
 ## 라인아트로 장면의 구도만 먼저 만든다
 
@@ -68,18 +68,55 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_linear
 
 [라인아트 Mira 아이덴티티 이식 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py)
 
-## 편집 단계에서 캐릭터와 오브젝트를 보강한다
+## Mira를 이식한 장면에 주변 인물과 동물을 추가한다
 
-다음 단계에서는 라인아트 구도판을 Picture 1로 넣고, Mira의 전신 착장·머리 참조와 장면에 필요한 오브젝트 참조를 추가한다. 이때 편집 모델이 맡을 일은 새 구도를 다시 발명하는 것이 아니라, 구도판의 카메라·포즈·배경 관계를 유지한 채 일반 인물을 Mira로 바꾸고 착장과 소품을 보강하는 것이다.
+주변 인물 보강은 앞 단계의 Mira 이식 결과 한 장을 Image 1로 사용한다. Scene A의 프롬프트는 `Add several pedestrians and several people running in casual clothing to Image 1.`이다. 행인 여러 명과 캐주얼 복장으로 달리는 사람 여러 명의 추가만 요청하며, 인물 수나 상대 크기, 기존 장면 보존 지시는 따로 넣지 않는다.
+
+아래 v5는 Qwen-Image-Edit-2511을 로컬 GPU에서 BF16 순차 CPU 오프로딩으로 직접 실행한 1280×1280, 20 step, CFG 4.0 결과다. Mira 주변에 캐주얼 복장의 인물 여섯 명이 추가됐다. 대부분 달리는 자세여서, 행인과 달리는 사람을 구분해 요청한 내용이 결과에서도 나뉘어 표현됐는지 확인할 필요가 있다.
+
+![캐주얼 복장으로 달리는 주변 인물을 추가한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20.png)
+
+[Scene A 주변 인물 보강 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+
+~~~bash
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes a --run-label extras-v5 --size 1280 --steps 20
+~~~
+
+[Mira 장면 주변 인물·오브젝트 보강 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py)
+
+생성기의 `--scenes`는 A·B·C를 선택한다. B는 작은 토끼와 다람쥐, C는 독자 주변에 앉아 있는 새를 추가한다.
+
+Scene B는 Mira 이식 결과를 Image 1로 사용하고 작은 동물 두 마리의 위치를 각각 지정했다. 토끼는 왼쪽 아래 양치식물 옆 공터 바닥에 앉히고, 다람쥐는 오른쪽 나무 밑 지면에 배치하도록 요청했다.
+
+아래 v8은 같은 로컬 GPU 실행 방식의 1280×1280, 20 step, CFG 4.0, seed 5421 결과다. 토끼는 왼쪽 아래 바위 위에, 다람쥐는 오른쪽 나무뿌리 주변에 나타났다. 두 동물은 Mira의 몸과 떨어져 있으며 고슴도치는 없다. 요청한 지면 위치와 실제로 발을 디딘 바위·나무뿌리를 구분해 관찰할 수 있다.
+
+![왼쪽 아래 토끼와 오른쪽 나무 밑 다람쥐를 추가한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-v8-size-1280x1280-seed-5421-steps-20.png)
+
+[Scene B 작은 동물 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-v8-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+
+~~~bash
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes b --run-label extras-v8 --size 1280 --steps 20
+~~~
+
+Scene C는 Mira 이식 결과를 Image 1로 사용하고, 작은 새 세 마리가 앉을 위치를 각각 지정했다. 남성 독자 오른쪽의 기존 사각 난간 기둥 위, 오른쪽 가장자리의 기존 상단 나무 난간 위, Mira 옆 왼쪽 아래 바위 위다. 새를 추가한다는 요청에 기존 장면에서 발을 디딜 대상을 연결한 것이다.
+
+아래 v7은 같은 로컬 GPU 실행 방식의 1280×1280, 20 step, CFG 4.0, seed 5422 결과다. 새 세 마리가 난간 기둥 두 곳과 왼쪽 아래 바위에 앉아 있고, 하늘에 떠 있는 새나 분리된 가지는 보이지 않는다. 다만 오른쪽 가장자리의 새는 요청한 가로 난간 대신 끝 기둥 위에 배치됐다. 앉는 동작의 반영과 정확한 위치의 일치는 따로 확인해야 한다.
+
+![난간 기둥 두 곳과 왼쪽 아래 바위에 새 세 마리를 추가한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-v7-size-1280x1280-seed-5422-steps-20.png)
+
+[Scene C 새 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-v7-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+
+~~~bash
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes c --run-label extras-v7 --size 1280 --steps 20
+~~~
 
 | 단계 | 입력 | 유지하거나 보강할 내용 |
 | --- | --- | --- |
 | 라인아트 구도 | 텍스트 | 카메라, 동작, 배경 공간, 화면 여백 |
-| 캐릭터·오브젝트 편집 | 라인아트 구도판, Mira 참조, 필요한 오브젝트 참조 | Mira의 얼굴·헤어·착장과 장면 소품 |
+| Mira 이식 | 라인아트 구도판, Mira 전신 착장 참조 | Mira의 얼굴·헤어·착장·화풍 |
+| 주변 인물·오브젝트 보강 | Mira 이식 결과 한 장 | 주변 대상의 종류·복장·배치·크기 |
 
-공식 Qwen 컬렉션에서 2512는 텍스트-이미지 모델이고, 현재 공개된 이미지 편집 릴리스는 `Qwen-Image-Edit-2511`이다. 따라서 이 워크플로의 후속 편집 단계는 `Qwen-Image-Edit-2511`로 기록한다. 이후 편집 산출물을 만들 때도 라인아트 구도판과 Mira 참조의 순서, 보강할 오브젝트, 결과 파일을 `result.json`에 남긴다.
-
-이 역할 분리는 “한 장의 프롬프트로 모든 요구를 강제한다”는 접근과 다르다. 구도가 만족스럽지 않으면 첫 단계의 장면 프롬프트를 바꾸고, 인물·착장·소품이 부족하면 두 번째 단계의 참조를 바꾼다. 어느 단계가 실패했는지 결과 이미지와 입력 기록을 분리해 판단할 수 있다.
+구도가 부족하면 라인아트 장면 프롬프트를, Mira의 외형이 부족하면 이식 단계의 참조를, 주변 인물의 복장이나 배치가 부족하면 보강 단계의 지시를 조정한다. 각 결과 JSON의 입력 경로를 따라가면 앞 단계의 어떤 산출물을 재사용했는지 확인할 수 있다.
 
 ## 체크리스트
 
