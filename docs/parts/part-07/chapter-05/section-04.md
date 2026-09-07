@@ -7,7 +7,7 @@
 
 ## 라인아트로 장면의 구도만 먼저 만든다
 
-첫 단계는 `Qwen/Qwen-Image-2512` 텍스트-이미지 모델로 수행한다. 이 단계에는 Mira 참조를 넣지 않는다. 인물의 정확한 얼굴이나 착장을 결정하려 하지 않고, 장면의 카메라 높이, 인물의 동작, 배경의 공간, 화면의 여백만 라인아트로 만든다. 정보량을 줄인 구도판이므로 다음 편집 단계에서 캐릭터를 바꾸더라도 포즈와 배경의 관계를 읽기 쉽다.
+첫 단계는 `Qwen/Qwen-Image-2512` 텍스트-이미지 모델로 수행한다. 생성기의 기본 캔버스는 1280×1280이며, 이 단계에는 Mira 참조를 넣지 않는다. 인물의 정확한 얼굴이나 착장을 결정하려 하지 않고, 장면의 카메라 높이, 인물의 동작, 배경의 공간, 화면의 여백만 라인아트로 만든다. 정보량을 줄인 구도판이므로 다음 편집 단계에서 캐릭터를 바꾸더라도 포즈와 배경의 관계를 읽기 쉽다.
 
 공통 화풍 표현은 생성기의 `STYLE_PROMPT` 상수에 한 번만 둔다. `SCENE_PROMPTS`는 장면마다 달라지는 구도와 사건만 맡는다.
 
@@ -15,26 +15,26 @@
 - Scene B: 해 질 무렵 숲 공터에서 하는 grand jeté
 - Scene C: 도시가 내려다보이는 언덕에서 두 사람이 책을 읽는 장면
 
-생성기는 `--scene a`, `--scene b`, `--scene c`로 이 세 장면을 고른다. 기본 캔버스는 640×640이며, `--steps`와 `--prompt`를 바꾸면 같은 장면에서 구도 지시의 민감도를 비교할 수 있다. 아래 결과는 Scene A를 5 step으로 빠르게 확인한 기록이다. 하늘, 전방 달리기, 들린 앞발의 밑창이 함께 나타나는지 관찰한다.
+생성기는 `--scene a`, `--scene b`, `--scene c`로 이 세 장면을 고른다. 기본 캔버스는 1280×1280이고 기본 샘플링은 20 step이다. `--steps`와 `--prompt`를 바꾸면 같은 장면에서 구도 지시의 민감도를 비교할 수 있다. 아래 결과에서는 하늘, 전방 달리기, 들린 앞발의 밑창이 함께 나타나는지 관찰한다.
 
-![Qwen Image 2512으로 만든 Scene A 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-worm-eye-front-running-v15-size-640x640-seed-5420-steps-5.png)
+![Qwen Image 2512으로 만든 Scene A 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-v1-size-1280x1280-seed-5420-steps-20.png)
 
-[Scene A line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-worm-eye-front-running-v15-size-640x640-seed-5420-steps-5-result.json)
+[Scene A line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
 Scene B는 같은 공통 화풍 상수에 숲 공터·석양·grand jeté만 추가해 20 step으로 생성했다. 이 결과에서는 점프 동작, 열린 하늘, 나무와 양치식물의 공간을 먼저 확인하고, Mira의 얼굴·착장·필요한 소품은 다음 편집 단계에서 보강한다.
 
-![Qwen Image 2512으로 만든 Scene B 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-v1-size-640x640-seed-5421-steps-20.png)
+![Qwen Image 2512으로 만든 Scene B 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-v1-size-1280x1280-seed-5421-steps-20.png)
 
-[Scene B line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-v1-size-640x640-seed-5421-steps-20-result.json)
+[Scene B line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
 Scene C도 같은 방식으로 생성했다. 두 인물, 책, 언덕 난간, 먼 도시 스카이라인이 장면의 기본 관계를 만든다. 이 단계에서 인물별 아이덴티티를 확정하지 않으므로, 이후 편집 단계에서 Mira와 두 번째 인물의 참조를 나누어 적용한다.
 
-![Qwen Image 2512으로 만든 Scene C 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-v1-size-640x640-seed-5422-steps-20.png)
+![Qwen Image 2512으로 만든 Scene C 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-v1-size-1280x1280-seed-5422-steps-20.png)
 
-[Scene C line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-v1-size-640x640-seed-5422-steps-20-result.json)
+[Scene C line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene a --steps 5
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene a
 python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene b
 python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene c
 ~~~
