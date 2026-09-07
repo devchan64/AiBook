@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.08.11`
+> Version: `v2026.09.08`
 
 This document is the reader-facing table of contents for AiBook. Rather than listing files only, it gives a quick view of the relearning sequence from `Introduction to AI and the Landscape -> Foundational Recovery -> Data Modeling -> Machine Learning -> Deep Learning -> LLMs and Generative AI -> Projects`.
 
@@ -196,7 +196,7 @@ This Part restores the minimum foundations needed to read AI model computation a
 #### Chapter 1. Why Mathematics Is Needed in AI `Mathematical Foundations`
 
 - **P2-1.1 What Mathematics Does in AI Computation**: introduces mathematics as the language for reading model computation rather than only as a subject of proof
-- **P2-1.2 Where Formulas, Code, and Data Meet**: builds the perspective of checking formulas again through code and data
+- **P2-1.2 Translating Formulas into Code to Calculate with Data**: translates the mean formula into Python code and examines data shape and the meaning of the result
 
 #### Chapter 2. Reading Mathematical Notation Again `Mathematical Foundations`
 
