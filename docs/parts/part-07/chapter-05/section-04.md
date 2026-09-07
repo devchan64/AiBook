@@ -3,11 +3,11 @@
 > Section ID: `P7-5.4`
 > Version: `v2026.09.08`
 
-스토리보드 장면을 한 번의 생성으로 완성하려 하면, 카메라·인물 아이덴티티·착장·소품이 서로 영향을 주어 구도가 흔들리기 쉽다. 이 절에서는 라인아트로 장면의 구도와 동작을 만들고, Mira의 아이덴티티를 이식한 뒤 주변 인물과 오브젝트를 추가한다. 각 단계의 PNG와 `result.json`은 프롬프트, seed, step, 모델, 입력 파일을 따로 기록한다.
+스토리보드 장면을 만들 때는 구도, 인물의 외형, 주변 대상의 배치를 각각 확인해야 한다. 이 절에서는 라인아트로 장면의 구도와 동작을 만들고, Mira의 아이덴티티를 이식한 뒤 주변 인물과 오브젝트를 추가한다. 단계별 입력과 출력을 비교하며 원하는 특징이 반영된 부분과 달라진 부분을 구분한다. 결과 이미지는 PNG로 보관하고, `result.json`에는 프롬프트, seed, step, 모델, 입력 파일을 기록한다.
 
-## 라인아트로 장면의 구도만 먼저 만든다
+## 라인아트로 장면의 구도를 먼저 잡는다
 
-첫 단계는 `Qwen/Qwen-Image-2512` 텍스트-이미지 모델로 수행한다. 생성기의 기본 캔버스는 1280×1280이며, 이 단계에는 Mira 참조를 넣지 않는다. 인물의 정확한 얼굴이나 착장을 결정하려 하지 않고, 장면의 카메라 높이, 인물의 동작, 배경의 공간, 화면의 여백만 라인아트로 만든다. 정보량을 줄인 구도판이므로 다음 편집 단계에서 캐릭터를 바꾸더라도 포즈와 배경의 관계를 읽기 쉽다.
+첫 단계는 `Qwen/Qwen-Image-2512` 텍스트-이미지 모델로 수행한다. 생성기의 기본 캔버스는 1280×1280이며, 이 단계에는 Mira 참조를 넣지 않는다. 인물의 정확한 얼굴이나 착장을 확정하기에 앞서, 카메라 높이, 인물의 동작, 배경 공간, 화면 여백을 평가할 구도판을 만든다. 여기서 라인아트는 선 중심의 그림을 요청하는 화풍 표현이다. 아래 Scene B처럼 색과 명암, 석양 조명도 함께 생성될 수 있으므로, 라인아트 요청이 무채색이나 윤곽선만의 출력을 보장한다고 해석하지 않는다.
 
 공통 화풍 표현은 생성기의 `STYLE_PROMPT` 상수에 한 번만 둔다. `SCENE_PROMPTS`는 장면마다 달라지는 구도와 사건만 맡는다.
 
@@ -15,7 +15,7 @@
 - Scene B: 해 질 무렵 숲 공터에서 하는 grand jeté
 - Scene C: 도시가 내려다보이는 언덕에서 두 사람이 책을 읽는 장면
 
-생성기는 `--scene a`, `--scene b`, `--scene c`로 이 세 장면을 고른다. 기본 캔버스는 1280×1280이고 기본 샘플링은 20 step이다. `--steps`와 `--prompt`를 바꾸면 같은 장면에서 구도 지시의 민감도를 비교할 수 있다. 아래 결과에서는 하늘, 전방 달리기, 들린 앞발의 밑창이 함께 나타나는지 관찰한다.
+생성기는 `--scene a`, `--scene b`, `--scene c`로 이 세 장면을 고른다. 기본 캔버스는 1280×1280이고 기본 샘플링은 20 step이다. 구도 지시의 영향을 비교할 때는 seed와 step을 고정하고 `--prompt`의 구도 표현 하나를 바꾼다. 반복 횟수의 영향을 보려면 프롬프트를 고정하고 `--steps`만 바꾼다. 아래 결과에서는 하늘, 전방 달리기, 들린 앞발의 밑창이 함께 나타나는지 관찰한다.
 
 ![Qwen Image 2512으로 만든 Scene A 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-v1-size-1280x1280-seed-5420-steps-20.png)
 
@@ -27,23 +27,27 @@ Scene B는 같은 공통 화풍 상수에 숲 공터·석양·grand jeté만 추
 
 [Scene B line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
-Scene C도 같은 방식으로 생성했다. 두 인물, 책, 언덕 난간, 먼 도시 스카이라인이 장면의 기본 관계를 만든다. 이 단계에서 인물별 아이덴티티를 확정하지 않으므로, 이후 편집 단계에서 Mira와 두 번째 인물의 참조를 나누어 적용한다.
+Scene C도 같은 방식으로 생성했다. 두 인물, 책, 언덕 난간, 먼 도시 스카이라인이 장면의 기본 관계를 만든다. 이후 편집에서는 왼쪽 독자에게만 Mira 참조를 적용하고, 오른쪽 독자는 이 구도판의 인물을 유지하도록 요청한다. 두 번째 인물의 별도 참조 이미지는 사용하지 않는다.
 
 ![Qwen Image 2512으로 만든 Scene C 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-v1-size-1280x1280-seed-5422-steps-20.png)
 
 [Scene C line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
+아래 명령은 저장소 루트에서 실행하며, 필요한 패키지가 설치된 `.venv` 환경을 사용한다. 실행에는 CUDA GPU와 BF16 모델을 CPU 메모리와 GPU 사이에 나누어 올리는 순차 CPU 오프로딩 환경이 필요하다. 패키지 구성은 각 결과 JSON의 `runtime.packages`에서 확인할 수 있다. 생성기는 기본적으로 저장소의 `.tmp/download/huggingface/hub` 캐시에서 모델을 읽는다. 해당 모델이 준비되지 않았다면 실행 명령에 `--allow-download`를 추가해야 한다.
+
+재실행 결과는 공개 자산과 충돌하지 않도록 `/tmp/p7-5-4-practice`에 저장한다. 같은 출력이 이미 있으면 덮어쓰기 방지 오류로 중단되므로, 다시 비교할 때는 `--output-dir`을 새 폴더로 바꾸거나 `--run-label`에 새 이름을 준다. `/tmp`의 결과는 임시 파일이므로 보관할 PNG와 JSON은 함께 별도 저장한다.
+
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene a
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene b
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene c
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene a --output-dir /tmp/p7-5-4-practice
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene b --output-dir /tmp/p7-5-4-practice
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py --scene c --output-dir /tmp/p7-5-4-practice
 ~~~
 
 [P7-5.4 라인아트 씬 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py)
 
 ## 라인아트 구도에 Mira의 아이덴티티와 화풍을 이식한다
 
-다음 단계에서는 Scene A 라인아트를 Picture 1로 유지하고, Mira 전신 착장 이미지를 Picture 2로 넣는다. Picture 1은 달리기 포즈·로우 앵글·도시 배경을 맡고, Picture 2는 Mira의 얼굴·헤어·착장·선화·절제된 색을 맡는다. 긴 외형 설명을 프롬프트에 다시 쓰지 않고 두 이미지의 역할을 분리해 두면, 구도가 달라졌는지와 Mira 참조가 부족한지를 별도로 읽을 수 있다.
+다음 단계에서는 Scene A 라인아트를 Picture 1로 넣고, [P7-5.3의 Mira 전신 착장 참조](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png)를 Picture 2로 넣는다. Picture 1은 달리기 포즈·로우 앵글·도시 배경을 맡고, Picture 2는 Mira의 얼굴·헤어·착장·선화·절제된 색을 맡는다. 이 역할은 프롬프트로 요청하는 조건이며, 이미지 일부를 잠그는 기능은 아니다. 출력에서 구도와 외형이 각각 얼마나 유지됐는지 다시 비교해야 한다.
 
 Scene A 결과에서는 지면 높이의 달리기 구도와 신발 밑창을 유지하면서, 청록 단발·흰 크롭 재킷·회색 이너·청록 팬츠가 반영됐다. 이식 단계는 Qwen-Image-Edit-2511을 BF16 순차 CPU 오프로딩으로 직접 실행하며 ComfyUI 서버를 사용하지 않는다.
 
@@ -51,7 +55,7 @@ Scene A 결과에서는 지면 높이의 달리기 구도와 신발 밑창을 �
 
 [Scene A Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-identity-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
-같은 생성기는 `--scenes b c`처럼 여러 장면을 받아 한 번 로드한 파이프라인으로 순차 처리한다. Scene B에서는 Mira가 숲 공터의 도약 인물을 맡고, Scene C에서는 왼쪽 독자만 Mira로 바꾸며 오른쪽 독자와 배경 관계를 유지한다.
+같은 생성기는 `--scenes b c`처럼 여러 장면을 받아 한 번 로드한 파이프라인으로 순차 처리한다. Scene B에서는 숲 공터의 도약 인물을, Scene C에서는 왼쪽 독자를 Mira로 바꾸도록 요청한다. Scene C의 오른쪽 독자와 배경 관계는 보존 대상으로 지시한다.
 
 ![Mira 아이덴티티와 화풍을 이식한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-identity-v1-size-1280x1280-seed-5421-steps-20.png)
 
@@ -61,16 +65,30 @@ Scene A 결과에서는 지면 높이의 달리기 구도와 신발 밑창을 �
 
 [Scene C Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-identity-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
+청록 머리와 흰 재킷이 나타났다는 사실만으로 참조의 외형이 모두 보존됐다고 판단할 수는 없다. 다음은 위 결과와 Mira 전신 참조를 비교한 관찰이다.
+
+| 장면 | 반영된 특징 | 참조와 달라진 특징 |
+| --- | --- | --- |
+| A | 청록 단발, 흰 크롭 재킷, 회색 이너, 청록 팬츠 | 신발 밑창이 크게 보이는 구도라 참조 정면만으로 밑창 무늬의 일치를 판단하기 어려움 |
+| B | 청록 머리, 흰 재킷, 청록 긴 바지 | 머리가 참조의 단발보다 길어지고, 운동화가 단순한 흰 신발 형태로 바뀜 |
+| C | 청록 단발, 흰 상의, 청록 하의 | 바지 밑단이 발목을 드러내며, 신발이 참조의 흰 운동화와 다른 형태·색으로 나타남 |
+
+세 장면의 구도 유지와 캐릭터 외형의 일치는 별도 판단이다. 주변 대상을 추가하는 다음 단계에서도 이 차이가 저절로 교정되는 것은 아니므로, 최종 결과를 전신 참조와 다시 대조한다.
+
+아래 편집 명령은 저장소에 수록된 라인아트 PNG를 기본 입력으로 사용한다. 앞에서 새로 생성한 구도판을 이어 쓰려면 한 장면씩 선택하고 `--lineart`에 그 PNG 경로를 지정한다. 새 Mira 참조는 `--mira-reference`로 지정하며, `--dry-run`을 추가하면 모델을 실행하지 않고 입력·프롬프트·출력 경로를 확인할 수 있다.
+
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scene a
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scenes b c
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scenes a --output-dir /tmp/p7-5-4-practice
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scenes b c --output-dir /tmp/p7-5-4-practice
 ~~~
 
 [라인아트 Mira 아이덴티티 이식 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py)
 
 ## Mira를 이식한 장면에 주변 인물과 동물을 추가한다
 
-주변 인물 보강은 앞 단계의 Mira 이식 결과 한 장을 Image 1로 사용한다. Scene A의 프롬프트는 `Add several pedestrians and several people running in casual clothing to Image 1.`이다. 행인 여러 명과 캐주얼 복장으로 달리는 사람 여러 명의 추가만 요청하며, 인물 수나 상대 크기, 기존 장면 보존 지시는 따로 넣지 않는다.
+주변 인물 보강은 앞 단계의 Mira 이식 결과 한 장을 Image 1로 사용한다. 아래 명령의 기본 입력은 저장소에 수록된 Mira 이식 PNG다. 새 이식 결과를 이어 쓰려면 한 장면씩 선택하고 `--scene-image`에 새 PNG 경로를 지정한다. 이 생성기도 `--dry-run`으로 실행 계획을 확인할 수 있다.
+
+Scene A의 프롬프트는 `Add several pedestrians and several people running in casual clothing to Image 1.`이다. 행인 여러 명과 캐주얼 복장으로 달리는 사람 여러 명의 추가만 요청하며, 인물 수나 상대 크기, 기존 장면 보존 지시는 따로 넣지 않는다.
 
 아래 v5는 Qwen-Image-Edit-2511을 로컬 GPU에서 BF16 순차 CPU 오프로딩으로 직접 실행한 1280×1280, 20 step, CFG 4.0 결과다. Mira 주변에 캐주얼 복장의 인물 여섯 명이 추가됐다. 대부분 달리는 자세여서, 행인과 달리는 사람을 구분해 요청한 내용이 결과에서도 나뉘어 표현됐는지 확인할 필요가 있다.
 
@@ -79,7 +97,7 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_linear
 [Scene A 주변 인물 보강 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes a --run-label extras-v5 --size 1280 --steps 20
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes a --run-label extras-v5 --size 1280 --steps 20 --output-dir /tmp/p7-5-4-practice
 ~~~
 
 [Mira 장면 주변 인물·오브젝트 보강 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py)
@@ -95,7 +113,7 @@ Scene B는 Mira 이식 결과를 Image 1로 사용하고 작은 동물 두 마�
 [Scene B 작은 동물 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-v8-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes b --run-label extras-v8 --size 1280 --steps 20
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes b --run-label extras-v8 --size 1280 --steps 20 --output-dir /tmp/p7-5-4-practice
 ~~~
 
 Scene C는 Mira 이식 결과를 Image 1로 사용하고, 작은 새 세 마리가 앉을 위치를 각각 지정했다. 남성 독자 오른쪽의 기존 사각 난간 기둥 위, 오른쪽 가장자리의 기존 상단 나무 난간 위, Mira 옆 왼쪽 아래 바위 위다. 새를 추가한다는 요청에 기존 장면에서 발을 디딜 대상을 연결한 것이다.
@@ -107,7 +125,7 @@ Scene C는 Mira 이식 결과를 Image 1로 사용하고, 작은 새 세 마리�
 [Scene C 새 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-v7-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
 ~~~bash
-python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes c --run-label extras-v7 --size 1280 --steps 20
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py --scenes c --run-label extras-v7 --size 1280 --steps 20 --output-dir /tmp/p7-5-4-practice
 ~~~
 
 | 단계 | 입력 | 유지하거나 보강할 내용 |
@@ -123,6 +141,8 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_ex
 - [ ] Scene A·B·C의 라인아트 구도는 화풍 상수와 장면별 프롬프트를 분리해 생성했는가?
 - [ ] 라인아트 결과에서는 카메라·동작·배경 공간을, 이후 편집 결과에서는 Mira·착장·오브젝트를 각각 검수하는가?
 - [ ] 편집 단계가 구도를 다시 바꾸지 않고 구도판을 유지하는지 입력 순서와 결과 이미지로 확인하는가?
+- [ ] 머리색·착장색의 반영과 머리 길이·바지 길이·신발 형태의 보존을 구분해 기록했는가?
+- [ ] 재실행 출력 경로가 기존 자산과 겹치지 않으며, 후속 단계가 실제로 비교하려는 PNG를 입력으로 사용하는가?
 - [ ] 각 단계의 PNG와 `result.json`을 함께 보관해 어떤 입력과 설정이 결과를 만들었는지 추적할 수 있는가?
 
 ## 출처와 참고 자료
