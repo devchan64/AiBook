@@ -4,7 +4,8 @@
 The source camera image determines the pose, framing, and perspective.  Its
 matching SAM2 mask supplies the only editable boundary: white mask pixels are
 copied from the source, and every other pixel is replaced with white.  This
-creates a pose reference, not a transparent compositing asset.
+creates a pose reference. With --transparent it also saves a same-size RGBA
+layer using the mask as alpha, without inventing occluded body parts.
 """
 
 from __future__ import annotations
@@ -35,6 +36,9 @@ def main() -> None:
     parser.add_argument("--mask", required=True, type=Path, help="Matching SAM2 mask; white=person, black=background.")
     parser.add_argument("--scene", choices=("a", "b", "c"), required=True)
     parser.add_argument("--run-label", default="v1")
+    parser.add_argument("--transparent", action="store_true", help="Also save an RGBA character layer.")
+    parser.add_argument("--character", choices=("mira", "supporting"),
+                        help="Character role for current storyboard asset naming.")
     parser.add_argument("--size", type=int, default=1280, help="Square output edge; must be a multiple of 32.")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     args = parser.parse_args()
@@ -48,8 +52,11 @@ def main() -> None:
 
     started = time.monotonic()
     with Image.open(reference) as source:
+        original_size = source.size
         image = source.convert("RGB").resize((args.size, args.size), Image.Resampling.LANCZOS)
     with Image.open(mask_path) as source:
+        if source.size != original_size:
+            raise ValueError("Mask and reference must have identical source dimensions")
         mask = source.convert("L").resize((args.size, args.size), Image.Resampling.NEAREST)
     white = Image.new("RGB", image.size, "white")
     cutout = Image.composite(image, white, mask)
@@ -60,14 +67,27 @@ def main() -> None:
         f"p7-5-5-character-pose-cutout-white-official-camera-scene-{args.scene}-"
         f"{args.run_label}-size-{args.size}x{args.size}"
     )
+    if args.character:
+        stem = f"p7-5-5-character-cutout-scene-{args.scene}-{args.character}-{args.run_label}"
     output = output_dir / f"{stem}.png"
     result = output_dir / f"{stem}-result.json"
+    alpha_output = output_dir / f"{stem}-rgba.png"
+    for path in [output, result] + ([alpha_output] if args.transparent else []):
+        if path.exists():
+            raise FileExistsError(path)
     cutout.save(output)
+    alpha_record = None
+    if args.transparent:
+        layer = image.convert("RGBA")
+        layer.putalpha(mask)
+        layer.save(alpha_output)
+        alpha_record = {"path": str(alpha_output), "sha256": sha256(alpha_output)}
     result.write_text(
         json.dumps(
             {
                 "status": "generated",
                 "stage": "white_background_pose_cutout",
+                "character": args.character,
                 "purpose": "Pose, framing, and perspective reference for later character identity transfer",
                 "inputs": {
                     "camera_frame": {"path": str(reference), "sha256": sha256(reference)},
@@ -79,6 +99,7 @@ def main() -> None:
                 },
                 "output": {"path": str(output), "sha256": sha256(output), "width": args.size, "height": args.size},
                 "canvas": "opaque white; this is a pose reference, not an alpha compositing asset",
+                "rgba_layer": alpha_record,
                 "elapsed_seconds": round(time.monotonic() - started, 2),
             },
             ensure_ascii=False,

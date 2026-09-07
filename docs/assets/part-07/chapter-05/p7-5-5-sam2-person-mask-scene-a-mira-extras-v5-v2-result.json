@@ -1,0 +1,191 @@
+{
+  "status": "generated",
+  "stage": "person_mask",
+  "purpose": "Person mask for Qwen Image Edit compositing or inpainting",
+  "models": {
+    "detector": "IDEA-Research/grounding-dino-tiny",
+    "segmenter": "facebook/sam2.1-hiera-small",
+    "licenses": {
+      "detector": "Apache-2.0",
+      "segmenter": "Apache-2.0"
+    }
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20.png",
+    "sha256": "c0dd296680711cf312e8f5deaa9df41dbd387c52bd5c3ce2d020f0337e698b09"
+  },
+  "input_role": "scene; one selected visible character",
+  "selection": {
+    "target_point_xy": [
+      620.0,
+      220.0
+    ],
+    "negative_points_xy": [
+      [
+        790.0,
+        900.0
+      ],
+      [
+        790.0,
+        790.0
+      ]
+    ],
+    "positive_points_xy": [
+      [
+        525.0,
+        1000.0
+      ],
+      [
+        590.0,
+        1160.0
+      ]
+    ],
+    "box_override_xyxy": [
+      390.0,
+      90.0,
+      820.0,
+      1230.0
+    ],
+    "method": "highest score containing target point",
+    "candidates": [
+      {
+        "index": 0,
+        "label": "a woman",
+        "score": 0.41220688819885254,
+        "box_xyxy": [
+          966.7470703125,
+          493.94097900390625,
+          1179.768798828125,
+          1077.2532958984375
+        ]
+      },
+      {
+        "index": 1,
+        "label": "a woman",
+        "score": 0.37951186299324036,
+        "box_xyxy": [
+          722.2918090820312,
+          683.6102905273438,
+          837.2298583984375,
+          1051.10009765625
+        ]
+      },
+      {
+        "index": 2,
+        "label": "a woman",
+        "score": 0.3501456379890442,
+        "box_xyxy": [
+          425.83856201171875,
+          94.56840515136719,
+          812.172119140625,
+          1084.3916015625
+        ]
+      },
+      {
+        "index": 3,
+        "label": "a woman",
+        "score": 0.36744675040245056,
+        "box_xyxy": [
+          840.70166015625,
+          635.1453857421875,
+          1009.1033325195312,
+          1053.1651611328125
+        ]
+      },
+      {
+        "index": 4,
+        "label": "a woman",
+        "score": 0.3234565854072571,
+        "box_xyxy": [
+          53.45463180541992,
+          615.1162109375,
+          205.9293212890625,
+          1053.845947265625
+        ]
+      },
+      {
+        "index": 5,
+        "label": "a woman",
+        "score": 0.33498185873031616,
+        "box_xyxy": [
+          179.24026489257812,
+          571.3616333007812,
+          370.981201171875,
+          1072.8331298828125
+        ]
+      },
+      {
+        "index": 6,
+        "label": "a woman",
+        "score": 0.3148704767227173,
+        "box_xyxy": [
+          1103.2716064453125,
+          522.2351684570312,
+          1276.7691650390625,
+          1019.7080078125
+        ]
+      },
+      {
+        "index": 7,
+        "label": "a woman",
+        "score": 0.3372699022293091,
+        "box_xyxy": [
+          427.22119140625,
+          95.95535278320312,
+          811.218994140625,
+          990.2891845703125
+        ]
+      },
+      {
+        "index": 8,
+        "label": "a woman",
+        "score": 0.3322750926017761,
+        "box_xyxy": [
+          424.5849609375,
+          93.5995101928711,
+          812.4027099609375,
+          1209.1151123046875
+        ]
+      }
+    ]
+  },
+  "grounding_prompt": [
+    "a woman"
+  ],
+  "selected_detection": {
+    "label": "a woman",
+    "score": 0.3501,
+    "box_xyxy": [
+      425.84,
+      94.57,
+      812.17,
+      1084.39
+    ]
+  },
+  "segmentation_box_xyxy": [
+    390.0,
+    90.0,
+    820.0,
+    1230.0
+  ],
+  "mask_semantics": "white=person to repaint; black=preserve",
+  "postprocess": {
+    "excluded_rectangles_xyxy": []
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2.png",
+    "sha256": "7b20c911edd687a4fb72880dde137b8056fd18ffc556a6a764bb8a0a4420a56f"
+  },
+  "overlay": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2-overlay.png",
+    "sha256": "6abb03f3ee4a82bc65506f8acb3735e54785f094421b4b199456f38a8ab13ac7"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "elapsed_seconds": 1.81
+}

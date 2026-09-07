@@ -1,29 +1,111 @@
 # P7-5.5 스토리보드 장면에 캐릭터를 합성하는 경로
 
-> Section ID: \`P7-5.5\`
-> Version: \`v2026.09.05\`
+> Section ID: `P7-5.5`
+> Version: `v2026.09.08`
 
-이 절의 목표는 [P7-5.4](section-04.md)에서 확정한 카메라판을 바탕으로, 캐릭터의 포즈·의상·얼굴이 다시 생성될 때마다 달라지는 문제를 줄이는 것이다. 기본 경로는 카메라판에서 포즈 컷아웃을 만들고 Qwen Image Edit 2511로 캐릭터 identity를 이식한 뒤, 인물이 제거된 배경판과 통합하는 순서다. 카메라판을 곧바로 원본 캐릭터 참조로 교체하는 방식은 identity를 온전히 반영하지 못해 기본 경로로 채택하지 않는다. 다만 포즈와 착장을 먼저 단일 인물 결과로 정리한 뒤에는, 그 결과를 두 번째 입력으로 하여 카메라판의 인물 자리에 다시 이식할 수 있다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
+이 절은 [P7-5.4](section-04.md)의 마지막 단계에서 주변 인물과 동물까지 추가한 A·B·C를 입력으로 이어받는다. 장면의 구도와 Mira의 외형이 이미 반영된 상태에서, 수정할 인물 영역과 보존할 주변 대상을 구분하고 캐릭터·배경·조명을 단계별로 편집하는 것이 중심이다. 별도의 그림자 추가 단계는 두지 않는다. 각 후속 결과의 `result.json`에는 실제 입력 파일, SHA-256과 실행 조건을 남겨 입력 장면과 출력의 관계를 확인한다.
 
-## 한 모델이 아니라 역할이 다른 구성 요소
+## P7-5.4의 최종 장면을 입력으로 고정한다
 
-P7-5.5의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니다. P7-5.4가 만든 카메라판에서 인물의 영역을 찾고, 포즈에 캐릭터를 이식하고, 배경판을 만들고, 둘을 통합하는 일을 분리했다. 같은 입력을 여러 모델에 반복해 넣기보다, 각 단계에 필요한 정보만 넘기는 것이 이 절의 핵심이다.
+세 입력은 모두 1280×1280이다. A는 주변 인물을 추가한 `extras-v5`, B는 토끼와 다람쥐를 추가한 `extras-v8`, C는 새 세 마리를 배치한 `extras-v7`을 사용한다. 원본 자산을 P7-5.5용으로 복제하지 않고 P7-5.4의 파일을 직접 참조한다.
+
+![Scene A 입력: 도시 거리에서 달리는 Mira와 주변 인물](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20.png)
+
+[Scene A 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+
+![Scene B 입력: 숲 공터에서 도약하는 Mira와 토끼·다람쥐](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-v8-size-1280x1280-seed-5421-steps-20.png)
+
+[Scene B 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-v8-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+
+![Scene C 입력: 언덕에서 책을 읽는 두 인물과 앉아 있는 새 세 마리](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-v7-size-1280x1280-seed-5422-steps-20.png)
+
+[Scene C 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-v7-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+
+## 편집할 인물과 보존할 대상을 나눈다
+
+| 장면 | 인물 마스크·컷아웃 대상 | 인물 편집에서 보존할 주변 대상 |
+| --- | --- | --- |
+| A | 화면 중앙에서 달리는 Mira | 주변 인물 여섯 명, 도로와 건물 |
+| B | 공중에서 도약하는 Mira | 왼쪽 아래 토끼, 오른쪽 나무 밑 다람쥐, 나무와 양치식물 |
+| C | 왼쪽 Mira와 오른쪽 조연을 각각 별도 마스크로 분리 | 각 마스크에서 다른 인물, 책, 새 세 마리, 난간과 도시 배경 |
+
+A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
+
+후속 편집은 `입력 장면 → 인물별 마스크·컷아웃 → 필요한 캐릭터 보정 → 배경판과 통합 → 조명 조정`으로 구성한다. 컷아웃은 포즈·인물 크기·프레이밍을 전달하며, 얼굴·착장을 보정할 때만 해당 참조를 추가한다. 기존 Mira의 외형을 그대로 사용할 경우 같은 아이덴티티를 다시 이식할 필요는 없다. 그림자는 별도 생성 단계로 추가하지 않고, 입력 장면에 있는 그림자와 편집 결과의 변화를 비교한다.
+
+## Mira와 조연을 각각 분리한다
+
+먼저 장면에서 어느 인물을 분리할지 지정한다. 로컬 GPU에서 Grounding DINO Tiny로 인물 상자를 찾고 SAM 2.1 Hiera Small로 마스크를 만들었다. 여기서 마스크는 복사할 인물 픽셀을 흰색, 제외할 영역을 검은색으로 표시한 이미지다. 모델이 Mira라는 이름을 알아본 것은 아니다. 청록색 머리와 위치를 눈으로 확인한 뒤 대상 좌표를 지정했으며, 겹친 영역은 상자·포함점·제외점과 제외 영역으로 보정했다. [Grounding DINO 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} · [SAM 2.1 모델 카드](https://huggingface.co/facebook/sam2.1-hiera-small){: target="_blank" rel="noopener noreferrer"}
+
+A에서는 화면 앞으로 크게 나온 신발 끝까지 포함하고 배경의 달리는 사람은 제외했다. B에서는 도약하는 Mira만 선택하고 토끼와 다람쥐를 제외했다. C에서는 Mira와 조연을 따로 선택했다. 조연은 Mira에 가려 상체와 하체가 떨어져 보이므로, 가장 큰 덩어리 하나만 남기면 상체가 사라질 수 있다. 이번에는 포함점이 놓인 여러 덩어리를 함께 유지했다.
+
+아래 흰 배경 컷아웃은 분리 영역을 확인하는 이미지다. 함께 저장한 투명 PNG는 같은 마스크를 알파 채널로 사용한다. 네 파일 모두 원본과 같은 1280×1280 캔버스와 인물 위치를 유지하며, 선택된 픽셀의 색을 원본에서 그대로 복사했다.
+
+### Scene A Mira
+
+![Scene A Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1.png)
+
+[Scene A Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2-overlay.png)
+
+[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1-result.json){ .lazy-source }
+
+### Scene B Mira
+
+![Scene B Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1.png)
+
+[Scene B Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-extras-v8-v1.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-extras-v8-v1-overlay.png)
+
+[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-extras-v8-v1-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1-result.json){ .lazy-source }
+
+### Scene C Mira
+
+![Scene C Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-extras-v7-v1.png)
+
+[Scene C Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-extras-v7-v1-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-extras-v7-v4.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-extras-v7-v4-overlay.png)
+
+[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-extras-v7-v4-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-extras-v7-v1-result.json){ .lazy-source }
+
+### Scene C 조연
+
+![Scene C 조연의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4.png)
+
+[Scene C 조연 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-extras-v7-v7.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-extras-v7-v7-overlay.png)
+
+[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-extras-v7-v7-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4-result.json){ .lazy-source }
+
+### 분리 결과의 한계와 재현
+
+C의 빈 부분은 다른 인물·책·새에 가려져 원본에 보이지 않는 영역을 포함한다. 이번 작업은 보이는 픽셀을 분리한 것이며, 가려진 신체를 새로 그리지 않았다. 손과 책, 머리카락과 배경이 맞닿는 경계에는 일부 거친 가장자리와 미세 누락이 남아 있다. 다른 배경에 옮길 때는 이 경계를 다시 확인해야 한다. 두 C 마스크 사이의 중복 픽셀은 없으며, 네 투명 PNG의 알파 채널이 해당 마스크와 일치하는지 확인했다.
+
+[인물별 입력·선택 조건과 재현 명령](../../../assets/part-07/chapter-05/p7-5-5-character-separation-v1-result.json){ .lazy-source }에 네 실행을 모았다. 저장소 루트에서 마스크 명령을 실행한 뒤 컷아웃 명령을 실행한다. 기존 출력 덮어쓰기를 막으므로 다시 실행할 때는 새 실행 이름 또는 출력 디렉터리를 지정한다. 검출·분할 모델은 로컬 캐시에 있어야 하며 CUDA를 사용한다. 컷아웃 저장은 이미지 픽셀을 복사하는 처리다.
+
+[인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py) · [흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)
+
+현재 세 입력에 대해 완료한 단계는 인물 분리까지다. 새 배경판 생성과 통합은 아직 수행하지 않았다. 아래의 이전 실험은 구성 요소의 역할과 한계를 살펴보는 자료이며, 위 세 장면에서 이어진 출력으로 해석하지 않는다. 기존 후속 생성 코드의 기본 입력은 이전 실험을 가리킬 수 있으므로 실행 전에 입력을 확인한다.
+
+## 보충학습: 이전 카메라판의 합성 실험
+
+이하의 Scene A·B·C는 각각 해안 절벽·야생화 초원·도심 공원의 이전 입력을 뜻한다. 그림자를 포함한 중간 산출물도 당시 입력 기록 그대로 남아 있지만, 그림자를 추가하는 절차와 실행 안내는 현재 경로에서 제외한다.
+
+### 한 모델이 아니라 역할이 다른 구성 요소
+
+이전 합성 실험의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니다. 당시 카메라판에서 인물의 영역을 찾고, 포즈에 캐릭터를 이식하고, 배경판을 만들고, 둘을 통합하는 일을 분리했다. 같은 입력을 여러 모델에 반복해 넣기보다, 각 단계에 필요한 정보만 넘기는 것이 이 절의 핵심이다.
 
 | 구성 요소 | 맡긴 일 | 이 절에서의 입력·출력 경계 |
 | --- | --- | --- |
-| `Qwen/Qwen-Image-Edit-2511` | 카메라판의 그림자·인물·배경판 편집과 DeLight 배경·캐릭터의 다중 참조 통합 | 카메라판·단일 인물 또는 배경판·캐릭터 → 장면 한 장 |
+| `Qwen/Qwen-Image-Edit-2511` | 카메라판의 인물·배경판 편집과 DeLight 배경·캐릭터의 다중 참조 통합 | 카메라판·단일 인물 또는 배경판·캐릭터 → 장면 한 장 |
 | Grounding DINO Tiny | `a woman`, `a person` 텍스트로 인물 상자 탐색 | 카메라판 → 인물 상자 |
 | SAM 2.1 Hiera Small | 선택된 상자를 흰색 인물 마스크로 정밀화 | 인물 상자·카메라판 → 마스크 |
 | `Qwen/Qwen-Image-Edit-2509` + Studio DeLight LoRA | 배경판 또는 통합 장면의 방향광 색조를 중립화 | 배경판 또는 방향광 장면 → 중립 광원 장면 |
 | `Qwen/Qwen-Image-Edit-2509` + dx8152 Relight LoRA | 통합 장면의 방향광을 다시 부여 | 중립화된 통합 장면 → 방향광 장면 |
 
-`Qwen-Image-Edit-2509`은 DeLight·리라이트처럼 한 장에서 조명을 편집하는 단계에 쓴다. Studio DeLight LoRA는 이미 생긴 방향광을 균일한 스튜디오 광원으로 중립화한다. `Qwen-Image-Edit-2511`은 카메라판에서 그림자·인물·배경을 편집하고 다중 참조를 통합한다. P7-5.4의 최초 장면 모델과 카메라 변환 규칙은 여기서 반복하지 않는다. [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} · [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}
+`Qwen-Image-Edit-2509`은 DeLight·리라이트처럼 한 장에서 조명을 편집하는 단계에 쓴다. Studio DeLight LoRA는 이미 생긴 방향광을 균일한 스튜디오 광원으로 중립화한다. `Qwen-Image-Edit-2511`은 카메라판에서 인물·배경을 편집하고 다중 참조를 통합한다. 당시 카메라판과 현재 P7-5.4 최종 장면은 서로 다른 입력이다. [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} · [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}
 
 마스크 단계의 Grounding DINO Tiny는 텍스트로 대상 상자를 찾는 zero-shot 객체 검출 모델이고, SAM 2.1 Hiera Small은 그 상자를 인물 외곽 마스크로 바꾼다. 두 구성 요소는 캐릭터를 생성하거나 화풍을 정하지 않고, 카메라판에서 **어느 픽셀을 인물로 읽고 보존할지** 정한다. 빈 배경판은 이후 Qwen Image Edit 2511이 카메라판 한 장을 직접 편집해 만든다. [Grounding DINO Tiny 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} · [SAM 2 공식 저장소](https://github.com/facebookresearch/sam2){: target="_blank" rel="noopener noreferrer"}
 
 위 공개 모델 카드와 저장소의 기능·배포 정보는 2026-08-29에 확인했다. 실제 실행에 쓴 입력 순서와 seed·step은 각 단계의 `result.json`을 기준으로 확인한다.
 
-## 카메라판에서 마스크와 컷아웃을 쓴다
+### 카메라판에서 마스크와 컷아웃을 쓴다
 
 마스크의 흰색은 인물, 검은색은 보존할 배경을 뜻한다. 오버레이에서는 빨간색으로 덮인 영역과 노란색 검출 상자를 함께 보므로, 머리·손가락·발끝 같은 전신 경계가 빠졌는지 컷아웃보다 먼저 확인할 수 있다.
 
@@ -53,27 +135,9 @@ P7-5.5의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니
 
 [흰 배경 포즈 컷아웃 생성 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)
 
-흰 배경 컷아웃은 알파 채널을 보존하는 최종 합성 자산이 아니다. 포즈 아이덴티 이식에서는 먼저 이 컷아웃에 그림자를 만들고, **그림자 포함 컷아웃**을 `Picture 1`과 초기 잠재값으로 쓴다. `Picture 1`은 포즈·인물 크기·프레이밍·그림자만, `Picture 2`의 캐릭터 identity 기준은 얼굴·헤어·착장만 맡도록 역할을 분리한다. 인물 레이어 보관과 빈 배경판 생성도 같은 마스크의 별도 활용이다.
+흰 배경 컷아웃은 포즈와 프레이밍을 전달하는 참조이며, 알파 채널을 보존하는 최종 합성 자산은 아니다. 인물 레이어 보관과 빈 배경판 생성은 같은 마스크를 활용하는 별도 작업이다.
 
-### 컷아웃의 그림자는 따로 만들고 인물 주변을 보호한다
-
-Scene A·B 원본에는 분리해 유지할 수 있는 캐릭터 그림자가 없었다. 그래서 흰 배경 컷아웃을 Qwen Image Edit 2511에 넣어 바닥 그림자만 생성하고, 마지막에는 원본 인물 마스크를 40 px 확장해 원래 캐릭터와 주변의 흰 배경을 다시 덮었다. 이 보호 영역은 Qwen이 인물 바깥에 새 팔·머리 같은 잔상을 그린 범위를 지운다. Scene C는 거리 토큰을 생략한 카메라판을 두 번째 참조로 넣어, 본체와 그림자의 세로 간격만 따르게 했다. C에서는 본체를 다시 그리지 않도록 하단 영역의 생성 픽셀만 남긴다.
-
-| Scene A 그림자 포함 컷아웃 | Scene B 그림자 포함 컷아웃 | Scene C 그림자 포함 컷아웃 |
-| --- | --- | --- |
-| ![Qwen 2511로 생성한 Scene A 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png) | ![Qwen 2511로 생성한 Scene B 컷아웃의 바닥 그림자와 확장 마스크 잔상 제거 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![거리 토큰 없는 카메라 C의 본체-그림자 간격을 참조해 생성한 흰 배경 컷아웃 그림자](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10.png) |
-
-이 결과는 **잔상 제거 구조**만 확인한다. 그림자 실루엣과 지면 원근은 아직 자연스럽지 않으므로, 이를 실제 장면에 바로 합성할 최종 그림자로 채택하지 않는다. 포즈 아이덴티 생성기는 A·B에서 이 그림자 포함 컷아웃을 자동으로 `Picture 1`에 사용한다. C도 먼저 같은 그림자 산출물을 만든 뒤에만 자동 실행할 수 있으며, 그림자 자산이 없으면 생성기가 중단해 흰 배경 원본 컷아웃으로 조용히 되돌아가지 않는다.
-
-[Qwen 2511 컷아웃 그림자 생성기 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_generate_cutout_shadow.py)
-
-[Scene A cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10-result.json)
-
-[Scene B cutout shadow result.json — JSON — Qwen 후보와 확장 보호 마스크 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json)
-
-[Scene C cutout shadow result.json — JSON — 카메라판 참조와 하단 그림자 합성 기록 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-c-no-closeup-v1-size-1280x1280-seed-62294-steps-10-result.json)
-
-### 그림자 포함 포즈에 측면 캐릭터 identity를 이식한다
+#### 포즈에 측면 캐릭터 identity를 이식한 이전 결과
 
 Scene B·C는 각각 그림자 포함 컷아웃을 `Picture 1`, P7-5.3의 2단계 착장 이미지를 `Picture 2`로 넣었다. `Picture 1`은 스플릿 점프·인물 크기·프레이밍·바닥 그림자를, `Picture 2`는 청록 단발·흰 크롭 재킷·회색 이너·청록 바지를 맡는다. 카메라 LoRA나 추가 포즈 설명은 넣지 않고, `Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose.`와 그림자 보존 지시만 사용했다.
 
@@ -87,22 +151,13 @@ Scene B·C는 각각 그림자 포함 컷아웃을 `Picture 1`, P7-5.3의 2단�
 
 [Scene C 다중 참조 result.json — JSON — 거리 토큰 없는 그림자 컷아웃·Stage 2 착장의 입력 순서, 2511과 30 step 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30-result.json)
 
-1280×1280, seed `62294`, 30 step, true CFG `4.0`에서 공중 스플릿 점프와 그 아래 그림자는 유지됐고, 두 번째 참조의 재킷·회색 이너·청록 바지도 함께 반영됐다. 따라서 P7-5.5의 기본 경로는 별도 착장 추출이나 Try-On LoRA가 아니라, 역할을 나눈 두 이미지의 Qwen Image Edit 2511 다중 참조 이식으로 둔다. 착장 추출과 Try-On LoRA의 비교 실험은 P7-5.12에서 별도로 다룬다.
+1280×1280, seed `62294`, 30 step, true CFG `4.0`에서 공중 스플릿 점프와 그 아래 그림자는 유지됐고, 두 번째 참조의 재킷·회색 이너·청록 바지도 함께 반영됐다. 이전 실험에서는 역할을 나눈 두 이미지의 Qwen Image Edit 2511 다중 참조 이식을 사용했다. 착장 추출과 Try-On LoRA의 비교 실험은 P7-5.12에서 별도로 다룬다.
 
-아래 실행은 위 result.json을 만든 기준 Python 코드다. `--pose`는 그림자 포함 포즈를 `Picture 1`로 고정하고, `--character`는 Stage 2 착장을 `Picture 2`로 넣는다. `--steps`를 바꾸면 동일한 입력·seed에서 step 수에 따른 의상·신발 세부 표현 변화를 비교할 수 있고, `--run-label`을 바꾸면 기존 결과 파일을 덮어쓰지 않는다.
-
-~~~bash
-python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py \
-  --scenes b \
-  --pose docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png \
-  --character docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png \
-  --run-label shadow-stage2-outfit-v1 \
-  --steps 30
-~~~
+이전 결과의 입력 순서와 실행 조건은 위 JSON에 남아 있다. 아래 코드는 이전 실험의 재현용이며, 새 장면의 그림자 없는 컷아웃을 적용하려면 입력 선택과 그림자 보존 지시를 먼저 조정해야 한다.
 
 [Qwen Image Edit 2511 다중 참조 이식 Python 코드 보기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py)
 
-### 컷아웃 캐릭터 identity에 Studio DeLight를 적용한다
+#### 컷아웃 캐릭터 identity에 Studio DeLight를 적용한다
 
 직접 이식한 단일 인물은 배경과 합치기 전에 한 번 중립 광원으로 정리한다. Qwen Image Edit 2509와 Studio DeLight LoRA에 이 이미지 한 장만 넣고 모델 카드의 trigger prompt `Neutral uniform lighting Preserve identity and composition`을 사용했다. 이때 입력은 포즈·얼굴·헤어·재킷·이너·바지·신발을 모두 가진 인물 이미지이고, 해안 배경은 입력하지 않는다.
 
@@ -120,7 +175,7 @@ python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py \
 
 [Scene C DeLight 캐릭터 result.json — JSON — Stage 2 착장 아이덴티 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10-result.json)
 
-### DeLight 캐릭터에 45도 얼굴 identity를 이식한다
+#### DeLight 캐릭터에 45도 얼굴 identity를 이식한다
 
 DeLight 캐릭터는 배경과 분리된 상태이므로, 얼굴·헤어만 바꾸는 BFS Head V5의 입력으로 사용하기 좋다. Picture 1에는 Scene B·C DeLight 캐릭터 컷아웃, Picture 2에는 45도 얼굴 참조를 넣었다. 포즈·흰 재킷·회색 이너·청록 바지·바닥 그림자는 Picture 1에 남기고, 얼굴 방향·앰버 홍채·청록 헤어의 기준만 Picture 2가 맡는다.
 
@@ -138,7 +193,7 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 [Scene C 45도 얼굴 참조 BFS result.json — JSON — 두 입력의 순서, LoRA 파일, seed와 step 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-### 카메라판에서 캐릭터를 제거해 배경판을 만든다
+#### 카메라판에서 캐릭터를 제거해 배경판을 만든다
 
 컷아웃에 캐릭터 identity를 이식한 뒤에는, 같은 카메라판에서 인물을 비운 배경판도 별도 자산으로 만든다. 이 배경판은 인물의 얼굴·착장 기준을 다시 넣지 않는다. Qwen Image Edit 2511에 카메라판 한 장만 넣고, 인물 자리만 주변 배경으로 메우며 장소의 주요 지형·식생·구도를 보존하도록 짧게 지시했다. 이 단계의 목적은 포즈를 만들거나 캐릭터를 보정하는 것이 아니라, 이후 합성에서 쓸 배경 입력을 한 장으로 고정하는 것이다.
 
@@ -156,7 +211,7 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 [카메라 C 배경판 result.json — JSON — 카메라 입력, 인물 제거 지시와 2511 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-camera-c-background-camera-c-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-### 배경판에 Studio DeLight를 적용한다
+#### 배경판에 Studio DeLight를 적용한다
 
 바로 위 배경판을 Qwen Image Edit 2509의 Studio DeLight 입력으로 사용해 중립 광원 처리를 한 번 더 적용했다. 프롬프트는 모델 카드의 trigger prompt인 `Neutral uniform lighting Preserve identity and composition`만 사용한다. 인물이 없는 배경판으로 분리했으므로, 이 단계에서 바뀌는 대상은 인물 identity나 포즈가 아니라 하늘·바다·바위·풀의 조명과 색조다.
 
@@ -174,7 +229,7 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 [Scene C DeLight 배경판 result.json — JSON — 배경판 입력, trigger prompt와 2509 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-background-c-size-1280x1280-seed-62294-steps-10-result.json)
 
-### DeLight 배경과 캐릭터를 다중 참조로 통합한다
+#### DeLight 배경과 캐릭터를 다중 참조로 통합한다
 
 첫 통합에서는 이 마스크를 쓰지 않았다. Qwen Image Edit 2511의 다중 참조에 DeLight 배경판을 `Picture 1`, BFS 45도 얼굴 참조를 이식한 캐릭터를 `Picture 2`로만 넣었다. 프롬프트도 배경은 Picture 1의 장소·구도, 인물은 Picture 2의 스플릿 점프·identity·착장을 각각 보존하라는 양성 지시로 한정했다.
 
@@ -192,7 +247,7 @@ Scene A·B·C 모두 10 step에서 45도 얼굴 방향과 앰버 홍채가 반�
 
 [Scene C DeLight 다중 참조 통합 result.json — JSON — 공원 배경·45도 얼굴 참조 캐릭터의 입력 순서와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-multireference-composite-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-### 통합 장면에 방향광을 다시 적용한다
+#### 통합 장면에 방향광을 다시 적용한다
 
 DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에는 단일 이미지 리라이트로 장면의 광원 방향을 다시 정할 수 있다. 여기서는 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용해 앞의 통합 이미지를 한 장만 입력하고, trigger `重新照明`과 `soft sunlight from the upper right`만 지시했다. 새 캐릭터 참조나 마스크는 이 단계에 넣지 않는다. [dx8152 Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}
 
@@ -209,6 +264,14 @@ DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에
 [Scene B BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 [Scene C BFS 통합 리라이트 result.json — JSON — BFS 통합 입력, Relight trigger와 실행 조건 보기](/AiBook/assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+## 체크리스트
+
+- [ ] P7-5.4의 A v5·B v8·C v7과 각 입력 JSON을 같은 장면에 연결했는가?
+- [ ] A·B·C의 Mira와 C의 조연을 각각 분리하고, 다른 인물·동물·새가 섞이지 않았는가?
+- [ ] C에서 가려진 영역과 마스크 경계의 누락을 구분하고, 투명 PNG의 알파가 마스크와 일치하는가?
+- [ ] 포즈 컷아웃에서 그림자 추가 단계를 거치지 않고 필요한 보정으로 이어지는가?
+- [ ] 새 입력의 후속 결과와 이전 카메라판의 실험 결과를 구분했는가?
 
 ## 출처와 참고 자료
 
