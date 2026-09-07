@@ -41,6 +41,33 @@ python docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_sc
 
 [P7-5.4 라인아트 씬 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py)
 
+## 라인아트 구도에 Mira의 아이덴티티와 화풍을 이식한다
+
+다음 단계에서는 Scene A 라인아트를 Picture 1로 유지하고, Mira 전신 착장 이미지를 Picture 2로 넣는다. Picture 1은 달리기 포즈·로우 앵글·도시 배경을 맡고, Picture 2는 Mira의 얼굴·헤어·착장·선화·절제된 색을 맡는다. 긴 외형 설명을 프롬프트에 다시 쓰지 않고 두 이미지의 역할을 분리해 두면, 구도가 달라졌는지와 Mira 참조가 부족한지를 별도로 읽을 수 있다.
+
+Scene A 결과에서는 지면 높이의 달리기 구도와 신발 밑창을 유지하면서, 청록 단발·흰 크롭 재킷·회색 이너·청록 팬츠가 반영됐다. 이식 단계는 Qwen-Image-Edit-2511을 BF16 순차 CPU 오프로딩으로 직접 실행하며 ComfyUI 서버를 사용하지 않는다.
+
+![Mira 아이덴티티와 화풍을 이식한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-identity-v1-size-1280x1280-seed-5420-steps-20.png)
+
+[Scene A Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-identity-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+
+같은 생성기는 `--scenes b c`처럼 여러 장면을 받아 한 번 로드한 파이프라인으로 순차 처리한다. Scene B에서는 Mira가 숲 공터의 도약 인물을 맡고, Scene C에서는 왼쪽 독자만 Mira로 바꾸며 오른쪽 독자와 배경 관계를 유지한다.
+
+![Mira 아이덴티티와 화풍을 이식한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-identity-v1-size-1280x1280-seed-5421-steps-20.png)
+
+[Scene B Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-identity-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+
+![Mira 아이덴티티와 화풍을 이식한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-identity-v1-size-1280x1280-seed-5422-steps-20.png)
+
+[Scene C Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-identity-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+
+~~~bash
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scene a
+python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scenes b c
+~~~
+
+[라인아트 Mira 아이덴티티 이식 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py)
+
 ## 편집 단계에서 캐릭터와 오브젝트를 보강한다
 
 다음 단계에서는 라인아트 구도판을 Picture 1로 넣고, Mira의 전신 착장·머리 참조와 장면에 필요한 오브젝트 참조를 추가한다. 이때 편집 모델이 맡을 일은 새 구도를 다시 발명하는 것이 아니라, 구도판의 카메라·포즈·배경 관계를 유지한 채 일반 인물을 Mira로 바꾸고 착장과 소품을 보강하는 것이다.
