@@ -1,29 +1,11 @@
 # P2-7.4 가상환경(virtual environment)과 패키지(package)
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.31`
+> Version: `v2026.09.08`
 
-P2-7.3에서는 Python 코드를 실행하는 방식을 봤습니다. 이제 한 단계 더 현실적인 문제를 봅니다.
+가상환경(virtual environment)은 프로젝트마다 별도의 Python 패키지 집합을 갖게 합니다. 패키지를 설치한 Python과 코드를 실행하는 Python이 다르면 설치가 성공해도 `import`가 실패할 수 있습니다.
 
-예를 들어 다음 같은 상황을 자주 만납니다.
-
-- Python은 실행되는데 NumPy가 없다고 나옵니다.
-- 어제는 실행됐는데 오늘은 패키지 버전이 달라져 결과가 달라집니다.
-- 내 컴퓨터에서는 되는데 다른 사람 컴퓨터에서는 안 됩니다.
-
-이런 문제는 Python 문법만으로 해결되지 않습니다. 코드를 실행하는 공간과 그 공간에 설치된 패키지를 함께 봐야 합니다.
-
-여기서는 `가상환경(virtual environment)`, `패키지(package)`, `pip`, `import`의 관계를 설명합니다. 뒤 절에서 의존성 목록이나 환경 점검 순서를 다시 보더라도, 설치와 사용을 어느 Python 공간에 연결해야 하는지는 여기 설명을 기준으로 다시 읽습니다.
-
-여기서는 Python 배포와 패키징 전체를 배우기보다, 프로젝트별 실행 환경을 분리해 실습이 왜 달라지는지 이해하는 데 집중합니다. 여기서 가상환경, 패키지, 설치와 import의 차이를 잡아 두면, 뒤에서 의존성 목록, 재현성, 팀 협업 환경을 볼 때 무엇을 기록하고 무엇을 다시 설치해야 하는지 자연스럽게 이어집니다.
-
-| 지금 이 절에서 잡을 것 | 바로 다음에 이어질 질문 | 이후 다시 쓰이는 위치 |
-| --- | --- | --- |
-| 가상환경이 프로젝트별 실행 공간이라는 점 | P2-7.5에서 의존성 목록과 재현성으로 이어집니다. | 이후 모든 로컬 Python 실습에서 환경 충돌을 해석할 때 다시 씁니다. |
-| `pip install`과 `import`가 서로 다른 단계라는 점 | P2-7.9에서 설치 환경과 실행 환경이 어긋나는 오류를 더 점검합니다. | 패키지 설치 오류, Colab/로컬 차이, 라이브러리 준비 문맥에서 반복됩니다. |
-| Colab 런타임과 로컬 `.venv`가 다른 공간이라는 점 | P2-7.6, P2-7.7에서 운영체제별 설치·활성화 절차를 보강합니다. | Part 3 이후 실습 환경 재현과 팀 협업 안내에서 바탕이 됩니다. |
-
-| 용어 | 이 절에서 먼저 잡을 뜻 |
+| 용어 | 뜻 |
 | --- | --- |
 | 가상환경(virtual environment) | 프로젝트별로 분리한 Python 실행 공간입니다. |
 | 패키지(package) | Python에서 가져다 쓰는 코드 묶음입니다. |
@@ -31,25 +13,15 @@ P2-7.3에서는 Python 코드를 실행하는 방식을 봤습니다. 이제 한
 | `import` | 이미 준비된 패키지를 Python 코드 안에서 불러오는 문장입니다. |
 | `.venv` | 프로젝트 폴더 안에 두는 대표적인 로컬 가상환경 디렉터리 이름입니다. |
 
-## 핵심 기준: 가상환경(virtual environment)과 패키지(package)
+## 프로젝트 분리와 설치 위치
 
-- 가상환경(virtual environment)을 프로젝트별 Python 실행 공간으로 설명할 수 있습니다.
-- 패키지(package)를 Python에서 가져다 쓰는 코드 묶음으로 설명할 수 있습니다.
-- `pip`를 패키지를 설치하는 도구로 설명할 수 있습니다.
-- `pip install`과 `import`가 다른 일임을 설명할 수 있습니다.
-- 같은 컴퓨터 안에서도 프로젝트마다 필요한 패키지 버전이 다를 수 있음을 설명할 수 있습니다.
+| 기준 | 왜 중요한가 |
+| --- | --- |
+| 가상환경은 프로젝트별 Python 실행 공간이다 | 프로젝트마다 필요한 도구 버전이 다를 수 있기 때문이다 |
+| 설치와 `import`는 서로 다른 단계다 | 설치는 준비이고 `import`는 코드 안에서 실제로 불러오는 일이다 |
+| 가장 흔한 실수는 설치한 환경과 실행한 환경이 다른 경우다 | 같은 컴퓨터 안에도 여러 Python 공간이 있을 수 있다 |
 
-## 세 가지 기준
-
-| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
-| --- | --- | --- |
-| 가상환경은 프로젝트별 Python 실행 공간이다 | 프로젝트마다 필요한 도구 버전이 다를 수 있기 때문이다 | 가상환경을 충돌을 줄이는 분리 장치로 이해한다 |
-| 설치와 `import`는 서로 다른 단계다 | 설치는 준비이고 `import`는 코드 안에서 실제로 불러오는 일이다 | 터미널 명령과 Python 코드의 역할 차이를 설명할 수 있다 |
-| 가장 흔한 실수는 설치한 환경과 실행한 환경이 다른 경우다 | 같은 컴퓨터 안에도 여러 Python 공간이 있을 수 있다 | 환경 불일치라는 문제 유형을 구분할 수 있다 |
-
-## 가상환경은 왜 필요해졌을까
-
-가상환경은 Python을 처음 배우는 사람에게는 다소 번거로운 장치처럼 보입니다. 하지만 이 장치는 단순한 관습이 아니라, Python 생태계가 커지면서 생긴 실제 문제를 해결하기 위해 자리 잡았습니다.
+## venv가 도입된 배경
 
 PEP 405는 Python 표준 라이브러리에 `venv`를 추가하기 위한 제안입니다. 이 문서는 2011년에 만들어졌고, Python 3.3을 대상으로 했습니다. PEP 405의 동기(motivation)는 이미 `virtualenv` 같은 서드파티 가상환경 도구가 의존성 관리(dependency management), 격리(isolation), 시스템 관리자 권한 없이 패키지를 설치하고 사용하는 일, 여러 Python 버전에서 자동 테스트하는 일 등에 널리 쓰이고 있었다고 설명합니다.
 
@@ -60,15 +32,9 @@ PEP 405는 Python 표준 라이브러리에 `venv`를 추가하기 위한 제안
 - 관리자 권한 없이 설치해야 하는 경우가 많았다: 개인 프로젝트나 서버 계정에서 자유롭게 시스템 전체를 바꿀 수 없었습니다.
 - 여러 프로젝트와 Python 버전을 시험해야 했다: 하나의 전역 설치 공간만으로는 충돌을 피하기 어려웠습니다.
 
-그래서 가상환경은 학습 절차를 복잡하게 만들기 위한 장치가 아니라, 프로젝트별로 Python과 패키지를 분리해 충돌을 줄이려는 역사적 요구에서 나온 도구입니다.
+## 프로젝트별 패키지 버전
 
-## 왜 가상환경이 필요한가
-
-Python이 하나만 있으면 충분해 보일 수 있습니다. 곧바로 `Python을 설치하고`, `필요한 패키지를 설치하고`, `코드를 실행하면 끝난다`고 생각하기 쉽습니다.
-
-하지만 프로젝트가 늘어나면 문제가 생깁니다.
-
-예를 들어 다음처럼 프로젝트 요구가 다를 수 있습니다.
+프로젝트에 따라 필요한 패키지 버전이 다를 수 있습니다.
 
 - 프로젝트 A는 `numpy 1.x` 기준으로 작성되었습니다.
 - 프로젝트 B는 `numpy 2.x` 기준으로 작성되었습니다.
@@ -76,11 +42,10 @@ Python이 하나만 있으면 충분해 보일 수 있습니다. 곧바로 `Pyth
 
 가상환경(virtual environment)은 이런 충돌을 줄이기 위해 프로젝트별로 Python 실행 공간을 나누는 방법입니다. Python 공식 문서는 `venv`가 가벼운 가상환경을 만들며, 각 가상환경은 독립된 Python 패키지 집합을 가질 수 있다고 설명합니다.
 
-여기서는 가상환경을 `프로젝트별 Python 실행 공간`으로 이해합니다.
 - 프로젝트 A의 가상환경: 프로젝트 A에 필요한 패키지를 설치합니다.
 - 프로젝트 B의 가상환경: 프로젝트 B에 필요한 패키지를 따로 설치합니다.
 
-## 가상환경은 프로젝트 코드가 아니다
+## 가상환경과 공유할 파일
 
 가상환경은 프로젝트를 실행하기 위한 주변 환경입니다. 프로젝트의 원고나 코드 자체와는 다릅니다.
 
@@ -93,9 +58,9 @@ Python이 하나만 있으면 충분해 보일 수 있습니다. 곧바로 `Pyth
 - 커밋할 것: 원고, 코드, 설정 파일, 예제 파일
 - 커밋하지 않을 것: 내 컴퓨터에서 만든 가상환경 폴더
 
-가상환경 자체를 공유하는 대신, 어떤 패키지가 필요한지 기록하고 다시 설치할 수 있게 만드는 방향이 더 안전합니다. 이 문제는 P2-7.5의 의존성(dependency)과 재현성(reproducibility)에서 이어집니다.
+가상환경 자체를 공유하는 대신, 어떤 패키지가 필요한지 기록하고 다시 설치할 수 있게 만드는 방향이 더 안전합니다.
 
-## 패키지는 가져다 쓰는 코드 묶음이다
+## Python 패키지
 
 패키지(package)는 Python에서 가져다 쓸 수 있도록 배포되는 코드 묶음입니다. NumPy, Pandas, Matplotlib 같은 도구가 여기에 해당합니다.
 
@@ -107,7 +72,7 @@ Python이 하나만 있으면 충분해 보일 수 있습니다. 곧바로 `Pyth
 
 Python Packaging User Guide는 `pip`와 `venv`를 사용해 가상환경 안에 패키지를 설치하는 흐름을 안내합니다. 여기서 중요한 것은 패키지를 설치하는 일과 코드에서 불러오는 일이 다르다는 점입니다.
 
-## `pip install`은 설치이고, `import`는 사용이다
+## pip 설치와 import
 
 다음 명령은 패키지를 설치하는 터미널 명령입니다.
 
@@ -115,14 +80,11 @@ Python Packaging User Guide는 `pip`와 `venv`를 사용해 가상환경 안에 
 python -m pip install numpy
 ```
 
-이 명령은 Python 코드 파일 안에 쓰는 문장이 아닙니다. 터미널에서 실행하는 명령입니다. P2-7.3에서 본 것처럼 `python -m`은 Python에게 특정 모듈을 실행하라고 요청하는 방식입니다. 여기서는 `pip`를 실행해 NumPy를 설치합니다.
+이 명령은 Python 코드 파일 안에 쓰는 문장이 아닙니다. 터미널에서 실행하는 명령입니다. `python -m`은 지정한 Python으로 모듈을 실행합니다. 이 명령에서는 pip를 실행해 NumPy를 설치합니다.
 
 반면 다음은 Python 코드입니다.
 
-문제 상황: 설치와 대비해 실제 Python 코드 안에서 패키지를 어떻게 불러오는지 확인합니다.
-입력(input): `import numpy as np` 문장입니다.
-기대 출력(output): 출력은 없지만 현재 Python 코드에서 NumPy를 사용할 준비가 됩니다.
-확인할 개념: `pip install`은 설치이고, `import`는 이미 설치된 패키지를 코드 안에서 사용하는 단계라는 점을 봅니다.
+NumPy가 설치된 Python에서 `import numpy as np`를 실행하면 별도 출력 없이 `np`라는 이름으로 NumPy를 사용할 수 있습니다.
 
 ```python
 # 현재 환경에 설치된 NumPy 패키지를 Python 코드에서 불러옵니다.
@@ -138,14 +100,7 @@ import numpy as np
 | 패키지 설치 | `python -m pip install numpy` | 터미널 |
 | 패키지 사용 | `import numpy as np` | Python 코드 |
 
-여기서는 다음처럼 구분합니다.
-
-- `install`: 내 실행 환경에 패키지를 준비합니다.
-- `import`: 현재 Python 코드에서 그 패키지를 사용합니다.
-
-## 설치한 곳과 실행하는 곳이 같아야 한다
-
-자주 만나는 오류가 있습니다.
+## 설치 환경과 실행 환경
 
 입문자가 자주 만나는 오류는 `분명히 설치했는데 Python에서는 없다고 한다`는 상황입니다.
 
@@ -159,49 +114,37 @@ import numpy as np
 
 패키지는 추상적으로 “컴퓨터 어딘가”에 설치되는 것이 아닙니다. 특정 Python 실행 환경에 설치됩니다. 그래서 가상환경을 사용하면 패키지를 설치할 때도, 코드를 실행할 때도 같은 가상환경을 기준으로 해야 합니다.
 
-## 가상환경의 흐름을 그림처럼 보기
+## 가상환경의 Python으로 설치·실행
 
-실제 명령은 운영체제와 프로젝트 상황에 따라 달라질 수 있습니다. 하지만 흐름은 대체로 다음과 같습니다.
+프로젝트 폴더에서 가상환경을 만든 뒤, 그 안의 Python 경로를 직접 지정해 패키지를 설치하고 불러올 수 있습니다. 이 방식은 활성화 여부에 의존하지 않습니다.
 
-실제 흐름은 대체로 다음 순서로 이해하면 됩니다.
-
-1. 프로젝트 폴더로 이동합니다.
-2. 가상환경을 만듭니다.
-3. 가상환경을 사용 상태로 바꿉니다.
-4. 필요한 패키지를 설치합니다.
-5. Python 코드를 실행합니다.
-
-터미널 명령으로 보면 다음과 비슷한 흐름을 자주 만납니다.
-
-문제 상황: 가상환경 생성부터 패키지 설치, 스크립트 실행까지의 흐름을 한 번에 봅니다.
-입력(input): `venv` 생성, `pip` 설치, `python` 실행 명령 세 줄입니다.
-기대 출력(output): 프로젝트 전용 환경 생성, 패키지 준비, 코드 실행 순서가 드러납니다.
-확인할 개념: 가상환경과 패키지 사용은 하나의 연속된 작업 흐름으로 이해해야 한다는 점을 봅니다.
+macOS/Linux 터미널에서는 다음 명령을 순서대로 실행합니다. `python3`가 설치되어 있어야 합니다.
 
 ```bash
-python -m venv .venv
-python -m pip install numpy
-python example.py
+python3 -m venv .venv
+.venv/bin/python -m pip install numpy
+.venv/bin/python -c "import numpy; print(numpy.__version__)"
 ```
 
-여기에는 중요한 생략이 있습니다. 실제로는 가상환경을 활성화(activate)하는 단계가 필요할 수 있습니다. 운영체제별 활성화 명령은 Windows, macOS, Linux에서 다르게 보이므로 여기서는 외우지 않습니다. 자세한 사용 절차는 P2-7.6 보충학습에서 다루고, 활성화 여부와 설치 환경이 왜 자주 엇갈리는지는 P2-7.9 보충학습에서 다시 봅니다.
+Windows PowerShell에서 `python` 명령으로 Python을 실행할 수 있다면 다음과 같이 사용합니다.
 
-여기서는 다음 관점만 남깁니다.
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install numpy
+.\.venv\Scripts\python.exe -c "import numpy; print(numpy.__version__)"
+```
 
-- 가상환경을 만들었다: 프로젝트 전용 Python 공간을 만들었다는 뜻입니다.
-- 패키지를 설치했다: 그 공간 안에 도구를 준비했다는 뜻입니다.
-- `import`했다: Python 코드에서 그 도구를 불러왔다는 뜻입니다.
+첫 명령은 `.venv`를 만들고, 두 번째 명령은 그 환경에 NumPy를 설치합니다. 마지막 명령의 `-c`는 뒤 문자열을 Python 코드로 실행하는 옵션이며, 설치된 NumPy 버전이 출력됩니다.
 
-## Colab에서는 가상환경을 꼭 알아야 할까
+`.venv`를 만들기만 한 뒤 일반 `python -m pip install numpy`를 실행하면 새 환경이 아닌 다른 Python에 설치할 수 있습니다. 활성화(activate)를 사용하는 방법도 있지만, 위처럼 실행 파일 경로를 직접 지정하면 어느 환경을 사용하는지 명령에서 확인할 수 있습니다.
 
-Colab은 브라우저에서 실행되는 노트북 환경입니다. 초반 학습에서는 Python 설치와 가상환경을 몰라도 코드를 실행할 수 있습니다. 그래서 이 책은 앞쪽 실습에서 Colab을 사용할 수 있게 안내했습니다.
+## Colab 런타임의 패키지
+
+Colab은 브라우저에서 코드를 편집하고 런타임에서 실행하는 노트북 환경입니다. 호스팅 런타임을 사용하면 로컬에 Python을 설치하지 않아도 실행할 수 있습니다.
 
 하지만 Colab에서도 패키지 설치와 실행 환경 문제는 사라지지 않습니다.
 
-문제 상황: Colab에서도 현재 런타임에 패키지를 직접 설치해야 할 수 있음을 확인합니다.
-입력(input): 코드 셀의 `%pip install numpy` 명령입니다.
-기대 출력(output): 현재 Colab 런타임에 NumPy가 설치됩니다.
-확인할 개념: Colab은 편리하지만 로컬 가상환경과는 다른 별도 실행 공간이라는 점을 봅니다.
+Colab 코드 셀의 `%pip`는 현재 노트북 커널에 패키지를 설치합니다. 다음 셀을 실행하면 해당 환경에 NumPy가 준비됩니다.
 
 ```python
 # Colab/Jupyter 코드 셀에서 현재 런타임에 NumPy를 설치하는 명령입니다.
@@ -215,21 +158,18 @@ Colab은 브라우저에서 실행되는 노트북 환경입니다. 초반 학�
 - Colab 런타임: 브라우저 밖의 외부 실행 환경입니다.
 - 로컬 가상환경: 내 컴퓨터 프로젝트 폴더 주변의 실행 환경입니다.
 
-초반에는 Colab으로 충분할 수 있습니다. 하지만 프로젝트를 오래 유지하거나, 같은 코드를 다른 사람과 재현해야 한다면 가상환경과 의존성 관리를 이해해야 합니다.
+## 같은 폴더 이름, 다른 환경
 
-## 가상환경과 패키지: 확인할 판단 기준
+두 프로젝트에 각각 `.venv`가 있다고 가정합니다.
 
-이 사례에서는 가상환경과 패키지가 프로젝트별 실행 공간을 만드는 방식임을 설명하는지 확인한다.
+```text
+project-a/.venv/
+project-b/.venv/
+```
 
-### 사례 1. NumPy를 설치했는데도 `import`가 실패하는 이유
+`project-a/.venv`의 Python에 NumPy를 설치해도 `project-b/.venv`에는 자동으로 설치되지 않습니다. 두 환경이 기본 설정으로 만들어졌고 B에는 NumPy가 없다면, B의 Python에서 `import numpy`를 실행할 때 `ModuleNotFoundError`가 납니다.
 
-한 학습자가 터미널에서 `python -m pip install numpy`를 실행한 뒤, 곧바로 예제 파일을 돌렸다고 하겠습니다. 그런데 `import numpy as np`에서 여전히 오류가 납니다. 사람은 보통 `설치가 안 됐나`, `pip 명령이 거짓말했나`를 먼저 생각합니다.
-
-하지만 이런 경우는 설치 자체보다 설치한 환경과 실행한 환경이 다를 때 자주 생깁니다. 시스템 Python에 설치했는데 가상환경 Python으로 실행했거나, 다른 프로젝트용 가상환경을 켠 상태에서 코드를 돌렸을 수 있습니다.
-
-이 절의 핵심은 `가상환경`, `패키지`, `pip install`, `import`를 서로 다른 단계로 분리해 읽는 것입니다. 설치는 준비이고, `import`는 현재 실행 중인 Python 환경에서 실제로 불러오는 일입니다.
-
-확인 가능한 결과는 같은 터미널에서 어떤 Python 환경을 쓰고 있는지 확인해 보면 드러납니다. 설치 명령은 성공했는데 현재 가상환경에서만 `import numpy`가 실패한다면, 문제는 패키지 이름이 아니라 환경 분리에 있다고 설명할 수 있습니다.
+폴더 이름이 모두 `.venv`여도 전체 경로가 다르면 별개의 환경입니다. `sys.executable`로 출력한 Python 경로와 설치 명령에 사용한 경로를 비교하면 어느 프로젝트 환경에 설치했는지 확인할 수 있습니다.
 
 ## 체크리스트
 
@@ -245,6 +185,6 @@ Colab은 브라우저에서 실행되는 노트북 환경입니다. 초반 학�
 ## 출처와 참고 자료
 
 - Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 확인 날짜: 2026-07-20. 가상환경이 독립된 패키지 집합과 자체 Python 실행 파일을 갖고 시스템 site-packages와 격리될 수 있다는 설계 근거로 사용했다.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `venv`로 가상환경을 만들고 활성화하며, 환경 안에 Python과 패키지 상태가 분리된다는 설명 확인에 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-08. `venv`로 가상환경을 만들고 활성화하며, 환경 안에 Python과 패키지 상태가 분리된다는 설명 확인에 사용했다.
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-20. 프로젝트별 가상환경 생성과 `python -m pip install`을 통한 패키지 설치 흐름 확인에 사용했다.
 - Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `pip`, `venv`, PyPI, `python -m pip install`의 기본 역할과 시스템 설치 대신 가상환경을 우선 고려해야 하는 맥락 확인에 사용했다.
