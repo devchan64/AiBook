@@ -1,0 +1,82 @@
+{
+  "stage": "cutout_studio_delight",
+  "execution": "local GPU; Qwen Image Edit 2509 + Studio DeLight LoRA",
+  "notes": [
+    "Generated RGB candidates, not alpha cutouts.",
+    "Inspect lighting, identity, silhouette and occlusion changes before compositing."
+  ],
+  "characters": [
+    {
+      "character": "A Mira",
+      "result": "p7-5-5-qwen-2509-studio-delight-scene-a-mira-extras-v5-v1-size-1280x1280-seed-62294-steps-10-result.json",
+      "result_sha256": "5635f8e8f626e4f89a9873ae86746a90b0aee3c376da5ab0e6cf388115834d23",
+      "input": {
+        "role": "custom image or character-free background plate",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1.png",
+        "sha256": "1fd08604d6a85d16fd349fafc9c95a894a2070996e3515e12f31d97311a0167e"
+      },
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-a-mira-extras-v5-v1-size-1280x1280-seed-62294-steps-10.png",
+        "sha256": "1d60a5be1f1027dd99ed7a3cdf8339967dba243825fb55c46476b4e85abb8e2c",
+        "width": 1280,
+        "height": 1280
+      },
+      "command": ".venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py --image docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1.png --run-label scene-a-mira-extras-v5-v1 --size 1280 --seed 62294 --steps 10",
+      "visual_review": "Pose retained; skin color, line detail, gray background and contact shadow changed."
+    },
+    {
+      "character": "B Mira",
+      "result": "p7-5-5-qwen-2509-studio-delight-scene-b-mira-extras-v8-v1-size-1280x1280-seed-62294-steps-10-result.json",
+      "result_sha256": "008eda57794eb2494763cf277c4b675256fdbd5536cc9c959cb65071209df955",
+      "input": {
+        "role": "mira-b-extras-v8",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1.png",
+        "sha256": "be0e90180db1b0fb6cf1dc442d9c76e0775886d9bc1fe8720611735bd7490974"
+      },
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-b-mira-extras-v8-v1-size-1280x1280-seed-62294-steps-10.png",
+        "sha256": "05f99beb8bd2e16d6c0da53466e93764c42634b95a8b5d90242b702fc077ecc7",
+        "width": 1280,
+        "height": 1280
+      },
+      "command": ".venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py --image docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1.png --run-label scene-b-mira-extras-v8-v1 --size 1280 --seed 62294 --steps 10",
+      "visual_review": "Jump pose retained; shading softened, fine contours and background changed."
+    },
+    {
+      "character": "C Mira",
+      "result": "p7-5-5-qwen-2509-studio-delight-scene-c-mira-extras-v7-v1-size-1280x1280-seed-62294-steps-10-result.json",
+      "result_sha256": "8659bfd13bbda57e87507742c11088e2dd33fa2b19a334a5514c900951a108ad",
+      "input": {
+        "role": "mira-c-extras-v7",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-extras-v7-v1.png",
+        "sha256": "4a0a6b8fae4689fe3f321b4ac28ca806833e1e3b63d60f748541a40f6e6abe31"
+      },
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-mira-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png",
+        "sha256": "fe34dabde85bfabf1bc17e0fe034f396804f4e49e1b813959235cdeaf3248257",
+        "width": 1280,
+        "height": 1280
+      },
+      "command": ".venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py --image docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-extras-v7-v1.png --run-label scene-c-mira-extras-v7-v1 --size 1280 --seed 62294 --steps 10",
+      "visual_review": "Occluded outline partly filled and directional shadow introduced; not lighting-only."
+    },
+    {
+      "character": "C 조연",
+      "result": "p7-5-5-qwen-2509-studio-delight-scene-c-supporting-extras-v7-v1-size-1280x1280-seed-62294-steps-10-result.json",
+      "result_sha256": "70ab0c7c22da724ad1719cd3387b3e5777e078c4d3a0ddccce75b319d0fb8805",
+      "input": {
+        "role": "supporting-c-extras-v7",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4.png",
+        "sha256": "d62e515cd1a63bed007dfb04376b0ba54794f38d8672814368132e001c51d304"
+      },
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-supporting-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png",
+        "sha256": "d271036fd554556e5c28ae0a606c6ad3cbea72b9e1e1fa73d8d6c7db65ccf906",
+        "width": 1280,
+        "height": 1280
+      },
+      "command": ".venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py --image docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4.png --run-label scene-c-supporting-extras-v7-v1 --size 1280 --seed 62294 --steps 10",
+      "visual_review": "Occluded torso reconstructed, lineart changed to shaded rendering, directional shadow introduced; not suitable as final style-preserving composite input."
+    }
+  ]
+}

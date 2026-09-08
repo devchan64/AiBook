@@ -81,7 +81,53 @@ C의 빈 부분은 다른 인물·책·새에 가려져 원본에 보이지 않�
 
 [인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py) · [흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)
 
-현재 세 입력에 대해 완료한 단계는 인물 분리까지다. 새 배경판 생성과 통합은 아직 수행하지 않았다. 아래의 이전 실험은 구성 요소의 역할과 한계를 살펴보는 자료이며, 위 세 장면에서 이어진 출력으로 해석하지 않는다. 기존 후속 생성 코드의 기본 입력은 이전 실험을 가리킬 수 있으므로 실행 전에 입력을 확인한다.
+## 컷아웃의 조명을 중립화한다
+
+장면에서 인물을 분리해도 얼굴과 옷에 그려진 밝고 어두운 부분은 그대로 남는다. 인물을 다른 배경과 합칠 때는 이 밝기 차이가 새 배경의 빛과 맞는지 확인해야 한다. 여기서는 흰 배경 컷아웃 한 장씩에 Studio DeLight를 적용해 조명 보정 결과를 비교한다. [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}는 균일한 스튜디오 조명으로 편집하는 용도와 Qwen Image Edit 2509·2511 호환을 안내한다.
+
+입력은 위에서 분리한 A·B·C의 Mira와 C의 조연이다. Qwen Image Edit 2509에 Studio DeLight LoRA를 적용하고 `Neutral uniform lighting Preserve identity and composition`을 사용했다. 네 실행은 1280×1280, seed `62294`, 10 step, true CFG `4.0`, LoRA 강도 `1.0`으로 맞췄다. 캐릭터의 외형은 컷아웃에 이미 있으므로 별도의 얼굴·착장 참조는 추가하지 않았다.
+
+### A Mira 조명 보정 결과
+
+![A Mira 컷아웃의 Studio DeLight 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-a-mira-extras-v5-v1-size-1280x1280-seed-62294-steps-10.png)
+
+[입력·모델·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-a-mira-extras-v5-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+### B Mira 조명 보정 결과
+
+![B Mira 컷아웃의 Studio DeLight 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-b-mira-extras-v8-v1-size-1280x1280-seed-62294-steps-10.png)
+
+[입력·모델·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-b-mira-extras-v8-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+### C Mira 조명 보정 결과
+
+![C Mira 컷아웃의 Studio DeLight 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-mira-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png)
+
+[입력·모델·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-mira-extras-v7-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+### C 조연 조명 보정 결과
+
+![C 조연 컷아웃의 Studio DeLight 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-supporting-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png)
+
+[입력·모델·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-supporting-extras-v7-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+| 입력 | 유지된 부분 | 관찰된 변화와 한계 |
+| --- | --- | --- |
+| A Mira | 달리는 자세, 크게 보이는 전경 신발, 청록 머리·바지 | 피부색이 생기고 검은 음영이 완화됐다. 신발 밑창의 세부선이 바뀌고 회색 배경·발밑 그림자가 생겼다. |
+| B Mira | 도약 자세와 팔·다리 방향, 흰 재킷·청록 바지 | 강한 음영이 줄었으나 손끝·머리카락·옷 주름이 일부 달라졌고 배경이 회색으로 바뀌었다. |
+| C Mira | 앉은 자세와 청록 단발, 재킷·바지·신발의 큰 구성 | 가려져 비어 있던 바지 외곽을 일부 채웠고 피부색과 왼쪽 아래 방향의 그림자가 생겼다. |
+| C 조연 | 고개를 숙여 앉은 자세, 후드 상의·바지 | 가려진 몸통을 새로 채웠다. 흑백 선화가 입체적인 채색 표현으로 크게 바뀌고 방향성 그림자가 생겼다. |
+
+A·B에서는 자세를 유지하면서 음영이 완화된 모습을 볼 수 있다. C 두 결과는 가림 영역과 그림자까지 바뀌었으므로 중립 조명만 반영한 결과로 사용할 수 없다. 특히 조연은 원래 화풍과의 차이가 커, 이 실행을 그대로 최종 합성 자산으로 삼지 않는다. 별도의 그림자 생성 단계를 실행한 것은 아니며, 여기서 관찰한 그림자는 DeLight 모델 출력에 생긴 변화다.
+
+[네 컷아웃의 입력·결과와 재현 명령](../../../assets/part-07/chapter-05/p7-5-5-cutout-delight-v1-result.json){ .lazy-source }
+
+
+이 단계는 원본 픽셀을 복사한 앞의 컷아웃과 달리 이미지를 다시 생성한다. 따라서 조명이 바뀌었는지뿐 아니라 눈·머리카락·옷 주름·손·신발과 인물 외곽이 달라졌는지도 함께 비교한다. 결과 PNG에는 투명 알파가 없으며, 원래 마스크가 새 외곽과 일치한다고 가정해서는 안 된다. C에서 가려져 있던 신체는 이 단계의 복원 대상이 아니다.
+
+[Studio DeLight 실행 코드](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py)의 현재 컷아웃 선택값은 `mira-a-extras-v5`, `mira-b-extras-v8`, `mira-c-extras-v7`, `supporting-c-extras-v7`이다. 실행 기록의 입력 SHA-256으로 앞 단계 컷아웃과의 연결을 확인할 수 있다.
+
+아래 보충학습은 이전 카메라판의 결과다. 위 컷아웃·DeLight 결과와 입력이 다르므로 서로 이어진 출력으로 해석하지 않는다. 기존 후속 생성 코드의 기본 입력은 이전 실험을 가리킬 수 있으므로 실행 전에 입력을 확인한다.
 
 ## 보충학습: 이전 카메라판의 합성 실험
 
@@ -270,7 +316,8 @@ DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에
 - [ ] P7-5.4의 A v5·B v8·C v7과 각 입력 JSON을 같은 장면에 연결했는가?
 - [ ] A·B·C의 Mira와 C의 조연을 각각 분리하고, 다른 인물·동물·새가 섞이지 않았는가?
 - [ ] C에서 가려진 영역과 마스크 경계의 누락을 구분하고, 투명 PNG의 알파가 마스크와 일치하는가?
-- [ ] 포즈 컷아웃에서 그림자 추가 단계를 거치지 않고 필요한 보정으로 이어지는가?
+- [ ] 컷아웃에 DeLight를 적용했을 때 조명 변화와 얼굴·화풍·가림 영역의 변화를 따로 비교했는가?
+- [ ] 별도 그림자 추가 단계 없이도 모델 출력에 그림자가 생길 수 있음을 결과에서 확인했는가?
 - [ ] 새 입력의 후속 결과와 이전 카메라판의 실험 결과를 구분했는가?
 
 ## 출처와 참고 자료

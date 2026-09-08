@@ -33,6 +33,10 @@ STUDIO_DELIGHT_FILE = "QIE-2511-Studio-DeLight-5000.safetensors"
 PROMPT = "Neutral uniform lighting Preserve identity and composition"
 DEFAULT_IMAGE = ASSETS / "p7-5-5-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10.png"
 ASSET_PRESETS: dict[str, Path | None] = {
+    "mira-a-extras-v5": ASSETS / "p7-5-5-character-cutout-scene-a-mira-extras-v5-v1.png",
+    "mira-b-extras-v8": ASSETS / "p7-5-5-character-cutout-scene-b-mira-extras-v8-v1.png",
+    "mira-c-extras-v7": ASSETS / "p7-5-5-character-cutout-scene-c-mira-extras-v7-v1.png",
+    "supporting-c-extras-v7": ASSETS / "p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4.png",
     "character-a": ASSETS / "p7-5-5-qwen-2511-pose-identity-official-camera-scene-a-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png",
     "character-b": ASSETS / "p7-5-5-qwen-2511-pose-identity-official-camera-scene-b-shadow-stage2-outfit-v1-size-1280x1280-seed-62294-steps-30.png",
     "character-c": ASSETS / "p7-5-5-qwen-2511-pose-identity-official-camera-scene-c-shadow-stage2-outfit-no-closeup-v2-size-1280x1280-seed-62294-steps-30.png",
@@ -68,7 +72,7 @@ def main() -> None:
     parser.add_argument(
         "--asset",
         choices=tuple(ASSET_PRESETS),
-        help="Choose one of the prepared character-a|b|c or background-a|b|c inputs.",
+        help="Choose a current extras cutout or a historical character/background input.",
     )
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=1280, help="Square output edge.")
@@ -109,6 +113,9 @@ def main() -> None:
     if args.dry_run:
         print(json.dumps(plan, ensure_ascii=False, indent=2))
         return
+    for path in (output, result):
+        if path.exists():
+            raise FileExistsError(path)
     for required in (TRANSFORMER_DIR / "config.json", delight_weight):
         if not required.is_file():
             raise FileNotFoundError(required)
@@ -118,6 +125,8 @@ def main() -> None:
     from diffusers.utils import load_image
     from huggingface_hub import snapshot_download
 
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is required for local Studio DeLight execution")
     output_dir.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
     model_path = Path(snapshot_download(MODEL_ID, cache_dir=HUB_CACHE, local_files_only=True))
