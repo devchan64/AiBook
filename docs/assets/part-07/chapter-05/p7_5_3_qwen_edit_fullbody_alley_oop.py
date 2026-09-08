@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate a single dynamic alley-oop full-body reference for P7-5.3.
 
-The stage-2 outfit and the frontal torso are the two image references.  This
+The stage-3 outfit and the frontal torso are the two image references.  This
 script uses the official Qwen Image Edit 2511 BF16 pipeline directly, without
 requiring a ComfyUI server.
 """
@@ -24,8 +24,7 @@ PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 OUTFIT_REFERENCE = ASSETS / (
-    "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-"
-    "bf16-2511-stage1-v9-jacket-v4-seed-62294-steps-10.png"
+    'p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
 )
 TORSO_REFERENCE = ASSETS / "p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png"
 DEFAULT_SEED = 62294
@@ -140,7 +139,7 @@ def main() -> None:
                 "execution_mode": "direct Diffusers; sequential CPU offload; no ComfyUI server",
                 "model": {"repository": MODEL_ID, "dtype": "bfloat16", "device_placement": "sequential_cpu_offload"},
                 "inputs": [asset_record(OUTFIT_REFERENCE), asset_record(TORSO_REFERENCE)],
-                "input_roles": ["stage_2_fullbody_outfit", "frontal_torso_face_hair_style"],
+                "input_roles": ["stage_3_fullbody_outfit", "frontal_torso_face_hair_style"],
                 "seed": args.seed,
                 "steps": args.steps,
                 "size": [width, height],

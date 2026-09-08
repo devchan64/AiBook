@@ -1,0 +1,53 @@
+{
+  "status": "generated",
+  "stage": "outfit_shoe_extraction",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "model_card": "https://huggingface.co/Qwen/Qwen-Image-Edit-2511",
+  "prompt": "Extract the pair of shoes worn by the woman in Picture 1. Show only the two shoes, fully visible and side by side on a plain white background. Preserve their design, colors, laces, soles, and illustration style. Remove the person and all other clothing.",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+      "sha256": "c609cb7fb072f18727d53818152b5833a2be1d080f9ff8fed999edb6125e99b7"
+    }
+  ],
+  "input_preprocessing": {
+    "mode": "native aspect ratio; RGB; alpha on white",
+    "size": [
+      960,
+      1440
+    ]
+  },
+  "settings": {
+    "steps": 30,
+    "seed": 62294,
+    "size": 1280,
+    "true_cfg_scale": 4.0,
+    "guidance_scale": 1.0,
+    "negative_prompt": " ",
+    "mask": false,
+    "lora": null,
+    "output_compositing": false,
+    "generator_device": "cuda"
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-extract-shoes-v1-size-1280x1280-seed-62294-steps-30.png",
+    "sha256": "d1f076e1b67cf4d5cfc99b950029471bf5a752d450c874530fc30888591efe87",
+    "width": 1280,
+    "height": 1280
+  },
+  "result_path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-extract-shoes-v1-size-1280x1280-seed-62294-steps-30-result.json",
+  "script": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_extract_shoes.py",
+    "sha256": "544cde076047dba405722c96562b1195e6a2ab804488ca51901d024754b39865"
+  },
+  "elapsed_seconds": 727.72,
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "packages": {
+    "diffusers": "0.37.0",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "accelerate": "1.13.0"
+  }
+}

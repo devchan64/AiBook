@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate P7-5.3 full-body outfit yaw views with Qwen Image Edit 2511.
 
-The current stage-2 outfit is the only image input.  The fal
+The current stage-3 outfit is the only image input.  The fal
 Multiple-Angles LoRA receives only its documented camera-token prompt, in the
 order ``<sks> [azimuth] [elevation] [distance]``.  The LightX2V four-step
 Lightning LoRA supplies the sampling profile.  OpenPose and a separate face
@@ -31,8 +31,7 @@ LIGHTNING_ID = "lightx2v/Qwen-Image-Edit-2511-Lightning"
 LIGHTNING_FILENAME = "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors"
 LIGHTNING_DIR = PROJECT_ROOT / ".tmp" / "download" / "weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
 DEFAULT_REFERENCE = ASSETS / (
-    "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-"
-    "bf16-2511-stage1-v9-jacket-v4-seed-62294-steps-10.png"
+    'p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
 )
 YAW_CAMERA_VIEWS = {
     "yaw_minus_90": ("left side view", -90),
@@ -142,7 +141,7 @@ def main() -> None:
         for yaw in yaws:
             azimuth, yaw_degrees = YAW_CAMERA_VIEWS[yaw]
             stem = (
-                f"p7-5-3-qwen-outfit-stage2-vertical-{vertical}-{yaw}-"
+                f"p7-5-3-qwen-outfit-stage3-vertical-{vertical}-{yaw}-"
                 f"{args.run_label}-size-{args.width}x{args.height}-"
                 f"seed-{args.seed}-steps-{args.steps}"
             )
@@ -210,7 +209,7 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     reference_image = load_image(str(reference)).convert("RGB").resize((args.width, args.height))
     shared_input = {
-        "role": "Picture 1: stage-2 full-body outfit reference",
+        "role": "Picture 1: stage-3 full-body outfit reference",
         **asset_record(reference),
         "normalized_size": [args.width, args.height],
     }
@@ -276,7 +275,7 @@ def main() -> None:
         outputs.append({**plan["target"], "output": str(output), "result_record": str(result_path)})
         print(json.dumps(outputs[-1], ensure_ascii=False), flush=True)
     batch_result = output_dir / (
-        f"p7-5-3-qwen-outfit-stage2-yaw-batch-{args.run_label}-"
+        f"p7-5-3-qwen-outfit-stage3-yaw-batch-{args.run_label}-"
         f"size-{args.width}x{args.height}-seed-{args.seed}-steps-{args.steps}-result.json"
     )
     batch_result.write_text(

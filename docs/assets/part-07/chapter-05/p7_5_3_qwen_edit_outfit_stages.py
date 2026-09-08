@@ -26,6 +26,7 @@ MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 10
 QWEN_FACE_REFERENCE = "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png"
+SHOE_REFERENCE = "p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png"
 FRONT_TORSO_REFERENCE = "p7-5-2-qwen-2511-mira-torso-front-identity-framing-neutral-gray-v3-size-1280x1280-seed-62294-steps-10.png"
 # 960×1440 BODY_18 map: 90% overall figure height with 7 px-radius joints.
 STAGE2_BODY_ONLY_OPENPOSE = "p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"
@@ -42,129 +43,39 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
             "Picture 1 defines the strict front full-body pose and framing; do not render its lines. "
-            "Picture 2 defines Mira's identity. Front full-body illustrated woman with both arms and hands visible, in a charcoal-gray micro crop tee, deep-teal high-waisted wide-leg trousers, and white low-top sneakers."
+            "Picture 2 defines Mira's identity. "
+            "Front full-body illustrated woman with both arms and hands visible, in a charcoal-gray micro crop tee, deep-teal high-waisted wide-leg trousers, with bare feet and no shoes."
         ),
     },
-    "outfit_stage2_jacket_face": {
-        "inputs": (
-            "p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-bf16-2511-openpose-waist-up-legs-down-arms-v9-seed-62294-steps-10.png",
-            QWEN_FACE_REFERENCE,
+    "outfit_stage2_shoes": {
+        "inputs": (SHOE_REFERENCE,),
+        "predecessor": "outfit_stage1_face_openpose",
+        "input_roles": ["stage_1_barefoot_fullbody", "white_sneakers_reference"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 10,
+        "size": (960, 1440),
+        "negative_prompt": "text, panel, collage, extra person",
+        "prompt": (
+            "Put the shoes from Picture 2 on both feet of the woman in Picture 1. "
+            "Preserve the shoe design and colors from Picture 2. "
+            "Keep the face, hair, clothing, pose, proportions, and background of Picture 1 unchanged."
         ),
-        "input_roles": ["stage_1_outfit_fullbody", "frontal_head_identity_hair_1280"],
+    },
+    "outfit_stage3_jacket_face": {
+        "inputs": (QWEN_FACE_REFERENCE,),
+        "predecessor": "outfit_stage2_shoes",
+        "input_roles": ["stage_2_outfit_with_shoes", "frontal_head_identity_hair_1280"],
         "append_style_prompt": False,
         "append_illustration_prompt": False,
         "default_steps": 10,
         "size": (960, 1440),
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
-            "Front full-body woman. Image 1: retain the stage-1 crop top, wide trousers, sneakers, and proportions. "
+            "Front full-body woman. Image 1: retain the stage-2 crop top, wide trousers, sneakers, and proportions. "
             "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; a flat folded-down pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves. Warm off-white background."
         ),
     },
-    "outfit_stage3_headless": {
-        "inputs": (
-            "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
-        ),
-        "input_roles": ["stage_2_outfit_fullbody"],
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 20,
-        "size": (1024, 1536),
-        "negative_prompt": "face, hair, head, text, panel, collage, extra person",
-        "prompt": (
-            "Front full-body outfit reference. A plain cool-gray background begins directly above the neck with no silhouette. "
-            "Preserve the neck, shirt collar, jacket collar, shoulders, exact jacket, crop top, trousers, hands, and sneakers."
-        ),
-    },
-    "outfit_stage3_faceless_bald": {
-        "inputs": (
-            "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
-        ),
-        "input_roles": ["stage_2_outfit_fullbody"],
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 20,
-        "size": (1024, 1536),
-        "negative_prompt": "hair, eyes, eyebrows, eyelashes, nose, mouth, facial features, text, panel, collage, extra person",
-        "prompt": (
-            "Front full-body faceless bald woman outfit reference. Preserve a smooth bald head silhouette and a blank face with no facial features. "
-            "Preserve the neck, shirt collar, jacket collar, shoulders, exact white cropped jacket, gray crop top, trousers, hands, and sneakers. Plain cool-gray background."
-        ),
-    },
-    "outfit_stage3_torso_face_hair_style": {
-        "inputs": (
-            "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30.png",
-            FRONT_TORSO_REFERENCE,
-        ),
-        "input_roles": ["stage_2_outfit_fullbody", "frontal_torso_face_hair_style"],
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 30,
-        "size": (1024, 1536),
-        "negative_prompt": "text, panel, collage, extra person",
-        "prompt": (
-            "Front full-body woman. Image 1 preserves the exact white cropped jacket, gray crop top, trousers, hands, and sneakers. "
-            "Image 2 replaces the face and hair and defines the line work, color, and shading. Plain cool-gray background."
-        ),
-    },
-    "outfit_stage3_4_headless_torso_face_hair_style": {
-        "inputs": (
-            "p7-5-3-qwen-edit-prompt-style-outfit_stage3_faceless_bald-long-trousers-folded-collar-v2-seed-62294-steps-20.png",
-            FRONT_TORSO_REFERENCE,
-            STAGE2_BODY_ONLY_OPENPOSE,
-        ),
-        "input_roles": ["stage_3_faceless_bald_outfit", "frontal_torso_face_hair_style", "front_body_only_openpose_v7"],
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 30,
-        "size": (1024, 1536),
-        "negative_prompt": "text, panel, collage, extra person",
-        "prompt": (
-            "Front full-body woman. Image 1 preserves the exact white cropped jacket, gray crop top, trousers, hands, and sneakers. "
-            "Image 2 defines the face, hair, line work, color, and shading. Image 3 defines the full-body proportion, arm and hand placement; do not render it. Plain cool-gray background."
-        ),
-    },
-    "outfit_stage3_stage2_openpose": {
-        "inputs": (
-            "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30.png",
-            STAGE2_BODY_ONLY_OPENPOSE,
-        ),
-        "input_roles": ["stage_2_outfit_fullbody", "stage_2_calibrated_front_body_only_openpose"],
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 30,
-        "size": (1024, 1536),
-        "negative_prompt": "face, hair, facial features, OpenPose lines, dots, labels, text, panel, collage, extra person",
-        "prompt": (
-            "Front full-body faceless bald woman outfit reference. Image 1 preserves the white cropped jacket, gray crop top, trousers, hands, and sneakers. "
-            "Image 2 defines the standing body proportion, lowered arms, hands, and feet; do not render it. Plain cool-gray background."
-        ),
-    },
-    "outfit_stage4_stage2_openpose_torso": {
-        "inputs": (
-            "p7-5-3-qwen-edit-prompt-style-outfit_stage3_stage2_openpose-stage2-openpose-v1-seed-62294-steps-30.png",
-            FRONT_TORSO_REFERENCE,
-            STAGE2_BODY_ONLY_OPENPOSE,
-        ),
-        "input_roles": ["stage_3_body_aligned_faceless_outfit", "frontal_torso_face_hair_style", "stage_2_calibrated_front_body_only_openpose"],
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 30,
-        "size": (1024, 1536),
-        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
-        "prompt": (
-            "Front full-body woman. Image 1 preserves the outfit, hands, and shoes. Image 2 defines face, hair, line work, color, and shading. "
-            "Image 3 defines standing body proportion and relaxed arms; do not render it. Plain cool-gray background."
-        ),
-    },
-}
-
-# Stages 3 and 4 are retired.  Keep only the two active, reproducible outfit
-# stages exposed through the CLI while their older configuration remains as
-# local implementation history until the broader manuscript history is pruned.
-OUTFIT_STAGE_TARGETS = {
-    name: OUTFIT_STAGE_TARGETS[name]
-    for name in ("outfit_stage1_face_openpose", "outfit_stage2_jacket_face")
 }
 
 
@@ -228,9 +139,12 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=None)
     parser.add_argument("--size", type=parse_size)
-    parser.add_argument("--run-label", default="v2-natural-eyes")
+    parser.add_argument("--run-label", default="three-stage-v1")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
+    parser.add_argument("--input", type=Path, help="Override the predecessor image for stage 2 or 3.")
     args = parser.parse_args()
+    if args.input and (args.targets or args.target == "outfit_stage1_face_openpose"):
+        parser.error("--input requires a single stage 2 or stage 3 target")
     if bool(args.target) == bool(args.targets):
         parser.error("provide exactly one of --target or --targets")
     if args.targets:
@@ -238,6 +152,8 @@ def main() -> None:
             command = [sys.executable, str(Path(__file__).resolve()), "--target", target_id, "--seed", str(args.seed), "--run-label", args.run_label, "--output-dir", str(args.output_dir)]
             if args.steps is not None:
                 command.extend(("--steps", str(args.steps)))
+            if args.size:
+                command.extend(("--size", f"{args.size[0]}x{args.size[1]}"))
             subprocess.run(command, check=True)
         return
     if not torch.cuda.is_available():
@@ -249,6 +165,11 @@ def main() -> None:
     if not isinstance(steps, int) or steps < 1:
         raise ValueError("--steps must be at least 1")
     inputs = [ASSETS / name for name in target["inputs"]]
+    if predecessor := target.get("predecessor"):
+        previous = args.input or (args.output_dir / (
+            f"p7-5-3-qwen-edit-prompt-style-{predecessor}-{args.run_label}"
+            f"-seed-{args.seed}-steps-{steps}.png"))
+        inputs.insert(0, previous.resolve())
     if missing := [str(path) for path in inputs if not path.is_file()]:
         raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
     if not IDENTITY_CONTRACT.is_file():
@@ -269,6 +190,9 @@ def main() -> None:
     stem = f"p7-5-3-qwen-edit-prompt-style-{args.target}-{args.run_label}-seed-{args.seed}-steps-{steps}"
     output = args.output_dir / f"{stem}.png"
     result_record = args.output_dir / f"{stem}-result.json"
+    for path in (output, result_record):
+        if path.exists():
+            raise FileExistsError(path)
     started = time.monotonic()
     pipeline = load_pipeline()
     generation = {

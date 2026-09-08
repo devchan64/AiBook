@@ -1,0 +1,41 @@
+{
+  "status": "generated",
+  "stage": "white_sneakers_text_to_image",
+  "model": "Qwen/Qwen-Image-2512",
+  "model_card": "https://huggingface.co/Qwen/Qwen-Image-2512",
+  "prompt": "A pair of plain white low-top lace-up sneakers with white soles and white laces. Both shoes fully visible, side by side with a small gap, in a three-quarter view. Clean illustration with fine outlines and subtle shading on a plain white background. No colored panels, logos, text, person, feet, or other clothing.",
+  "inputs": [],
+  "settings": {
+    "steps": 10,
+    "seed": 62294,
+    "size": 1280,
+    "true_cfg_scale": 4.0,
+    "guidance_scale": 1.0,
+    "negative_prompt": " ",
+    "mask": false,
+    "lora": null,
+    "output_compositing": false,
+    "generator_device": "cuda"
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "7c87b107d8619dca03aca9ce7317be0be0f1c93974e6f3da00bf519710d90c71",
+    "width": 1280,
+    "height": 1280
+  },
+  "result_path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10-result.json",
+  "script": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_3_qwen_image_2512_generate_white_sneakers.py",
+    "sha256": "0a92f59b7366fd1acc567e2bd6e75f216b44a2ea72b702fe8b0ed070a98315ff"
+  },
+  "elapsed_seconds": 173.83,
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "packages": {
+    "diffusers": "0.37.0",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "accelerate": "1.13.0"
+  }
+}

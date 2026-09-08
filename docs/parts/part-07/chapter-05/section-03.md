@@ -1,13 +1,15 @@
 # P7-5.3 캐릭터 identity와 추가 페인팅으로 특징 완성하기
 
 > Section ID: `P7-5.3`
-> Version: `v2026.09.05`
+> Version: `v2026.09.08`
 
 같은 캐릭터를 다른 장면과 자세에서도 이어 그리려면, 얼굴·착장·전신 구조를 한 이미지나 한 프롬프트에 모두 맡기지 않아야 한다. 이 절에서는 [P7-5.2](section-02.md)에서 이미 만든 정면 머리와 상반신 기준을 **입력 자산**으로 사용하고, 전신 비례·기본 의상·재킷·동작을 이전 결과 위에 한 단계씩 추가하는 Qwen 편집 경로를 기록한다. 얼굴 identity 계약, 정면 머리 T2I, 상반신 15방향 카메라 기준은 P7-5.2의 범위이므로 여기서 다시 설명하지 않는다.
 
 이 절의 질문은 간단하다. 캐릭터 identity를 잃지 않으면서 전신 비례·기본 의상·재킷·동작 같은 특징을 어떤 순서로 추가 페인팅해야 서로의 정보를 덮어쓰지 않을까?
 
 ## 한 이름으로 부르지 않는 실행 조합
+
+먼저 기존 두 단계 착장과 회전·앨리웁의 실행 조합을 설명한다. 새 맨발·신발·재킷 세 단계 경로는 아래 「신발 추가를 독립 단계로 나눈다」에서 구분한다.
 
 P7-5.3의 결과는 이름이 하나인 단일 모델에서 나오지 않는다. 편집 모델은 이미지 조건을 합치고, 두 LoRA는 회전 단계에서만 카메라와 속도를 보조하며, OpenPose renderer는 픽셀 구조 guide만 만든다. 이들을 모두 캐릭터를 만드는 모델이라고 부르면, 어느 조건을 바꿨을 때 결과가 달라졌는지 알 수 없다.
 
@@ -42,7 +44,55 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 따라서 정면 머리 참조와 정면 토르소 참조는 사용되는 생성 단계가 다르며, 모두 의상·신체 비례를 정하지 않는다. 착장 이미지는 얼굴 identity를 다시 정하지 않고, OpenPose는 얼굴·손가락·의상 픽셀이 없는 전신 포즈·프레이밍 참조로만 쓴다. 15방향 회전 이미지는 현재 결과에서 카메라 변화 관찰용 출력일 뿐, 다음 생성의 기준 입력으로 재사용하지 않는다. 새 입력을 더할 때는 먼저 이 표의 기존 역할과 겹치는지 확인한다.
 
-## 기본 의상은 얼굴 참조와 구조 맵으로 만든다
+## 신발 추가를 독립 단계로 나눈다
+
+새 착장 생성 경로는 **1단계 맨발 기본 의상 → 2단계 신발 추가 → 3단계 재킷 추가**다. 1단계에서 신발 참조를 제거하고, OpenPose와 정면 Mira 머리만 넣는다. 기본 의상 지시 뒤에 `with bare feet and no shoes`를 붙여 맨발을 생성한다.
+
+| 단계 | 첫 번째 참조 | 두 번째 참조 | 편집 지시 |
+| --- | --- | --- | --- |
+| 1단계 | 정면 body-only OpenPose | P7-5.2 정면 머리 | 기본 의상과 맨발 전신 생성 |
+| 2단계 | 새 1단계 맨발 전신 | Qwen-Image-2512 흰색 스니커즈 | 참조 신발을 양발에 추가 |
+| 3단계 | 새 2단계 신발을 신은 전신 | P7-5.2 정면 머리 | 기존 재킷 추가 지시 적용 |
+
+![맨발 기본 의상을 생성한 새 1단계 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-three-stage-v1-seed-62294-steps-10.png)
+
+[새 1단계 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-three-stage-v1-seed-62294-steps-10-result.json){ .lazy-source }
+
+로컬 GPU에서 10스텝으로 생성한 결과, 두 발이 맨발로 드러났고 회색 상의와 딥틸 와이드 팬츠가 생성됐다. 상의와 바지 사이에는 좁은 맨허리 띠가 보인다. 입력 두 장과 출력의 해시를 결과 JSON과 대조했다.
+
+2단계에서는 신발 디자인을 글로 다시 설명하지 않고 다음과 같이 참조를 지정한다.
+
+> Put the shoes from Picture 2 on both feet of the woman in Picture 1. Preserve the shoe design and colors from Picture 2. Keep the face, hair, clothing, pose, proportions, and background of Picture 1 unchanged.
+
+![2단계 흰색 스니커즈 추가 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_shoes-three-stage-v1-seed-62294-steps-10.png)
+
+[2단계 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_shoes-three-stage-v1-seed-62294-steps-10-result.json){ .lazy-source }
+
+로컬 GPU에서 960×1440, 10스텝, seed `62294`, true CFG `4.0`으로 생성했다. 양발에 흰색 스니커즈가 추가됐고, 참조의 끈과 검은 밑창 테두리가 반영됐다. 정면 자세와 회색 크롭티·딥틸 와이드 팬츠는 대체로 유지됐다. 다만 배경이 흰색으로 바뀌고 얼굴·피부·의상의 음영이 단순해졌다. 신발 밖의 모든 픽셀이 보존된 결과는 아니다. 이 전신을 3단계 재킷 추가의 첫 입력으로 사용한다.
+
+3단계는 2단계 전신을 첫 번째 참조로, P7-5.2 정면 머리를 두 번째 참조로 사용한다. 기존 크롭티·와이드 팬츠·스니커즈·비례를 유지하면서 열린 흰색 크롭 재킷을 더하도록 지시한다. 접혀 내려오는 뾰족한 칼라, 서로 닿지 않는 앞판, 손목까지 오는 소매와 소매 아래 드러나는 양손을 지정했다. 배경은 `Warm off-white background`로 요청했다.
+
+![3단계 열린 흰색 크롭 재킷 추가 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)
+
+[3단계 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10-result.json){ .lazy-source }
+
+로컬 GPU에서 960×1440, 10스텝, seed `62294`, true CFG `4.0`으로 생성했다. 열린 흰색 재킷과 접힌 칼라가 추가됐고, 소매 아래로 양손이 보인다. 크롭티와 좁은 맨허리 띠, 딥틸 와이드 팬츠, 흰색 스니커즈와 정면 자세는 대체로 유지됐다. 배경은 지시한 대로 따뜻한 크림색으로 바뀌었다. 이 결과가 새 세 단계 착장 경로의 마지막 출력이며, 아래의 기존 회전·앨리웁 결과를 이 이미지로 재생성한 것은 아니다.
+
+[수정한 착장 1~3단계 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py)의 target은 `outfit_stage1_face_openpose`, `outfit_stage2_shoes`, `outfit_stage3_jacket_face`다. 2·3단계는 같은 실행 이름·시드·스텝의 직전 단계 출력을 자동으로 찾는다. 다른 조건으로 만든 결과를 사용할 때는 단일 target에 `--input`으로 이전 PNG를 지정한다. 기본 크기는 960×1440, 스텝은 10이다. 결과 JSON에는 실제 입력·출력의 해시와 프롬프트가 남는다.
+
+아래는 새 실행 이름으로 1~3단계를 순서대로 생성하는 명령이다. 이미 생성한 결과는 덮어쓰지 않으므로 재실행할 때는 사용하지 않은 `--run-label`을 지정한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py \
+  --targets outfit_stage1_face_openpose outfit_stage2_shoes outfit_stage3_jacket_face \
+  --run-label three-stage-v2 --steps 10
+```
+
+## 이전 두 단계 착장 경로의 실행 기록
+
+앞의 모델 역할 설명·자산 역할표와 아래 회전·앨리웁 결과는 **변경 전 두 단계 경로**의 실행 기록이다. 당시 1단계는 신발까지 생성했고, 2단계는 재킷을 더했다. 파일명과 결과 JSON의 단계 번호는 당시 기록을 유지한다. 아래 이미지는 새 맨발·신발 추가·재킷 추가 경로의 결과가 아니다.
+
+### 기본 의상은 얼굴 참조와 구조 맵으로 만들었다
 
 압축 프롬프트 1단계는 양팔을 자연스럽게 내린 정면 body-only OpenPose를 첫 입력으로, P7-5.2에서 BF16으로 만든 1280×1280 정면 Mira 머리를 두 번째 입력으로 사용한다. 첫 입력은 엄격한 정면 포즈와 프레이밍만, 두 번째 입력은 Mira identity만 맡는다. 착장은 회색 마이크로 크롭티·딥틸 하이웨이스트 와이드 팬츠·흰 로우탑 스니커즈와 양팔·양손의 완결만 짧은 긍정 지시로 더한다.
 
@@ -50,7 +100,7 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 [1단계 960×1440, 10-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-bf16-2511-openpose-waist-up-legs-down-arms-v9-seed-62294-steps-10-result.json)
 
-## 자켓은 다음 단계에서 더한다
+### 재킷은 당시 2단계에서 더했다
 
 2단계는 1단계 전신 착장 결과와 같은 P7-5.2 BF16 1280×1280 정면 Mira 머리 참조만 사용한다. OpenPose를 다시 넣지 않아 1단계에서 정한 바지·신발·비례와 경쟁하지 않게 한다. 이 단계에서는 앞판이 서로 닿지 않는 열린 흰 크롭 재킷, 접혀 내려오는 칼라, 손목까지 오는 소매와 소매 끝 아래의 양손을 더한다. 회색 크롭티의 몸통과 맨허리 띠는 보이게 하고, 이너 소매는 재킷 밖으로 드러나지 않게 한다.
 
@@ -58,9 +108,54 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 [2단계 960×1440, 10-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-bf16-2511-stage1-v9-jacket-v4-seed-62294-steps-10-result.json)
 
-[정면 착장 1~2단계 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py)
+[현재 세 단계로 개편한 착장 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py)
 
-생성기는 `OUTFIT_STAGE_TARGETS`에 각 단계의 입력 순서, 양성 prompt, 음성 prompt, 기본 크기와 기본 step을 함께 둔다. `--target`은 한 단계만, `--targets`는 같은 실행 파일을 단계 순서대로 다시 호출한다. 따라서 단계 2만 수정할 때도 단계 1의 입력 정의를 코드 밖에서 복사하지 않는다. `--steps`, `--size`, `--run-label`은 비교할 때 바꿀 값이고, `result.json`에는 선택한 target·두 입력의 해시·조합된 prompt·메모리 배치·출력 해시가 남는다.
+생성기는 `OUTFIT_STAGE_TARGETS`에 각 단계의 입력 순서, 양성 prompt, 음성 prompt, 기본 크기와 기본 step을 함께 둔다. `--target`은 한 단계만, `--targets`는 같은 실행 파일을 단계 순서대로 다시 호출한다. 현재 생성기에서는 이전 출력 연결을 통해 신발 추가와 재킷 추가를 각각 실행한다. `--steps`, `--size`, `--run-label`은 비교할 때 바꿀 값이고, `result.json`에는 선택한 target·두 입력의 해시·조합된 prompt·메모리 배치·출력 해시가 남는다.
+
+## 착장에서 신발 참조를 따로 만든다
+
+전신 착장에서는 신발이 작은 영역을 차지한다. 다른 포즈의 인물에게 같은 신발을 적용할 때, 신발 한 쌍만 보이는 참조를 만들어 전신 참조와 비교할 수 있다. 이를 위해 [긴 바지·접힌 칼라 v3 착장 이미지](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png)를 입력으로 사용하는 [신발 추출 스크립트](../../../assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_extract_shoes.py)를 추가했다. 이 입력은 P7-5.5의 착장 참조로도 사용한 이미지다.
+
+스크립트는 착장 한 장을 Picture 1으로 전달하고 다음과 같이 지시한다.
+
+> Extract the pair of shoes worn by the woman in Picture 1. Show only the two shoes, fully visible and side by side on a plain white background. Preserve their design, colors, laces, soles, and illustration style. Remove the person and all other clothing.
+
+신발 두 개만 흰 배경에 나란히 보여 주되, 원래 디자인·색·끈·밑창·화풍을 유지하라는 뜻이다. 마스크나 잘라내기로 원본 픽셀을 복사하는 추출이 아니라 Qwen Image Edit 2511이 신발 이미지를 다시 생성하는 방식이다. 따라서 원본에서 가려진 부분은 새로 그려질 수 있다. 생성 후에는 신발의 색과 앞코·끈·밑창 형태가 참조와 맞는지, 발·바지·신체 일부가 남지 않았는지 확인해야 한다.
+
+저장소 루트에서 다음 명령으로 입력·프롬프트·출력 경로를 먼저 확인한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_extract_shoes.py --dry-run
+```
+
+`--dry-run`을 빼면 로컬 CUDA GPU와 캐시된 BF16 모델로 생성한다. 기본 조건은 1280×1280, 30스텝, seed `62294`, true CFG `4.0`이며 추가 LoRA와 마스크는 사용하지 않는다. `--input`으로 다른 착장을, `--steps`로 추론 스텝을 바꿔 비교할 수 있다. 재실행은 `--run-label v2`처럼 새 이름을 지정한다. 출력은 `p7-5-3-qwen-2511-extract-shoes-*` PNG와 입력·출력 해시, 실제 프롬프트·설정·실행 환경을 담은 `-result.json`이다. 흰 배경 PNG이며 투명 컷아웃은 아니다.
+
+![착장 이미지에서 신발만 분리 생성한 30스텝 결과: 원본과 다른 남색 패널과 두꺼운 밑창이 생긴 운동화 한 쌍](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-extract-shoes-v1-size-1280x1280-seed-62294-steps-30.png)
+
+[신발 추출 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-extract-shoes-v1-size-1280x1280-seed-62294-steps-30-result.json){ .lazy-source }
+
+로컬 GPU에서 위 기본 조건으로 생성한 결과, 인물과 바지는 사라지고 신발 한 쌍만 남았다. 그러나 원본의 흰 신발과 달리 짙은 남색 패널과 두꺼운 밑창이 생겼으며, 신발 두 개가 일부 겹쳤다. 대상 분리는 이루어졌지만 색과 디자인 보존은 실패했으므로 같은 착장의 신발 기준으로 채택하지 않는다. 신발만 크게 생성했다는 사실과 원래 신발을 정확히 재현했다는 판단은 구분해야 한다. 단독 참조의 적용 효과는 디자인을 먼저 검수한 뒤 같은 인물·프롬프트·시드·스텝에서 참조만 바꿔 비교해야 확인할 수 있다.
+
+### 흰색 스니커즈를 텍스트로 생성한다
+
+원본 신발의 정확한 복원이 아니라 새 신발 참조가 필요하다면, 색과 형태를 텍스트로 지정해 만들 수 있다. 이번에는 이미지 편집용 2511 대신 `Qwen/Qwen-Image-2512`의 `QwenImagePipeline`에 텍스트만 전달했다. 입력 이미지는 없으며, 앞의 추출 결과를 보정한 것도 아니다.
+
+> A pair of plain white low-top lace-up sneakers with white soles and white laces. Both shoes fully visible, side by side with a small gap, in a three-quarter view. Clean illustration with fine outlines and subtle shading on a plain white background. No colored panels, logos, text, person, feet, or other clothing.
+
+흰 갑피·흰 끈·흰 밑창의 로우탑 스니커즈 두 개를 흰 배경에 나란히 놓고, 앞과 옆이 함께 보이는 각도로 그리도록 지시했다. 로컬 GPU의 BF16 모델과 순차 CPU offload로 1280×1280, 10스텝, seed `62294`, true CFG `4.0`에서 생성했다. 추가 LoRA와 마스크는 사용하지 않았다.
+
+![Qwen-Image-2512로 10스텝 생성한 흰색 로우탑 스니커즈 한 쌍](../../../assets/part-07/chapter-05/p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png)
+
+[흰색 스니커즈 프롬프트·실행 조건·출력 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source } · [Qwen-Image-2512 신발 생성 코드](../../../assets/part-07/chapter-05/p7_5_3_qwen_image_2512_generate_white_sneakers.py)
+
+흰 갑피와 끈, 고무 앞코가 있는 스니커즈 한 쌍이 생성됐고 사람이나 다른 의복은 보이지 않는다. 다만 밑창 가장자리에는 검은 줄이 생겼고, 두 신발은 일부 겹쳤다. 완전히 흰 밑창과 신발 사이 간격 지시까지 충족한 결과는 아니다. 기존 착장의 신발과 같은 제품을 복원한 것으로 취급하지 않고, 새로 정할 신발 디자인의 참조 후보로 검토한다.
+
+저장소 루트에서 다음 명령을 사용한다. `--dry-run`을 빼면 생성하며, 기존 출력이 있으므로 재실행에는 새 `--run-label`을 지정한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_qwen_image_2512_generate_white_sneakers.py \
+  --steps 10 --run-label v2 --dry-run
+```
 
 ## OpenPose는 전신 비율과 프레이밍만 정한다
 
