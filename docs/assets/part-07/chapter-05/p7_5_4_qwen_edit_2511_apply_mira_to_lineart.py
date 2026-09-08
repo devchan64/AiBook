@@ -29,8 +29,7 @@ DEFAULT_TRUE_CFG_SCALE = 4.0
 DEFAULT_SEEDS = {"a": 5420, "b": 5421, "c": 5422}
 DEFAULT_RUN_LABEL = "mira-identity-v1"
 DEFAULT_MIRA_REFERENCE = ASSETS / (
-    "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-"
-    "folded-collar-v3-seed-62294-steps-30.png"
+    'p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
 )
 DEFAULT_IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
 LINEART_BY_SCENE = {

@@ -1,7 +1,7 @@
 # P7-5.4 라인아트 구도에서 스토리보드 장면까지
 
 > Section ID: `P7-5.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.09`
 
 스토리보드 장면을 만들 때는 구도, 인물의 외형, 주변 대상의 배치를 각각 확인해야 한다. 이 절에서는 라인아트로 장면의 구도와 동작을 만들고, Mira의 아이덴티티를 이식한 뒤 주변 인물과 오브젝트를 추가한다. 단계별 입력과 출력을 비교하며 원하는 특징이 반영된 부분과 달라진 부분을 구분한다. 결과 이미지는 PNG로 보관하고, `result.json`에는 프롬프트, seed, step, 모델, 입력 파일을 기록한다.
 
@@ -47,46 +47,46 @@ Scene C도 같은 방식으로 생성했다. 두 인물, 책, 언덕 난간, 먼
 
 ## 라인아트 구도에 Mira의 아이덴티티와 화풍을 이식한다
 
-다음 단계에서는 Scene A 라인아트를 Picture 1로 넣고, [P7-5.3의 Mira 전신 착장 참조](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png)를 Picture 2로 넣는다. Picture 1은 달리기 포즈·로우 앵글·도시 배경을 맡고, Picture 2는 Mira의 얼굴·헤어·착장·선화·절제된 색을 맡는다. 이 역할은 프롬프트로 요청하는 조건이며, 이미지 일부를 잠그는 기능은 아니다. 출력에서 구도와 외형이 각각 얼마나 유지됐는지 다시 비교해야 한다.
+다음 단계에서는 Scene A 라인아트를 Picture 1로 넣고, [P7-5.3의 3단계 재킷 착장 참조](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 Picture 2로 넣는다. Picture 1은 달리기 포즈·로우 앵글·도시 배경을 맡고, Picture 2는 Mira의 얼굴·헤어·착장·선화·절제된 색을 맡는다. 이 역할은 프롬프트로 요청하는 조건이며, 이미지 일부를 잠그는 기능은 아니다. 출력에서 구도와 외형이 각각 얼마나 유지됐는지 다시 비교해야 한다.
 
-Scene A 결과에서는 지면 높이의 달리기 구도와 신발 밑창을 유지하면서, 청록 단발·흰 크롭 재킷·회색 이너·청록 팬츠가 반영됐다. 이식 단계는 Qwen-Image-Edit-2511을 BF16 순차 CPU 오프로딩으로 직접 실행하며 ComfyUI 서버를 사용하지 않는다.
+아래 A·B·C는 새 3단계 착장을 참조한 `mira-stage3-v1` 재생성 결과다. 로컬 GPU에서 1280×1280, 20스텝, true CFG `4.0`으로 실행했으며 seed는 각각 `5420`, `5421`, `5422`다. Scene A에서는 지면 높이의 달리기 구도와 크게 보이는 신발 밑창, 청록 단발·흰 크롭 재킷·회색 이너·딥틸 팬츠가 나타났다. 이식 단계는 Qwen-Image-Edit-2511을 BF16 순차 CPU 오프로딩으로 직접 실행하며 ComfyUI 서버를 사용하지 않는다.
 
-![Mira 아이덴티티와 화풍을 이식한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-identity-v1-size-1280x1280-seed-5420-steps-20.png)
+![Mira 아이덴티티와 화풍을 이식한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-stage3-v1-size-1280x1280-seed-5420-steps-20.png)
 
-[Scene A Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-identity-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+[Scene A Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-stage3-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
 같은 생성기는 `--scenes b c`처럼 여러 장면을 받아 한 번 로드한 파이프라인으로 순차 처리한다. Scene B에서는 숲 공터의 도약 인물을, Scene C에서는 왼쪽 독자를 Mira로 바꾸도록 요청한다. Scene C의 오른쪽 독자와 배경 관계는 보존 대상으로 지시한다.
 
-![Mira 아이덴티티와 화풍을 이식한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-identity-v1-size-1280x1280-seed-5421-steps-20.png)
+![Mira 아이덴티티와 화풍을 이식한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-stage3-v1-size-1280x1280-seed-5421-steps-20.png)
 
-[Scene B Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-identity-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+[Scene B Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-stage3-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
-![Mira 아이덴티티와 화풍을 이식한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-identity-v1-size-1280x1280-seed-5422-steps-20.png)
+![Mira 아이덴티티와 화풍을 이식한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-stage3-v1-size-1280x1280-seed-5422-steps-20.png)
 
-[Scene C Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-identity-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+[Scene C Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-stage3-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
 청록 머리와 흰 재킷이 나타났다는 사실만으로 참조의 외형이 모두 보존됐다고 판단할 수는 없다. 다음은 위 결과와 Mira 전신 참조를 비교한 관찰이다.
 
 | 장면 | 반영된 특징 | 차이와 확인 한계 |
 | --- | --- | --- |
 | A | 청록 단발, 흰 크롭 재킷, 회색 이너, 청록 팬츠 | 신발 밑창이 크게 보이는 구도라 참조 정면만으로 밑창 무늬의 일치를 판단하기 어려움 |
-| B | 청록 머리, 흰 재킷, 청록 긴 바지 | 머리가 참조의 단발보다 길어지고, 운동화가 단순한 흰 신발 형태로 바뀜 |
-| C | 청록 단발, 흰 상의, 청록 하의 | 바지 밑단이 발목을 드러내며, 신발이 참조의 흰 운동화와 다른 형태·색으로 나타남 |
+| B | 청록 머리, 흰 재킷, 딥틸 팬츠와 도약 자세 | 머리카락이 단발보다 길어지고, 스니커즈가 발레화 같은 형태로 바뀜. 바지 끝이 발목 위로 올라감 |
+| C | 청록 단발, 흰 재킷, 딥틸 하의, 끈이 있는 흰 스니커즈와 독서 자세 | 바지 밑단 아래로 발목이 드러나며, 얼굴의 눈·윤곽 표현이 참조와 달라짐 |
 
 세 장면의 구도 유지와 캐릭터 외형의 일치는 별도 판단이다. 주변 대상을 추가하는 다음 단계에서도 이 차이가 저절로 교정되는 것은 아니므로, 최종 결과를 전신 참조와 다시 대조한다.
 
 아래 편집 명령은 저장소에 수록된 라인아트 PNG를 기본 입력으로 사용한다. 앞에서 새로 생성한 구도판을 이어 쓰려면 한 장면씩 선택하고 `--lineart`에 그 PNG 경로를 지정한다. 새 Mira 참조는 `--mira-reference`로 지정하며, `--dry-run`을 추가하면 모델을 실행하지 않고 입력·프롬프트·출력 경로를 확인할 수 있다.
 
 ~~~bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scenes a --output-dir /tmp/p7-5-4-practice
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scenes b c --output-dir /tmp/p7-5-4-practice
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scenes a --run-label mira-stage3-v1 --output-dir /tmp/p7-5-4-practice
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py --scenes b c --run-label mira-stage3-v1 --output-dir /tmp/p7-5-4-practice
 ~~~
 
 [라인아트 Mira 아이덴티티 이식 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py)
 
 ## Mira를 이식한 장면에 주변 인물과 동물을 추가한다
 
-주변 인물 보강은 앞 단계의 Mira 이식 결과 한 장을 Image 1로 사용한다. 아래 명령의 기본 입력은 저장소에 수록된 Mira 이식 PNG다. 새 이식 결과를 이어 쓰려면 한 장면씩 선택하고 `--scene-image`에 새 PNG 경로를 지정한다. 이 생성기도 `--dry-run`으로 실행 계획을 확인할 수 있다.
+주변 인물 보강은 Mira 이식 결과 한 장을 Image 1로 사용한다. **아래 extras-v5·v8·v7은 이전 `mira-identity-v1`을 사용한 기록이며, 이번 `mira-stage3-v1`에서 재생성한 결과가 아니다.** 아래 명령의 기본 입력은 저장소에 수록된 Mira 이식 PNG다. 새 이식 결과를 이어 쓰려면 한 장면씩 선택하고 `--scene-image`에 새 PNG 경로를 지정한다. 이 생성기도 `--dry-run`으로 실행 계획을 확인할 수 있다.
 
 Scene A의 프롬프트는 `Add several pedestrians and several people running in casual clothing to Image 1.`이다. 행인 여러 명과 캐주얼 복장으로 달리는 사람 여러 명의 추가만 요청하며, 인물 수나 상대 크기, 기존 장면 보존 지시는 따로 넣지 않는다.
 
