@@ -81,57 +81,82 @@ C의 빈 부분은 다른 인물·책·새에 가려져 원본에 보이지 않�
 
 [인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py) · [흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)
 
-## 컷아웃의 조명을 중립화한다
+## B의 포즈를 남긴 마네킨에 Mira를 다시 적용한다
 
-장면에서 인물을 분리해도 얼굴과 옷에 그려진 밝고 어두운 부분은 그대로 남는다. 인물을 다른 배경과 합칠 때는 이 밝기 차이가 새 배경의 빛과 맞는지 확인해야 한다. 여기서는 흰 배경 컷아웃 한 장씩에 Studio DeLight를 적용해 조명 보정 결과를 비교한다. [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}는 균일한 스튜디오 조명으로 편집하는 용도와 Qwen Image Edit 2509·2511 호환을 안내한다.
+착장 일부를 반복해서 보정하면 앞 단계의 형태가 남거나 옷 주름이 단순해질 수 있다. B에서는 기존 얼굴·착장의 영향을 줄여 볼 목적으로, 원본 컷아웃을 짧은 스포츠머리와 스포츠 브라·짧은 하의를 입은 성인 여성으로 바꾼 뒤 Mira 참조를 적용했다. 여기서 마네킨은 얼굴이 없는 회색 모형이 아니라, 얼굴과 팔다리 자세가 보이는 생성 이미지다. `B 원본 컷아웃 → 20스텝 마네킨 → 5.3 착장 참조를 사용한 30스텝 인물 교체`로 이어지며, 조명 보정을 거치지 않고 원본 컷아웃에서 시작했다.
 
-입력은 위에서 분리한 A·B·C의 Mira와 C의 조연이다. Qwen Image Edit 2509에 Studio DeLight LoRA를 적용하고 `Neutral uniform lighting Preserve identity and composition`을 사용했다. 네 실행은 1280×1280, seed `62294`, 10 step, true CFG `4.0`, LoRA 강도 `1.0`으로 맞췄다. 캐릭터의 외형은 컷아웃에 이미 있으므로 별도의 얼굴·착장 참조는 추가하지 않았다.
+![B 원본 컷아웃에서 만든 얼굴 있는 20스텝 마네킨](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-scene-b-pose-person-v1-size-1280x1280-seed-62294-steps-20.png)
 
-### A Mira 조명 보정 결과
+[마네킨 입력·생성 지시·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-scene-b-pose-person-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
-![A Mira 컷아웃의 Studio DeLight 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-a-mira-extras-v5-v1-size-1280x1280-seed-62294-steps-10.png)
+Picture 1에는 위 마네킨을, Picture 2에는 [P7-5.3의 최종 전신 착장 이미지](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png)를 넣었다. 얼굴 전용 head 파일은 이번 실행의 참조가 아니다. 머리색이나 의복 형태를 텍스트로 덧붙이지 않고 다음 두 문장을 사용했다.
 
-[입력·모델·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-a-mira-extras-v5-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+> Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose. Preserve the split-leap pose and the cast shadow beneath the woman.
 
-### B Mira 조명 보정 결과
+이 지시는 1번 여성의 자세를 유지하면서 2번 여성으로 교체하고, 다리를 벌린 도약 자세와 인물 아래 그림자를 보존하라는 뜻이다. 마지막 그림자 문장은 그림자가 있던 이전 실험의 표현을 그대로 비교한 조건이다. 이번 마네킨에는 바닥 그림자가 없으므로, 지시와 입력이 일치하는지도 결과에서 확인해야 한다.
 
-![B Mira 컷아웃의 Studio DeLight 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-b-mira-extras-v8-v1-size-1280x1280-seed-62294-steps-10.png)
+![B 마네킨에 Mira 전신 착장을 참조한 30스텝 결과: 단발과 재킷·넓은 바지는 반영됐으나 맨발이 남고 그림자가 추가됨](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-scene-b-pose-person-face-hair-v5-outfit-size-1280x1280-seed-62294-steps-30.png)
 
-[입력·모델·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-b-mira-extras-v8-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[v5-outfit 입력 순서·프롬프트·설정·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-scene-b-pose-person-face-hair-v5-outfit-size-1280x1280-seed-62294-steps-30-result.json){ .lazy-source }
 
-### C Mira 조명 보정 결과
+청록색 단발, 흰 재킷과 넓은 바지가 반영됐고 다리를 벌린 도약 자세도 대체로 남았다. 그러나 참조의 운동화는 적용되지 않아 양쪽 발이 맨발이며, 얼굴·팔다리 윤곽과 의복 세부도 입력 및 참조와 다르다. 마네킨에 없던 바닥 그림자까지 추가됐다. 이 결과는 인물 교체가 진행된 사례이며, 착장과 배경 보존까지 완료된 최종 합성 자산은 아니다. 특히 `보존`이라는 단어를 썼더라도 입력에 없는 대상을 언급하면 새 요소가 생길 수 있음을 이번 출력에서 관찰했다.
 
-![C Mira 컷아웃의 Studio DeLight 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-mira-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png)
+로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 출력은 1280×1280, 30스텝, seed `62294`, true CFG `4.0`이다. 1번 입력은 1280×1280, 2번은 960×1440의 비율을 유지해 전달했으며, 마스크·추가 LoRA·출력 합성은 사용하지 않았다. 두 입력과 출력의 SHA-256은 JSON 기록과 일치한다.
 
-[입력·모델·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-mira-extras-v7-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[마네킨·다중 참조 실험 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_identity.py)에서 이번 실행은 `pose-person-face-hair` 단계의 프롬프트를 전체 인물 교체로 바꾸고 `--face-reference`로 전신 착장을 지정했다. 파일명과 옵션에 `face`가 남아 있어도 실제 편집 범위는 위 프롬프트와 참조 파일로 판단한다. 저장소 루트에서 재실행하려면 다음처럼 새 출력 이름을 사용한다.
 
-### C 조연 조명 보정 결과
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_identity.py \
+  --stage pose-person-face-hair --run-label v5-outfit-repeat --steps 30 \
+  --face-reference docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png
+```
 
-![C 조연 컷아웃의 Studio DeLight 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-supporting-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png)
+이 명령은 저장된 20스텝 마네킨에서 시작한다. 코드의 프롬프트가 이후 바뀌었다면 먼저 위 JSON의 문장과 대조한다. 이번 실행은 CUDA 난수 생성기를 사용하므로, 같은 seed를 CPU 난수 생성기에 전달한 이전 실행과 초기 노이즈가 같다고 보지 않는다.
 
-[입력·모델·생성 조건 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-scene-c-supporting-extras-v7-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+아래 보충학습에는 이전 조명 보정의 후속 결과와 카메라판 합성 실험을 모았다. 현재 컷아웃·마네킨 경로와 입력이 다르므로 서로 이어진 출력으로 해석하지 않는다. 기존 후속 생성 코드의 기본 입력은 이전 실험을 가리킬 수 있으므로 실행 전에 입력을 확인한다.
 
-| 입력 | 유지된 부분 | 관찰된 변화와 한계 |
+## 보충학습: 이전 조명·합성 실험
+
+C의 신발·화풍 보정은 현재 컷아웃에서 파생된 이전 조명 실험의 결과다. 그 뒤 카메라판 합성 실험의 Scene A·B·C는 각각 해안 절벽·야생화 초원·도심 공원의 이전 입력을 뜻한다. 그림자를 포함한 중간 산출물도 당시 입력 기록 그대로 남아 있지만, 그림자를 추가하는 절차와 실행 안내는 현재 경로에서 제외한다.
+
+### 이전 C 실험의 신발과 조연 화풍 보정
+
+다음 두 결과는 이전 조명 보정 실험의 중간 산출물을 입력으로 사용했다. 현재 컷아웃에서 바로 이어지는 보정 단계가 아니며, 각 JSON의 실제 입력을 기준으로 확인한다. C Mira의 신발은 P7-5.3 착장 참조를 사용하고, C 조연은 C Mira의 DeLight 결과에서 선과 절제된 채색 표현만 참조한다. 여자 캐릭터의 얼굴·머리·의상까지 조연에게 옮기는 작업은 아니다.
+
+| 보정 항목 | Image 1: 편집 대상 | Image 2: 참조할 특징 |
 | --- | --- | --- |
-| A Mira | 달리는 자세, 크게 보이는 전경 신발, 청록 머리·바지 | 피부색이 생기고 검은 음영이 완화됐다. 신발 밑창의 세부선이 바뀌고 회색 배경·발밑 그림자가 생겼다. |
-| B Mira | 도약 자세와 팔·다리 방향, 흰 재킷·청록 바지 | 강한 음영이 줄었으나 손끝·머리카락·옷 주름이 일부 달라졌고 배경이 회색으로 바뀌었다. |
-| C Mira | 앉은 자세와 청록 단발, 재킷·바지·신발의 큰 구성 | 가려져 비어 있던 바지 외곽을 일부 채웠고 피부색과 왼쪽 아래 방향의 그림자가 생겼다. |
-| C 조연 | 고개를 숙여 앉은 자세, 후드 상의·바지 | 가려진 몸통을 새로 채웠다. 흑백 선화가 입체적인 채색 표현으로 크게 바뀌고 방향성 그림자가 생겼다. |
+| C 신발 | C Mira DeLight 결과 | P7-5.3 2단계 착장 참조의 흰 로우탑 스니커즈 |
+| C 조연 화풍 | C 조연 DeLight 결과 | C Mira DeLight 결과의 선·채색 표현 |
 
-A·B에서는 자세를 유지하면서 음영이 완화된 모습을 볼 수 있다. C 두 결과는 가림 영역과 그림자까지 바뀌었으므로 중립 조명만 반영한 결과로 사용할 수 없다. 특히 조연은 원래 화풍과의 차이가 커, 이 실행을 그대로 최종 합성 자산으로 삼지 않는다. 별도의 그림자 생성 단계를 실행한 것은 아니며, 여기서 관찰한 그림자는 DeLight 모델 출력에 생긴 변화다.
+[추가 보정 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_refine_delight.py)는 로컬 GPU의 Qwen Image Edit 2511에 두 이미지를 순서대로 넣는다. 두 작업은 각각의 DeLight 원본에서 시작한다. 새 그림자나 배경을 만드는 단계는 추가하지 않는다.
 
-[네 컷아웃의 입력·결과와 재현 명령](../../../assets/part-07/chapter-05/p7-5-5-cutout-delight-v1-result.json){ .lazy-source }
+먼저 다음 명령으로 모델을 불러오지 않고 입력·참조·프롬프트·출력 경로를 확인한다. `--dry-run`을 빼면 지정한 두 보정을 실행한다. 기본값은 1280×1280, seed `62294`, 20 step, true CFG `4.0`이다.
 
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_refine_delight.py --tasks c-shoes c-supporting-style --dry-run
+~~~
 
-이 단계는 원본 픽셀을 복사한 앞의 컷아웃과 달리 이미지를 다시 생성한다. 따라서 조명이 바뀌었는지뿐 아니라 눈·머리카락·옷 주름·손·신발과 인물 외곽이 달라졌는지도 함께 비교한다. 결과 PNG에는 투명 알파가 없으며, 원래 마스크가 새 외곽과 일치한다고 가정해서는 안 된다. C에서 가려져 있던 신체는 이 단계의 복원 대상이 아니다.
+다른 결과를 이어받으려면 단일 작업에 `--input`을 지정한다. 단일 작업의 참조와 지시는 `--reference`, `--prompt`로 바꿀 수 있으며, 두 작업의 참조는 각각 `--mira-reference`, `--style-reference`로 바꾼다. 재실행에는 새 `--run-label`을 사용한다.
 
-[Studio DeLight 실행 코드](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py)의 현재 컷아웃 선택값은 `mira-a-extras-v5`, `mira-b-extras-v8`, `mira-c-extras-v7`, `supporting-c-extras-v7`이다. 실행 기록의 입력 SHA-256으로 앞 단계 컷아웃과의 연결을 확인할 수 있다.
+이 생성기의 기본 프롬프트는 해당 부위나 화풍만 수정하고 자세·얼굴·의상·배경을 보존하도록 지시한다. 마스크로 픽셀을 고정하는 방식은 아니므로 결과를 확인할 때는 수정한 항목과 수정하지 않은 부분을 함께 대조해야 한다. C의 가림 영역 복원과 DeLight에서 생긴 그림자 문제는 이 보정들로 해결됐다고 간주하지 않는다. 다음은 두 작업을 기본 조건으로 로컬 GPU에서 실행한 결과다. 각 JSON에는 실제 입력·참조의 SHA-256과 프롬프트를 기록했다.
 
-아래 보충학습은 이전 카메라판의 결과다. 위 컷아웃·DeLight 결과와 입력이 다르므로 서로 이어진 출력으로 해석하지 않는다. 기존 후속 생성 코드의 기본 입력은 이전 실험을 가리킬 수 있으므로 실행 전에 입력을 확인한다.
+#### C 신발 보정
 
-## 보충학습: 이전 카메라판의 합성 실험
+![C 신발 보정 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-refine-c-shoes-v1-size-1280x1280-seed-62294-steps-20.png)
 
-이하의 Scene A·B·C는 각각 해안 절벽·야생화 초원·도심 공원의 이전 입력을 뜻한다. 그림자를 포함한 중간 산출물도 당시 입력 기록 그대로 남아 있지만, 그림자를 추가하는 절차와 실행 안내는 현재 경로에서 제외한다.
+앉은 자세의 양쪽 회색 신발이 흰 끈 스니커즈로 바뀌었다. 청록 단발과 의상, 두 다리의 큰 배치는 유지됐다. 발목과 바지 밑단의 세부선에도 변화가 있고, 기존 왼쪽 아래 방향의 그림자는 남아 있다.
+
+[입력·참조·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-refine-c-shoes-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+
+#### C 조연 화풍 보정
+
+![C 조연 화풍 보정 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-refine-c-supporting-style-v1-size-1280x1280-seed-62294-steps-20.png)
+
+DeLight 결과의 입체적인 피부·옷 질감이 선과 평면적인 채색 중심의 표현으로 바뀌었다. 검은 머리, 회색 후드와 바지, 고개를 숙여 앉은 자세는 유지됐다. 얼굴·손·주름의 세부와 바닥 그림자도 달라졌으며, 앞 단계에서 채워진 몸통은 그대로 남아 있다.
+
+[입력·참조·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-refine-c-supporting-style-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+
+두 보정 결과는 1280×1280이다. C Mira는 `c-shoes`, C 조연은 `c-supporting-style`을 각각 구분해 사용한다. 추가 보정은 마스크 없이 Qwen Edit에 수정 대상과 보존할 내용을 지시한다. 수정 대상 외의 내용을 최대한 유지하는 것이 이 편집 방식의 목적이며, 결과에서는 해당 부위의 개선과 다른 부분의 보존을 함께 확인한다.
 
 ### 한 모델이 아니라 역할이 다른 구성 요소
 
@@ -316,8 +341,8 @@ DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에
 - [ ] P7-5.4의 A v5·B v8·C v7과 각 입력 JSON을 같은 장면에 연결했는가?
 - [ ] A·B·C의 Mira와 C의 조연을 각각 분리하고, 다른 인물·동물·새가 섞이지 않았는가?
 - [ ] C에서 가려진 영역과 마스크 경계의 누락을 구분하고, 투명 PNG의 알파가 마스크와 일치하는가?
-- [ ] 컷아웃에 DeLight를 적용했을 때 조명 변화와 얼굴·화풍·가림 영역의 변화를 따로 비교했는가?
 - [ ] 별도 그림자 추가 단계 없이도 모델 출력에 그림자가 생길 수 있음을 결과에서 확인했는가?
+- [ ] B 마네킨의 인물 교체에서 착장 반영과 신발 누락·그림자 추가를 구분하고, 파일명보다 실제 참조와 프롬프트를 확인했는가?
 - [ ] 새 입력의 후속 결과와 이전 카메라판의 실험 결과를 구분했는가?
 
 ## 출처와 참고 자료
