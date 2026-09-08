@@ -9,23 +9,23 @@
 
 ## 한 이름으로 부르지 않는 실행 조합
 
-먼저 기존 두 단계 착장과 회전·앨리웁의 실행 조합을 설명한다. 새 맨발·신발·재킷 세 단계 경로는 아래 「신발 추가를 독립 단계로 나눈다」에서 구분한다.
+맨발·신발·재킷의 세 단계로 착장을 만든 뒤, 완성한 3단계 전신을 회전과 앨리웁의 착장 참조로 사용한다.
 
 P7-5.3의 결과는 이름이 하나인 단일 모델에서 나오지 않는다. 편집 모델은 이미지 조건을 합치고, 두 LoRA는 회전 단계에서만 카메라와 속도를 보조하며, OpenPose renderer는 픽셀 구조 guide만 만든다. 이들을 모두 캐릭터를 만드는 모델이라고 부르면, 어느 조건을 바꿨을 때 결과가 달라졌는지 알 수 없다.
 
 | 요소 | 이 절에서 맡긴 일 | 맡기지 않는 일 |
 | --- | --- | --- |
 | `Qwen/Qwen-Image-Edit-2511` | 입력 이미지의 역할을 읽고, 단계별 착장·동적 장면을 편집 | 카메라 회전의 정해진 문법이나 4-step 가속 |
-| Multiple-Angles LoRA | 2단계 착장 한 장에 azimuth·elevation·distance 카메라 조건을 적용 | 얼굴·헤어·의상·관절의 새 기준 생성 |
+| Multiple-Angles LoRA | 3단계 착장 한 장에 azimuth·elevation·distance 카메라 조건을 적용 | 얼굴·헤어·의상·관절의 새 기준 생성 |
 | Lightning 4-step LoRA | 회전 후보 15장을 같은 저비용 샘플링 규격으로 생성 | 20-step 동적 장면의 세부 묘사 보장 |
 | `controlnet_aux` OpenPose renderer | BODY_18 좌표를 body-only guide PNG로 렌더링 | 얼굴 identity·착장 픽셀·카메라 회전 |
 | attention slicing·순차 CPU offload | 8GB GPU에서 BF16 실행의 메모리 배치를 조절 | 캐릭터 identity나 포즈의 품질 향상 |
 
-Qwen-Image-Edit-2511은 이 절의 중심 편집 모델이다. 1단계에서는 `Picture 1`인 body-only OpenPose가 프레임 안 몸 위치만, `Picture 2`인 정면 머리가 얼굴·헤어만 맡는다. 2단계에서는 1단계 전신과 정면 머리를 읽어 재킷만 더한다. 앨리웁에서는 2단계 전신과 정면 토르소를 읽어 의상·비례와 얼굴·헤어·선의 역할을 나눈다. 즉 같은 모델을 쓰더라도 **입력 순서와 단계가 달라지면 모델이 보존하려는 정보도 달라진다.** 이 절의 1단계는 native ControlNet 경로가 아니라 body-only OpenPose PNG를 일반 이미지 참조로 넣는 편집 경로이므로, 구조 맵이 얼굴·의상을 직접 보존한다고 해석하면 안 된다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}
+Qwen-Image-Edit-2511은 이 절의 중심 편집 모델이다. 1단계에서는 `Picture 1`인 body-only OpenPose가 프레임 안 몸 위치만, `Picture 2`인 정면 머리가 얼굴·헤어만 맡는다. 2단계에서는 맨발 전신과 신발 참조로 신발을 더하고, 3단계에서는 신발을 신은 전신과 정면 머리로 재킷을 더한다. 앨리웁에서는 3단계 전신과 정면 토르소를 읽어 의상·비례와 얼굴·헤어·선의 역할을 나눈다. 즉 같은 모델을 쓰더라도 **입력 순서와 단계가 달라지면 모델이 보존하려는 정보도 달라진다.** 이 절의 1단계는 native ControlNet 경로가 아니라 body-only OpenPose PNG를 일반 이미지 참조로 넣는 편집 경로이므로, 구조 맵이 얼굴·의상을 직접 보존한다고 해석하면 안 된다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}
 
 착장 생성기는 attention slicing과 순차 CPU offload를, 회전과 앨리웁 생성기는 순차 CPU offload를 사용한다. 이는 P7-5.2에서 설명한 BF16 실행 전략을 여기의 전신·동적 장면에 적용한 것이다. 메모리 여유를 만드는 대신 실행 시간이 길어지며, 모델이 포즈나 identity를 더 잘 보존하게 만드는 조건은 아니다. [Diffusers CPU offload 문서](https://huggingface.co/docs/diffusers/optimization/memory#cpu-offloading){: target="_blank" rel="noopener noreferrer"}
 
-15방향 착장에 사용한 Multiple-Angles LoRA는 `<sks> [azimuth] [elevation] [distance]` 형식의 짧은 카메라 조건을 보강한다. Lightning LoRA는 같은 실행을 4-step 샘플링으로 맞춘다. 두 LoRA에는 정면 2단계 착장 하나만 입력으로 넣었다. 얼굴 참조와 OpenPose를 함께 넣지 않은 이유는 LoRA가 담당해야 할 질문을 카메라 변화로 제한하기 위해서다. LoRA는 얼굴·헤어·관절·의상을 새 기준으로 정하는 모델이 아니며, 회전 결과에서도 그 정보는 원래 착장 참조가 맡는다. [Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
+15방향 착장에 사용한 Multiple-Angles LoRA는 `<sks> [azimuth] [elevation] [distance]` 형식의 짧은 카메라 조건을 보강한다. Lightning LoRA는 같은 실행을 4-step 샘플링으로 맞춘다. 두 LoRA에는 정면 3단계 착장 하나만 입력으로 넣었다. 얼굴 참조와 OpenPose를 함께 넣지 않은 이유는 LoRA가 담당해야 할 질문을 카메라 변화로 제한하기 위해서다. LoRA는 얼굴·헤어·관절·의상을 새 기준으로 정하는 모델이 아니며, 회전 결과에서도 그 정보는 원래 착장 참조가 맡는다. [Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
 OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 BODY_18 관절 좌표를 색 선과 점으로 렌더링할 뿐, 캐릭터의 얼굴·옷·화풍을 생성하지 않는다. 최소 프롬프트 1단계에서는 이 맵을 일반 이미지 참조로 넣어 포즈와 프레이밍만 맡긴다. 생성 결과가 이를 얼마나 따르는지는 별도 오버레이로 비교한다. [ComfyUI ControlNet Auxiliary Preprocessors](https://github.com/Fannovel16/comfyui_controlnet_aux){: target="_blank" rel="noopener noreferrer"}
 
@@ -35,12 +35,14 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 | `result.json`에서 확인한 자산 | 기록된 역할 | 확인된 사용 범위 |
 | --- | --- | --- |
-| P7-5.2 정면 머리 PNG | 얼굴과 헤어 identity | 1단계·2단계 착장의 두 번째 입력 |
-| 1단계 전신 착장 출력 | 회색 크롭탑, 와이드 팬츠, 흰 운동화와 정면 전신 비례 | 2단계 착장의 첫 번째 입력 |
-| 2단계 전신 착장 출력 | 열린 흰 크롭 재킷, 손, 1단계 착장·비례 | 15방향 회전의 유일한 입력, 앨리웁의 첫 번째 입력 |
+| P7-5.2 정면 머리 PNG | 얼굴과 헤어 identity | 1단계·3단계 착장의 두 번째 입력 |
+| 1단계 전신 착장 출력 | 회색 크롭탑, 와이드 팬츠, 맨발과 정면 전신 비례 | 2단계 착장의 첫 번째 입력 |
+| 흰색 스니커즈 PNG | 신발 디자인 | 2단계 착장의 두 번째 입력 |
+| 2단계 전신 착장 출력 | 신발을 추가한 기본 착장 | 3단계 착장의 첫 번째 입력 |
+| 3단계 전신 착장 출력 | 열린 흰 크롭 재킷, 손, 기본 착장·신발·비례 | 15방향 회전의 유일한 입력, 앨리웁의 첫 번째 입력 |
 | 정면 body-only OpenPose PNG | BODY_18 기반 전신 포즈와 프레임 안 관절 위치 | 최소 프롬프트 1단계의 첫 번째 입력 |
 | P7-5.2 정면 토르소 PNG | 얼굴·헤어·선과 음영 | 앨리웁의 두 번째 입력 |
-| 15방향 회전 착장 출력 | 정면 2단계 착장을 카메라 높이·yaw만 바꾼 관찰 결과 | 현재 연결한 `result.json`에서는 다음 생성의 입력으로 사용하지 않음 |
+| 15방향 회전 착장 출력 | 정면 3단계 착장을 카메라 높이·yaw만 바꾼 관찰 결과 | 현재 연결한 `result.json`에서는 다음 생성의 입력으로 사용하지 않음 |
 
 따라서 정면 머리 참조와 정면 토르소 참조는 사용되는 생성 단계가 다르며, 모두 의상·신체 비례를 정하지 않는다. 착장 이미지는 얼굴 identity를 다시 정하지 않고, OpenPose는 얼굴·손가락·의상 픽셀이 없는 전신 포즈·프레이밍 참조로만 쓴다. 15방향 회전 이미지는 현재 결과에서 카메라 변화 관찰용 출력일 뿐, 다음 생성의 기준 입력으로 재사용하지 않는다. 새 입력을 더할 때는 먼저 이 표의 기존 역할과 겹치는지 확인한다.
 
@@ -76,7 +78,7 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 [3단계 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10-result.json){ .lazy-source }
 
-로컬 GPU에서 960×1440, 10스텝, seed `62294`, true CFG `4.0`으로 생성했다. 열린 흰색 재킷과 접힌 칼라가 추가됐고, 소매 아래로 양손이 보인다. 크롭티와 좁은 맨허리 띠, 딥틸 와이드 팬츠, 흰색 스니커즈와 정면 자세는 대체로 유지됐다. 배경은 지시한 대로 따뜻한 크림색으로 바뀌었다. 이 결과가 새 세 단계 착장 경로의 마지막 출력이며, 아래의 기존 회전·앨리웁 결과를 이 이미지로 재생성한 것은 아니다.
+로컬 GPU에서 960×1440, 10스텝, seed `62294`, true CFG `4.0`으로 생성했다. 열린 흰색 재킷과 접힌 칼라가 추가됐고, 소매 아래로 양손이 보인다. 크롭티와 좁은 맨허리 띠, 딥틸 와이드 팬츠, 흰색 스니커즈와 정면 자세는 대체로 유지됐다. 배경은 지시한 대로 따뜻한 크림색으로 바뀌었다. 이 결과가 세 단계 착장 경로의 마지막 출력이며, 아래 회전 15방향과 앨리웁을 재생성할 때 착장 참조로 사용했다.
 
 [수정한 착장 1~3단계 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py)의 target은 `outfit_stage1_face_openpose`, `outfit_stage2_shoes`, `outfit_stage3_jacket_face`다. 2·3단계는 같은 실행 이름·시드·스텝의 직전 단계 출력을 자동으로 찾는다. 다른 조건으로 만든 결과를 사용할 때는 단일 target에 `--input`으로 이전 PNG를 지정한다. 기본 크기는 960×1440, 스텝은 10이다. 결과 JSON에는 실제 입력·출력의 해시와 프롬프트가 남는다.
 
@@ -90,7 +92,7 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 ## 이전 두 단계 착장 경로의 실행 기록
 
-앞의 모델 역할 설명·자산 역할표와 아래 회전·앨리웁 결과는 **변경 전 두 단계 경로**의 실행 기록이다. 당시 1단계는 신발까지 생성했고, 2단계는 재킷을 더했다. 파일명과 결과 JSON의 단계 번호는 당시 기록을 유지한다. 아래 이미지는 새 맨발·신발 추가·재킷 추가 경로의 결과가 아니다.
+이 소절의 두 착장 이미지는 **변경 전 두 단계 경로**의 실행 기록이다. 현재 회전·앨리웁은 앞에서 완성한 새 3단계 착장을 사용한다. 당시 1단계는 신발까지 생성했고, 2단계는 재킷을 더했다. 파일명과 결과 JSON의 단계 번호는 당시 기록을 유지한다. 아래 이미지는 새 맨발·신발 추가·재킷 추가 경로의 결과가 아니다.
 
 ### 기본 의상은 얼굴 참조와 구조 맵으로 만들었다
 
@@ -135,7 +137,7 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 ## OpenPose는 전신 비율과 프레이밍만 정한다
 
-정면 body-only OpenPose는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지한 v7 맵이다. 이전 긴 다리 템플릿에서 다리 비중의 10%를 상체·허리 구간으로 옮겨, 전체 키는 그대로 두고 허리는 길게·다리는 짧게 조정했다. 전체 키는 90%로 축소해 960×1440 캔버스에 다시 렌더링했으며, 선과 관절은 각각 반폭·반지름 7px로 키웠다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라, 생성 결과의 머리·몸통·다리 비율과 화면 안 위치를 비교하는 기준이다.
+정면 body-only OpenPose는 이전 두 단계 경로의 재킷 전신 프레임을 기준으로 머리·어깨·골반 폭을 유지한 v7 맵이다. 이전 긴 다리 템플릿에서 다리 비중의 10%를 상체·허리 구간으로 옮겨, 전체 키는 그대로 두고 허리는 길게·다리는 짧게 조정했다. 전체 키는 90%로 축소해 960×1440 캔버스에 다시 렌더링했으며, 선과 관절은 각각 반폭·반지름 7px로 키웠다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라, 생성 결과의 머리·몸통·다리 비율과 화면 안 위치를 비교하는 기준이다.
 
 ![양팔을 벌린 정면 body-only OpenPose, 긴 허리·짧아진 다리·전체 키 10% 축소](../../../assets/part-07/chapter-05/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png)
 
@@ -149,57 +151,61 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 ## 회전한 착장은 카메라 조건만 바꾼다
 
-방향과 카메라 높이가 바뀌면 의상이 몸을 가리는 방식도 달라진다. 이 회전 실험은 정면 2단계 착장에서 재킷·크롭티·팬츠·스니커즈·손의 가림 관계가 어떻게 바뀌는지만 대조한다. 다방향 OpenPose를 추가해 인체의 회전까지 고정하려고 하지 않았다.
+방향과 카메라 높이가 바뀌면 의상이 몸을 가리는 방식도 달라진다. 이 회전 실험은 정면 3단계 착장에서 재킷·크롭티·팬츠·스니커즈·손의 가림 관계가 어떻게 바뀌는지만 대조한다. 다방향 OpenPose를 추가해 인체의 회전까지 고정하려고 하지 않았다.
 
-정면 2단계 착장을 유일한 이미지 입력으로 사용하고, `Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning LoRA를 함께 적용했다. 프롬프트는 `<sks> [azimuth] [elevation] [distance]` 카메라 토큰만 사용한다. 960×1440, 4-step, 순차 CPU offload로 저각·아이레벨·엘리베이티드와 yaw −90°·−45°·0°·+45°·+90°를 조합한 15방향을 만들었다. 얼굴 identity나 관절 구조를 별도 이미지로 중복 지시하지 않았다.
+정면 3단계 착장을 유일한 이미지 입력으로 사용하고, `Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning LoRA를 함께 적용했다. 프롬프트는 `<sks> [azimuth] [elevation] [distance]` 카메라 토큰만 사용한다. 960×1440, 4-step, 순차 CPU offload로 저각·아이레벨·엘리베이티드와 yaw −90°·−45°·0°·+45°·+90°를 조합한 15방향을 만들었다. 얼굴 identity나 관절 구조를 별도 이미지로 중복 지시하지 않았다.
 
 ### 저각 5방향
 
 | −90° | −45° | 정면 | +45° | +90° |
 | --- | --- | --- | --- | --- |
-| ![저각 −90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 −45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 정면 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 +45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 +90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) |
+| ![저각 −90도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 −45도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 정면 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_zero-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 +45도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_plus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![저각 +90도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_plus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) |
 
-[저각 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[저각 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[저각 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[저각 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[저각 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[저각 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_zero-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[저각 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[저각 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_plus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[저각 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-low-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[저각 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-low-yaw_plus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
 ### 아이레벨 5방향
 
 | −90° | −45° | 정면 | +45° | +90° |
 | --- | --- | --- | --- | --- |
-| ![아이레벨 −90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 −45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 정면 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 +45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 +90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) |
+| ![아이레벨 −90도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 −45도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 정면 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_zero-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 +45도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_plus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![아이레벨 +90도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_plus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) |
 
-[아이레벨 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[아이레벨 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[아이레벨 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[아이레벨 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[아이레벨 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[아이레벨 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_zero-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[아이레벨 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[아이레벨 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_plus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[아이레벨 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-level-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[아이레벨 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_plus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
 ### 엘리베이티드 5방향
 
 | −90° | −45° | 정면 | +45° | +90° |
 | --- | --- | --- | --- | --- |
-| ![엘리베이티드 −90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 −45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 정면 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 +45도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 +90도 2단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4.png) |
+| ![엘리베이티드 −90도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 −45도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 정면 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_zero-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 +45도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_plus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) | ![엘리베이티드 +90도 3단계 착장](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_plus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png) |
 
-[엘리베이티드 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_minus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[엘리베이티드 −90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[엘리베이티드 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_minus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[엘리베이티드 −45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[엘리베이티드 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_zero-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[엘리베이티드 정면 result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_zero-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[엘리베이티드 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_plus_45-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[엘리베이티드 +45° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_plus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
 
-[엘리베이티드 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-vertical-elevated-yaw_plus_90-qwen-edit-2511-multiple-angles-lightning4-v1-size-960x1440-seed-62294-steps-4-result.json)
+[엘리베이티드 +90° result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_plus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json)
+
+[15방향 전체 실행 목록과 결과 경로](../../../assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-yaw-batch-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json){ .lazy-source }
+
+이번 결과는 3단계 착장으로 재생성한 `stage3-reference-v1`이다. seed는 `62294`, Multiple-Angles LoRA 강도는 `0.9`, Lightning LoRA 강도는 `1.0`, true CFG는 `1.0`이다. 저각 측면·눈높이 정면·높은 시점의 사선 결과를 대조하면 흰 재킷·딥틸 바지·스니커즈가 보이지만 얼굴 세부와 원근에 따른 비례는 달라진다. 전체 15장의 입력·출력 해시와 크기를 확인했으며, 같은 착장 참조가 모든 픽셀의 일치를 보장하는 것은 아니다.
 
 [전신 착장 15방향 회전 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py)
 
@@ -207,11 +213,13 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 ## 동적 장면은 전신 기준을 조합해 시험한다
 
-정면 2단계 착장은 전신 의상·비례를, P7-5.2 정면 토르소는 얼굴·헤어·선과 음영을 맡긴다. 앨리웁 생성기는 이 두 이미지만 `Qwen/Qwen-Image-Edit-2511` 공식 BF16 pipeline에 입력한다. 공 하나를 든 오른팔, 균형을 잡는 왼팔, 앞쪽으로 든 왼 무릎과 뒤로 뻗은 오른다리를 짧게 지시하며, 직접 Diffusers와 순차 CPU offload만 사용한다.
+정면 3단계 착장은 전신 의상·비례를, P7-5.2 정면 토르소는 얼굴·헤어·선과 음영을 맡긴다. 앨리웁 생성기는 이 두 이미지만 `Qwen/Qwen-Image-Edit-2511` 공식 BF16 pipeline에 입력한다. 공 하나를 든 오른팔, 균형을 잡는 왼팔, 앞쪽으로 든 왼 무릎과 뒤로 뻗은 오른다리를 짧게 지시하며, 직접 Diffusers와 순차 CPU offload만 사용한다.
 
-![2단계 전신과 정면 토르소 기준으로 생성한 2511 앨리웁 동작](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-2511-fullbody-alley-oop-2511-v1-size-1024x1536-seed-62294-steps-20.png)
+![3단계 전신과 정면 토르소 기준으로 생성한 2511 앨리웁 동작](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-2511-fullbody-alley-oop-stage3-reference-v1-size-1024x1536-seed-62294-steps-20.png)
 
-[2511 앨리웁 1024×1536, 20-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-2511-fullbody-alley-oop-2511-v1-size-1024x1536-seed-62294-steps-20-result.json)
+[2511 앨리웁 1024×1536, 20-step result.json](/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-edit-2511-fullbody-alley-oop-stage3-reference-v1-size-1024x1536-seed-62294-steps-20-result.json)
+
+이번 재생성은 3단계 착장과 정면 토르소를 입력으로 사용한 `stage3-reference-v1`이며, seed `62294`, true CFG `4.0`, 20스텝으로 실행했다. 공 하나와 골대 하나가 보이고, 양발이 바닥에서 떨어진 점프 자세와 스니커즈는 생성됐다. 그러나 **흰 재킷이 사라졌고 바지 끝이 발목 위로 올라가 길이가 짧아졌다.** 동작 생성과 착장 보존을 별도로 평가해야 하며, 이 결과를 착장 보존 성공 사례로 취급하지 않는다.
 
 [앨리웁 전신 Python 생성기](/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_fullbody_alley_oop.py)
 
