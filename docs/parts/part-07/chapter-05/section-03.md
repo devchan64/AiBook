@@ -112,33 +112,9 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
 
 생성기는 `OUTFIT_STAGE_TARGETS`에 각 단계의 입력 순서, 양성 prompt, 음성 prompt, 기본 크기와 기본 step을 함께 둔다. `--target`은 한 단계만, `--targets`는 같은 실행 파일을 단계 순서대로 다시 호출한다. 현재 생성기에서는 이전 출력 연결을 통해 신발 추가와 재킷 추가를 각각 실행한다. `--steps`, `--size`, `--run-label`은 비교할 때 바꿀 값이고, `result.json`에는 선택한 target·두 입력의 해시·조합된 prompt·메모리 배치·출력 해시가 남는다.
 
-## 착장에서 신발 참조를 따로 만든다
+## 흰색 스니커즈를 텍스트로 생성한다
 
-전신 착장에서는 신발이 작은 영역을 차지한다. 다른 포즈의 인물에게 같은 신발을 적용할 때, 신발 한 쌍만 보이는 참조를 만들어 전신 참조와 비교할 수 있다. 이를 위해 [긴 바지·접힌 칼라 v3 착장 이미지](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png)를 입력으로 사용하는 [신발 추출 스크립트](../../../assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_extract_shoes.py)를 추가했다. 이 입력은 P7-5.5의 착장 참조로도 사용한 이미지다.
-
-스크립트는 착장 한 장을 Picture 1으로 전달하고 다음과 같이 지시한다.
-
-> Extract the pair of shoes worn by the woman in Picture 1. Show only the two shoes, fully visible and side by side on a plain white background. Preserve their design, colors, laces, soles, and illustration style. Remove the person and all other clothing.
-
-신발 두 개만 흰 배경에 나란히 보여 주되, 원래 디자인·색·끈·밑창·화풍을 유지하라는 뜻이다. 마스크나 잘라내기로 원본 픽셀을 복사하는 추출이 아니라 Qwen Image Edit 2511이 신발 이미지를 다시 생성하는 방식이다. 따라서 원본에서 가려진 부분은 새로 그려질 수 있다. 생성 후에는 신발의 색과 앞코·끈·밑창 형태가 참조와 맞는지, 발·바지·신체 일부가 남지 않았는지 확인해야 한다.
-
-저장소 루트에서 다음 명령으로 입력·프롬프트·출력 경로를 먼저 확인한다.
-
-```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_extract_shoes.py --dry-run
-```
-
-`--dry-run`을 빼면 로컬 CUDA GPU와 캐시된 BF16 모델로 생성한다. 기본 조건은 1280×1280, 30스텝, seed `62294`, true CFG `4.0`이며 추가 LoRA와 마스크는 사용하지 않는다. `--input`으로 다른 착장을, `--steps`로 추론 스텝을 바꿔 비교할 수 있다. 재실행은 `--run-label v2`처럼 새 이름을 지정한다. 출력은 `p7-5-3-qwen-2511-extract-shoes-*` PNG와 입력·출력 해시, 실제 프롬프트·설정·실행 환경을 담은 `-result.json`이다. 흰 배경 PNG이며 투명 컷아웃은 아니다.
-
-![착장 이미지에서 신발만 분리 생성한 30스텝 결과: 원본과 다른 남색 패널과 두꺼운 밑창이 생긴 운동화 한 쌍](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-extract-shoes-v1-size-1280x1280-seed-62294-steps-30.png)
-
-[신발 추출 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-extract-shoes-v1-size-1280x1280-seed-62294-steps-30-result.json){ .lazy-source }
-
-로컬 GPU에서 위 기본 조건으로 생성한 결과, 인물과 바지는 사라지고 신발 한 쌍만 남았다. 그러나 원본의 흰 신발과 달리 짙은 남색 패널과 두꺼운 밑창이 생겼으며, 신발 두 개가 일부 겹쳤다. 대상 분리는 이루어졌지만 색과 디자인 보존은 실패했으므로 같은 착장의 신발 기준으로 채택하지 않는다. 신발만 크게 생성했다는 사실과 원래 신발을 정확히 재현했다는 판단은 구분해야 한다. 단독 참조의 적용 효과는 디자인을 먼저 검수한 뒤 같은 인물·프롬프트·시드·스텝에서 참조만 바꿔 비교해야 확인할 수 있다.
-
-### 흰색 스니커즈를 텍스트로 생성한다
-
-원본 신발의 정확한 복원이 아니라 새 신발 참조가 필요하다면, 색과 형태를 텍스트로 지정해 만들 수 있다. 이번에는 이미지 편집용 2511 대신 `Qwen/Qwen-Image-2512`의 `QwenImagePipeline`에 텍스트만 전달했다. 입력 이미지는 없으며, 앞의 추출 결과를 보정한 것도 아니다.
+착장 2단계에 사용할 신발 참조는 색과 형태를 텍스트로 지정해 만든다. `Qwen/Qwen-Image-2512`의 `QwenImagePipeline`에 텍스트만 전달했으며 입력 이미지는 없다.
 
 > A pair of plain white low-top lace-up sneakers with white soles and white laces. Both shoes fully visible, side by side with a small gap, in a three-quarter view. Clean illustration with fine outlines and subtle shading on a plain white background. No colored panels, logos, text, person, feet, or other clothing.
 
