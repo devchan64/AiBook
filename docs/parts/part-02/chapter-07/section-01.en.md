@@ -1,142 +1,11 @@
 # P2-7.1 Local Environment and Runtime
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.26`
+> Version: `v2026.09.08`
 
-In P2-3.5, we first separated Colab and a local PC. At that time, the purpose was a preliminary guide so the reader could immediately follow the NumPy practice. Now we step down one layer more basic.
+Python code is read and executed by an interpreter. The local environment consists of Python, packages, files, and settings on your computer; the runtime consists of the programs and resources where code actually runs. Code entered in a browser may run on another computer.
 
-Up through P2-6, we read `what is being calculated`, such as formulas, loss, and optimization. But in reality, those calculations are executed somewhere, and some program has to read them before we can confirm them with our eyes. Starting from this Section, we are not pausing mathematical language. We are entering the part where we read the environment that turns those calculations into actual executable statements.
-
-If we compress this transition in the shortest possible way, it becomes the following.
-
-| Question we just held | New question we hold now | Why it must be read immediately after |
-| --- | --- | --- |
-| How do we reduce loss and change values? | Where and with what program do we execute that calculation? | Because all later NumPy, Pandas, and Git practice can only be confirmed on top of an actual execution environment. |
-
-Here we explain the large distinction between `local environment` and `runtime`. Even if later Sections continue into terms such as `terminal`, `interpreter`, `virtual environment`, and `dependency`, the big picture of these two terms reconnects on top of the explanation here.
-
-Rather than following Python installation screens one by one, this Section focuses on distinguishing where calculations are actually executed and who manages that place. If you first secure the relationship among local environment, runtime, Colab, and a local PC here, then when you later see terminal, interpreter, and virtual environment, you will read them not as `am I learning another new tool again?` but as `am I dividing the same execution place more finely?`
-
-First, look at the smallest execution scene. The examples below all have the same goal.
-
-Where should `hello` actually be typed so it runs?
-
-| What you want to see | Where you type it | Example | Feel to check now |
-| --- | --- | --- | --- |
-| Run one line of Python in Colab | Colab code cell | `print("hello")` | It is visible inside the browser, but execution is handled by the Colab runtime. |
-| Check whether Python exists on a local PC | terminal | `python --version` | This is not Python code but a terminal command. |
-| Run one line of Python on a local PC | Python interpreter or `.py` file | `print("hello")` | Even the same code produces output only when a Python interpreter reads it. |
-| Run one line of Python in a Jupyter notebook | notebook code cell | `print("hello")` | A notebook cell also ultimately runs on top of a Python execution environment. |
-
-Problem situation: if you get confused about where to put the same `hello`, then explanations of the runtime can feel abstract.
-Input: one terminal command and one line of Python code.
-Expected output: in the terminal, the Python version appears; in the Python-code position, `hello` appears.
-Concept to check: before asking `what code do we write?`, we first see that `where do we put it?` is different.
-
-```bash
-python --version
-```
-
-```python
-# This is the smallest output check for whether Python code is running.
-print("hello")
-```
-
-The minimum distinction that must be fixed right here is two things.
-
-- `python --version` is a command placed into the terminal.
-- `print("hello")` is Python code placed into a Python interpreter or notebook cell.
-
-In other words, saying that we distinguish the runtime starts not from grand installation theory, but from knowing the fact that `even if they look like the same screen, the place where you type can be different`.
-
-## First Places to Return to by Problem Type
-
-Chapter 7 is more efficient when you return to it by the kind of problem where you got stuck rather than reading everything in one sweep.
-
-| Problem you are stuck on now | Section to revisit first | Why that Section comes first |
-| --- | --- | --- |
-| I keep mixing terminal commands and Python code | `P2-7.1`, `P2-7.3` | Because you need to distinguish the execution place and the role of the Python interpreter again. |
-| I am confused about the current folder and file location | `P2-7.2` | Because the feel for the working folder must be fixed before the next command can be read. |
-| Package installation and virtual environment are getting mixed together | `P2-7.4`, `P2-7.5` | Because the installation place and reproducibility management continue into one another. |
-| I am unfamiliar with terminal windows by operating system | `P2-7.6` | Because you need to become familiar with the window and input place before the commands themselves. |
-| I do not know whether I need to install Python now | `P2-7.7` | Because you should first separate the installation judgment so you do not get blocked by unnecessary setup. |
-| Tutorial commands such as `|`, `>`, and environment variables feel strange | `P2-7.8` | Because you first need the minimum feel for reading runtime syntax. |
-| I want to check whether local Python is actually running well | `P2-7.9` | Because you can follow the post-installation check procedure at once. |
-
-The purpose of this table is not to make the reader memorize Chapter 7. It is to let the reader immediately find the shortest return path by the `type of blockage` they have right now.
-
-| What to secure in this Section now | The question that follows immediately next | Where it is used again later |
-| --- | --- | --- |
-| The big picture that distinguishes local environment and runtime | In P2-7.2, it continues into how the terminal and working folder connect to that execution place. | It becomes the starting point of all later local practice, package installation, and error checking. |
-| The point that both Colab and a local PC are runtimes, but their management styles differ | In P2-7.3 and P2-7.4, it continues into why interpreter and virtual environment are learned separately. | It repeats later as the criterion for reproducibility, team collaboration, and rerunning examples. |
-| The point that Chapter 7 is not about `all of Python`, but about the `execution place` | It continues into the criterion for reading without mixing its role with Chapters 8 through 10. | It is used again when organizing the later NumPy, Pandas, and Git practice of Part 2 into different layers. |
-
-Here we explain for readers who may not have basic programming knowledge. If you already know terminal, Python, and virtual environments, some of this may feel familiar, but these are words that repeat throughout later practice, so they need to be organized once.
-
-This Section reads around the following four questions.
-
-- Where is code executed?
-- What does Python execute?
-- What is different between local environment and runtime?
-- Why does the phrase virtual environment appear?
-
-| Term | Meaning to secure first in this Section |
-| --- | --- |
-| local environment | the bundle of programs, files, and settings prepared so code can run on my computer |
-| runtime | the place where code actually runs and the connected bundle of programs there |
-| Colab runtime | an environment managed by an external service even though we use it in the browser |
-| local-PC execution | an execution style where the user directly manages Python, folders, and package state |
-| virtual environment | a device that divides Python space more finely by project inside the local environment |
-
-This question can look more practical than AI mathematics. But it is very important in machine-learning practice. Even with the same code, if the runtime is different, the result can differ or the code may not run at all.
-
-In other words, the reason we learn these words now is simple. Later, when we create NumPy arrays, read Pandas data, and receive example projects with Git, we must be able to first distinguish `why does the code not run?` as a runtime problem rather than as a mathematics problem.
-
-When reading Part 2 Chapters 7 through 10 afterward, keep the following three layers separate.
-
-| Layer we are reading now | Central question | Representative Chapter |
-| --- | --- | --- |
-| runtime | where do we run it? | Chapter 7 |
-| code syntax and data structures | what sentence do we write for what values and bundles? | Chapters 8-9 |
-| notebook record | how do we record and rerun execution results? | Chapter 10 |
-
-The key point of this table is that terminal, Python syntax, and notebooks may all sit under one name called `studying Python`, but they do not play the same role. Among them, Chapter 7 first distinguishes `execution place and manager`.
-
-If we compress this flow more briefly using Part 2 Chapters 7 through 10, it becomes the following.
-
-| Bundle we are reading now | Question to hold first | What becomes more concrete immediately after |
-| --- | --- | --- |
-| Chapter 7 runtime | Where do we run it? | terminal, interpreter, virtual environment |
-| Chapters 8-9 code syntax and data structures | What do we write as what values and bundles? | values, variables, lists, dictionaries, feel for data structures |
-| Chapter 10 notebook record | How do we leave and rerun execution results? | Jupyter, Colab, local execution, habits of reproducibility |
-
-If we connect this transition to the surrounding Chapters at once, it can be organized like this.
-
-| Previous Chapter | Current Chapter | Chapter that connects immediately after |
-| --- | --- | --- |
-| formulas and calculation: what shall we calculate? | runtime: where and with what program do we execute that calculation? | Python syntax: in what sentences do we write that calculation? |
-| language of calculation | execution place and manager | code sentence |
-
-So the core of this Chapter is that the handle changes from `what shall we calculate?` to `where shall we execute that calculation?`
-
-## Core Criteria: Local Environment and Runtime
-
-- You can explain `local environment` as the conditions under which code runs on my computer.
-- You can explain `runtime` as the place where code actually runs.
-- You can explain why terminal, Python interpreter, and virtual environment appear in that order.
-- You can explain that Colab and a local PC are both runtimes, but their management styles differ.
-
-## Three Criteria
-
-Here we distinguish the place where code runs, rather than the installation procedure itself. The following three criteria become the basis that ties together the later explanations of installation, terminal, and virtual environment.
-
-| Criterion | Why it matters | Needed level of understanding here |
-| --- | --- | --- |
-| Code has to run somewhere | Because we need to distinguish text written in a file from actual execution | Understand that code alone does not finish the job; a program and place for running it are needed |
-| The Python interpreter is the program that reads and runs Python code | Because terminal, script, and notebook execution are tied into one flow | You can explain with this distinction who reads `print("hello")` |
-| Colab and a local PC are both runtimes, but the manager differs | Because it connects to why virtual environment and dependency become necessary later | Understand that Colab is managed more by the service, while local is managed more by the user |
-
-## Why Does Python Appear So Often?
+## Python for AI Experiments
 
 When studying AI, Python appears often. At that point the question can arise, `why Python in particular?`
 
@@ -153,103 +22,49 @@ The reason Python appears often in AI is connected to this same flow.
 - There are many tools such as NumPy, Pandas, and Matplotlib.
 - Many machine-learning and deep-learning libraries gather in the Python ecosystem.
 
-Of course, that does not mean Python is the only language. Inside real services, languages such as C++, Java, JavaScript, Go, and Rust are also used together. But at the entrance to AI learning and experimentation, there is a high chance of meeting Python. So in this Chapter, before installation, we first secure `where and how Python code is executed`.
+Python is not the only language. Real services also use languages such as C++, Java, JavaScript, Go, and Rust. However, Python is commonly encountered when learning and experimenting with AI.
 
-## First Think about the Place Where Code Runs
+## Terminal Commands and Python Code
 
-When someone first begins programming, the phrase `write code` appears first. But code does not move by text alone. A program that reads and executes the code, and a place where it is executed, are needed.
+A terminal is a window for exchanging commands and results; a shell is the program that interprets commands. You can use a shell in macOS Terminal or Windows Terminal. Bash and PowerShell are examples of shells.
 
-Here we have to distinguish three words.
-
-- code: a command written by a person
-- execution: the computer processing that command
-- runtime: the place where the programs, settings, packages, and files needed for execution are prepared
-
-For example, the following is Python code.
-
-Problem situation: we look at the smallest example that separates merely writing text from actually running it.
-Input: one line of Python code that prints a string.
-Expected output: if the Python interpreter reads it, `hello` is printed.
-Concept to check: Python code becomes actual action only when there is a runtime and an interpreter.
-
-```python
-# same print code can run in a different place depending on the runtime environment.
-print("hello")
-```
-
-But if we only write this sentence in a text editor, nothing happens. The `Python interpreter` must read and execute this sentence.
-
-## Python Interpreter Is the Program That Reads and Executes Code
-
-The `Python interpreter` is the program that reads and executes Python code. The official Python documentation explains that the Python interpreter can be invoked from the command line, and that in `interactive mode` commands can be entered at the `>>>` prompt.
-
-Here we distinguish Python code and the Python interpreter as follows.
-
-- Python code: a command written by a person
-- Python interpreter: the program that reads and executes that command
-
-There are several ways to run Python.
-
-| Method | Example | Introductory explanation |
-| --- | --- | --- |
-| interactive execution | run `python`, then type at `>>>` | check one line immediately |
-| script execution | `python example.py` | execute all code written in a file at once |
-| notebook execution | Colab / Jupyter code cell | check code and results in cell units |
-
-These three can look mixed. What matters is that they all share the same point: `the Python interpreter executes Python code`.
-
-Python interpreter and script execution are revisited again in P2-7.3. Here, remember only the big picture that `Python code is executed by the Python interpreter`.
-
-## Terminal Is the Window for Sending Commands to the Computer
-
-The `terminal` is the window where we enter commands to the computer. Programs such as Terminal on macOS, Windows Terminal, PowerShell, and a Linux shell belong here.
-
-Terminal commands and Python code are different.
+Entering this command at a terminal’s shell prompt prints the Python version.
 
 ```bash
 python --version
 ```
 
-The command above is a command executed in the terminal. It is not a sentence written exactly as it is inside a Python code file.
-
-By contrast, the following is Python code.
-
-Problem situation: in contrast with a terminal command, we check again in what place Python code is written.
-Input: Python code that prints a string.
-Expected output: if run as Python code, `hello` is printed.
-Concept to check: even if they look like similar sentences, terminal commands and Python code belong to different input places.
+`print("hello")` is Python code. Enter it in a notebook code cell or Python interpreter to print `hello`.
 
 ```python
-# Python statement stays the same even when the runtime changes.
+# A Python statement that prints a string.
 print("hello")
 ```
 
-This distinction matters.
+Merely writing the statement in a text editor does not run it. A program must read and execute the Python code. Entering `python --version` in a terminal and entering `print("hello")` in Python are different actions.
 
-Here too, we read by separating roles.
+| Statement | Input location | Result |
+| --- | --- | --- |
+| `python --version` | Terminal shell prompt | Prints the Python version |
+| `python example.py` | Terminal shell prompt | Runs example.py |
+| `print("hello")` | Python code or notebook code cell | Prints hello |
+| `%pip install numpy` | IPython-based notebook code cell | Installs NumPy in that kernel |
 
-- terminal command: runs Python, installs packages, or executes files
-- Python code: code read by the Python interpreter
+## Ways to Run the Interpreter
 
-The places that are often confusing are the following.
+The Python interpreter reads and executes Python code. Where you provide the code depends on the execution method.
 
-| Sentence | Where it is used |
+| Method | How to use it |
 | --- | --- |
-| `python example.py` | terminal |
-| `python -m pip install numpy` | terminal |
-| `%pip install numpy` | Colab / Jupyter code cell |
-| `import numpy as np` | Python code |
-| `print("hello")` | Python code |
+| Interactive | Run `python` in a terminal, then enter Python code at `>>>` |
+| Script | Save code in example.py and run `python example.py` in a terminal |
+| Notebook | Run a code cell connected to a Python kernel |
 
-There is a reason we check again here the distinction we saw in P2-3.5. If we do not know the execution place, then when an error appears it becomes hard to judge what exactly should be fixed.
+To end interactive execution and return to the shell, enter `exit()` at `>>>`. The prompt `>>>` itself is not code to type.
 
-Terminal, shell, and working directory are handled separately in P2-7.2. Here, secure only the point that terminal commands and Python code are not the same sentence.
-
-## Local Environment Is the Execution Condition on My Computer
+## Components of a Local Environment
 
 The `local environment` means the conditions under which code runs inside my computer. This can include the operating system, Python installation location, package installation state, current working folder, and environment variables.
-
-Here we treat the local environment as `the conditions under which Python code runs on my computer`.
 
 Even with the same code, the result can differ by computer.
 
@@ -261,9 +76,9 @@ For example, conditions can differ between computers in the following way.
 
 That is why in practice documents, `where is it executed?` matters as much as the code itself.
 
-## Runtime Is the Place Where Code Actually Runs
+## Local Execution and Colab Runtimes
 
-The `runtime` is the place where code actually runs. If you run on a local PC, your computer becomes the runtime. If you run on Colab, the notebook runtime provided by Google becomes the runtime.
+The runtime is where code actually runs. For local execution, this is your computer. With a hosted Colab runtime, the environment provided by Google processes the code.
 
 | Execution style | Runtime |
 | --- | --- |
@@ -280,36 +95,27 @@ In summary, it is as follows.
 - Colab: easy to start with, and the runtime is managed by an external service.
 - local PC: requires initial setup, but I manage the runtime.
 
-## Virtual Environment Is a Project-by-Project Execution Space
+## Virtual Environments by Project
 
 A `virtual environment` is a device that creates a separate execution space for each Python project. The official Python documentation explains that `venv` creates lightweight virtual environments and that each virtual environment can have an independent set of Python packages.
-
-You can understand a virtual environment as `the Python execution space for each project`.
 
 Why is it needed? Project A may need `numpy 1.x`, while project B may need `numpy 2.x`. If both are installed all mixed together on one computer, they can conflict, so the space is divided by project.
 
 A virtual environment is not the project code itself. The official Python documentation also explains that virtual environments are usually created in directories such as `.venv` or `venv`, and are not put into source-control systems. In any project, `.venv` is the local environment for execution, not the body text file or code itself.
 
-A commonly seen command is the following.
-
-Problem situation: we first become familiar with what a command that creates a project-by-project execution space actually looks like.
-Input: the terminal command `python -m venv .venv`.
-Expected output: a virtual-environment directory called `.venv` is created.
-Concept to check: a virtual environment is not only a conceptual explanation, but is connected to the command that actually creates a Python space by project.
+Running the following command in a terminal in the project folder creates a virtual environment in `.venv`.
 
 ```bash
 python -m venv .venv
 ```
 
-This command creates a virtual-environment directory called `.venv`. Here we do not memorize the OS-specific activation command. For now, secure only the meaning that `it creates the execution space by project`.
+Select the created virtual environment’s Python to use the packages installed there. See [Virtual Environments and Package Installation](section-04.en.md) for creation and activation commands.
 
-Virtual-environment creation and package installation are revisited in P2-7.4. Here, we look only at the reason why a virtual environment is needed.
+## Package Installation and import
 
-## A Package Is a Bundle of Code Borrowed for Use
+A package groups related code for reuse. NumPy, Pandas, and Matplotlib are examples.
 
-A `package` is a bundle of code created by someone else. Tools such as NumPy, Pandas, and Matplotlib belong here.
-
-Here we read by distinguishing three layers.
+The roles are:
 
 - Python: the language and execution program
 - package: the bundle of code borrowed inside Python
@@ -321,10 +127,7 @@ For example, the command that installs NumPy and the code that imports it are di
 python -m pip install numpy
 ```
 
-Problem situation: immediately after the installation command, we check how the position of installation and the position of Python code differ.
-Input: Python code that imports NumPy under the name `np`.
-Expected output: there is no printed output, but the current Python code becomes ready to use NumPy.
-Concept to check: package installation is done in the terminal, while `import` happens inside Python code.
+Running the following code in Python with NumPy installed imports it as `np`. Success produces no separate output, and execution continues to the next statement.
 
 ```python
 # This checks whether NumPy can be imported in the current runtime environment.
@@ -333,33 +136,35 @@ import numpy as np
 
 The first is installation. The second is the act of loading it for use inside Python code.
 
-Package, dependency, and reproducibility are treated in more detail in P2-7.4 and P2-7.5. Here, keep only the point that installation and use are different actions.
+## When an Import Works in Colab but Fails Locally
 
-## If You Do Not Know Programming, What Should You Distinguish First?
+Suppose `import numpy as np` works in Colab but raises this error locally.
 
-Rather than memorizing a lot of syntax, it is more important to secure distinctions first.
+```text
+ModuleNotFoundError: No module named 'numpy'
+```
 
-| Question | What to distinguish first |
+The running Python cannot find NumPy. It may be installed in another Python or virtual environment, so first identify the interpreter actually in use. Run this code in the same notebook kernel or Python execution method that produced the error; it prints the interpreter’s file path.
+
+```python
+import sys
+
+# The location of the Python running this code.
+print(sys.executable)
+```
+
+Check whether this is the Python intended for the project. Once that Python is selected in the terminal, check installation with `python -m pip show numpy`. If NumPy is absent, install it into that Python with `python -m pip install numpy`.
+
+If installation succeeds but the same error remains, compare the Python paths used for installation and code execution. Checking the package name alone cannot distinguish installation in different environments.
+
+## Where to Check Execution Problems
+
+| Problem | What to check |
 | --- | --- |
-| Where is this sentence entered? | terminal, code cell, or Python file |
-| Who executes this code? | Python interpreter or shell |
-| Did an error say a package is missing? | installation problem or import problem |
-| Is the result different between my computer and Colab? | is the runtime different? |
-| Does the example not work on another person's computer? | are the virtual environment and package versions different? |
-
-This distinction is not itself a concept of machine learning. But in the process of learning machine learning, it can keep grabbing your ankle. So we organize it first in this Chapter.
-
-## View It Through a Case
-
-### Case 1. Same Example File Works in Colab but Not on My Computer
-
-Suppose a learner ran a book example in Colab and it worked well, but after downloading the same file and running it on a local PC, an error appeared. People often first suspect `is the code wrong?` or `was the download wrong?`
-
-But in this situation, before syntax, the execution place must be distinguished first. In Colab, the code may already be using a prepared runtime and packages, while on the local PC the Python interpreter, working folder, and package installation state have to be checked directly.
-
-The words emphasized in this Section, `local environment`, `runtime`, `interpreter`, and `virtual environment`, are exactly the language for reading this failure in separated pieces. In other words, if we distinguish `where was it executed?`, `who executed it?`, and `are the needed packages present in that place?`, then the problem can be narrowed down faster.
-
-The confirmable result is simple. If `import numpy as np` works immediately in Colab but raises `ModuleNotFoundError` on the local PC, then we can conclude that before the code content, the package-preparation state of the local runtime should be checked first.
+| A file cannot be found | [Terminals and Working Folders](section-02.en.md) |
+| Unsure how to run Python code | [Interpreters and Scripts](section-03.en.md) |
+| An installed package cannot be imported | [Virtual Environments and Package Installation](section-04.en.md) |
+| Results differ on another computer | [Dependencies and Reproducibility](section-05.en.md) |
 
 ## Checklist
 
@@ -378,3 +183,5 @@ The confirmable result is simple. If `import numpy as np` works immediately in C
 - Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm the basic description of Python as an interpreted, interactive programming language available on multiple operating systems.
 - Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm that a virtual environment has its own Python installation and package state inside an isolated directory.
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-20. Used to confirm the project-level flow of creating a virtual environment, activating it, and installing packages.
+
+- Python Software Foundation, [sys.executable](https://docs.python.org/3/library/sys.html#sys.executable){: target="_blank" rel="noopener noreferrer" }, checked 2026-09-08. Used to identify the executable path of the current Python interpreter.

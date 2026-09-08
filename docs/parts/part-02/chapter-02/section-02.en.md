@@ -1,9 +1,9 @@
 # P2-2.2 Sigma and Repeated Computation
 
 > Section ID: `P2-2.2`
-> Version: `v2026.07.26`
+> Version: `v2026.09.08`
 
-In P2-2.1, we reread variables, functions, and expressions. Now we move to the notation for repeated computation that appears very often in formulas.
+Sigma is notation that compresses the addition of multiple values.
 
 \[
 \sum
@@ -11,48 +11,23 @@ In P2-2.1, we reread variables, functions, and expressions. Now we move to the n
 
 Sigma may look unfamiliar, but the core is simple. It means that several values should be added repeatedly. In AI documents, it appears frequently when explaining the sum over many data points, means, sums of loss, and batch-level computation.
 
-Here, we show the structure that sigma is `notation that compresses repeated addition`, and explain how it connects to loops in code, array computation, and mean-loss calculation.
+## Repetition Range and Terms
 
-Here, we reorganize again `sigma`, `index`, `mean`, `repeated computation`, and `loss aggregation`. If 2.1 read the minimum grammar of variables, functions, and expressions, this section organizes into what compressed notation that grammar changes when it is repeated across many data points.
+| Criterion | Why It Matters |
+| --- | --- |
+| Sigma is compressed notation that tells you to repeat addition of the same shape | It lets you reread an unfamiliar symbol as computational structure. |
+| The index is the name that distinguishes which item is being added | It keeps you from losing the repeated position. |
+| Sigma appears often in AI documents because many data points are gathered into sums, means, and losses | It shows why statistics and loss aggregation share the same notation. |
 
-Once you understand sigma, many later topics become easier to read. In particular, the structure `when there are many data points, the same calculation is repeated and the results are gathered` starts to become visible.
+## Parts of Sigma Notation
 
-- It becomes easier to read statistical notation such as mean, variance, and standard deviation, which summarize many values.
-- It becomes easier to understand why loss and mean loss are calculated over many data items.
-- It becomes easier to follow the flow in vectors, matrices, and batch computation where many components or samples are handled at once.
-- It becomes easier to accept explanations such as "the effects of many terms are combined" when learning gradients and optimization.
-- It prepares you to see Python loops, NumPy array computation, and tensor operations in deep-learning frameworks as different expressions of the same repeated structure.
-
-## Core Criteria: Sigma and Repeated Computation
-
-- You can read sigma as compressed notation for repeated addition.
-- You can distinguish the index, the start value, the end value, and the term to be added.
-- You can explain a mean from both the sigma viewpoint and the code viewpoint.
-- You can read intuitively the flow of summing or averaging losses over many data points.
-- When sigma appears, you can first ask, "What is being added, and how many times?"
-- You can read sigma notation by separating the upper part, lower part, and right-hand term.
-- You can explain why sigma later continues into statistics, loss calculation, batch computation, and optimization.
-- You can expand a simple sigma expression and compute the actual sum.
-
-## Three Criteria
-
-The following three viewpoints act as standards while reading the main text.
-
-| Criterion | Why It Matters | Required Understanding in This Section |
-| --- | --- | --- |
-| Sigma is compressed notation that tells you to repeat addition of the same shape | It lets you reread an unfamiliar symbol as computational structure. | Understand that when you see sigma, you ask what is being added and how many times. |
-| The index is the name that distinguishes which item is being added | It keeps you from losing the repeated position. | Understand that you connect subscripts with the repeated index. |
-| Sigma appears often in AI documents because many data points are gathered into sums, means, and losses | It shows why statistics and loss aggregation share the same notation. | Understand that mean and loss aggregation both have the structure of repeated addition. |
-
-## Reading Sigma from a Math-Education Viewpoint
-
-In mathematics education, sigma is usually introduced as "the symbol for a sum." But when rereading it for the first time, it is more helpful to split the roles inside the notation than to stop at the definition that it is a sum symbol.
+Sigma notation specifies both the repetition range and the term to add.
 
 \[
 \sum_{i=1}^{n}x_i
 \]
 
-This one line contains three pieces of information.
+This one line contains four pieces of information.
 
 - the large symbol \(\sum\): the command to add
 - the lower part \(i=1\): where the repetition starts
@@ -67,7 +42,7 @@ If you separate it like this, sigma stops looking like a suddenly appearing diff
 
 So sigma is not only a symbol that says "sum." It is notation that also writes what is gathered, in what order, and over what range. This viewpoint is also useful when you recall a loop in code.
 
-That does not mean sigma is exactly the same thing as a code loop. Mathematical notation shows computational structure in compressed form, while code unfolds it into actual execution procedure. Here, the connection is only that the two expressions show the same repeated structure in different ways.
+That does not mean sigma is exactly the same thing as a code loop. Mathematical notation shows computational structure in compressed form, while code unfolds it into actual execution procedure.
 
 ## Expanding a Simple Sigma Expression
 
@@ -109,43 +84,7 @@ If you go on to compute the mean, it becomes the following.
 \frac{1}{3}\sum_{i=1}^{3}x_i = \frac{1}{3}(2 + 4 + 6) = 4
 \]
 
-Even being able to do only this much expansion is enough to prepare you to read notation such as mean loss, batch loss, and the sum over a whole dataset in AI documents. What matters is not memorizing a formula, but building the habit that when sigma appears, you first expand it and compute it.
-
-## Sigma Writes Repeated Addition in Short Form
-
-Suppose the following data exists.
-
-\[
-x_1 = 1,\quad x_2 = 2,\quad x_3 = 3,\quad x_4 = 4
-\]
-
-If you add all four values directly, it becomes the following.
-
-\[
-x_1 + x_2 + x_3 + x_4
-\]
-
-Sigma writes this repetition more briefly.
-
-\[
-\sum_{i=1}^{4}x_i
-\]
-
-Read this as follows.
-
-1. Change `i` from 1 to 4.
-2. Bring out `x_i` one by one.
-3. Add them all.
-
-In other words, it is the same as the following calculation.
-
-\[
-x_1 + x_2 + x_3 + x_4
-\]
-
-When you see sigma, the first thing to look at is not the shape of the symbol, but the repeated structure. First look at what is being added, where it starts, where it ends, and what name marks the repeated position.
-
-## Index Marks the Repeated Position
+## Indices and Loops
 
 In sigma, `i` is the index. The index is the name that tells you which position you are looking at now.
 
@@ -163,10 +102,7 @@ Here, each part is read as follows.
 
 In code, it looks roughly like the following.
 
-Problem situation: translate the repeated-addition structure of sigma into a code loop.
-Input: the list `values` containing four values.
-Expected output: the total sum `10` is printed.
-Concept to check: the repeated structure of sigma notation can appear in code as a loop and an accumulated total.
+the list `values` containing four values. the total sum `10` is printed.
 
 ```python
 # values is the list of values to add repeatedly.
@@ -189,7 +125,7 @@ Example execution result:
 
 The `i` in the formula and the `value` in code are not completely the same thing. But they connect in that both indicate the current item being looked at during repetition.
 
-## A Mean Is the Sum Divided by the Count
+## Sums and Means
 
 A mean is a good example for understanding sigma. When you add all the values and divide by the count, you get the mean.
 
@@ -210,10 +146,7 @@ This expression can be read as follows.
 
 In code, you can write it as follows.
 
-Problem situation: compute the mean formula through code using `sum` and `len` instead of reading it only through sigma notation.
-Input: the list `values` containing four values.
-Expected output: the mean value `2.5` is printed.
-Concept to check: a mean is a repeated structure in which many values are added and then divided by the count.
+the list `values` containing four values. the mean value `2.5` is printed.
 
 ```python
 # values is the data to average, and mean is the summary value.
@@ -231,13 +164,9 @@ Example execution result:
 
 If you use a NumPy array, it becomes shorter.
 
-Problem situation: express the same mean calculation more briefly with a NumPy array method.
-Input: the NumPy array `values` that holds four values.
-Expected output: the mean value `2.5` is printed.
-Concept to check: even if sigma is not written directly, the same repeated structure is still inside the array computation.
+the NumPy array `values` that holds four values. the mean value `2.5` is printed.
 
 ```python
-# This example checks sigma-style repeated sums and mean loss with NumPy array calculations.
 import numpy as np
 
 # values is the repeated-calculation target converted into a NumPy array.
@@ -257,7 +186,7 @@ Example execution result:
 
 Here, `values.mean()` performs the mean calculation internally. It does not write sigma directly, but the structure of gathering many values and computing over them remains the same.
 
-## Loss Is Also Repeated Across Many Data Points
+## Per-Sample Loss and Mean Loss
 
 In machine learning, loss expresses numerically the gap between the model output and the reference value. If there is only one data point, then only one loss needs to be computed.
 
@@ -291,10 +220,7 @@ Mean loss is that sum divided by the number of data items.
 
 In code, it can be seen as follows.
 
-Problem situation: repeatedly compute the losses for many data points and then find the mean loss.
-Input: the prediction list `predictions` and the answer list `targets`.
-Expected output: the average of the sample losses is printed.
-Concept to check: loss also has the structure of repeating the same calculation over many data points and then taking the mean of the results.
+the prediction list `predictions` and the answer list `targets`. the average of the sample losses is printed.
 
 ```python
 # predictions and targets are paired lists of predicted and real values for each sample.
@@ -315,38 +241,24 @@ print(mean_loss)
 Example execution result:
 
 ```text
-0.09999999999999998
+0.09999999999999999
 ```
 
 This example simplifies real deep-learning training code. The key point is that, because there are many data items, the same computation is repeated and the repeated results are summed or averaged.
 
-## Batch Computation Is Read with the Same Perspective
+## Aggregating Batch Loss
 
 In deep learning, it is common not to process data one by one, but to process them as a batch. Inside one batch are many samples, and the model creates one output for each sample. Here, `batch` is the bundle of many input data items, `prediction` is the model output for each input, `loss` is the gap between each output and reference value, and `mean_loss` is the mean of the losses inside the batch.
 
 Even here, the sigma viewpoint remains the same. You inspect each sample inside the batch, compute the loss for each sample, and then sum or average those losses.
 
-## Case Study
+## Loops and Array Operations
 
-### Case 1. Why Batch Loss Must Be Read as the Sum of Many Cases Rather Than as One Case
+For the three samples above, the squared errors are approximately `0.04`, `0.01`, and `0.25`. Their mean is `(0.04 + 0.01 + 0.25) / 3 = 0.1`. NumPy applies subtraction and squaring at each array position, then computes the mean with `mean()`.
 
-When a learner sees a model loss formula, they may feel, "Why is sigma attached here at all?" If you look at only the prediction error for one case, it looks simple. But actual learning usually judges by looking at many data items at once and gathering their loss.
-
-For example, if four images are fed in as one batch, then one loss appears for each image. At that point, sigma compresses the repeated structure `compute the loss of each of the four images and add them all`. Mean loss is then the value obtained by dividing that sum again by the number of data items.
-
-This case reveals that sigma is not mere mathematical decoration. In almost every scene that summarizes many values together, such as mean, variance, total loss, and batch loss, sigma is in charge of the structure `repeat the same computation and gather the results`.
-
-So when you see sigma, the first question should be `what is being added, and how many times?` Holding on to only this question already makes complicated-looking loss and statistics formulas feel much less foreign.
-
-Library code can hide this repetition.
-
-Problem situation: express the repeated loss computation above all at once with NumPy array operations.
-Input: the prediction array `predictions` and the target array `targets`.
-Expected output: the mean loss value is printed.
-Concept to check: even if a loop is not visible, the same repeated structure is still executed inside array computation.
+The inputs are prediction and target arrays. The code prints their mean loss.
 
 ```python
-# This example checks sigma-style repeated sums and mean loss with NumPy array calculations.
 import numpy as np
 
 # predictions and targets are arrays of predicted and real values to compare at once.
@@ -363,40 +275,10 @@ print(mean_loss)
 Example execution result:
 
 ```text
-0.09999999999999998
+0.09999999999999999
 ```
 
 The loop is not visible, but the repeated computation has not disappeared. The array computation has only changed the expression so that many values are handled at once.
-
-## Order for Reading Sigma
-
-When sigma appears, read it in the following order.
-
-1. What is the thing being added?
-2. What is the repeated index?
-3. Where is the start and where is the end?
-4. Is the result a sum or a mean?
-5. In code, does it appear as a loop or as array computation?
-
-For example, look at the following expression.
-
-\[
-\frac{1}{n}\sum_{i=1}^{n}(\mathrm{prediction}_i - \mathrm{target}_i)^2
-\]
-
-This can be read as: for the i-th prediction and the i-th target, compute the difference, square that difference, add them all while changing `i` from 1 to `n`, and finally divide by `n` to obtain the mean.
-
-This leads into the intuition of mean squared error (MSE). But MSE itself can be handled later in the sections on evaluation metric and loss function. Here, remember only that sigma compresses repeated computation.
-
-## Why Sigma Feels Difficult
-
-Sigma does not feel difficult because addition itself is difficult. It feels difficult because compressed information such as the repeated variable, repeated range, term to add, total sum, and whether the result is a mean are all gathered in one place.
-
-When all that information enters one line, it can feel unfamiliar. But if you unfold it into code, it is usually nothing more than a loop or an array computation.
-
-Sigma notation can unfold in code into a loop, an array operation, and the computation of a sum or a mean.
-
-So rather than memorizing sigma, it is more important to practice expanding it.
 
 ## Checklist
 
@@ -408,7 +290,6 @@ So rather than memorizing sigma, it is more important to practice expanding it.
 - When sigma appears, can you unfold it by asking, `what is being added, and how many times?`
 - Can you explain why sigma helps later when reading statistics, loss calculation, batch computation, and optimization?
 - Can you expand a simple sigma expression into terms and compute the sum or mean?
-- Can you explain sigma less as a symbol to memorize and more as the first sign for reading repetition and aggregation?
 - Can you connect mean, loss, and batch computation by explaining that they share the same aggregation structure through sigma and code?
 
 ## Sources and References

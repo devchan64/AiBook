@@ -1,27 +1,9 @@
 # P2-7.4 Virtual Environments and Packages
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.26`
+> Version: `v2026.09.08`
 
-In P2-7.3, we looked at ways to run Python code. Now we move to a slightly more realistic problem.
-
-For example, you often run into situations like these.
-
-- Python runs, but it says NumPy is missing.
-- It worked yesterday, but today the package version is different and the result has changed.
-- It works on my computer, but it does not work on someone else's computer.
-
-These problems are not solved by Python syntax alone. You need to look at both the space where the code runs and the packages installed in that space.
-
-Here, we explain the relationship among `virtual environment`, `package`, `pip`, and `import`. Even when later sections revisit dependency lists or environment-checking steps, you should still read them based on the explanation here about which Python space installation and usage must be connected to.
-
-Rather than learning the entire world of Python distribution and packaging, this section focuses on understanding why practice changes when you separate execution environments by project. If you understand the difference among virtual environments, packages, installation, and `import` here, that naturally carries forward when later sections cover dependency lists, reproducibility, and team collaboration environments, including what to record and what to install again.
-
-| What to establish in this section | Question that follows immediately | Where it is used again later |
-| --- | --- | --- |
-| The idea that a virtual environment is a project-specific execution space | This leads to dependency lists and reproducibility in P2-7.5. | It is used again later whenever you interpret environment conflicts in local Python practice. |
-| The idea that `pip install` and `import` are different stages | P2-7.9 examines errors in more detail when the installation environment and execution environment do not match. | It repeats in package installation errors, Colab vs. local differences, and library setup contexts. |
-| The idea that the Colab runtime and a local `.venv` are different spaces | P2-7.6 and P2-7.7 add operating-system-specific installation and activation steps. | It becomes the basis for reproducing practice environments and guiding team collaboration after Part 3. |
+A virtual environment gives each project a separate set of Python packages. If packages are installed with a different Python from the one running the code, installation can succeed while `import` fails.
 
 | Term | Meaning to establish first in this section |
 | --- | --- |
@@ -31,25 +13,15 @@ Rather than learning the entire world of Python distribution and packaging, this
 | `import` | A statement that loads an already prepared package into Python code. |
 | `.venv` | A representative local virtual-environment directory name placed inside a project folder. |
 
-## Core Criteria: Virtual Environments and Packages
+## Project Separation and Installation Location
 
-- You can explain a virtual environment as a project-specific Python execution space.
-- You can explain a package as a bundle of code you bring into Python and use.
-- You can explain `pip` as a tool that installs packages.
-- You can explain that `pip install` and `import` do different jobs.
-- You can explain that different package versions may be needed for different projects even on the same computer.
+| Criterion | Why it matters |
+| --- | --- |
+| A virtual environment is a project-specific Python execution space | Because each project may need different tool versions |
+| Installation and `import` are different stages | Installation is preparation, and `import` is the act of actually loading something inside code |
+| The most common mistake is that the environment where you installed something and the environment where you ran it are different | There can be multiple Python spaces even on one computer |
 
-## Three Criteria
-
-| Criterion | Why it matters | Level of understanding needed in this section |
-| --- | --- | --- |
-| A virtual environment is a project-specific Python execution space | Because each project may need different tool versions | Understand the virtual environment as a separation device that reduces conflicts |
-| Installation and `import` are different stages | Installation is preparation, and `import` is the act of actually loading something inside code | You should be able to explain the difference in roles between terminal commands and Python code |
-| The most common mistake is that the environment where you installed something and the environment where you ran it are different | There can be multiple Python spaces even on one computer | You should be able to distinguish the problem type called an environment mismatch |
-
-## Why Did Virtual Environments Become Necessary?
-
-To someone learning Python for the first time, a virtual environment can look like a somewhat inconvenient device. But it is not just a habit. It took root to solve real problems that appeared as the Python ecosystem grew.
+## Background of venv
 
 PEP 405 is the proposal to add `venv` to the Python standard library. The document was created in 2011 and targeted Python 3.3. Its motivation explains that third-party virtual-environment tools such as `virtualenv` were already widely used for dependency management, isolation, installing and using packages without system administrator privileges, and automated testing across multiple Python versions.
 
@@ -60,13 +32,7 @@ If you compress that background from a beginner's perspective, it comes down to 
 - There were many cases where installation had to happen without administrator privileges: in personal projects or server accounts, you often could not freely change the whole system.
 - People had to test multiple projects and Python versions: one global installation space made conflicts hard to avoid.
 
-So a virtual environment is not a device for making the learning process more complicated. It is a tool that came from the historical need to separate Python and packages by project in order to reduce conflicts.
-
-## Why Is a Virtual Environment Necessary?
-
-It may look as if one Python installation is enough. It is easy to think, "Install Python, install the packages you need, run the code, and that is it."
-
-But as projects increase, problems appear.
+## Package Versions by Project
 
 For example, project requirements can differ like this.
 
@@ -76,11 +42,10 @@ For example, project requirements can differ like this.
 
 A virtual environment is a way to divide Python execution space by project to reduce these conflicts. The official Python documentation explains that `venv` creates lightweight virtual environments and that each environment can have its own independent set of Python packages.
 
-Here, we understand a virtual environment as a `project-specific Python execution space`.
 - Virtual environment for project A: install the packages needed for project A.
 - Virtual environment for project B: install the packages needed for project B separately.
 
-## A Virtual Environment Is Not Project Code
+## Virtual Environments and Shared Files
 
 A virtual environment is the surrounding environment used to run a project. It is different from the manuscript or code of the project itself.
 
@@ -93,9 +58,9 @@ So people usually separate things like this.
 - What to commit: manuscript files, code, configuration files, example files
 - What not to commit: the virtual-environment folder created on my computer
 
-Rather than sharing the virtual environment itself, it is safer to record which packages are needed and make them installable again. That problem continues in P2-7.5, which covers dependency and reproducibility.
+Rather than sharing the virtual environment itself, record the required packages so they can be installed again.
 
-## A Package Is a Bundle of Code You Bring in and Use
+## Python Packages
 
 A package is a bundle of code distributed so that you can bring it into Python and use it. Tools such as NumPy, Pandas, and Matplotlib belong here.
 
@@ -107,7 +72,7 @@ Here too, keep three layers distinct.
 
 The Python Packaging User Guide introduces a flow that uses `pip` and `venv` to install packages inside a virtual environment. What matters here is that installing a package and loading it in code are different actions.
 
-## `pip install` Means Installation, and `import` Means Use
+## pip Installation and import
 
 The following command is a terminal command that installs a package.
 
@@ -115,14 +80,11 @@ The following command is a terminal command that installs a package.
 python -m pip install numpy
 ```
 
-This command is not a statement you write inside a Python code file. It is a command you run in the terminal. As in P2-7.3, `python -m` is a way to ask Python to run a specific module. Here, it runs `pip` to install NumPy.
+This is a terminal command, not a statement for a Python code file. `python -m` runs a module using the specified Python; here it runs pip to install NumPy.
 
 By contrast, the following is Python code.
 
-Problem situation: We check how a package is actually loaded inside Python code, in contrast with installation.
-Input: the statement `import numpy as np`.
-Expected output: there is no printed output, but NumPy becomes ready to use in the current Python code.
-Concept to check: `pip install` is installation, while `import` is the stage where an already installed package is used inside code.
+With NumPy installed in the selected Python, `import numpy as np` makes it available as `np` without printing output.
 
 ```python
 # This imports the NumPy package installed in the current environment.
@@ -138,14 +100,10 @@ You should not mix the two statements.
 | Package installation | `python -m pip install numpy` | Terminal |
 | Package use | `import numpy as np` | Python code |
 
-Here, we distinguish them like this.
-
 - `install`: prepare the package in my execution environment
 - `import`: use that package in the current Python code
 
-## Place Where You Installed It and the Place Where You Run It Must Match
-
-There is an error you encounter often.
+## Installation and Execution Environments
 
 An error beginners frequently see is the situation, "I definitely installed it, but Python says it is not there."
 
@@ -159,49 +117,37 @@ For example, the place where you installed it and the place where you ran it may
 
 Packages are not installed abstractly "somewhere on the computer." They are installed into a specific Python execution environment. That is why, when you use a virtual environment, you should use the same virtual environment both when installing packages and when running the code.
 
-## Looking at the Flow of a Virtual Environment Like a Diagram
+## Installing and Running with the Environment’s Python
 
-Actual commands can differ depending on the operating system and the project situation. But the overall flow is usually similar to the following.
+After creating a virtual environment in the project folder, specify its Python path directly to install and import packages. This does not depend on activation.
 
-The actual flow is usually easiest to understand in the following order.
-
-1. Move to the project folder.
-2. Create a virtual environment.
-3. Switch the virtual environment into an in-use state.
-4. Install the necessary packages.
-5. Run the Python code.
-
-When expressed as terminal commands, you often see a flow similar to this.
-
-Problem situation: We look at the whole flow from creating a virtual environment to installing packages and running a script.
-Input: three command lines for creating `venv`, installing with `pip`, and running `python`.
-Expected output: the order of creating a project-only environment, preparing packages, and running code becomes visible.
-Concept to check: the use of virtual environments and packages should be understood as one continuous workflow.
+Run these commands in order in a macOS/Linux terminal. Python must be available as `python3`.
 
 ```bash
-python -m venv .venv
-python -m pip install numpy
-python example.py
+python3 -m venv .venv
+.venv/bin/python -m pip install numpy
+.venv/bin/python -c "import numpy; print(numpy.__version__)"
 ```
 
-There is an important omission here. In actual practice, you may need a step to activate the virtual environment. Activation commands look different on Windows, macOS, and Linux, so we do not memorize them here. The detailed procedure is covered in the P2-7.6 supplementary section, and why activation status and installation environments so often get crossed is revisited in the P2-7.9 supplementary section.
+In Windows PowerShell, if Python is available as `python`, use:
 
-Here, keep only the following perspective.
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install numpy
+.\.venv\Scripts\python.exe -c "import numpy; print(numpy.__version__)"
+```
 
-- You created a virtual environment: that means you created a Python space dedicated to the project.
-- You installed packages: that means you prepared tools inside that space.
-- You used `import`: that means you loaded those tools inside Python code.
+The first command creates `.venv`, and the second installs NumPy there. In the last command, `-c` executes the following string as Python code, printing the installed NumPy version.
 
-## Do You Really Need to Understand Virtual Environments in Colab?
+Creating `.venv` alone and then running an ordinary `python -m pip install numpy` can install into another Python. Activation is another option, but specifying the executable path as above makes the selected environment visible in the command.
 
-Colab is a notebook environment that runs in a browser. In early learning, you can run code without knowing Python installation or virtual environments. That is why this book allowed Colab in earlier practice.
+## Packages in a Colab Runtime
+
+Colab lets you edit code in a browser and execute it in a runtime. With a hosted runtime, local Python installation is unnecessary.
 
 But even in Colab, package installation and execution-environment issues do not disappear.
 
-Problem situation: We check that even in Colab, you may have to install packages directly into the current runtime.
-Input: the `%pip install numpy` command in a code cell.
-Expected output: NumPy is installed into the current Colab runtime.
-Concept to check: Colab is convenient, but it is a separate execution space different from a local virtual environment.
+In Colab code cells, `%pip` installs packages into the current notebook kernel. Running the following cell prepares NumPy in that environment.
 
 ```python
 # This installs NumPy into the current Colab/Jupyter runtime from a code cell.
@@ -215,19 +161,18 @@ In summary, the two spaces are different.
 - Colab runtime: an external execution environment outside the browser
 - local virtual environment: an execution environment around the project folder on my computer
 
-Colab may be enough at the beginning. But if you want to maintain a project for a long time or reproduce the same code with someone else, you need to understand virtual environments and dependency management.
+## Same Folder Name, Different Environments
 
-## Case Study
+Suppose two projects each have a `.venv`.
 
-### Case 1. Why `import` Fails Even Though NumPy Was Installed
+```text
+project-a/.venv/
+project-b/.venv/
+```
 
-Suppose a learner runs `python -m pip install numpy` in the terminal and then immediately runs an example file. But an error still appears at `import numpy as np`. People usually think first, "Did installation fail?" or "Did the `pip` command lie?"
+Installing NumPy into the Python in `project-a/.venv` does not automatically install it in `project-b/.venv`. If both environments use their default creation settings and B has no NumPy, importing it in B’s Python raises `ModuleNotFoundError`.
 
-But in cases like this, the cause often appears when the environment where the package was installed and the environment where the code was run are different, rather than in installation itself. It may have been installed into the system Python while the code was run with the virtual-environment Python, or the learner may have run the code while another project's virtual environment was active.
-
-The key point of this section is to read `virtual environment`, `package`, `pip install`, and `import` as separate stages. Installation is preparation, and `import` is the act of actually loading something in the Python environment currently running.
-
-The confirmable result appears when you check which Python environment is being used in the same terminal. If the installation command succeeded but `import numpy` fails only in the current virtual environment, you can explain that the problem lies in environment separation rather than in the package name.
+The same folder name `.venv` denotes separate environments when the full paths differ. Compare the Python path printed by `sys.executable` with the path used in the installation command to identify the project environment where installation occurred.
 
 ## Checklist
 
@@ -243,6 +188,6 @@ The confirmable result appears when you check which Python environment is being 
 ## Sources and References
 
 - Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, checked 2026-07-20. Used as design support for virtual environments having their own package set and Python executable while being isolated from system site-packages.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm creating and activating virtual environments with `venv`, and the separation of Python and package state inside an environment.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-09-08. Used to confirm creating and activating virtual environments with `venv`, and the separation of Python and package state inside an environment.
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-20. Used to confirm the project-level flow of creating a virtual environment and installing packages with `python -m pip install`.
 - Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm the basic roles of `pip`, `venv`, PyPI, and `python -m pip install`, and the context for preferring virtual environments over system-wide installation.

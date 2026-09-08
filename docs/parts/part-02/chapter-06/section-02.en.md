@@ -1,19 +1,13 @@
 # P2-6.2 Loss Functions and Objective Functions
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.26`
+> Version: `v2026.09.08`
 
-In P2-6.1, we looked at optimization as `placing candidates, comparing them by a criterion, and finding a better value within constraints`. Now we look at what name that criterion takes inside model learning.
+A loss function converts differences between predictions and actual values into numbers used for learning. The objective function is the overall criterion training minimizes or maximizes; it may add a penalty representing additional conditions to the mean loss.
 
-The model does not know from the beginning `how wrong it is`. So a person first has to decide on a criterion that turns wrongness into a number. That criterion is the `loss function`.
+## Line Predictions and Actual Scores
 
-Here we reorganize `loss function`, `objective function`, `error`, `mean loss`, and `metric`. If 6.1 was about reading the problem of finding a better value, now we organize what criterion learning actually moves by.
-
-Rather than memorizing many loss-function formulas, this Section focuses on reading what criterion learning actually moves by. If you secure the difference among loss function, mean loss, and objective function here, then even when gradient descent and backpropagation appear later, you can keep following `what is being reduced`.
-
-## Return to the Shared Scene from 6.1
-
-We bring back the data from the previous Section as it is.
+Consider a line model that predicts scores from study time.
 
 | Student | Study time `x` | Actual score `y` |
 | --- | ---: | ---: |
@@ -22,7 +16,7 @@ We bring back the data from the previous Section as it is.
 | C | 3 | 80 |
 | D | 4 | 90 |
 
-If we place one candidate line as `\(\hat{y} = 10x + 45\)`, the predicted values become `55, 65, 75, 85`. In this scene, the role of the loss function is to turn `how badly this line does not fit` into a number. In other words, the `candidate comparison` of 6.1 becomes concrete here as `loss calculation`.
+For the candidate line \(\hat{y} = 10x + 45\), the predictions are `55, 65, 75, 85`. The loss function quantifies how poorly this line fits.
 
 That is, the model predicts, compares with the actual values, turns the degree of wrongness into a number, and then learns in the direction that reduces that number.
 
@@ -30,23 +24,15 @@ That is, the model predicts, compares with the actual values, turns the degree o
 --8<-- "assets/part-02/chapter-06/loss-objective-flow-en.mmd"
 ```
 
-## Core Criteria: Loss Function and Objective Function
+## Loss, Mean Loss, and Evaluation Metrics
 
-- You can explain the `loss function` as a function that turns prediction wrongness into a number.
-- You can explain the `objective function` as the overall criterion training tries to reduce or increase.
-- You can distinguish the loss of an individual sample from the mean loss across many samples.
-- You can calculate the intuition of mean squared error (MSE) with small numbers.
-- You can explain that loss function and metric are not always the same.
+| Criterion | Why it matters |
+| --- | --- |
+| Loss is the value that turns how wrong the model is into a number | It shows that learning moves not by intuitive judgment but on top of a computable criterion. |
+| The losses of many samples are combined to see the whole tendency | We need to see performance across data overall, not only one accidental prediction. |
+| Loss function and metric may be the same or different | If we confuse the learning criterion and the real operational judgment criterion, interpretation goes wrong. |
 
-## Three Criteria
-
-| Criterion | Why it matters | Needed level of understanding here |
-| --- | --- | --- |
-| Loss is the value that turns how wrong the model is into a number | It shows that learning moves not by intuitive judgment but on top of a computable criterion. | Understand the role of turning wrongness into a number. |
-| The losses of many samples are combined to see the whole tendency | We need to see performance across data overall, not only one accidental prediction. | It is enough if you can explain why mean loss is needed. |
-| Loss function and metric may be the same or different | If we confuse the learning criterion and the real operational judgment criterion, interpretation goes wrong. | Secure the feel of separating training numbers from reporting numbers. |
-
-## Loss Turns Wrongness into a Number
+## Error and Squared Error
 
 Saying that a model's prediction is wrong feels natural to a person, but it is not a statement the computer can directly use. If the computer is to adjust values, wrongness must be expressed as a number.
 
@@ -76,9 +62,7 @@ loss = (10 - 8)^2 = 4
 
 This number 4 is the result of turning `how wrong it is` into a computable value. Now the model can adjust its values in the direction that reduces this number.
 
-If we reread it through the common scene, then for each student we calculate `actual score - predicted score` and turn that error into a loss such as squared error. The loss function is ultimately the device that turns `how badly the candidate line does not fit the data` into a comparable number.
-
-## Why Not Just Use the Error Directly?
+## Cancellation of Opposite-Sign Errors
 
 You may think, `if the prediction is wrong by 2, can't we just use the error 2?` But `error` has direction. For example, for an actual value of 10, prediction 8 creates error 2, while prediction 12 creates error -2.
 
@@ -96,29 +80,20 @@ There were two wrong predictions, but the total becomes 0. That does not mean th
 | squared error | \((y - \hat{y})^2\) | punishes large errors more strongly |
 | log loss | apply a logarithm to probability prediction | punishes confident wrong probability predictions strongly |
 
-Here we calculate only squared error. Why loss functions differ in classification and regression is revisited in P4-4.1 and P4-4.2, and an introductory reading of log loss itself connects again in the supplementary learning of P3-6.4.
-
-## Combine the Losses of Many Samples into One
+## Mean Squared Error
 
 Training data usually does not contain only one sample. We predict for many samples and calculate the loss of each sample.
 
-For example, suppose there are three samples.
+The predictions and losses for the four students are:
 
-| Sample | Actual value \(y\) | Prediction \(\hat{y}\) | Squared error |
-| --- | ---: | ---: | ---: |
-| 1 | 10 | 8 | 4 |
-| 2 | 5 | 6 | 1 |
-| 3 | 7 | 4 | 9 |
+| Student | Actual score | Predicted score | Actual − predicted | Squared error |
+| --- | --- | --- | --- | --- |
+| A | 55 | 55 | 0 | 0 |
+| B | 65 | 65 | 0 | 0 |
+| C | 80 | 75 | 5 | 25 |
+| D | 90 | 85 | 5 | 25 |
 
-The loss differs by sample. In learning, we have to combine these losses into one criterion. The simplest method is to take the mean.
-
-\[
-\mathrm{MSE} = \frac{4 + 1 + 9}{3} = \frac{14}{3} \approx 4.67
-\]
-
-This `mean squared error` summarizes the wrongness of several predictions into one number.
-
-In the earlier line example too, if we average the losses from student A through D, we can produce one overall score for the line `\(\hat{y} = 10x + 45\)`. Now we can directly compare mean loss with another candidate line, and this comparability connects optimization and learning.
+The individual losses are `0, 0, 25, 25`, and the mean squared error (MSE) is `(0 + 0 + 25 + 25) / 4 = 12.5`. This mean allows comparison with other candidate lines on the same data.
 
 Written a little more generally, it becomes the following.
 
@@ -129,9 +104,9 @@ Written a little more generally, it becomes the following.
 (y_i - \hat{y}_i)^2
 \]
 
-Here the sigma means, as we saw in P2-2.2, that we repeat the same calculation across several samples and add the results. When the loss function meets sigma, it becomes a number that means `how wrong it is across the whole dataset`.
+Sigma compresses the calculation of summing squared errors across samples. Combined with sigma, the loss function produces a number describing the error across the whole dataset.
 
-## Objective Function Is the Criterion Learning Actually Moves by
+## Mean Loss and Regularization Penalties
 
 `Loss function` and `objective function` are often used together. Here we distinguish them as follows: the loss function is the function that calculates how wrong a prediction is, while the objective function is the overall criterion training actually tries to reduce or increase.
 
@@ -147,21 +122,26 @@ But it is not always that simple. For example, we may add a penalty so that the 
 objective = average loss + regularization penalty
 ```
 
-You do not need to understand this formula in detail now. What matters is that the objective function is `the criterion the learning process actually tries to optimize`. The loss function often becomes the main ingredient of that criterion.
+Suppose we add `0.2a²` to the mean loss to discourage an excessively large slope `a`. In this example, the intercept `b` is not penalized.
 
-For the reader, it is important to separate `how wrong is it for one student` from `how badly does this candidate line fit across all four students`. The former is individual loss, and the latter continues toward mean loss or the objective function.
+| Candidate line | Mean loss | Penalty 0.2a² | Objective value |
+| --- | --- | --- | --- |
+| a = 10, b = 45 | 12.5 | 20 | 32.5 |
+| a = 12, b = 40 | 7.5 | 28.8 | 36.3 |
 
-## Low Loss Is a Good Signal, but Not a Sufficient Conclusion
+The second candidate has lower mean loss, but the first has the better objective value when the penalty is included. To understand what training minimizes, inspect the regularization term as well as the loss.
+
+## Training Loss and Performance on New Data
 
 When the loss decreases, that is usually a good signal. It means the model's predictions fit better under the training data criterion.
 
 But we should not conclude from low loss alone that the model is also good in reality. The loss may be low only on the training data, it may not fit new data well, the service goal and the loss function may differ, and constraints such as safety, fairness, and cost may not be fully expressed by a single loss.
 
-The perspective of sample and error that we saw in P2-5.3 returns here. The loss of training data is a value calculated from the data we have. It does not fully guarantee performance in the whole real world.
+Training loss is calculated on the data we have. It does not fully guarantee performance in the real world.
 
-So in learning, we usually divide training data, validation data, and test data. This data split is handled in more detail later in the machine-learning Part.
+Training usually separates training, validation, and test data.
 
-## Loss Function and Metric May Be the Same or Different
+## Loss Functions and Evaluation Metrics
 
 The `loss function` is used to adjust model values during the learning process. A `metric` is used so that humans can interpret and compare model results.
 
@@ -173,17 +153,16 @@ This difference is important in practice. If the number the model reduces during
 
 The same distinction is possible even in the study-time and score example. Learning may find the line with the lower mean loss, but a person may separately ask interpretive questions such as `does it miss high-scoring students especially often?` or `does it generally predict scores too low?` Loss is the compass of learning, and evaluation is the place where humans read the result.
 
-## View It Through a Case
+## Mean Loss and Maximum Delivery Error
 
-### Case 1. What Loss Does in Delivery-Time Prediction
+Suppose the actual delivery time for each of three orders is 60 minutes.
 
-Suppose a delivery service predicts arrival time for each order. A person can explain that conditions such as `downtown Seoul`, `rush hour`, `rainy day`, and `logistics-center congestion` are related to delay, but it is hard to set by hand how many minutes each condition affects every time.
+| Model | Predicted delivery times | Squared errors | MSE | Maximum absolute error |
+| --- | --- | --- | --- | --- |
+| A | 55, 55, 55 minutes | 25, 25, 25 | 25 | 5 minutes |
+| B | 60, 60, 52 minutes | 0, 0, 64 | About 21.33 | 8 minutes |
 
-So the model first predicts arrival time for each order and then compares it with the actual arrival time. For example, if the actual arrival is 60 minutes and the prediction is 50 minutes, there is a 10-minute gap. The loss function turns this gap into a number usable for learning.
-
-What matters here is that `how wrong the model is` is examined not for one order alone but across many orders together. One specific order can miss badly by chance, but if the overall loss goes down, that is a signal that the model is being adjusted in a better direction across the data as a whole.
-
-Also, the criterion the service operations team actually cares about may not end with one mean error. Separate metrics such as VIP-customer delay, overnight-delivery failure, or regional deviation may be more important. This case shows why loss function and metric can be the same or different.
+B has lower MSE, but A has a smaller error on its worst prediction. If the service separately counts `orders with prediction errors exceeding 6 minutes`, A has none and B has one. Improving training loss does not necessarily improve other operational metrics.
 
 ## Checklist
 
@@ -194,6 +173,8 @@ Also, the criterion the service operations team actually cares about may not end
 - You can explain that loss function and `metric` are not always the same.
 - You can explain that low loss is a good signal but does not automatically guarantee real-world performance.
 - You can distinguish individual error, mean loss across several samples, and the objective function of the whole learning process.
+
+- You can distinguish low loss from the judgment that a model is good for actual operations.
 
 ## Sources and References
 
