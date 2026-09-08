@@ -27,7 +27,7 @@ ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
 CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
-DEFAULT_CHARACTER = ASSETS / "p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png"
+DEFAULT_CHARACTER = ASSETS / 'p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
 SHADOW_POSES = {
     "a": ASSETS / "p7-5-5-qwen-2511-cutout-shadow-scene-a-eye-level-v2-size-1280x1280-seed-62294-steps-10.png",
     "b": ASSETS / "p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
