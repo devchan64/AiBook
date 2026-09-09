@@ -135,28 +135,28 @@ OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 B
   --steps 10 --run-label v2 --dry-run
 ```
 
-## 신발의 바닥면을 별도 참조로 만든다
+## 신발의 윗면과 바닥면을 한 장의 참조로 만든다
 
-앞·옆이 보이는 신발 이미지만으로는 발바닥이 카메라를 향한 장면의 밑창 모양을 직접 참조하기 어렵다. 위에서 만든 흰 스니커즈 이미지를 Qwen Image Edit 2511의 단일 입력으로 넣고, 신발 한 개를 아래에서 본 그림을 생성한다. 이 바닥면은 [P7-5.5](section-05.md)의 A 전경 신발 보강에 사용한다.
+앞·옆이 보이는 신발 이미지만으로는 발바닥이 카메라를 향한 장면의 밑창 모양을 직접 참조하기 어렵다. 위에서 만든 흰 스니커즈 이미지를 Qwen Image Edit 2511의 단일 입력으로 넣고, 왼쪽에는 윗면, 오른쪽에는 바닥면을 배치한 그림을 생성한다. 끈과 앞코, 밑창 무늬를 한 장에서 볼 수 있어 [P7-5.5](section-05.md)의 A 전경 신발 보강에 사용할 참조로 준비한다.
 
-> Show one sneaker from Picture 1 from directly underneath, with its entire outsole facing the camera, toe at the top and heel at the bottom. Keep the shoe design and illustration style on a white background.
+> Show the sneakers from Picture 1 side by side: the left shoe from directly above, showing its upper and laces; the right shoe from directly below, showing a light taupe rubber outsole with clearly defined triangular tread grooves. Light both shoes evenly so the outsole pattern is clearly visible. Point both toes upward. Keep the white shoe design and illustration style on a white background.
 
 원본에는 바닥의 홈 무늬가 보이지 않는다. 따라서 이 작업은 원본의 숨은 픽셀을 추출하거나 실제 제품의 밑창을 복원하는 과정이 아니라, 참조 신발과 함께 사용할 **새 바닥면 디자인을 생성하는 과정**이다. 발끝이 위, 뒤꿈치가 아래에 오고 밑창 전체가 보이는지 확인한 뒤 장면에 적용한다.
 
-[신발 바닥면 생성 코드](../../../assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_generate_shoe_outsole.py)는 로컬 `QwenImageEditPlusPipeline`에 이미지 한 장을 전달한다. BF16, sequential CPU offload, 1280×1280, 20스텝, seed `62294`, true CFG `4.0`을 사용하며 마스크와 LoRA는 넣지 않는다. 모델은 저장소의 `.tmp/download/huggingface/hub` 캐시에서 읽는다. 같은 폴더의 [공통 경로·이미지 전처리·해시 함수](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py)를 가져오므로 재실행할 때 함께 유지한다.
+[신발 윗면·바닥면 생성 코드](../../../assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_generate_shoe_outsole.py)는 로컬 `QwenImageEditPlusPipeline`에 이미지 한 장을 전달한다. BF16, sequential CPU offload, 1280×1280, 20스텝, seed `62294`, true CFG `4.0`을 사용하며 마스크와 LoRA는 넣지 않는다. 모델은 저장소의 `.tmp/download/huggingface/hub` 캐시에서 읽는다. 같은 폴더의 [공통 경로·이미지 전처리·해시 함수](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py)를 가져오므로 재실행할 때 함께 유지한다.
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_generate_shoe_outsole.py \
-  --steps 20 --run-label outsole-repeat-v1 --dry-run
+  --paired-views --steps 20 --run-label upper-bottom-repeat-v3 --dry-run
 ```
 
-`--dry-run`을 빼면 생성한다. `--input`은 신발 참조, `--prompt`는 바닥면 지시를 바꾸며 `--steps`와 `--seed`로 생성 조건을 비교한다. 기존 결과를 덮어쓰지 않으므로 새 `--run-label`을 지정한다. 실행 JSON에는 입력·출력·생성 코드·공통 함수의 해시와 실제 프롬프트·환경을 기록한다. 지시를 바꿔 볼 때는 바닥면 노출과 신발 외곽·화풍 보존을 따로 살핀다.
+`--dry-run`을 빼면 생성한다. `--paired-views`는 윗면과 바닥면을 함께 생성하며, 생략하면 기존 바닥면 단독 지시를 사용한다. `--input`은 신발 참조, `--prompt`는 생성 지시를 바꾸며 `--steps`와 `--seed`로 생성 조건을 비교한다. 기존 결과를 덮어쓰지 않으므로 새 `--run-label`을 지정한다. 실행 JSON에는 입력·출력·생성 코드·공통 함수의 해시와 실제 프롬프트·환경을 기록한다. 지시를 바꿔 볼 때는 바닥면 노출과 신발 외곽·화풍 보존을 따로 살핀다.
 
-![흰 스니커즈에서 생성한 바닥면 20스텝 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-v1-size-1280x1280-seed-62294-steps-20.png)
+![흰 스니커즈의 왼쪽 윗면과 오른쪽 바닥면 20스텝 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-upper-bottom-v3-size-1280x1280-seed-62294-steps-20.png)
 
-[신발 바닥면 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+[신발 윗면·바닥면 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-upper-bottom-v3-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
-발끝이 위, 뒤꿈치가 아래인 신발 한 개의 바닥면 전체가 생성됐다. 흰 측면과 검은 테두리, 선 중심의 표현이 이어졌고, 바닥에는 갈색 계열의 고무색과 삼각형·사선 홈이 새로 생겼다. 옆면 일부와 아래쪽 작은 그림자도 보인다. 원본과의 제품 동일성을 확인한 결과는 아니며, 이 바닥면을 장면에서 사용할 디자인 참조로 채택한다.
+왼쪽에는 흰 갑피·끈·앞코가 보이는 윗면, 오른쪽에는 밝은 황갈색 밑창이 생성됐다. 두 신발 모두 발끝이 위를 향하며, 밑창의 삼각형 홈이 뚜렷하게 보인다. 밑창이 검게 표현돼 무늬를 읽기 어려웠던 결과를 개선하기 위해 밝은 고무색과 고른 조명을 프롬프트에 명시했다. 원본과의 제품 동일성을 확인한 결과는 아니며, 이 윗면·바닥면 이미지를 장면에서 사용할 디자인 참조로 채택한다.
 
 ## OpenPose는 전신 비율과 프레이밍만 정한다
 

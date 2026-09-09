@@ -1,0 +1,45 @@
+{
+  "stage": "white-sneaker-outsole",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png",
+      "role": "Picture 1: P7-5.3 white sneaker design",
+      "sha256": "7c87b107d8619dca03aca9ce7317be0be0f1c93974e6f3da00bf519710d90c71"
+    }
+  ],
+  "prompt": "Show the sneakers from Picture 1 side by side: the left shoe from directly above, showing its upper and laces; the right shoe from directly below, showing a light taupe rubber outsole with clearly defined triangular tread grooves. Light both shoes evenly so the outsole pattern is clearly visible. Point both toes upward. Keep the white shoe design and illustration style on a white background.",
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-upper-bottom-v3-size-1280x1280-seed-62294-steps-20.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-upper-bottom-v3-size-1280x1280-seed-62294-steps-20-result.json",
+  "steps": 20,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "lora": null,
+  "experiment": "shoe-upper-and-bottom-views",
+  "status": "generated",
+  "output_sha256": "bccae87a6cbd4680747a82659d3002caf50aba3b989bacb42e6b1721ff8827f0",
+  "source_code_sha256": "73969bce2dcb4613d82f5722749b6281d2fc23243f34284fd1aefc6caf8d41a2",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "elapsed_seconds": 482.77
+}
