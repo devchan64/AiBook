@@ -1,0 +1,158 @@
+{
+  "status": "generated",
+  "stage": "person_mask",
+  "purpose": "Person mask for Qwen Image Edit compositing or inpainting",
+  "models": {
+    "detector": "IDEA-Research/grounding-dino-tiny",
+    "segmenter": "facebook/sam2.1-hiera-small",
+    "licenses": {
+      "detector": "Apache-2.0",
+      "segmenter": "Apache-2.0"
+    }
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+    "sha256": "6ca3fab7acb3e90a234db769adf513a46b0a71d5d8ec4e34aa8edd610d75bf0e"
+  },
+  "input_role": "scene; one selected visible character",
+  "selection": {
+    "target_point_xy": [
+      745.0,
+      480.0
+    ],
+    "negative_points_xy": [
+      [
+        360.0,
+        430.0
+      ],
+      [
+        650.0,
+        735.0
+      ],
+      [
+        660.0,
+        950.0
+      ],
+      [
+        790.0,
+        1180.0
+      ],
+      [
+        470.0,
+        775.0
+      ],
+      [
+        430.0,
+        1020.0
+      ],
+      [
+        930.0,
+        740.0
+      ]
+    ],
+    "positive_points_xy": [
+      [
+        580.0,
+        625.0
+      ],
+      [
+        600.0,
+        550.0
+      ],
+      [
+        880.0,
+        885.0
+      ],
+      [
+        1020.0,
+        1070.0
+      ],
+      [
+        955.0,
+        1120.0
+      ],
+      [
+        832.0,
+        790.0
+      ],
+      [
+        737.0,
+        890.0
+      ]
+    ],
+    "box_override_xyxy": [
+      465.0,
+      380.0,
+      1085.0,
+      1170.0
+    ],
+    "method": "highest score containing target point",
+    "candidates": [
+      {
+        "index": 0,
+        "label": "a man",
+        "score": 0.6094146966934204,
+        "box_xyxy": [
+          465.98150634765625,
+          383.0252685546875,
+          1087.0748291015625,
+          1162.3514404296875
+        ]
+      },
+      {
+        "index": 1,
+        "label": "a man",
+        "score": 0.7518517374992371,
+        "box_xyxy": [
+          150.85586547851562,
+          239.92922973632812,
+          995.569091796875,
+          1258.29931640625
+        ]
+      }
+    ]
+  },
+  "grounding_prompt": [
+    "a man"
+  ],
+  "selected_detection": {
+    "label": "a man",
+    "score": 0.7519,
+    "box_xyxy": [
+      150.86,
+      239.93,
+      995.57,
+      1258.3
+    ]
+  },
+  "segmentation_box_xyxy": [
+    465.0,
+    380.0,
+    1085.0,
+    1170.0
+  ],
+  "mask_semantics": "white=person to repaint; black=preserve",
+  "postprocess": {
+    "excluded_rectangles_xyxy": [],
+    "keep_largest_component": false,
+    "keep_prompt_components": true,
+    "fill_holes_max_area": 2048,
+    "excluded_polygons_xy": []
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2.png",
+    "sha256": "afe98795aad21529a2d12e04ed236b0d8ac6ac8aa571fb59e334465e326373e1"
+  },
+  "overlay": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2-overlay.png",
+    "sha256": "66b204b88455d7fdca6ea33c2ca7477f377bee689d013eac43bf952ec84d12df"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "elapsed_seconds": 1.84
+}

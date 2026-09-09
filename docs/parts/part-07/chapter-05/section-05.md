@@ -35,9 +35,9 @@ A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로
 
 ## Mira와 조연을 각각 분리한다
 
-아래 컷아웃·마스크와 이후 마네킨·보정 결과는 이전 A `extras-v5`, B `extras-v8`, C `extras-v7`에서 만든 실험 기록이다. 위에서 지정한 신규 입력으로 재생성한 결과는 아니다. 새 장면을 분리할 때는 생성기의 `--reference`에 위 PNG를 지정하고, 대상 상자·포함점·제외점과 마스크를 새 이미지에서 다시 확인한다. 이전 실행 JSON의 입력 경로와 해시는 당시 기록으로 유지하며, 정리한 이전 5.4 입력 파일은 저장소 이력의 커밋 `82f957926`에서 확인할 수 있다.
+아래 네 컷아웃과 마스크는 위의 신규 `extras-audit-20260909-v1` A·B·C에서 재생성한 결과다. 인물별 입력 해시와 검출 문구, 상자, 포함점·제외점을 설정 파일에 고정했다. 분리는 Grounding DINO와 SAM 2.1의 추론으로 수행하며, 흰 배경·투명 컷아웃은 추론된 마스크에 따라 원본 픽셀을 복사한다.
 
-먼저 장면에서 어느 인물을 분리할지 지정한다. 로컬 GPU에서 Grounding DINO Tiny로 인물 상자를 찾고 SAM 2.1 Hiera Small로 마스크를 만들었다. 여기서 마스크는 복사할 인물 픽셀을 흰색, 제외할 영역을 검은색으로 표시한 이미지다. 모델이 Mira라는 이름을 알아본 것은 아니다. 청록색 머리와 위치를 눈으로 확인한 뒤 대상 좌표를 지정했으며, 겹친 영역은 상자·포함점·제외점과 제외 영역으로 보정했다. [Grounding DINO 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} · [SAM 2.1 모델 카드](https://huggingface.co/facebook/sam2.1-hiera-small){: target="_blank" rel="noopener noreferrer"}
+먼저 장면에서 어느 인물을 분리할지 지정한다. 로컬 GPU에서 Grounding DINO Tiny로 인물 상자를 찾고 SAM 2.1 Hiera Small로 마스크를 만들었다. 여기서 마스크는 복사할 인물 픽셀을 흰색, 제외할 영역을 검은색으로 표시한 이미지다. 모델이 Mira라는 이름을 알아본 것은 아니다. 청록색 머리와 위치를 눈으로 확인한 뒤 대상 좌표를 지정했으며, 겹친 영역은 상자·포함점·제외점을 모델에 전달해 다시 추론했다. C에서는 포함점이 놓인 마스크 조각을 유지하고 작은 내부 구멍을 채우는 후처리도 사용했다. [Grounding DINO 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} · [SAM 2.1 모델 카드](https://huggingface.co/facebook/sam2.1-hiera-small){: target="_blank" rel="noopener noreferrer"}
 
 A에서는 화면 앞으로 크게 나온 신발 끝까지 포함하고 배경의 달리는 사람은 제외했다. B에서는 도약하는 Mira만 선택하고 토끼와 다람쥐를 제외했다. C에서는 Mira와 조연을 따로 선택했다. 조연은 Mira에 가려 상체와 하체가 떨어져 보이므로, 가장 큰 덩어리 하나만 남기면 상체가 사라질 수 있다. 이번에는 포함점이 놓인 여러 덩어리를 함께 유지했다.
 
@@ -45,45 +45,73 @@ A에서는 화면 앞으로 크게 나온 신발 끝까지 포함하고 배경�
 
 ### Scene A Mira
 
-![Scene A Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1.png)
+![Scene A Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png)
 
-[Scene A Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2-overlay.png)
+[Scene A Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1-overlay.png)
 
-[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1-result.json){ .lazy-source }
+[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1-result.json){ .lazy-source }
 
 ### Scene B Mira
 
-![Scene B Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1.png)
+![Scene B Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1.png)
 
-[Scene B Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-extras-v8-v1.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-extras-v8-v1-overlay.png)
+[Scene B Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1-overlay.png)
 
-[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-extras-v8-v1-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1-result.json){ .lazy-source }
+[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1-result.json){ .lazy-source }
 
 ### Scene C Mira
 
-![Scene C Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-extras-v7-v1.png)
+![Scene C Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6.png)
 
-[Scene C Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-extras-v7-v1-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-extras-v7-v4.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-extras-v7-v4-overlay.png)
+[Scene C Mira 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6-overlay.png)
 
-[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-extras-v7-v4-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-extras-v7-v1-result.json){ .lazy-source }
+[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6-result.json){ .lazy-source }
 
 ### Scene C 조연
 
-![Scene C 조연의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4.png)
+![Scene C 조연의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2.png)
 
-[Scene C 조연 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-extras-v7-v7.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-extras-v7-v7-overlay.png)
+[Scene C 조연 투명 PNG](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2-rgba.png) · [마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2.png) · [마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2-overlay.png)
 
-[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-extras-v7-v7-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-extras-v7-v4-result.json){ .lazy-source }
+[마스크 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2-result.json){ .lazy-source } · [컷아웃 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2-result.json){ .lazy-source }
 
 ### 분리 결과의 한계와 재현
 
-C의 빈 부분은 다른 인물·책·새에 가려져 원본에 보이지 않는 영역을 포함한다. 이번 작업은 보이는 픽셀을 분리한 것이며, 가려진 신체를 새로 그리지 않았다. 손과 책, 머리카락과 배경이 맞닿는 경계에는 일부 거친 가장자리와 미세 누락이 남아 있다. 다른 배경에 옮길 때는 이 경계를 다시 확인해야 한다. 두 C 마스크 사이의 중복 픽셀은 없으며, 네 투명 PNG의 알파 채널이 해당 마스크와 일치하는지 확인했다.
+C의 빈 부분은 다른 인물·책·새에 가려져 원본에 보이지 않는 영역을 포함한다. 이번 작업은 보이는 픽셀을 분리한 것이며, 가려진 신체를 새로 그리지 않았다. 손과 책, 머리카락과 배경이 맞닿는 경계에는 일부 거친 가장자리와 미세 누락이 남아 있다. 다른 배경에 옮길 때는 이 경계를 다시 확인해야 한다. 두 C 마스크 사이에는 경계의 중복 픽셀 10개가 남아 있으며, 네 투명 PNG의 알파 채널이 해당 마스크와 일치하는지 확인했다.
 
-[인물별 입력·선택 조건과 재현 명령](../../../assets/part-07/chapter-05/p7-5-5-character-separation-v1-result.json){ .lazy-source }에 네 실행을 모았다. 저장소 루트에서 마스크 명령을 실행한 뒤 컷아웃 명령을 실행한다. 기존 출력 덮어쓰기를 막으므로 다시 실행할 때는 새 실행 이름 또는 출력 디렉터리를 지정한다. 검출·분할 모델은 로컬 캐시에 있어야 하며 CUDA를 사용한다. 컷아웃 저장은 이미지 픽셀을 복사하는 처리다.
+[인물별 입력·선택 조건과 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-separation-audit-20260909-v1-result.json){ .lazy-source }에 네 분리 결과를 모았다. 재실행은 [분리 재현 실행 코드](../../../assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py)와 [인물별 설정 파일](../../../assets/part-07/chapter-05/p7-5-5-character-separation-recipe-v1.json){ .lazy-source }을 사용한다. 설정 파일은 현재 1280×1280 입력의 SHA-256, 대상 인물의 선택점, 추가 포함점·제외점, 상자와 후처리 옵션을 기록한다. 다른 이미지에 그대로 적용하는 일반 좌표가 아니므로 입력 해시가 다르면 실행 전에 중단한다.
 
-[인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py) · [흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)
+저장소 루트에서 필요한 패키지가 설치된 `.venv`로 실행한다. Grounding DINO Tiny와 SAM 2.1 Hiera Small 모델은 `.tmp/download/huggingface/hub`에 준비돼 있어야 하며, 추론에는 CUDA GPU를 사용한다. 우선 다음 명령으로 모델을 읽지 않고 네 인물의 입력과 출력 계획을 확인한다.
+
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
+  --output-dir /tmp/p7-5-5-separation-repeat --dry-run
+~~~
+
+다음 명령은 A·B·C 미라와 C 조연을 차례로 분리한다. 각 인물마다 마스크·오버레이·흰 배경 컷아웃·투명 PNG와 두 실행 JSON을 저장한다. 마지막에는 전체 검증 결과 JSON도 저장한다.
+
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
+  --output-dir /tmp/p7-5-5-separation-repeat
+~~~
+
+C 미라와 조연만 재현하려면 대상을 선택한다.
+
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
+  --targets c-mira c-supporting \
+  --output-dir /tmp/p7-5-5-separation-c-repeat
+~~~
+
+기존 파일이 있는 출력 경로는 전체 실행 전에 거부한다. 다시 실행할 때는 새 출력 폴더 또는 `--run-label`을 지정한다. 실행 코드는 출력 이름을 기준으로 다음 컷아웃 입력을 연결하므로, 마스크 경로를 따로 고칠 필요가 없다. 인물별 상자와 좌표를 바꾸는 실험은 설정 파일의 `mask_args`에서 조정하며, 이 경우 기존 기준 이미지와 일치하지 않을 수 있다.
+
+[실제 재실행 검증 기록](../../../assets/part-07/chapter-05/p7-5-5-character-separation-reproduction-check-v1-result.json){ .lazy-source }에서는 네 인물 모두 마스크·흰 배경·투명 PNG가 기준 이미지와 픽셀 단위로 일치했다. 검증은 투명 PNG의 알파와 마스크 일치, 선택된 원본 픽셀의 보존, 흰 배경과 출력 크기도 확인한다. 기준과 다르거나 픽셀 검사가 실패하면 결과 JSON을 남기고 오류로 종료한다. 이 재현 확인은 기록된 로컬 환경에서 수행했으며, 모델·패키지 환경이 달라지면 결과 JSON의 실행 환경과 차이 항목을 확인해야 한다. 경계의 미세 누락이나 C의 가림 영역까지 복구됐다는 의미는 아니다.
+
+실제 추론은 [인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py)가, 픽셀 복사와 알파 저장은 [흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)가 담당한다.
 
 ## B의 포즈를 남긴 마네킨에 Mira를 다시 적용한다
+
+이하 마네킨·착장 보정은 이전 B `extras-v8` 컷아웃에서 수행한 실험 기록이다. 위의 신규 컷아웃으로 재생성한 결과가 아니며, 실행 JSON의 입력·해시는 당시 기록을 유지한다. 이전 장면 입력은 저장소 이력의 커밋 `82f957926`에서 확인할 수 있다.
 
 착장 일부를 반복해서 보정하면 앞 단계의 형태가 남거나 옷 주름이 단순해질 수 있다. B에서는 기존 얼굴·착장의 영향을 줄여 볼 목적으로, 원본 컷아웃을 짧은 스포츠머리와 스포츠 브라·짧은 하의를 입은 성인 여성으로 바꾼 뒤 Mira 참조를 적용했다. 여기서 마네킨은 얼굴이 없는 회색 모형이 아니라, 얼굴과 팔다리 자세가 보이는 생성 이미지다. `B 원본 컷아웃 → 20스텝 마네킨 → 5.3 착장 참조를 사용한 30스텝 인물 교체`로 이어지며, 조명 보정을 거치지 않고 원본 컷아웃에서 시작했다.
 
@@ -119,7 +147,7 @@ Picture 1에는 위 마네킨을, Picture 2에는 [P7-5.3의 최종 전신 착�
 
 ## 보충학습: 이전 조명·합성 실험
 
-C의 신발·화풍 보정은 현재 컷아웃에서 파생된 이전 조명 실험의 결과다. 그 뒤 카메라판 합성 실험의 Scene A·B·C는 각각 해안 절벽·야생화 초원·도심 공원의 이전 입력을 뜻한다. 그림자를 포함한 중간 산출물도 당시 입력 기록 그대로 남아 있지만, 그림자를 추가하는 절차와 실행 안내는 현재 경로에서 제외한다.
+C의 신발·화풍 보정은 이전 컷아웃에서 파생된 조명 실험의 결과다. 그 뒤 카메라판 합성 실험의 Scene A·B·C는 각각 해안 절벽·야생화 초원·도심 공원의 이전 입력을 뜻한다. 그림자를 포함한 중간 산출물도 당시 입력 기록 그대로 남아 있지만, 그림자를 추가하는 절차와 실행 안내는 현재 경로에서 제외한다.
 
 ### 이전 C 실험의 신발과 조연 화풍 보정
 
