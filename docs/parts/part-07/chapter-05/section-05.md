@@ -3,7 +3,7 @@
 > Section ID: `P7-5.5`
 > Version: `v2026.09.09`
 
-이 절은 [P7-5.4](section-04.md)의 마지막 단계에서 주변 인물과 동물까지 추가한 A·B·C를 입력으로 이어받는다. 장면의 구도와 Mira의 외형이 이미 반영된 상태에서, 수정할 인물 영역과 보존할 주변 대상을 구분하고 캐릭터·배경·조명을 단계별로 편집하는 것이 중심이다. 별도의 그림자 추가 단계는 두지 않는다. 각 후속 결과의 `result.json`에는 실제 입력 파일, SHA-256과 실행 조건을 남겨 입력 장면과 출력의 관계를 확인한다.
+이 절은 [P7-5.4](section-04.md)의 마지막 단계에서 주변 인물과 동물까지 추가한 A·B·C를 입력으로 이어받는다. 이 절에서는 장면에서 Mira와 조연을 각각 분리한 뒤, 분리된 캐릭터에 아이덴티티를 적용한다. 여기서 아이덴티티는 같은 인물로 알아볼 수 있는 얼굴·머리 모양·착장 등의 외형을 뜻한다. 분리 단계가 원본에서 보이는 픽셀을 고르는 작업이라면, 아이덴티티 적용 단계는 참조나 텍스트에 따라 외형을 다시 생성하는 작업이다. 별도의 그림자 추가 단계는 두지 않는다. 각 후속 결과의 `result.json`에는 실제 입력 파일, SHA-256과 실행 조건을 남겨 입력 장면과 출력의 관계를 확인한다.
 
 ## P7-5.4의 최종 장면을 입력으로 고정한다
 
@@ -31,7 +31,7 @@
 
 A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
 
-후속 편집은 `입력 장면 → 인물별 마스크·컷아웃 → 필요한 캐릭터 보정 → 배경판과 통합 → 조명 조정`으로 구성한다. 컷아웃은 포즈·인물 크기·프레이밍을 전달하며, 얼굴·착장을 보정할 때만 해당 참조를 추가한다. 기존 Mira의 외형을 그대로 사용할 경우 같은 아이덴티티를 다시 이식할 필요는 없다. 그림자는 별도 생성 단계로 추가하지 않고, 입력 장면에 있는 그림자와 편집 결과의 변화를 비교한다.
+현재 실행 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티 적용 → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용에서 기존 외형이 남은 Mira 세 컷에는 컷아웃을 마네킨으로 바꾸는 중간 실험을 이어서 제시한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
 
 ## Mira와 조연을 각각 분리한다
 
@@ -109,7 +109,133 @@ C 미라와 조연만 재현하려면 대상을 선택한다.
 
 실제 추론은 [인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py)가, 픽셀 복사와 알파 저장은 [흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)가 담당한다.
 
-## B의 포즈를 남긴 마네킨에 Mira를 다시 적용한다
+## 분리한 캐릭터에 아이덴티티를 적용한다
+
+위에서 얻은 흰 배경 컷아웃 네 장을 Qwen Image Edit 2511에 직접 넣는다. 분리할 때 만든 마스크는 이 편집 단계에 전달하지 않는다. 따라서 결과는 원본 픽셀을 복사한 컷아웃과 달리, 포즈·얼굴·옷·경계가 함께 바뀔 수 있는 생성 이미지다. 출력 PNG도 투명 레이어가 아닌 흰 배경 이미지다.
+
+| 대상 | Picture 1 | Picture 2 또는 텍스트의 역할 |
+| --- | --- | --- |
+| A·B·C Mira | 각 장면의 신규 Mira 컷아웃 | P7-5.3 최종 3단계 착장에서 인물 외형·착장 참조 |
+| C 조연 | 신규 조연 컷아웃 | 두 번째 이미지 없이 텍스트로 새 외형 지정 |
+
+[Mira의 P7-5.3 최종 3단계 착장 참조](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 세 장에 공통으로 사용한다. Mira의 외형을 텍스트로 다시 묘사하지 않고 다음 지시를 전달했다.
+
+> Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose. Preserve the framing and white background of Picture 1.
+
+이는 1번 여성의 포즈를 유지하면서 2번 여성으로 교체하고, 1번의 프레이밍과 흰 배경을 보존하라는 뜻이다. C 조연에게는 별도 인물 참조 대신 다음 지시로 짧은 갈색 머리, 둥근 안경, 파란 후드티, 차콜색 바지와 흰 스니커즈를 지정했다.
+
+> Give the man in Picture 1 a new character identity: a young adult man with short dark brown hair, round glasses, a muted blue hoodie, charcoal trousers, and white sneakers. Preserve the seated pose, body proportions, framing and white background of Picture 1.
+
+### 신규 생성기로 네 장을 실행한다
+
+[컷아웃 아이덴티티 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_identity.py)는 신규 컷아웃 경로와 Mira 참조를 기본값으로 고정한다. 기존 포즈 생성기의 경로·이미지 전처리·해시·실행 환경 기록 함수를 재사용하며, 네 대상의 입력 구성과 프롬프트, 생성 루프는 신규 코드에서 관리한다. 로컬 CUDA GPU에서 BF16, sequential CPU offload로 실행했고, 추가 LoRA는 사용하지 않았다.
+
+출력은 네 장 모두 1280×1280, 30스텝, seed `62294`, true CFG `4.0`이다. CPU 난수 생성기를 사용하며, 각 입력은 비율을 유지해 1280×1280 흰 캔버스에 배치한다. 저장소의 `.venv`와 로컬 모델 캐시를 준비한 상태에서 다음 명령으로 입력·프롬프트·출력 계획을 확인한다.
+
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_identity.py \
+  --targets a-mira b-mira c-mira c-supporting \
+  --steps 30 --run-label identity-repeat-v1 \
+  --supporting-prompt "Give the man in Picture 1 a new character identity: a young adult man with short dark brown hair, round glasses, a muted blue hoodie, charcoal trousers, and white sneakers. Preserve the seated pose, body proportions, framing and white background of Picture 1." \
+  --dry-run
+~~~
+
+`--dry-run`을 빼면 네 장을 순서대로 생성한다. `--targets`로 대상, `--reference`로 Mira 참조, `--supporting-prompt`로 조연 외형, `--steps`와 `--seed`로 생성 조건을 바꿀 수 있다. 기존 PNG·JSON이 있으면 실행 전에 중단하므로 재실행에는 새 `--run-label`이나 `--output-dir`을 지정한다. 각 JSON에는 실제 입력·참조·출력 해시와 프롬프트·실행 환경을 기록한다. 조연의 텍스트 전용 실행에서는 참조 경로가 `null`, `text_only`가 `true`다.
+
+### 네 결과에서 반영과 보존을 비교한다
+
+#### A Mira
+
+![A Mira 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png)
+
+달리는 자세와 크게 보이는 신발 밑창은 유지됐다. 얼굴과 선·채색에는 변화가 있지만, 착장 참조보다 기존 컷아웃의 외형이 강하게 남았다.
+
+[A Mira 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json){ .lazy-source }
+
+#### B Mira
+
+![B Mira 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-b-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png)
+
+도약 자세는 유지됐으나 긴 머리와 발레화 형태가 남았다. 참조의 단발과 스니커즈가 적용됐다고 볼 수 없다.
+
+[B Mira 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-b-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json){ .lazy-source }
+
+#### C Mira
+
+![C Mira 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png)
+
+얼굴과 손에 피부색이 반영됐다. 기존 회색 신발과 손·옷 주변의 가림 경계가 남았으며, 참조의 외형 전체가 교체된 결과는 아니다.
+
+[C Mira 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json){ .lazy-source }
+
+#### C 조연
+
+![C 조연 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-supporting-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png)
+
+갈색 머리·둥근 안경·파란 후드티·흰 스니커즈가 반영됐다. 한편 떨어져 있던 상체와 하체 사이를 새로 그리면서 손과 몸 형태도 바뀌었다. 이는 가려진 신체의 원래 모습을 복원한 결과가 아니라 모델이 채운 형상이다.
+
+[C 조연 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-supporting-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json){ .lazy-source }
+
+네 결과의 입력·참조·출력 해시와 크기를 확인했다. 파일 기록이 일치하는 것과 인물 외형이 의도대로 바뀌는 것은 다른 검사다. 이번 결과에서는 Mira의 참조 적용이 제한적이고 조연의 가림 영역·자세에 변화가 있으므로, 장면에 다시 합성하기 전에 각 항목을 검토해야 한다.
+
+## 컷아웃의 외형을 마네킨으로 바꿔 본다
+
+위의 직접 아이덴티티 적용에서는 컷아웃의 기존 머리·착장이 강하게 남았다. 이를 줄여 볼 목적으로 `원본 컷아웃 → 마네킨 → 아이덴티티 적용`의 중간 단계를 준비한다. 여기서 마네킨은 얼굴 없는 회색 모형이 아니라, 얼굴과 관절 방향을 읽을 수 있는 성인 여성의 포즈용 이미지다. 아주 짧은 스포츠머리, 회색 스포츠 브라와 짧은 하의, 맨발을 지정해 기존 외형을 바꾼다.
+
+입력은 아이덴티티 적용 결과가 아닌 분리 단계의 원본 Mira 컷아웃이다. 한 장의 컷아웃만 로컬 Qwen Image Edit 2511에 넣고, 마스크·캐릭터 참조·추가 LoRA는 사용하지 않는다. B는 도약 자세를, C는 앉은 자세를 보존하도록 지시했다. 다만 원본에 가려져 보이지 않는 신체와 옷 아래 형상을 모델이 새로 그리므로, 마네킨에서도 포즈와 신체 비율을 다시 확인해야 한다.
+
+### A Mira의 프롬프트를 압축해 맨발로 바꾼다
+
+A의 첫 마네킨은 짧은 머리와 회색 운동복으로 바뀌었지만, 카메라 가까운 발에는 기존 신발 밑창이 남았다. 첫 지시에도 맨발과 신발 교체가 포함돼 있었으나 얼굴·표정·관절·손·발·원근 등을 보존하라는 요구가 길게 이어졌다. 이번 작업에서는 **프롬프트가 비대해 핵심 변경 지시가 충분히 반영되지 않았고, 압축으로 개선됐다는 작업 가설**을 세웠다.
+
+[압축 전 A 마네킨](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-a-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png) · [압축 전 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-a-mira-cutout-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+
+같은 원본 컷아웃, 20스텝, seed `62294`를 사용하면서 지시를 다음과 같이 줄였다. 외형 변경과 포즈·원근·배경 보존을 짧게 묶고, 앞쪽의 큰 신발과 밑창을 발바닥·발가락이 보이는 맨발로 교체하도록 구체화했다.
+
+> Turn the woman in Picture 1 into a generic adult woman with a visible face, a buzz cut, a gray sports bra and briefs, and bare feet. Keep the pose, perspective, framing and white background. Replace the large foreground shoe and its sole with a bare foot, showing its sole and toes.
+
+![압축한 프롬프트로 생성한 A 마네킨: 앞쪽 신발이 맨발로 바뀜](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-a-mira-compressed-v2-size-1280x1280-seed-62294-steps-20.png)
+
+앞쪽 신발 밑창이 사라지고 발바닥과 발가락이 보이는 맨발로 바뀌었다. 달리는 자세와 앞쪽 발을 크게 보는 구도도 남았다. 다만 발·얼굴·신체 윤곽은 새로 그려진 것이므로 픽셀 보존이나 해부학적 정확성을 뜻하지 않는다.
+
+[A 압축 프롬프트 입력·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-a-mira-compressed-v2-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+
+이 비교는 지시를 압축한 뒤 원하는 편집이 반영된 사례다. 동시에 앞쪽 신발을 지목하는 문장도 추가했으므로, 길이를 줄인 효과만 따로 확인한 실험은 아니다. 따라서 프롬프트 압축이 효과적이었다는 판단은 이번 사례의 작업 가설로 남긴다. 원인을 더 구분하려면 신발 지시의 구체성은 같게 두고 보존 요구의 길이만 바꾸어 비교할 수 있다.
+
+### B Mira의 20스텝 마네킨
+
+![B 원본 컷아웃에서 생성한 마네킨](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-b-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png)
+
+긴 머리·재킷·바지·신발이 짧은 머리와 회색 운동복·맨발로 바뀌었다. 다리를 벌린 도약 자세의 큰 형태는 남았지만 얼굴 방향과 팔·다리의 세부 각도가 변했다.
+
+[B 마네킨 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-b-mira-cutout-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+
+### C Mira의 20스텝 마네킨
+
+![C 원본 컷아웃에서 생성한 마네킨](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png)
+
+짧은 머리와 회색 운동복·맨발이 반영됐다. 앉은 자세는 남았지만 원본 컷아웃의 빈 가림 영역이 채워지고 손·다리 형태가 변했다. 채워진 신체는 원본에서 확인된 형상이 아니다.
+
+[C 마네킨 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+
+### A·B·C 마네킨 생성 조건을 재현한다
+
+[신규 컷아웃 마네킨 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py)는 분리 설정 파일에서 각 Mira의 흰 배경 컷아웃을 찾는다. 출력은 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다. 원본 캔버스를 그대로 입력하고, BF16과 sequential CPU offload로 로컬 CUDA GPU에서 생성했다. 다음 명령은 A의 압축 프롬프트와 B·C의 기존 지시를 사용해 세 컷의 입력·프롬프트를 확인한다.
+
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py \
+  --scenes a b c --steps 20 --run-label manuscript-repeat-v1 --dry-run
+~~~
+
+`--dry-run`을 빼면 생성한다. `--scenes`로 대상, `--prompt`로 공통 외형 지시, `--steps`와 `--seed`로 조건을 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 새 `--run-label`이나 `--output-dir`을 사용한다. 실행 JSON에는 실제 프롬프트와 입력·출력 해시를 남긴다. A는 앞쪽 신발 밑창이 남은 첫 결과를 기준으로 전용 프롬프트를 별도로 압축·보강했으므로, A와 B·C의 실제 지시는 각각의 JSON으로 확인한다.
+
+현재 A·B·C는 마네킨 생성까지 수행한 결과다. 앞서 제시한 30스텝 아이덴티티 결과는 원본 컷아웃에서 직접 생성했으며, 이 마네킨에 아이덴티티를 다시 적용한 결과가 아니다. 얼굴·팔다리 방향과 가림 경계 변화를 검토한 뒤 다음 입력으로 사용할지 판단한다.
+
+## 보충학습: 이전 마네킨·조명·합성 실험
+
+아래 결과는 위의 신규 분리·아이덴티티 적용과 별도의 입력으로 수행한 실험이다. 현재 네 결과의 다음 단계로 연결하지 않는다.
+
+### B의 포즈를 남긴 마네킨에 Mira를 다시 적용한다
 
 이하 마네킨·착장 보정은 이전 B `extras-v8` 컷아웃에서 수행한 실험 기록이다. 위의 신규 컷아웃으로 재생성한 결과가 아니며, 실행 JSON의 입력·해시는 당시 기록을 유지한다. 이전 장면 입력은 저장소 이력의 커밋 `82f957926`에서 확인할 수 있다.
 
@@ -143,9 +269,7 @@ Picture 1에는 위 마네킨을, Picture 2에는 [P7-5.3의 최종 전신 착�
 
 이 명령은 저장된 20스텝 마네킨에서 시작한다. 코드의 프롬프트가 이후 바뀌었다면 먼저 위 JSON의 문장과 대조한다. 이번 실행은 CUDA 난수 생성기를 사용하므로, 같은 seed를 CPU 난수 생성기에 전달한 이전 실행과 초기 노이즈가 같다고 보지 않는다.
 
-아래 보충학습에는 이전 조명 보정의 후속 결과와 카메라판 합성 실험을 모았다. 현재 컷아웃·마네킨 경로와 입력이 다르므로 서로 이어진 출력으로 해석하지 않는다. 기존 후속 생성 코드의 기본 입력은 이전 실험을 가리킬 수 있으므로 실행 전에 입력을 확인한다.
-
-## 보충학습: 이전 조명·합성 실험
+이하 조명 보정과 카메라판 합성도 당시 입력을 사용한 실험이다. 신규 컷아웃·아이덴티티 적용 결과와 이어진 출력으로 해석하지 않는다. 기존 후속 생성 코드의 기본 입력은 이전 실험을 가리킬 수 있으므로 실행 전에 입력을 확인한다.
 
 C의 신발·화풍 보정은 이전 컷아웃에서 파생된 조명 실험의 결과다. 그 뒤 카메라판 합성 실험의 Scene A·B·C는 각각 해안 절벽·야생화 초원·도심 공원의 이전 입력을 뜻한다. 그림자를 포함한 중간 산출물도 당시 입력 기록 그대로 남아 있지만, 그림자를 추가하는 절차와 실행 안내는 현재 경로에서 제외한다.
 
@@ -368,12 +492,14 @@ DeLight는 캐릭터와 배경의 광원을 중립화했으므로, 통합 후에
 
 ## 체크리스트
 
-- [ ] P7-5.4의 A v5·B v8·C v7과 각 입력 JSON을 같은 장면에 연결했는가?
-- [ ] A·B·C의 Mira와 C의 조연을 각각 분리하고, 다른 인물·동물·새가 섞이지 않았는가?
-- [ ] C에서 가려진 영역과 마스크 경계의 누락을 구분하고, 투명 PNG의 알파가 마스크와 일치하는가?
-- [ ] 별도 그림자 추가 단계 없이도 모델 출력에 그림자가 생길 수 있음을 결과에서 확인했는가?
-- [ ] B 마네킨의 인물 교체에서 착장 반영과 신발 누락·그림자 추가를 구분하고, 파일명보다 실제 참조와 프롬프트를 확인했는가?
-- [ ] 새 입력의 후속 결과와 이전 카메라판의 실험 결과를 구분했는가?
+- [ ] P7-5.4의 신규 `extras-audit-20260909-v1` A·B·C와 각 입력 JSON을 연결했는가?
+- [ ] A·B·C Mira와 C 조연을 각각 분리하고, 가림 영역·경계 누락·두 C 마스크의 중복을 확인했는가?
+- [ ] 원본 픽셀을 복사하는 분리 단계와 외형을 다시 생성하는 아이덴티티 적용 단계를 구분했는가?
+- [ ] Mira는 Picture 2의 5.3 최종 3단계 착장을, 조연은 텍스트만 사용했는가?
+- [ ] Mira의 머리·신발에 남은 기존 외형과 조연의 손·몸·가림 영역 변화를 확인했는가?
+- [ ] A·B·C의 신규 마네킨이 원본 컷아웃에서 생성됐으며, 아직 아이덴티티를 재적용한 결과가 아님을 구분했는가?
+- [ ] A의 맨발 교체에서 관찰된 개선과 프롬프트 압축·신발 지시 구체화의 원인 해석을 구분했는가?
+- [ ] 현재 결과와 이전 마네킨·조명·합성 실험을 별도 입력의 결과로 구분했는가?
 
 ## 출처와 참고 자료
 
