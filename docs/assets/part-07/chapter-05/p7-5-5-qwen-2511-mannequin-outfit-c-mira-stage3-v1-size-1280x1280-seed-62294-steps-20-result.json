@@ -1,0 +1,50 @@
+{
+  "scene": "c",
+  "inputs": [
+    {
+      "role": "Picture 1: reviewed pose mannequin",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png",
+      "sha256": "0f47b1897534107bc3e9426633241818415bbd34a5091d3dac8f2cf855974f94"
+    },
+    {
+      "role": "Picture 2: complete stage-three outfit including shoes",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+      "sha256": "c524b964ef9a68a777f2172fb7439283709b70fa823e371d19f03a1ff2620053"
+    }
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20-result.json",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "prompt": "Dress the woman in Picture 1 in the complete outfit, including shoes, from Picture 2. Keep the face, hairstyle, pose, perspective, framing and white background of Picture 1.",
+  "steps": 20,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "lora": null,
+  "source_code_sha256": "fd30199744594c11116085f398dc8a65a2617d9f4470f87b50b700d9a17fdf18",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "status": "generated",
+  "stage": "mannequin_outfit_first_pass",
+  "output_sha256": "3e234a0adb741855c19476b37ed62d6e57528a63152f35b9b838a5efc155321f",
+  "elapsed_seconds": 660.48
+}
