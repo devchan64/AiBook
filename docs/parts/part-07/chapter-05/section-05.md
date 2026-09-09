@@ -1,25 +1,25 @@
 # P7-5.5 스토리보드 장면에 캐릭터를 합성하는 경로
 
 > Section ID: `P7-5.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.09`
 
 이 절은 [P7-5.4](section-04.md)의 마지막 단계에서 주변 인물과 동물까지 추가한 A·B·C를 입력으로 이어받는다. 장면의 구도와 Mira의 외형이 이미 반영된 상태에서, 수정할 인물 영역과 보존할 주변 대상을 구분하고 캐릭터·배경·조명을 단계별로 편집하는 것이 중심이다. 별도의 그림자 추가 단계는 두지 않는다. 각 후속 결과의 `result.json`에는 실제 입력 파일, SHA-256과 실행 조건을 남겨 입력 장면과 출력의 관계를 확인한다.
 
 ## P7-5.4의 최종 장면을 입력으로 고정한다
 
-세 입력은 모두 1280×1280이다. A는 주변 인물을 추가한 `extras-v5`, B는 토끼와 다람쥐를 추가한 `extras-v8`, C는 새 세 마리를 배치한 `extras-v7`을 사용한다. 원본 자산을 P7-5.5용으로 복제하지 않고 P7-5.4의 파일을 직접 참조한다.
+세 입력은 모두 1280×1280이다. A·B·C 모두 P7-5.4에서 재생성한 `extras-audit-20260909-v1`을 사용한다. A는 주변 인물 여섯 명, B는 토끼와 다람쥐, C는 앉아 있는 새 세 마리를 포함한다. 원본 자산을 P7-5.5용으로 복제하지 않고 P7-5.4의 파일을 직접 참조한다.
 
-![Scene A 입력: 도시 거리에서 달리는 Mira와 주변 인물](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20.png)
+![Scene A 입력: 도시 거리에서 달리는 Mira와 주변 인물](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png)
 
-[Scene A 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+[Scene A 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
-![Scene B 입력: 숲 공터에서 도약하는 Mira와 토끼·다람쥐](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-v8-size-1280x1280-seed-5421-steps-20.png)
+![Scene B 입력: 숲 공터에서 도약하는 Mira와 토끼·다람쥐](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png)
 
-[Scene B 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-v8-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+[Scene B 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
-![Scene C 입력: 언덕에서 책을 읽는 두 인물과 앉아 있는 새 세 마리](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-v7-size-1280x1280-seed-5422-steps-20.png)
+![Scene C 입력: 언덕에서 책을 읽는 두 인물과 앉아 있는 새 세 마리](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png)
 
-[Scene C 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-v7-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+[Scene C 입력 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
 ## 편집할 인물과 보존할 대상을 나눈다
 
@@ -34,6 +34,8 @@ A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로
 후속 편집은 `입력 장면 → 인물별 마스크·컷아웃 → 필요한 캐릭터 보정 → 배경판과 통합 → 조명 조정`으로 구성한다. 컷아웃은 포즈·인물 크기·프레이밍을 전달하며, 얼굴·착장을 보정할 때만 해당 참조를 추가한다. 기존 Mira의 외형을 그대로 사용할 경우 같은 아이덴티티를 다시 이식할 필요는 없다. 그림자는 별도 생성 단계로 추가하지 않고, 입력 장면에 있는 그림자와 편집 결과의 변화를 비교한다.
 
 ## Mira와 조연을 각각 분리한다
+
+아래 컷아웃·마스크와 이후 마네킨·보정 결과는 이전 A `extras-v5`, B `extras-v8`, C `extras-v7`에서 만든 실험 기록이다. 위에서 지정한 신규 입력으로 재생성한 결과는 아니다. 새 장면을 분리할 때는 생성기의 `--reference`에 위 PNG를 지정하고, 대상 상자·포함점·제외점과 마스크를 새 이미지에서 다시 확인한다. 이전 실행 JSON의 입력 경로와 해시는 당시 기록으로 유지하며, 정리한 이전 5.4 입력 파일은 저장소 이력의 커밋 `82f957926`에서 확인할 수 있다.
 
 먼저 장면에서 어느 인물을 분리할지 지정한다. 로컬 GPU에서 Grounding DINO Tiny로 인물 상자를 찾고 SAM 2.1 Hiera Small로 마스크를 만들었다. 여기서 마스크는 복사할 인물 픽셀을 흰색, 제외할 영역을 검은색으로 표시한 이미지다. 모델이 Mira라는 이름을 알아본 것은 아니다. 청록색 머리와 위치를 눈으로 확인한 뒤 대상 좌표를 지정했으며, 겹친 영역은 상자·포함점·제외점과 제외 영역으로 보정했다. [Grounding DINO 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} · [SAM 2.1 모델 카드](https://huggingface.co/facebook/sam2.1-hiera-small){: target="_blank" rel="noopener noreferrer"}
 
