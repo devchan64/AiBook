@@ -95,6 +95,8 @@ def generate(args: argparse.Namespace, *, prompt: str, seed: int):
     import torch
     from diffusers import QwenImagePipeline
 
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is required")
     pipeline = QwenImagePipeline.from_pretrained(
         MODEL_ID,
         torch_dtype=torch.bfloat16,
@@ -126,8 +128,10 @@ def main() -> None:
         f"-size-{args.size}x{args.size}-seed-{seed}-steps-{args.steps}"
     )
     output = args.output_dir.resolve() / f"{stem}.png"
-    if output.exists():
-        raise FileExistsError(f"Refusing to overwrite prior output: {output}")
+    result_path = output.with_name(f"{output.stem}-result.json")
+    for path in (output, result_path):
+        if path.exists():
+            raise FileExistsError(f"Refusing to overwrite prior output: {path}")
     image, elapsed_seconds = generate(args, prompt=prompt, seed=seed)
     output.parent.mkdir(parents=True, exist_ok=True)
     image.save(output)
@@ -166,7 +170,6 @@ def main() -> None:
         },
         "elapsed_seconds": round(elapsed_seconds, 2),
     }
-    result_path = output.with_name(f"{output.stem}-result.json")
     result_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"output": str(output), "result": str(result_path)}, ensure_ascii=False))
 

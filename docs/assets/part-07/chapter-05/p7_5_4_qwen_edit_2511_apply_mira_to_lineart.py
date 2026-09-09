@@ -159,6 +159,8 @@ def load_pipeline(*, allow_download: bool):
     import torch
     from diffusers import QwenImageEditPlusPipeline
 
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is required")
     pipeline = QwenImageEditPlusPipeline.from_pretrained(
         MODEL_ID,
         torch_dtype=torch.bfloat16,
