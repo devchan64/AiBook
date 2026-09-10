@@ -87,7 +87,9 @@ A에서는 화면 앞으로 크게 나온 신발 끝까지 포함하고 배경�
 
 C의 빈 부분은 다른 인물·책·새에 가려져 원본에 보이지 않는 영역을 포함한다. 이번 작업은 보이는 픽셀을 분리한 것이며, 가려진 신체를 새로 그리지 않았다. 손과 책, 머리카락과 배경이 맞닿는 경계에는 일부 거친 가장자리와 미세 누락이 남아 있다. 다른 배경에 옮길 때는 이 경계를 다시 확인해야 한다. 두 C 마스크 사이에는 경계의 중복 픽셀 10개가 남아 있으며, 네 투명 PNG의 알파 채널이 해당 마스크와 일치하는지 확인했다.
 
-[인물별 입력·선택 조건과 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-separation-audit-20260909-v1-result.json){ .lazy-source }에 네 분리 결과를 모았다.
+인물별 입력·선택 조건과 실행 기록에 네 분리 결과를 모았다.
+
+[인물별 입력·선택 조건과 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-separation-audit-20260909-v1-result.json){ .lazy-source }
 
 ### Mira와 조연을 분리하는 재현 코드
 
@@ -121,9 +123,15 @@ C 미라와 조연만 재현하려면 대상을 선택한다.
 
 기존 파일이 있는 출력 경로는 전체 실행 전에 거부한다. 다시 실행할 때는 새 출력 폴더 또는 `--run-label`을 지정한다. 실행 코드는 출력 이름을 기준으로 다음 컷아웃 입력을 연결하므로, 마스크 경로를 따로 고칠 필요가 없다. 인물별 상자와 좌표를 바꾸는 실험은 설정 파일의 `mask_args`에서 조정하며, 이 경우 기존 기준 이미지와 일치하지 않을 수 있다.
 
-[실제 재실행 검증 기록](../../../assets/part-07/chapter-05/p7-5-5-character-separation-reproduction-check-v1-result.json){ .lazy-source }에서는 네 인물 모두 마스크·흰 배경·투명 PNG가 기준 이미지와 픽셀 단위로 일치했다. 검증은 투명 PNG의 알파와 마스크 일치, 선택된 원본 픽셀의 보존, 흰 배경과 출력 크기도 확인한다. 기준과 다르거나 픽셀 검사가 실패하면 결과 JSON을 남기고 오류로 종료한다. 이 재현 확인은 기록된 로컬 환경에서 수행했으며, 모델·패키지 환경이 달라지면 결과 JSON의 실행 환경과 차이 항목을 확인해야 한다. 경계의 미세 누락이나 C의 가림 영역까지 복구됐다는 의미는 아니다.
+실제 재실행 검증 기록에서는 네 인물 모두 마스크·흰 배경·투명 PNG가 기준 이미지와 픽셀 단위로 일치했다. 검증은 투명 PNG의 알파와 마스크 일치, 선택된 원본 픽셀의 보존, 흰 배경과 출력 크기도 확인한다. 기준과 다르거나 픽셀 검사가 실패하면 결과 JSON을 남기고 오류로 종료한다. 이 재현 확인은 기록된 로컬 환경에서 수행했으며, 모델·패키지 환경이 달라지면 결과 JSON의 실행 환경과 차이 항목을 확인해야 한다. 경계의 미세 누락이나 C의 가림 영역까지 복구됐다는 의미는 아니다.
 
-실제 추론은 [인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py)가, 픽셀 복사와 알파 저장은 [흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)가 담당한다.
+[실제 재실행 검증 기록](../../../assets/part-07/chapter-05/p7-5-5-character-separation-reproduction-check-v1-result.json){ .lazy-source }
+
+실제 추론은 인물 마스크 생성 코드가, 픽셀 복사와 알파 저장은 흰 배경·투명 컷아웃 생성 코드가 담당한다.
+
+[인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py)
+
+[흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)
 
 ## 분리한 캐릭터에 아이덴티티를 적용한다
 
@@ -144,7 +152,9 @@ C 미라와 조연만 재현하려면 대상을 선택한다.
 
 ### 직접 아이덴티티 적용의 입력 조건을 고정한다
 
-[컷아웃 아이덴티티 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_identity.py)는 신규 컷아웃 경로와 Mira 참조를 기본값으로 고정한다. 기존 포즈 생성기의 경로·이미지 전처리·해시·실행 환경 기록 함수를 재사용하며, 네 대상의 입력 구성과 프롬프트, 생성 루프는 신규 코드에서 관리한다. 로컬 CUDA GPU에서 BF16, sequential CPU offload로 실행했고, 추가 LoRA는 사용하지 않았다.
+컷아웃 아이덴티티 생성기는 신규 컷아웃 경로와 Mira 참조를 기본값으로 고정한다. 기존 포즈 생성기의 경로·이미지 전처리·해시·실행 환경 기록 함수를 재사용하며, 네 대상의 입력 구성과 프롬프트, 생성 루프는 신규 코드에서 관리한다. 로컬 CUDA GPU에서 BF16, sequential CPU offload로 실행했고, 추가 LoRA는 사용하지 않았다.
+
+[컷아웃 아이덴티티 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_identity.py)
 
 출력은 네 장 모두 1280×1280, 30스텝, seed `62294`, true CFG `4.0`이다. CPU 난수 생성기를 사용하며, 각 입력은 비율을 유지해 1280×1280 흰 캔버스에 배치한다. 저장소의 `.venv`와 로컬 모델 캐시를 준비한 상태에서 다음 명령으로 입력·프롬프트·출력 계획을 확인한다.
 
@@ -194,7 +204,9 @@ B에서는 긴 머리·재킷·바지·신발이 짧은 머리와 회색 운동�
 
 ### B·C 마네킨 생성 조건을 재현한다
 
-[신규 컷아웃 마네킨 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py)는 분리 설정 파일에서 각 Mira의 흰 배경 컷아웃을 찾는다. 출력은 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다. 원본 캔버스를 그대로 입력하고, BF16과 sequential CPU offload로 로컬 CUDA GPU에서 생성했다. 다음 명령은 B·C 두 컷의 입력·프롬프트를 확인한다.
+신규 컷아웃 마네킨 생성기는 분리 설정 파일에서 각 Mira의 흰 배경 컷아웃을 찾는다. 출력은 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다. 원본 캔버스를 그대로 입력하고, BF16과 sequential CPU offload로 로컬 CUDA GPU에서 생성했다. 다음 명령은 B·C 두 컷의 입력·프롬프트를 확인한다.
+
+[신규 컷아웃 마네킨 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py)
 
 ~~~bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py \
@@ -217,7 +229,9 @@ B에서는 긴 머리·재킷·바지·신발이 짧은 머리와 회색 운동�
 
 ### 착장 1차 적용 생성기
 
-[마네킨 착장 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py)는 B·C 마네킨을 장면별 입력으로 읽고 동일한 착장 참조와 프롬프트로 각각 편집한다. 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 마스크·추가 LoRA·결과 합성은 사용하지 않았다. 두 입력은 비율을 유지해 각각 1280×1280 흰 캔버스에 배치한다.
+마네킨 착장 생성기는 B·C 마네킨을 장면별 입력으로 읽고 동일한 착장 참조와 프롬프트로 각각 편집한다. 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 마스크·추가 LoRA·결과 합성은 사용하지 않았다. 두 입력은 비율을 유지해 각각 1280×1280 흰 캔버스에 배치한다.
+
+[마네킨 착장 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py)
 
 B·C 출력은 각각 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다. 다음 명령은 모델을 불러오지 않고 입력과 공통 프롬프트·출력 계획을 확인한다.
 
@@ -271,51 +285,59 @@ C Mira의 1차 결과에는 착장과 신발이 반영됐지만 책은 없고 �
 
 [C 책 보강 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json)
 
-## A·C는 얼굴 각도에 가까운 참조로 BFS를 적용한다
+## 머리 방향에 맞는 아이레벨 얼굴 크롭으로 BFS를 적용한다
 
-A의 아이덴티티 결과와 C의 책 보강 2차 결과에 얼굴·헤어를 적용한다. 정면 얼굴 참조로 BFS를 실행했을 때 A는 눈높이 정면에 가까워졌고, C는 고개가 들리며 눈이 더 열렸다. BFS 강도만 `1.0`에서 `0.7`로 낮춘 비교에서도 이 문제가 남아, 다음 비교에서는 강도를 `1.0`으로 유지하고 참조 이미지를 교체했다.
+얼굴 참조는 장면의 카메라 이름보다 **실제로 보이는 머리 방향**을 기준으로 고른다. 정면인지 쿼터뷰인지, 화면 어느 쪽을 향하는지부터 맞춘다. 그중 얼굴 윤곽과 눈·코·입이 충분히 보이는 아이레벨 자료를 우선한다. 머리를 숙였다는 이유만으로 엘리베이티드 참조를 선택하면 얼굴이 보이는 면적과 구도까지 함께 달라질 수 있다.
 
-### 장면에 맞춰 얼굴 참조를 선택한다
+C에서는 새 1280px 토르소의 아이레벨 쿼터뷰와 엘리베이티드 쿼터뷰를 각각 크롭해 BFS를 비교했다. 검수에서는 아이레벨 쿼터뷰 결과가 참조의 부드러운 얼굴 음영과 눈 표현을 더 많이 유지한다고 판단해 이를 채택했다. 이는 이번 자료에서의 관찰이며, 모든 머리 방향에 같은 쿼터뷰를 쓰거나 아이레벨이 항상 우수하다는 뜻은 아니다.
 
-현재 참조 표와 생성기의 기본 입력은 P7-5.2의 새 1280px 자료로 교체했다. 아래 BFS 결과는 교체 전 640px 참조로 생성했던 결과이며, 새 참조로 재생성한 결과는 아니다. 기존 실행 JSON의 입력 경로와 해시는 당시 기록으로 유지한다.
+### 장면별 입력과 참조
 
-Picture 1에는 BFS 이전의 A 아이덴티티 결과 또는 C 책 보강 2차 결과를 넣는다. Picture 2에는 P7-5.2 다각도 자료 중 A는 아래에서 본 정면, C는 위에서 본 오른쪽 45도 얼굴을 넣는다. 이전 BFS 출력에 다시 편집을 누적하지 않는다.
+Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴·머리 크롭을 넣는다. 이전 BFS 결과에 편집을 누적하지 않는다. P7-5.2의 1280px 토르소에서 640×640 영역을 자르며, 크롭 단계에서는 확대 보간이나 AI 재생성을 하지 않는다.
 
-| A 얼굴 참조: 아래에서 본 정면 | C 얼굴 참조: 위에서 본 오른쪽 45도 |
+| 장면 | Picture 1 | 얼굴·머리 참조 선정 |
+| --- | --- | --- |
+| A | A 아이덴티티 결과 | 정면 머리에 맞춰 아이레벨 정면을 선택 |
+| B | B 마네킨 착장 1차 결과 | 화면 왼쪽을 향한 쿼터뷰에 맞춰 아이레벨 쿼터 크롭을 좌우 반전 |
+| C | C 책 보강 2차 결과 | 화면 오른쪽을 향한 아이레벨 쿼터뷰 크롭 |
+
+새 아이레벨 ±45° 생성물은 파일의 각도 표기와 달리 둘 다 화면 오른쪽을 향했다. 따라서 B에서는 얼굴이 충분히 보이는 쿼터뷰 크롭을 좌우 반전해 방향을 맞췄다. 좌우 반전은 가르마와 얼굴의 비대칭도 함께 뒤집으므로, 방향 일치와 아이덴티티 보존을 따로 검수한다. 실제 크롭 좌표와 반전 여부는 실행 기록에 남긴다.
+
+### C 아이레벨 쿼터뷰 적용 결과
+
+| Picture 2: 아이레벨 얼굴·머리 크롭 | C BFS 10스텝 결과 |
 | --- | --- |
-| ![A BFS용 낮은 시점 정면 참조](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![C BFS용 높은 시점 오른쪽 얼굴 참조](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![C 아이레벨 쿼터뷰 640px 얼굴 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-level-native1280-head-crop-v1.png) | ![C 아이레벨 쿼터뷰 얼굴 크롭 BFS 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-C 참조는 숙인 얼굴 각도에 가깝지만 눈을 뜬 상태다. 따라서 머리 방향과 눈꺼풀·시선 보존은 별도로 확인한다. 정면 머리 이미지에서 다각도 상반신 이미지로 바꾸면서 얼굴이 차지하는 크기와 해상도도 달라졌으므로, 이 비교는 참조 교체의 효과를 보여 주며 각도 하나만의 효과를 분리한 실험은 아니다.
+단발과 머리색이 적용됐고 책과 앉은 자세의 큰 형태는 유지됐다. 다만 원본보다 눈이 더 열리고 입 모양이 달라졌으며, 참조보다 강한 윤곽선이 남았다. 아이레벨 결과를 채택한 판단과 시선·표정·화풍의 완전한 보존은 구분한다. 새 토르소는 해상도뿐 아니라 얼굴 내용도 바뀌었으므로 이전 320px 크롭과의 차이를 해상도 하나의 효과로 단정하지 않는다.
 
-### 참조 교체를 재현하는 코드
+[C 얼굴 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-level-native1280-head-crop-v1-result.json)
 
-[BFS 얼굴 방향 비교 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_direction_experiments.py)
+[C 아이레벨 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
-생성기의 `--experiments 3`은 위 장면별 참조를 선택하고 BFS Head V5 original의 강도를 `1.0`으로 설정한다. 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행하며, 마스크나 결과 합성은 사용하지 않는다. 두 장면 모두 1280×1280, 10스텝, seed `62294`, true CFG `4.0`으로 생성했다.
+### 크롭과 BFS를 재현하는 코드
 
-프롬프트는 기존 BFS 실행과 동일하게 유지했다. 머리 교체와 함께 Picture 1의 시선·머리 회전·표정을 복사하도록 지시하는 BFS Head V5 권장문이며, 실제 전문은 아래 실행 JSON에 기록돼 있다.
+[C 고해상도 얼굴 크롭 BFS 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py)
 
 ~~~bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_direction_experiments.py \
-  --experiments 3 --scenes a c --steps 10 --seed 62294 \
-  --run-label angle-repeat-v1 --dry-run
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
+  --views level --prepare-reference
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
+  --views level --steps 10 --seed 62294 --run-label level-repeat-v1 --dry-run
 ~~~
 
-`--dry-run`을 빼면 A·C를 순서대로 생성한다. `--scenes`로 장면을 고르고, `--prompt`, `--steps`, `--seed`로 조건을 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 새 `--run-label`이나 `--output-dir`을 사용한다. `--experiments 2`는 정면 참조와 강도 `0.7`을 사용하는 별도 비교다. 실행 JSON에는 실제 입력·출력 및 코드 해시, BFS 가중치 해시와 적용 강도가 남는다.
+첫 명령은 크롭 파일이 없을 때 실행한다. 저장소에 크롭이 이미 있으면 이 단계를 생략한다. 두 번째 명령의 `--dry-run`은 실행 계획만 확인하며, 이를 빼면 로컬 GPU에서 생성한다. `--views elevated`는 비교용 엘리베이티드 크롭을 선택한다.
 
-### 참조 교체 결과와 남은 차이
+[A·B 방향별 아이레벨 크롭 BFS 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py)
 
-| Scene A | Scene C |
-| --- | --- |
-| ![A 각도 참조 교체 BFS 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 각도 참조 교체 BFS 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10.png) |
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
+  --scenes a b --prepare-reference
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
+  --scenes a b --steps 10 --seed 62294 --run-label ab-repeat-v1 --dry-run
+~~~
 
-A는 아래에서 본 얼굴의 느낌이 돌아왔지만 원본보다 턱을 더 들었다. C는 정면 참조 결과보다 고개 숙임이 개선됐으며 책과 착장의 큰 형태도 유지됐다. 다만 원본의 내려간 눈꺼풀과 시선은 완전히 보존되지 않았다.
-
-이번 조건에서는 강도 감소보다 참조 교체가 얼굴 방향 개선에 효과적이었다. 이를 원본 방향의 완전한 보존으로 판단하지는 않는다. 얼굴·헤어의 아이덴티티, 턱과 머리의 각도, 눈꺼풀과 시선, 책·착장 보존을 나누어 검수한다.
-
-[A 참조 교체 BFS 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json)
-
-[C 참조 교체 BFS 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json)
+A·B도 크롭이 이미 있으면 첫 명령을 생략한다. 두 생성기는 로컬 Qwen Image Edit 2511 BF16과 BFS Head V5 original 강도 `1.0`을 사용한다. 출력은 1280×1280·10스텝·seed `62294`·true CFG `4.0`이며, 마스크나 결과 합성 없이 실행한다. 프롬프트는 Picture 2의 머리를 적용하면서 Picture 1의 시선·머리 회전·표정을 유지하도록 지시한 기존 BFS 문장을 유지한다. 전문과 입력 순서, 크롭 이력, 모델·입출력 해시는 결과 JSON에서 확인한다.
 
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 

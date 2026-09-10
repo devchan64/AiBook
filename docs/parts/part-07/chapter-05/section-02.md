@@ -7,7 +7,9 @@
 
 ## Mira identity 계약을 먼저 고정한다
 
-Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱선, 호박빛이 섞인 갈색 홍채, 짙은 petrol-teal의 볼륨 있는 턱 길이 단발을 가진 성인 여성 캐릭터다. [Mira identity 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json)은 얼굴·헤어·기본 착장만 정의하며, 자세·카메라·장면·출력 품질은 정의하지 않는다.
+Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱선, 호박빛이 섞인 갈색 홍채, 짙은 petrol-teal의 볼륨 있는 턱 길이 단발을 가진 성인 여성 캐릭터다. Mira identity 계약 JSON은 얼굴·헤어·기본 착장만 정의하며, 자세·카메라·장면·출력 품질은 정의하지 않는다.
+
+[Mira identity 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json)
 
 | 계약 필드 | Mira에 고정하는 정보 | 이 절에서 맡기지 않는 정보 |
 | --- | --- | --- |
@@ -55,7 +57,9 @@ Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱�
 
 [정면 상반신 기준 result JSON](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
-[정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py)는 정면 머리 한 장과 이너탑 설명을 입력으로 사용한다. `--size 1280 --steps 30 --seed 62294`로 실행하며, 파이프라인에 `width=1280`, `height=1280`을 직접 전달한다. 입력 이미지 크기만 바꾸면 출력 크기는 달라질 수 있으므로, 저장 전에 실제 출력이 `1280×1280`인지 검사하고 result JSON에도 기록한다.
+정면 상반신 Direct V1 Python 생성기는 정면 머리 한 장과 이너탑 설명을 입력으로 사용한다. `--size 1280 --steps 30 --seed 62294`로 실행하며, 파이프라인에 `width=1280`, `height=1280`을 직접 전달한다. 입력 이미지 크기만 바꾸면 출력 크기는 달라질 수 있으므로, 저장 전에 실제 출력이 `1280×1280`인지 검사하고 result JSON에도 기록한다.
+
+[정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py)
 
 아래 15방향 표는 새 `1280×1280` 정면 상반신을 참조해 모두 `1280×1280`으로 생성한 결과다. 기존 640px 자료와 같은 4 step·seed `62294`를 사용했다.
 
