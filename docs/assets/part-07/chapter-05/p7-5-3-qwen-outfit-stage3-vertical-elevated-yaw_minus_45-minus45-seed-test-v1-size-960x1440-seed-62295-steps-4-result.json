@@ -63,28 +63,24 @@
   },
   "prompt": "<sks> front-left quarter view elevated shot medium shot",
   "prompt_format": "<sks> [azimuth] [elevation] [distance]",
-  "seed": 62294,
+  "seed": 62295,
   "steps": 4,
   "size": [
     960,
     1440
   ],
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png",
-    "sha256": "822a07f49ad1188b44d3bcbe76aefbd288ee992af54f73a895ef06a0449d22a1",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-minus45-seed-test-v1-size-960x1440-seed-62295-steps-4.png",
+    "sha256": "bdbe445a228b75bdf0f7fd785f7a76d265df717de79932fc837e1732f8bdb52e",
     "width": 960,
     "height": 1440
   },
-  "elapsed_seconds": 53.85,
+  "elapsed_seconds": 61.77,
   "sequence": {
-    "index": 12,
-    "total": 15,
+    "index": 3,
+    "total": 3,
     "yaws": [
-      "yaw_minus_90",
-      "yaw_minus_45",
-      "yaw_zero",
-      "yaw_plus_45",
-      "yaw_plus_90"
+      "yaw_minus_45"
     ],
     "verticals": [
       "low",

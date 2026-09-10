@@ -102,7 +102,7 @@ def main() -> None:
         help="Select one or more vertical views; omit or use all for the three-view set.",
     )
     parser.add_argument("--reference-image", type=Path, default=DEFAULT_REFERENCE)
-    parser.add_argument("--seed", type=int, default=62294)
+    parser.add_argument("--seed", type=int, default=None, help="Override all views; default: elevated/yaw_minus_45=62295, others=62294.")
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS, help="Lightning 4-step profile; only 4 is supported.")
     parser.add_argument("--width", type=int, default=DEFAULT_WIDTH, help="Output width in pixels (default: 960).")
     parser.add_argument("--height", type=int, default=DEFAULT_HEIGHT, help="Output height in pixels (default: 1440).")
@@ -140,13 +140,15 @@ def main() -> None:
         elevation = VERTICAL_CAMERA_VIEWS[vertical]
         for yaw in yaws:
             azimuth, yaw_degrees = YAW_CAMERA_VIEWS[yaw]
+            seed = args.seed if args.seed is not None else (62295 if (vertical, yaw) == ("elevated", "yaw_minus_45") else 62294)
             stem = (
                 f"p7-5-3-qwen-outfit-stage3-vertical-{vertical}-{yaw}-"
                 f"{args.run_label}-size-{args.width}x{args.height}-"
-                f"seed-{args.seed}-steps-{args.steps}"
+                f"seed-{seed}-steps-{args.steps}"
             )
             plans.append({
                 "target": {"vertical": vertical, "yaw": yaw},
+                "seed": seed,
                 "model": MODEL_ID,
                 "angle_lora": ANGLE_LORA_ID,
                 "lightning_lora": LIGHTNING_ID,
@@ -223,7 +225,7 @@ def main() -> None:
             image = pipe(
                 image=reference_image,
                 prompt=plan["prompt"],
-                generator=torch.Generator(device="cuda").manual_seed(args.seed),
+                generator=torch.Generator(device="cuda").manual_seed(plan["seed"]),
                 num_inference_steps=args.steps,
                 height=args.height,
                 width=args.width,
@@ -264,7 +266,7 @@ def main() -> None:
             "camera": plan["camera"],
             "prompt": plan["prompt"],
             "prompt_format": "<sks> [azimuth] [elevation] [distance]",
-            "seed": args.seed,
+            "seed": plan["seed"],
             "steps": args.steps,
             "size": [image.width, image.height],
             "output": {**asset_record(output), "width": image.width, "height": image.height},
@@ -274,9 +276,11 @@ def main() -> None:
         result_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         outputs.append({**plan["target"], "output": str(output), "result_record": str(result_path)})
         print(json.dumps(outputs[-1], ensure_ascii=False), flush=True)
+    seeds = {plan["seed"] for plan in plans}
+    batch_seed = str(next(iter(seeds))) if len(seeds) == 1 else "per-view"
     batch_result = output_dir / (
         f"p7-5-3-qwen-outfit-stage3-yaw-batch-{args.run_label}-"
-        f"size-{args.width}x{args.height}-seed-{args.seed}-steps-{args.steps}-result.json"
+        f"size-{args.width}x{args.height}-seed-{batch_seed}-steps-{args.steps}-result.json"
     )
     batch_result.write_text(
         json.dumps(

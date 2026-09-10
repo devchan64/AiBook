@@ -90,7 +90,14 @@
       "vertical": "elevated",
       "yaw": "yaw_minus_45",
       "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png",
-      "result_record": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json"
+      "result_record": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-stage3-reference-v1-size-960x1440-seed-62294-steps-4-result.json",
+      "asset_status": "superseded_original_files_deleted",
+      "replacement": {
+        "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-minus45-seed-test-v1-size-960x1440-seed-62295-steps-4.png",
+        "result_record": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage3-vertical-elevated-yaw_minus_45-minus45-seed-test-v1-size-960x1440-seed-62295-steps-4-result.json",
+        "seed": 62295,
+        "note": "Replacement generated in a separate run; original batch timing is unchanged."
+      }
     },
     {
       "vertical": "elevated",
