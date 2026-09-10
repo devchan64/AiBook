@@ -31,7 +31,7 @@
 
 A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
 
-현재 실행 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티 적용 → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용에서 기존 외형이 남은 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 이어서 착장 적용 결과와 A의 기존 마네킨을 사용한 신발 편집 비교를 다룬다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
+현재 실행 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티 적용 → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용에서 기존 외형이 남은 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 이어서 착장 적용 결과와 A 신발·B 포즈의 보강 실험을 다룬다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
 
 ## Mira와 조연을 각각 분리한다
 
@@ -211,67 +211,7 @@ C 미라와 조연만 재현하려면 대상을 선택한다.
 
 `--dry-run`을 빼면 생성한다. `--scenes`로 대상, `--prompt`로 공통 외형 지시, `--steps`와 `--seed`로 조건을 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 새 `--run-label`이나 `--output-dir`을 사용한다. 실행 JSON에는 실제 프롬프트와 입력·출력 해시를 남긴다. B·C의 실제 지시는 각각의 JSON으로 확인한다.
 
-앞서 제시한 30스텝 아이덴티티 결과는 원본 컷아웃에서 직접 생성한 것이다. B·C는 위 마네킨을 입력으로 착장을 입히는 별도의 경로를 사용한다. 아래 A 신발·착장 결과는 이미 생성된 실험용 마네킨으로 수행한 비교 기록이다.
-
-## A 마네킨에 신발부터 적용하며 편집 한계를 확인한다
-
-착장 전체를 입히기 전에 신발만 적용할 수 있는지, 기존 실험용 맨발 A 마네킨에서 별도로 실험했다. 아래 결과는 기존 착장 1차 생성의 입력을 대체한 것이 아니라 신발 처리의 한계를 확인하는 비교 실험이다. 얼굴과 머리 보강은 최종 BFS 과정으로 남긴다.
-
-### 신발 생성과 참조 디자인 적용을 구분한다
-
-신발 참조 없이 마네킨 한 장에 흰 스니커즈를 지시한 20스텝 결과에서는 양발에 신발이 생겼다. 앞쪽에는 밑창이 보이며 마네킨의 운동복과 달리는 자세가 대체로 남았다. 다만 특정 신발 디자인을 재현한 결과는 아니다.
-
-![마네킨 단일 입력의 신발 생성](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-shoes-a-v1-size-1280x1280-seed-62294-steps-20.png)
-
-[마네킨 단일 입력의 신발 생성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-shoes-a-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
-
-다음에는 [P7-5.3의 윗면·바닥면 신발 디자인](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-upper-bottom-v3-size-1280x1280-seed-62294-steps-20.png)을 Picture 1, 맨발 마네킨을 Picture 2로 넣었다. 아래 지시의 30스텝 결과에서 앞쪽 신발에는 참조의 황갈색 밑창과 삼각형 무늬가 반영됐지만, 뒤쪽 발은 맨발로 남았다.
-
-> Make the woman in Picture 2 wear the sneakers shown in Picture 1. Replace the foreground bare foot with a sneaker, showing its outsole toward the camera. Keep everything else unchanged.
-
-![신발 디자인 우선 참조의 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-shoes-a-design-first-v4-size-1280x1280-seed-62294-steps-30.png)
-
-[신발 디자인 우선 참조의 30스텝 결과 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-shoes-a-design-first-v4-size-1280x1280-seed-62294-steps-30-result.json){ .lazy-source }
-
-양발을 함께 교체하도록 지시를 바꾸고 카메라 방향과 나머지 부분 유지 문장을 제거한 10스텝 실험에서는 앞쪽 발바닥 색만 달라지고 양발은 맨발로 남았다.
-
-> Replace both the foreground and rear bare feet of the woman in Picture 2 with the sneakers from Picture 1.
-
-![교체 지시만 사용한 마네킨 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-shoes-a-replace-only-v8-size-1280x1280-seed-62294-steps-10.png)
-
-[교체 지시만 사용한 마네킨 10스텝 결과 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-shoes-a-replace-only-v8-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-참조 순서와 문장, 스텝에 따라 결과가 달라졌다. 특히 위 30스텝과 10스텝은 문장과 스텝 수를 함께 바꿨으므로, 프롬프트 압축 하나를 실패 원인으로 단정하지 않는다. 신발 생성 자체와 지정한 디자인을 양발에 정확히 적용하는 작업은 별도로 평가해야 한다.
-
-### 원본 컷아웃에서 아웃솔만 바꿔 본다
-
-마네킨의 맨발을 신발로 바꾸는 대신, 이미 신발을 신은 원본 A 컷아웃에서 편집 범위를 아웃솔로 좁혔다. Picture 1은 같은 신발 디자인, Picture 2는 위에서 분리한 원본 A 컷아웃이다. 10스텝 실행 지시는 다음과 같다.
-
-> Replace only the outsole of the foreground sneaker in Picture 2 with the outsole design shown on the right in Picture 1.
-
-![원본 컷아웃의 아웃솔 교체 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shoes-a-outsole-only-v2-size-1280x1280-seed-62294-steps-10.png)
-
-[원본 컷아웃의 아웃솔 교체 10스텝 결과 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shoes-a-outsole-only-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-기존 신발의 검은 원형 밑창 무늬는 그대로 남고, 참조의 황갈색 아웃솔이 화면 오른쪽에 커다란 별도 객체로 생성됐다. 참조 무늬가 출력에 나타났어도 목표 신발 부위에 적용되지 않았으므로 교체 성공으로 보지 않는다.
-
-이 일련의 실험에서는 **참조 신발 디자인을 지정한 부위에 안정적으로 적용하는 모델 성능이 부족했다**고 정리한다. 앞쪽 신발만 바뀐 사례는 있으나, 양발의 디자인 적용을 완료한 결과는 얻지 못했다. 이는 여기서 사용한 입력·프롬프트·생성 조건의 관찰이며, 모든 신발 편집이 불가능하다는 뜻이나 파이프라인 오류를 입증한 결과는 아니다.
-
-### 신발 비교 실험을 재실행한다
-
-[마네킨·컷아웃 신발 실험 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_shoes_a.py)는 로컬 Qwen Image Edit 2511을 BF16과 sequential CPU offload로 실행한다. 위 결과는 1280×1280, seed `62294`, true CFG `4.0`, CPU 난수 생성기를 사용했으며 마스크·추가 LoRA·결과 합성은 사용하지 않았다. 다음 명령은 마네킨의 교체 지시만 사용한 실험과 컷아웃의 아웃솔 실험을 각각 재현한다.
-
-~~~bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_shoes_a.py \
-  --design-reference --design-first --steps 10 --run-label mannequin-replace-repeat-v8 \
-  --prompt "Replace both the foreground and rear bare feet of the woman in Picture 2 with the sneakers from Picture 1." --dry-run
-
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_shoes_a.py \
-  --cutout --design-reference --design-first --steps 10 --run-label cutout-outsole-repeat-v2 \
-  --prompt "Replace only the outsole of the foreground sneaker in Picture 2 with the outsole design shown on the right in Picture 1." --dry-run
-~~~
-
-`--dry-run`을 빼면 생성한다. `--design-reference`는 윗면·바닥면 한 장을 추가하고, `--design-first`는 이를 첫 입력으로 둔다. `--cutout`은 맨발 마네킨 대신 원본 A 컷아웃을 선택한다. 명시한 `--prompt`의 이미지 번호는 실제 입력 순서에 맞춰 작성해야 한다. 기존 출력을 덮어쓰지 않도록 새 실행 이름을 사용하며, 입력·출력·프롬프트와 코드 해시는 각 결과 JSON에서 확인한다.
+앞서 제시한 30스텝 아이덴티티 결과는 원본 컷아웃에서 직접 생성한 것이다. B·C는 위 마네킨을 입력으로 착장을 입히는 별도의 경로를 사용한다. 아래 A 착장 결과는 이미 생성된 실험용 마네킨으로 수행한 비교 기록이다.
 
 ## 마네킨에 5.3 최종 착장을 입힌다
 
