@@ -46,24 +46,24 @@
     }
   ],
   "camera": {
-    "yaw_degrees": 45,
-    "azimuth": "front-right quarter view",
-    "vertical": "level",
-    "elevation": "eye-level shot",
+    "yaw_degrees": 0,
+    "azimuth": "front view",
+    "vertical": "low",
+    "elevation": "low-angle shot",
     "distance": "medium shot"
   },
-  "prompt": "<sks> front-right quarter view eye-level shot medium shot",
-  "seed": 62294,
+  "prompt": "<sks> front view low-angle shot medium shot",
+  "seed": 62295,
   "steps": 4,
   "size": [
     1280,
     1280
   ],
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
-    "sha256": "7b4d76417cfa4f9313f55e2682498b16d12b5a60cbae3d7e754fdaf3a96b2a14",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png",
+    "sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
     "width": 1280,
     "height": 1280
   },
-  "elapsed_seconds": 569.14
+  "elapsed_seconds": 100.57
 }

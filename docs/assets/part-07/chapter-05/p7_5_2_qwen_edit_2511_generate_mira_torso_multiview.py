@@ -4,7 +4,8 @@
 The only image input is the generated Mira frontal torso reference. It carries
 the approved face, clothing, and shoulder geometry into every camera variant.
 The batch combines five horizontal yaw labels with three vertical camera
-labels, producing 15 variants. It uses ``elevated shot`` rather than a high
+labels, producing 15 variants with a shared default seed of 62294 and 4 steps.
+It uses ``elevated shot`` rather than a high
 angle: the vertical labels are low, eye-level, and elevated.
 
 This runner uses the official Qwen-Image-Edit-2511 BF16 pipeline with the
@@ -50,8 +51,8 @@ VERTICAL_VIEWS = {
     "elevated": {"prompt": "elevated shot"},
 }
 DEFAULT_DISTANCE = "medium shot"
-DEFAULT_SIZE = 1280
-DEFAULT_RUN_LABEL = "native1280-v1"
+DEFAULT_SIZE = 1024
+DEFAULT_RUN_LABEL = "native1024-v1"
 DEFAULT_SEED = 62294
 DEFAULT_STEPS = 4
 DEFAULT_SAMPLING_PROFILE = "lightning4"
@@ -114,9 +115,10 @@ def main() -> None:
         metavar="VERTICAL:YAW",
         help="Skip a completed pair, for example --exclude elevated:minus-45. Repeat as needed.",
     )
-    parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED,
+                        help="Shared seed for all selected views (default: 62294).")
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS, help="Lightning 4-step sampling (default: 4).")
-    parser.add_argument("--size", type=int, default=DEFAULT_SIZE, help="Square reference and output size (default: 1280).")
+    parser.add_argument("--size", type=int, default=DEFAULT_SIZE, help="Square reference and output size (default: 1024).")
     parser.add_argument(
         "--sampling-profile",
         choices=SAMPLING_PROFILES,
@@ -169,7 +171,8 @@ def main() -> None:
         "vertical_labels": VERTICAL_VIEWS,
         "excluded": [{"vertical": vertical, "yaw": yaw} for vertical, yaw in sorted(excluded)],
         "jobs": [
-            {"yaw": yaw, "vertical": vertical, "prompt": prompt_for(yaw, vertical)}
+            {"yaw": yaw, "vertical": vertical, "prompt": prompt_for(yaw, vertical),
+             "seed": args.seed}
             for yaw, vertical in jobs
         ],
         "expected_count": len(jobs),
@@ -177,6 +180,7 @@ def main() -> None:
         "run_label": args.run_label,
         "steps": args.steps,
         "seed": args.seed,
+        "seed_policy": "shared seed for all views; default=62294; --seed overrides all views",
     }
     if args.dry_run:
         print(json.dumps(plan, ensure_ascii=False, indent=2))
@@ -219,9 +223,10 @@ def main() -> None:
     results: list[dict[str, object]] = []
     for yaw, vertical in jobs:
         prompt = prompt_for(yaw, vertical)
+        seed = args.seed
         stem = (
             f"p7-5-2-qwen-2511-mira-torso-multiview-vertical-{vertical}-yaw-{yaw}-"
-            f"{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
+            f"{args.run_label}-size-{args.size}x{args.size}-seed-{seed}-steps-{args.steps}"
         )
         output = output_dir / f"{stem}.png"
         result = output_dir / f"{stem}-result.json"
@@ -229,7 +234,7 @@ def main() -> None:
             image = pipeline(
                 image=reference,
                 prompt=prompt,
-                generator=torch.Generator(device="cuda").manual_seed(args.seed),
+                generator=torch.Generator(device="cuda").manual_seed(seed),
                 num_inference_steps=args.steps,
                 height=args.size,
                 width=args.size,
@@ -258,18 +263,19 @@ def main() -> None:
                 "distance": DEFAULT_DISTANCE,
             },
             "prompt": prompt,
-            "seed": args.seed,
+            "seed": seed,
             "steps": args.steps,
             "size": [image.width, image.height],
             "output": {"path": str(output), "sha256": sha256(output), "width": image.width, "height": image.height},
             "elapsed_seconds": round(time.monotonic() - started, 2),
         }
         result.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        results.append({"yaw": yaw, "vertical": vertical, "output": str(output), "result": str(result)})
+        results.append({"yaw": yaw, "vertical": vertical, "seed": seed, "output": str(output), "result": str(result)})
         print(json.dumps(results[-1], ensure_ascii=False), flush=True)
+    batch_seed = str(args.seed)
     batch_result = output_dir / (
         f"p7-5-2-qwen-2511-mira-torso-multiview-{args.run_label}-"
-        f"size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}-batch-result.json"
+        f"size-{args.size}x{args.size}-seed-{batch_seed}-steps-{args.steps}-batch-result.json"
     )
     batch_result.write_text(
         json.dumps({**plan, "status": "generated", "outputs": results, "elapsed_seconds": round(time.monotonic() - started, 2)}, ensure_ascii=False, indent=2) + "\n",
