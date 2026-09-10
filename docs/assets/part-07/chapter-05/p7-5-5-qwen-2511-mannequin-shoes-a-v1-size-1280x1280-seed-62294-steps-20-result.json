@@ -1,0 +1,45 @@
+{
+  "stage": "mannequin-shoes-a",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-a-mira-compressed-v2-size-1280x1280-seed-62294-steps-20.png",
+      "role": "Picture 1: barefoot scene A mannequin",
+      "sha256": "c07385d47327839ee5de323797ca2df56a5f51c82555c6bc02873457ce281058"
+    }
+  ],
+  "prompt": "Make the woman in Picture 1 wear white sneakers. Replace the foreground bare foot with a white sneaker, its sole facing the camera. Keep everything else unchanged.",
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-shoes-a-v1-size-1280x1280-seed-62294-steps-20.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-shoes-a-v1-size-1280x1280-seed-62294-steps-20-result.json",
+  "steps": 20,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "lora": null,
+  "experiment": "mannequin-shoes-before-outfit",
+  "status": "generated",
+  "output_sha256": "f4e32d251e9aea5d4383eeb329e3ed808e8b5923dc1dc4424df914a8cc328a54",
+  "source_code_sha256": "6eb9376e724991afa28a7898e61f6867f3a8726dce632d9482498bc148ffdab0",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "elapsed_seconds": 464.93
+}

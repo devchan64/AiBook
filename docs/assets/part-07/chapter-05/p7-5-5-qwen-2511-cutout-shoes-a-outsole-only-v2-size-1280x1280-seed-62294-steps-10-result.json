@@ -1,0 +1,52 @@
+{
+  "stage": "cutout-shoes-a",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-upper-bottom-v3-size-1280x1280-seed-62294-steps-20.png",
+      "role": "Picture 1: sneaker upper and outsole design",
+      "sha256": "bccae87a6cbd4680747a82659d3002caf50aba3b989bacb42e6b1721ff8827f0"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png",
+      "role": "Picture 2: original scene A Mira cutout",
+      "sha256": "f40bf3590ed6de5bffb5cb15ddb6f25a95d20f6a551b36c1c1657f42e861da3c"
+    }
+  ],
+  "prompt": "Replace only the outsole of the foreground sneaker in Picture 2 with the outsole design shown on the right in Picture 1.",
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shoes-a-outsole-only-v2-size-1280x1280-seed-62294-steps-10.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-shoes-a-outsole-only-v2-size-1280x1280-seed-62294-steps-10-result.json",
+  "steps": 10,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "lora": null,
+  "design_first": true,
+  "subject": "cutout",
+  "experiment": "cutout-shoes-a-combined-design",
+  "status": "generated",
+  "output_sha256": "2e7511909e3d96bf5616fd9f2318bf21b30f2a050f570c2fff82d89b1f9cc5cb",
+  "source_code_sha256": "f65c5c8130bda00e66e2db00672599a3c82b955b093350cec9efe237a9ab94aa",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "elapsed_seconds": 332.25
+}
