@@ -57,13 +57,15 @@ Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱�
 
 [정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py)는 정면 머리 한 장과 이너탑 설명을 입력으로 사용한다. `--size 1280 --steps 30 --seed 62294`로 실행하며, 파이프라인에 `width=1280`, `height=1280`을 직접 전달한다. 입력 이미지 크기만 바꾸면 출력 크기는 달라질 수 있으므로, 저장 전에 실제 출력이 `1280×1280`인지 검사하고 result JSON에도 기록한다.
 
-현재 정면 상반신은 실제 `1280×1280`으로 재생성한 결과다. 아래 15방향 표는 교체 전 `1024×1024` 상반신으로 생성했던 `640×640` 결과이며, 새 정면 기준으로 다시 생성한 결과는 아니다.
+아래 15방향 표는 새 `1280×1280` 정면 상반신을 참조해 모두 `1280×1280`으로 생성한 결과다. 기존 640px 자료와 같은 4 step·seed `62294`를 사용했다.
 
-`Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning 4-step LoRA를 함께 적용한다. 카메라 prompt는 `<sks> [azimuth] [elevation] [distance]` 순서로 두며, 각 결과는 `640×640`, 같은 seed, 4 step으로 생성한다. 이렇게 조건을 고정하면 yaw와 수직 시점 변화가 캐릭터 특징과 어떻게 분리되는지 비교할 수 있다.
+`Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning 4-step LoRA를 함께 적용한다. 카메라 prompt는 `<sks> [azimuth] [elevation] [distance]` 순서로 두며, 각 결과는 `1280×1280`, 같은 seed, 4 step으로 생성한다. 이렇게 조건을 고정하면 yaw와 수직 시점 변화가 캐릭터 특징과 어떻게 분리되는지 비교할 수 있다.
 
 [상반신 15방향 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py)
 
-생성기에서 `--sampling-profile lightning4 --size 640 --steps 4`를 선택한다. `--yaw`와 `--vertical`로 필요한 방향만 생성할 수 있다. 실제 입력·출력 조건은 각 이미지와 짝을 이루는 result JSON에서 확인한다.
+생성기에서 `--sampling-profile lightning4 --size 1280 --steps 4 --seed 62294 --run-label native1280-v1`를 선택한다. `--yaw`와 `--vertical`로 필요한 방향만 생성할 수 있다. 실제 입력·출력 조건은 각 이미지와 짝을 이루는 result JSON에서 확인한다.
+
+[15방향 전체 실행 기록과 개별 PNG·JSON 목록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-native1280-v1-size-1280x1280-seed-62294-steps-4-batch-result.json)
 
 ### 카메라 참조에는 편집 모델과 두 LoRA를 쓴다
 
@@ -82,17 +84,17 @@ Lightning 4-step LoRA는 긴 확산 과정을 네 step으로 줄이는 속도 �
 
 | 로우앵글 `−90°` | 로우앵글 `−45°` | 로우앵글 `0°` | 로우앵글 `+45°` | 로우앵글 `+90°` |
 | --- | --- | --- | --- | --- |
-| ![Mira 로우앵글 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 로우앵글 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 로우앵글 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 로우앵글 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 로우앵글 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) |
+| ![Mira 로우앵글 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 아이레벨 `−90°` | 아이레벨 `−45°` | 아이레벨 `0°` | 아이레벨 `+45°` | 아이레벨 `+90°` |
 | --- | --- | --- | --- | --- |
-| ![Mira 아이레벨 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 아이레벨 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 아이레벨 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 아이레벨 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 아이레벨 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) |
+| ![Mira 아이레벨 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 엘리베이티드 `−90°` | 엘리베이티드 `−45°` | 엘리베이티드 `0°` | 엘리베이티드 `+45°` | 엘리베이티드 `+90°` |
 | --- | --- | --- | --- | --- |
-| ![Mira 엘리베이티드 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 엘리베이티드 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 엘리베이티드 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png) |
+| ![Mira 엘리베이티드 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
-세 행을 함께 보면 yaw와 수직 시점은 대부분 분리된다. 로우앵글 `−90°`처럼 프레이밍이 크게 흔들리는 결과는 캐릭터의 새 특징이 아니라, 카메라 조건을 바꿀 때 생긴 변형으로 읽는다.
+로우앵글 `−90°`에서는 배경이 하늘색으로 바뀌고, 엘리베이티드 `−45°`에서는 상반신에서 전신으로 구도가 넓어졌다. 시점 변화와 함께 생긴 배경·프레이밍 변형을 구분해 검수한다. 1280px 출력이라는 조건만으로 얼굴의 화면 내 크기나 구도 보존까지 보장되지는 않는다.
 
 ## 체크리스트
 

@@ -5,7 +5,7 @@
   "execution_mode": "direct Diffusers; DiffusionPipeline; no ComfyUI server",
   "runtime": {
     "python": "3.12.3",
-    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
     "packages": {
       "diffusers": "0.37.0",
       "torch": "2.11.0+cu128",
@@ -42,28 +42,28 @@
     {
       "role": "Picture 1: Mira frontal torso reference",
       "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
-      "sha256": "4567515590b73cb6392698e0eee15e82b1f47f66fa28c43696f520807ef5a095"
+      "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
     }
   ],
   "camera": {
-    "yaw_degrees": -90,
-    "azimuth": "left side view",
+    "yaw_degrees": -45,
+    "azimuth": "front-left quarter view",
     "vertical": "level",
     "elevation": "eye-level shot",
     "distance": "medium shot"
   },
-  "prompt": "<sks> left side view eye-level shot medium shot",
+  "prompt": "<sks> front-left quarter view eye-level shot medium shot",
   "seed": 62294,
   "steps": 4,
   "size": [
-    640,
-    640
+    1280,
+    1280
   ],
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-lowcost-v2-size-640x640-seed-62294-steps-4.png",
-    "sha256": "a35c8765492ab806090a8a054864755ce40cbe6cbd9449cace90ef85cfc4ae02",
-    "width": 640,
-    "height": 640
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+    "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
+    "width": 1280,
+    "height": 1280
   },
-  "elapsed_seconds": 231.83
+  "elapsed_seconds": 451.87
 }

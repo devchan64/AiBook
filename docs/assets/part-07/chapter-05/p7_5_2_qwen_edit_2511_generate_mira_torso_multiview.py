@@ -50,8 +50,8 @@ VERTICAL_VIEWS = {
     "elevated": {"prompt": "elevated shot"},
 }
 DEFAULT_DISTANCE = "medium shot"
-DEFAULT_SIZE = 640
-DEFAULT_RUN_LABEL = "lowcost-v2"
+DEFAULT_SIZE = 1280
+DEFAULT_RUN_LABEL = "native1280-v1"
 DEFAULT_SEED = 62294
 DEFAULT_STEPS = 4
 DEFAULT_SAMPLING_PROFILE = "lightning4"
@@ -116,7 +116,7 @@ def main() -> None:
     )
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS, help="Lightning 4-step sampling (default: 4).")
-    parser.add_argument("--size", type=int, default=DEFAULT_SIZE, help="Square reference and output size (default: 640).")
+    parser.add_argument("--size", type=int, default=DEFAULT_SIZE, help="Square reference and output size (default: 1280).")
     parser.add_argument(
         "--sampling-profile",
         choices=SAMPLING_PROFILES,

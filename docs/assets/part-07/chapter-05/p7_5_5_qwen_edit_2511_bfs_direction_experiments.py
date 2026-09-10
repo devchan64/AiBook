@@ -24,8 +24,8 @@ SOURCES = {
 }
 DEFAULT_FACE = ASSETS / 'p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png'
 ANGLE_FACES = {
-    'a': ASSETS / 'p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png',
-    'c': ASSETS / 'p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png',
+    'a': ASSETS / 'p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png',
+    'c': ASSETS / 'p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png',
 }
 LORA_FILE = 'bfs_head_v5_2511_original.safetensors'
 LORA_PATH = ASSETS.parents[3] / '.tmp/download/weight-mr2along-bfs-head-v5-2511' / LORA_FILE

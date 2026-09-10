@@ -277,11 +277,13 @@ A의 아이덴티티 결과와 C의 책 보강 2차 결과에 얼굴·헤어를 
 
 ### 장면에 맞춰 얼굴 참조를 선택한다
 
+현재 참조 표와 생성기의 기본 입력은 P7-5.2의 새 1280px 자료로 교체했다. 아래 BFS 결과는 교체 전 640px 참조로 생성했던 결과이며, 새 참조로 재생성한 결과는 아니다. 기존 실행 JSON의 입력 경로와 해시는 당시 기록으로 유지한다.
+
 Picture 1에는 BFS 이전의 A 아이덴티티 결과 또는 C 책 보강 2차 결과를 넣는다. Picture 2에는 P7-5.2 다각도 자료 중 A는 아래에서 본 정면, C는 위에서 본 오른쪽 45도 얼굴을 넣는다. 이전 BFS 출력에 다시 편집을 누적하지 않는다.
 
 | A 얼굴 참조: 아래에서 본 정면 | C 얼굴 참조: 위에서 본 오른쪽 45도 |
 | --- | --- |
-| ![A BFS용 낮은 시점 정면 참조](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![C BFS용 높은 시점 오른쪽 얼굴 참조](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) |
+| ![A BFS용 낮은 시점 정면 참조](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![C BFS용 높은 시점 오른쪽 얼굴 참조](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 C 참조는 숙인 얼굴 각도에 가깝지만 눈을 뜬 상태다. 따라서 머리 방향과 눈꺼풀·시선 보존은 별도로 확인한다. 정면 머리 이미지에서 다각도 상반신 이미지로 바꾸면서 얼굴이 차지하는 크기와 해상도도 달라졌으므로, 이 비교는 참조 교체의 효과를 보여 주며 각도 하나만의 효과를 분리한 실험은 아니다.
 
