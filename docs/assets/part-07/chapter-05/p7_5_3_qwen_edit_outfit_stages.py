@@ -27,7 +27,6 @@ OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 10
 QWEN_FACE_REFERENCE = "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png"
 SHOE_REFERENCE = "p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png"
-FRONT_TORSO_REFERENCE = "p7-5-2-qwen-2511-mira-torso-front-identity-framing-neutral-gray-v3-size-1280x1280-seed-62294-steps-10.png"
 # 960×1440 BODY_18 map: 90% overall figure height with 7 px-radius joints.
 STAGE2_BODY_ONLY_OPENPOSE = "p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"
 

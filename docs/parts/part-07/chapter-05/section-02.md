@@ -1,7 +1,7 @@
 # P7-5.2 Mira 정면 머리 기준 만들기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.09.05`
+> Version: `v2026.09.10`
 
 같은 인물을 다음 단계에서 다시 사용할 때는 먼저 얼굴·머리 기준을 한 장으로 고정한다. 이 절은 캐릭터 **Mira**의 정면 머리 기준을 만들고, 이를 바탕으로 카메라 각도가 달라진 참조 묶음을 만든다. 전신·착장·자세는 [P7-5.3](section-03.md)에서 다룬다.
 
@@ -54,6 +54,10 @@ Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱�
 ![Mira 정면 상반신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png)
 
 [정면 상반신 기준 result JSON](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30-result.json)
+
+[정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py)는 정면 머리 한 장과 이너탑 설명을 입력으로 사용한다. `--size 1280 --steps 30 --seed 62294`로 실행하며, 파이프라인에 `width=1280`, `height=1280`을 직접 전달한다. 입력 이미지 크기만 바꾸면 출력 크기는 달라질 수 있으므로, 저장 전에 실제 출력이 `1280×1280`인지 검사하고 result JSON에도 기록한다.
+
+현재 정면 상반신은 실제 `1280×1280`으로 재생성한 결과다. 아래 15방향 표는 교체 전 `1024×1024` 상반신으로 생성했던 `640×640` 결과이며, 새 정면 기준으로 다시 생성한 결과는 아니다.
 
 `Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning 4-step LoRA를 함께 적용한다. 카메라 prompt는 `<sks> [azimuth] [elevation] [distance]` 순서로 두며, 각 결과는 `640×640`, 같은 seed, 4 step으로 생성한다. 이렇게 조건을 고정하면 yaw와 수직 시점 변화가 캐릭터 특징과 어떻게 분리되는지 비교할 수 있다.
 

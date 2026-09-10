@@ -133,9 +133,13 @@ def main() -> None:
     image = pipe(
         image=face_image,
         prompt=prompt,
+        width=args.size,
+        height=args.size,
         generator=torch.Generator(device="cuda").manual_seed(args.seed),
         num_inference_steps=args.steps,
     ).images[0]
+    if image.size != (args.size, args.size):
+        raise RuntimeError(f"Unexpected output size: {image.size}; expected {args.size}x{args.size}")
     output_dir.mkdir(parents=True, exist_ok=True)
     image.save(output)
     record = {
