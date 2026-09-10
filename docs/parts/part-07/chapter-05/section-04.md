@@ -1,7 +1,7 @@
 # P7-5.4 라인아트 구도에서 스토리보드 장면까지
 
 > Section ID: `P7-5.4`
-> Version: `v2026.09.09`
+> Version: `v2026.09.10`
 
 스토리보드 장면을 만들 때는 구도, 인물의 외형, 주변 대상의 배치를 각각 확인해야 한다. 이 절에서는 라인아트로 장면의 구도와 동작을 만들고, Mira의 아이덴티티를 이식한 뒤 주변 인물과 오브젝트를 추가한다. 단계별 입력과 출력을 비교하며 원하는 특징이 반영된 부분과 달라진 부분을 구분한다. 결과 이미지는 PNG로 보관하고, `result.json`에는 프롬프트, seed, step, 모델, 입력 파일을 기록한다.
 
@@ -19,19 +19,17 @@
 
 생성기는 `--scene a`, `--scene b`, `--scene c`로 이 세 장면을 고른다. 기본 캔버스는 1280×1280이고 기본 샘플링은 20 step이다. 구도 지시의 영향을 비교할 때는 seed와 step을 고정하고 `--prompt`의 구도 표현 하나를 바꾼다. 반복 횟수의 영향을 보려면 프롬프트를 고정하고 `--steps`만 바꾼다. 아래 결과에서는 하늘, 전방 달리기, 들린 앞발의 밑창이 함께 나타나는지 관찰한다. 재실행한 Scene A에서는 전경 신발의 밑창이 크게 강조됐다. 밑창의 앞부분과 뒤꿈치를 나누어 살펴보고, 다음 편집에서도 이 원근 표현이 어떻게 이어지는지 비교한다.
 
-![Qwen Image 2512으로 만든 Scene A 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png)
-
-[Scene A line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
-
 Scene B는 같은 공통 화풍 상수에 숲 공터·석양·grand jeté만 추가해 20 step으로 생성했다. 이 결과에서는 점프 동작, 열린 하늘, 나무와 양치식물의 공간을 먼저 확인하고, Mira의 얼굴·착장·필요한 소품은 다음 편집 단계에서 보강한다.
-
-![Qwen Image 2512으로 만든 Scene B 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png)
-
-[Scene B line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
 Scene C도 같은 방식으로 생성했다. 두 인물, 책, 언덕 난간, 먼 도시 스카이라인이 장면의 기본 관계를 만든다. 이후 편집에서는 왼쪽 독자에게만 Mira 참조를 적용하고, 오른쪽 독자는 이 구도판의 인물을 유지하도록 요청한다. 두 번째 인물의 별도 참조 이미지는 사용하지 않는다.
 
-![Qwen Image 2512으로 만든 Scene C 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png)
+| Scene A · 도시 달리기 | Scene B · 숲 공터 도약 | Scene C · 언덕 독서 |
+| --- | --- | --- |
+| ![Qwen Image 2512으로 만든 Scene A 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![Qwen Image 2512으로 만든 Scene B 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![Qwen Image 2512으로 만든 Scene C 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
+
+[Scene A line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+
+[Scene B line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
 [Scene C line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
@@ -56,17 +54,15 @@ done
 
 아래 A·B·C는 이번에 생성한 라인아트에 3단계 착장을 참조한 `mira-audit-20260909-v1` 재실행 결과다. 로컬 GPU에서 1280×1280, 20스텝, true CFG `4.0`으로 실행했으며 seed는 각각 `5420`, `5421`, `5422`다. Scene A에서는 지면 높이의 달리기 구도와 크게 보이는 신발 밑창, 청록 단발·흰 크롭 재킷·회색 이너·딥틸 팬츠가 나타났다. 이식 단계는 Qwen-Image-Edit-2511을 BF16 순차 CPU 오프로딩으로 직접 실행하며 ComfyUI 서버를 사용하지 않는다.
 
-![Mira 아이덴티티와 화풍을 이식한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png)
+같은 생성기는 `--scenes b c`처럼 여러 장면을 받아 한 번 로드한 파이프라인으로 순차 처리한다. Scene B에서는 숲 공터의 도약 인물을, Scene C에서는 왼쪽 독자를 Mira로 바꾸도록 요청한다. Scene C의 오른쪽 독자와 배경 관계는 보존 대상으로 지시한다.
+
+| Scene A · 도시 달리기 | Scene B · 숲 공터 도약 | Scene C · 언덕 독서 |
+| --- | --- | --- |
+| ![Mira 아이덴티티와 화풍을 이식한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![Mira 아이덴티티와 화풍을 이식한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![Mira 아이덴티티와 화풍을 이식한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
 
 [Scene A Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
-같은 생성기는 `--scenes b c`처럼 여러 장면을 받아 한 번 로드한 파이프라인으로 순차 처리한다. Scene B에서는 숲 공터의 도약 인물을, Scene C에서는 왼쪽 독자를 Mira로 바꾸도록 요청한다. Scene C의 오른쪽 독자와 배경 관계는 보존 대상으로 지시한다.
-
-![Mira 아이덴티티와 화풍을 이식한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png)
-
 [Scene B Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
-
-![Mira 아이덴티티와 화풍을 이식한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png)
 
 [Scene C Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
@@ -103,13 +99,19 @@ done
 
 주변 인물 보강은 Mira 이식 결과 한 장을 Image 1로 사용한다. 아래 A·B·C의 `extras-audit-20260909-v1`은 모두 앞 단계의 같은 장면 `mira-audit-20260909-v1` PNG를 입력으로 재실행한 결과다. 라인아트 생성부터 Mira 이식, 주변 대상 추가까지 이번 실행에서 만든 산출물을 순서대로 연결했다. 아래 명령은 한 장면씩 선택하고 `--scene-image`에 앞 단계의 새 PNG 경로를 지정한다. 이 생성기도 `--dry-run`으로 실행 계획을 확인할 수 있다.
 
-Scene A의 프롬프트는 `Add several pedestrians and several people running in casual clothing to Image 1.`이다. 행인 여러 명과 캐주얼 복장으로 달리는 사람 여러 명의 추가만 요청하며, 인물 수나 상대 크기, 기존 장면 보존 지시는 따로 넣지 않는다.
-
-아래 `extras-audit-20260909-v1`은 Qwen-Image-Edit-2511을 로컬 GPU에서 BF16 순차 CPU 오프로딩으로 직접 실행한 1280×1280, 20 step, CFG 4.0 결과다. Mira 주변에 캐주얼 복장의 인물 여섯 명이 추가됐다. 대부분 달리는 자세여서, 행인과 달리는 사람을 구분해 요청한 내용이 결과에서도 나뉘어 표현됐는지 확인할 필요가 있다. 중심 인물의 구도와 착장은 대체로 유지됐지만, 배경 나무와 구름의 세부 표현도 달라졌다. 주변 인물 추가가 나머지 모든 픽셀의 보존을 뜻하지는 않는다.
-
-![캐주얼 복장으로 달리는 주변 인물을 추가한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png)
+| Scene A · 도시 달리기 | Scene B · 숲 공터 도약 | Scene C · 언덕 독서 |
+| --- | --- | --- |
+| ![캐주얼 복장으로 달리는 주변 인물을 추가한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![왼쪽 아래 토끼와 오른쪽 나무 밑 다람쥐를 추가한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![난간 기둥 두 곳과 왼쪽 아래 바위에 새 세 마리를 추가한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
 
 [Scene A 주변 인물 보강 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+
+[Scene B 작은 동물 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+
+[Scene C 새 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+
+Scene A의 프롬프트는 `Add several pedestrians and several people running in casual clothing to Image 1.`이다. 행인 여러 명과 캐주얼 복장으로 달리는 사람 여러 명의 추가만 요청하며, 인물 수나 상대 크기, 기존 장면 보존 지시는 따로 넣지 않는다.
+
+Scene A의 `extras-audit-20260909-v1`은 Qwen-Image-Edit-2511을 로컬 GPU에서 BF16 순차 CPU 오프로딩으로 직접 실행한 1280×1280, 20 step, CFG 4.0 결과다. Mira 주변에 캐주얼 복장의 인물 여섯 명이 추가됐다. 대부분 달리는 자세여서, 행인과 달리는 사람을 구분해 요청한 내용이 결과에서도 나뉘어 표현됐는지 확인할 필요가 있다. 중심 인물의 구도와 착장은 대체로 유지됐지만, 배경 나무와 구름의 세부 표현도 달라졌다. 주변 인물 추가가 나머지 모든 픽셀의 보존을 뜻하지는 않는다.
 
 ~~~bash
 assets=docs/assets/part-07/chapter-05
@@ -127,11 +129,7 @@ output=/tmp/p7-5-4-practice
 
 Scene B는 Mira 이식 결과를 Image 1로 사용하고 작은 동물 두 마리의 위치를 각각 지정했다. 토끼는 왼쪽 아래 양치식물 옆 공터 바닥에 앉히고, 다람쥐는 오른쪽 나무 밑 지면에 배치하도록 요청했다.
 
-아래 `extras-audit-20260909-v1`은 같은 로컬 GPU 실행 방식의 1280×1280, 20 step, CFG 4.0, seed 5421 결과다. 토끼는 왼쪽 아래 양치식물 옆 지면에, 다람쥐는 오른쪽 나무뿌리 위에 앉은 모습으로 나타났다. 두 동물은 Mira의 몸과 떨어져 있으며 고슴도치는 없다. 다람쥐는 지면에 서 있으라는 요청과 자세·지지 위치가 다르다. Mira의 긴 머리와 발레화 형태, 발목 노출도 이전 단계에서 이어졌다.
-
-![왼쪽 아래 토끼와 오른쪽 나무 밑 다람쥐를 추가한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png)
-
-[Scene B 작은 동물 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+Scene B의 `extras-audit-20260909-v1`은 같은 로컬 GPU 실행 방식의 1280×1280, 20 step, CFG 4.0, seed 5421 결과다. 토끼는 왼쪽 아래 양치식물 옆 지면에, 다람쥐는 오른쪽 나무뿌리 위에 앉은 모습으로 나타났다. 두 동물은 Mira의 몸과 떨어져 있으며 고슴도치는 없다. 다람쥐는 지면에 서 있으라는 요청과 자세·지지 위치가 다르다. Mira의 긴 머리와 발레화 형태, 발목 노출도 이전 단계에서 이어졌다.
 
 ~~~bash
 assets=docs/assets/part-07/chapter-05
@@ -145,11 +143,7 @@ output=/tmp/p7-5-4-practice
 
 Scene C는 Mira 이식 결과를 Image 1로 사용하고, 작은 새 세 마리가 앉을 위치를 각각 지정했다. 남성 독자 오른쪽의 기존 사각 난간 기둥 위, 오른쪽 가장자리의 기존 상단 나무 난간 위, Mira 옆 왼쪽 아래 바위 위다. 새를 추가한다는 요청에 기존 장면에서 발을 디딜 대상을 연결한 것이다.
 
-아래 `extras-audit-20260909-v1`은 같은 로컬 GPU 실행 방식의 1280×1280, 20 step, CFG 4.0, seed 5422 결과다. 새 세 마리가 난간 기둥 두 곳과 왼쪽 아래 바위에 앉아 있고, 하늘에 떠 있는 새나 분리된 가지는 보이지 않는다. 다만 오른쪽 가장자리의 새는 요청한 가로 난간 대신 끝 기둥 위에 배치됐다. 앉는 동작의 반영과 정확한 위치의 일치는 따로 확인해야 한다. 조연의 옷 주름과 배경의 선 표현도 달라졌으므로, 인물·배경의 배치 유지와 세부 픽셀 보존을 구분한다.
-
-![난간 기둥 두 곳과 왼쪽 아래 바위에 새 세 마리를 추가한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png)
-
-[Scene C 새 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+Scene C의 `extras-audit-20260909-v1`은 같은 로컬 GPU 실행 방식의 1280×1280, 20 step, CFG 4.0, seed 5422 결과다. 새 세 마리가 난간 기둥 두 곳과 왼쪽 아래 바위에 앉아 있고, 하늘에 떠 있는 새나 분리된 가지는 보이지 않는다. 다만 오른쪽 가장자리의 새는 요청한 가로 난간 대신 끝 기둥 위에 배치됐다. 앉는 동작의 반영과 정확한 위치의 일치는 따로 확인해야 한다. 조연의 옷 주름과 배경의 선 표현도 달라졌으므로, 인물·배경의 배치 유지와 세부 픽셀 보존을 구분한다.
 
 ~~~bash
 assets=docs/assets/part-07/chapter-05
