@@ -242,6 +242,35 @@ C에도 흰 재킷·넓은 바지와 양쪽 흰 스니커즈가 반영됐고, �
 
 [C 착장 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
+## C의 책을 보강해 2차 결과를 만든다
+
+C Mira의 1차 결과에는 착장과 신발이 반영됐지만 책은 없고 두 손만 모여 있다. 이 결과를 Picture 1로 넣어 펼친 책을 양손으로 들도록 보강한다. 흐름은 `C 마네킨 → 착장·신발 1차 적용 → 책 보강 2차 결과`다.
+
+실제 프롬프트는 다음 한 문장이다. 무릎 위에서 양손으로 펼친 책을 들도록 지시하며, 착장과 얼굴을 다시 설명하지 않는다.
+
+> Add an open book held in both hands over the lap of the woman in Picture 1.
+
+### 책 보강 생성기와 실행 조건
+
+[Scene C 책 보강 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_identity_c_book.py)
+
+생성기는 C Mira의 1차 착장 결과 한 장을 입력으로 사용한다. 별도 책 참조나 마스크·LoRA·결과 합성 없이 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 출력은 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다.
+
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_identity_c_book.py \
+  --steps 20 --seed 62294 --run-label book-repeat-v1 --dry-run
+~~~
+
+`--dry-run`은 모델을 불러오지 않고 입력·프롬프트·출력 계획을 확인한다. 이를 빼면 생성한다. `--input`으로 보강할 이미지, `--prompt`로 지시, `--steps`와 `--seed`로 생성 조건을 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 재실행에는 새 `--run-label`이나 `--output-dir`을 지정한다. 실행 JSON에는 입력·출력 해시, 프롬프트, 코드 해시와 실행 환경이 남는다.
+
+### C 책 보강 2차 결과
+
+![C Mira의 1차 착장 결과에 펼친 책을 추가한 20스텝 2차 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png)
+
+무릎 위에 갈색 표지의 펼친 책이 추가됐고, 두 손은 책을 받치는 모양으로 바뀌었다. 흰 재킷·넓은 바지·양쪽 스니커즈와 앉은 자세의 큰 형태는 대체로 유지됐다. 이 책은 원본 책의 픽셀을 복원한 것이 아니라 지시에 따라 새로 생성한 소품이다. 얼굴·헤어는 이번 보강 대상이 아니므로 Mira의 얼굴·헤어 아이덴티티는 여전히 후속 단계에서 다룬다.
+
+[C 책 보강 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json)
+
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 
 아래 테스트는 현재 P7-5.4 최종 장면과 신규 분리·마네킨 경로가 아닌, 이전 카메라판과 그 파생 이미지를 입력으로 사용했다. 따라서 현재 경로의 다음 단계나 최종 합성 결과로 해석하지 않는다. 각 표는 당시 어떤 보정이 시도됐는지를 남긴 테스트 흔적이다.
