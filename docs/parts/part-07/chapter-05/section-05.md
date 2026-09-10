@@ -207,38 +207,42 @@ C 조연은 책이 사라졌으므로, 장면으로 되돌리기 전에 책 보�
 
 앞서 제시한 30스텝 아이덴티티 결과는 원본 컷아웃에서 직접 생성한 것이다. B·C는 위 마네킨을 입력으로 착장을 입히는 별도의 경로를 사용한다.
 
-## 마네킨에 5.3 최종 착장을 적용한다
+## B·C 마네킨에 공통으로 아이덴티티를 적용한다
 
-원본 컷아웃의 외형을 줄인 뒤에도 참조의 옷과 신발을 반영할 수 있는지 확인한다. 입력 순서는 Picture 1에 C 마네킨, Picture 2에 P7-5.3의 최종 3단계 착장 이미지다. 이 경로는 `원본 컷아웃 → 마네킨 → 착장 적용`으로 이어진다.
+원본 컷아웃의 외형을 줄인 뒤에도 참조의 옷과 신발을 반영할 수 있는지 확인한다. B·C 모두 Picture 1에는 각 장면의 마네킨, Picture 2에는 P7-5.3의 최종 3단계 착장 이미지를 넣는다. 공통 흐름은 `원본 컷아웃 → 마네킨 → 아이덴티티 1차 적용(착장·신발)`이다. 이번 단계는 착장과 신발을 적용하며, 얼굴·머리 아이덴티티 보강은 이후 BFS 단계에서 다룬다.
 
 [공통 3단계 착장 참조](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 사용하고, 옷의 색·길이·디자인을 텍스트로 다시 풀어 쓰지 않았다. 실제 프롬프트는 다음 두 문장이다.
 
 > Dress the woman in Picture 1 in the complete outfit, including shoes, from Picture 2. Keep the face, hairstyle, pose, perspective, framing and white background of Picture 1.
 
-이는 2번의 전체 착장과 신발을 1번 여성에게 입히되, 1번의 얼굴·머리·포즈·원근·프레이밍과 흰 배경은 유지하라는 뜻이다. C의 결과에서는 착장 반영과 함께 자세·외형 보존을 확인한다.
+이는 2번의 전체 착장과 신발을 1번 여성에게 입히되, 1번의 얼굴·머리·포즈·원근·프레이밍과 흰 배경은 유지하라는 뜻이다. B·C 결과에서 착장 반영과 함께 자세·크기 보존을 각각 확인한다.
 
 ### 착장 1차 적용 생성기
 
-[마네킨 착장 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py)는 C 마네킨을 고정된 입력으로 읽고 공통 착장 참조와 함께 편집한다. 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 마스크·추가 LoRA·결과 합성은 사용하지 않았다. 두 입력은 비율을 유지해 각각 1280×1280 흰 캔버스에 배치한다.
+[마네킨 착장 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py)는 B·C 마네킨을 장면별 입력으로 읽고 동일한 착장 참조와 프롬프트로 각각 편집한다. 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 마스크·추가 LoRA·결과 합성은 사용하지 않았다. 두 입력은 비율을 유지해 각각 1280×1280 흰 캔버스에 배치한다.
 
-C 출력은 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다. 다음 명령은 모델을 불러오지 않고 입력과 공통 프롬프트·출력 계획을 확인한다.
+B·C 출력은 각각 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다. 다음 명령은 모델을 불러오지 않고 입력과 공통 프롬프트·출력 계획을 확인한다.
 
 ~~~bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py \
-  --scenes c --steps 20 --run-label stage3-repeat-v1 --dry-run
+  --scenes b c --steps 20 --run-label stage3-repeat-v1 --dry-run
 ~~~
 
-`--dry-run`을 빼면 C를 생성한다. `--scenes`는 대상, `--reference`는 착장 참조, `--prompt`는 편집 지시, `--steps`와 `--seed`는 생성 조건을 바꾼다. 기존 PNG·JSON이 있으면 실행 전에 중단하므로 재실행에는 새 `--run-label`이나 `--output-dir`을 지정한다. JSON에는 실제 두 입력·출력의 해시, 프롬프트, 코드 해시와 실행 환경을 저장한다.
+`--dry-run`을 빼면 B·C를 순서대로 생성한다. `--scenes`는 대상, `--reference`는 착장 참조, `--prompt`는 편집 지시, `--steps`와 `--seed`는 생성 조건을 바꾼다. 기존 PNG·JSON이 있으면 실행 전에 중단하므로 재실행에는 새 `--run-label`이나 `--output-dir`을 지정한다. JSON에는 실제 두 입력·출력의 해시, 프롬프트, 코드 해시와 실행 환경을 저장한다.
 
-### C 착장 적용 결과
+### B·C 아이덴티티 1차 적용 결과
 
-![C 마네킨에 최종 3단계 착장을 적용한 20스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png)
+| Scene B | Scene C |
+| --- | --- |
+| ![B 마네킨에 최종 3단계 착장을 적용한 20스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-b-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png) | ![C 마네킨에 최종 3단계 착장을 적용한 20스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png) |
 
-흰 재킷·넓은 바지와 양쪽 흰 스니커즈가 반영됐다. 짧은 머리와 앉은 자세의 큰 형태는 대체로 유지됐다. 이것은 착장 적용 결과이며, Mira의 얼굴·헤어 아이덴티티까지 완성한 결과는 아니다.
+B에는 흰 재킷·넓은 바지와 양쪽 흰 스니커즈가 반영됐다. 도약 자세의 큰 형태는 남았지만 마네킨 입력보다 인물이 커지고 팔·다리의 위치가 달라졌다. 착장 반영과 포즈·크기 보존은 별도로 판단한다.
+
+C에도 흰 재킷·넓은 바지와 양쪽 흰 스니커즈가 반영됐고, 앉은 자세의 큰 형태는 대체로 유지됐다. 두 결과 모두 마네킨의 짧은 머리가 남아 있으며, Mira의 얼굴·헤어 아이덴티티까지 완성한 결과는 아니다.
+
+[B 착장 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-b-mira-stage3-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
 [C 착장 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
-
-C에서는 옷과 신발의 반영, 앉은 자세의 큰 형태 보존, 얼굴·헤어 아이덴티티의 미완성을 구분해 확인했다.
 
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 
@@ -299,7 +303,7 @@ Relight 테스트는 이전 BFS 통합 장면 한 장에 방향광을 다시 부
 - [ ] 원본 픽셀을 복사하는 분리 단계와 외형을 다시 생성하는 아이덴티티 적용 단계를 구분했는가?
 - [ ] Mira는 Picture 2의 5.3 최종 3단계 착장을, 조연은 텍스트만 사용했는가?
 - [ ] 원본 컷아웃의 직접 아이덴티티 적용과 마네킨을 거친 착장 1차 적용의 입력을 구분했는가?
-- [ ] C 결과에서 착장 반영, 앉은 자세의 큰 형태 보존, 얼굴·헤어 아이덴티티의 미완성을 구분했는가?
+- [ ] B·C 결과에서 착장 반영과 포즈·크기 보존을 따로 확인하고, 얼굴·헤어 아이덴티티가 아직 미완성임을 구분했는가?
 - [ ] BFS·DeLight·Relight 테스트는 이전 입력으로 수행한 별도 기록이며, 현재 신규 경로의 후속 결과로 해석하지 않았는가?
 
 ## 출처와 참고 자료
