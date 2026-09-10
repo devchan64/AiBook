@@ -271,6 +271,50 @@ C Mira의 1차 결과에는 착장과 신발이 반영됐지만 책은 없고 �
 
 [C 책 보강 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json)
 
+## A·C는 얼굴 각도에 가까운 참조로 BFS를 적용한다
+
+A의 아이덴티티 결과와 C의 책 보강 2차 결과에 얼굴·헤어를 적용한다. 정면 얼굴 참조로 BFS를 실행했을 때 A는 눈높이 정면에 가까워졌고, C는 고개가 들리며 눈이 더 열렸다. BFS 강도만 `1.0`에서 `0.7`로 낮춘 비교에서도 이 문제가 남아, 다음 비교에서는 강도를 `1.0`으로 유지하고 참조 이미지를 교체했다.
+
+### 장면에 맞춰 얼굴 참조를 선택한다
+
+Picture 1에는 BFS 이전의 A 아이덴티티 결과 또는 C 책 보강 2차 결과를 넣는다. Picture 2에는 P7-5.2 다각도 자료 중 A는 아래에서 본 정면, C는 위에서 본 오른쪽 45도 얼굴을 넣는다. 이전 BFS 출력에 다시 편집을 누적하지 않는다.
+
+| A 얼굴 참조: 아래에서 본 정면 | C 얼굴 참조: 위에서 본 오른쪽 45도 |
+| --- | --- |
+| ![A BFS용 낮은 시점 정면 참조](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowcost-v2-size-640x640-seed-62294-steps-4.png) | ![C BFS용 높은 시점 오른쪽 얼굴 참조](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png) |
+
+C 참조는 숙인 얼굴 각도에 가깝지만 눈을 뜬 상태다. 따라서 머리 방향과 눈꺼풀·시선 보존은 별도로 확인한다. 정면 머리 이미지에서 다각도 상반신 이미지로 바꾸면서 얼굴이 차지하는 크기와 해상도도 달라졌으므로, 이 비교는 참조 교체의 효과를 보여 주며 각도 하나만의 효과를 분리한 실험은 아니다.
+
+### 참조 교체를 재현하는 코드
+
+[BFS 얼굴 방향 비교 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_direction_experiments.py)
+
+생성기의 `--experiments 3`은 위 장면별 참조를 선택하고 BFS Head V5 original의 강도를 `1.0`으로 설정한다. 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행하며, 마스크나 결과 합성은 사용하지 않는다. 두 장면 모두 1280×1280, 10스텝, seed `62294`, true CFG `4.0`으로 생성했다.
+
+프롬프트는 기존 BFS 실행과 동일하게 유지했다. 머리 교체와 함께 Picture 1의 시선·머리 회전·표정을 복사하도록 지시하는 BFS Head V5 권장문이며, 실제 전문은 아래 실행 JSON에 기록돼 있다.
+
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_direction_experiments.py \
+  --experiments 3 --scenes a c --steps 10 --seed 62294 \
+  --run-label angle-repeat-v1 --dry-run
+~~~
+
+`--dry-run`을 빼면 A·C를 순서대로 생성한다. `--scenes`로 장면을 고르고, `--prompt`, `--steps`, `--seed`로 조건을 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 새 `--run-label`이나 `--output-dir`을 사용한다. `--experiments 2`는 정면 참조와 강도 `0.7`을 사용하는 별도 비교다. 실행 JSON에는 실제 입력·출력 및 코드 해시, BFS 가중치 해시와 적용 강도가 남는다.
+
+### 참조 교체 결과와 남은 차이
+
+| Scene A | Scene C |
+| --- | --- |
+| ![A 각도 참조 교체 BFS 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 각도 참조 교체 BFS 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10.png) |
+
+A는 아래에서 본 얼굴의 느낌이 돌아왔지만 원본보다 턱을 더 들었다. C는 정면 참조 결과보다 고개 숙임이 개선됐으며 책과 착장의 큰 형태도 유지됐다. 다만 원본의 내려간 눈꺼풀과 시선은 완전히 보존되지 않았다.
+
+이번 조건에서는 강도 감소보다 참조 교체가 얼굴 방향 개선에 효과적이었다. 이를 원본 방향의 완전한 보존으로 판단하지는 않는다. 얼굴·헤어의 아이덴티티, 턱과 머리의 각도, 눈꺼풀과 시선, 책·착장 보존을 나누어 검수한다.
+
+[A 참조 교체 BFS 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+[C 참조 교체 BFS 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 
 아래 테스트는 현재 P7-5.4 최종 장면과 신규 분리·마네킨 경로가 아닌, 이전 카메라판과 그 파생 이미지를 입력으로 사용했다. 따라서 현재 경로의 다음 단계나 최종 합성 결과로 해석하지 않는다. 각 표는 당시 어떤 보정이 시도됐는지를 남긴 테스트 흔적이다.
@@ -331,7 +375,8 @@ Relight 테스트는 이전 BFS 통합 장면 한 장에 방향광을 다시 부
 - [ ] Mira는 Picture 2의 5.3 최종 3단계 착장을, 조연은 텍스트만 사용했는가?
 - [ ] 원본 컷아웃의 직접 아이덴티티 적용과 마네킨을 거친 착장 1차 적용의 입력을 구분했는가?
 - [ ] B·C 결과에서 착장 반영과 포즈·크기 보존을 따로 확인하고, 얼굴·헤어 아이덴티티가 아직 미완성임을 구분했는가?
-- [ ] BFS·DeLight·Relight 테스트는 이전 입력으로 수행한 별도 기록이며, 현재 신규 경로의 후속 결과로 해석하지 않았는가?
+- [ ] A·C의 참조 교체 BFS 결과에서 머리 각도와 눈꺼풀·시선을 별도로 검수했는가?
+- [ ] `이전 테스트 흔적`의 BFS·DeLight·Relight를 위 신규 입력의 후속 결과와 구분했는가?
 
 ## 출처와 참고 자료
 
