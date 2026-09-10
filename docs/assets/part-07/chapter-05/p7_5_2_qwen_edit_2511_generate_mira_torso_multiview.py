@@ -4,7 +4,7 @@
 The only image input is the generated Mira frontal torso reference. It carries
 the approved face, clothing, and shoulder geometry into every camera variant.
 The batch combines five horizontal yaw labels with three vertical camera
-labels, producing 15 variants with a shared default seed of 62294 and 4 steps.
+labels, producing 15 variants with the adopted per-view size and seed, at 4 steps.
 It uses ``elevated shot`` rather than a high
 angle: the vertical labels are low, eye-level, and elevated.
 
@@ -51,9 +51,25 @@ VERTICAL_VIEWS = {
     "elevated": {"prompt": "elevated shot"},
 }
 DEFAULT_DISTANCE = "medium shot"
-DEFAULT_SIZE = 1024
-DEFAULT_RUN_LABEL = "native1024-v1"
-DEFAULT_SEED = 62294
+# Defaults match the 15 adopted individual result JSON records.
+# Each tuple contains (square size, seed, run label).
+VIEW_DEFAULTS = {
+    ("low", "minus-90"): (1280, 62294, "native1280-v1"),
+    ("low", "minus-45"): (1280, 62294, "native1280-v1"),
+    ("low", "zero"): (1280, 62295, "lowzero-repeat-v1"),
+    ("low", "plus-45"): (1280, 62294, "native1280-v1"),
+    ("low", "plus-90"): (1280, 62294, "native1280-v1"),
+    ("level", "minus-90"): (1280, 62294, "native1280-v1"),
+    ("level", "minus-45"): (1280, 62294, "native1280-v1"),
+    ("level", "zero"): (1280, 62294, "native1280-v1"),
+    ("level", "plus-45"): (1024, 62294, "native1024-v1"),
+    ("level", "plus-90"): (1280, 62294, "native1280-v1"),
+    ("elevated", "minus-90"): (1280, 62294, "native1280-v1"),
+    ("elevated", "minus-45"): (1280, 62294, "native1280-v1"),
+    ("elevated", "zero"): (1280, 62294, "native1280-v1"),
+    ("elevated", "plus-45"): (1024, 62294, "native1024-v1"),
+    ("elevated", "plus-90"): (1280, 62294, "native1280-v1"),
+}
 DEFAULT_STEPS = 4
 DEFAULT_SAMPLING_PROFILE = "lightning4"
 DEFAULT_ANGLE_LORA_WEIGHT = 0.9
@@ -85,6 +101,17 @@ def prompt_for(yaw: str, vertical: str) -> str:
     return f"<sks> {YAW_VIEWS[yaw]['prompt']} {VERTICAL_VIEWS[vertical]['prompt']} {DEFAULT_DISTANCE}"
 
 
+def job_settings(yaw: str, vertical: str, args: argparse.Namespace) -> dict[str, object]:
+    size, seed, run_label = VIEW_DEFAULTS[(vertical, yaw)]
+    return {
+        "yaw": yaw, "vertical": vertical, "prompt": prompt_for(yaw, vertical),
+        "size": size if args.size is None else args.size,
+        "seed": seed if args.seed is None else args.seed,
+        "run_label": run_label if args.run_label is None else args.run_label,
+        "steps": args.steps,
+    }
+
+
 def selected_values(values: dict[str, object], selections: list[str] | None) -> tuple[str, ...]:
     if not selections or "all" in selections:
         return tuple(values)
@@ -111,14 +138,14 @@ def main() -> None:
     parser.add_argument(
         "--exclude",
         action="append",
-        default=DEFAULT_EXCLUDES,
+        default=list(DEFAULT_EXCLUDES),
         metavar="VERTICAL:YAW",
         help="Skip a completed pair, for example --exclude elevated:minus-45. Repeat as needed.",
     )
-    parser.add_argument("--seed", type=int, default=DEFAULT_SEED,
-                        help="Shared seed for all selected views (default: 62294).")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Override per-view seeds; default: low/zero 62295, all others 62294.")
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS, help="Lightning 4-step sampling (default: 4).")
-    parser.add_argument("--size", type=int, default=DEFAULT_SIZE, help="Square reference and output size (default: 1024).")
+    parser.add_argument("--size", type=int, default=None, help="Override per-view size; default: level/elevated +45 at 1024, others at 1280.")
     parser.add_argument(
         "--sampling-profile",
         choices=SAMPLING_PROFILES,
@@ -131,12 +158,12 @@ def main() -> None:
         default=DEFAULT_ANGLE_LORA_WEIGHT,
         help="Multiple-Angles LoRA strength; the model card recommends 0.8 to 1.0.",
     )
-    parser.add_argument("--run-label", default=DEFAULT_RUN_LABEL)
+    parser.add_argument("--run-label", default=None, help="Override the adopted per-view run labels.")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    if args.steps < 1 or args.size < 32 or args.size % 32:
+    if args.steps < 1 or (args.size is not None and (args.size < 32 or args.size % 32)):
         parser.error("--steps must be positive; --size must be a multiple of 32 and at least 32")
     if not 0.0 <= args.angle_lora_weight <= 1.5:
         parser.error("--angle-lora-weight must be between 0.0 and 1.5")
@@ -160,6 +187,7 @@ def main() -> None:
     jobs = [(yaw, vertical) for vertical in verticals for yaw in yaws if (vertical, yaw) not in excluded]
     if not jobs:
         parser.error("the selected grid contains no jobs after exclusions")
+    resolved_jobs = [job_settings(yaw, vertical, args) for yaw, vertical in jobs]
     plan = {
         "model": MODEL_ID,
         "angle_lora": {"repository": LORA_ID, "weight": LORA_FILENAME, "adapter_weight": args.angle_lora_weight},
@@ -170,17 +198,13 @@ def main() -> None:
         "prompt_format": "<sks> [azimuth] [elevation] [distance]",
         "vertical_labels": VERTICAL_VIEWS,
         "excluded": [{"vertical": vertical, "yaw": yaw} for vertical, yaw in sorted(excluded)],
-        "jobs": [
-            {"yaw": yaw, "vertical": vertical, "prompt": prompt_for(yaw, vertical),
-             "seed": args.seed}
-            for yaw, vertical in jobs
-        ],
+        "jobs": resolved_jobs,
         "expected_count": len(jobs),
-        "size": [args.size, args.size],
+        "size": [args.size, args.size] if args.size is not None else "per-view",
         "run_label": args.run_label,
         "steps": args.steps,
         "seed": args.seed,
-        "seed_policy": "shared seed for all views; default=62294; --seed overrides all views",
+        "seed_policy": "adopted per-view defaults; explicit CLI options override all selected views",
     }
     if args.dry_run:
         print(json.dumps(plan, ensure_ascii=False, indent=2))
@@ -218,15 +242,17 @@ def main() -> None:
         adapter_weights.append(1.0)
     pipeline.set_adapters(adapters, adapter_weights=adapter_weights)
     pipeline.enable_sequential_cpu_offload()
-    reference = load_image(str(torso)).convert("RGB").resize((args.size, args.size))
+    reference_source = load_image(str(torso)).convert("RGB")
     shared_input = {"role": "Picture 1: Mira frontal torso reference", "path": str(torso), "sha256": sha256(torso)}
     results: list[dict[str, object]] = []
-    for yaw, vertical in jobs:
-        prompt = prompt_for(yaw, vertical)
-        seed = args.seed
+    for job in resolved_jobs:
+        yaw, vertical = job["yaw"], job["vertical"]
+        prompt, seed = job["prompt"], job["seed"]
+        size, run_label = job["size"], job["run_label"]
+        reference = reference_source.resize((size, size))
         stem = (
             f"p7-5-2-qwen-2511-mira-torso-multiview-vertical-{vertical}-yaw-{yaw}-"
-            f"{args.run_label}-size-{args.size}x{args.size}-seed-{seed}-steps-{args.steps}"
+            f"{run_label}-size-{size}x{size}-seed-{seed}-steps-{args.steps}"
         )
         output = output_dir / f"{stem}.png"
         result = output_dir / f"{stem}-result.json"
@@ -236,13 +262,15 @@ def main() -> None:
                 prompt=prompt,
                 generator=torch.Generator(device="cuda").manual_seed(seed),
                 num_inference_steps=args.steps,
-                height=args.size,
-                width=args.size,
+                height=size,
+                width=size,
                 true_cfg_scale=1.0 if args.sampling_profile == "lightning4" else 4.0,
                 negative_prompt=None if args.sampling_profile == "lightning4" else " ",
                 guidance_scale=1.0,
                 num_images_per_prompt=1,
             ).images[0]
+        if image.size != (size, size):
+            raise RuntimeError(f"Unexpected output size: {image.size}; expected {(size, size)}")
         image.save(output)
         record = {
             "status": "generated",
@@ -272,10 +300,16 @@ def main() -> None:
         result.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         results.append({"yaw": yaw, "vertical": vertical, "seed": seed, "output": str(output), "result": str(result)})
         print(json.dumps(results[-1], ensure_ascii=False), flush=True)
-    batch_seed = str(args.seed)
+    def batch_value(key: str) -> str:
+        values = {job[key] for job in resolved_jobs}
+        return str(next(iter(values))) if len(values) == 1 else "per-view"
+
+    batch_seed = batch_value("seed")
+    batch_size = batch_value("size")
+    batch_label = batch_value("run_label")
     batch_result = output_dir / (
-        f"p7-5-2-qwen-2511-mira-torso-multiview-{args.run_label}-"
-        f"size-{args.size}x{args.size}-seed-{batch_seed}-steps-{args.steps}-batch-result.json"
+        f"p7-5-2-qwen-2511-mira-torso-multiview-{batch_label}-"
+        f"size-{batch_size}x{batch_size}-seed-{batch_seed}-steps-{args.steps}-batch-result.json"
     )
     batch_result.write_text(
         json.dumps({**plan, "status": "generated", "outputs": results, "elapsed_seconds": round(time.monotonic() - started, 2)}, ensure_ascii=False, indent=2) + "\n",

@@ -61,13 +61,13 @@ Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱�
 
 [정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py)
 
-아래 15방향 표는 `1280×1280` 정면 상반신을 참조한 결과다. 아이레벨 `+45°`는 새 `1024×1024` 결과로 교체했으며, 나머지 14방향은 기존 `1280×1280` 결과를 유지한다. 모두 4 step으로 생성했으며, 로우앵글 `0°`는 seed `62295`, 나머지 14방향은 seed `62294`를 사용했다.
+아래 15방향 표는 `1280×1280` 정면 상반신을 참조한 결과다. 아이레벨 `+45°`와 엘리베이티드 `+45°`는 새 `1024×1024` 결과로 교체했으며, 나머지 13방향은 기존 `1280×1280` 결과를 유지한다. 모두 4 step으로 생성했으며, 로우앵글 `0°`는 seed `62295`, 나머지 14방향은 seed `62294`를 사용했다.
 
 `Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning 4-step LoRA를 함께 적용한다. 카메라 prompt는 `<sks> [azimuth] [elevation] [distance]` 순서로 두며, 표의 모든 결과는 4 step으로 생성했다. 로우앵글 `0°`는 검수 후 시드를 1 올린 결과를 채택했으므로, 해당 컷은 카메라 조건뿐 아니라 시드도 다르다는 점을 함께 고려한다.
 
 [상반신 15방향 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py)
 
-현재 생성기의 기본값은 토르소 참조·15방향·`1024×1024`·seed `62294`·4 step이며, 실행 라벨은 `native1024-v1`이다. 이번에 채택한 아이레벨 `+45°`만 생성하려면 `--vertical level --yaw plus-45`를 지정한다. 표에 유지한 기존 1280px 결과는 현재 기본 설정과 다르며, 로우앵글 `0°`의 채택 결과는 seed `62295`를 사용했다. 실제 입력·출력 조건은 각 이미지와 짝을 이루는 result JSON에서 확인한다.
+현재 생성기의 기본값은 토르소 참조·15방향·`1024×1024`·seed `62294`·4 step이며, 실행 라벨은 `native1024-v1`이다. 이번에 채택한 아이레벨 `+45°`만 생성하려면 `--vertical level --yaw plus-45`를, 엘리베이티드 `+45°`만 생성하려면 `--vertical elevated --yaw plus-45`를 지정한다. 표에 유지한 기존 1280px 결과는 현재 기본 설정과 다르며, 로우앵글 `0°`의 채택 결과는 seed `62295`를 사용했다. 실제 입력·출력 조건은 각 이미지와 짝을 이루는 result JSON에서 확인한다.
 
 ### 카메라 참조에는 편집 모델과 두 LoRA를 쓴다
 
@@ -114,7 +114,7 @@ Lightning 4-step LoRA는 긴 확산 과정을 네 step으로 줄이는 속도 �
 
 | 엘리베이티드 `−90°` | 엘리베이티드 `−45°` | 엘리베이티드 `0°` | 엘리베이티드 `+45°` | 엘리베이티드 `+90°` |
 | --- | --- | --- | --- | --- |
-| ![Mira 엘리베이티드 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![Mira 엘리베이티드 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 [엘리베이티드 −90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
@@ -122,7 +122,7 @@ Lightning 4-step LoRA는 긴 확산 과정을 네 step으로 줄이는 속도 �
 
 [엘리베이티드 0도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[엘리베이티드 +45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[엘리베이티드 +45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4-result.json){ .lazy-source }
 
 [엘리베이티드 +90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
