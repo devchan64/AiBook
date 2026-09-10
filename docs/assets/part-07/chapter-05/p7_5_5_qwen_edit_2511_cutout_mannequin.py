@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate pose mannequins from the three reviewed Mira cutouts.
+"""Generate pose mannequins from the reviewed B and C Mira cutouts.
 
 A single cutout is the only image input. Replace its recognizable appearance
 with a generic adult pose person before a separately reviewed identity pass.
@@ -29,13 +29,7 @@ BASE_PROMPT = (
     'head orientation, body proportions, joint positions, hand gestures, '
     'foot positions, perspective, body placement, framing and white background.'
 )
-A_PROMPT = (
-    'Turn the woman in Picture 1 into a generic adult woman with a visible face, '
-    'a buzz cut, a gray sports bra and briefs, and bare feet. '
-    'Keep the pose, perspective, framing and white background.'
-)
 POSE_PROMPTS = {
-    'a': 'Replace the large foreground shoe and its sole with a bare foot, showing its sole and toes.',
     'b': 'Preserve the airborne split-leap pose, the extended legs and the raised and outstretched arms.',
     'c': 'Preserve the seated pose, bent knees, lowered head and hands held in front of the body.',
 }
@@ -78,7 +72,7 @@ def main() -> None:
         for path in (output, result):
             if path.exists():
                 raise FileExistsError(f'Refusing to overwrite: {path}')
-        base_prompt = args.prompt if args.prompt is not None else (A_PROMPT if scene == 'a' else BASE_PROMPT)
+        base_prompt = args.prompt if args.prompt is not None else BASE_PROMPT
         plans.append(dict(scene=scene, inputs=[dict(role='Picture 1: original segmented Mira cutout',
                                                   path=str(source), sha256=sha256(source))],
                           prompt=f'{base_prompt.strip()} {POSE_PROMPTS[scene]}',
