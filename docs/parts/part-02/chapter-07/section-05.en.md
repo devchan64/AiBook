@@ -124,7 +124,7 @@ score-summary/
 
 `summary.py` reads a CSV file and calculates the mean.
 
-Download [scores.csv](../../../assets/part-02/chapter-07/scores.csv) and place it beside `summary.py`. Each CSV row represents a student; the `score` column contains `82, 91, 77, 88`. Running from the `score-summary` folder prints the mean `84.5`.
+Download [scores.csv](/AiBook/assets/part-02/chapter-07/scores.csv) and place it beside `summary.py`. Each CSV row represents a student; the `score` column contains `82, 91, 77, 88`. Running from the `score-summary` folder prints the mean `84.5`.
 
 ```python
 # This example imports the packages needed to run NumPy and Pandas examples in a reproducible environment.

@@ -324,7 +324,7 @@ C 미라와 조연만 재현하려면 대상을 선택한다.
 
 ## A는 신발 바닥면을 참조해 보강한다
 
-전신 착장의 작은 신발 대신, [P7-5.3에서 생성한 바닥면](section-03.md#신발의-바닥면을-별도-참조로-만든다)을 참조한다. Picture 1은 앞쪽 발 오류가 남은 A 착장 1차 결과, Picture 2는 신발 밑창 전체가 보이는 이미지다. 앞서 텍스트만으로 신발을 만든 결과를 누적 편집하지 않고 같은 1차 결과에서 출발한다.
+전신 착장의 작은 신발 대신, [P7-5.3에서 생성한 바닥면](section-03.md#shoe-upper-outsole-reference)을 참조한다. Picture 1은 앞쪽 발 오류가 남은 A 착장 1차 결과, Picture 2는 신발 밑창 전체가 보이는 이미지다. 앞서 텍스트만으로 신발을 만든 결과를 누적 편집하지 않고 같은 1차 결과에서 출발한다.
 
 > Replace the large foreground bare foot in Picture 1 with the sneaker from Picture 2, its outsole facing the camera. Keep everything else in Picture 1 unchanged.
 

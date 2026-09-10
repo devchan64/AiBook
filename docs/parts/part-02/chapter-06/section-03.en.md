@@ -20,7 +20,7 @@ For the current line \(\hat{y} = 8x + 45\), the predictions are `53, 61, 69, 77`
 
 The objective is to reduce this loss by changing slope `a` and intercept `b`.
 
-![Gradient descent takes small steps toward lower loss on a loss curve](../../../assets/part-02/chapter-06/gradient-descent-loss-curve-en.svg)
+![Gradient descent takes small steps toward lower loss on a loss curve](/AiBook/assets/part-02/chapter-06/gradient-descent-loss-curve-en.svg)
 
 The movement can be represented as a learning loop:
 

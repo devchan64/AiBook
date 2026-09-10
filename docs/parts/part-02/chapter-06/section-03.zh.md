@@ -20,7 +20,7 @@
 
 目标是调整斜率 `a` 与截距 `b`，减小这个损失。
 
-![梯度下降沿损失曲线以小步向损失较低处移动](../../../assets/part-02/chapter-06/gradient-descent-loss-curve-zh.svg)
+![梯度下降沿损失曲线以小步向损失较低处移动](/AiBook/assets/part-02/chapter-06/gradient-descent-loss-curve-zh.svg)
 
 把这种移动写成学习循环，如下所示。
 

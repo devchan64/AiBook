@@ -124,7 +124,7 @@ score-summary/
 
 `summary.py` 会读取 CSV 文件并计算平均值。
 
-下载 [scores.csv](../../../assets/part-02/chapter-07/scores.csv)，放到 `summary.py` 所在文件夹。CSV 每行对应一名学生，`score` 列为 `82, 91, 77, 88`。在 `score-summary` 文件夹执行，会打印均值 `84.5`。
+下载 [scores.csv](/AiBook/assets/part-02/chapter-07/scores.csv)，放到 `summary.py` 所在文件夹。CSV 每行对应一名学生，`score` 列为 `82, 91, 77, 88`。在 `score-summary` 文件夹执行，会打印均值 `84.5`。
 
 ```python
 # 这个例子导入在可复现执行环境中运行 NumPy 和 Pandas 示例所需的包。
