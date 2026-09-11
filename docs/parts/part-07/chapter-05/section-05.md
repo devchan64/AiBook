@@ -1,7 +1,7 @@
 # P7-5.5 스토리보드 장면에서 캐릭터를 분리하고 적용하는 경로
 
 > Section ID: `P7-5.5`
-> Version: `v2026.09.10`
+> Version: `v2026.09.11`
 
 이 절은 [P7-5.4](section-04.md)의 마지막 단계에서 주변 인물과 동물까지 추가한 A·B·C를 입력으로 이어받는다. 장면에서 Mira와 조연을 각각 분리한 뒤, 분리된 캐릭터에 아이덴티티를 적용한다. 여기서 아이덴티티는 같은 인물로 알아볼 수 있는 얼굴·머리 모양·착장 등의 외형을 뜻한다. 분리 단계는 원본에서 보이는 픽셀을 고르는 작업이고, 아이덴티티 적용 단계는 참조나 텍스트에 따라 외형을 다시 생성하는 작업이다. 이 절은 외형 반영과 포즈·가림 경계 보존을 같은 성공으로 판단하지 않는 방법을 확인한다. 별도의 그림자 추가 단계는 두지 않는다. 각 후속 결과의 `result.json`에는 실제 입력 파일, SHA-256과 실행 조건을 남겨 입력 장면과 출력의 관계를 확인한다.
 
@@ -285,7 +285,7 @@ C Mira의 1차 결과에는 착장과 신발이 반영됐지만 책은 없고 �
 
 [C 책 보강 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json)
 
-## 머리 방향에 맞는 아이레벨 얼굴 크롭으로 BFS를 적용한다
+## 머리 방향에 맞는 얼굴 크롭으로 BFS를 적용한다
 
 얼굴 참조는 장면의 카메라 이름보다 **실제로 보이는 머리 방향**을 기준으로 고른다. 정면인지 쿼터뷰인지, 화면 어느 쪽을 향하는지부터 맞춘다. 그중 얼굴 윤곽과 눈·코·입이 충분히 보이는 아이레벨 자료를 우선한다. 머리를 숙였다는 이유만으로 엘리베이티드 참조를 선택하면 얼굴이 보이는 면적과 구도까지 함께 달라질 수 있다.
 
@@ -293,15 +293,41 @@ C에서는 새 1280px 토르소의 아이레벨 쿼터뷰와 엘리베이티드 
 
 ### 장면별 입력과 참조
 
-Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴·머리 크롭을 넣는다. 이전 BFS 결과에 편집을 누적하지 않는다. P7-5.2의 1280px 토르소에서 640×640 영역을 자르며, 크롭 단계에서는 확대 보간이나 AI 재생성을 하지 않는다.
+Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴·머리 크롭을 넣는다. 이전 BFS 결과에 편집을 누적하지 않는다. 채택한 A는 P7-5.2의 로우뷰 0°·1280px 토르소에서 512×512 영역을, B는 로우뷰 +45°·1280px 토르소에서 640×640 영역을, C는 아이레벨 쿼터뷰·1280px 토르소에서 640×640 영역을 자른다. 크롭 단계에서는 확대 보간이나 AI 재생성을 하지 않는다.
 
 | 장면 | Picture 1 | 얼굴·머리 참조 선정 |
 | --- | --- | --- |
-| A | A 아이덴티티 결과 | 정면 머리에 맞춰 아이레벨 정면을 선택 |
-| B | B 마네킨 착장 1차 결과 | 화면 왼쪽을 향한 쿼터뷰에 맞춰 아이레벨 쿼터 크롭을 좌우 반전 |
+| A | A 아이덴티티 결과 | 로우뷰 0° 머리 크롭을 적용한 결과 채택 |
+| B | B 마네킨 착장 1차 결과 | 로우뷰 +45° 머리 크롭의 10스텝 결과 기록; 참조와 얼굴 불일치 |
 | C | C 책 보강 2차 결과 | 화면 오른쪽을 향한 아이레벨 쿼터뷰 크롭 |
 
-새 아이레벨 ±45° 생성물은 파일의 각도 표기와 달리 둘 다 화면 오른쪽을 향했다. 따라서 B에서는 얼굴이 충분히 보이는 쿼터뷰 크롭을 좌우 반전해 방향을 맞췄다. 좌우 반전은 가르마와 얼굴의 비대칭도 함께 뒤집으므로, 방향 일치와 아이덴티티 보존을 따로 검수한다. 실제 크롭 좌표와 반전 여부는 실행 기록에 남긴다.
+B의 초기 실험에서는 같은 방향으로 생성된 쿼터뷰 크롭을 좌우 반전했다. 이후 P7-5.2에서 화면 왼쪽을 향하는 아이레벨 +45°·1024px 결과를 채택해, 반전 없는 쿼터뷰 크롭과 아이레벨 0° 크롭을 비교했다. 이어 로우뷰 +45° 크롭으로 10스텝과 30스텝을 비교했으며, 원고에는 10스텝 결과를 남긴다. 실제 크롭 좌표와 반전 여부는 각 실행 기록에서 확인한다.
+
+### A 로우뷰 0° 적용 결과
+
+| Picture 2: 로우뷰 0° 머리 크롭 | A BFS 10스텝 결과 |
+| --- | --- |
+| ![A 로우뷰 정면 512px 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3.png) | ![A 로우뷰 정면 크롭 BFS 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10.png) |
+
+로우뷰 0° 토르소(seed `62295`·4스텝)에서 좌표 `(400, 40, 912, 552)`의 머리 영역을 잘랐다. 이 참조로 BFS를 1280×1280·10스텝·seed `62294`·강도 `1.0`으로 적용했다. 달리는 자세와 착장·앞쪽 신발의 큰 형태는 유지됐고, 턱이 들리며 코 아래가 더 보이는 얼굴로 바뀌었다. 이 결과를 채택했지만, 입력의 머리 회전과 표정이 그대로 보존된 것으로 해석하지 않는다.
+
+[A 로우뷰 머리 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3-result.json)
+
+[A 로우뷰 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10-result.json)
+
+### B 로우뷰 +45° 적용 결과와 얼굴 불일치
+
+| Picture 2: 로우뷰 +45° 머리 크롭 | B BFS 10스텝 결과 |
+| --- | --- |
+| ![B 로우뷰 +45도 640px 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-b-low45-native-head-crop-v4.png) | ![B 로우뷰 +45도 크롭 BFS 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10.png) |
+
+로우뷰 +45° 토르소의 좌표 `(360, 20, 1000, 660)`에서 640×640 머리 영역을 잘랐으며 좌우 반전은 하지 않았다. B 마네킨 착장 1차 결과를 Picture 1, 이 크롭을 Picture 2로 사용해 1280×1280·10스텝·seed `62294`·BFS 강도 `1.0`으로 생성했다.
+
+**검수 판단: 결과의 얼굴은 참조 이미지의 얼굴과 일치하지 않는다.** 단발과 머리색이 반영되고 점프 자세의 큰 형태가 유지됐지만, 참조 인물의 얼굴 아이덴티티를 충분히 재현한 결과로 보지 않는다. 머리 방향과 헤어 반영, 같은 사람으로 보이는 얼굴의 일치는 별도로 평가해야 한다. 같은 조건의 30스텝 실험에서도 육안상 뚜렷한 개선이 보이지 않아 원고에는 10스텝 결과를 한계 사례로 기록한다.
+
+[B 로우뷰 +45° 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-b-low45-native-head-crop-v4-result.json)
+
+[B 로우뷰 +45° BFS 10스텝 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### C 아이레벨 쿼터뷰 적용 결과
 
@@ -328,16 +354,25 @@ Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴�
 
 첫 명령은 크롭 파일이 없을 때 실행한다. 저장소에 크롭이 이미 있으면 이 단계를 생략한다. 두 번째 명령의 `--dry-run`은 실행 계획만 확인하며, 이를 빼면 로컬 GPU에서 생성한다. `--views elevated`는 비교용 엘리베이티드 크롭을 선택한다.
 
-[A·B 방향별 아이레벨 크롭 BFS 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py)
+[A·B 방향별 머리 크롭 BFS 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py)
 
 ~~~bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
-  --scenes a b --prepare-reference
+  --scenes a --reference-profile zero-v3 --prepare-reference
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
-  --scenes a b --steps 10 --seed 62294 --run-label ab-repeat-v1 --dry-run
+  --scenes a --reference-profile zero-v3 --steps 10 --seed 62294 --run-label a-lowzero-repeat-v1 --dry-run
 ~~~
 
-A·B도 크롭이 이미 있으면 첫 명령을 생략한다. 두 생성기는 로컬 Qwen Image Edit 2511 BF16과 BFS Head V5 original 강도 `1.0`을 사용한다. 출력은 1280×1280·10스텝·seed `62294`·true CFG `4.0`이며, 마스크나 결과 합성 없이 실행한다. 프롬프트는 Picture 2의 머리를 적용하면서 Picture 1의 시선·머리 회전·표정을 유지하도록 지시한 기존 BFS 문장을 유지한다. 전문과 입력 순서, 크롭 이력, 모델·입출력 해시는 결과 JSON에서 확인한다.
+B의 기록 결과는 다음 명령으로 재현한다. 크롭이 이미 있으면 첫 명령을 생략한다.
+
+~~~bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
+  --scenes b --reference-profile low45-v4 --prepare-reference
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
+  --scenes b --reference-profile low45-v4 --steps 10 --seed 62294 --run-label b-low45-repeat-v1 --dry-run
+~~~
+
+A 크롭이 이미 있으면 첫 명령을 생략한다. `zero-v3`는 A에 로우뷰 0°, B에 아이레벨 0° 크롭을 선택하며, A 명령은 채택한 로우뷰 0° 결과를, `low45-v4`의 B 명령은 얼굴 불일치를 기록한 10스텝 결과를 재현한다. 두 생성기는 로컬 Qwen Image Edit 2511 BF16과 BFS Head V5 original 강도 `1.0`을 사용한다. 출력은 1280×1280·10스텝·seed `62294`·true CFG `4.0`이며, 마스크나 결과 합성 없이 실행한다. 프롬프트는 Picture 2의 머리를 적용하면서 Picture 1의 시선·머리 회전·표정을 유지하도록 지시한 기존 BFS 문장을 유지한다. 전문과 입력 순서, 크롭 이력, 모델·입출력 해시는 결과 JSON에서 확인한다. A 결과 JSON의 소스코드 해시는 생성 당시의 기록이다. 이후 B 로우뷰 비교 옵션을 추가해 현재 파일의 해시와는 다르지만, A의 `zero-v3` 입력·크롭·프롬프트·생성 설정은 유지했다.
 
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 

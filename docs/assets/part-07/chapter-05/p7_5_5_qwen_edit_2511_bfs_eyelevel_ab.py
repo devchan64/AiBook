@@ -23,13 +23,25 @@ SOURCES = {
 }
 DEFAULT_FACE = ASSETS / 'p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png'
 REFERENCES = {
-    'a': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (320, 10, 960, 650), False),
-    'b': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (310, 20, 950, 660), True),
+    'a': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (320, 10, 960, 650), False, 1280),
+    'b': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png', (280, 10, 792, 522), False, 1024),
 }
 
 
-def crop_paths(scene: str) -> tuple[Path, Path]:
-    stem = f'p7-5-5-bfs-{scene}-level-matched-native1280-head-crop-v1'
+ZERO_REFERENCES = {
+    'a': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png', (400, 40, 912, 552), False, 1280),
+    'b': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (320, 10, 960, 650), False, 1280),
+}
+
+
+LOW45_REFERENCES = {
+    'b': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (360, 20, 1000, 660), False, 1280),
+}
+
+
+def crop_paths(scene: str, profile: str = 'direction-v2') -> tuple[Path, Path]:
+    variant = {'direction-v2': 'level-matched-native-head-crop-v2', 'zero-v3': 'zero-view-native-head-crop-v3', 'low45-v4': 'low45-native-head-crop-v4'}[profile]
+    stem = f'p7-5-5-bfs-{scene}-{variant}'
     return ASSETS / f'{stem}.png', ASSETS / f'{stem}-result.json'
 
 LORA_FILE = 'bfs_head_v5_2511_original.safetensors'
@@ -48,10 +60,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--scenes', nargs='+', choices=('a', 'b'), default=['a', 'b'])
     parser.add_argument('--prepare-reference', action='store_true')
+    parser.add_argument('--reference-profile', choices=('direction-v2', 'zero-v3', 'low45-v4'), default='direction-v2')
     parser.add_argument('--prompt', default=PROMPT)
     parser.add_argument('--steps', type=int, default=10)
     parser.add_argument('--seed', type=int, default=62294)
-    parser.add_argument('--run-label', default='v1')
+    parser.add_argument('--run-label', default='v2')
     parser.add_argument('--output-dir', type=Path, default=ASSETS)
     parser.add_argument('--dry-run', action='store_true')
     args = parser.parse_args()
@@ -59,18 +72,21 @@ def main() -> None:
         parser.error('Positive steps and a nonempty prompt are required.')
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*', args.run_label):
         parser.error('Use letters, digits, underscores and hyphens for --run-label.')
+    references = {'direction-v2': REFERENCES, 'zero-v3': ZERO_REFERENCES, 'low45-v4': LOW45_REFERENCES}[args.reference_profile]
+    if any(scene not in references for scene in args.scenes):
+        parser.error('The selected reference profile only supports: ' + ', '.join(references))
     if args.prepare_reference:
         from PIL import Image, ImageOps
         for view in dict.fromkeys(args.scenes):
-            source_name, crop_box, mirror = REFERENCES[view]
+            source_name, crop_box, mirror, source_size = references[view]
             source = ASSETS / source_name
-            crop_path, crop_record = crop_paths(view)
+            crop_path, crop_record = crop_paths(view, args.reference_profile)
             for path in (crop_path, crop_record):
                 if path.exists():
                     raise FileExistsError(path)
             with Image.open(source) as original:
-                if original.size != (1280, 1280):
-                    raise ValueError(f'Expected native 1280px torso: {source}')
+                if original.size != (source_size, source_size):
+                    raise ValueError(f'Expected native {source_size}px torso: {source}')
                 cropped = original.crop(crop_box)
                 if mirror:
                     cropped = ImageOps.mirror(cropped)
@@ -87,15 +103,15 @@ def main() -> None:
     if not LORA_PATH.is_file() or sha256(LORA_PATH) != LORA_SHA256:
         raise ValueError(f'Missing or mismatched BFS weights: {LORA_PATH}')
     plans = []
-    for experiment in ['level-matched']:
+    for experiment in [{'direction-v2': 'level-matched', 'zero-v3': 'zero-view', 'low45-v4': 'low45'}[args.reference_profile]]:
         for scene in dict.fromkeys(args.scenes):
             source = ASSETS / SOURCES[scene]
-            reference, crop_record = crop_paths(scene)
+            reference, crop_record = crop_paths(scene, args.reference_profile)
             weight = 1.0
             for path in (source, reference):
                 if not path.is_file():
                     raise FileNotFoundError(path)
-            variant = f'{experiment}-native1280-headcrop-weight10'
+            variant = f'{experiment}-native-headcrop-weight10'
             stem = (f'p7-5-5-qwen-2511-bfs-reviewed-{scene}-mira-{variant}-{args.run_label}'
                     f'-size-1280x1280-seed-{args.seed}-steps-{args.steps}')
             output = args.output_dir.resolve() / f'{stem}.png'
@@ -103,9 +119,9 @@ def main() -> None:
             for path in (output, result):
                 if path.exists():
                     raise FileExistsError(f'Refusing to overwrite: {path}')
-            plans.append(dict(scene=scene, experiment=experiment, crop_provenance=json.loads(crop_record.read_text()), lora_weight=weight, inputs=[
+            plans.append(dict(scene=scene, experiment=experiment, reference_profile=args.reference_profile, crop_provenance=json.loads(crop_record.read_text()), lora_weight=weight, inputs=[
                 dict(role='Picture 1: reviewed pre-BFS identity result', path=str(source), sha256=sha256(source)),
-                dict(role='Picture 2: native head crop from 1280px torso reference',
+                dict(role='Picture 2: native head crop from direction-matched torso reference',
                      path=str(reference), sha256=sha256(reference)),
             ], output=str(output), result=str(result)))
     settings = dict(model=MODEL_ID, prompt=args.prompt.strip(), steps=args.steps, seed=args.seed,
