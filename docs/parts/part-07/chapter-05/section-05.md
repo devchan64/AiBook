@@ -29,7 +29,7 @@
 
 A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
 
-현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만들고, 배경판에도 DeLight를 적용한다. 마지막으로 장면별 DeLight 배경과 캐릭터를 다중 참조로 넣어 합성한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
+현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만들고, 배경판에도 DeLight를 적용한다. 장면별 DeLight 배경과 캐릭터를 다중 참조로 넣어 합성한 뒤, 최초 씬에서 관찰한 조명을 텍스트로 설명해 Relight를 적용한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
 
 ## Mira와 조연을 각각 분리한다
 
@@ -547,6 +547,50 @@ A에서는 중앙 전경에 Mira가 배치됐고 주변 여섯 인물이 유지�
 
 [C 합성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
+## 최초 씬의 조명을 텍스트로 설명해 리라이트한다
+
+위 합성 결과 A·B·C 한 장씩을 입력으로 사용하고, 최초 P7-5.4 씬에서 관찰한 조명을 텍스트 프롬프트로 전달한다. 최초 씬 이미지는 프롬프트 작성에만 참고하며 모델 입력에는 넣지 않는다. 흐름은 `DeLight 배경·캐릭터 합성 → 단일 이미지와 장면별 조명 지시 → Relight`다.
+
+앞선 두 이미지 참조 실험에서는 B의 머리가 길어지고 발 주변에 형태 오류가 생겼다. 조명 참조의 외형이 함께 유입된 것으로 해석할 수 있어, 이 절에는 단일 이미지와 텍스트 지시로 생성한 `text-v2` 결과를 반영한다. 이 관찰만으로 LoRA 자체가 작동하지 않았다고 단정하지 않는다.
+
+### 조명 프롬프트와 생성 코드
+
+[씬별 텍스트 조명 Relight 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py)
+
+원고의 이전 Relight 실험과 같은 Qwen Image Edit 2509 및 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용한다. 트리거는 `重新照明`, LoRA 강도는 `1.0`이다. 로컬 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행하며, 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다. 별도 마스크나 Lightning LoRA는 사용하지 않았다. 이는 저장된 실행 조건이며, [Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight)의 Lightning 병용 안내와는 구분한다.
+
+조명 설명은 이미지를 보고 작성한 정성적 해석이며 광원 위치나 색온도를 측정한 값은 아니다. 특히 C는 선화에서 읽을 수 있는 부드러운 주광과 나무 그늘을 기준으로 설명했다.
+
+| 장면 | 실제 조명 프롬프트 |
+| --- | --- |
+| A | 重新照明, bright neutral daylight from the open sky above, illuminating the street and people, with shaded building sides. Preserve the scene content and composition. |
+| B | 重新照明, warm golden sunset backlight from low on the central horizon, with warm rim light on the woman and tree edges and soft cool skylight on the front. Preserve the scene content and composition. |
+| C | 重新照明, soft neutral daylight from the open sky, evenly illuminating the readers, books and rocks, with gentle shade beneath the tree. Preserve the scene content and composition. |
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py \
+  --targets a b c --steps 10 --seed 62294 --lora-scale 1.0 \
+  --run-label text-repeat-v2 --dry-run
+```
+
+`--dry-run`을 빼면 세 장면을 순서대로 생성한다. `--targets`로 장면을 선택하고, 한 장면을 선택한 경우 `--prompt`로 조명 설명을 바꾼다. 재실행에는 새 `--run-label`을 사용한다. 코드 파일명의 `scene_reference`는 조명 설명의 출처를 뜻하며, 현재 모델 입력은 각 합성 이미지 한 장뿐이다. JSON의 `inputs`에는 실제 입력을, `prompt_basis`에는 프롬프트 작성에 참고한 최초 씬 경로와 해시를 별도로 기록한다.
+
+### 텍스트 조명 Relight 10스텝 결과
+
+| A — 밝은 주광 | B — 노을 역광 | C — 부드러운 주광 |
+| --- | --- | --- |
+| ![A 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-a-text-v2-size-1280x1280-seed-62294-steps-10.png) | ![B 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-b-text-v2-size-1280x1280-seed-62294-steps-10.png) | ![C 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10.png) |
+
+A는 하늘과 도로가 밝아지고 건물 측면은 어둡게 남았다. Mira의 단발과 주변 여섯 인물이 유지됐다. B에는 황금빛 역광과 가장자리 빛이 뚜렷하게 반영됐고, 단발·두 신발·토끼·다람쥐가 남았다. 다만 최초 씬에 비해 가장자리 빛이 과장됐다. C는 두 인물·두 권의 책·새 세 마리를 유지하며 하늘과 도시 배경이 밝아지고 부드러운 주광이 반영됐다.
+
+이번 결과에서는 조명 지시에 따른 변화가 보이지만 얼굴·구도·세부 형태도 달라졌다. 최초 씬의 조명을 정확히 복원했거나 다른 픽셀을 모두 보존했다고 판단하지 않는다. 또한 LoRA 미적용 대조군을 생성하지 않았으므로 변화 전체를 LoRA만의 효과로 분리해 설명할 수는 없다. 그림자 유무는 이번 검수 대상에서 제외한다.
+
+[A 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-a-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[B 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-b-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[C 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 
 아래 테스트는 현재 P7-5.4 최종 장면과 신규 분리·마네킨 경로가 아닌, 이전 카메라판과 그 파생 이미지를 입력으로 사용했다. 따라서 현재 경로의 다음 단계나 최종 합성 결과로 해석하지 않는다. 각 표는 당시 어떤 보정이 시도됐는지를 남긴 테스트 흔적이다.
@@ -600,6 +644,8 @@ Relight 테스트는 이전 BFS 통합 장면 한 장에 방향광을 다시 부
 [Scene C Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## 체크리스트
+
+- [ ] Relight에는 합성 이미지 한 장만 입력하고, 최초 씬은 조명 프롬프트 작성 근거로만 사용했는가?
 
 - [ ] 합성 참조 순서와 장면별 인물·소품 배치를 확인하고, DeLight 입력의 밝기·채도 변화와 배치 성공을 구분했는가?
 
