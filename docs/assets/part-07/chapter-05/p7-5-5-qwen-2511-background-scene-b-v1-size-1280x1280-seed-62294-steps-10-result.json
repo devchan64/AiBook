@@ -1,0 +1,46 @@
+{
+  "scene": "b",
+  "prompt": "Remove the jumping woman from Picture 1. Fill her area with the forest and sunset sky. Preserve the rabbit, squirrel, trees, ferns and composition.",
+  "inputs": [
+    {
+      "role": "Picture 1: adopted P7-5.4 final scene",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+      "sha256": "e64d353bad3830c7783a0df129c76d6be49c69ec370eb4763f26707a14b2cdf6"
+    }
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "steps": 10,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "negative_prompt": " ",
+  "lora": null,
+  "source_code_sha256": "4a02fab68b04de7d709c877db973a6e76afa27db9335f8384444dd8d6ad96652",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "status": "generated",
+  "stage": "scene_background_character_removal",
+  "output_sha256": "02a063108890356a366a822f0fe7e000a41bbcf4f0c4009dee58dbc06ba218f0",
+  "elapsed_seconds": 234.94
+}

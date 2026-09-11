@@ -29,7 +29,7 @@
 
 A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
 
-현재 실행 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
+현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만든다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
 
 ## Mira와 조연을 각각 분리한다
 
@@ -422,6 +422,52 @@ A의 달리는 자세, B의 도약 자세, C 두 인물의 앉은 자세와 책�
 
 [C 조연 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-supporting-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
+## 최종 장면에서 인물을 제거해 배경판을 만든다
+
+캐릭터 처리와 별도로 P7-5.4의 최종 A·B·C 장면에서 배경판을 만든다. 입력은 절 앞에서 고정한 `extras-audit-20260909-v1` 세 장이다. A·B에서는 Mira만 제거하고, C에서는 Mira와 조연 및 두 사람이 들고 있는 책을 함께 제거한다. 주변 인물·동물·새는 배경판에 남긴다.
+
+이 작업은 인물 마스크의 반대 영역을 잘라 내는 작업과 다르다. 인물에 가려져 보이지 않던 도로·하늘·바위·난간 등을 모델이 새로 채운다. 따라서 원래 배경의 픽셀을 복원한 결과로 해석하지 않으며, 가려지지 않았던 주변 대상과 구도가 유지됐는지 함께 확인한다.
+
+### 배경판 생성 코드와 프롬프트
+
+[장면별 배경판 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py)
+
+로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 장면 한 장씩 입력하며, 별도 참조·마스크·LoRA·결과 합성은 사용하지 않는다. 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다.
+
+| 장면 | 채택 결과의 실제 프롬프트 |
+| --- | --- |
+| A | Remove the large woman in the center of Picture 1, including her foreground shoe. Fill her area with the street and sky. Preserve the six surrounding people, buildings and composition. |
+| B | Remove the jumping woman from Picture 1. Fill her area with the forest and sunset sky. Preserve the rabbit, squirrel, trees, ferns and composition. |
+| C | Remove the two readers and their books from Picture 1. Preserve the original three birds: one on the left rock and two on the railing. Keep the path empty. |
+
+A·B는 생성기의 기본 프롬프트를 사용한다. C의 첫 실행에서는 길 위에 새 한 마리가 추가돼 네 마리가 됐으므로, 새의 기존 위치를 지정한 짧은 프롬프트로 원본 장면에서 다시 생성한 v2를 채택했다. 현재 코드의 C 기본 프롬프트는 첫 실험 조건이며, 채택 결과를 재현할 때는 아래 `--prompt`를 지정한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py \
+  --targets a b --steps 10 --seed 62294 --run-label background-repeat-v1 --dry-run
+
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py \
+  --targets c --steps 10 --seed 62294 --run-label background-repeat-v2 \
+  --prompt 'Remove the two readers and their books from Picture 1. Preserve the original three birds: one on the left rock and two on the railing. Keep the path empty.' \
+  --dry-run
+```
+
+`--dry-run`을 빼면 로컬 GPU에서 생성한다. `--targets`로 장면을 선택하며, `--prompt`는 한 장면을 선택했을 때만 사용할 수 있다. 기존 PNG·JSON은 덮어쓰지 않으므로 재실행에는 새로운 `--run-label`을 지정한다. 실행 JSON에는 입력·출력과 코드 해시, 실제 프롬프트·모델 조건·실행 환경을 남긴다.
+
+### A·B·C 배경판 결과
+
+| A — 주변 인물 6명 유지 | B — 토끼·다람쥐 유지 | C v2 — 새 3마리 유지 |
+| --- | --- | --- |
+| ![A 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-c-v2-size-1280x1280-seed-62294-steps-10.png) |
+
+A에서는 중앙 Mira와 전경 신발이 제거되고 도로와 하늘이 채워졌다. B에서는 도약하는 Mira가 제거되고 숲과 노을, 토끼·다람쥐가 남았다. C v2에서는 두 인물과 책이 제거됐으며, 왼쪽 바위에 한 마리와 난간에 두 마리의 새가 남았다. 이 배경판과 앞서 처리한 네 캐릭터는 별도 산출물이며, 아직 재합성한 장면은 아니다.
+
+[A 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[B 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[C 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-c-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 
 아래 테스트는 현재 P7-5.4 최종 장면과 신규 분리·마네킨 경로가 아닌, 이전 카메라판과 그 파생 이미지를 입력으로 사용했다. 따라서 현재 경로의 다음 단계나 최종 합성 결과로 해석하지 않는다. 각 표는 당시 어떤 보정이 시도됐는지를 남긴 테스트 흔적이다.
@@ -475,6 +521,8 @@ Relight 테스트는 이전 BFS 통합 장면 한 장에 방향광을 다시 부
 [Scene C Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## 체크리스트
+
+- [ ] 배경판에서 A 주변 인물 6명, B 토끼·다람쥐, C 새 3마리를 확인하고, 가려진 배경은 새로 생성됐음을 구분했는가?
 
 - [ ] P7-5.4의 신규 `extras-audit-20260909-v1` A·B·C와 각 입력 JSON을 연결했는가?
 - [ ] A·B·C Mira와 C 조연을 각각 분리하고, 가림 영역·경계 누락·두 C 마스크의 중복을 확인했는가?
