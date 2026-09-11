@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Relight one composed image using text lighting notes from the original scene.
 
-Original P7-5.4 images were visually inspected to author the prompts; they are
-provenance only and are never passed to the pipeline. Lighting descriptions
+By default, original P7-5.4 images were visually inspected to author the prompts; they are
+provenance only and are not passed to the pipeline in the default mode. Lighting descriptions
 are qualitative interpretations, not measured light parameters.
+The --lighting-image-reference option restores the historical two-image comparison.
 Uses the manuscript dx8152 Relight LoRA and 2509 base. No mask.
 Local CUDA execution only.
 
@@ -53,6 +54,8 @@ def main() -> None:
     parser.add_argument('--run-label', default='text-v2')
     parser.add_argument('--output-dir', type=Path, default=ASSETS)
     parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--lighting-image-reference', action='store_true',
+                        help='Historical comparison: pass original scene as Picture 2 instead of text-only lighting.')
     args = parser.parse_args()
     if args.steps < 1 or (args.prompt is not None and not args.prompt.strip()):
         parser.error('Positive steps and a nonempty prompt are required.')
@@ -69,28 +72,32 @@ def main() -> None:
     plans = []
     for target in dict.fromkeys(args.targets):
         sources = [source.resolve() for source in SOURCES[target]]
+        if args.lighting_image_reference:
+            sources.append(PROMPT_BASIS[target].resolve())
         for source in sources:
             if not source.is_file():
                 raise FileNotFoundError(source)
-        stem = (f'p7-5-5-qwen-2509-text-relight-scene-{target}-{args.run_label}'
+        stem = (f'p7-5-5-qwen-2509-{"reference" if args.lighting_image_reference else "text"}-relight-scene-{target}-{args.run_label}'
                 f'-size-1280x1280-seed-{args.seed}-steps-{args.steps}')
         output = args.output_dir.resolve() / f'{stem}.png'
         result = output.with_name(f'{stem}-result.json')
         for path in (output, result):
             if path.exists():
                 raise FileExistsError(f'Refusing to overwrite: {path}')
-        plans.append(dict(scene=target, prompt=args.prompt or PROMPTS[target], inputs=[dict(role=ROLES[index], path=str(source), sha256=sha256(source))
+        plans.append(dict(scene=target, prompt=args.prompt or (
+            '重新照明, relight Picture 1 to match the light direction, color temperature, brightness and contrast of Picture 2. Use Picture 2 only as a lighting reference. Preserve the characters, faces, hairstyles, outfits, poses, objects and composition of Picture 1.'
+            if args.lighting_image_reference else PROMPTS[target]), inputs=[dict(role=(ROLES + ['Picture 2: original scene lighting reference'])[index], path=str(source), sha256=sha256(source))
                           for index, source in enumerate(sources)],
                           output=str(output), result=str(result),
                           prompt_basis=dict(path=str(PROMPT_BASIS[target]), sha256=sha256(PROMPT_BASIS[target]),
-                                            usage='visual prompt authoring only; not a model input',
+                                            usage=('Picture 2 model input' if args.lighting_image_reference else 'visual prompt authoring only; not a model input'),
                                             description_type='qualitative visual interpretation',
                                             prompt_override=args.prompt is not None)))
     settings = dict(model=MODEL_ID, steps=args.steps, seed=args.seed,
                     size=[1280, 1280], true_cfg_scale=4.0, guidance_scale=1.0,
                     generator_device='cpu', dtype='bfloat16', mask=None, negative_prompt=' ', lora=dict(repository=LORA_ID, path=str(LORA), sha256=LORA_SHA256,
                     adapter='dx8152_relight', trigger='重新照明', scale=args.lora_scale),
-                    reference_mode='single image with text lighting instruction')
+                    reference_mode=('two images: composite and original lighting reference' if args.lighting_image_reference else 'single image with text lighting instruction'))
     if args.dry_run:
         print(json.dumps(dict(status='planned', settings=settings, plans=plans), indent=2))
         return
@@ -122,7 +129,8 @@ def main() -> None:
         print(f"Starting scene {plan['scene']}", flush=True)
         started = time.monotonic()
         image = pipeline(
-            image=square_canvas(Path(plan['inputs'][0]['path']), 1280),
+            image=([square_canvas(Path(item['path']), 1280) for item in plan['inputs']]
+                   if args.lighting_image_reference else square_canvas(Path(plan['inputs'][0]['path']), 1280)),
             prompt=plan['prompt'], height=1280, width=1280,
             generator=torch.Generator(device='cpu').manual_seed(args.seed),
             true_cfg_scale=4.0, negative_prompt=' ', num_inference_steps=args.steps,
@@ -130,7 +138,7 @@ def main() -> None:
         ).images[0]
         with Path(plan['output']).open('xb') as stream:
             image.save(stream, format='PNG')
-        record = dict(plan, **settings, **provenance, status='generated', stage='scene_text_lighting_relight',
+        record = dict(plan, **settings, **provenance, status='generated', stage=('scene_reference_lighting_relight' if args.lighting_image_reference else 'scene_text_lighting_relight'),
                       output_sha256=sha256(Path(plan['output'])),
                       elapsed_seconds=round(time.monotonic()-started, 2))
         with Path(plan['result']).open('x', encoding='utf-8') as stream:

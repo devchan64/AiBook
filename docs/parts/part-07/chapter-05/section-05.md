@@ -183,6 +183,14 @@ C 미라와 조연만 재현하려면 대상을 선택한다.
 | --- | --- | --- | --- |
 | ![Scene A Mira 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png) | ![Scene B Mira 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-b-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png) | ![Scene C Mira 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png) | ![Scene C 조연 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-supporting-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png) |
 
+[A Mira 직접 아이덴티티 적용 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json)
+
+[B Mira 직접 아이덴티티 적용 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-b-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json)
+
+[C Mira 직접 아이덴티티 적용 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json)
+
+[C 조연 직접 아이덴티티 적용 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-supporting-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json)
+
 A는 신발 부분에 오류가 남았다. 앞쪽 발에서 밑창이 크게 보이는 구조라 신발 형태를 안정적으로 바꾸지 못했고, 이 입력·참조·30스텝 조건에서는 적용 가능한 개선 방안을 확보하지 못했다. 따라서 이 사례는 신발 밑창처럼 큰 전경 구조를 참조 외형으로 바꾸는 데서 드러난 현재 모델 경로의 한계로 기록한다.
 
 B도 신발 부분에 오류가 남았다. 다만 원본 컷아웃의 기존 외형을 줄인 마네킨에서 다시 시작하면, 신발과 착장을 별도로 적용할 입력을 만들 수 있다. 다음 마네킨 경로는 이 대응 가능성을 확인한다.
@@ -316,11 +324,20 @@ C Mira의 1차 결과에는 착장과 신발이 반영됐지만 책은 없고 �
 
 얼굴 참조는 장면의 카메라 이름보다 **실제로 보이는 머리 방향**을 기준으로 고른다. 정면인지 쿼터뷰인지, 화면 어느 쪽을 향하는지부터 맞춘다. 그중 얼굴 윤곽과 눈·코·입이 충분히 보이는 아이레벨 자료를 우선한다. 머리를 숙였다는 이유만으로 엘리베이티드 참조를 선택하면 얼굴이 보이는 면적과 구도까지 함께 달라질 수 있다.
 
-C에서는 새 1280px 토르소의 아이레벨 쿼터뷰와 엘리베이티드 쿼터뷰를 각각 크롭해 BFS를 비교했다. 검수에서는 아이레벨 쿼터뷰 결과가 참조의 부드러운 얼굴 음영과 눈 표현을 더 많이 유지한다고 판단해 이를 채택했다. 이는 이번 자료에서의 관찰이며, 모든 머리 방향에 같은 쿼터뷰를 쓰거나 아이레벨이 항상 우수하다는 뜻은 아니다.
+C에서는 새 1280px 토르소의 아이레벨 쿼터뷰와 엘리베이티드 쿼터뷰를 각각 크롭해 BFS를 비교했다. 검수에서는 아이레벨 쿼터뷰 결과가 참조의 부드러운 얼굴 음영과 눈 표현을 더 많이 유지한다고 판단해 이를 채택했다. 이는 이번 자료에서의 관찰이며, 모든 머리 방향에 같은 쿼터뷰를 쓰거나 아이레벨이 항상 우수하다는 뜻은 아니다. 삭제했던 엘리베이티드 비교 조건을 2026-09-11에 기존 코드·참조 좌표·10스텝·seed `62294`로 재실행했다. 새 결과에서도 책·착장·앉은 자세의 큰 형태는 남았지만, 채택한 아이레벨 결과와 눈의 색·모양 및 머리카락 끝 형태가 달랐다. 아래 재생성 자료는 과거 파일과 동일한 픽셀임을 검증한 복원본이 아니라, 기록된 조건을 다시 실행한 비교 근거다.
+
+
+| C 엘리베이티드 참조 크롭 | C 엘리베이티드 BFS 10스텝 재생성 |
+| --- | --- |
+| ![C 엘리베이티드 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-elevated-native1280-head-crop-v1.png) | ![C 엘리베이티드 BFS 재생성 비교 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-elevated-native1280-headcrop-weight10-evidence-repeat-v1-size-1280x1280-seed-62294-steps-10.png) |
+
+[C 엘리베이티드 크롭 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-elevated-native1280-head-crop-v1-result.json)
+
+[C 엘리베이티드 BFS 재생성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-elevated-native1280-headcrop-weight10-evidence-repeat-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 장면별 입력과 참조
 
-Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴·머리 크롭을 넣는다. 이전 BFS 결과에 편집을 누적하지 않는다. 채택한 A는 P7-5.2의 로우뷰 0°·1280px 토르소에서 512×512 영역을, B는 로우뷰 +45°·1280px 토르소에서 640×640 영역을, C는 아이레벨 쿼터뷰·1280px 토르소에서 640×640 영역을 자른다. 크롭 단계에서는 확대 보간이나 AI 재생성을 하지 않는다.
+Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴·머리 크롭을 넣는다. 이는 [BFS 모델 카드](https://huggingface.co/mr2along/BFS){: target="_blank" rel="noopener noreferrer"}의 Head V5 입력 순서인 인물 이미지 먼저, 얼굴 참조 다음과 일치한다. 이전 BFS 결과에 편집을 누적하지 않는다. 채택한 A는 P7-5.2의 로우뷰 0°·1280px 토르소에서 512×512 영역을, B는 로우뷰 +45°·1280px 토르소에서 640×640 영역을, C는 아이레벨 쿼터뷰·1280px 토르소에서 640×640 영역을 자른다. 크롭 단계에서는 확대 보간이나 AI 재생성을 하지 않는다.
 
 | 장면 | Picture 1 | 얼굴·머리 참조 선정 |
 | --- | --- | --- |
@@ -357,7 +374,11 @@ B의 초기 실험에서는 같은 방향으로 생성된 쿼터뷰 크롭을 �
 
 로우뷰 +45° 토르소의 좌표 `(360, 20, 1000, 660)`에서 640×640 머리 영역을 잘랐으며 좌우 반전은 하지 않았다. B 마네킨 착장 1차 결과를 Picture 1, 이 크롭을 Picture 2로 사용해 1280×1280·10스텝·seed `62294`·BFS 강도 `1.0`으로 생성했다.
 
-**검수 판단: 결과의 얼굴은 참조 이미지의 얼굴과 일치하지 않는다.** 단발과 머리색이 반영되고 점프 자세의 큰 형태가 유지됐지만, 참조 인물의 얼굴 아이덴티티를 충분히 재현한 결과로 보지 않는다. 머리 방향과 헤어 반영, 같은 사람으로 보이는 얼굴의 일치는 별도로 평가해야 한다. 같은 조건의 30스텝 실험에서도 육안상 뚜렷한 개선이 보이지 않아 원고에는 10스텝 결과를 한계 사례로 기록한다.
+**검수 판단: 결과의 얼굴은 참조 이미지의 얼굴과 일치하지 않는다.** 단발과 머리색이 반영되고 점프 자세의 큰 형태가 유지됐지만, 참조 인물의 얼굴 아이덴티티를 충분히 재현한 결과로 보지 않는다. 머리 방향과 헤어 반영, 같은 사람으로 보이는 얼굴의 일치는 별도로 평가해야 한다. 당시 검수에서는 같은 조건의 30스텝 실험에서도 육안상 뚜렷한 개선이 보이지 않았다고 판단했다. 2026-09-11에 같은 입력·참조·프롬프트·seed `62294`로 30스텝을 재실행한 결과도 기존 10스텝과 얼굴·헤어·도약 자세의 큰 형태가 비슷했고, 참조 얼굴과의 불일치가 뚜렷하게 개선되지는 않았다. 아래에 새 비교 이미지와 실행 기록을 남기며, 후속 처리에는 기존 10스텝 결과를 유지한다.
+
+![B 로우뷰 +45도 BFS 30스텝 재생성 비교 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-evidence-repeat-v1-size-1280x1280-seed-62294-steps-30.png)
+
+[B BFS 30스텝 재생성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-evidence-repeat-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
 ### C 아이레벨 쿼터뷰 적용 결과
 
@@ -394,7 +415,7 @@ B의 기록 결과는 다음 명령으로 재현한다. 크롭이 이미 있으�
   --scenes b --reference-profile low45-v4 --steps 10 --seed 62294 --run-label b-low45-repeat-v1 --dry-run
 ~~~
 
-A 크롭이 이미 있으면 첫 명령을 생략한다. `zero-v3`는 A에 로우뷰 0°, B에 아이레벨 0° 크롭을 선택하며, A 명령은 채택한 로우뷰 0° 결과를, `low45-v4`의 B 명령은 얼굴 불일치를 기록한 10스텝 결과를 재현한다. 두 생성기는 로컬 Qwen Image Edit 2511 BF16과 BFS Head V5 original 강도 `1.0`을 사용한다. 출력은 1280×1280·10스텝·seed `62294`·true CFG `4.0`이며, 마스크나 결과 합성 없이 실행한다. 프롬프트는 Picture 2의 머리를 적용하면서 Picture 1의 시선·머리 회전·표정을 유지하도록 지시한 기존 BFS 문장을 유지한다. 전문과 입력 순서, 크롭 이력, 모델·입출력 해시는 결과 JSON에서 확인한다. A 결과 JSON의 소스코드 해시는 생성 당시의 기록이다. 이후 B 로우뷰 비교 옵션을 추가해 현재 파일의 해시와는 다르지만, A의 `zero-v3` 입력·크롭·프롬프트·생성 설정은 유지했다.
+A 크롭이 이미 있으면 첫 명령을 생략한다. `zero-v3`는 A에 로우뷰 0°, B에 아이레벨 0° 크롭을 선택하며, A 명령은 채택한 로우뷰 0° 결과를, `low45-v4`의 B 명령은 얼굴 불일치를 기록한 10스텝 결과를 재현한다. 위 B 명령에서 `--steps 30 --run-label evidence-repeat-v2`로 바꾸면 재생성 비교와 같은 조건으로 실행한다. 두 생성기는 로컬 Qwen Image Edit 2511 BF16과 BFS Head V5 original 강도 `1.0`을 사용한다. 출력은 1280×1280·10스텝·seed `62294`·true CFG `4.0`이며, 마스크나 결과 합성 없이 실행한다. 프롬프트는 Picture 2의 머리를 적용하면서 Picture 1의 시선·머리 회전·표정을 유지하도록 지시한 기존 BFS 문장을 유지한다. 전문과 입력 순서, 크롭 이력, 모델·입출력 해시는 결과 JSON에서 확인한다. A 결과 JSON의 소스코드 해시는 생성 당시의 기록이다. 이후 B 로우뷰 비교 옵션을 추가해 현재 파일의 해시와는 다르지만, A의 `zero-v3` 입력·크롭·프롬프트·생성 설정은 유지했다.
 
 ## 네 캐릭터에 Studio DeLight를 적용한다
 
@@ -406,7 +427,7 @@ A·B·C Mira는 위에서 채택한 BFS 결과를, C 조연은 책을 보강한 
 
 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`에 Studio DeLight LoRA만 강도 `1.0`으로 적용했다. BF16과 sequential CPU offload를 사용하며, 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다. BFS와 Lightning LoRA는 이 단계에서 추가하지 않는다. 별도 마스크나 결과 합성도 사용하지 않는다.
 
-프롬프트는 [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight)의 `Neutral uniform lighting Preserve identity and composition`이다. 인물의 외형과 구도를 유지하면서 조명을 균일하게 바꾸도록 지시한다.
+프롬프트는 [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}의 `Neutral uniform lighting Preserve identity and composition`이다. 인물의 외형과 구도를 유지하면서 조명을 균일하게 바꾸도록 지시한다.
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py \
@@ -489,7 +510,7 @@ A에서는 중앙 Mira와 전경 신발이 제거되고 도로와 하늘이 채�
 
 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`에 Studio DeLight LoRA를 강도 `1.0`으로 적용했다. 캐릭터 DeLight와 동일하게 1280×1280, 10스텝, seed `62294`, true CFG `4.0`을 사용하며 BF16과 sequential CPU offload로 실행한다. 별도 마스크·Lightning LoRA·결과 합성은 사용하지 않는다.
 
-프롬프트는 [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight)의 `Neutral uniform lighting Preserve identity and composition`이다. 구도와 대상을 유지하면서 조명을 균일하게 바꾸도록 지시하지만, 실제 결과에서는 하늘과 색조도 달라지는지 확인해야 한다.
+프롬프트는 [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}의 `Neutral uniform lighting Preserve identity and composition`이다. 구도와 대상을 유지하면서 조명을 균일하게 바꾸도록 지시하지만, 실제 결과에서는 하늘과 색조도 달라지는지 확인해야 한다.
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py \
@@ -505,7 +526,7 @@ A에서는 중앙 Mira와 전경 신발이 제거되고 도로와 하늘이 채�
 | --- | --- | --- |
 | ![A 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-c-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-A의 주변 인물 여섯 명, B의 토끼·다람쥐, C의 새 세 마리가 남아 있으며 배경의 큰 구도는 유지됐다. 세 장 모두 전체 대비가 낮아졌고, A의 구름과 B의 노을·태양은 사라졌다. C는 흑백 선화 중심 배경에 옅은 색조가 추가됐다. 따라서 이 결과는 밝기만 바꾼 보정이 아니라 하늘·색조 변화도 포함하는 생성 편집으로 기록한다. 그림자 유무는 이번 검수 대상에서 제외한다.
+A의 주변 인물 여섯 명, B의 토끼·다람쥐, C의 새 세 마리가 남아 있으며 배경의 큰 구도는 유지됐다. 세 장 모두 전체 대비가 낮아졌고, A의 구름과 B의 노을·태양은 사라졌다. C는 흑백 선화 중심 배경에 옅은 색조가 추가됐다. 따라서 이 결과는 밝기만 바꾼 보정이 아니라 하늘·색조 변화도 포함하는 생성 편집으로 기록한다. 그림자 유무는 이번 검수 대상에서 제외한다. 모델 카드도 야외 장면에서는 배경이 희거나 비워질 수 있다고 설명한다. 이 안내는 변화 가능성의 근거이며, 위 장면별 변화는 저장된 입력과 결과를 비교한 관찰이다.
 
 [A 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
@@ -562,13 +583,27 @@ A에서는 중앙 전경에 Mira가 배치됐고 주변 여섯 인물이 유지�
 
 위 합성 결과 A·B·C 한 장씩을 입력으로 사용하고, 최초 P7-5.4 씬에서 관찰한 조명을 텍스트 프롬프트로 전달한다. 최초 씬 이미지는 프롬프트 작성에만 참고하며 모델 입력에는 넣지 않는다. 흐름은 `DeLight 배경·캐릭터 합성 → 단일 이미지와 장면별 조명 지시 → Relight`다.
 
-앞선 두 이미지 참조 실험에서는 B의 머리가 길어지고 발 주변에 형태 오류가 생겼다. 조명 참조의 외형이 함께 유입된 것으로 해석할 수 있어, 이 절에는 단일 이미지와 텍스트 지시로 생성한 `text-v2` 결과를 반영한다. 이 관찰만으로 LoRA 자체가 작동하지 않았다고 단정하지 않는다.
+앞선 두 이미지 참조 실험에서는 B의 머리가 길어지고 발 주변에 형태 오류가 생겼다. 조명 참조의 외형이 함께 유입된 것으로 해석할 수 있어, 이 절에는 단일 이미지와 텍스트 지시로 생성한 `text-v2` 결과를 반영한다. 2026-09-11에 B 합성 이미지를 Picture 1, 최초 B 씬을 Picture 2로 넣는 비교를 2509 Relight 강도 `1.0`·10스텝·seed `62294`로 재실행했다. 새 결과에서도 머리가 길어지고 왼쪽 아래 발 뒤에 추가 신발처럼 보이는 형태가 생겼다. 노을은 반영됐지만 조명 이외의 외형도 바뀌었으므로, 채택 결과는 단일 이미지 `text-v2`로 유지한다. 이 관찰만으로 LoRA 자체가 작동하지 않았다고 단정하지 않는다.
+
+![B 두 이미지 참조 Relight 재생성 비교 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-reference-relight-scene-b-evidence-repeat-v1-size-1280x1280-seed-62294-steps-10.png)
+
+[B 두 이미지 참조 Relight 재생성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-reference-relight-scene-b-evidence-repeat-v1-size-1280x1280-seed-62294-steps-10-result.json)
+
+비교 프롬프트는 다음과 같으며, 입력 순서와 함께 JSON에 기록한다.
+
+> 重新照明, relight Picture 1 to match the light direction, color temperature, brightness and contrast of Picture 2. Use Picture 2 only as a lighting reference. Preserve the characters, faces, hairstyles, outfits, poses, objects and composition of Picture 1.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py \
+  --targets b --lighting-image-reference --steps 10 --seed 62294 \
+  --lora-scale 1.0 --run-label evidence-repeat-v2 --dry-run
+```
 
 ### 조명 프롬프트와 생성 코드
 
 [씬별 텍스트 조명 Relight 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py)
 
-Qwen Image Edit 2509 및 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용한다. 트리거는 `重新照明`, LoRA 강도는 `1.0`이다. 로컬 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행하며, 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다. 별도 마스크나 Lightning LoRA는 사용하지 않았다. 이는 저장된 실행 조건이며, [Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight)의 Lightning 병용 안내와는 구분한다.
+Qwen Image Edit 2509 및 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용한다. 트리거는 `重新照明`, LoRA 강도는 `1.0`이다. 로컬 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행하며, 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다. 별도 마스크나 Lightning LoRA는 사용하지 않았다. 이는 저장된 실행 조건이며, [Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}의 Lightning 병용 안내와는 구분한다.
 
 조명 설명은 이미지를 보고 작성한 정성적 해석이며 광원 위치나 색온도를 측정한 값은 아니다. 특히 C는 선화에서 읽을 수 있는 부드러운 주광과 나무 그늘을 기준으로 설명했다.
 
@@ -584,7 +619,7 @@ Qwen Image Edit 2509 및 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용한
   --run-label text-repeat-v2 --dry-run
 ```
 
-`--dry-run`을 빼면 세 장면을 순서대로 생성한다. `--targets`로 장면을 선택하고, 한 장면을 선택한 경우 `--prompt`로 조명 설명을 바꾼다. 재실행에는 새 `--run-label`을 사용한다. 코드 파일명의 `scene_reference`는 조명 설명의 출처를 뜻하며, 현재 모델 입력은 각 합성 이미지 한 장뿐이다. JSON의 `inputs`에는 실제 입력을, `prompt_basis`에는 프롬프트 작성에 참고한 최초 씬 경로와 해시를 별도로 기록한다.
+`--dry-run`을 빼면 세 장면을 순서대로 생성한다. `--targets`로 장면을 선택하고, 한 장면을 선택한 경우 `--prompt`로 조명 설명을 바꾼다. 재실행에는 새 `--run-label`을 사용한다. 위 기본 실행에서는 각 합성 이미지 한 장만 모델에 입력한다. `--lighting-image-reference`를 지정하면 과거 비교 조건처럼 최초 씬을 Picture 2로 추가한다. 이 비교 옵션은 채택한 `text-v2` 생성 명령에는 사용하지 않는다. JSON의 `inputs`에는 실제 입력을 기록한다. `prompt_basis`에는 최초 씬 경로·해시와 용도를 기록하며, 기본 모드에서는 프롬프트 작성 근거, 비교 모드에서는 Picture 2 입력임을 표시한다. 비교 옵션 추가로 현재 코드의 해시는 이전 `text-v2` 실행 기록과 다르지만 기본 입력·프롬프트·생성 조건은 유지한다.
 
 ### 텍스트 조명 Relight 10스텝 결과
 
@@ -622,8 +657,15 @@ A는 하늘과 도로가 밝아지고 건물 측면은 어둡게 남았다. Mira
 
 ## 출처와 참고 자료
 
-- [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}: 컷아웃 아이덴티티 적용과 마네킨 착장 편집에 사용한 공식 파이프라인의 입력 형식과 사용 예제를 확인합니다.
-- [Grounding DINO Tiny 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} · [SAM 2 공식 저장소](https://github.com/facebookresearch/sam2){: target="_blank" rel="noopener noreferrer"}: 인물 탐색 상자와 정밀 마스크를 만드는 두 단계의 근거입니다.
-- [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"} · [BFS 모델 카드](https://huggingface.co/mr2along/BFS){: target="_blank" rel="noopener noreferrer"} · [Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}: 이 절의 조명 중립화, 얼굴·헤어 보정, 텍스트 조명 리라이트에 사용한 모델·LoRA의 입력 조건을 확인합니다.
+아래 모델 카드는 2026-09-11에 확인했다. 기본 모델의 기능, 각 LoRA의 사용 조건, 이 절의 실제 실행 결과를 구분해 읽는다.
 
-모델 카드의 일반 기능 설명과 별도로, 이 절에서 실제로 사용한 입력 순서·파일 해시·seed·step·출력 경로는 각 `result.json`을 기준으로 확인합니다.
+| 단계 | 1차 출처 | 이 절에서 확인하는 근거 |
+| --- | --- | --- |
+| 인물 검출 | IDEA Research의 [Grounding DINO Tiny](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} | 텍스트로 지정한 대상을 상자로 찾는 모델. Mira 선택 좌표는 이 절의 설정 파일에 기록한다. |
+| 마스크 분리 | Meta FAIR의 [SAM 2.1 Hiera Small](https://huggingface.co/facebook/sam2.1-hiera-small){: target="_blank" rel="noopener noreferrer"} | 점·상자 등으로 분할 대상을 지정하는 모델. 실제 경계와 픽셀 보존 검증은 분리 실행 기록에서 확인한다. |
+| 생성 편집·합성 | Qwen의 [Qwen-Image-Edit-2511](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} | 이미지 편집 파이프라인과 다중 이미지 입력 예제. 각 장면의 포즈·아이덴티티 보존 여부는 결과별 검수 대상이다. |
+| 얼굴·헤어 보강 | mr2along의 [BFS](https://huggingface.co/mr2along/BFS){: target="_blank" rel="noopener noreferrer"} | Head V5 original의 2511 기반, 인물 → 얼굴 참조 순서와 머리 교체 지시. 다른 BFS 버전의 입력 순서와 혼동하지 않는다. |
+| 조명 중립화 | prithivMLmods의 [QIE-2511-Studio-DeLight](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"} | 중립 조명 트리거와 야외 배경 변화 가능성. 원고는 2511 기반으로 실행했다. |
+| 텍스트 리라이트 | Qwen의 [Qwen-Image-Edit-2509](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · dx8152의 [Relight](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"} | 2509 기반 편집과 조명 트리거. 모델 카드는 Lightning 병용을 안내하지만, 원고의 기록 결과는 이를 사용하지 않은 별도 조건이다. |
+
+각 `result.json`은 실제 입력 순서·파일 해시·프롬프트·seed·step·출력 경로를 확인하는 실행 근거다. 얼굴 불일치, 책·새의 유지, 밝기·색조 변화는 이 절의 이미지 비교 관찰이며 모델 카드가 보장하는 성능으로 일반화하지 않는다. LoRA 미적용 대조군이 없는 결과에서는 변화 전체를 LoRA만의 효과로 분리할 수 없다.
