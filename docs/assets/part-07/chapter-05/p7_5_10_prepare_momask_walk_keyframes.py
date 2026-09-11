@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_OUTPUT_DIR = ROOT / ".tmp" / "p7-5-8-momask-walk-keyframes"
+DEFAULT_OUTPUT_DIR = ROOT / ".tmp" / "p7-5-10-momask-walk-keyframes"
 
 
 def evenly_spaced_indices(source_frames: int, keyframes: int) -> list[int]:
@@ -46,7 +46,7 @@ def main() -> None:
     indices = evenly_spaced_indices(args.source_frames, args.keyframes)
     plan = {
         "status": "prepared_not_run",
-        "section_id": "P7-5.8",
+        "section_id": "P7-5.10",
         "model_candidate": "centersymmetry/momask",
         "task": "text_to_3d_human_motion_then_openpose_keyframes",
         "momask_input": {"line": momask_line, "source_frames": args.source_frames, "fps": args.fps},
