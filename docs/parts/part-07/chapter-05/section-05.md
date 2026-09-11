@@ -29,7 +29,7 @@
 
 A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
 
-현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만들고, 배경판에도 DeLight를 적용한다. 장면별 DeLight 배경과 캐릭터를 다중 참조로 넣어 합성한 뒤, 최초 씬에서 관찰한 조명을 텍스트로 설명해 Relight를 적용한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
+현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만들고, 배경판에도 DeLight를 적용한다. 장면별 DeLight 배경과 캐릭터를 다중 참조로 넣어 합성한 뒤, 최초 씬에서 관찰한 조명을 텍스트로 설명해 Relight를 적용한다.
 
 ## Mira와 조연을 각각 분리한다
 
@@ -557,7 +557,7 @@ A에서는 중앙 전경에 Mira가 배치됐고 주변 여섯 인물이 유지�
 
 [씬별 텍스트 조명 Relight 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py)
 
-원고의 이전 Relight 실험과 같은 Qwen Image Edit 2509 및 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용한다. 트리거는 `重新照明`, LoRA 강도는 `1.0`이다. 로컬 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행하며, 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다. 별도 마스크나 Lightning LoRA는 사용하지 않았다. 이는 저장된 실행 조건이며, [Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight)의 Lightning 병용 안내와는 구분한다.
+Qwen Image Edit 2509 및 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용한다. 트리거는 `重新照明`, LoRA 강도는 `1.0`이다. 로컬 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행하며, 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다. 별도 마스크나 Lightning LoRA는 사용하지 않았다. 이는 저장된 실행 조건이며, [Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight)의 Lightning 병용 안내와는 구분한다.
 
 조명 설명은 이미지를 보고 작성한 정성적 해석이며 광원 위치나 색온도를 측정한 값은 아니다. 특히 C는 선화에서 읽을 수 있는 부드러운 주광과 나무 그늘을 기준으로 설명했다.
 
@@ -591,58 +591,6 @@ A는 하늘과 도로가 밝아지고 건물 측면은 어둡게 남았다. Mira
 
 [C 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-## BFS·DeLight·Relight의 이전 테스트 흔적
-
-아래 테스트는 현재 P7-5.4 최종 장면과 신규 분리·마네킨 경로가 아닌, 이전 카메라판과 그 파생 이미지를 입력으로 사용했다. 따라서 현재 경로의 다음 단계나 최종 합성 결과로 해석하지 않는다. 각 표는 당시 어떤 보정이 시도됐는지를 남긴 테스트 흔적이다.
-
-### Studio DeLight로 캐릭터 조명을 중립화한다
-
-Studio DeLight는 이전 경로에서 인물 이미지를 균일한 조명으로 바꾸는 데 사용했다. 아래 A·B·C는 각각 이전 경로의 캐릭터 입력에서 나온 결과다.
-
-| Scene A | Scene B | Scene C |
-| --- | --- | --- |
-| ![Scene A Studio DeLight 캐릭터 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10.png) | ![Scene B Studio DeLight 캐릭터 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10.png) | ![Scene C Studio DeLight 캐릭터 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10.png) |
-
-[Studio DeLight 테스트 코드](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py)
-
-[Scene A Studio DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-cutout-identity-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-[Scene B Studio DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-b-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-[Scene C Studio DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-studio-delight-character-c-shadow-stage2-outfit-no-closeup-v3-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-### BFS Head V5로 얼굴·헤어를 보정한다
-
-BFS Head V5 테스트는 위와 같은 이전 DeLight 캐릭터를 Picture 1에, 45도 얼굴 참조를 Picture 2에 넣어 얼굴·헤어만 바꾸도록 지시했다. 착장·포즈·카메라·조명 참조는 추가하지 않았다.
-
-| Scene A | Scene B | Scene C |
-| --- | --- | --- |
-| ![Scene A BFS Head V5 얼굴 헤어 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-a-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![Scene B BFS Head V5 얼굴 헤어 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-b-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![Scene C BFS Head V5 얼굴 헤어 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
-
-[BFS Head V5 테스트 코드](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_head_identity.py)
-
-[Scene A BFS Head V5 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-a-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-[Scene B BFS Head V5 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-b-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-[Scene C BFS Head V5 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-head-v5-delight-character-cutout-c-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-### Relight로 통합 장면의 방향광을 다시 적용한다
-
-Relight 테스트는 이전 BFS 통합 장면 한 장에 방향광을 다시 부여한 단일 이미지 편집이다. 새 인물 참조나 마스크는 입력하지 않았다.
-
-| Scene A | Scene B | Scene C |
-| --- | --- | --- |
-| ![Scene A Relight 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![Scene B Relight 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) | ![Scene C Relight 테스트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10.png) |
-
-[Relight 테스트 코드](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight.py)
-
-[Scene A Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-a-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-[Scene B Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-b-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
-[Scene C Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
-
 ## 체크리스트
 
 - [ ] Relight에는 합성 이미지 한 장만 입력하고, 최초 씬은 조명 프롬프트 작성 근거로만 사용했는가?
@@ -658,12 +606,11 @@ Relight 테스트는 이전 BFS 통합 장면 한 장에 방향광을 다시 부
 - [ ] 원본 컷아웃의 직접 아이덴티티 적용과 마네킨을 거친 착장 1차 적용의 입력을 구분했는가?
 - [ ] B·C 결과에서 착장 반영과 포즈·크기 보존을 따로 확인하고, 얼굴·헤어 아이덴티티가 아직 미완성임을 구분했는가?
 - [ ] A·C의 참조 교체 BFS 결과에서 머리 각도와 눈꺼풀·시선을 별도로 검수했는가?
-- [ ] `이전 테스트 흔적`의 BFS·DeLight·Relight를 위 신규 입력의 후속 결과와 구분했는가?
 
 ## 출처와 참고 자료
 
 - [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}: 컷아웃 아이덴티티 적용과 마네킨 착장 편집에 사용한 공식 파이프라인의 입력 형식과 사용 예제를 확인합니다.
 - [Grounding DINO Tiny 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} · [SAM 2 공식 저장소](https://github.com/facebookresearch/sam2){: target="_blank" rel="noopener noreferrer"}: 인물 탐색 상자와 정밀 마스크를 만드는 두 단계의 근거입니다.
-- [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"} · [BFS 모델 카드](https://huggingface.co/mr2along/BFS){: target="_blank" rel="noopener noreferrer"} · [Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}: 이전 입력의 조명 중립화, 얼굴·헤어 보정, 방향광 재적용 테스트의 모델·LoRA 계약을 확인합니다.
+- [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"} · [BFS 모델 카드](https://huggingface.co/mr2along/BFS){: target="_blank" rel="noopener noreferrer"} · [Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}: 이 절의 조명 중립화, 얼굴·헤어 보정, 텍스트 조명 리라이트에 사용한 모델·LoRA의 입력 조건을 확인합니다.
 
 모델 카드의 일반 기능 설명과 별도로, 이 절에서 실제로 사용한 입력 순서·파일 해시·seed·step·출력 경로는 각 `result.json`을 기준으로 확인합니다.
