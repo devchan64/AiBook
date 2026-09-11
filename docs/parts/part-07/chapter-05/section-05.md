@@ -29,7 +29,7 @@
 
 A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
 
-현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만들고, 배경판에도 DeLight를 적용한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
+현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만들고, 배경판에도 DeLight를 적용한다. 마지막으로 장면별 DeLight 배경과 캐릭터를 다중 참조로 넣어 합성한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
 
 ## Mira와 조연을 각각 분리한다
 
@@ -460,7 +460,7 @@ A·B는 생성기의 기본 프롬프트를 사용한다. C의 첫 실행에서�
 | --- | --- | --- |
 | ![A 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-c-v2-size-1280x1280-seed-62294-steps-10.png) |
 
-A에서는 중앙 Mira와 전경 신발이 제거되고 도로와 하늘이 채워졌다. B에서는 도약하는 Mira가 제거되고 숲과 노을, 토끼·다람쥐가 남았다. C v2에서는 두 인물과 책이 제거됐으며, 왼쪽 바위에 한 마리와 난간에 두 마리의 새가 남았다. 이 배경판과 앞서 처리한 네 캐릭터는 별도 산출물이며, 아직 재합성한 장면은 아니다.
+A에서는 중앙 Mira와 전경 신발이 제거되고 도로와 하늘이 채워졌다. B에서는 도약하는 Mira가 제거되고 숲과 노을, 토끼·다람쥐가 남았다. C v2에서는 두 인물과 책이 제거됐으며, 왼쪽 바위에 한 마리와 난간에 두 마리의 새가 남았다. 이 배경판은 다음 DeLight 처리의 입력이며, 이후 DeLight 캐릭터와 함께 통합 장면을 생성한다.
 
 [A 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
@@ -501,6 +501,51 @@ A의 주변 인물 여섯 명, B의 토끼·다람쥐, C의 새 세 마리가 �
 [B 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 [C 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-c-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+## DeLight 캐릭터와 배경을 장면별로 합친다
+
+DeLight를 적용한 배경과 캐릭터를 Qwen Image Edit 2511의 다중 이미지 참조로 넣어 통합 장면을 생성한다. A·B는 배경과 Mira 두 장, C는 배경·Mira·조연 세 장을 사용한다. 원래 P7-5.4 장면을 추가 참조로 넣지는 않으며, 배치 위치는 장면별 프롬프트로 지정한다.
+
+| 장면 | Picture 1 | Picture 2 | Picture 3 | 배치 지시 |
+| --- | --- | --- | --- | --- |
+| A | A DeLight 배경 | A DeLight Mira | 없음 | 중앙 전경에서 화면 쪽으로 달리는 자세 |
+| B | B DeLight 배경 | B DeLight Mira | 없음 | 중앙 공중에서 다리를 벌려 도약하는 자세 |
+| C | C DeLight 배경 | C DeLight Mira | C DeLight 조연 | 왼쪽 전경 바위에 Mira, 그 뒤 오른쪽에 조연 |
+
+### 합성 생성 코드와 재현 명령
+
+[DeLight 배경·캐릭터 합성 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py)
+
+로컬 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다. 이 단계에서는 DeLight나 BFS를 포함한 추가 LoRA를 불러오지 않는다. 마스크나 알파 합성으로 픽셀을 붙이는 대신, 참조 이미지들을 모델에 전달해 한 장면을 다시 생성한다.
+
+| 장면 | 실제 프롬프트 |
+| --- | --- |
+| A | Place the woman from Picture 2 in the center foreground of Picture 1, running toward the viewer. Preserve her pose, face, hair, outfit and large foreground shoe. Keep the six surrounding people and the background. |
+| B | Place the woman from Picture 2 in midair at the center of Picture 1. Preserve her split-leap pose, face, hair and outfit. Keep the rabbit, squirrel and forest background. |
+| C | Place the woman from Picture 2 seated on the left foreground rock in Picture 1, and the man from Picture 3 seated just behind her on the right. Preserve both characters, their poses, outfits and open books. Keep the three birds, railing and city background. |
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py \
+  --targets a b c --steps 10 --seed 62294 --run-label repeat-v1 --dry-run
+```
+
+`--dry-run`을 빼면 세 장면을 차례로 생성한다. `--targets`로 장면을 선택하고, 하나의 장면을 선택한 경우 `--prompt`로 배치 지시를 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 재실행에는 새로운 `--run-label`을 사용한다. 각 실행 JSON에는 참조 순서와 역할, 입력·출력·코드 해시, 프롬프트와 실행 조건을 기록한다.
+
+### A·B·C 합성 10스텝 결과
+
+| A | B | C |
+| --- | --- | --- |
+| ![A DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10.png) |
+
+A에서는 중앙 전경에 Mira가 배치됐고 주변 여섯 인물이 유지됐다. B에서는 Mira의 도약 자세와 토끼·다람쥐가 남았다. C에서는 왼쪽 Mira와 오른쪽 조연, 두 사람의 펼친 책과 새 세 마리가 함께 배치됐다. 인물의 큰 포즈와 착장을 전달한 결과이며, 얼굴 아이덴티티의 완전한 일치를 입증하는 결과는 아니다.
+
+**합성 과정에서 DeLight 입력의 밝기가 그대로 유지되지는 않았다.** A·C 배경은 상당히 어두워졌고, B는 녹색의 채도와 대비가 강해졌다. 이 단계는 배치뿐 아니라 장면의 색·명암도 다시 생성하는 편집이므로, 캐릭터와 배경을 합친 성과와 중립 조명을 유지했는지는 구분한다. 그림자 유무는 이번 검수 대상에서 제외한다.
+
+[A 합성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[B 합성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[C 합성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 
@@ -555,6 +600,8 @@ Relight 테스트는 이전 BFS 통합 장면 한 장에 방향광을 다시 부
 [Scene C Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-relight-scene-c-bfs-quarter-left-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## 체크리스트
+
+- [ ] 합성 참조 순서와 장면별 인물·소품 배치를 확인하고, DeLight 입력의 밝기·채도 변화와 배치 성공을 구분했는가?
 
 - [ ] 배경판에서 A 주변 인물 6명, B 토끼·다람쥐, C 새 3마리를 확인하고, 가려진 배경은 새로 생성됐음을 구분했는가?
 
