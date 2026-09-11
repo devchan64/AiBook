@@ -1,6 +1,6 @@
 {
   "status": "generated",
-  "experiment_id": "p7-5-9-qwen-image-q4ks-low-vram",
+  "experiment_id": "p7-5-6-qwen-image-q4ks-low-vram",
   "purpose": "Q4 GGUF 8GB-VRAM text-to-image feasibility; not reference-image character consistency",
   "model": {
     "repository": "unsloth/Qwen-Image-GGUF",

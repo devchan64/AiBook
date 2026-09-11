@@ -59,25 +59,25 @@ A에서는 화면 앞으로 크게 나온 신발 끝까지 포함하고 배경�
 
 저장소 루트에서 필요한 패키지가 설치된 `.venv`로 실행한다. Grounding DINO Tiny와 SAM 2.1 Hiera Small 모델은 `.tmp/download/huggingface/hub`에 준비돼 있어야 하며, 추론에는 CUDA GPU를 사용한다. 우선 다음 명령으로 모델을 읽지 않고 네 인물의 입력과 출력 계획을 확인한다.
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
   --output-dir /tmp/p7-5-5-separation-repeat --dry-run
-~~~
+```
 
 다음 명령은 A·B·C 미라와 C 조연을 차례로 분리한다. 각 인물마다 마스크·오버레이·흰 배경 컷아웃·투명 PNG와 두 실행 JSON을 저장한다. 마지막에는 전체 검증 결과 JSON도 저장한다.
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
   --output-dir /tmp/p7-5-5-separation-repeat
-~~~
+```
 
 C 미라와 조연만 재현하려면 대상을 선택한다.
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
   --targets c-mira c-supporting \
   --output-dir /tmp/p7-5-5-separation-c-repeat
-~~~
+```
 
 기존 파일이 있는 출력 경로는 전체 실행 전에 거부한다. 다시 실행할 때는 새 출력 폴더 또는 `--run-label`을 지정한다. 실행 코드는 출력 이름을 기준으로 다음 컷아웃 입력을 연결하므로, 마스크 경로를 따로 고칠 필요가 없다. 인물별 상자와 좌표는 설정 파일의 `mask_args`에 기록되어 있다.
 
@@ -183,13 +183,13 @@ A Mira와 C 조연의 흰 배경 컷아웃을 Qwen Image Edit 2511에 각각 넣
 
 두 출력은 모두 1280×1280, 30스텝, seed `62294`, true CFG `4.0`이다. CPU 난수 생성기를 사용하며, 각 입력은 비율을 유지해 1280×1280 흰 캔버스에 배치한다. 저장소의 `.venv`와 로컬 모델 캐시를 준비한 상태에서 다음 명령으로 입력·프롬프트·출력 계획을 확인한다.
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_identity.py \
   --targets a-mira c-supporting \
   --steps 30 --run-label identity-repeat-v1 \
   --supporting-prompt "Give the man in Picture 1 a new character identity: a young adult man with short dark brown hair, round glasses, a muted blue hoodie, charcoal trousers, and white sneakers. Preserve the seated pose, body proportions, framing and white background of Picture 1." \
   --dry-run
-~~~
+```
 
 `--dry-run`을 빼면 A Mira와 C 조연을 순서대로 생성한다. `--targets`로 대상, `--reference`로 Mira 참조, `--supporting-prompt`로 조연 외형, `--steps`와 `--seed`로 생성 조건을 바꿀 수 있다. 기존 PNG·JSON이 있으면 실행 전에 중단하므로 재실행에는 새 `--run-label`이나 `--output-dir`을 지정한다. 각 JSON에는 실제 입력·참조·출력 해시와 프롬프트·실행 환경을 기록한다. 조연의 텍스트 전용 실행에서는 참조 경로가 `null`, `text_only`가 `true`다.
 
@@ -219,10 +219,10 @@ B·C에서는 컷아웃에 남은 머리·옷·신발 외형을 줄인 뒤 새 �
 
 [신규 컷아웃 마네킨 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py)
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py \
   --scenes b c --steps 20 --run-label manuscript-repeat-v1 --dry-run
-~~~
+```
 
 `--dry-run`을 빼면 생성한다. `--scenes`로 대상, `--prompt`로 공통 외형 지시, `--steps`와 `--seed`로 조건을 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 새 `--run-label`이나 `--output-dir`을 사용한다. 실행 JSON에는 실제 프롬프트와 입력·출력 해시를 남긴다. B·C의 실제 지시는 각각의 JSON으로 확인한다.
 
@@ -260,10 +260,10 @@ B에서는 긴 머리·재킷·바지·신발이 짧은 머리와 회색 운동�
 
 B·C 출력은 각각 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다. 다음 명령은 모델을 불러오지 않고 입력과 공통 프롬프트·출력 계획을 확인한다.
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py \
   --scenes b c --steps 20 --run-label stage3-repeat-v1 --dry-run
-~~~
+```
 
 `--dry-run`을 빼면 B·C를 순서대로 생성한다. `--scenes`는 대상, `--reference`는 착장 참조, `--prompt`는 편집 지시, `--steps`와 `--seed`는 생성 조건을 바꾼다. 기존 PNG·JSON이 있으면 실행 전에 중단하므로 재실행에는 새 `--run-label`이나 `--output-dir`을 지정한다. JSON에는 실제 두 입력·출력의 해시, 프롬프트, 코드 해시와 실행 환경을 저장한다.
 
@@ -299,10 +299,10 @@ C Mira의 1차 결과에는 착장과 신발이 반영됐지만 책은 없고 �
 
 생성기는 C Mira의 1차 착장 결과 한 장을 입력으로 사용한다. 별도 책 참조나 마스크·LoRA·결과 합성 없이 로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`을 BF16과 sequential CPU offload로 실행했다. 출력은 1280×1280, 20스텝, seed `62294`, true CFG `4.0`이며 CPU 난수 생성기를 사용했다.
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_identity_c_book.py \
   --steps 20 --seed 62294 --run-label book-repeat-v1 --dry-run
-~~~
+```
 
 `--dry-run`은 모델을 불러오지 않고 입력·프롬프트·출력 계획을 확인한다. 이를 빼면 생성한다. `--input`으로 보강할 이미지, `--prompt`로 지시, `--steps`와 `--seed`로 생성 조건을 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 재실행에는 새 `--run-label`이나 `--output-dir`을 지정한다. 실행 JSON에는 입력·출력 해시, 프롬프트, 코드 해시와 실행 환경이 남는다.
 
@@ -352,32 +352,32 @@ Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴�
 
 [C 얼굴 크롭 BFS 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py)
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
   --views level --prepare-reference
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
   --views level --steps 10 --seed 62294 --run-label level-repeat-v1 --dry-run
-~~~
+```
 
 첫 명령은 크롭 파일이 없을 때 실행한다. 저장소에 크롭이 이미 있으면 이 단계를 생략한다. 두 번째 명령의 `--dry-run`은 실행 계획만 확인하며, 이를 빼면 로컬 GPU에서 생성한다.
 
 [A·B 방향별 머리 크롭 BFS 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py)
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
   --scenes a --reference-profile zero-v3 --prepare-reference
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
   --scenes a --reference-profile zero-v3 --steps 10 --seed 62294 --run-label a-lowzero-repeat-v1 --dry-run
-~~~
+```
 
 B의 기록 결과는 다음 명령으로 재현한다. 크롭이 이미 있으면 첫 명령을 생략한다.
 
-~~~bash
+```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
   --scenes b --reference-profile low45-v4 --prepare-reference
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
   --scenes b --reference-profile low45-v4 --steps 10 --seed 62294 --run-label b-low45-repeat-v1 --dry-run
-~~~
+```
 
 A 크롭이 이미 있으면 첫 명령을 생략한다. A 명령의 `zero-v3`는 로우뷰 0° 크롭을, B 명령의 `low45-v4`는 로우뷰 +45° 크롭을 선택한다. 두 생성기는 로컬 Qwen Image Edit 2511 BF16과 BFS Head V5 original 강도 `1.0`을 사용한다. 출력은 1280×1280·10스텝·seed `62294`·true CFG `4.0`이며, 마스크나 결과 합성 없이 실행한다. 프롬프트는 Picture 2의 머리를 적용하면서 Picture 1의 시선·머리 회전·표정을 유지하도록 지시한 기존 BFS 문장을 유지한다. 전문과 입력 순서, 크롭 이력, 모델·입출력 해시는 결과 JSON에서 확인한다. A 결과 JSON의 소스코드 해시는 생성 당시의 기록이다. 이후 코드 변경으로 현재 파일의 해시와는 다르지만, A의 `zero-v3` 입력·크롭·프롬프트·생성 설정은 유지했다.
 
@@ -636,13 +636,10 @@ A는 하늘과 도로가 밝아지고 건물 측면은 어둡게 남았다. Mira
 
 ## 출처와 참고 자료
 
-- 실제 입력 순서·파일 해시·프롬프트·seed·step·출력 경로는 이 절에서 연결한 로컬 `result.json`에서 확인한다.
-- IDEA Research, [Grounding DINO Tiny 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"}, Hugging Face. 텍스트로 지정한 대상을 상자로 찾는 모델을 확인했다. Mira 선택 좌표는 이 절의 설정 파일이 근거다. 확인일: 2026-09-11.
-- Meta FAIR, [SAM 2.1 Hiera Small 모델 카드](https://huggingface.co/facebook/sam2.1-hiera-small){: target="_blank" rel="noopener noreferrer"}, Hugging Face. 점·상자로 분할 대상을 지정하는 모델을 확인했다. 실제 경계와 픽셀 보존 검증은 분리 실행 기록에서 확인한다. 확인일: 2026-09-11.
-- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}, Hugging Face. 이미지 편집 파이프라인과 다중 이미지 입력 예제를 확인했다. 장면별 포즈·아이덴티티 보존 여부는 결과별 검수 대상이다. 확인일: 2026-09-11.
-- mr2along, [BFS 모델 카드](https://huggingface.co/mr2along/BFS){: target="_blank" rel="noopener noreferrer"}, Hugging Face. Head V5 original의 2511 기반, 인물 → 얼굴 참조 순서와 머리 교체 지시를 확인했다. 다른 BFS 버전의 입력 순서와 구분한다. 확인일: 2026-09-11.
-- prithivMLmods, [QIE-2511-Studio-DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer"}, Hugging Face. 중립 조명 트리거와 야외 배경 변화 가능성을 확인했다. 원고는 2511 기반으로 실행했다. 확인일: 2026-09-11.
-- Qwen, [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}, Hugging Face. 리라이트 단계에서 사용한 2509 기반 편집 파이프라인을 확인했다. 확인일: 2026-09-11.
-- dx8152, [Qwen-Image-Edit-2509-Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer"}, Hugging Face. 2509 기반 조명 LoRA와 트리거를 확인했다. 모델 카드의 Lightning 병용 안내와 원고의 미사용 조건은 구분한다. 확인일: 2026-09-11.
-
-얼굴 불일치, 책·새의 유지, 밝기·색조 변화는 이 절의 이미지 비교 관찰이며 모델 카드가 보장하는 성능으로 일반화하지 않는다. LoRA 미적용 대조군이 없는 결과에서는 변화 전체를 LoRA만의 효과로 분리할 수 없다.
+- IDEA Research, [Grounding DINO Tiny 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-11.
+- Meta FAIR, [SAM 2.1 Hiera Small 모델 카드](https://huggingface.co/facebook/sam2.1-hiera-small){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-11.
+- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-11.
+- mr2along, [BFS 모델 카드](https://huggingface.co/mr2along/BFS){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-11.
+- prithivMLmods, [QIE-2511-Studio-DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-11.
+- Qwen, [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-11.
+- dx8152, [Qwen-Image-Edit-2509-Relight 모델 카드](https://huggingface.co/dx8152/Qwen-Image-Edit-2509-Relight){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-11.

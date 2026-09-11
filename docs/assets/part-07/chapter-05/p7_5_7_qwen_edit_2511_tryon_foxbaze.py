@@ -27,7 +27,7 @@ LORA_DIR = PROJECT_ROOT / ".tmp" / "download" / "weight-foxbaze-try-on-qwen-edit
 LORA_FILENAME = "Try_On_Qwen_Edit_Lora.safetensors"
 PROMPT = "A single full-body image of the woman in Picture 1, wearing every article of clothing from Picture 2"
 DEFAULT_PERSON = ASSETS / "p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png"
-DEFAULT_GARMENT = ASSETS / "p7-5-5-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png"
+DEFAULT_GARMENT = ASSETS / "p7-5-7-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png"
 
 
 def sha256(path: Path) -> str:
@@ -71,7 +71,7 @@ def main() -> None:
             raise FileNotFoundError(path)
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-5-qwen-2511-tryon-foxbaze-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-7-qwen-2511-tryon-foxbaze-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     output_path, result_path = output_dir / f"{stem}.png", output_dir / f"{stem}-result.json"
 
     import torch

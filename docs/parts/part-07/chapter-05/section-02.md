@@ -26,6 +26,13 @@ Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱�
 
 [정면 얼굴 T2I Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_generate_mira_head_bf16.py)
 
+저장소 루트에서 다음 명령으로 입력 조건을 확인한다. 이 절의 `--dry-run` 명령은 생성 계획을 출력하며, 실제 GPU 생성을 하려면 `--dry-run`을 뺀다. 정면 머리 생성기는 실행 계획 출력 전에도 CUDA 사용 가능 여부를 확인하므로 GPU가 인식되는 환경에서 실행한다. 재실행에는 기존 결과와 구분되는 실행 이름을 사용한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_mira_head_bf16.py \
+  --run-label front-repeat-v1 --dry-run
+```
+
 생성기는 얼굴 일러스트 계약과 Mira identity 계약, seed·step·CFG, 완성 PNG의 해시를 result JSON에 기록한다. 기본값은 1280px·30 step·CFG 4.0이다. 조건을 바꿀 때는 정수리 여백·양쪽 눈과 귀·홍채색·단발 실루엣이 유지되는지 확인한다.
 
 [Mira identity·화풍·일러스트 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json)
@@ -77,11 +84,35 @@ P7-5.1의 T2I 흐름에 참조 이미지가 더해진다. 정면 상반신을 �
 
 [정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py)
 
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py \
+  --run-label torso-repeat-v1 --dry-run
+```
+
 아래 15방향 표는 `1280×1280` 정면 상반신을 참조한 결과다. 아이레벨 `+45°`와 엘리베이티드 `+45°`는 새 `1024×1024` 결과로 교체했으며, 나머지 13방향은 기존 `1280×1280` 결과를 유지한다. 모두 4 step으로 생성했으며, 로우앵글 `0°`는 seed `62295`, 나머지 14방향은 seed `62294`를 사용했다.
 
 `Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning 4-step LoRA를 함께 적용한다. 카메라 prompt는 `<sks> [azimuth] [elevation] [distance]` 순서로 두며, 표의 모든 결과는 4 step으로 생성했다. 로우앵글 `0°`는 검수 후 시드를 1 올린 결과를 채택했으므로, 해당 컷은 카메라 조건뿐 아니라 시드도 다르다는 점을 함께 고려한다.
 
 [상반신 15방향 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py)
+
+전체 방향의 실행 계획은 다음과 같이 확인한다. 크기·시드·스텝은 생성기의 기본값을 사용한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
+  --run-label multiview-repeat-v1 --dry-run
+```
+
+아이레벨과 엘리베이티드의 `+45°`만 각각 확인하려면 방향을 지정한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
+  --vertical level --yaw plus-45 --run-label level-repeat-v1 --dry-run
+```
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
+  --vertical elevated --yaw plus-45 --run-label elevated-repeat-v1 --dry-run
+```
 
 현재 생성기의 기본값은 토르소 참조·15방향·`1024×1024`·seed `62294`·4 step이며, 실행 라벨은 `native1024-v1`이다. 이번에 채택한 아이레벨 `+45°`만 생성하려면 `--vertical level --yaw plus-45`를, 엘리베이티드 `+45°`만 생성하려면 `--vertical elevated --yaw plus-45`를 지정한다. 표에 유지한 기존 1280px 결과는 현재 기본 설정과 다르며, 로우앵글 `0°`의 채택 결과는 seed `62295`를 사용했다. 실제 입력·출력 조건은 각 이미지와 짝을 이루는 result JSON에서 확인한다.
 
@@ -155,8 +186,8 @@ Lightning 4-step LoRA는 긴 확산 과정을 네 step으로 줄이는 속도 �
 
 ## 출처와 참고 자료
 
-- 정면 얼굴 기준의 생성 조건과 해시는 이 절에서 연결한 local result JSON을 기준으로 확인한다.
-- Qwen, [*Qwen-Image model card*](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-05.
-- Qwen, [*Qwen-Image-Edit-2511 model card*](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-05.
-- fal, [*Qwen-Image-Edit-2511 Multiple-Angles LoRA model card*](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-05.
-- lightx2v, [*Qwen-Image-Edit-2511 Lightning model card*](https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-05.
+- Qwen, [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-05.
+- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-05.
+- fal, [Qwen-Image-Edit-2511 Multiple-Angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-05.
+- lightx2v, [Qwen-Image-Edit-2511 Lightning 모델 카드](https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-05.
+- Hugging Face, [Diffusers QwenImageEditPlusPipeline 소스 코드](https://github.com/huggingface/diffusers/blob/main/src/diffusers/pipelines/qwenimage/pipeline_qwenimage_edit_plus.py){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-09-11.

@@ -29,7 +29,7 @@ COMFY_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub" / "models--Comf
 TEXT_ENCODER_NAME = "qwen_2.5_vl_7b_fp8_scaled.safetensors"
 VAE_NAME = "qwen_image_vae.safetensors"
 MODEL_NAME = WEIGHT.name
-OUTPUT_PREFIX = "p7-5-9-qwen-image-q4ks-low-vram-front-v1"
+OUTPUT_PREFIX = "p7-5-6-qwen-image-q4ks-low-vram-front-v1"
 PROMPT = (
     "Front upper-torso illustration of a young woman with a short wavy dark teal bob, "
     "warm fair skin, amber eyes, and a grey cropped top. Plain light grey background."
@@ -108,7 +108,7 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--size", type=int, default=512)
     parser.add_argument("--cfg", type=float, default=4.0)
-    parser.add_argument("--prompt", default=PROMPT, help="Positive T2I prompt; defaults to the P7-5.10 torso probe.")
+    parser.add_argument("--prompt", default=PROMPT, help="Positive T2I prompt; defaults to the P7-5.6 torso probe.")
     parser.add_argument("--output-prefix", default=OUTPUT_PREFIX, help="Output stem prefix without the ComfyUI image counter.")
     parser.add_argument("--port", type=int, default=8192)
     parser.add_argument("--dry-run", action="store_true")
@@ -155,7 +155,7 @@ def main() -> None:
     result = ASSETS / f"{args.output_prefix}-seed-{args.seed}-steps-{args.steps}-result.json"
     result.write_text(json.dumps({
         "status": "generated" if status == "success" else "failed",
-        "experiment_id": "p7-5-9-qwen-image-q4ks-low-vram",
+        "experiment_id": "p7-5-6-qwen-image-q4ks-low-vram",
         "purpose": "Q4 GGUF 8GB-VRAM text-to-image feasibility; not reference-image character consistency",
         "model": {"repository": "unsloth/Qwen-Image-GGUF", "selector": MODEL_NAME, "sha256": sha256(WEIGHT), "bytes": WEIGHT.stat().st_size},
         "runtime_mode": {"comfy_arguments": ["--lowvram", "--cpu-vae"], "gpu_before": gpu_before},

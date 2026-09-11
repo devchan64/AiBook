@@ -19,7 +19,7 @@
   },
   "input": {
     "role": "image or character-free background plate",
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-pose-identity-official-camera-scene-a-cutout-shadow-v1-size-1280x1280-seed-62294-steps-20.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-2511-pose-identity-official-camera-scene-a-cutout-shadow-v1-size-1280x1280-seed-62294-steps-20.png",
     "sha256": "01a99ef5ec2821882af10c6f3073156ce450fe1a1f68c1124575cea6c212eead"
   },
   "prompt": "Neutral uniform lighting Preserve identity and composition",

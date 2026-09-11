@@ -67,7 +67,7 @@ def main() -> None:
 
     output_dir = args.output_dir.resolve()
     stem = (
-        f"p7-5-5-qwen-2511-xabsurd-clothing-extractor-{args.run_label}"
+        f"p7-5-7-qwen-2511-xabsurd-clothing-extractor-{args.run_label}"
         f"-size-{SIZE[0]}x{SIZE[1]}-seed-{args.seed}-steps-{args.steps}"
     )
     output = output_dir / f"{stem}.png"

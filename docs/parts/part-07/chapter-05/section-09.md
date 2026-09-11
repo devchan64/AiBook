@@ -1,7 +1,7 @@
 # P7-5.9 StoryDiffusion으로 여러 컷의 일관성 읽기
 
 > Section ID: `P7-5.9`
-> Version: `v2026.09.02`
+> Version: `v2026.09.11`
 
 한 장의 이미지를 다시 생성할 때는 얼굴·착장·배경 참조를 함께 넣어도, 원본의 선화와 pose가 다시 그려질 수 있다. 문제는 참조 이미지가 부족하다는 것만이 아니다. 한 장을 독립적으로 생성하는 모델은 그 장면 안에서 그럴듯한 답을 새로 찾기 때문이다. 웹툰처럼 같은 인물이 여러 컷에 이어져야 할 때는, **각 컷을 따로 잘 만드는 것**과 **컷들 사이에서 같은 인물로 읽히게 만드는 것**을 구분해야 한다.
 
@@ -126,5 +126,5 @@ StoryDiffusion 계열을 비교하기 전에 이미지부터 많이 생성하지
 
 ## 출처와 참고 자료
 
-- Yupeng Zhou et al., [StoryDiffusion: Consistent Self-Attention for Long-Range Image and Video Generation](https://arxiv.org/abs/2405.01434){: target="_blank" rel="noopener noreferrer"}, NeurIPS 2024, 확인일: 2026-08-28.
-- HVision-NKU, [StoryDiffusion 공식 구현](https://github.com/HVision-NKU/StoryDiffusion){: target="_blank" rel="noopener noreferrer"}, 확인일: 2026-08-28.
+- Yupeng Zhou et al., [StoryDiffusion: Consistent Self-Attention for Long-Range Image and Video Generation](https://arxiv.org/abs/2405.01434){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2024 · arXiv, 확인일: 2026-08-28.
+- HVision-NKU, [StoryDiffusion 공식 구현](https://github.com/HVision-NKU/StoryDiffusion){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-28.

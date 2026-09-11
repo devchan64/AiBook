@@ -1,7 +1,7 @@
 # P7-5.13 OpenPose 맵으로 캐릭터 동작과 구도 변경을 시험하기
 
 > Section ID: `P7-5.13`
-> Version: `v2026.09.05`
+> Version: `v2026.09.11`
 
 캐릭터의 팔·다리 배치와 카메라 구도를 한 번에 바꿀 수 있을까? 이 절에서는 OpenPose map을 **캐릭터를 다시 그리는 reference가 아니라 2D 관절 배치용 구조 입력**으로 한정해 검증한다. 동작, 카메라 원근, 얼굴 identity, 착장 레이어는 서로 다른 정보를 담으므로 한 입력이 나머지 계약까지 보장한다고 읽지 않는다.
 
@@ -100,8 +100,8 @@ guide의 인물 RGB·얼굴·복장은 버리고, OpenPose와 **인물을 제외
 
 ## 출처와 참고 자료
 
-- Stability AI, [SDXL Generative Models](https://github.com/Stability-AI/generative-models){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-16. SDXL Base 1.0의 기준 모델을 확인했다.
-- Cagliostro Research Lab, [Animagine XL 4.0 model card](https://huggingface.co/cagliostrolab/animagine-xl-4.0){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-16. guide와 LoRA 비교에 쓴 SDXL 계열 모델의 실행·제한 정보를 확인했다.
-- Cao et al., [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-16. 2D 신체 keypoint map의 출발점을 확인했다.
-- Hu et al., [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-16. low-rank adapter의 기본 개념을 확인했다.
-- Zhang et al., [ControlNet](https://github.com/lllyasviel/ControlNet){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-15. 구조 조건의 기본 역할을 참고했다.
+- Stability AI, [SDXL Generative Models](https://github.com/Stability-AI/generative-models){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-16.
+- Cagliostro Research Lab, [Animagine XL 4.0 모델 카드](https://huggingface.co/cagliostrolab/animagine-xl-4.0){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-08-16.
+- Cao et al., [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-16.
+- Hu et al., [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685){: target="_blank" rel="noopener noreferrer" }, arXiv, 확인일: 2026-08-16.
+- Zhang et al., [ControlNet](https://github.com/lllyasviel/ControlNet){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-15.

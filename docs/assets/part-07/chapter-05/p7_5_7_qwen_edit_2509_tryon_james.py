@@ -26,8 +26,8 @@ LORA_ID = "JamesDigitalOcean/Qwen_Image_Edit_Try_On_Clothes"
 LORA_DIR = PROJECT_ROOT / ".tmp" / "download" / "weight-jamesdigitalocean-qwen-edit-try-on-clothes"
 LORA_FILENAME = "qwen_image_edit_tryon.safetensors"
 PROMPT = "tryon_clothes dress the clothing onto the person"
-DEFAULT_GARMENT = ASSETS / "p7-5-5-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png"
-DEFAULT_PERSON = ASSETS / "p7-5-5-qwen-2511-pose-identity-official-camera-scene-b-shadow-side-profile-v2-size-1280x1280-seed-62294-steps-20.png"
+DEFAULT_GARMENT = ASSETS / "p7-5-7-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png"
+DEFAULT_PERSON = ASSETS / "p7-5-7-qwen-2511-pose-identity-official-camera-scene-b-shadow-side-profile-v2-size-1280x1280-seed-62294-steps-20.png"
 
 
 def sha256(path: Path) -> str:
@@ -72,7 +72,7 @@ def main() -> None:
             raise FileNotFoundError(path)
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-5-qwen-2509-tryon-james-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-7-qwen-2509-tryon-james-{args.run_label}-size-{args.size}x{args.size}-seed-{args.seed}-steps-{args.steps}"
     output_path = output_dir / f"{stem}.png"
     result_path = output_dir / f"{stem}-result.json"
 

@@ -302,6 +302,6 @@ for scene in scenes:
 
 ## 출처와 참고 자료
 
-- Qwen, [Qwen-Image model card](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-18.
-- Hugging Face, [Diffusers QwenImage pipeline](https://huggingface.co/docs/diffusers/api/pipelines/qwenimage){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-18.
-- Hugging Face, [Diffusers Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-04.
+- Qwen, [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-08-18.
+- Hugging Face, [Diffusers QwenImage pipeline](https://huggingface.co/docs/diffusers/api/pipelines/qwenimage){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-08-18.
+- Hugging Face, [Diffusers Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-08-04.

@@ -32,7 +32,7 @@
   "true_cfg_scale": 4.0,
   "guidance_scale": 1.0,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png",
     "sha256": "75629c0a730fa9d1a15d0fbfe3d07281619a0fba8499b22e7ece5139baccb3ed"
   },
   "elapsed_seconds": 336.56
