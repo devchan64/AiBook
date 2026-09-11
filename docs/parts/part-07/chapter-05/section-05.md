@@ -29,7 +29,7 @@
 
 A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
 
-현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만든다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
+현재 캐릭터 처리 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 별도로 P7-5.4 최종 장면에서 편집 대상 인물을 제거해 배경판을 만들고, 배경판에도 DeLight를 적용한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
 
 ## Mira와 조연을 각각 분리한다
 
@@ -467,6 +467,40 @@ A에서는 중앙 Mira와 전경 신발이 제거되고 도로와 하늘이 채�
 [B 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 [C 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-c-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+## 배경판에 Studio DeLight를 적용한다
+
+앞서 채택한 A·B v1과 C v2 배경판을 각각 입력으로 사용한다. 흐름은 `P7-5.4 최종 장면 → 인물·책 제거 배경판 → 배경 DeLight`다. 캐릭터 DeLight 결과는 이 단계의 참조로 넣지 않으며, 배경판 한 장씩 조명 보정을 수행한다.
+
+### 배경 DeLight 생성 코드
+
+[배경 DeLight 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py)
+
+로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`에 Studio DeLight LoRA를 강도 `1.0`으로 적용했다. 캐릭터 DeLight와 동일하게 1280×1280, 10스텝, seed `62294`, true CFG `4.0`을 사용하며 BF16과 sequential CPU offload로 실행한다. 별도 마스크·Lightning LoRA·결과 합성은 사용하지 않는다.
+
+프롬프트는 [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight)의 `Neutral uniform lighting Preserve identity and composition`이다. 구도와 대상을 유지하면서 조명을 균일하게 바꾸도록 지시하지만, 실제 결과에서는 하늘과 색조도 달라지는지 확인해야 한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py \
+  --targets a b c --steps 10 --seed 62294 --delight-scale 1.0 \
+  --run-label repeat-v1 --dry-run
+```
+
+`--dry-run`을 빼면 세 장을 차례로 생성한다. `--targets`로 장면을 선택하고 `--delight-scale`로 LoRA 강도를 조절한다. 기존 PNG·JSON을 덮어쓰지 않으므로 재실행에는 새로운 `--run-label`을 사용한다. 각 JSON에는 실제 입력·출력, 코드·LoRA 해시와 프롬프트·실행 환경을 기록한다.
+
+### 배경 DeLight 10스텝 결과
+
+| A | B | C — 배경판 v2 입력 |
+| --- | --- | --- |
+| ![A 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-c-v1-size-1280x1280-seed-62294-steps-10.png) |
+
+A의 주변 인물 여섯 명, B의 토끼·다람쥐, C의 새 세 마리가 남아 있으며 배경의 큰 구도는 유지됐다. 세 장 모두 전체 대비가 낮아졌고, A의 구름과 B의 노을·태양은 사라졌다. C는 흑백 선화 중심 배경에 옅은 색조가 추가됐다. 따라서 이 결과는 밝기만 바꾼 보정이 아니라 하늘·색조 변화도 포함하는 생성 편집으로 기록한다. 그림자 유무는 이번 검수 대상에서 제외한다.
+
+[A 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[B 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[C 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-c-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 
