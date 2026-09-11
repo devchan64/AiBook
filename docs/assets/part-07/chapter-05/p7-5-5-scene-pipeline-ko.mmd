@@ -1,0 +1,23 @@
+flowchart TD
+    scene["P7-5.4 최종 장면"]
+    cutout["캐릭터 분리"]
+    identity["외형·소품 적용"]
+    face["Mira 얼굴·헤어 보강 · BFS"]
+    characterLight["캐릭터 조명 중립화 · DeLight"]
+    background["편집 대상 인물을 제거한 배경"]
+    backgroundLight["배경 조명 중립화 · DeLight"]
+    composite["캐릭터와 배경 합성"]
+    relight["텍스트 조명 적용 · Relight"]
+    result["최종 장면"]
+
+    scene --> cutout
+    scene --> background
+    cutout --> identity
+    identity -->|Mira| face
+    face --> characterLight
+    identity -->|C 조연| characterLight
+    background --> backgroundLight
+    characterLight --> composite
+    backgroundLight --> composite
+    composite --> relight
+    relight --> result

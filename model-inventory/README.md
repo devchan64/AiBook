@@ -9,6 +9,7 @@
 - `externalReferences[type=distribution]`은 원본 다운로드를 시작할 저장소 또는 특정 파일 경로다.
 - `aibook:download-selector`는 실제로 사용한 모델 저장소 안의 파일 또는 파일군이다.
 - `aibook:source-files`는 해당 가중치를 참조하는 저장소 상대 경로다.
+- 삭제된 소스 경로는 `aibook:source-files`에서 제거한다. 현재 소스가 하나도 남지 않으면 해당 속성을 `aibook:source-status`로 대체해 소스 부재를 표시하며, 모델 출처·가중치·캐시 검토 이력은 별도 정리 전까지 유지한다.
 - `aibook:observed-revision`은 소스 코드의 Hugging Face cache 경로에서 확인한 immutable snapshot이다. 없으면 아직 고정하지 않은 참조다.
 - `aibook:license-review=review-required`는 공개 실습 자산으로 승인됐다는 뜻이 아니다. 원문 라이선스와 모델 카드를 확인하기 전까지는 채택을 보류한다.
 

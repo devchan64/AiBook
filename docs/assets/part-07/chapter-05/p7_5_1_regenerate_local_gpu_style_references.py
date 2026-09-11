@@ -1,25 +1,18 @@
 """Generate P7-5.1 style-reference candidates with Qwen Image.
 
 Outputs are generation records. This script does not assign approval states.
-Set ``P7_STYLE_SCENE`` to regenerate one named existing or extension scene.
+Use ``--scene`` to regenerate one named existing or extension scene.
 The default run covers all twenty contract rows. Outputs are candidates only;
 human observation records describe each image's reference role and limitations.
 Each saved PNG receives a neighboring ``-result.json`` generation record.
 """
 
+import argparse
 import json
-import os
 import subprocess
 import threading
 import time
 from pathlib import Path
-
-import torch
-from diffusers import QwenImagePipeline
-from huggingface_hub import snapshot_download
-from nunchaku import NunchakuQwenImageTransformer2DModel
-from p7_5_image_output_naming import candidate_stem
-
 
 ASSET_DIR = Path(__file__).resolve().parent
 MODEL_ID = "Qwen/Qwen-Image"
@@ -28,7 +21,7 @@ TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image.safetensors"
 TRANSFORMER_ID = f"{TRANSFORMER_REPOSITORY}/{TRANSFORMER_FILENAME}"
 HF_HUB_CACHE = ASSET_DIR.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 # All ordinary style-reference runs use a square 1024 canvas.  A comparison
-# experiment may override this explicitly with P7_STYLE_WIDTH/HEIGHT.
+# experiment may override this explicitly with --width/--height.
 SIZE = (1024, 1024)
 # Default quality/throughput operating point for subsequent style candidates.
 # The 4-step screen remains a recorded performance probe, not a style-master
@@ -149,23 +142,52 @@ def gpu_memory_mib() -> int:
     return int(result.stdout.splitlines()[0])
 
 
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    scene_ids = [scene["id"] for scene in SCENES]
+    parser.add_argument("--scene", choices=scene_ids, help="Generate one named scene.")
+    parser.add_argument("--exclude", nargs="+", choices=scene_ids, default=[],
+                        help="Scene IDs to exclude, separated by spaces.")
+    parser.add_argument("--include-existing", action=argparse.BooleanOptionalAction,
+                        default=True, help="Include existing rows when no --scene is given.")
+    parser.add_argument("--run-label", default="v1", help="Label used in output filenames.")
+    parser.add_argument("--steps", type=int, default=STEPS, help="Diffusion steps.")
+    parser.add_argument("--width", type=int, default=SIZE[0], help="Output width in pixels.")
+    parser.add_argument("--height", type=int, default=SIZE[1], help="Output height in pixels.")
+    args = parser.parse_args(argv)
+    if args.steps < 1:
+        parser.error("--steps must be positive")
+    if any(value <= 0 or value % 16 for value in (args.width, args.height)):
+        parser.error("--width and --height must be positive multiples of 16")
+    if not args.run_label or any(c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for c in args.run_label):
+        parser.error("--run-label must contain only letters, digits, underscores or hyphens")
+    args.selected_scenes = [scene for scene in SCENES if
+        (scene["id"] == args.scene if args.scene else
+         args.include_existing or scene["generate_by_default"])
+        and scene["id"] not in args.exclude]
+    if not args.selected_scenes:
+        parser.error("No scenes selected for generation")
+    return args
+
+
 def main() -> None:
-    requested_scene = os.environ.get("P7_STYLE_SCENE")
-    run_label = os.environ.get("P7_STYLE_RUN_LABEL", "v1")
-    include_existing = os.environ.get("P7_STYLE_INCLUDE_EXISTING", "1") == "1"
-    steps = int(os.environ.get("P7_STYLE_STEPS", STEPS))
-    size = (int(os.environ.get("P7_STYLE_WIDTH", SIZE[0])), int(os.environ.get("P7_STYLE_HEIGHT", SIZE[1])))
-    if any(value <= 0 or value % 16 for value in size):
-        raise ValueError("P7_STYLE_WIDTH and P7_STYLE_HEIGHT must be positive multiples of 16")
-    excluded_scenes = {item for item in os.environ.get("P7_STYLE_EXCLUDE", "").split(",") if item}
-    scenes = [scene for scene in SCENES if scene["id"] == requested_scene] if requested_scene else [
-        scene for scene in SCENES if include_existing or scene["generate_by_default"]
-    ]
-    scenes = [scene for scene in scenes if scene["id"] not in excluded_scenes]
-    if requested_scene and not scenes:
-        raise KeyError(f"Unknown P7_STYLE_SCENE: {requested_scene}")
-    if not scenes:
-        raise ValueError("No scenes selected for generation")
+    args = parse_args()
+    requested_scene = args.scene
+    run_label = args.run_label
+    include_existing = args.include_existing
+    steps = args.steps
+    size = (args.width, args.height)
+    excluded_scenes = set(args.exclude)
+    scenes = args.selected_scenes
+
+    import torch
+    from diffusers import QwenImagePipeline
+    from huggingface_hub import snapshot_download
+    from nunchaku import NunchakuQwenImageTransformer2DModel
+    from p7_5_image_output_naming import candidate_stem
+
     before = gpu_memory_mib()
     peak = before
     stop = threading.Event()

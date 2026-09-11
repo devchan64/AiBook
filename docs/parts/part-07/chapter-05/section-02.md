@@ -49,6 +49,22 @@ Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱�
 
 모델 카드의 BF16 예시는 충분한 GPU 메모리를 전제로 한다. 이 생성기는 같은 BF16 가중치를 사용하되 `sequential CPU offload`를 적용한다. 이는 모델 자체의 품질 기능이 아니라, 제한된 VRAM에서 실행하기 위한 메모리 배치 전략이다. 속도와 VRAM 사용량은 서로 바꿔 얻는 조건이므로, 이 절의 1280px·30 step 결과를 모든 하드웨어에서의 권장 시간이자 품질 보증으로 해석하지 않는다.
 
+## Qwen Edit의 이미지 조건과 반복 갱신
+
+P7-5.1의 T2I 흐름에 참조 이미지가 더해진다. 정면 상반신을 만들 때는 정면 머리와 상반신 확장 지시를, 카메라 참조를 만들 때는 완성한 정면 상반신과 카메라 지시를 넣는다. 두 실행 모두 `QwenImageEditPlusPipeline`을 사용하며, 입력 이미지는 편집할 인물의 기준을 제공한다.
+
+```mermaid
+--8<-- "assets/part-07/chapter-05/p7-5-2-qwen-edit-pipeline-ko.mmd"
+```
+
+참조 이미지는 두 경로로 처리된다. Qwen2.5-VL은 이미지와 편집 지시를 함께 읽어 조건 표현을 만들고, VAE encoder는 참조 이미지를 형태 정보를 담은 latent로 압축한다. 생성할 이미지의 초기 latent는 seed에서 만든 noise로 따로 준비한다. Transformer는 이 latent와 두 조건을 함께 받아 갱신 방향을 예측하고, scheduler는 timestep에 따라 생성할 latent를 갱신한다. 반복이 끝나면 VAE decoder가 결과를 RGB 픽셀로 바꾼다. 참조 이미지의 픽셀을 그대로 복사하는 과정은 아니므로 얼굴이나 배경도 달라질 수 있다.
+
+도식의 LoRA 연결은 아래 카메라 참조 실행에 해당한다. Multiple-Angles와 Lightning을 transformer에 적용하고 4스텝으로 생성한다. 정면 상반신 생성은 별도의 30스텝 실행이다. BF16과 sequential CPU offload는 가중치의 수치 형식과 메모리 배치를 정하며, 이미지 조건 경로를 추가하거나 인물 보존을 보증하는 설정은 아니다. 출력 PNG는 정면 기준과 대조하고, 실제 입력·prompt·seed·크기·스텝은 실행 JSON으로 확인한다.
+
+이 도식은 Diffusers 구현의 `encode_prompt`, `prepare_latents`, transformer 호출과 scheduler 갱신을 기준으로 재구성했다. 확인일: 2026-09-11.
+
+[Diffusers QwenImageEditPlusPipeline 구현](https://github.com/huggingface/diffusers/blob/main/src/diffusers/pipelines/qwenimage/pipeline_qwenimage_edit_plus.py)
+
 ## 상반신 기준에서 15방향 카메라 참조를 만든다
 
 정면 머리 기준만 회전시키면 어깨와 이너탑을 새로 추측해야 한다. 그래서 정면 머리를 참조해 어깨가 보이는 상반신 기준 한 장을 먼저 만들고, 그 이미지만 `Picture 1`로 넣어 카메라 조건을 바꿨다. 이 단계는 새 포즈나 새 착장을 만드는 단계가 아니라, 이후 캐릭터 시트에서 비교할 **카메라 참조 묶음**을 만드는 단계다.
