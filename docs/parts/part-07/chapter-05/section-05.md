@@ -29,7 +29,7 @@
 
 A와 C에는 여러 인물이 있으므로 `a person` 검출 결과를 그대로 모두 합치지 않고 Mira에 해당하는 상자와 마스크를 확인해야 한다. C에서는 손과 책이 겹치는 경계도 확인한다. Mira를 제거한 배경판을 만들 때도 주변 인물·동물까지 함께 지워서는 안 된다.
 
-현재 실행 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티 적용 → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
+현재 실행 흐름은 `P7-5.4 최종 장면 → 인물별 마스크·컷아웃 → 아이덴티티·소품 보강 → Mira BFS → 네 캐릭터 DeLight → 결과 비교`다. A·B·C의 Mira는 P7-5.3 최종 착장을 참조하고, C 조연은 텍스트로 새 외형을 지정한다. 컷아웃이 포즈·인물 크기·프레이밍을 전달하더라도 생성 결과에서 그대로 유지되는지는 별도로 확인한다. 직접 적용 경로와 분리해 B·C에는 컷아웃을 마네킨으로 바꾸는 단계를 제시한다. 마네킨 경로에서는 C의 착장 반영을 확인한다. 이전 입력의 마네킨·배경·조명 통합 실험은 보충학습에서 구분한다.
 
 ## Mira와 조연을 각각 분리한다
 
@@ -180,7 +180,23 @@ B도 신발 부분에 오류가 남았다. 다만 원본 컷아웃의 기존 외
 
 C도 신발 부분에 오류가 남았다. B와 마찬가지로 마네킨에서 시작하는 경로를 사용해 기존 외형의 영향을 줄인 뒤 착장을 적용하는 방법을 확인한다.
 
-C 조연은 책이 사라졌으므로, 장면으로 되돌리기 전에 책 보존 또는 복원을 별도로 보완해야 한다.
+C 조연은 아이덴티티 적용 결과에서 책이 사라졌다. 따라서 `조연 컷아웃 → 아이덴티티 적용 → 책 보강 → DeLight` 순서로 진행한다. 책 보강에서는 이 조연 결과 한 장을 입력으로 사용해 무릎 위에서 펼친 책을 양손으로 들도록 지시한다. C Mira의 책 보강과는 입력·출력을 별도로 관리하며, DeLight에는 책 보강 결과를 사용한다.
+
+### C 조연의 책 보강
+
+프롬프트는 `Add an open book held in both hands over the lap of the man in Picture 1.`이다. 로컬 Qwen Image Edit 2511에 조연 아이덴티티 결과 한 장을 넣고, 별도 참조·마스크·LoRA 없이 1280×1280, 20스텝, seed `62294`, true CFG `4.0`으로 실행했다.
+
+![C 조연의 아이덴티티 결과에 펼친 책을 추가한 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-supporting-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png)
+
+펼친 책이 추가됐고 손은 책을 받치는 형태로 바뀌었다. 갈색 머리·안경·파란 후드티와 앉은 자세의 큰 형태는 유지됐다. 원본 책을 픽셀 단위로 복원한 것이 아니라 새로 생성한 소품이다.
+
+[C 조연 책 보강 코드](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_supporting_c_book.py)
+
+[C 조연 책 보강 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-supporting-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_supporting_c_book.py --run-label book-repeat-v1
+```
 
 ## B·C 컷아웃의 외형을 마네킨으로 바꿔 본다
 
@@ -303,43 +319,38 @@ Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴�
 
 B의 초기 실험에서는 같은 방향으로 생성된 쿼터뷰 크롭을 좌우 반전했다. 이후 P7-5.2에서 화면 왼쪽을 향하는 아이레벨 +45°·1024px 결과를 채택해, 반전 없는 쿼터뷰 크롭과 아이레벨 0° 크롭을 비교했다. 이어 로우뷰 +45° 크롭으로 10스텝과 30스텝을 비교했으며, 원고에는 10스텝 결과를 남긴다. 실제 크롭 좌표와 반전 여부는 각 실행 기록에서 확인한다.
 
-### A 로우뷰 0° 적용 결과
+### A·B·C BFS 결과 비교
 
-| Picture 2: 로우뷰 0° 머리 크롭 | A BFS 10스텝 결과 |
-| --- | --- |
-| ![A 로우뷰 정면 512px 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3.png) | ![A 로우뷰 정면 크롭 BFS 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10.png) |
+| 구분 | A: 로우뷰 0° | B: 로우뷰 +45° | C: 아이레벨 쿼터뷰 |
+| --- | --- | --- | --- |
+| 참조 머리 크롭 | ![A 로우뷰 정면 512px 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3.png) | ![B 로우뷰 +45도 640px 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-b-low45-native-head-crop-v4.png) | ![C 아이레벨 쿼터뷰 640px 얼굴 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-level-native1280-head-crop-v1.png) |
+| BFS 10스텝 결과 | ![A 로우뷰 정면 크롭 BFS 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10.png) | ![B 로우뷰 +45도 크롭 BFS 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10.png) | ![C 아이레벨 쿼터뷰 얼굴 크롭 BFS 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10.png) |
+
+[A 로우뷰 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[B 로우뷰 +45° BFS 10스텝 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[C 아이레벨 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[A 로우뷰 머리 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3-result.json){ .lazy-source }
+
+[B 로우뷰 +45° 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-b-low45-native-head-crop-v4-result.json){ .lazy-source }
+
+[C 얼굴 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-level-native1280-head-crop-v1-result.json){ .lazy-source }
+
+### A 로우뷰 0° 적용 결과
 
 로우뷰 0° 토르소(seed `62295`·4스텝)에서 좌표 `(400, 40, 912, 552)`의 머리 영역을 잘랐다. 이 참조로 BFS를 1280×1280·10스텝·seed `62294`·강도 `1.0`으로 적용했다. 달리는 자세와 착장·앞쪽 신발의 큰 형태는 유지됐고, 턱이 들리며 코 아래가 더 보이는 얼굴로 바뀌었다. 이 결과를 채택했지만, 입력의 머리 회전과 표정이 그대로 보존된 것으로 해석하지 않는다.
 
-[A 로우뷰 머리 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3-result.json)
-
-[A 로우뷰 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10-result.json)
-
 ### B 로우뷰 +45° 적용 결과와 얼굴 불일치
-
-| Picture 2: 로우뷰 +45° 머리 크롭 | B BFS 10스텝 결과 |
-| --- | --- |
-| ![B 로우뷰 +45도 640px 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-b-low45-native-head-crop-v4.png) | ![B 로우뷰 +45도 크롭 BFS 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10.png) |
 
 로우뷰 +45° 토르소의 좌표 `(360, 20, 1000, 660)`에서 640×640 머리 영역을 잘랐으며 좌우 반전은 하지 않았다. B 마네킨 착장 1차 결과를 Picture 1, 이 크롭을 Picture 2로 사용해 1280×1280·10스텝·seed `62294`·BFS 강도 `1.0`으로 생성했다.
 
 **검수 판단: 결과의 얼굴은 참조 이미지의 얼굴과 일치하지 않는다.** 단발과 머리색이 반영되고 점프 자세의 큰 형태가 유지됐지만, 참조 인물의 얼굴 아이덴티티를 충분히 재현한 결과로 보지 않는다. 머리 방향과 헤어 반영, 같은 사람으로 보이는 얼굴의 일치는 별도로 평가해야 한다. 같은 조건의 30스텝 실험에서도 육안상 뚜렷한 개선이 보이지 않아 원고에는 10스텝 결과를 한계 사례로 기록한다.
 
-[B 로우뷰 +45° 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-b-low45-native-head-crop-v4-result.json)
-
-[B 로우뷰 +45° BFS 10스텝 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10-result.json)
-
 ### C 아이레벨 쿼터뷰 적용 결과
 
-| Picture 2: 아이레벨 얼굴·머리 크롭 | C BFS 10스텝 결과 |
-| --- | --- |
-| ![C 아이레벨 쿼터뷰 640px 얼굴 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-level-native1280-head-crop-v1.png) | ![C 아이레벨 쿼터뷰 얼굴 크롭 BFS 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10.png) |
-
 단발과 머리색이 적용됐고 책과 앉은 자세의 큰 형태는 유지됐다. 다만 원본보다 눈이 더 열리고 입 모양이 달라졌으며, 참조보다 강한 윤곽선이 남았다. 아이레벨 결과를 채택한 판단과 시선·표정·화풍의 완전한 보존은 구분한다. 새 토르소는 해상도뿐 아니라 얼굴 내용도 바뀌었으므로 이전 320px 크롭과의 차이를 해상도 하나의 효과로 단정하지 않는다.
-
-[C 얼굴 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-level-native1280-head-crop-v1-result.json)
-
-[C 아이레벨 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json)
 
 ### 크롭과 BFS를 재현하는 코드
 
@@ -373,6 +384,43 @@ B의 기록 결과는 다음 명령으로 재현한다. 크롭이 이미 있으�
 ~~~
 
 A 크롭이 이미 있으면 첫 명령을 생략한다. `zero-v3`는 A에 로우뷰 0°, B에 아이레벨 0° 크롭을 선택하며, A 명령은 채택한 로우뷰 0° 결과를, `low45-v4`의 B 명령은 얼굴 불일치를 기록한 10스텝 결과를 재현한다. 두 생성기는 로컬 Qwen Image Edit 2511 BF16과 BFS Head V5 original 강도 `1.0`을 사용한다. 출력은 1280×1280·10스텝·seed `62294`·true CFG `4.0`이며, 마스크나 결과 합성 없이 실행한다. 프롬프트는 Picture 2의 머리를 적용하면서 Picture 1의 시선·머리 회전·표정을 유지하도록 지시한 기존 BFS 문장을 유지한다. 전문과 입력 순서, 크롭 이력, 모델·입출력 해시는 결과 JSON에서 확인한다. A 결과 JSON의 소스코드 해시는 생성 당시의 기록이다. 이후 B 로우뷰 비교 옵션을 추가해 현재 파일의 해시와는 다르지만, A의 `zero-v3` 입력·크롭·프롬프트·생성 설정은 유지했다.
+
+## 네 캐릭터에 Studio DeLight를 적용한다
+
+A·B·C Mira는 위에서 채택한 BFS 결과를, C 조연은 책을 보강한 결과를 입력으로 사용한다. Mira의 흐름은 `아이덴티티·소품 보강 → BFS → DeLight`, 조연의 흐름은 `아이덴티티 → 책 보강 → DeLight`다. 네 이미지는 한 번에 합치지 않고 각각 한 장씩 처리한다.
+
+### 생성 코드와 실행 조건
+
+[네 캐릭터 DeLight 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py)
+
+로컬 Qwen Image Edit 2511의 `QwenImageEditPlusPipeline`에 Studio DeLight LoRA만 강도 `1.0`으로 적용했다. BF16과 sequential CPU offload를 사용하며, 공통 조건은 1280×1280, 10스텝, seed `62294`, true CFG `4.0`이다. BFS와 Lightning LoRA는 이 단계에서 추가하지 않는다. 별도 마스크나 결과 합성도 사용하지 않는다.
+
+프롬프트는 [Studio DeLight 모델 카드](https://huggingface.co/prithivMLmods/QIE-2511-Studio-DeLight)의 `Neutral uniform lighting Preserve identity and composition`이다. 인물의 외형과 구도를 유지하면서 조명을 균일하게 바꾸도록 지시한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py \
+  --targets a-mira b-mira c-mira c-supporting \
+  --steps 10 --seed 62294 --delight-scale 1.0 \
+  --run-label repeat-v1 --dry-run
+```
+
+`--dry-run`을 빼면 네 장을 순서대로 생성한다. `--targets`로 처리할 인물을 선택하고 `--delight-scale`로 조명 보정 강도를 바꿀 수 있다. 기존 결과를 덮어쓰지 않으므로 재실행에는 새로운 `--run-label`을 사용한다. 각 실행 JSON에는 실제 입력·출력, 코드와 LoRA 해시, 프롬프트와 실행 환경을 기록한다.
+
+### DeLight 10스텝 결과
+
+| A Mira | B Mira | C Mira | C 조연 — 책 보강 후 |
+| --- | --- | --- | --- |
+| ![A Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-a-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![B Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![C Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 조연 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-supporting-v1-size-1280x1280-seed-62294-steps-10.png) |
+
+A의 달리는 자세, B의 도약 자세, C 두 인물의 앉은 자세와 책을 확인한다. C 조연은 책 보강 후에도 펼친 책을 유지했다. 이번 검수에서는 그림자 유무를 평가 대상에서 제외하고 인물·착장·소품의 유지 여부를 본다. B에서 기록한 얼굴 아이덴티티 불일치가 DeLight로 해결됐다고 판단하지는 않는다.
+
+[A Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-a-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[B Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[C Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+
+[C 조연 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-supporting-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## BFS·DeLight·Relight의 이전 테스트 흔적
 
