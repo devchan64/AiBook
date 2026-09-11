@@ -1,17 +1,9 @@
 # P2-7.6 补充学习：不同操作系统中的终端入口
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.23`
+> Version: `v2026.09.08`
 
-_副标题: 在 Windows、macOS、Linux 中，命令输入在哪里，当前位置又该如何确认？_
-
-在 P2-7.2 中，我们看过终端（terminal）、shell、工作文件夹（working directory）的概念。这里要处理的是，如何在实际操作系统中确认这些概念。
-
-这里补充说明 `按操作系统进入终端的步骤` 和 `确认基本位置的命令`。
-
-这个补充学习练习的是：“命令要输入在哪里，当前位置怎么确认，如何移动到实践文件夹”。Python 安装会在 P2-7.7 中单独处理。这里集中看在不同操作系统的终端里，如何完成同一目的的检查。
-
-这个补充学习整理了在 Windows、macOS、Linux 中打开终端、确认当前位置、并移动到实践文件夹的步骤。执行环境这一概念本身会在 P2-7.1 和 P2-7.2 中处理。
+Windows PowerShell 用 `Get-Location`，macOS/Linux 的 shell 用 `pwd` 检查当前位置。打开终端的方法与路径写法虽然不同，但检查位置、查看文件列表、切换文件夹的任务相同。
 
 | 术语 | 本节先要抓住的意思 |
 | --- | --- |
@@ -21,23 +13,15 @@ _副标题: 在 Windows、macOS、Linux 中，命令输入在哪里，当前位�
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | 在 PowerShell 中完成相同目的的命令。 |
 | 路径（path）差异 | 像 Windows 的 `C:\\...` 与 macOS/Linux 的 `/...` 这样的操作系统路径表示差异。 |
 
-## 阅读标准：Windows、macOS、Linux 终端使用方法
+## 操作系统、路径与快捷键
 
-- 能在入门层面说明如何在 Windows、macOS、Linux 中打开终端。
-- 能说明打开终端后首先要确认当前位置。
-- 能说明 Windows PowerShell 与 macOS/Linux shell 的命令有些地方不同。
-- 能说明 `pwd`、`ls`、`cd`、`Get-Location`、`Get-ChildItem`、`Set-Location` 分别是做什么的。
-- 在复制并执行命令之前，能先确认当前文件夹和该命令的目的。
+| 标准 | 为什么重要 |
+| --- | --- |
+| 操作系统不同，终端应用、默认 shell、路径表示也会稍有不同 | 如果直接照搬别的操作系统示例，路径和命令可能会对不上 |
+| 即便如此，共通地首先要看的仍然是当前位置和文件列表 | 即使操作系统不同，实践前的检查顺序也不会差太多 |
+| 终端快捷键可能与普通应用不同 | 如果把复制粘贴和中断执行混淆，工作会被打断 |
 
-## 三个标准
-
-| 标准 | 为什么重要 | 本节所需的理解程度 |
-| --- | --- | --- |
-| 操作系统不同，终端应用、默认 shell、路径表示也会稍有不同 | 如果直接照搬别的操作系统示例，路径和命令可能会对不上 | 理解即使目的相同，命令写法也可能略有不同 |
-| 即便如此，共通地首先要看的仍然是当前位置和文件列表 | 即使操作系统不同，实践前的检查顺序也不会差太多 | 保持“位置确认优先”的标准 |
-| 终端快捷键可能与普通应用不同 | 如果把复制粘贴和中断执行混淆，工作会被打断 | 记住 `Ctrl+C` 这类行为要按环境小心处理 |
-
-## 不同操作系统中的终端应用和 shell 可能不同
+## 各操作系统的终端与 shell
 
 在使用终端时，最先出现的混淆通常是“终端应用”和“在里面运行的 shell”混在一起。
 
@@ -47,7 +31,7 @@ Apple 的 Terminal User Guide 把 macOS 中的 Terminal 介绍为创建和管理
 
 Ubuntu 文档说明，Linux 虽然也有 GUI，但传统 Unix 环境使用命令行界面（command line interface, CLI），并且在大多数 Linux 发行版中，都能在终端里输入类似的命令。
 
-这里可以这样整理。
+终端应用与 shell 的例子如下。
 
 | 操作系统 | 经常遇到的终端应用 | 经常遇到的 shell |
 | --- | --- | --- |
@@ -55,19 +39,7 @@ Ubuntu 文档说明，Linux 虽然也有 GUI，但传统 Unix 环境使用命令
 | macOS | Terminal、iTerm2、VS Code Terminal | zsh、bash |
 | Linux | GNOME Terminal、Konsole、VS Code Terminal | bash、zsh |
 
-本 Part 的实践会尽量标明命令是以哪个环境为基准。如果没有标明，通常多半是以 macOS/Linux 系 shell 为基准。
-
-## 在 Windows 中先以 PowerShell 为基准
-
-在 Windows 中会遇到好几种命令输入窗口。
-
-- Windows Terminal
-- PowerShell
-- Command Prompt
-- VS Code 的 Terminal 面板
-- 如果安装了 WSL，则还有 Linux shell
-
-这里在需要说明 Windows 时，先以 PowerShell 作为默认基准。Command Prompt 在旧资料中经常出现，但在 Python 学习和现代开发环境中，你更可能经常遇到 PowerShell 或 Windows Terminal。
+## 在 Windows 中打开 PowerShell
 
 在 Windows 中打开终端，最简单的方法通常是下面几种之一。
 
@@ -103,7 +75,7 @@ cd C:\Users\someone\ws\project-name
 
 不过刚开始学习时，最好也同时知道正式命令名。以后查文档时，用 `Get-Location`、`Get-ChildItem`、`Set-Location` 来搜索，更容易找到准确资料。
 
-## 在 macOS 中，通常会打开 Terminal 并遇到 zsh shell
+## 在 macOS 中打开 Terminal
 
 在 macOS 中，可以使用默认应用 Terminal。
 
@@ -135,7 +107,7 @@ cd /Users/someone/ws/project-name
 
 在 macOS 中粘贴终端命令时，要特别小心带有 `sudo` 的命令。`sudo` 可能会让命令以管理员权限执行。在本 Part 前段的实践里，大多数情况下并不需要 `sudo`。
 
-## 在 Linux 中，终端经常出现在学习资料里
+## 在 Linux 中打开终端
 
 在 Linux 发行版中，终端使用经常出现在学习资料里。Ubuntu 文档介绍了通过搜索功能和 `Ctrl + Alt + T` 这类快捷键打开终端的方法。菜单名称会因桌面环境而不同，但在很多 Linux 环境中，都可以通过搜索终端应用来打开它。
 
@@ -161,9 +133,9 @@ cd /home/someone/ws/project-name
 
 在 Linux 资料里，也经常会看到 `sudo apt install ...` 这类命令。这些命令可能会安装系统包。在这个 Python 入门阶段，不要不加判断地执行，先确认这个命令为什么需要。
 
-## Tip：终端快捷键只先记少量即可
+## 终端快捷键
 
-不需要把所有终端快捷键都背下来。先以“打开、复制粘贴、标签页、命令补全、中断执行”为标准即可。
+终端中的复制与中断执行可能使用不同快捷键。
 
 | 情况 | Windows Terminal | macOS Terminal | Linux/Ubuntu 系 |
 | --- | --- | --- | --- |
@@ -186,47 +158,11 @@ cd do
 
 如果终端能找到 `docs`，就会自动补全。如果候选项有多个，可能不会一次完成。这时可以再多输入一点，或者在某些终端里按两次 `Tab` 查看候选项。
 
-快捷键是提升速度的工具。但在一开始，比起速度，更重要的是确认当前位置和你即将执行的命令。
+`Ctrl + C` 可请求中断正在运行的程序。复制文字时，应使用表中的复制快捷键。操作可能随应用设置及是否选中文字而变化，如与预期不符，请检查菜单中的快捷键。
 
-## Tip：Ctrl+C 和 Ctrl+V 在终端里可能表现不同
+## 切换文件夹后确认位置
 
-在普通应用里，人们习惯了 `Ctrl + C` 是复制，`Ctrl + V` 是粘贴。但在终端里，它们可能会表现不同。尤其是 `Ctrl + C`，经常被用作中断正在运行命令的信号。
-
-例如，当你在终端里运行 Python 服务器、耗时很长的安装命令、或一个无限循环程序时，按下 `Ctrl + C` 可能不是复制，而是在请求中断执行。
-
-所以，在终端里，最好把复制和粘贴快捷键单独记住。
-
-| 环境 | 复制 | 粘贴 | 中断执行 |
-| --- | --- | --- | --- |
-| Windows Terminal | `Ctrl + Shift + C` | 经常使用 `Ctrl + Shift + V` | `Ctrl + C` |
-| macOS Terminal | `Command + C` | `Command + V` | `Control + C` 或 `Command + .` |
-| Linux/Ubuntu 系终端 | 经常使用 `Ctrl + Shift + C` | 经常使用 `Ctrl + Shift + V` | `Ctrl + C` |
-
-这个区分很重要。
-
-- 在普通文档中复制文字时，使用的是 `Ctrl + C` 或 `Command + C`。
-- 在终端里停止正在运行的命令时，通常使用的是 `Ctrl + C`。
-- 在终端中复制文字时，在 Windows/Linux 中经常使用 `Ctrl + Shift + C`。
-- 向终端里粘贴时，在 Windows/Linux 中经常使用 `Ctrl + Shift + V`。
-
-不过，快捷键也可能因终端应用设置而改变。Windows Terminal 可以修改键盘快捷键，macOS Terminal 也会在菜单中显示实际快捷键。如果快捷键没有按预期工作，就检查当前正在使用的终端应用菜单与设置。
-
-这里先记住下面这些标准。
-
-- 如果按下 `Ctrl + C` 却没有发生复制，那么在终端里它可能表示中断执行。
-- 如果 Windows/Linux 终端里的复制粘贴不起作用，就检查 `Ctrl + Shift + C` 和 `Ctrl + Shift + V`。
-- 在 macOS Terminal 中，先按一般 Mac 应用那样去想 `Command + C` 和 `Command + V`。
-
-## 三种操作系统中共通要先确认的事
-
-即使操作系统不同，实践前的确认顺序也很相似。
-
-1. 打开终端。
-2. 确认当前位置。
-3. 确认文件列表。
-4. 移动到实践文件夹。
-5. 再次确认当前位置和文件列表。
-6. 执行 Python 命令或包安装命令。
+进入实践文件夹后，再次检查当前位置与文件列表，可以发现路径输入错误。
 
 以 Windows PowerShell 为基准，流程如下。
 
@@ -254,9 +190,7 @@ ls
 cd /home/someone/ws/project-name
 ```
 
-重要的并不是背下很多命令名，而是先养成确认“我现在在哪个文件夹里”的习惯。
-
-## 路径分隔符不同
+## 各操作系统的路径写法
 
 Windows 与 macOS/Linux 的路径表示方式不同。
 
@@ -270,7 +204,7 @@ Windows 与 macOS/Linux 的路径表示方式不同。
 
 因此，在复制路径示例时，需要改成自己电脑上的实际文件夹位置。
 
-## 在运行 Python 命令之前要确认什么
+## 检查 Python 命令
 
 在终端中运行 Python 之前，先确认下面这些内容。
 
@@ -296,9 +230,9 @@ python3 --version
 py --version
 ```
 
-这里不处理 Python 安装本身。这里只做到确认“哪个命令在我的环境里指向 Python”。真正需要安装的时点会在 P2-7.7 中单独处理。
+通过打印的版本确认哪个命令能运行 Python。如需安装，请参见 [Python 安装](section-07.zh.md)。
 
-## 复制粘贴的命令要先读再执行
+## 提示符与实际命令
 
 从文档中复制并粘贴命令是很常见的事。这本身并不是坏习惯。Ubuntu 文档也说明，即使是熟练用户，也经常复制粘贴命令。
 
@@ -311,8 +245,6 @@ py --version
 - 它只是检查状态，还是会改动系统？
 - 它里面有没有 `sudo`、安装包、删除、移动路径之类的部分？
 - 前面是否包含 `$`、`>`、`PS>` 这样的提示符号？
-
-尤其是在前期练习中，先养成在执行前确认 `当前位置`、`命令目的`、`操作系统是否匹配` 的习惯，会更安全。
 
 文档里为了说明终端提示符，可能会像下面这样写。
 
@@ -334,9 +266,9 @@ PS C:\Users\someone> python example.py
 
 这时也不是把整个 `PS C:\Users\someone>` 都输入进去。实际命令是 `python example.py`。
 
-## 出错时先把“位置”和“环境”分开看
+## 按错误类型检查
 
-遇到终端错误时，不要立刻判断成 `我不会 Python`。先把问题拆开。
+确认错误消息指向的对象。
 
 | 错误情况 | 先看什么 |
 | --- | --- |
@@ -346,19 +278,32 @@ PS C:\Users\someone> python example.py
 | 出现权限错误 | 执行位置、文件权限、是否需要管理员权限 |
 | 在 Colab 中可以，在本地不行 | 本地 Python 和包安装状态 |
 
-在前期实践中，最常见的问题并不是很深的代码错误，而是当前文件夹不对、包安装在别的环境里，或者把 Colab 和本地 PC 误当成同一个环境。
+## 含空格的项目路径
 
-## 案例与示例
+如果项目文件夹名为 `ai practice`，需要把空格作为同一个路径的一部分传入。替换成实际用户名与文件夹位置后，用引号包住完整路径。
 
-### 案例 1. 复制了同一条命令，但在 Windows 和 macOS 中看起来不一样
+Windows PowerShell:
 
-假设你把学习资料中的 `cd /Users/someone/ws/project-name` 命令原样复制并执行。它在 macOS 中看起来很自然，但在 Windows PowerShell 里，从路径格式开始就会显得陌生，有些人甚至连粘贴快捷键的行为都不同而被卡住。
+```powershell
+Set-Location "C:\Users\someone\ws\ai practice"
+Get-Location
+```
 
-人原本的直觉通常是 `文档里这样写，直接贴进去就行`。但实际上，不同操作系统里的终端应用、默认 shell、路径表示、复制粘贴方式都会略有不同。
+macOS:
 
-这里想减少的差异，正是这种按操作系统变化的表示差异。关键不是把所有命令都背下来，而是读出 `确认当前位置`、`确认文件列表`、`移动到项目文件夹` 这些共同目的。在 Windows 中，可以让 `Get-Location`、`Set-Location`、`Get-ChildItem` 去对应这些目的；在 macOS/Linux 中，则对应 `pwd`、`cd`、`ls`。
+```bash
+cd "/Users/someone/ws/ai practice"
+pwd
+```
 
-可以确认的结果，会直接显示在“显示当前位置”的命令上。即使操作系统不同，只要最终能确认 `我现在在哪个文件夹里`，就能大幅降低路径表示差异带来的初期混乱。
+Linux:
+
+```bash
+cd "/home/someone/ws/ai practice"
+pwd
+```
+
+确认各结果是以 `ai practice` 结尾的项目位置。不加引号时，shell 可能把含空格的路径拆成多个参数，导致切换失败。即使命令目的相同，实际路径与参数边界也必须正确。
 
 ## 检查清单
 

@@ -1,0 +1,195 @@
+{
+  "status": "generated",
+  "stage": "person_mask",
+  "purpose": "Person mask for Qwen Image Edit compositing or inpainting",
+  "models": {
+    "detector": "IDEA-Research/grounding-dino-tiny",
+    "segmenter": "facebook/sam2.1-hiera-small",
+    "licenses": {
+      "detector": "Apache-2.0",
+      "segmenter": "Apache-2.0"
+    }
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+    "sha256": "7c0d860637e0ea66af0a09376cec521862f0da338abe46c648c11cbcfcfc46ec"
+  },
+  "input_role": "scene; one selected visible character",
+  "selection": {
+    "target_point_xy": [
+      620.0,
+      220.0
+    ],
+    "negative_points_xy": [
+      [
+        790.0,
+        900.0
+      ],
+      [
+        790.0,
+        790.0
+      ]
+    ],
+    "positive_points_xy": [
+      [
+        525.0,
+        1000.0
+      ],
+      [
+        590.0,
+        1160.0
+      ]
+    ],
+    "box_override_xyxy": [
+      390.0,
+      90.0,
+      820.0,
+      1230.0
+    ],
+    "method": "highest score containing target point",
+    "candidates": [
+      {
+        "index": 0,
+        "label": "a woman",
+        "score": 0.3485398292541504,
+        "box_xyxy": [
+          426.1099548339844,
+          89.28043365478516,
+          816.153076171875,
+          1106.9720458984375
+        ]
+      },
+      {
+        "index": 1,
+        "label": "a woman",
+        "score": 0.35061541199684143,
+        "box_xyxy": [
+          178.17755126953125,
+          571.564697265625,
+          372.1714782714844,
+          1074.714111328125
+        ]
+      },
+      {
+        "index": 2,
+        "label": "a woman",
+        "score": 0.3664800822734833,
+        "box_xyxy": [
+          724.7002563476562,
+          682.455078125,
+          836.2958374023438,
+          1051.778076171875
+        ]
+      },
+      {
+        "index": 3,
+        "label": "a woman",
+        "score": 0.388330340385437,
+        "box_xyxy": [
+          974.5732421875,
+          496.35040283203125,
+          1172.316162109375,
+          1075.539306640625
+        ]
+      },
+      {
+        "index": 4,
+        "label": "a woman",
+        "score": 0.309283047914505,
+        "box_xyxy": [
+          56.19317626953125,
+          614.4354248046875,
+          204.9055633544922,
+          1050.332275390625
+        ]
+      },
+      {
+        "index": 5,
+        "label": "a woman",
+        "score": 0.34113171696662903,
+        "box_xyxy": [
+          840.0690307617188,
+          639.9303588867188,
+          967.9678955078125,
+          1051.476806640625
+        ]
+      },
+      {
+        "index": 6,
+        "label": "a woman",
+        "score": 0.31538018584251404,
+        "box_xyxy": [
+          1130.099853515625,
+          602.5457153320312,
+          1277.2041015625,
+          1005.3967895507812
+        ]
+      },
+      {
+        "index": 7,
+        "label": "a woman",
+        "score": 0.32563525438308716,
+        "box_xyxy": [
+          426.8265380859375,
+          89.69841003417969,
+          815.7550048828125,
+          993.435546875
+        ]
+      },
+      {
+        "index": 8,
+        "label": "a woman",
+        "score": 0.33997318148612976,
+        "box_xyxy": [
+          423.3482360839844,
+          89.43016052246094,
+          816.8394775390625,
+          1214.955322265625
+        ]
+      }
+    ]
+  },
+  "grounding_prompt": [
+    "a woman"
+  ],
+  "selected_detection": {
+    "label": "a woman",
+    "score": 0.3485,
+    "box_xyxy": [
+      426.11,
+      89.28,
+      816.15,
+      1106.97
+    ]
+  },
+  "segmentation_box_xyxy": [
+    390.0,
+    90.0,
+    820.0,
+    1230.0
+  ],
+  "mask_semantics": "white=person to repaint; black=preserve",
+  "postprocess": {
+    "excluded_rectangles_xyxy": [],
+    "keep_largest_component": false,
+    "keep_prompt_components": false,
+    "fill_holes_max_area": 0,
+    "excluded_polygons_xy": []
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1.png",
+    "sha256": "e9c78cfb51fdeca78f163f64950181abf2070aecb1d50af2ec0a6bf6bea798a2"
+  },
+  "overlay": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1-overlay.png",
+    "sha256": "7017a145985ea6067ecd49359963f6eccce2b7e73458350fdfe9b8ef4d23e21d"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "elapsed_seconds": 3.13
+}

@@ -1,7 +1,7 @@
 # P2-1.1 What Math Does in AI Computation
 
 > Section ID: `P2-1.1`
-> Version: `v2026.07.26`
+> Version: `v2026.09.08`
 
 In Part 1, we viewed AI on a broad map of rules, models, learning, generation, and service structure. Starting in Part 2, we recover the foundations needed to read that map. The first question is how much math you need in order to relearn AI.
 
@@ -9,11 +9,11 @@ The answer in this section is not simple. You do not need to prove all the mathe
 
 So here, mathematics is not treated as an exam subject for getting the right answer. It is treated as a language, structure, and compressed notation for reading AI computation.
 
-The reason to revisit mathematics here is closer to `recovering literacy for reading expressions such as X, y, loss, and metric in Part 3 and Part 4` than to `preparing for a test that solves problems`. Once this standard is in place, it also becomes easier to read why vectors, derivatives, probability, and optimization are grouped into one part later on.
+The reason to revisit mathematics here is closer to `recovering literacy for reading expressions such as X, y, loss, and metric in Part 3 and Part 4` than to `solving problems to prepare for a test`. Once this standard is in place, it also becomes easier to read why vectors, derivatives, probability, and optimization are grouped into one part later on.
 
 Here, we reorganize again the `role of math`, `computational language`, `compressed notation`, `loss`, and `optimization`. Before later sections and later chapters fully separate individual symbols and math topics, this section first clarifies `why mathematics must be reread as part of AI computational literacy`.
 
-## One Shared Scene to Hold First
+## A Shared Example to Start With
 
 Chapter 1 keeps reusing one small data scene. Suppose the study hours and quiz scores of four students are as follows.
 
@@ -44,11 +44,11 @@ So here, mathematics is not a separate subject for learning difficult symbols. I
 
 What is needed first here is not proof, but a distinction of roles.
 
-| Criterion | Why It Matters | Required Understanding in This Section |
-| --- | --- | --- |
-| Math is a `computational language`, not an `answer test` | This gives you a starting point for reading documents even if you cannot solve every formula. | Understand that formulas are tools that compress computational structure. |
-| Math explains the `shape of data` and the `direction of learning` | This connects why vectors, matrices, loss, and gradients appear in the same part. | Understand that math checks what is represented and what is being reduced or changed. |
-| Formulas must ultimately be checked again through `code and results` | In AI learning, reading formulas alone is not the end. | Understand that a small code example is used to read what computation is being checked. |
+| Criterion | Why It Matters |
+| --- | --- |
+| Math is a `computational language`, not a `test of correct answers` | This gives you a starting point for reading documents even if you cannot solve every formula. |
+| Math explains the `shape of data` and the `direction of learning` | This explains why vectors, matrices, loss, and gradients appear in the same part. |
+| Formulas must ultimately be checked again through `code and results` | In AI learning, reading formulas alone is not the end. |
 
 ## Math Shows Computation in Compressed Form
 
@@ -66,20 +66,20 @@ With sigma, it becomes even more compressed.
 \mathrm{mean} = \frac{1}{n}\sum_{i=1}^{n}x_i
 \]
 
-This compressed notation can feel unfamiliar. But in AI and machine-learning documents, formulas mostly play this role. They write long repeated calculations, many data points, many parameters, sums of losses, and products of probabilities in a short form that humans can read.
+Here, `x_i` represents each data value, and `n` represents the number of values. Even when the values or their number change, the rule remains the same: `add all the values, then divide by their number`. A formula compresses a rule that applies across many cases. When people share the meanings of the symbols, they can communicate and check the same calculation rule even when working with different data. Mathematical notation becomes a tool for communicating generalized calculation rules.
 
 You can unpack a formula by asking the following questions.
 
 - What does it take as input?
 - What does it add or compare?
 - What is it trying to reduce or increase?
-- Into what variable does the result appear in code?
+- Which variable represents the result in code?
 
 If you return to the study-time and quiz-score table above, the mean score is the computation that adds `55, 65, 80, 90` and divides by the number of students. The formula writes that repetition briefly, and the code in a later section unfolds it into an actual procedure. What the reader should hold here is not the symbol itself, but `the repeated structure that handles many values at once`.
 
 ## Math Determines the Shape of Data
 
-AI models do not handle raw sentences, images, sounds, and tables directly. Most of them are transformed into computable forms such as arrays, vectors, matrices, and tensors.
+AI models do not handle raw sentences, images, sounds, and tables directly. These inputs are usually transformed into computable forms such as arrays, vectors, matrices, and tensors.
 
 A sentence can be transformed into tokens, numeric IDs, and vectors. An image can become a pixel-value array and a tensor. Tabular data can become a matrix or DataFrame with rows and columns.
 
@@ -154,9 +154,9 @@ This code checks the mathematical concept of a mean using small data. The key po
 
 Part 2 keeps connecting these four things. Mathematics is not left alone as "theory that must be understood," but is rechecked through small code and data.
 
-## Order in Which Part 2 Reads Mathematics
+## A Math Path for Reading AI Computation
 
-Part 2 is not the order of proving mathematics deeply. It is the recovery order for reading AI computation.
+Part 2 follows a sequence for rebuilding the math needed to read AI computation, rather than for exploring mathematical proofs in depth.
 
 - **formula notation**: reread variables, functions, expressions, sigma, and limits
 - **linear algebra**: view scalars, vectors, matrices, and matrix multiplication from the viewpoint of data representation
@@ -176,21 +176,30 @@ Still, the following two points are distinguished.
 1. Not understanding every proof is allowed in Part 2.
 2. On the other hand, if you cannot read at all what a formula is trying to compute, then you will keep getting blocked when reading machine learning and deep learning.
 
-So the goal is not to become a complete mathematician. The goal is to become able to read `which part of data, model, loss, and learning this formula is explaining`.
+So the goal is not to become a fully trained mathematician. The goal is to become able to read `which part of data, model, loss, and learning this formula is explaining`.
 
-## Case Study
+## A Loss Function Compresses the Differences Between Predictions and Actual Values
 
-### Case 1. Why Do You Freeze as Soon as You See a Loss Function Formula?
+Take the two students with actual scores of `55` and `65` from the study-time and quiz-score table above. Suppose the model predicts a score of `60` for both students.
 
-Suppose a learner first sees a loss-function formula in a machine-learning book. Even if the number of symbols is not large, it can still feel overwhelming. A person easily experiences it as if it were `a test problem that must be solved correctly`, but in reality the formula often just writes in compressed form `what is being compared` and `what is being reduced`.
+| Student | Actual score | Predicted score | Predicted − actual | Squared difference |
+| --- | --- | --- | --- | --- |
+| A | 55 | 60 | 5 | 25 |
+| B | 65 | 60 | −5 | 25 |
 
-For example, an expression that squares and adds the difference between predicted values and actual values is simply a short way of writing the computational structure that gathers how wrong the model is into one number. Here, instead of following the proof immediately, first unpack `what is the input`, `what is being compared`, and `what value is ultimately being reduced`.
+Adding the differences directly gives `5 + (−5) = 0`. Both predictions are off by 5 points, yet the sum makes it look as though there is no difference. Squaring each difference gives `25 + 25 = 50`, so the positive and negative differences no longer cancel out. Dividing by the number of students, 2, gives `25`. In this example, we use this average of the squared differences as the loss.
 
-This case shows why mathematics should be read as a computational language. Instead of memorizing formulas, you need to read `which part of model computation this expression explains`. Only then do probability, vectors, derivatives, and optimization connect through the same map later.
+The following formula compresses this calculation.
 
-In other words, mathematics feels burdensome not only because there are many difficult concepts, but because compressed notation is often read all at once. The purpose of Part 2 is to create practice in unpacking that compression again into data and code.
+\[
+L = \frac{1}{n}\sum_{i=1}^{n}(\hat{y}_i-y_i)^2
+\]
 
-Here, we first fix the place that mathematics occupies in AI computation, and the detailed formula rules for sigma and limits, or the full computations of vectors and derivatives, are narrowed again in later chapters.
+`y_i` is one student's actual score, and \(\hat{y}_i\) is the predicted score for that student. `n` is the number of students, and `L` is the loss. \(\sum\) means to add the values calculated for all the students. The formula therefore adds the last column of the table and divides by the number of students. Substituting the values above gives `L = (25 + 25) / 2 = 25`.
+
+Now suppose that after adjusting the model, its predictions change to `56` and `64`. Using the same rule, the loss is `(1² + (−1)²) / 2 = 1`. This is smaller than the original `25`, so for these two students, we can say that the predictions after the adjustment are closer to the actual scores.
+
+The same formula applies when there are more students or different scores. Sharing this formula as the calculation rule allows another person to calculate the loss from the same data and predictions and compare the model before and after an adjustment.
 
 ## Checklist
 

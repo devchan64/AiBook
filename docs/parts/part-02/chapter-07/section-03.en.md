@@ -1,55 +1,11 @@
 # P2-7.3 Python Interpreter and Script
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.26`
+> Version: `v2026.09.08`
 
-In P2-7.2, we looked at terminal, shell, and working directory. Now we look at how Python code is actually executed in that terminal.
+`python` is a terminal command that opens interactive Python; `python hello.py` runs code saved in a file. `print("hello")` is Python code read by the interpreter. The execution method determines where to enter code and how results are recorded.
 
-The easiest place to get confused is the following.
-
-```text
-python
-python example.py
-print("hello")
-```
-
-All three lines are related to Python, but they are not the same kind of sentence. Some are terminal commands, and some are Python code. Here we fix that boundary clearly.
-
-Here we explain the distinction among `Python interpreter`, `script`, and `interactive mode`. Even when later Sections meet commands such as `python -m pip ...` or notebook execution again, how Python reads code and in what place it reads it reconnects on top of the explanation here.
-
-Rather than learning Python syntax itself, this Section focuses on distinguishing where and how Python code is executed. If you secure the differences among interpreter, interactive execution, and script execution here, then later when you see virtual environments, package installation, and data-file execution, you can first divide whether `the command was written wrong` or `the execution place was chosen wrong`.
-
-| What to secure in this Section now | The question that follows immediately next | Where it is used again later |
-| --- | --- | --- |
-| The difference between interactive execution and script execution | It continues into virtual environments and package-installation commands in P2-7.4. | It is used again later whenever distinguishing execution style and file structure in all Python practice. |
-| The criterion for not mixing terminal commands and Python code | After P2-7.5, it continues into data files and library usage. | It becomes the basis when interpreting the difference between Colab and a local environment. |
-| The place distinction among `python`, `python file.py`, and `python -m ...` | It is reinforced in P2-7.6 and P2-7.7 through OS-specific installation and execution procedures. | It repeats in package installation, module execution, and project-script execution. |
-
-| Term | Meaning to secure first in this Section |
-| --- | --- |
-| Python interpreter | the program that reads and executes Python code |
-| interactive mode | the execution mode where we type one line at a time and immediately check the result |
-| script | the execution style where several lines of code are saved in a file and run at once |
-| prompt | the marker that shows where to type now |
-| `python -m ...` | a way of asking Python to execute a specific module |
-
-## Core Criteria: Python Interpreter and Script
-
-- You can explain the `Python interpreter` as the program that reads and executes Python code.
-- You can explain the difference between `interactive mode` and `script` execution.
-- You can distinguish terminal commands from Python code.
-- You can explain at an introductory level how execution in Colab/Jupyter code cells differs from execution in the terminal.
-- You can explain that even with the same code, if the execution style changes, the ways of saving, rerunning, and sharing also change.
-
-## Three Criteria
-
-| Criterion | Why it matters | Needed level of understanding here |
-| --- | --- | --- |
-| The interpreter is the program that reads and executes Python code | Only when we distinguish code from the execution program can we see the difference in execution style. | It is enough if you can explain the role of the interpreter in one sentence. |
-| Script execution and interactive execution differ in execution unit | Because the ways of saving, rerunning, and sharing differ. | You can distinguish file-unit execution from one-line execution. |
-| Terminal commands and Python code are entered in different places | Even if they all look like `Python-related sentences`, the interpreting agent differs. | Secure the feel of distinguishing shell prompts from Python prompts. |
-
-## Why Did Interpreter and Script Appear Together?
+## Background of Interactive and Script Execution
 
 Python is difficult to understand as only `a language that runs programs saved in files from the beginning`. The official Python FAQ explains Python as an interpreted, interactive, object-oriented programming language. It also explains that Guido van Rossum started Python from the experience of implementing the ABC language and working on the Amoeba distributed operating system, and that there was a need for a more extensible scripting language in a situation where it was difficult to handle system-administration work only with C programs or Bourne shell scripts.
 
@@ -64,32 +20,13 @@ So in Python, two usage styles naturally appear together.
 - interactive execution: directly test a small expression
 - script execution: save several lines of work in a file and run them repeatedly
 
-The reason Python is often met in AI learning is also connected to this point. It is easy to immediately check formulas with small code, and if the experiment becomes a little longer, it is easy to leave it in a file or notebook. Here, however, we do not go deeply into Python language history, but keep only the feel for why the execution styles of interpreter and script are used together.
+This also helps explain Python’s use in AI learning: small code can immediately check formulas, while longer experiments can be saved in files or notebooks.
 
-## Interpreter Is the Program That Reads and Executes Code
+## The Python Interpreter
 
-The `Python interpreter` is the program that reads and executes Python code. The official Python documentation explains that the interpreter can be invoked from the command line, and if it is started without a file name or standard input, it enters `interactive mode`.
+The Python interpreter reads and executes Python code. The official documentation explains that it can be invoked from the command line; starting it from a terminal without a file or other execution options enters interactive mode.
 
-Here we understand it like this.
-
-- Python code: a command written by a person
-- Python interpreter: the program that reads and executes Python code
-
-The following is Python code.
-
-Problem situation: check what the simplest code read by the Python interpreter looks like.
-Input: one line of Python code that prints a string.
-Expected output: if executed, `hello` is printed.
-Concept to check: the interpreter is the program that reads and executes Python sentences like this.
-
-```python
-# This Python statement is saved in a script file and then executed.
-print("hello")
-```
-
-This code does not work by text alone. It runs only when the Python interpreter reads it.
-
-## Interactive Mode Is the Style of Checking One Line at a Time
+## Interactive Mode and the Prompt
 
 If you run Python in the terminal, you can use `interactive mode`.
 
@@ -105,10 +42,7 @@ python3
 
 When you enter interactive mode, you usually see the `>>>` prompt. The official Python documentation also explains that the default prompt in interactive mode is `>>>`.
 
-Problem situation: in interactive mode, see how one-line calculation and output are checked immediately.
-Input: the calculation `1 + 2` and the call `print("hello")`.
-Expected output: `3` and `hello` are immediately printed.
-Concept to check: interactive mode is an execution style for testing calculations one line at a time.
+Entering an expression or function call after `>>>` immediately displays the result. The `>>>` below is a prompt marker, not code to type.
 
 ```pycon
 >>> 1 + 2
@@ -127,16 +61,13 @@ Interactive mode fits the following situations especially well.
 
 But what you type in interactive mode usually does not remain in a file. To run it again, you have to type it again. So when several lines of code must be run repeatedly, we use a `script` file.
 
-## A Script Is an Execution Unit Saved in a File
+## Scripts Saved in Files
 
 A `script` is code saved in a file for execution. Python files usually use the `.py` extension.
 
 For example, suppose the following contents were saved in a file called `hello.py`.
 
-Problem situation: see the form of saving several lines of Python code in a file and running it as a script.
-Input: the two lines of Python code inside `hello.py`.
-Expected output: when executed, `hello` and the result of `1 + 2` are printed in order.
-Concept to check: a script is the style of saving Python code as a file unit and running it repeatedly.
+Save these two lines in `hello.py` and run it to print `hello` and `3` in order.
 
 ```python
 # A script runs multiple statements from top to bottom.
@@ -165,44 +96,27 @@ Script execution differs from interactive execution.
 
 In AI learning, sometimes we check small calculations immediately, and sometimes we run the same code several times while editing it. That is why we meet both styles.
 
-## Do Not Mix Terminal Commands and Python Code
+## Shell and Python Input Locations
 
-The distinction that most often gets confused is this.
+At the shell prompt, `python hello.py` requests execution of a file. At Python’s `>>>` prompt, enter Python code such as `print("hello")`.
 
-```bash
-python hello.py
+Entering a file-execution command in interactive Python produces an error such as:
+
+```pycon
+>>> python hello.py
+  File "<stdin>", line 1
+    python hello.py
+           ^^^^^
+SyntaxError: invalid syntax
 ```
 
-This is a terminal command. It is not a sentence written inside a Python code file.
+The file `hello.py` does not need to be changed. Enter `exit()` at `>>>` to return to the shell, then run `python hello.py`. Error-message details can vary by Python version.
 
-By contrast, the following is Python code.
-
-Problem situation: check again that even the same `print("hello")` works only in the Python execution place, not at the shell prompt.
-Input: Python code that prints a string.
-Expected output: if executed as Python code, `hello` is printed.
-Concept to check: terminal commands and Python code should be distinguished not by how the sentence looks, but by where it is entered.
-
-```python
-# same Python statement can also run inside a code cell.
-print("hello")
-```
-
-This sentence is not a command typed directly into the terminal. Of course, it can be entered inside the Python interactive `>>>` prompt. But in the general shell prompt, it is interpreted not as Python code but as a shell command.
-
-Here the habit of distinguishing prompts matters.
-
-- shell prompt that looks like `$` or `%`: enter terminal commands
-- `>>>` Python prompt: enter Python code
-- Colab/Jupyter code cell: basically enter Python code
-
-## A Code Cell Sits Between Script Execution and Interactive Execution
+## Notebook Cells and Execution State
 
 The `code cell` of Colab or Jupyter executes Python code in cell units.
 
-Problem situation: check again the smallest execution of Python code in a notebook code cell.
-Input: one line of Python code that prints a string.
-Expected output: `hello` is printed as the cell execution result.
-Concept to check: a code cell shows immediate results like interactive execution while also leaving a record in the notebook.
+A code cell displays results immediately, like interactive execution, while preserving a notebook record.
 
 ```python
 # output-checking code is the same whether it runs from a terminal or a code cell.
@@ -221,7 +135,7 @@ If we separate the three execution places again, they are as follows.
 
 Later, when practice gets longer, the situation `it worked in the notebook, but fails when moved into a script` can appear. At that time, we have to separately check cell execution order, file path, needed imports, and package installation state.
 
-## `python -m` Is a Way of Executing a Module
+## The -m Module Execution Option
 
 In the terminal, you often meet the following command.
 
@@ -231,14 +145,14 @@ python -m pip install numpy
 
 Here `-m` is a way of asking Python to execute a specific `module` like a script. The official Python documentation explains that the form `python -m module` runs a library module as a script.
 
-Here, understand it like this.
+The two commands specify their execution targets differently.
 
 - `python hello.py`: runs a file
 - `python -m pip ...`: runs the module called `pip` through Python
 
-`pip` and package installation are revisited in P2-7.4. Here, remember only that `-m` is not Python code syntax, but an execution option given from the terminal to the Python interpreter.
+`-m` is an interpreter option, not Python code syntax. `python -m pip` runs pip in the Python specified at the beginning of the command.
 
-## If the Execution Style Changes, What You Check Also Changes
+## Checking Errors by Execution Method
 
 Even with the same Python code, the things to check change depending on the execution style.
 
@@ -250,19 +164,17 @@ Even with the same Python code, the things to check change depending on the exec
 | it works in Colab but not locally | Are the same file and package present locally? |
 | it fails when moved into a script | Is there a value that had depended on notebook cell execution order? |
 
-This Section does not cover every error solution. What matters is the perspective that `if the execution style changes, the cause of the error must also be narrowed differently`.
+## A Variable Left Only in the Notebook
 
-## View It Through a Case
+If an earlier notebook cell runs `name = "Mina"`, another cell can run `print(name)` to print `Mina`. But copying only `print(name)` to `hello.py` raises `NameError` because a fresh Python execution has no `name` defined.
 
-### Case 1. Where Should `print("hello")` Be Typed?
+```python
+# Define the required value before using it in a fresh execution.
+name = "Mina"
+print(name)
+```
 
-Suppose a person learning Python for the first time followed a tutorial and typed `print("hello")` directly into the terminal. In some environments it may look as if it works, and in others it may produce a message saying the command cannot be found, causing confusion.
-
-The standard a person was using is usually close to `it is a sentence related to Python, so it should work wherever I put it`. But in reality, the shell prompt, the Python interactive prompt, and the Colab code cell each use different input languages.
-
-This is why this Section separates `interpreter`, `interactive mode`, `script`, and `code cell`. Even if they look like the same content, `python hello.py` is a terminal command, `print("hello")` is Python code, and the cause of the error differs depending on in which place it was entered.
-
-The confirmable result appears by looking at the prompt. If `print("hello")` works inside `>>>` but not in the general shell prompt, then the problem is not Python syntax, but choosing the wrong execution place.
+Saving both lines lets the script print `Mina` too. When moving notebook code into a file, include the variable definitions and imports used by the output cell.
 
 ## Checklist
 

@@ -1,0 +1,45 @@
+{
+  "stage": "white-sneaker-outsole",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png",
+      "role": "Picture 1: P7-5.3 white sneaker design",
+      "sha256": "7c87b107d8619dca03aca9ce7317be0be0f1c93974e6f3da00bf519710d90c71"
+    }
+  ],
+  "prompt": "Show one sneaker from Picture 1 from directly underneath, with its entire outsole facing the camera, toe at the top and heel at the bottom. Keep the shoe design and illustration style on a white background.",
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-v1-size-1280x1280-seed-62294-steps-20.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-white-sneaker-outsole-v1-size-1280x1280-seed-62294-steps-20-result.json",
+  "steps": 20,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "lora": null,
+  "experiment": "shoe-bottom-view",
+  "status": "generated",
+  "output_sha256": "a902edf436d0721b8d9478d6cc0162f6596199d0ed434359fa0181c3a877615f",
+  "source_code_sha256": "0ae7eddae8b71b5c53a7a32588fd6c6a470eb08ca92c3d5c605fcf682450f046",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "elapsed_seconds": 468.44
+}

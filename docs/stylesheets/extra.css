@@ -396,8 +396,10 @@
   border-radius: 999px;
   color: var(--md-default-fg-color);
   cursor: pointer;
-  font: inherit;
+  font-size: 2rem;
+  font-weight: 600;
   height: 2.25rem;
+  line-height: 1;
   padding: 0;
   position: fixed;
   right: 1rem;

@@ -172,7 +172,7 @@ nav:
       - "Module 1. 수학을 계산 언어로 다시 읽기":
           - "Chapter 1. AI에서 수학은 왜 필요한가":
               - "P2-1.1 AI 계산에서 수학이 하는 일": parts/part-02/chapter-01/section-01.md
-              - "P2-1.2 수식, 코드, 데이터가 만나는 자리": parts/part-02/chapter-01/section-02.md
+              - "P2-1.2 수식을 코드로 옮겨 데이터 계산하기": parts/part-02/chapter-01/section-02.md
           - "Chapter 2. 수식 표기 다시 읽기":
               - "P2-2.1 변수(variable), 함수(function), 식(expression) 다시 읽기": parts/part-02/chapter-02/section-01.md
               - "P2-2.2 시그마(sigma)와 반복 계산": parts/part-02/chapter-02/section-02.md
@@ -595,9 +595,10 @@ nav:
               - "P7-5.1 공통 T2I 프롬프트로 화풍 데이터 축적하기": parts/part-07/chapter-05/section-01.md
               - "P7-5.2 캐릭터 멀티플 뷰 생성: identity 기준과 카메라 앵글 분리하기": parts/part-07/chapter-05/section-02.md
               - "P7-5.3 캐릭터 identity와 추가 페인팅으로 특징 완성하기": parts/part-07/chapter-05/section-03.md
-              - "P7-5.4 컷신 생성: 참조 셋으로 pose·camera·장면 만들기": parts/part-07/chapter-05/section-04.md
-              - "P7-5.11 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기": parts/part-07/chapter-05/section-11.md
+              - "P7-5.4 스토리보드 장면과 카메라판 만들기": parts/part-07/chapter-05/section-04.md
+              - "P7-5.5 스토리보드 장면에 캐릭터를 합성하는 경로": parts/part-07/chapter-05/section-05.md
               - "P7-5.12 착장 추출과 Try-On LoRA: 별도 착장 이식 경로를 검수하기": parts/part-07/chapter-05/section-12.md
+              - "P7-5.13 OpenPose 맵으로 캐릭터 동작과 구도 변경을 시험하기": parts/part-07/chapter-05/section-13.md
               - "P7-5.8 텍스트 모션으로 12개 OpenPose 키프레임 준비하기": parts/part-07/chapter-05/section-08.md
               - "P7-5.9 StoryDiffusion으로 여러 컷의 일관성 읽기": parts/part-07/chapter-05/section-09.md
               - "P7-5.10 Qwen-Image Q4 GGUF로 8GB에서 실행 기록 남기기": parts/part-07/chapter-05/section-10.md
@@ -769,7 +770,7 @@ plugins:
                 - "Module 1. Reading Mathematics Again as a Computational Language":
                     - "Chapter 1. Why Mathematics Is Needed in AI":
                         - "P2-1.1 What Mathematics Does in AI Computation": parts/part-02/chapter-01/section-01.md
-                        - "P2-1.2 Where Formulas, Code, and Data Meet": parts/part-02/chapter-01/section-02.md
+                        - "P2-1.2 Translating Formulas into Code to Calculate with Data": parts/part-02/chapter-01/section-02.md
                     - "Chapter 2. Reading Mathematical Notation Again":
                         - "P2-2.1 Reading Variables, Functions, and Expressions Again": parts/part-02/chapter-02/section-01.md
                         - "P2-2.2 Sigma and Repeated Computation": parts/part-02/chapter-02/section-02.md
@@ -1200,7 +1201,7 @@ plugins:
                 - "Module 1. 把数学重新读成计算语言":
                     - "Chapter 1. 为什么 AI 需要数学":
                         - "P2-1.1 数学在 AI 计算里做什么": parts/part-02/chapter-01/section-01.md
-                        - "P2-1.2 公式、代码与数据相遇的位置": parts/part-02/chapter-01/section-02.md
+                        - "P2-1.2 把公式转成代码，计算数据": parts/part-02/chapter-01/section-02.md
                     - "Chapter 2. 重新阅读公式记号":
                         - "P2-2.1 重新阅读变量(variable)、函数(function)、表达式(expression)": parts/part-02/chapter-02/section-01.md
                         - "P2-2.2 Sigma 与重复计算": parts/part-02/chapter-02/section-02.md

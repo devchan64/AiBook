@@ -1,21 +1,21 @@
-# P2-1.2 Where Formulas, Code, and Data Meet
+# P2-1.2 Translating Formulas into Code to Calculate with Data
 
 > Section ID: `P2-1.2`
-> Version: `v2026.07.20`
+> Version: `v2026.09.08`
 
-In P2-1.1, we treated mathematics as the language for reading AI computation. Now we look at where that language actually sits in real learning. When studying AI, formulas, code, and data are not separate things. They are closer to three faces that show the same computation in different ways.
+In P2-1.1, we treated mathematics as the language for reading AI computation. Now we look at its role in actual learning. When studying AI, formulas, code, and data are not separate things. They show the same computation in three different forms.
 
 1. A formula compresses the computational structure.
 2. Code executes the computational procedure.
-3. Data provides the target of the computation and the result to inspect.
+3. Data provides the values to calculate with and the results to inspect.
 
-This section shows the structure that formulas, code, and data can all point to the same calculation.
+This section shows how formulas, code, and data relate to the same calculation.
 
 Later, even when you read formulas for means, vectors, loss, and gradients, you should be able to read together `to what data this expression is applied` and `where it is executed in code`.
 
 Here, we organize together `formula`, `code`, `data`, `output`, and `shape`. If 1.1 first fixed why mathematics should be read as a computational language, here we organize how that computational language points to the same calculation inside `documents, code cells, and real values`.
 
-## One Shared Scene to Hold First
+## A Shared Example to Start With
 
 We bring over the same small table from the previous section.
 
@@ -112,7 +112,7 @@ This example is useful because the same table can later be reread through differ
 
 ## Formulas Give Names and Compress Relationships
 
-The first thing to read in a formula is not the exact shape of the symbols, but the names and relationship.
+The first things to look for in a formula are the names and relationships, rather than the exact shapes of the symbols.
 
 \[
 y = f(x)
@@ -205,7 +205,7 @@ Example execution result:
 (2, 3)
 ```
 
-This example is not for learning deep NumPy usage. It is for checking that, even with the same numbers, the meaning of the computation changes depending on the shape in which they are stored.
+This example is not intended to teach advanced NumPy usage. It is for checking that, even with the same numbers, the meaning of the computation changes depending on the shape in which they are stored.
 
 The study-time and score table above is the same. If you look only at the score column, it can be treated like a one-dimensional vector. But if you look at `x` and `y` together, it becomes a table structure with two columns. The later reasons for separating `X` and `y` or checking `shape` also ultimately come from turning `what kind of question this data is for` into a computable form.
 
@@ -278,7 +278,7 @@ If loss is 0.2, it means that when the gap between model output and reference wa
 
 If accuracy is 90%, it means that 90% of the evaluation data were predicted correctly. But which cases were wrong must still be checked separately.
 
-A numeric result does not automatically become meaning. You must check together what data it came from, by what formula it was computed, and what code was executed.
+A numeric result does not explain its own meaning. You must check together what data it came from, by what formula it was computed, and what code was executed.
 
 ## Connecting It to a Small Learning Flow
 
@@ -293,17 +293,20 @@ This is exactly the place where formula, code, and data all enter together.
 
 This is why Part 2 handles mathematics and Python together. If you see only formulas, execution does not appear. If you see only code, the intention of the computation can become blurry. If you see only data, it is hard to see what the model is learning.
 
-## Case Study
+## Data Count and the Denominator of the Mean
 
-### Case 1. Even One Mean Calculation Can Leave Formula, Code, and Data Disconnected
+The four students' scores, `[55, 65, 80, 90]`, have a sum of `290` and a count of `4`, so the mean is `72.5 points`. For this data, `sum(scores) / 4` and `sum(scores) / len(scores)` give the same result.
 
-Suppose a learner feels they understand the formula for a mean, but when they move to a code cell cannot immediately connect why `sum(scores) / len(scores)` appears. On the other hand, if they see only code, they may carry out the computation but miss why the values are added and divided in that order.
+What happens if we add a fifth student's score of `100`? The sum becomes `390`, and the number of students becomes `5`.
 
-At that point, if you place the actual data `55, 65, 80, 90` in front of you, the three expressions meet in one place. Data is the object of the computation. The formula compresses the structure `add them all and divide by the count`. The code unfolds that structure into the real execution order. The output `72.5` then makes you interpret again where the center of the original scores lies.
+| Calculation method | Code expression | Result for the five students' scores |
+| --- | --- | --- |
+| Keep dividing by the original count of 4 | `sum(scores) / 4` | `390 / 4 = 97.5` |
+| Divide by the current number of students | `sum(scores) / len(scores)` | `390 / 5 = 78` |
 
-This case shows why Part 2 does not separate formulas from Python. Only when you can move across one calculation in these three ways can later vectors, matrices, loss, and probability calculations be read with the sense that `the expression is different, but the structure is the same`.
+The mean for the five students is `78 points`. The value `97.5` comes from adding five scores but dividing by four students. The code has performed the division, but the result is not the mean of this data.
 
-So the mean example is not just a simple arithmetic exercise. It is a reduced version of the basic frame for reading all of AI learning. Formula handles the structure of the computation, code handles the execution procedure, and data handles the material of the computation and the thing to be interpreted afterward. This distinction of places continues directly into vectors, matrices, loss, and probability calculations in later chapters.
+The denominator `n` in the mean formula is the number of values being added. In code, `len(scores)` obtains that count from the current score list. When data is added, both the sum and the count must change to preserve the meaning of the formula in code.
 
 ## Checklist
 

@@ -1,262 +1,116 @@
 # P2-7.9 补充学习：检查本地 Python 环境问题
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.23`
+> Version: `v2026.09.08`
 
-在 P2-7.4 中，我们看过虚拟环境（virtual environment）与包（package）；在 P2-7.5 中，我们看过依赖（dependency）与可复现性（reproducibility）。在 P2-7.7 和 P2-7.8 中，我们又分别整理了 Python 安装与环境变量（environment variable）。
+找不到 `python` 命令与 `import numpy` 失败，发生在不同位置。前者应检查 shell 的命令连接，后者应检查正在运行的 Python 的包状态。即使 Python 版本相同，也可能属于不同虚拟环境，因此还要比较可执行文件路径。
 
-但在实际中，即使分别理解了这些概念，也很容易马上卡在下面这些问题上。
+## 错误消息与检查对象
 
-`明明安装了，却找不到命令。`
-`pip install 成功了，但 import 失败。`
-`昨天还能用，今天不行了。`
-`在 Windows 中可以，在 macOS 中命令却不同。`
-
-这里会说明 `本地 Python 环境问题的基本检查顺序`。我们把前面分开的概念重新绑起来，按 `应该先检查什么？` 的顺序整理。
-
-这个补充学习就是按 `应该先检查什么？` 的顺序把这些问题重新绑起来。
-
-| 术语 | 本节先要抓住的意思 |
+| 消息或情况 | 检查对象 |
 | --- | --- |
-| 命令映射（command mapping） | 确认 `python`、`python3`、`py` 之中哪个命令实际上指向 Python。 |
-| 环境不一致（environment mismatch） | 安装所在环境与运行所在环境彼此不同的状态。 |
-| PATH | 终端决定去哪里寻找可执行命令的列表。 |
-| `pip install` 与 `import` 的差异 | 安装成功与代码使用成功并不是同一回事。 |
-| 检查顺序（troubleshooting order） | 在重装之前，先检查当前 Python、虚拟环境和包位置的步骤。 |
+| `python: command not found` | 执行命令名称、安装状态、PATH |
+| `ModuleNotFoundError: No module named 'numpy'` | 当前 Python 中 NumPy 的安装状态 |
+| `FileNotFoundError` | 当前工作文件夹与数据路径 |
+| `Permission denied` | 写入位置与访问权限 |
+| `SyntaxError` | Python 语法、是否将 shell 命令输入到 Python |
 
-## 阅读标准：如何检查常见的本地 Python 环境问题
+## 实际运行的 Python 命令
 
-- 能把本地 Python 环境问题区分为代码错误与执行环境错误。
-- 能说明为什么 `python --version`、`python3 --version`、`py --version` 的检查是第一步。
-- 能说明虚拟环境是否激活、包安装在哪个位置，这两件事必须一起检查。
-- 能再次说明 `pip install` 成功与 `import` 成功不是同一回事。
-- 能说明当安装过程混乱时，与其立刻重装，不如先检查当前环境。
-
-## 先抓住的标准
-
-在这个补充学习里，首先要抓住的标准是先把 `代码问题` 与 `环境问题` 分开。
-
-| 现在看到的问题 | 先怀疑什么 |
-| --- | --- |
-| `python` 命令不能用 | 命令映射、PATH |
-| `pip install` 成功了 | 安装环境与运行环境是否相同？ |
-| `import` 失败 | 是否在看另一个 Python 或另一个虚拟环境？ |
-| 昨天还能用，今天不行 | runtime、工作文件夹、虚拟环境状态是否变了？ |
-
-也就是说，本节的关键不是再去多背一些新命令，而是抓住先确认 `我现在看到的是哪个 Python？` 的顺序。
-
-## 学习背景
-
-初学者在本地 PC 上卡住，往往不是因为不懂 Python 语法，而是因为 `现在运行的是哪个 Python` 不清楚。
-
-例如，下面这些场景看起来都差不多，但原因其实不同。
-
-- Python 本身还没有安装。
-- Python 安装了，但当前终端里命令没有连上。
-- 虚拟环境创建了，但没有打开。
-- 包安装到了别的虚拟环境里。
-- 在 Colab 里安装过的包，被误以为本地也已经有了。
-
-所以这里不重点放在让你背很多解决命令，而是集中在建立一种把问题拆开来读的标准。
-
-这个补充学习放在这里，是为了在你已经理解 P2-7.4 的虚拟环境与包概念，却仍然混淆 `pip install` 与 `import` 是否真的在看同一个环境时使用；或者在你已经读过 P2-7.5 的 requirements 与可复现性，却又在本地 PC 上把执行环境重新弄乱时使用。等你再回到 P2-7.4 与 P2-7.5，就能把 `虚拟环境`、`依赖`、`可复现性` 与 `我现在看到的是哪个 Python？` 这个问题重新连起来。
-
-## 先检查的四件事
-
-| 问题 | 先检查什么 |
-| --- | --- |
-| 现在 Python 命令能不能被识别？ | 看看 `python`、`python3`、`py` 之中哪个在我的环境里能工作。 |
-| 现在在用哪个环境？ | 区分系统 Python、虚拟环境、Colab。 |
-| 包安装到了哪里？ | 看安装环境与运行环境是不是同一个。 |
-| 这是代码问题还是环境问题？ | `SyntaxError` 与 `ModuleNotFoundError` 不是同一种问题。 |
-
-## 1. 先确认 Python 命令是否真的能工作
-
-第一步不是改 Python 代码，而是确认终端里哪个命令指向 Python 解释器。
-
-问题场景：先确认本地 PC 上 Python 是否真的已经连通。
-输入（input）：`python --version`、`python3 --version`、`py --version` 这些命令。
-期望输出（output）：会显示出在我的环境里哪个 Python 命令和版本能工作。
-要确认的概念：解决问题的第一步，是确认 `哪个命令指向 Python？`
+在终端检查所用 Python 命令的版本。
 
 ```bash
 python --version
-python3 --version
-py --version
 ```
 
-并不是一定要三个命令都能用。重要的是知道我的环境里究竟哪个命令真的会运行 Python。
+macOS/Linux 中可能使用 `python3 --version`，Windows 中根据安装方式可能使用 `py --version`。一个命令失败，不代表完全没有解释器。
 
-这里可以这样读。
+PATH 是 shell 查找可执行文件所用的目录列表。即使已安装 Python，也可能因命令名称、PATH 或执行别名而无法调用。各操作系统的安装与命令连接检查，请参见 [Python 安装](section-07.zh.md)中的官方文档链接。
 
-- 在 Windows 里，可能会看到 `py`。
-- 在 macOS 或 Linux 里，`python3` 可能更自然。
-- 即使 `python` 不工作，也不一定表示完全没有 Python。
+## 实际解释器与工作文件夹
 
-也就是说，不能立刻把 `命令不能用` 和 `没有 Python` 视为同一句话。
+在发生错误的笔记本内核或脚本执行环境中运行以下代码，会打印当前 Python 的可执行文件、环境路径与工作文件夹。
 
-## 2. 先区分现在是系统 Python 还是虚拟环境
+```python
+import os
+import sys
 
-接下来重要的是区分当前环境到底是什么。
+print("Python:", sys.executable)
+print("环境:", sys.prefix)
+print("虚拟环境:", sys.prefix != sys.base_prefix)
+print("工作文件夹:", os.getcwd())
+```
 
-同一台电脑里也可能存在多个 Python。
+标准 `venv` 环境中，`sys.prefix` 与 `sys.base_prefix` 不同。这是在直接确认运行中的 Python 属于哪个环境，而非凭记忆判断是否激活。编辑器或笔记本选定的解释器可能与终端的 Python 不同。
 
-- 系统 Python
-- 项目 A 的虚拟环境
-- 项目 B 的虚拟环境
-- 编辑器单独指定的解释器
+## 版本相同的不同虚拟环境
 
-问题场景：确认虚拟环境开启与未开启时为什么会不同。
-输入（input）：项目文件夹中的虚拟环境和版本确认命令。
-期望输出（output）：可以看出即使看起来是同一条命令，也可能因激活状态不同而指向不同的 Python。
-要确认的概念：`到底运行哪个 Python` 会随着虚拟环境状态而变化。
+以下示例展示两个不同项目的 Python 输出。
+
+| 项目 | 安装时使用的环境 | 运行示例时使用的环境 |
+| --- | --- | --- |
+| Python 版本 | 3.12.3 | 3.12.3 |
+| 可执行文件 | `/home/user/project-a/.venv/bin/python` | `/home/user/project-b/.venv/bin/python` |
+| NumPy | 已安装 | 未安装 |
+
+版本相同，但路径不同，因此是不同环境。A 中安装成功，B 中的 `import numpy` 仍可能失败。要运行项目 B，就向 B 的 Python 安装所需包。路径不同本身不一定是错误，判断标准是该环境是否满足要运行的项目要求。
+
+## pip 与包的位置
+
+在选定所需 Python 的终端运行以下命令。
 
 ```bash
-python --version
 python -m pip --version
+python -m pip show numpy
 ```
 
-这里的关键不是版本号本身，而是 `python` 与 `python -m pip` 是否在看同一个环境。
+第一条显示 pip 的版本与安装位置。第二条在 NumPy 已安装时显示版本与 `Location`；否则显示找不到包的消息。
 
-这里不会再次长篇写出不同操作系统的激活命令。那部分步骤可以回到 P2-7.6 再看。这里要回收的只是：`虚拟环境有没有打开` 会同时影响包安装与代码运行。
+`python -m pip` 使用命令开头的 Python 运行 pip。实际代码也需要用同一个 Python 执行，才能使用该安装。直接指定虚拟环境路径的方法，请参见[用虚拟环境的 Python 安装与执行](section-04.zh.md)。
 
-## 3. 即使 `pip install` 成功，`import` 也可能失败
-
-这是初学者最常混淆的地方。
-
-问题场景：假设包安装成功了，但 Python 代码里仍然无法导入。
-输入（input）：安装命令以及 `import numpy as np` 代码。
-期望输出（output）：即使显示安装成功，只要当前 Python 环境不同，import 依然可能失败。
-要确认的概念：安装与使用是不同阶段，而且必须以同一个环境为基准。
+如果缺少所需的 NumPy，就使用同一个 Python 安装。
 
 ```bash
 python -m pip install numpy
 ```
 
+在该环境执行以下代码，会打印 NumPy 版本与导入文件的位置。
+
 ```python
-# 如果这个 import 失败，当前 Python 环境可能没有 NumPy，或者你正在查看另一个环境。
 import numpy as np
+
+print("NumPy:", np.__version__)
+print("文件:", np.__file__)
 ```
 
-这两个阶段是连在一起的，但不是同一件事。
+如果有安装列表，可以用 `python -m pip install -r requirements.txt` 准备项目要求，而非逐个安装。
 
-- 安装：把包装进当前 Python 环境
-- import：在当前 Python 代码里把那个包读进来
+## 权限错误与包缺失
 
-因此，下面这些情况都可能发生。
+向系统区域安装包时，可能因没有写入权限而失败。在项目文件夹创建虚拟环境，再用该环境的 Python 安装，就能在不改变系统包的情况下准备所需包。
 
-- 安装到了系统 Python，但虚拟环境 Python 里没有。
-- 安装到了虚拟环境 A，但虚拟环境 B 里没有。
-- 安装在 Colab 里，但本地 PC 上没有。
+`Permission denied` 是访问权限问题，`ModuleNotFoundError` 表示运行中的 Python 找不到模块。后者应检查是否装到其他环境、安装未完成，或导入名称错误等情况。
 
-所以，只说一句 `明明装了还是不行` 是不够的。更准确的问题是：`我现在运行代码的那个 Python 环境，是不是刚才安装包的那个环境？`
+## 根据检查结果采取措施
 
-## 4. PATH 问题可能不是安装问题，而是命令映射问题
-
-如果你已经在 P2-7.8 里单独看过环境变量，那么这里就把 PATH 连接成：`终端决定去哪里寻找可执行命令的列表`。
-
-有时候 Windows 上安装已经完成，但找不到 `python` 命令。macOS 或 Linux 中，也可能只有 `python3` 能用，而 `python` 不行。
-
-这时不要立刻怀疑 Python 代码或 `pip` 选项，而要先怀疑命令映射。
-
-这里先按下面的顺序检查。
-
-1. `python --version` 能不能用？
-2. 如果不能，`python3 --version` 能不能用？
-3. 如果是 Windows，`py --version` 能不能用？
-4. 我是否已经确认哪个命令才真正指向 Python？
-
-这里不处理直接修改 PATH 的各操作系统步骤。那类细节流程，更适合去看真实项目环境文档或官方文档。
-
-## 5. 区分权限问题与环境问题
-
-当包安装失败时，并不总是因为包名写错了。也可能是权限（permission）问题。
-
-例如，如果你试图安装到系统区域，可能会因为没有写入权限而失败。在这种情况下，虚拟环境并不只是方便功能，而是按项目隔离包、减少系统区域冲突的一种装置。
-
-这里记住下面这些标准。
-
-- 如果尝试安装到整个系统时被拦住，可能是权限问题。
-- 项目实践放在虚拟环境里安装更安全。
-- 权限错误与 `ModuleNotFoundError` 不是同一种问题。
-
-也就是说，不要把所有情况都用一句 `装不上` 打包，而要拆开看：`找不到命令了吗？`、`没有权限吗？`、`是不是装到了别的环境？`
-
-## 6. 遇到问题时，不要立刻重装，而要按顺序检查
-
-当你感觉安装已经乱掉时，最常见的错误就是把多种安装命令混着反复执行。这样反而会让当前到底以哪个环境为准变得更不清楚。
-
-先按下面这个顺序检查。
-
-1. 现在打开的是哪个终端？
-2. 当前工作文件夹在哪里？
-3. `python`、`python3`、`py` 之中哪个能工作？
-4. 虚拟环境是否已开启？
-5. `python -m pip` 是否是基于当前 Python 运行？
-6. 那个环境里是否真的装了所需包？
-7. 如果还是不行，再回到官方文档中的安装或 Troubleshooting。
-
-这个顺序重要的原因是，很多问题并不是靠重装解决，而是因为 `我其实一直看错了当前环境`。
-
-如果把它再压缩成一张表：
-
-| 检查顺序 | 为什么先看它 |
+| 检查结果 | 下一步措施 |
 | --- | --- |
-| 确认 Python 命令 | 看 Python 本身是否已被识别 |
-| 确认虚拟环境 | 看正在使用哪个环境 |
-| 确认 `python -m pip` | 看安装目标是否与当前 Python 相同 |
-| 确认 `import` | 看安装与使用是否真的接上了 |
-| 然后再判断是否重装 | 避免把已有环境弄得更乱 |
+| 没有可用的 Python 命令 | 检查安装状态与操作系统对应的执行命令 |
+| 编辑器使用另一个项目的 Python | 选择目标项目的解释器 |
+| 选定环境缺少所需包 | 用同一个 Python 的 pip 安装 |
+| 有包，但缺少数据文件 | 检查文件位置、工作文件夹与输入数据准备 |
+| 环境和输入正确，但仍报错 | 检查完整错误消息与代码要求的版本 |
 
-## 应该回到哪里
-
-读完这一节之后，比起立刻再去背更多新命令，更好的做法是重新连接：正文里该回到哪个问题。
-
-| 现在卡住的问题 | 先回去看的正文 |
-| --- | --- |
-| 又开始搞不清为什么要分虚拟环境 | P2-7.4 虚拟环境与包 |
-| 又开始搞不清为什么需要 requirements 与可复现性记录 | P2-7.5 依赖与可复现性 |
-| Windows、macOS、Linux 命令差异本身就很陌生 | P2-7.6 终端使用方法 |
-| 需要重新判断是否要安装 Python，以及何时安装 | P2-7.7 什么时候需要安装 Python |
-| PATH、环境变量、pipe 这类表达又变得陌生 | P2-7.8 shell script 与环境变量 |
-
-## 用案例来看
-
-### 案例 1. 明明安装了 NumPy，但示例文件里还是说没有
-
-假设一位学习者在终端里执行了 `python -m pip install numpy`。安装日志看起来也像是成功的。但运行 `example.py` 时，却出现 `ModuleNotFoundError: No module named 'numpy'`。
-
-在这个场景里，人通常会先怀疑 `是不是安装失败了？` 但更常见的原因并不是安装本身，而是环境不一致。例如，NumPy 可能被安装到了系统 Python，而实际运行文件时，却是另一个解释器而不是项目虚拟环境。
-
-所以首先要看的，不只是 `安装是否成功`，而是 `现在运行 example.py 的 Python` 与 `刚才执行 pip install 的 Python` 是不是同一个。只要在同一个终端里确认 `python --version` 与 `python -m pip --version`，并重新确认虚拟环境是否激活，就能更快缩小原因。
-
-在这个案例中，要确认的结果不只是 NumPy 是否安装，而是 `我现在看到的 Python 环境是不是统一成了一个。`
-
-### 案例 2. 在 Windows 中 `python` 不行，但 `py` 可以
-
-一位 Windows 学习者输入 `python --version`，终端提示找不到命令。所以他可能会认为 Python 安装彻底失败了。但 `py --version` 却能正常工作。
-
-在这种情况下，核心不是 Python 代码错误，而是命令映射方式。在 Windows 中，根据安装方式不同，`py` 可能会表现得像默认入口，而不是 `python`。也就是说，不是没有 Python，而是当前终端里用来调用 Python 的命令可能不同。
-
-在这个案例中，要确认的结果并不是 `python` 不能用这个事实本身，而是找出 `在我的环境里，真正打开 Python 解释器的命令到底是什么？`
-
-## 简短复归表
-
-| 卡住的场景 | 先回去哪里 |
-| --- | --- |
-| 又变得不清楚为什么要用虚拟环境 | `P2-7.4`, `P2-7.5` |
-| Windows/macOS/Linux 的命令差异很陌生 | `P2-7.6` |
-| 需要重新判断是否要安装 Python | `P2-7.7` |
-| PATH、环境变量、shell 语法又变陌生了 | `P2-7.8` |
+将环境检查结果与[依赖与可复现性](section-05.zh.md)中所述的安装列表、数据和执行位置一同记录，便于重新运行时比较。
 
 ## 检查清单
 
-- 能说明在我的环境里，`python`、`python3`、`py` 哪个能工作吗？
-- 能区分系统 Python 与虚拟环境 Python 吗？
-- 能说明 `pip install` 成功与 `import` 成功是不同阶段吗？
-- 能区分 PATH 问题与包缺失问题吗？
-- 出现问题时，能先想起检查顺序，而不是立刻重装吗？
-- 能先把本地 Python 环境问题拆成 `命令`、`环境`、`安装位置` 来检查吗？
+- 能区分找不到命令与找不到包的错误。
+- 能说明 Python 版本相同，可执行文件路径也可能不同。
+- 能用 `sys.executable` 与 `sys.prefix` 检查当前环境。
+- 能比较安装所用的 Python 与执行代码所用的 Python。
+- 能通过 `pip show` 与导入结果确认包的安装和使用位置。
+- 能根据错误消息分别检查命令、环境、权限与文件问题。
 
 ## 来源与参考资料
 
@@ -264,3 +118,5 @@ import numpy as np
 - Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Windows 中 Python 执行命令和安装方式有单独的官方说明。
 - Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Unix/Linux 中 Python 执行命令和安装路径可能因环境而异。
 - Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于支撑需要把虚拟环境是否激活与包安装位置一起检查这一说明。
+
+- Python Software Foundation, [sys — System-specific parameters and functions](https://docs.python.org/3/library/sys.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-09-08。用于确认解释器与虚拟环境路径的 sys.executable、sys.prefix、sys.base_prefix 依据。

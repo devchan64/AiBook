@@ -1,17 +1,9 @@
 # P2-7.6 Supplemental Learning: Opening Terminals by Operating System
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.26`
+> Version: `v2026.09.08`
 
-_Subtitle: Where do you enter commands and how do you check the current location on Windows, macOS, and Linux?_
-
-In P2-7.2, we looked at the concepts of a terminal, a shell, and a working directory. Here, we cover how to check those concepts on actual operating systems.
-
-Here, we supplement `how to enter a terminal by operating system` and the `basic commands for checking your current location`.
-
-This supplement practices “where do I enter commands, how do I check my current location, and how do I move to the practice folder?” Python installation is handled separately in P2-7.7. Here, we focus on how to perform the same kind of check in operating-system-specific terminals.
-
-This supplement organizes the procedure for opening a terminal, checking the current location, and moving to the practice folder on Windows, macOS, and Linux. The execution-environment concept itself is covered in P2-7.1 and P2-7.2.
+Use `Get-Location` in Windows PowerShell and `pwd` in macOS/Linux shells to check your current location. Opening the terminal and writing paths differ, but the tasks of checking the location, listing files, and changing folders are the same.
 
 | Term | Meaning to establish first in this section |
 | --- | --- |
@@ -21,23 +13,15 @@ This supplement organizes the procedure for opening a terminal, checking the cur
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | Commands in PowerShell that serve the same purposes. |
 | path difference | The difference in location notation by operating system, such as Windows `C:\\...` versus macOS/Linux `/...`. |
 
-## First Reading Criteria: Using Terminals on Windows, macOS, and Linux
+## Operating Systems, Paths, and Shortcuts
 
-- You can explain at an introductory level how to open a terminal on Windows, macOS, and Linux.
-- You can explain that when you open a terminal, you should first check the current location.
-- You can explain that Windows PowerShell commands and macOS/Linux shell commands differ in some places.
-- You can explain what `pwd`, `ls`, `cd`, `Get-Location`, `Get-ChildItem`, and `Set-Location` are used for.
-- Before copying and running a command, you can check the current folder and the purpose of the command.
+| Criterion | Why it matters |
+| --- | --- |
+| If the operating system is different, the terminal app, default shell, and path notation are also slightly different | If you copy examples from another operating system as-is, the path and command can mismatch |
+| Even so, what you look at first in common is the current location and the file list | Even across operating systems, the order of checks before practice does not differ much |
+| Terminal shortcuts can behave differently from general apps | If you confuse copy-paste with interrupting execution, your work can stop unexpectedly |
 
-## Three Criteria
-
-| Criterion | Why it matters | Level of understanding needed in this section |
-| --- | --- | --- |
-| If the operating system is different, the terminal app, default shell, and path notation are also slightly different | If you copy examples from another operating system as-is, the path and command can mismatch | Understand that even for the same purpose, command notation can differ slightly |
-| Even so, what you look at first in common is the current location and the file list | Even across operating systems, the order of checks before practice does not differ much | Keep the criterion that location checking comes first |
-| Terminal shortcuts can behave differently from general apps | If you confuse copy-paste with interrupting execution, your work can stop unexpectedly | Remember that `Ctrl+C`-type behavior must be handled carefully by environment |
-
-## Terminal App and the Shell Can Differ by Operating System
+## Terminals and Shells by Operating System
 
 The first confusion in terminal usage is usually that the “terminal app” and the “shell running inside it” get mixed together.
 
@@ -47,7 +31,7 @@ Apple's Terminal User Guide introduces Terminal on macOS as a tool for creating 
 
 Ubuntu documentation explains that Linux also has a GUI, but traditional Unix environments use a command-line interface, and in most Linux distributions, you can enter similar commands into the terminal.
 
-Here, we organize it like this.
+Examples of terminal apps and shells are:
 
 | Operating system | Frequently encountered terminal apps | Frequently encountered shells |
 | --- | --- | --- |
@@ -55,19 +39,7 @@ Here, we organize it like this.
 | macOS | Terminal, iTerm2, VS Code Terminal | zsh, bash |
 | Linux | GNOME Terminal, Konsole, VS Code Terminal | bash, zsh |
 
-Practice in this part marks, as much as possible, which environment a command is based on. If it is not marked, it is often based on a macOS/Linux-like shell.
-
-## On Windows, Use PowerShell as the First Default Reference
-
-There are several kinds of command-input windows you encounter on Windows.
-
-- Windows Terminal
-- PowerShell
-- Command Prompt
-- the Terminal panel in VS Code
-- if WSL is installed, a Linux shell
-
-Here, when Windows-specific explanation is needed, PowerShell is treated as the first default reference. Command Prompt appears often in old materials, but in Python learning and modern development environments, you may encounter PowerShell or Windows Terminal more often.
+## Opening PowerShell on Windows
 
 The easiest ways to open a terminal on Windows are usually one of the following.
 
@@ -103,7 +75,7 @@ cd C:\Users\someone\ws\project-name
 
 But when you first study this, it is better to also know the official command names. Later, when you look up documentation, searching for `Get-Location`, `Get-ChildItem`, and `Set-Location` makes it easier to find more accurate material.
 
-## On macOS, You Often Open Terminal and Encounter the zsh Shell
+## Opening Terminal on macOS
 
 On macOS, you can use the default app Terminal.
 
@@ -135,7 +107,7 @@ On macOS, paths often appear in the form `/Users/...`. This differs from the Win
 
 When pasting terminal commands on macOS, be especially careful with commands that begin with `sudo`. `sudo` can make a command run with administrator privileges. In the early practice of this part, `sudo` is usually not needed.
 
-## On Linux, the Terminal Appears Often in Learning Materials
+## Opening a Terminal on Linux
 
 In Linux distributions, terminal usage appears often in learning materials. Ubuntu documentation introduces ways to open the terminal such as search and shortcuts like `Ctrl + Alt + T`. The menu name can differ by desktop environment, but in many Linux environments, you can open the terminal app by searching for it.
 
@@ -161,9 +133,9 @@ On Linux, the user's home folder is often in the form `/home/username`. This dif
 
 In Linux materials, you also often see commands like `sudo apt install ...`. Those commands can install system packages. In this Python-introduction section, do not run them blindly. First check why the command is needed.
 
-## Tip: Remember Only a Small Number of Terminal Shortcuts
+## Terminal Shortcuts
 
-You do not need to memorize all terminal shortcuts. For now, use “open, copy-paste, tab, command completion, interrupt execution” as the standard.
+Terminals can assign different shortcuts to copying and interrupting execution.
 
 | Situation | Windows Terminal | macOS Terminal | Linux/Ubuntu family |
 | --- | --- | --- | --- |
@@ -186,47 +158,11 @@ cd do
 
 If the terminal can find `docs`, it completes it automatically. If there are multiple candidates, it may not complete at once. Then you enter a little more, or in some terminals, press `Tab` twice to see the available candidates.
 
-Shortcuts are tools for increasing speed. But in the beginning, checking your current location and the command you are about to run matters more than speed.
+`Ctrl + C` can request an interrupt from a running program. To copy text, use the copy shortcut in the table. Behavior may depend on app settings and whether text is selected; if it differs from expectations, check the menu shortcut.
 
-## Tip: Ctrl+C and Ctrl+V Can Look Different in a Terminal
+## Checking Location After Changing Folders
 
-In ordinary apps, people are used to `Ctrl + C` for copy and `Ctrl + V` for paste. But in a terminal, they can behave differently. In particular, `Ctrl + C` is often used as a signal to interrupt a running command.
-
-For example, if you are running a Python server, a long installation command, or a program that repeats forever in a terminal, pressing `Ctrl + C` can request an interrupt, not a copy.
-
-That is why in a terminal, it is safer to remember copy and paste shortcuts separately.
-
-| Environment | Copy | Paste | Interrupt execution |
-| --- | --- | --- | --- |
-| Windows Terminal | `Ctrl + Shift + C` | `Ctrl + Shift + V` is common | `Ctrl + C` |
-| macOS Terminal | `Command + C` | `Command + V` | `Control + C` or `Command + .` |
-| Linux/Ubuntu family terminal | `Ctrl + Shift + C` is common | `Ctrl + Shift + V` is common | `Ctrl + C` |
-
-This distinction is important.
-
-- When copying text in a normal document, you use `Ctrl + C` or `Command + C`.
-- When stopping a running command inside a terminal, you usually use `Ctrl + C`.
-- When copying text inside a terminal, you often use `Ctrl + Shift + C` on Windows/Linux.
-- When pasting into a terminal, you often use `Ctrl + Shift + V` on Windows/Linux.
-
-However, shortcuts can change depending on terminal-app settings. Windows Terminal lets you change keyboard shortcuts, and macOS Terminal shows the actual shortcuts in the menu. If a shortcut does not behave as expected, check the menu and settings of the terminal app you are using now.
-
-Here, remember the following criteria first.
-
-- If you press `Ctrl + C` and it does not copy, in a terminal it may mean interrupt execution.
-- If copy-paste does not work in a Windows/Linux terminal, check `Ctrl + Shift + C` and `Ctrl + Shift + V`.
-- In macOS Terminal, first think of `Command + C` and `Command + V` as in normal Mac apps.
-
-## What to Check First in Common Across All Three Operating Systems
-
-Even if the operating system differs, the pre-practice checking order is similar.
-
-1. Open the terminal.
-2. Check the current location.
-3. Check the file list.
-4. Move to the practice folder.
-5. Check the current location and the file list again.
-6. Run the Python command or the package-installation command.
+After moving into the practice folder, check the location and file list again to catch path mistakes.
 
 From the perspective of Windows PowerShell, the flow looks like this.
 
@@ -254,9 +190,7 @@ On Linux, the movement path can look like the following.
 cd /home/someone/ws/project-name
 ```
 
-What matters is not memorizing many command names. It is the habit of first checking “which folder am I in now?”
-
-## Path Separators Differ
+## Path Notation by Operating System
 
 Windows and macOS/Linux write paths differently.
 
@@ -270,7 +204,7 @@ If you see a path such as `/Users/someone/ws/project-name` in a document, it is 
 
 Therefore, when copying path examples, you need to change them to the actual folder location on your computer.
 
-## What to Check Before Running a Python Command
+## Checking Python Commands
 
 Before running Python in a terminal, check the following.
 
@@ -296,9 +230,9 @@ On Windows, if Python Launcher is installed, you may also see the following comm
 py --version
 ```
 
-Here, we do not solve Python installation itself. We only go as far as checking “which command points to Python in my environment?” The point where installation becomes necessary is handled separately in P2-7.7.
+Use the printed version to determine which command runs Python. If installation is needed, see [Installing Python](section-07.en.md).
 
-## Read Copied-and-Pasted Commands Before Running Them
+## Prompts and Actual Commands
 
 It is common to copy and paste commands from documentation. That is not itself a bad habit. Ubuntu documentation also explains that even experienced users often copy and paste commands.
 
@@ -311,8 +245,6 @@ First, check the following.
 - Is it just checking something, or is it a command that changes the system?
 - Does it include parts such as `sudo`, package installation, deletion, or moving paths?
 - Does it include prompt symbols such as `$`, `>`, or `PS>` at the front?
-
-Especially in early practice, it is better to stop at the habit of checking `current location`, `command purpose`, and `operating-system match` before running a copied command.
 
 In documentation, a terminal prompt may appear like the following in order to explain the prompt itself.
 
@@ -334,9 +266,9 @@ PS C:\Users\someone> python example.py
 
 Here too, you do not type the whole `PS C:\Users\someone>`. The actual command is `python example.py`.
 
-## If an Error Appears, Separate Location and Environment First
+## Checks by Error Type
 
-When you encounter a terminal error, do not immediately decide `I am bad at Python`. First divide the problem.
+Identify what the error message refers to.
 
 | Error situation | What to check first |
 | --- | --- |
@@ -346,19 +278,32 @@ When you encounter a terminal error, do not immediately decide `I am bad at Pyth
 | A permission error occurs | execution location, file permissions, and whether administrator privileges are needed |
 | It works in Colab but not locally | local Python and package-installation state |
 
-In early practice, the most common problems are not deep code errors. They are problems such as being in the wrong current folder, having the package installed in a different environment, or mistaking Colab and the local PC for the same environment.
+## Project Paths Containing Spaces
 
-## Cases and Examples
+If the project folder is named `ai practice`, pass the space as part of one path. Substitute your actual username and folder location, and quote the entire path.
 
-### Case 1. When the Same Command Is Copied but Looks Different on Windows and macOS
+Windows PowerShell:
 
-Suppose you copied the command `cd /Users/someone/ws/project-name` from a learning resource exactly as written and tried to run it. It looks natural on macOS, but in Windows PowerShell the path format itself looks unfamiliar, and for some learners even the paste shortcut can behave differently and become a blocker.
+```powershell
+Set-Location "C:\Users\someone\ws\ai practice"
+Get-Location
+```
 
-The criterion people often start with is simply `it is a command written in the document, so I should be able to paste it as it is`. But in reality, terminal apps, default shells, path notation, and copy-paste behavior differ a little by operating system.
+macOS:
 
-The difference this section tries to reduce is exactly that operating-system-specific notation difference. The key is not to memorize every command, but to read the common purposes: `check current location`, `check file list`, and `move to the project folder`. On Windows, `Get-Location`, `Set-Location`, and `Get-ChildItem` match those purposes. On macOS/Linux, `pwd`, `cd`, and `ls` match them.
+```bash
+cd "/Users/someone/ws/ai practice"
+pwd
+```
 
-A checkable result can be seen immediately through the command that shows the current location. Even if the operating system differs, if you can ultimately confirm `which folder am I in now?`, the initial confusion caused by path-notation differences becomes much smaller.
+Linux:
+
+```bash
+cd "/home/someone/ws/ai practice"
+pwd
+```
+
+Check that each result is the project location ending in `ai practice`. Without quotes, a shell may split a path containing spaces into multiple arguments and fail to change folders. Even when commands share a purpose, the actual path and argument boundaries must match.
 
 ## Checklist
 

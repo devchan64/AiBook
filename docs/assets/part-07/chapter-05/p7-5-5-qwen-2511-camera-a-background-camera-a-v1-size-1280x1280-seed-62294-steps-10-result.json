@@ -1,0 +1,25 @@
+{
+  "status": "generated",
+  "stage": "camera_a_character_removal",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-eye-level-shot-medium-shot-official-direct-seed-5420-steps-20.png",
+    "sha256": "3fd7324d8541fa2b5c5cdd42272e6a43df7ef9a9ce6c17b16767076eb7b7e5c8",
+    "role": "Camera A composition source"
+  },
+  "prompt": "Remove the woman from Picture 1. Preserve the coastal cliff, sky, sea, rocks, grass, and composition.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-camera-a-background-camera-a-v1-size-1280x1280-seed-62294-steps-10.png",
+    "sha256": "49ee3042dfdc24348d11709a289ada4bbf0cee8ce5ce7e1f0b0cba35c8c78cd0"
+  },
+  "runtime": {
+    "diffusers": "0.37.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.13.0"
+  },
+  "elapsed_seconds": 310.87
+}

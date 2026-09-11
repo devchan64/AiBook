@@ -1,36 +1,19 @@
 # P2-5.1 How Probability Represents Uncertainty as Numbers
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.09.08`
 
-In Chapter 4 of Part 2, we used derivatives and gradients to see `how values should be changed so that loss decreases`. Now we need a different kind of mathematical language.
+Probability expresses the chance of an event as a number between 0 and 1. AI uses probabilities for uncertain judgments, such as whether an email is spam or a picture contains a cat. A probability value must be distinguished from the decision based on it.
 
-Differentiation lets us read the direction of change. Probability lets us deal numerically with situations that are not certain. In other words, differentiation is the language that reads how values change, and probability is the language that expresses a state of not knowing as numbers.
+## Uncertainty and Probability
 
-When studying AI, probability does not stay only at dice and coin problems. When data is limited, observation is incomplete, or a model sees the world in a simplified way, we deal not with certain answers but with `how likely is this?` Here, we fix the entrance to that perspective.
+| Criterion | Why It Matters |
+| --- | --- |
+| Uncertainty is a state of not yet knowing | Before the number itself, we must understand what kind of state probability is expressing. |
+| Probability expresses that state numerically | To compare possibilities and use them as judgment material, we need a language of expression. |
+| AI repeatedly uses the language of probability | Because prediction and judgment are often not certain, possibility must be handled numerically. |
 
-This Section reorganizes probability, uncertainty, event, outcome, and sample space. If Chapter 4 read change and the direction of learning, this Section reorganizes the entrance to probability as the language that expresses uncertain situations as numbers.
-
-Here, instead of fully calculating probability formulas, the focus is on recovering probability as the language that expresses uncertainty numerically. If we hold onto the intuition of event, outcome, sample space, and possibility scores here, then later, when we read distributions, estimation, and model prediction probabilities, we can read with less interruption why probability language keeps returning.
-
-## Core Criteria: How Probability Represents Uncertainty as Numbers
-
-- You can explain uncertainty as `a state of not yet knowing`.
-- You can explain probability as the numerical language used to express and compare uncertainty.
-- You can distinguish outcome, event, and sample space.
-- You can explain that probability is not always a number that guarantees the correct answer, but an expression used for judgment and modeling.
-- You can distinguish long-run frequency and degree of belief.
-- You can say why AI model predictions connect to probabilistic expression.
-
-## Three Criteria
-
-| Criterion | Why It Matters | Level of Understanding Needed in This Section |
-| --- | --- | --- |
-| Uncertainty is a state of not yet knowing | Before the number itself, we must understand what kind of state probability is expressing. | Understand uncertainty as a state in which information is lacking or the future is not yet fixed. |
-| Probability expresses that state numerically | To compare possibilities and use them as judgment material, we need a language of expression. | Understand probability as a method of expressing and comparing a state of not knowing with numbers. |
-| AI repeatedly uses the language of probability | Because prediction and judgment are often not certain, possibility must be handled numerically. | Understand that model output may be an expression of possibility rather than a final confirmed answer. |
-
-## Uncertainty Is a State, Not a Number
+## Incomplete Information and Uncertainty
 
 Uncertainty is not itself a number. Uncertainty is a state in which we do not yet know.
 
@@ -51,9 +34,9 @@ The chart below shows the intuition of expressing an uncertain state with a prob
 
 ![A scale that expresses uncertainty with probability numbers between 0 and 1](/AiBook/assets/part-02/chapter-05/probability-uncertainty-scale-en.svg)
 
-## Probability Is Expressed as a Number Between 0 and 1
+## Probability Values Between 0 and 1
 
-Probability is usually expressed as a number between 0 and 1. `0` is the side treated as not occurring, `1` is the side treated as certain to occur, and `0.5` is the side that treats the two possibilities as similar.
+Probability values lie between 0 and 1, inclusive. In finite-outcome models such as a die, `0` represents an impossible event and `1` a certain event. A probability of `0.5` means the event and its complement have equal probabilities.
 
 Written as percentages:
 
@@ -67,7 +50,7 @@ The important point is that probability is not a number that directly says `good
 
 This distinction is also important in AI services. If a model outputs `spam probability 0.95`, that is a possibility score for the event of being spam. Whether to block the result, warn the user, or ask a person to review it is a separate decision layered on top of that score.
 
-## Separate Outcome, Event, and Sample Space
+## Outcomes, Events, and Sample Spaces
 
 To read probability, we must first separate three words.
 
@@ -93,7 +76,7 @@ As in the chart below, an event is a bundle of the outcomes we care about inside
 
 But this method applies directly only when we can treat all outcomes as equally likely. In real data, outcomes are often not equally likely.
 
-## Coins and Dice Are Only a Starting Point
+## Equally Likely Outcomes and Data-Based Estimates
 
 Coins and dice appear often when probability is first taught for a simple reason. It is easy to list the possible outcomes, and if we assume a fair coin or die, it is easy to assume that each outcome has a similar chance.
 
@@ -117,17 +100,13 @@ The other is degree of belief. This is the perspective that expresses numericall
 
 For example, a doctor may judge the possibility of a disease by looking at symptoms and test results, or a model may calculate the possibility that an email is spam by looking at its content. We cannot clone the same person infinitely and repeat the experiment, but we can still express possibility based on current information.
 
-Here, we separate the two perspectives in this way. We read repeatable experiments from the perspective of long-run frequency, and situations where we must judge based on current information from the perspective of degree of belief.
+The long-run frequency perspective focuses on proportions observed in repeated trials. The degree-of-belief perspective focuses on judgments of plausibility given available information. The same problem can be explained differently under these perspectives.
 
 In AI, both perspectives appear. We use frequencies observed in data, and we also use possibility scores based on the model's current information.
 
-## Bayes' Rule Is the Language of Updating Belief
+## New Evidence and Probability Updates
 
-Bayes' rule can look very unfamiliar at first. Especially if probability is remembered only through coins, dice, and ratio calculations, the expression `updating belief` itself may not feel mathematical.
-
-Here, we do not calculate Bayes' rule. But we do fix in advance why this name appears often in probability and AI documents.
-
-Very roughly, Bayes' rule is the rule that handles the flow by which a belief we already had is updated into a new belief after we observe new information.
+Bayes' rule calculates conditional probabilities using newly observed information. Under the degree-of-belief interpretation, it updates probabilities from before an observation to probabilities after it.
 
 In English, it is often expressed with the following terms.
 
@@ -139,8 +118,6 @@ In English, it is often expressed with the following terms.
 
 For example, suppose we initially judged that an email had a low chance of being spam. If new evidence appears such as many links, repeated suspicious phrases, and an unfamiliar sender, the judgment may change.
 
-In other words, at first the email may have looked unlikely to be spam, but after seeing new evidence such as many links and an unfamiliar sender, we may judge the spam possibility as higher.
-
 The chart below shows Bayes' rule not as a formula but as `a flow that updates belief with new evidence`.
 
 ```mermaid
@@ -149,17 +126,13 @@ The chart below shows Bayes' rule not as a formula but as `a flow that updates b
 
 The important word here is evidence. Evidence does not mean only `supporting material`. It is also used to mean the observed information that changes a probabilistic judgment. When the word evidence appears in AI documents, it helps to ask `what changed the judgment?`
 
-Bayes' rule is not the core calculation target of P2-5.1. Here, we leave only the perspective that `probability can be updated by new observation`. The calculations of conditional probability and Bayes' rule remain outside the scope of the current main text of this book.
-
-## Probability Is an Expression, Not the Answer
+## Reliability of Probability Values
 
 If we read probability as `the answer`, misunderstanding occurs. For example, `70% chance of rain` does not mean that it must rain, `95% probability of spam` does not mean that it is absolutely spam, and `82% probability of cat` does not mean only that the model understood the word cat.
 
 Probability is an expression for dealing with uncertainty. Whether that expression is trustworthy is a separate question. We must separately ask whether the data is sufficient, whether the data is biased, by what criterion the model calculated possibility, whether the probability score matches real frequency well, and what the decision threshold is.
 
-These questions return later: in Part 3, P3-6 on evaluation metrics and P3-6.4 on calibration; and in Part 5, P5-10.2 on safety and alignment.
-
-## Why Probability Is Needed in AI
+## Class Probabilities in Classification Models
 
 In many cases, AI does not operate only with certain rules. It finds patterns in data and, based on those patterns, calculates possibilities for new inputs.
 
@@ -167,27 +140,9 @@ For example, an image-classification model may give scores such as `cat: 0.82`, 
 
 These numbers show how plausible the model considers each candidate. If we choose the largest value, the prediction becomes `cat`. But inside the model, the distribution of possibilities among candidates is often more important than a single final answer.
 
-Language models have a similar structure.
+## Probability, Uncertainty, and Stochastic Processes
 
-## View It Through a Case
-
-### Case 1. Why Spam-Mail Judgment Needs the Language of Probability
-
-Suppose a mail service looks at a new email and wants to judge `is it spam or not?` A person can also look at the title, sender, number of links, and tone of the message and become suspicious, but in many cases it is hard to assert from the start that it is `definitely spam`.
-
-At that point, probability does not throw away the state of `we do not know`. It expresses that state numerically. For example, we can look at a specific email as having a spam probability of 0.95 and a normal-mail probability of 0.05. These numbers do not mean that we already know the correct answer. They are the language used to compare which side is more plausible under the current information.
-
-This case also shows that probability and decision are different. Even if the spam probability is high, whether to delete the mail immediately, only warn the user, or ask a person to review it again is a separate policy question. Probability is material for judgment, and final action is another layer placed on top of it.
-
-So, what matters at the entrance to probability is not the dice calculation itself, but how uncertain real problems are translated into a numerical language and read. This is also why probability repeatedly appears in AI.
-
-We can also read a language model as a structure that places candidate next word A, candidate B, and candidate C side by side and compares how likely each one is to follow next.
-
-We do not treat the detailed calculation of a language model here. But it is worth remembering that AI is less `a machine that directly pulls out the answer` and more `a system that often uses calculations comparing possibility among uncertain candidates`.
-
-## Probability, Uncertainty, and Stochastic Are Not the Same Word
-
-As you continue reading AI documents, you will often meet probability, uncertainty, and stochastic. These three words are connected, but they are not the same word.
+Probability, uncertainty, and stochastic refer respectively to a numerical expression, a state of information, and a property of a process.
 
 | Term | English | Distinction |
 | --- | --- | --- |
@@ -201,23 +156,20 @@ By contrast, the situation `I cannot confidently know whether this customer will
 
 So uncertainty is the state of not knowing, probability is the numerical expression of that state, and `stochastic` is the property that the process itself contains probabilistic variation.
 
-This distinction matters later when reading machine learning and generative AI. If we use `random`, `stochastic`, `nondeterministic`, and `probabilistic` as if they all meant the same thing, the explanation can become blurred.
+## Spam Probability and Handling Rules
 
-## A Simple Example: Spam-Mail Judgment
+Suppose a mail classifier uses features such as subject, body, and sender to output spam probability `0.92`. With the following service rules, this message goes to the spam folder.
 
-Let us think again about spam-mail classification.
+| Model spam probability p | Example handling rule |
+| --- | --- |
+| 0.99 ≤ p | Block automatically |
+| 0.80 ≤ p < 0.99 | Move to the spam folder |
+| 0.50 ≤ p < 0.80 | Keep in the inbox with a warning |
+| p < 0.50 | Keep in the inbox |
 
-The input is the email title and body, and the output is the possibility that it is spam.
+If another service sets its automatic-blocking threshold at `0.90`, the same `0.92` results in blocking. The model's judgment is unchanged, but the handling rule changes the action. These thresholds are illustrative; actual thresholds account for costs such as blocking legitimate mail and missing spam.
 
-The model may look at clues such as whether certain words repeat, whether there are many links, whether the sender is unfamiliar, and whether the pattern is similar to previous spam messages.
-
-Then it may produce a number such as `probability of spam: 0.92`.
-
-This number is not a declaration that it is `unconditionally spam`. It is an expression that, under the current model and data, the possibility of being spam is high. In a real service, we may separately set operating criteria such as `block automatically if it is 0.99 or higher`, `move to the spam folder if it is 0.80 or higher`, or `show it for the user to judge directly if it is near 0.50`.
-
-Here, probability is a number that helps judgment, and the operating criterion must be set separately. This distinction is very important when understanding AI services.
-
-The chart below shows that the model's probability score and the service's operating decision should be viewed separately. Even for the same probability score, different actions may follow depending on service purpose, risk, cost, and policy.
+The reliability of the probabilities also needs a separate check. If 100 messages scored around `0.9` are reviewed and only 60 are spam, the observed proportion is `60 / 100 = 0.6`. In this sample, the model has overestimated spam probability. Comparing more records across score ranges helps assess how well probability scores match observed proportions.
 
 ![Flow that separates an AI model's probability score from a service's operating decision rule](/AiBook/assets/part-02/chapter-05/probability-score-decision-threshold-en.svg)
 

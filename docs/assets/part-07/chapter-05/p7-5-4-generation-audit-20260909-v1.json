@@ -1,0 +1,594 @@
+{
+  "section_id": "P7-5.4",
+  "run_label": "audit-20260909-v1",
+  "purpose": "Rerun all three manuscript generators across A/B/C and inspect the complete input chain.",
+  "status": "verified",
+  "source_files": [
+    {
+      "path": "docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
+      "sha256": "987d06ec23d42e7f778141e4dc8d45676382693b649d6ddac76c2230457bb570"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
+      "sha256": "67cc427039b94dd5570d83f7ca691df76a1c69566805424208bb94e448790901"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
+      "sha256": "e1c90da5b54f8ac1ca32c5d512f8cb8973560cab22eb2be38959346b291bc694"
+    }
+  ],
+  "checks": [
+    "All 9 generation subprocesses exited successfully on the local CUDA GPU.",
+    "PNG dimensions, sampling settings, ordered input paths and input/output SHA-256 hashes verified.",
+    "All 9 PNGs visually inspected; limitations are observations, not assertions of perfect identity preservation.",
+    "Manuscript shell commands expanded and compared with executed commands, except the practice output directory.",
+    "Source syntax, line-art PNG/JSON overwrite guards, invalid-input guards and simulated missing-CUDA guards checked.",
+    "Manuscript local links and section/release metadata checked."
+  ],
+  "jobs": [
+    {
+      "stage": "lineart",
+      "scene": "a",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
+        "--scene",
+        "a",
+        "--run-label",
+        "lineart-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
+      "result_sha256": "c2e569cbd6e4fa89a66bae58b3f28973ccdf77ca4d975ea850aeed78e5c95ab6",
+      "inputs": [],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "sha256": "4cb7db3c4a44d3c0ff8692425bf826682cd0a7da7babafc7b63e28814079801b",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5420,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-2512",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 327.37,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "낮은 카메라, 도시 거리와 열린 하늘, 전방 달리기. 전경 신발 밑창의 앞부분과 뒤꿈치가 원근에 따라 크게 강조됨."
+      }
+    },
+    {
+      "stage": "lineart",
+      "scene": "b",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
+        "--scene",
+        "b",
+        "--run-label",
+        "lineart-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
+      "result_sha256": "0c5ac2e0b04ce39d7518c3e5924eb19919952e262c15dcb721457b41390fdd96",
+      "inputs": [],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "sha256": "2737440ba27c8584359e4181fc27c8cae9a746fd047384262053629d35ed62fc",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5421,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-2512",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 288.54,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "나무와 양치식물 사이 숲 공터, 지평선 석양과 열린 하늘, 공중에서 두 다리를 벌린 도약. 긴 머리와 어두운 드레스 형태 착장, 발레화 같은 신발. 색·명암이 있는 선화."
+      }
+    },
+    {
+      "stage": "lineart",
+      "scene": "c",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
+        "--scene",
+        "c",
+        "--run-label",
+        "lineart-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
+      "result_sha256": "20963a9511a48bb411cffaa5c68906696409743df9e0866cbbf70c014fcb023c",
+      "inputs": [],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "sha256": "249c087f3a016016570cd9d0231f7e339c1dd9ed8bfe5c04c691b7dac05c7306",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5422,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-2512",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 298.52,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "왼쪽 여성과 오른쪽 남성이 나란히 앉아 각각 책을 읽음. 앞쪽 바위, 돌 기둥과 가로 나무 난간, 뒤쪽 도시 스카이라인. 무채색 선화. 두 인물과 책의 배치가 명확함."
+      }
+    },
+    {
+      "stage": "mira",
+      "scene": "a",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
+        "--scenes",
+        "a",
+        "--lineart",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "--mira-reference",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+        "--run-label",
+        "mira-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
+      "result_sha256": "8d1935f8ae368f60ed65a329116846d685d866813af65a08075035ce7ef11789",
+      "inputs": [
+        {
+          "role": "Picture 1: fixed line-art composition",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+          "sha256": "4cb7db3c4a44d3c0ff8692425bf826682cd0a7da7babafc7b63e28814079801b"
+        },
+        {
+          "role": "Picture 2: Mira identity and visual-style reference",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+          "sha256": "c524b964ef9a68a777f2172fb7439283709b70fa823e371d19f03a1ff2620053"
+        }
+      ],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "sha256": "3bbc407ba580bbe200a8c6d35ec163eed3f7f19ffb642bbaf66845cc9391bf57",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5420,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-Edit-2511",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 715.61,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "새 라인아트의 낮은 달리기 시점, 도시 거리와 전경 밑창 구도 유지. 청록 단발, 흰 크롭 재킷, 어두운 회색 이너, 청록 긴 바지 반영. 참조와 달리 재킷 소매가 걷힌 형태이며 얼굴의 눈과 윤곽 표현이 달라짐. 전경 밑창 무늬는 원본 장면과 유사하고 정면 착장 참조에서는 보이지 않아 일치 판단 불가."
+      }
+    },
+    {
+      "stage": "mira",
+      "scene": "b",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
+        "--scenes",
+        "b",
+        "--lineart",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "--mira-reference",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+        "--run-label",
+        "mira-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
+      "result_sha256": "ffcb30cfff18a3e56ba5782b7f9f6b14d35c454dbb0e7db234ab775413c1d686",
+      "inputs": [
+        {
+          "role": "Picture 1: fixed line-art composition",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+          "sha256": "2737440ba27c8584359e4181fc27c8cae9a746fd047384262053629d35ed62fc"
+        },
+        {
+          "role": "Picture 2: Mira identity and visual-style reference",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+          "sha256": "c524b964ef9a68a777f2172fb7439283709b70fa823e371d19f03a1ff2620053"
+        }
+      ],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "sha256": "b0ea9a576e442f8c782fd5bb9d9fef616940603158683b1dd62f1bd9fcfae57c",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5421,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-Edit-2511",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 682.12,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "숲 공터와 석양, 두 다리를 벌린 도약 자세 유지. 흰 크롭 재킷, 어두운 이너, 청록 바지 반영. 참조의 단발보다 머리가 길어 뒤로 흐르고 신발은 끈 있는 스니커즈 대신 얇은 발레화/스트랩 슈즈 형태. 바지 끝 아래 양 발목이 드러남."
+      }
+    },
+    {
+      "stage": "mira",
+      "scene": "c",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
+        "--scenes",
+        "c",
+        "--lineart",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "--mira-reference",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+        "--run-label",
+        "mira-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
+      "result_sha256": "7005a0bfee0c50e448019987620c10a3451514aed22b3d96b9e1d4cad5203bae",
+      "inputs": [
+        {
+          "role": "Picture 1: fixed line-art composition",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+          "sha256": "249c087f3a016016570cd9d0231f7e339c1dd9ed8bfe5c04c691b7dac05c7306"
+        },
+        {
+          "role": "Picture 2: Mira identity and visual-style reference",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+          "sha256": "c524b964ef9a68a777f2172fb7439283709b70fa823e371d19f03a1ff2620053"
+        }
+      ],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "sha256": "f9ed69e4cfad812f5c352b8c704bad8dffb64a02dc398600ff74b54bbbecd853",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5422,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-Edit-2511",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 665.57,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "왼쪽 여성의 청록 단발, 흰 크롭 재킷, 어두운 이너, 청록 하의 반영. 바지가 발목 위에서 끝나 넓게 발목 노출. 참조 흰 캔버스화 대신 회색 운동화 형태(레이스와 다른 밑창/패널). 얼굴의 눈·윤곽과 피부 표현이 참조와 달라짐. 오른쪽 남성 독자와 책, 돌 기둥·가로 난간, 도시 스카이라인 배치 유지. 주요 인물은 채색되고 조연·배경은 무채색 선화."
+      }
+    },
+    {
+      "stage": "extras",
+      "scene": "a",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
+        "--scenes",
+        "a",
+        "--scene-image",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "--run-label",
+        "extras-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
+      "result_sha256": "b65aec5cb19e4b2564c74846c4028df93d7cd3cc2ba477456a42ffb2050fd0c7",
+      "inputs": [
+        {
+          "role": "Picture 1: fixed Mira scene; preserve composition and lead character",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+          "sha256": "3bbc407ba580bbe200a8c6d35ec163eed3f7f19ffb642bbaf66845cc9391bf57"
+        }
+      ],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "sha256": "7c0d860637e0ea66af0a09376cec521862f0da338abe46c648c11cbcfcfc46ec",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5420,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-Edit-2511",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 475.29,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "미라 주변에 캐주얼 복장의 인물 여섯 명 추가(화면 왼쪽 두 명, 오른쪽 네 명). 대부분 팔을 굽히고 달리는 자세이며 행인과 주자의 구분이 뚜렷하지 않음. 중심 인물의 낮은 시점, 전경 밑창, 청록 단발·흰 재킷·청록 바지 유지. 배경 나무와 구름 등 세부 표현은 입력과 차이가 있음."
+      }
+    },
+    {
+      "stage": "extras",
+      "scene": "b",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
+        "--scenes",
+        "b",
+        "--scene-image",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "--run-label",
+        "extras-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
+      "result_sha256": "41e34a6cd1672468eef63b47142d23b9c6c3c32cf7c7c2f3eaae6b57d4e79330",
+      "inputs": [
+        {
+          "role": "Picture 1: fixed Mira scene; preserve composition and lead character",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+          "sha256": "b0ea9a576e442f8c782fd5bb9d9fef616940603158683b1dd62f1bd9fcfae57c"
+        }
+      ],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "sha256": "e64d353bad3830c7783a0df129c76d6be49c69ec370eb4763f26707a14b2cdf6",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5421,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-Edit-2511",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 464.13,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "작은 토끼 한 마리가 왼쪽 아래 양치식물 옆 지면에 앉고, 다람쥐 한 마리가 오른쪽 나무뿌리 위에 앉은 형태로 추가됨. 다람쥐는 지면에 서 있으라는 요청과 자세/지지 위치가 다름. 고슴도치 없음. 미라의 도약, 긴 청록 머리, 흰 재킷, 청록 바지와 발목 노출, 발레화 형태 유지. 배경 숲의 선과 명암 디테일도 변화."
+      }
+    },
+    {
+      "stage": "extras",
+      "scene": "c",
+      "executed_command": [
+        "/home/cbsim/ws/AiBook/.venv/bin/python",
+        "-u",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
+        "--scenes",
+        "c",
+        "--scene-image",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "--run-label",
+        "extras-audit-20260909-v1",
+        "--size",
+        "1280",
+        "--steps",
+        "20",
+        "--output-dir",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
+      ],
+      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
+      "result_sha256": "d539b3dea7df9d7bb550997a2857b43878af3c462f0129a2ddbc40c719badb65",
+      "inputs": [
+        {
+          "role": "Picture 1: fixed Mira scene; preserve composition and lead character",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+          "sha256": "f9ed69e4cfad812f5c352b8c704bad8dffb64a02dc398600ff74b54bbbecd853"
+        }
+      ],
+      "output": {
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "sha256": "6ca3fab7acb3e90a234db769adf513a46b0a71d5d8ec4e34aa8edd610d75bf0e",
+        "width": 1280,
+        "height": 1280
+      },
+      "steps": 20,
+      "seed": 5422,
+      "size": [
+        1280,
+        1280
+      ],
+      "true_cfg_scale": 4.0,
+      "model": {
+        "repository": "Qwen/Qwen-Image-Edit-2511",
+        "dtype": "bfloat16",
+        "device_placement": "sequential_cpu_offload"
+      },
+      "runtime": {
+        "python": "3.12.3",
+        "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+        "packages": {
+          "diffusers": "0.37.0",
+          "torch": "2.11.0+cu128",
+          "transformers": "4.57.6",
+          "accelerate": "1.13.0"
+        }
+      },
+      "elapsed_seconds": 465.73,
+      "visual_review": {
+        "reviewed": true,
+        "observations": "새 세 마리: 남성 독자 오른쪽 사각 돌 기둥 위 한 마리, 오른쪽 끝 나무 기둥 위 한 마리, 왼쪽 아래 미라 옆 바위 위 한 마리. 모두 지지물에 앉아 있으며 하늘에 떠 있는 새/분리된 가지 없음. 오른쪽 가장자리 새는 요청한 가로 난간 대신 끝 기둥 위. 두 독자, 책, 난간, 도시 배치 유지. 미라의 청록 단발·흰 재킷·청록 하의·회색 운동화와 발목 노출 유지. 조연의 옷 주름과 배경 선/명암 표현도 바뀜."
+      }
+    }
+  ]
+}

@@ -1,257 +1,146 @@
-# P7-5.2 캐릭터 멀티플 뷰 생성: identity 기준과 카메라 앵글 분리하기
+# P7-5.2 Mira 정면 머리 기준 만들기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.09.01`
+> Version: `v2026.09.11`
 
-같은 인물의 얼굴을 여러 방향으로 만들 때, 정면 이미지와 회전 지시를 한 prompt 안에 모두 반복하면 헤어·이목구비·화풍이 쉽게 흔들린다. 이 절은 **정면 얼굴은 identity 기준을 마련하고, 가슴 중간까지 포함한 체스트 참조는 얼굴·헤어·어깨 연결을 전달하며, 전용 다중 앵글 LoRA는 카메라 변환만 맡는** Qwen 경로를 기록한다. 전신·착장·body-only OpenPose는 [P7-5.3](section-03.md)에서 별도로 다룬다.
+같은 인물을 다음 단계에서 다시 사용할 때는 먼저 얼굴·머리 기준을 한 장으로 고정한다. 이 절은 캐릭터 **Mira**의 정면 머리 기준을 만들고, 이를 바탕으로 카메라 각도가 달라진 참조 묶음을 만든다. 전신·착장·자세는 [P7-5.3](section-03.md)에서 다룬다.
 
-## 사용한 모델과 실행 구성
+## Mira identity 계약을 먼저 고정한다
 
-이 절에서 쓰는 구성은 하나의 모델이 모든 일을 하는 방식이 아니다. 정면 기준을 새로 그리는 모델, 기준 이미지를 편집하는 모델, 카메라 변화에 특화된 adapter를 역할별로 나눴다. `Diffusers`는 이 구성을 실행하는 파이프라인 구현이다. `Nunchaku`는 별도 이미지 생성 기반 모델이 아니라, Qwen transformer를 저정밀 가중치와 전용 runtime으로 로컬 GPU에서 실행하게 하는 구성이다.
+Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱선, 호박빛이 섞인 갈색 홍채, 짙은 petrol-teal의 볼륨 있는 턱 길이 단발을 가진 성인 여성 캐릭터다. Mira identity 계약 JSON은 얼굴·헤어·기본 착장만 정의하며, 자세·카메라·장면·출력 품질은 정의하지 않는다.
 
-| 구성 요소 | 이 절에서 맡은 역할 | 맡기지 않은 역할 |
+[Mira identity 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json)
+
+| 계약 필드 | Mira에 고정하는 정보 | 이 절에서 맡기지 않는 정보 |
 | --- | --- | --- |
-| `Qwen/Qwen-Image` | 이미지 입력 없이 정면 얼굴·체스트 기준 이미지를 text-to-image로 생성 | 이미 있는 체스트 이미지를 카메라 방향으로 편집 |
-| `Qwen/Qwen-Image-Edit-2509` | 체스트 기준 이미지를 받아 카메라 명령에 따라 image-to-image 편집 | 카메라 방향 자체를 정확한 3D 회전값으로 보정 |
-| `dx8152/Qwen-Edit-2509-Multiple-angles` LoRA | 기반 편집 모델에 카메라 이동·회전·위아래 보기 명령에 반응하는 추가 경향 제공 | identity·헤어·화풍을 독립적으로 새로 정의 |
-| Nunchaku FP4 transformer | 두 Qwen 모델을 FP4 가중치와 runtime으로 로컬 GPU에서 실행 | 출력의 identity·화풍·방향 품질을 보장 |
+| `identity_description` | 피부색, 얼굴형, 코·입·눈 비율, 호박빛 갈색 홍채, 앞머리와 단발 실루엣 | 포즈, 카메라 방향, 전신 비례 |
+| `rear_hair_identity` | 뒷머리 실루엣, 목덜미 헤어라인, 머리색 | 새로운 헤어스타일 생성 |
 
-`Qwen-Image`는 Qwen이 공개한 text-to-image 기반 모델이며, 이 절에서는 참조가 없는 정면 기준을 만드는 데만 쓴다. `Qwen-Image-Edit-2509`는 입력 이미지와 편집 지시를 함께 받는 image-to-image 모델이므로, 체스트 기준을 유지한 채 카메라 변화만 비교하는 다음 단계에 쓴다. 공식 모델 카드는 단일·다중 이미지 편집과 인물 편집 일관성 개선을 설명하지만, 이 절의 결과는 로컬 실행 기록에서만 판단한다. [Qwen, *Qwen-Image model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} [Qwen, *Qwen-Image-Edit-2509 model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}
+## BF16 정면 머리 생성
 
-다중 앵글 LoRA는 별도 생성 모델이 아니라 `Qwen-Image-Edit-2509` 위에 적용하는 adapter다. 따라서 이 절의 비교는 ‘LoRA가 인물을 다시 설계했다’가 아니라, 체스트 입력이 주는 identity·헤어·상반신 연결과 LoRA가 보강한 카메라 명령을 분리해 관찰하는 실험이다. 저정밀 transformer는 메모리 사용량을 다루는 실행 선택일 뿐, 품질의 원인으로 단정하지 않는다. 적용한 LoRA 가중치와 transformer 경로·해시는 각 result JSON에 남긴다. [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"} [Nunchaku AI, *nunchaku-qwen-image model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image){: target="_blank" rel="noopener noreferrer"} [Nunchaku AI, *nunchaku-qwen-image-edit-2509 model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}
+정면 머리 T2I 생성은 공식 `Qwen/Qwen-Image` BF16 가중치를 `sequential CPU offload`로 직접 호출한다. 참조 이미지를 넣지 않으므로, 이 한 장이 이후 모든 비교의 얼굴·헤어 기준이 된다.
 
-## 1. 정면 얼굴과 체스트가 서로 다른 기준을 제공한다
+![Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png)
 
-정면 얼굴은 참조 이미지 없이 Qwen으로 생성한 기준 이미지다. 중앙 정면 구도와 정수리 전체가 보이는 상단 여백, 높은 콧대와 곧은 코선, 주황·호박색 홍채, 청록과 검정이 나뉜 볼륨 단발, 어두운 윤곽선과 평면 색을 대조하는 데 쓴다.
+[정면 얼굴 result.json — T2I 입력 조건과 출력 기록](../../../assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280-result.json)
 
-![Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png)
+[정면 얼굴 T2I Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_generate_mira_head_bf16.py)
 
-[정면 얼굴 result.json — T2I 입력 조건과 출력 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024-result.json)
+생성기는 얼굴 일러스트 계약과 Mira identity 계약, seed·step·CFG, 완성 PNG의 해시를 result JSON에 기록한다. 기본값은 1280px·30 step·CFG 4.0이다. 조건을 바꿀 때는 정수리 여백·양쪽 눈과 귀·홍채색·단발 실루엣이 유지되는지 확인한다.
 
-[정면 얼굴 T2I Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_front_head_reference_t2i.py)
+[Mira identity·화풍·일러스트 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json)
 
-이 기준 이미지를 만드는 핵심 코드는 다음과 같습니다. 이 호출에는 `inputs`가 없으므로 참조 이미지를 넣는 Qwen Edit가 아니라 Qwen Image의 text-to-image 실행입니다. 일러스트 계약과 `FRAMING_PROMPTS["head"]`만 결합하고, 정면 기준 PNG와 `result.json`을 한 쌍으로 기록합니다.
+### 정면 생성기가 고정하는 것과 바꿀 수 있는 것
 
-```python
-DEFAULT_STEPS = 10
-SIZE = (1024, 1024)
+생성기는 identity 계약의 얼굴·헤어 설명과 `rendering_contract`의 정면 일러스트 지시를 합쳐 prompt를 만든다. 여기에 정면 구도 지시를 덧붙여, 정수리·양쪽 눈·귀가 프레임 안에 들어오게 한다. 캐릭터 특징은 계약이 맡고, 정면 구도는 생성기가 맡는다.
 
-illustration_contract = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))
-illustration_prompt = illustration_contract["front_face_illustration_prompt"]
-prompt = f"{illustration_prompt} {FRAMING_PROMPTS[args.framing]}"
-
-transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
-transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
-pipe = QwenImagePipeline.from_pretrained(
-    model_path, transformer=transformer, torch_dtype=torch.bfloat16,
-    local_files_only=True,
-)
-pipe.enable_sequential_cpu_offload()
-
-image = pipe(
-    prompt=prompt,
-    generator=torch.Generator("cpu").manual_seed(args.seed),
-    true_cfg_scale=4.0,
-    guidance_scale=1.0,
-    negative_prompt=" ",
-    num_inference_steps=args.steps,
-    width=args.size,
-    height=args.size,
-).images[0]
-image.save(output)
-result_record.write_text(
-    json.dumps(record, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8"
-)
-```
-
-`result.json`에는 사용 모델과 Nunchaku transformer, 세 프롬프트 계약의 SHA-256, 실행 환경, 완성 PNG의 SHA-256도 함께 기록합니다. 본문 코드 발췌는 생성의 핵심을, 위 Python 원문과 실행 기록은 전체 조건을 제공합니다.
-
-정면 얼굴 생성의 기본값은 이 기준 이미지와 같은 10 step이다. 카메라 앵글 생성의 step 수까지 이 값으로 고정하지 않는다.
-
-[캐릭터 identity 계약](../../../assets/part-07/chapter-05/p7-5-2-character-identity-contract.json)
-
-[얼굴 화풍 계약](../../../assets/part-07/chapter-05/p7-5-2-face-style-prompt-contract.json)
-
-[일러스트 계약](../../../assets/part-07/chapter-05/p7-5-2-face-illustration-prompt-contract.json)
-
-가슴 중간까지 포함한 체스트 참조는 얼굴뿐 아니라 어깨·쇄골·상반신이 카메라 앵글 변화에서 어떻게 이어지는지 확인하기 위한 입력이다. 현재 카메라 앵글 생성기의 기본 입력으로 사용한다. 이 파일은 전신·의상 조건을 포함하지 않는다.
-
-[체스트 정면 result.json — 앵글 생성의 기본 입력 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8-result.json)
-
-## 2. 카메라 변환은 LoRA와 한 축의 명령으로 분리한다
-
-이 경로의 기반 편집 모델은 `Qwen/Qwen-Image-Edit-2509`이다. Qwen의 공식 모델 카드는 이 모델을 이미지-투-이미지 편집 모델로 제공하며, 단일 입력에서 사람 편집의 얼굴 identity 보존을 개선 대상으로 설명한다. 이 절에서는 그 성질을 보장된 결과로 받아들이지 않고, **정면 참조 한 장을 기준 입력으로 놓은 실제 출력에서만** 확인한다. [Qwen, *Qwen-Image-Edit-2509 model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}
-
-카메라 조건에는 `dx8152/Qwen-Edit-2509-Multiple-angles` LoRA를 덧붙였다. 이 adapter의 모델 카드는 기반 모델을 `Qwen-Image-Edit-2509`로 표시하고, 별도 trigger word 없이 카메라 이동·좌우 회전·위아래 보기 명령을 사용할 수 있다고 안내한다. 같은 카드가 일관성이 불안정할 수 있다는 사용자 보고와 재학습본 업로드도 함께 남기므로, 모델 카드의 예시만으로 출력 성질을 일반화하지 않는다. [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (Hugging Face, 확인: 2026-08-29)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
-
-### 다중 앵글 LoRA는 카메라 제어용 adapter다
-
-LoRA는 기반 모델 전체를 다시 저장한 독립 모델이 아니라, 일부 가중치에 작은 추가 갱신을 붙여 특정 작업으로 출력을 유도하는 parameter-efficient adapter 방식이다. 이 가중치는 `Qwen-Image-Edit-2509` 위에 함께 로드되며, 이 절에서는 **입력 이미지가 인물 identity·헤어·화풍을, 다중 앵글 LoRA가 카메라 명령에 반응하는 경향을** 맡도록 역할을 나눈다. [Hugging Face, *LoRA documentation* (확인: 2026-08-22)](https://huggingface.co/docs/peft/v0.20.0/package_reference/lora){: target="_blank" rel="noopener noreferrer"} [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (확인: 2026-08-29)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
-
-이 adapter가 `왼쪽으로 45도 회전` 같은 문장을 받는다고 해서, 이미지 안의 인물을 측정 가능한 3차원 공간에서 정확히 회전시키는 것은 아니다. 보이지 않던 귀·머리카락·어깨·배경은 편집 모델이 새로 합성해야 한다. 따라서 result JSON의 `yaw`와 `pitch`는 이 실험에서 비교하기 위한 **카메라 명령 라벨**이며, 실제 카메라의 보정된 물리 각도라는 뜻은 아니다. 방향이 맞더라도 identity나 헤어가 달라질 수 있는 이유도 여기에 있다.
-
-| 제어 범주 | 모델 카드가 제시한 명령의 예 | P7-5.2에서의 처리 |
+| 구현 요소 | 코드에서 하는 일 | 학습할 때 확인할 점 |
 | --- | --- | --- |
-| 이동 | 카메라를 앞·왼쪽·오른쪽·아래로 이동 | 화면 위치 변화가 함께 섞이므로 yaw·pitch 비교와 분리 |
-| 좌우 회전 | 카메라를 왼쪽 또는 오른쪽으로 45°/90° 회전 | `yaw` 한 축으로만 생성 |
-| 위·아래 보기 | 카메라를 위에서 내려다보거나 아래에서 올려다보기 | `pitch` 한 축으로만 생성 |
-| 렌즈 | 광각 또는 클로즈업 | 프레이밍 변수가 추가되므로 현재 비교표에서는 제외 |
+| 단일 계약 입력 | identity·화풍·일러스트 지시를 하나의 JSON에서 읽는다 | 특징이 여러 프롬프트 파일에 흩어지지 않아 수정 범위가 분명하다 |
+| 고정 seed | `torch.Generator`에 같은 seed를 넣는다 | step·크기·CFG를 바꾼 비교에서 무작위 변동을 줄인다 |
+| 결과 기록 | 입력 계약 해시, prompt, 모델, 크기, step, CFG, 출력 해시를 result JSON에 남긴다 | 좋은 한 장을 고르는 일과 같은 조건으로 다시 만드는 일을 구분할 수 있다 |
+| 순차 CPU 오프로딩 | 필요한 모듈을 GPU와 CPU 사이에서 순차적으로 이동한다 | 8GB GPU에서도 실행 범위를 만들지만, 생성 시간은 늘어난다 |
 
-현재 로컬 실행기는 저정밀 Nunchaku transformer에 일반 PEFT 로더 대신 전용 `apply_lora` 처리를 사용한다. 적용된 transformer 모듈 수, LoRA 가중치 해시, 강도(`1.0`)를 result JSON에 남겨 가중치가 실제 적용되지 않은 실행과 구분한다. 또한 yaw·pitch·이동·렌즈를 한 prompt에 섞지 않고 한 축만 허용한다. 이는 복합 명령에서 화면 전체가 불안정하게 회전했던 이 실험의 관찰을 분리해 재현 가능하게 비교하기 위한 설계다.
+`--steps`, `--size`, `--cfg`는 비교를 위한 조작값이다. 한 번에 하나만 바꾸고 result JSON을 남기면, 결과 차이를 모델의 무작위성보다 그 조건 변화에 더 가깝게 해석할 수 있다.
 
-카메라 앵글 생성에는 체스트 참조 한 장만 이미지 입력으로 넣는다. 이 입력이 identity·헤어·일러스트 표현과 어깨·상반신의 연결을 맡는다. 다중 앵글 LoRA와 짧은 중국어 카메라 명령은 yaw·pitch 변환만 맡는다. 얼굴 OpenPose, 전신 OpenPose, 착장 이미지는 이 경로에 넣지 않는다.
+### 정면 기준에는 T2I 모델을 쓴다
 
-### 회전 축을 적용하는 코드
+`Qwen/Qwen-Image`는 텍스트 prompt에서 이미지를 만드는 기반 모델이다. 공식 모델 카드는 Diffusers와 BF16 실행 예시를 제공하며, 다양한 화풍의 이미지 생성을 지원한다고 설명한다. 이 절에서는 참조 이미지가 없는 정면 머리 기준을 만들 때만 사용한다. 따라서 입력 이미지의 우연한 구도나 의상 정보가 얼굴 기준에 섞이지 않는다.
 
-[Qwen 2509 다중 앵글 체스트 카메라 앵글 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_camera_angle_2509_probe.py)
+모델 카드의 BF16 예시는 충분한 GPU 메모리를 전제로 한다. 이 생성기는 같은 BF16 가중치를 사용하되 `sequential CPU offload`를 적용한다. 이는 모델 자체의 품질 기능이 아니라, 제한된 VRAM에서 실행하기 위한 메모리 배치 전략이다. 속도와 VRAM 사용량은 서로 바꿔 얻는 조건이므로, 이 절의 1280px·30 step 결과를 모든 하드웨어에서의 권장 시간이자 품질 보증으로 해석하지 않는다.
 
-회전 실행기는 기준 체스트 이미지를 유일한 이미지 입력으로 읽고, `yaw` 또는 `pitch` 중 하나의 짧은 중국어 카메라 명령만 만든 뒤 LoRA를 적용한 `QwenImageEditPlusPipeline`에 넘깁니다. 다음 발췌에서 `camera_prompt_components()`는 다른 축을 빈 문자열로 남겨 복합 명령을 만들지 않으며, `result.json`에는 입력 이미지와 적용한 LoRA의 해시·축·값·출력 해시를 기록합니다.
+## 상반신 기준에서 15방향 카메라 참조를 만든다
 
-```python
-YAW_PROMPTS = {
-    "quarter_right": "将镜头向右旋转45度。",
-    "quarter_left": "将镜头向左旋转45度。",
-    "profile_right": "将镜头向右旋转90度。",
-    "profile_left": "将镜头向左旋转90度。",
-}
-PITCH_PROMPTS = {
-    "high_angle": "将镜头转为俯视。",
-    "level": "",
-    "low_angle": "将镜头转为仰视。",
-}
+정면 머리 기준만 회전시키면 어깨와 이너탑을 새로 추측해야 한다. 그래서 정면 머리를 참조해 어깨가 보이는 상반신 기준 한 장을 먼저 만들고, 그 이미지만 `Picture 1`로 넣어 카메라 조건을 바꿨다. 이 단계는 새 포즈나 새 착장을 만드는 단계가 아니라, 이후 캐릭터 시트에서 비교할 **카메라 참조 묶음**을 만드는 단계다.
 
-prompt_components = camera_prompt_components(args.axis, value)
-prompt = build_camera_prompt(args.axis, value)  # yaw 또는 pitch 한 축
-image = pipeline(
-    prompt=prompt,
-    image=[load_image(str(reference_image)).convert("RGB")],
-    generator=torch.Generator("cpu").manual_seed(args.seed),
-    true_cfg_scale=4.0,
-    guidance_scale=1.0,
-    negative_prompt=" ",
-    num_inference_steps=args.steps,
-    width=SIZE[0],
-    height=SIZE[1],
-).images[0]
-image.save(output)
+![Mira 정면 상반신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png)
 
-record = {
-    "inputs": [asset_record(reference_image)],
-    "input_roles": ["reference_identity_and_illustration"],
-    "angle_lora": {"repository": ANGLE_LORA_REPO, "weight": asset_record(angle_lora)},
-    "axis": args.axis,
-    "axis_value": value,
-    "prompt_components": prompt_components,
-    "output": asset_record(output),
-}
-result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\\n")
-```
+[정면 상반신 기준 result JSON](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
-| 입력 또는 조건 | 맡는 역할 | 맡지 않는 역할 |
+정면 상반신 Direct V1 Python 생성기는 정면 머리 한 장과 이너탑 설명을 입력으로 사용한다. `--size 1280 --steps 30 --seed 62294`로 실행하며, 파이프라인에 `width=1280`, `height=1280`을 직접 전달한다. 입력 이미지 크기만 바꾸면 출력 크기는 달라질 수 있으므로, 저장 전에 실제 출력이 `1280×1280`인지 검사하고 result JSON에도 기록한다.
+
+[정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py)
+
+아래 15방향 표는 `1280×1280` 정면 상반신을 참조한 결과다. 아이레벨 `+45°`와 엘리베이티드 `+45°`는 새 `1024×1024` 결과로 교체했으며, 나머지 13방향은 기존 `1280×1280` 결과를 유지한다. 모두 4 step으로 생성했으며, 로우앵글 `0°`는 seed `62295`, 나머지 14방향은 seed `62294`를 사용했다.
+
+`Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning 4-step LoRA를 함께 적용한다. 카메라 prompt는 `<sks> [azimuth] [elevation] [distance]` 순서로 두며, 표의 모든 결과는 4 step으로 생성했다. 로우앵글 `0°`는 검수 후 시드를 1 올린 결과를 채택했으므로, 해당 컷은 카메라 조건뿐 아니라 시드도 다르다는 점을 함께 고려한다.
+
+[상반신 15방향 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py)
+
+현재 생성기의 기본값은 토르소 참조·15방향·`1024×1024`·seed `62294`·4 step이며, 실행 라벨은 `native1024-v1`이다. 이번에 채택한 아이레벨 `+45°`만 생성하려면 `--vertical level --yaw plus-45`를, 엘리베이티드 `+45°`만 생성하려면 `--vertical elevated --yaw plus-45`를 지정한다. 표에 유지한 기존 1280px 결과는 현재 기본 설정과 다르며, 로우앵글 `0°`의 채택 결과는 seed `62295`를 사용했다. 실제 입력·출력 조건은 각 이미지와 짝을 이루는 result JSON에서 확인한다.
+
+### 카메라 참조에는 편집 모델과 두 LoRA를 쓴다
+
+상반신 기준을 변형하는 단계는 텍스트만으로 새 얼굴을 만드는 작업이 아니라, 한 장의 입력을 유지하며 카메라 조건을 바꾸는 image-to-image 작업이다. 그래서 `Qwen/Qwen-Image-Edit-2511`을 사용한다. 공식 모델 카드는 이전 판보다 이미지 드리프트 완화와 캐릭터 일관성을 강화했다고 설명하며, 여러 이미지와 prompt를 함께 받는 Diffusers 예시도 제공한다. 여기서는 입력을 `Picture 1` 한 장으로 제한해, 그 이미지가 얼굴·헤어·어깨·이너탑의 기준 역할을 하게 한다.
+
+Multiple-Angles LoRA는 `<sks> [azimuth] [elevation] [distance]`라는 정해진 카메라 문법을 추가한다. 이 절은 그중 전방 반원 다섯 yaw, 로우·아이레벨·엘리베이티드 세 수직 시점, medium shot만 선택한다. LoRA가 물체의 완전한 3D 모델을 만드는 것은 아니다. 표에서 identity나 배경이 흔들리면, 그 결과는 회전된 정답이 아니라 같은 입력에 카메라 조건을 적용했을 때의 후보로 검수해야 한다.
+
+Lightning 4-step LoRA는 긴 확산 과정을 네 step으로 줄이는 속도 중심 어댑터다. 이 원고에서는 15개 방향을 빠르게 비교하기 위한 저비용 프로필로만 쓴다. 세부 묘사나 identity가 불안정하면 step 수가 적다는 조건을 먼저 의심하고, 정면 기준과 비교해 재생성 여부를 판단한다.
+
+| 구성 | 이 절에서의 역할 | 고정하지 않는 것 |
 | --- | --- | --- |
-| 정면 얼굴 기준 | identity, 홍채, 앞머리·볼륨 단발, 선·음영의 기준 관찰 | 카메라 각도·상반신 연결 |
-| 체스트 정면 참조 | identity·헤어·화풍과 어깨·상반신 연결 | 전신·의상 조건 |
-| 다중 앵글 LoRA | 카메라 yaw·pitch | 다른 인물의 얼굴·헤어를 새로 정의하는 일 |
-| 짧은 카메라 명령 | 좌·우 45°/90°, 위·아래 각도 | identity 설명의 반복 |
+| `Qwen-Image` | 참조 없이 정면 머리 기준을 생성 | 후속 카메라 회전 |
+| `Qwen-Image-Edit-2511` | 상반신 기준을 입력으로 받아 편집 | 각도를 수치적으로 완벽히 보장하는 3D 변환 |
+| Multiple-Angles LoRA | yaw·수직 시점·거리의 카메라 문법 제공 | identity·배경·프레이밍의 완전한 보존 |
+| Lightning 4-step LoRA | 15방향 비교 비용을 낮춤 | 고 step 품질과 동등한 결과 |
 
-이 분리는 정면 얼굴을 길게 설명해 회전을 강제하는 방법보다 어느 조건이 실패했는지 구분하기 쉽다.
+| 로우앵글 `−90°` | 로우앵글 `−45°` | 로우앵글 `0°` | 로우앵글 `+45°` | 로우앵글 `+90°` |
+| --- | --- | --- | --- | --- |
+| ![Mira 로우앵글 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) | ![Mira 로우앵글 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
-정면 얼굴을 먼저 기준으로 만들고, 이를 바탕으로 체스트 참조를 준비한다. 카메라 변환에서는 yaw와 pitch를 한 번에 섞지 않는다. `pitch 0°`에서 yaw를 먼저 비교하거나, `yaw 0°`에서 만든 high/low 체스트를 새 입력으로 두고 yaw를 적용한 뒤, 같은 네 축으로 결과를 읽는다.
+[로우앵글 −90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-```mermaid
---8<-- "assets/part-07/chapter-05/p7-5-2-chest-camera-angle-workflow-ko.mmd"
-```
+[로우앵글 −45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-## 3. 체스트 기준 카메라 앵글 결과를 비교한다
+[로우앵글 0도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4-result.json){ .lazy-source }
 
-아래 결과는 체스트 정면 참조만을 입력으로 쓴 8-step 결과다. 먼저 `pitch 0°`에서 yaw를 비교하고, 다음으로 `yaw 0°`에서 pitch를 비교한다. 마지막으로 high/low 체스트 이미지를 새 입력으로 써 yaw를 적용한 결과를 확인한다. 기존 얼굴 전용 회전 이미지는 이 비교의 근거로 사용하지 않는다.
+[로우앵글 +45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-### 3.1 정면 체스트에서 yaw만 바꾸기 (`pitch 0°`)
+[로우앵글 +90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-이 절의 `좌측`과 `우측`은 **기준 정면에서 카메라가 왼쪽 또는 오른쪽으로 회전한 명령**을 뜻한다. 인물이 화면에서 어느 쪽을 바라보는지와 같은 뜻으로 쓰지 않는다. 따라서 `yaw -90°` 결과의 인물이 화면 오른쪽을 향해 보여도 표기 오류가 아니다.
+| 아이레벨 `−90°` | 아이레벨 `−45°` | 아이레벨 `0°` | 아이레벨 `+45°` | 아이레벨 `+90°` |
+| --- | --- | --- | --- | --- |
+| ![Mira 아이레벨 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![Mira 아이레벨 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
-| 좌측 측면 `yaw −90°` | 좌측 쿼터 `yaw −45°` | 정면 `yaw 0°` |
-| --- | --- | --- |
-| ![체스트 기준 좌측 측면 결과](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-profile-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png) | ![체스트 기준 좌측 쿼터 결과](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png) | ![체스트 정면 결과](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png) |
+[아이레벨 −90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-| 우측 쿼터 `yaw +45°` | 우측 측면 `yaw +90°` |
-| --- | --- |
-| ![체스트 기준 우측 쿼터 결과](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-right-cfg4-yaw-1024-v4-seed-62294-steps-8.png) | ![체스트 기준 우측 측면 결과](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-profile-right-cfg4-yaw-1024-v4-seed-62294-steps-8.png) |
+[아이레벨 −45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[좌측 쿼터 result.json — `yaw -45°` 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-left-cfg4-yaw-1024-v4-seed-62294-steps-8-result.json)
+[아이레벨 0도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[우측 쿼터 result.json — `yaw +45°` 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-right-cfg4-yaw-1024-v4-seed-62294-steps-8-result.json)
+[아이레벨 +45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4-result.json){ .lazy-source }
 
-[좌측 측면 result.json — `yaw -90°` 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-profile-left-cfg4-yaw-1024-v4-seed-62294-steps-8-result.json)
+[아이레벨 +90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[우측 측면 result.json — `yaw +90°` 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-profile-right-cfg4-yaw-1024-v4-seed-62294-steps-8-result.json)
+| 엘리베이티드 `−90°` | 엘리베이티드 `−45°` | 엘리베이티드 `0°` | 엘리베이티드 `+45°` | 엘리베이티드 `+90°` |
+| --- | --- | --- | --- | --- |
+| ![Mira 엘리베이티드 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
-이 실행의 다섯 결과에서는 청록색 머리와 주황색 홍채라는 정면 기준의 큰 특징은 대체로 남아 있지만, 측면으로 갈수록 머리 외곽과 앞머리의 가림, 얼굴 윤곽은 달라진다. 즉 카메라 방향의 변화는 읽을 수 있어도, `yaw` 지시만으로 같은 인물의 세부 특징이 보존되었다고 판단할 수는 없다.
+[엘리베이티드 −90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-여러 방향의 체스트 참조를 미리 만드는 이유는 이후 장면의 카메라와 가까운 방향을 입력으로 선택하기 위해서다. 정면 한 장만 쓸 때보다 측면 윤곽, 앞머리의 가림, 귀·목·어깨의 연결 단서를 직접 제공할 수 있어 모델이 새 얼굴·헤어 구조를 추측해야 하는 범위를 줄인다. 따라서 캐릭터 재현 성공률을 높일 가능성이 있다. 다만 이는 품질 보장이 아니다. 실제 장면에서는 identity·화풍·의상·구도가 함께 유지되는지 별도로 관찰한다.
+[엘리베이티드 −45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-### 3.2 정면 체스트에서 pitch만 바꾸기 (`yaw 0°`)
+[엘리베이티드 0도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-| 하이앵글 | 로우앵글 |
-| --- | --- |
-| ![체스트 정면 기준 하이앵글 결과](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-pitch-high-angle-front-pitch-v6-seed-62294-steps-8.png) | ![체스트 정면 기준 로우앵글 결과](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-pitch-low-angle-front-pitch-v6-seed-62294-steps-8.png) |
+[엘리베이티드 +45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4-result.json){ .lazy-source }
 
-[하이앵글 result.json — `pitch high` 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-pitch-high-angle-front-pitch-v6-seed-62294-steps-8-result.json)
+[엘리베이티드 +90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[로우앵글 result.json — `pitch low` 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-pitch-low-angle-front-pitch-v6-seed-62294-steps-8-result.json)
-
-### 3.3 pitch 결과를 새 입력으로 두고 yaw 적용하기
-
-pitch와 yaw를 한 prompt에 결합하지 않는다. 먼저 만든 high/low 체스트 이미지는 입력 이미지 역할을, 좌·우 쿼터는 카메라 명령 역할을 맡는다.
-
-| 하이앵글 체스트 → 좌측 쿼터 `yaw −45°` | 하이앵글 체스트 → 우측 쿼터 `yaw +45°` |
-| --- | --- |
-| ![하이앵글 정면 기준 좌측 쿼터](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-left-high-angle-front-v6-yaw-v3-seed-62294-steps-8.png) | ![하이앵글 정면 기준 우측 쿼터](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-right-high-angle-front-v6-yaw-v3-seed-62294-steps-8.png) |
-
-| 로우앵글 체스트 → 좌측 쿼터 `yaw −45°` | 로우앵글 체스트 → 우측 쿼터 `yaw +45°` |
-| --- | --- |
-| ![로우앵글 정면 기준 좌측 쿼터](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-left-low-angle-front-v6-yaw-v3-seed-62294-steps-8.png) | ![로우앵글 정면 기준 우측 쿼터](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-right-low-angle-front-v6-yaw-v3-seed-62294-steps-8.png) |
-
-[하이앵글 좌측 쿼터 result.json — high 입력의 `yaw -45°` 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-left-high-angle-front-v6-yaw-v3-seed-62294-steps-8-result.json)
-
-[하이앵글 우측 쿼터 result.json — high 입력의 `yaw +45°` 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-right-high-angle-front-v6-yaw-v3-seed-62294-steps-8-result.json)
-
-[로우앵글 좌측 쿼터 result.json — low 입력의 `yaw -45°` 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-left-low-angle-front-v6-yaw-v3-seed-62294-steps-8-result.json)
-
-[로우앵글 우측 쿼터 result.json — low 입력의 `yaw +45°` 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-torso-yaw-quarter-right-low-angle-front-v6-yaw-v3-seed-62294-steps-8-result.json)
-
-세 표를 함께 보면 카메라 명령은 옆얼굴의 실루엣과 위·아래에서 보이는 얼굴 비율을 바꾸지만, 그 과정에서 앞머리 묶음과 얼굴 윤곽도 함께 흔들린다. 따라서 다방향 결과는 다음 장면에 쓸 수 있는 참조 후보이지, 정면 기준의 헤어스타일·이목구비·화풍이 자동으로 보존된다는 증거는 아니다.
-
-## 4. 출력은 네 축으로 비교한다
-
-| 항목 | 확인할 질문 |
-| --- | --- |
-| 방향 | 코끝, 가까운 쪽 눈·볼, 귀와 머리카락의 가림이 요청한 쿼터·측면 방향과 맞는가? |
-| 얼굴 identity | 정면 기준과 얼굴 폭, 눈 간격, 코선, 홍채색이 같은 인물로 읽히는가? |
-| 헤어·상반신 연결 | 청록·검정 색 분할, 앞머리, 볼륨, S웨이브와 안쪽 컬, 목·어깨·가슴 위 경계가 유지되는가? |
-| 화풍 | 체스트 기준의 선, 대비, 음영이 단순화되거나 사진풍으로 바뀌지 않았는가? |
-
-방향만 맞고 머리카락·상반신 연결이나 이목구비가 달라진 출력과, 닮았지만 카메라 방향이 달라진 출력을 구분해 읽는다. 이 비교는 다음에 step·LoRA 강도·명령 문구를 한 축씩 바꾸는 근거로 남긴다.
+로우앵글 `−90°`에서는 배경이 하늘색으로 바뀌고, 엘리베이티드 `−45°`에서는 상반신에서 전신으로 구도가 넓어졌다. 시점 변화와 함께 생긴 배경·프레이밍 변형을 구분해 검수한다. 1280px 출력이라는 조건만으로 얼굴의 화면 내 크기나 구도 보존까지 보장되지는 않는다.
 
 ## 체크리스트
 
 | 확인할 것 | 스스로 답할 질문 |
 | --- | --- |
-| 기준 | 정면 얼굴 기준과 체스트 입력의 역할이 구분되어 있고, result JSON에 각각 남아 있는가? |
-| 역할 | identity·헤어·화풍의 기준은 정면 얼굴에, 카메라 변환의 입력은 체스트에, yaw·pitch는 LoRA와 카메라 명령에 분리되어 있는가? |
-| 방향 | 요청한 카메라 변환과 얼굴·목·어깨의 가림 관계가 같은 방향을 가리키는가? |
-| 재현 | seed, step, LoRA, prompt와 `prompt_word_count`가 result JSON에 남아 있는가? |
-| 범위 | 정면 참조에 없는 전신·의상·장면 조건을 결과에 덧붙여 해석하지 않았는가? |
-| 다음 단계 | 관찰된 역할과 한계를 기록한 뒤에만 P7-5.3 전신 또는 P7-5.4 장면 실험의 입력으로 쓰는가? |
+| 계약 | result JSON에 Mira identity와 일러스트 계약의 경로·해시가 남아 있는가? |
+| 정면 구도 | 정수리 전체, 양쪽 눈과 귀, 목선이 잘리지 않았는가? |
+| identity | 피부·얼굴형·호박빛 갈색 홍채·petrol-teal 단발이 계약과 같은 인물로 읽히는가? |
+| 재현 | seed, step, CFG, 크기와 오프로딩 조건이 result JSON에 남아 있는가? |
 
 ## 출처와 참고 자료
 
-- 정면 얼굴 기준의 생성 조건은 이 절에서 연결한 local 실행 기록을 기준으로 확인한다.
-- 체스트 참조와 yaw·pitch 카메라 앵글 결과의 입력·출력 해시는 각 local result JSON을 기준으로 확인한다.
-- 다중 앵글 LoRA의 저장소·가중치 정보는 result JSON에 기록한다. 외부 가중치는 재배포하지 않는다.
-- Qwen, [*Qwen-Image model card*](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
-- Hugging Face, [*LoRA documentation*](https://huggingface.co/docs/peft/v0.20.0/package_reference/lora){: target="_blank" rel="noopener noreferrer"}, 확인: 2026-08-22.
-- Qwen, [*Qwen-Image-Edit-2509 model card*](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
-- dx8152, [*Qwen-Edit-2509-Multiple-angles model card*](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
-- Nunchaku AI, [*nunchaku-qwen-image model card*](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
-- Nunchaku AI, [*nunchaku-qwen-image-edit-2509 model card*](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-29.
+- 정면 얼굴 기준의 생성 조건과 해시는 이 절에서 연결한 local result JSON을 기준으로 확인한다.
+- Qwen, [*Qwen-Image model card*](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-05.
+- Qwen, [*Qwen-Image-Edit-2511 model card*](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-05.
+- fal, [*Qwen-Image-Edit-2511 Multiple-Angles LoRA model card*](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-05.
+- lightx2v, [*Qwen-Image-Edit-2511 Lightning model card*](https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-09-05.

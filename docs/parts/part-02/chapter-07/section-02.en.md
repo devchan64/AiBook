@@ -1,31 +1,11 @@
 # P2-7.2 Terminal, Shell, and Working Directory
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.26`
+> Version: `v2026.09.08`
 
-In P2-7.1, we first looked at the place where code runs. Now we look at the first screen a reader usually meets when entering commands on a local PC.
+Running `python example.py` involves a shell that interprets the command and a base folder used to locate the file. The same command run from a different folder can fail even when the file exists.
 
-When beginning programming, the following sentences appear often.
-
-For example, introductory documents often contain sentences like these.
-
-- Open the terminal and run it.
-- Move to the project folder.
-- Enter the command below.
-
-These sentences are short, but several concepts are packed into them at once. If you cannot distinguish `terminal`, `shell`, `command`, and `working directory`, you often end up in the situation `I definitely typed the same thing, so why is it not working?`
-
-Here we explain the basic distinction among `terminal`, `shell`, and `working directory`. Even when later Sections continue into Python execution, virtual-environment activation, and package-installation commands, the places where we type commands and the location from which they are interpreted reconnect on top of the explanation here.
-
-Rather than learning every terminal feature by operating system, this Section focuses on building the minimum language needed to read and execute commands on a local PC. If you separate the roles of terminal, shell, and working directory here, then when you later see Python file execution, virtual environments, and package installation, you can first divide problems into code errors and location errors.
-
-| What to secure in this Section now | The question that follows immediately next | Where it is used again later |
-| --- | --- | --- |
-| Distinguishing the roles of terminal, shell, and working directory | In P2-7.3, we see how Python files are actually executed. | It is reused later in every local practice when separating location problems from code problems. |
-| Why `pwd`, `cd`, and `ls` are needed first | In P2-7.4, it continues into virtual environments and package-installation commands. | It repeats in the contexts of reading data files, running scripts, and moving to a project root. |
-| The point that Colab shell and local terminal are not the same | We defer OS-specific differences and advanced shell syntax to the supplementary learning of P2-7.6 and P2-7.8. | It becomes the basis when reading practice-environment guidance after Part 3. |
-
-| Term | Meaning to secure first in this Section |
+| Term | Meaning |
 | --- | --- |
 | terminal | the window or app where we type commands and see results |
 | shell | the program inside the terminal that reads, interprets, and runs commands |
@@ -33,24 +13,15 @@ Rather than learning every terminal feature by operating system, this Section fo
 | path | the string that points to where a file or folder is located |
 | command | the execution sentence asking the shell to do something now |
 
-## Core Criteria: Terminal, Shell, and Working Directory
+## Command Interpretation and Base Location
 
-- You can explain `terminal` as the screen where commands are entered and results are viewed.
-- You can explain `shell` as the program that interprets and executes commands.
-- You can explain that the words terminal and shell remain from older ways of using computers.
-- You can explain `working directory` as the folder used as the current base by commands.
-- You can explain why basic commands such as `pwd`, `cd`, and `ls` or `dir` are needed.
-- When a command fails, you can first divide the issue into a code problem or a location problem.
+| Criterion | Why it matters |
+| --- | --- |
+| The terminal is the screen, and the shell is the program inside it that interprets commands | Confusion decreases only when the place of input and the interpreting agent are separated. |
+| The working directory determines the base location of commands | The same command can point to different files depending on the current location. |
+| The first thing to check is the current location and the file list | Many failures begin from location problems rather than syntax. |
 
-## Three Criteria
-
-| Criterion | Why it matters | Needed level of understanding here |
-| --- | --- | --- |
-| The terminal is the screen, and the shell is the program inside it that interprets commands | Confusion decreases only when the place of input and the interpreting agent are separated. | It is enough if you can explain terminal and shell as different roles. |
-| The working directory determines the base location of commands | The same command can point to different files depending on the current location. | Secure the feel of separating location error from code error. |
-| The first thing to check is the current location and the file list | Many failures begin from location problems rather than syntax. | You can explain the purpose of `pwd`, `cd`, and `ls` or their equivalents. |
-
-## Why Do the Words Terminal and Shell Still Remain?
+## Origins of Terminals and Shells
 
 Terminal and shell are not names of recently created apps. Both keep traces of the era when many people used computers through text.
 
@@ -58,7 +29,7 @@ The early `terminal` was not an app inside a laptop like today. It was an input-
 
 `Shell` is also an old concept. The GNU Bash manual explains that Bash is the shell, or `command language interpreter`, for the GNU operating system. It also explains that a Unix shell is both a command interpreter and a programming language.
 
-You do not need to memorize the whole history. If you remember the flow below, you can explain why the words terminal and shell remain.
+Historical terminal devices connect to modern apps as follows.
 
 - past: people entered commands to a central computer through a separate terminal device
 - present: terminal apps provide that text-based way of working through software
@@ -66,7 +37,7 @@ You do not need to memorize the whole history. If you remember the flow below, y
 
 That is why expressions such as `open the terminal`, `run it in the shell`, and `type it on the command line` remain even in modern development environments. All of these are connected to the flow `instead of pressing graphical buttons, enter commands as text and execute them`.
 
-## Terminal Is the Screen, and the Shell Is the Program That Interprets Commands
+## Terminal Apps and Shells
 
 The `terminal` is the screen where commands are entered and results are viewed. Terminal on macOS, Windows Terminal, and the Terminal panel in VS Code belong here.
 
@@ -86,9 +57,7 @@ So even inside the single phrase `I opened the terminal`, there are several case
 | Windows | Windows Terminal, PowerShell, VS Code Terminal | PowerShell, Command Prompt, WSL shell |
 | Linux | GNOME Terminal, Konsole, VS Code Terminal | bash, zsh |
 
-Here we do not go deeply into differences among shells by operating system. But we try to mark what the command examples are based on.
-
-## A Command Is Not a Sentence, but an Execution Request
+## Current Location, Navigation, and File Lists
 
 The sentence entered in the terminal is not a natural-language sentence. It is an execution request that the shell reads according to fixed rules.
 
@@ -110,13 +79,11 @@ The next command looks at the file list of the current folder.
 ls
 ```
 
-In Windows PowerShell, `Get-Location` can be used to check the current location, and `Set-Location` can be used to move. Microsoft documentation explains that `Get-Location` displays the current location and that `Set-Location` sets the current working location.
-
-You do not need to memorize all commands. What matters is `where the command is executed`.
+In Windows PowerShell, use `Get-Location` to check the current location and `Set-Location` to change it. Aliases such as `pwd` and `cd` are also common in PowerShell. Microsoft documentation describes these commands as displaying and setting the current working location.
 
 The same command can target different files when the current folder is different.
 
-## Working Directory Is the Base Location of a Command
+## Working Directories and Running Files
 
 The `working directory` is the folder currently used as the base by a command. It is also called the `current working directory` (CWD).
 
@@ -165,7 +132,7 @@ So first check these two questions.
 - In what folder am I now?
 - On what folder does this command execute as its base?
 
-## Distinguish Relative Paths and Absolute Paths
+## Relative and Absolute Paths
 
 A `path` is the string that indicates the location of a file or folder. Here we distinguish `relative path` and `absolute path`.
 
@@ -174,9 +141,7 @@ The two terms are distinguished as follows.
 - relative path: a location found based on the current working directory
 - absolute path: the full location written starting from the beginning of the file system
 
-For example, if the current working directory is `/Users/someone/ws/project-name`, then the following relative path can point to the documents folder.
-
-For example, `docs/parts` is a relative path.
+If the current working directory is `/Users/someone/ws/project-name`, the relative path `docs/parts` refers to the `docs/parts` folder beneath it.
 
 By contrast, an absolute path writes everything from the starting point.
 
@@ -188,7 +153,7 @@ Relative paths are short and convenient. But if the current working directory ch
 
 `docs/parts` has meaning when executed inside the `project-name` folder. But if it is executed from another project folder, it points to a completely different location or to a path that does not exist.
 
-## Habit of Checking the File List Matters
+## Checking File Lists
 
 When a command fails, before immediately editing the code, check the current folder and the file list.
 
@@ -208,18 +173,13 @@ Get-ChildItem
 
 In PowerShell, `ls` often works as an alias of `Get-ChildItem`. But it is still helpful to look once at the original name rather than only the alias. Later, when searching documentation, you can search using the official name.
 
-Here we first show commands based on macOS/Linux, and if Windows needs a different command, we mark it separately.
-
-## Is There No Terminal in Colab?
+## Shell Commands in a Colab Runtime
 
 Colab can also execute commands. But misunderstanding appears if it is understood as exactly the same thing as the local PC terminal.
 
 If you put `!` like the following inside a Colab code cell, you can execute a shell command.
 
-Problem situation: we see that even inside a Colab code cell, a shell command checking the current working location can be run.
-Input: the `!pwd` command executed in a code cell.
-Expected output: the current folder path is printed based on the Colab runtime.
-Concept to check: the `!` command in Colab runs a shell command in the Colab runtime, not in my PC terminal.
+Running `!pwd` in a Colab cell connected to a hosted runtime prints that runtime’s current folder path.
 
 ```python
 # This shell command checks the current working folder from a Colab code cell.
@@ -233,9 +193,9 @@ In summary, it is as follows.
 - terminal of my PC: executed on the basis of my computer's files and environment
 - `!` command in a Colab code cell: executed on the basis of the Colab runtime's files and environment
 
-This is also why in P2-3.5 we distinguished `!pip install numpy` from `%pip install numpy`. Even if shell commands can be executed inside a code cell, that does not mean they are Python syntax.
+`!` runs shell commands in IPython-based notebooks; it is not syntax for a regular Python file.
 
-## Errors That Often Happen in the Terminal
+## Common Terminal Errors
 
 Even when terminal errors look complicated, they can be divided into a few types.
 
@@ -247,19 +207,31 @@ Even when terminal errors look complicated, they can be divided into a few types
 | it works in Colab but not locally | Is the same package installed in the local environment? |
 | it works locally but not in Colab | Has the file been uploaded into the Colab runtime? |
 
-This Section does not solve every error. But it builds the habit of dividing, when reading an error, between `an error in the code itself` and `an error in the location where the command was executed`.
+## When an Existing File Cannot Be Run
 
-## View It Through a Case
+Suppose a `workspace` folder contains a `project` folder with `example.py` inside it.
 
-### Case 1. Why `python example.py` Fails Even Though the File Exists
+```text
+workspace/
+└── project/
+    └── example.py
+```
 
-Suppose a learner downloaded the file `example.py` and is trying to run it. The file definitely exists inside the project folder on the desktop, but when `python example.py` is entered in the terminal, an error appears saying that the file cannot be found.
+If the current working directory is `workspace`, `python example.py` looks for `workspace/example.py`. That file is absent, so it cannot run. Check the file with `ls project`, then use either method below.
 
-People often first think, `Was the file broken?` or `Is Python strange?` But in this case, a more common cause is that the current working directory is not the project folder. The same command can look for a completely different file depending on from what folder it is executed.
+```bash
+# Change to project, then run the file.
+cd project
+python example.py
+```
 
-If we distinguish the core words of this Section, `terminal`, `shell`, `working directory`, and `relative path`, the interpretation changes. The problem may not be the code itself but `from what location the command was executed as its base`, and that is why commands such as `pwd`, `ls`, and `cd` are needed first.
+Or remain in `workspace` and specify the file’s relative path.
 
-The confirmable result appears immediately when the current location is printed. If the result of `pwd` is not the project folder, then the reason the same `python example.py` command fails can be explained not as a code issue but as a location issue.
+```bash
+python project/example.py
+```
+
+Both run the same script, but the working directory differs. If the script reads data using a relative path such as `data.csv`, the first method looks for `project/data.csv`, while the second looks for `workspace/data.csv`. Distinguish locating the script from locating data inside the script.
 
 ## Checklist
 

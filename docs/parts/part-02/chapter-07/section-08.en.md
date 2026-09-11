@@ -1,206 +1,143 @@
-# P2-7.8 Supplemental Learning: Reading Shell Execution Flow
+# P2-7.8 Supplementary Learning: Reading Shell Execution Flow
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.23`
+> Version: `v2026.09.08`
 
-_Subtitle: What role do shell scripts, pipes, redirection, and environment variables play in command execution flow?_
+In a shell, `|` connects one command’s output to the next command’s input. `>` and `<` connect output and input to files, while environment variables pass configuration values to programs. The shell commands below use Bash and assume Python is available as `python`.
 
-In P2-7.2 and P2-7.6, we covered opening a terminal and checking the current location. But once you follow real learning materials, you quickly encounter more unfamiliar expressions.
+## Standard Input and Standard Output
 
-```bash
-python train.py > train.log
-cat data.csv | python inspect.py
-export OPENAI_API_KEY=...
+Command-line programs can receive data through standard input and send results through standard output. In direct terminal use, these usually connect to the keyboard and screen, but can be redirected to files or other programs.
+
+Save the following code as `read_numbers.py`. It reads one number per input line and prints the sum. Input `10`, `20`, `30` produces `60`.
+
+```python
+import sys
+
+# Read integers line by line from standard input and sum them.
+numbers = [int(line) for line in sys.stdin if line.strip()]
+print(sum(numbers))
 ```
 
-Here, we explain the basic criteria for reading `shell scripts`, `pipes`, `redirection`, and `environment variables`. This supplement organizes the standard for reading what kind of action these symbols represent when you encounter them in real documents.
+In Bash, create the input file `numbers.txt` using the following command. `printf` converts `\n` into a newline.
 
-In this supplement, rather than becoming able to freely use all of this syntax, we focus on making you able to at least read `what kind of action it is` when you see these expressions in documents or tutorials later.
+```bash
+printf '10\n20\n30\n' > numbers.txt
+```
 
-## At First, These Are the Only Things You Need to Read
+## Connecting Commands with a Pipe
 
-When you come back later while redoing practice or following a tutorial, it is enough to first recall the following four lines.
+`cat` sends file contents to standard output. Connecting it with `|` makes those contents the Python program’s standard input.
 
-- `|` is a connection that passes the result of the previous command to the next command.
-- `>` and `<` are notations that change the direction of input or output toward files.
-- `KEY=...` or `export ...` is likely a scene where environment variables are being used to pass configuration values outside the code.
-- If you see `sudo`, `rm`, exposure of secret values, or file overwriting, do not run it immediately before you understand what it means.
+```bash
+cat numbers.txt | python read_numbers.py
+```
 
-In other words, even if you do not reread this whole section from the beginning, if you first hold onto the four words `connection`, `direction`, `configuration value`, and `warning sign`, you can read an unfamiliar line much more safely.
+The output is `60`. The programs exchange data directly, without displaying the file for a person to retype. The receiving program must be written to read standard input for this connection to be useful.
 
-| Term | Meaning to establish first in this section |
+A pipe does not simply mean execute commands in sequence. It connects the first command’s standard output to the next command’s standard input. Standard error, used for error messages, is not included by default.
+
+## Connecting Files to Input and Output
+
+`<` connects the same file to Python’s standard input without using `cat`.
+
+```bash
+python read_numbers.py < numbers.txt
+```
+
+Add `>` to save the result to `total.txt` instead of the screen.
+
+```bash
+python read_numbers.py < numbers.txt > total.txt
+```
+
+On success, the sum is not displayed on screen; `total.txt` contains `60` and a newline. Check it with `cat total.txt`.
+
+| Bash notation | Action |
 | --- | --- |
-| shell script | A record of execution where multiple terminal commands are grouped together in a file. |
-| pipe | A connection that passes the output of a previous command as the input to the next command. |
-| redirection | Notation that changes the input/output direction of the screen or files. |
-| environment variable | A configuration value read by a program from the outside execution environment. |
-| warning sign | Something to check first, such as deletion, privilege escalation, network calls, or exposure of secret values. |
+| `< input.txt` | Connects the file to standard input |
+| `> output.txt` | Writes standard output to the file, overwriting existing content |
+| `>> output.txt` | Appends standard output to the file |
+| `2> errors.log` | Writes standard error to a separate file |
 
-## First Reading Criteria: Reading Shell Scripts, Pipes, Redirection, and Environment Variables
+`python train.py > train.log` likewise saves only standard output. Do not assume all error messages also go into that file. File paths are interpreted relative to the working directory.
 
-- You can explain a shell script as a text file that groups multiple commands for execution.
-- You can explain a pipe as a connection that passes the output of one command as the input of another.
-- You can explain redirection as a way of sending screen output into a file or reading file contents as input.
-- You can explain an environment variable as a named configuration value shared by the execution environment.
-- When you see an unfamiliar command, you can first check for deletion, privilege escalation, network calls, and exposure of secret values.
+## Saving Commands as a Shell Script
 
-## Four Things to Hold First
+Save commands to repeat in `run_summary.sh`.
 
-| Expression | The first sense to read |
+```bash
+python read_numbers.py < numbers.txt > total.txt
+cat total.txt
+```
+
+From the folder containing the three files, run this command. Bash reads the script, saves the sum, and prints it.
+
+```bash
+bash run_summary.sh
+```
+
+A shell script is a command file interpreted by a shell. The interpreting program differs from that used for a `.py` file containing Python code.
+
+## Passing Settings with Environment Variables
+
+An environment variable is a name-value pair passed when a program runs. For example, it can specify a data folder outside the code.
+
+Run this command in Bash.
+
+```bash
+export BOOK_DATA_DIR="./data"
+```
+
+`export` passes the value to child processes subsequently started by this shell. It does not change the environment of other terminals already running.
+
+Save this code in `show_config.py` and run `python show_config.py` in the same shell to print `./data`.
+
+```python
+import os
+
+# Print the fallback when the environment variable is not set.
+print(os.environ.get("BOOK_DATA_DIR", "not set"))
+```
+
+In Windows PowerShell, set the environment variable as follows.
+
+```powershell
+$env:BOOK_DATA_DIR = "./data"
+python show_config.py
+```
+
+Environment variable values are strings. Setting a folder path does not create the folder. Secrets such as API keys can also be passed this way, but must not be left in code or output logs.
+
+## Changing Numbers and Output Storage
+
+Changing the last number in `numbers.txt` from `30` to `40` changes the sum from `60` to `70`. Run this command to leave only the new sum `70` in `total.txt`.
+
+```bash
+python read_numbers.py < numbers.txt > total.txt
+```
+
+With the same input, change `>` to `>>` and run again; the file now contains two lines of `70`. The calculation code is unchanged; only the shell’s output connection differs.
+
+## Checking What a Command Changes
+
+| Notation | What to check |
 | --- | --- |
-| shell script | A way of writing several commands into one file |
-| pipe `|` | A connection that passes the result of one command to the next |
-| redirection `>` `<` | Symbols that change the input/output direction of the screen or files |
-| environment variable | A configuration value read by a program from outside |
+| `>` | The path of the file to overwrite |
+| `rm`, `del`, `Remove-Item` | Files and folders to delete |
+| `sudo` | The command to run with elevated privileges |
+| Environment variables containing secrets | Whether values remain in command history, logs, or the repository |
 
-## A Shell Script Is a File That Bundles Commands
-
-A shell script is something where commands to be executed in a shell are written in order into a text file. Here, understand it as `commands you used to type line by line in the terminal, gathered into a file so they can be run repeatedly`.
-
-For example, you can write the following.
-
-```bash
-pwd
-ls
-python hello.py
-```
-
-This file can be read as a record bundling together `check current location -> check file list -> run Python`.
-
-Read a shell script less as `an entirely new programming language` and more as `terminal commands gathered into several lines`.
-
-## A Pipe Passes the Output of One Command to the Next Command
-
-A pipe is written with the `|` symbol. Here, read it with the sentence `the result that the previous command was going to show on the screen is received by the next command like input and then processed further`.
-
-For example, you can read the following line as meaning that `python inspect.py` receives and processes the preceding content.
-
-```bash
-cat data.txt | python inspect.py
-```
-
-For now, you do not need to know the detailed behavior of `cat` or `inspect.py`. The key point is that `|` means `connection`.
-
-Why pipes are useful can be seen in the following table.
-
-| Situation | What the pipe does |
-| --- | --- |
-| You want to see only the needed lines from a long output | It passes the previous command's result to the next command's filter |
-| You want another program to read file contents immediately | It passes the file contents directly to the next processing step without printing them on screen |
-| You want to write multiple processing stages in one line | It connects commands in order |
-
-At this stage, it is more important to read `ah, it is passing the result to the next stage` when you see a pipe in documentation than to use pipes heavily yourself.
-
-## Redirection Changes the Direction of Input and Output
-
-Redirection is changing the destination toward which output or input goes.
-
-The first notations you usually encounter are the following two.
-
-| Notation | Meaning at an introductory level |
-| --- | --- |
-| `>` | Send output that would have been shown on the screen into a file |
-| `<` | Read file contents as input |
-
-For example, the following command can be read as sending what would appear on the screen into a file called `train.log`.
-
-```bash
-python train.py > train.log
-```
-
-The following command can be read as reading `input.txt` and feeding it into the program.
-
-```bash
-python read.py < input.txt
-```
-
-What matters here is not memorizing the symbols themselves, but the sense of `direction`.
-
-- `>` generally sends something outward
-- `<` generally reads something inward
-
-The especially important warning here is the following.
-
-- It may overwrite the output file
-- You should visually check where the command is saving its result
-
-In other words, when redirection is attached, it is safer to first check `is this command changing files as well as showing something on screen?`
-
-## An Environment Variable Is a Configuration Value That a Program Reads from Outside
-
-An environment variable is a named value that the execution environment passes to a program. Here, understand it as `a configuration value that the program reads from outside the execution environment rather than writing directly inside the code`.
-
-For example, values such as an API key, a data path, or a mode selection may be passed through environment variables.
-
-```bash
-export OPENAI_API_KEY=...
-python app.py
-```
-
-The key point of this example is that when `python app.py` runs, it can read a value called `OPENAI_API_KEY` from the outside environment.
-
-In Windows PowerShell, the notation can look a little different. But at this stage, the concept that `an environment variable is a configuration value outside the body of the code` matters more than operating-system-specific syntax differences.
-
-## Why Do These Expressions Appear So Often in AI Learning Documents?
-
-AI learning documents and project examples often deal with files, logs, data, secret values, and execution environments. So even within one terminal line, the following things often happen together.
-
-- reading files
-- saving results
-- connecting commands
-- passing configuration values
-
-In other words, pipes, redirection, and environment variables are not advanced decoration. They are closer to `basic notation for dealing with the execution environment`.
-
-## Checkpoints to Inspect First
-
-When you see an unfamiliar terminal command, rather than trying to interpret every meaning, first check the following.
-
-1. Is there a command that deletes files?
-2. Does it need administrator privileges?
-3. Is it downloading something from the network?
-4. Is it exposing an API key or other secret value directly?
-5. Is it overwriting output into a file?
-
-It is also fine to read it through the following table.
-
-| Signal | Question to check first |
-| --- | --- |
-| `sudo` | Is administrator privilege really necessary? |
-| `rm`, `del`, `Remove-Item` | Is it a command that deletes files? |
-| `>` | Into which file is it saving or overwriting output? |
-| `|` | Is it passing the previous result into the next stage? |
-| `KEY=...`, `TOKEN=...` | Is it exposing a secret value directly? |
-
-## What Should You Be Able to Read Now?
-
-After finishing this supplement, you do not need to be able to freely write shell scripts immediately. The level needed now is about the following.
-
-- When you see `|`, `>`, and `<`, you know that they are notation changing the direction of input and output
-- You know that environment variables are configuration values outside the code
-- You know that shell scripts are bundles of commands
-- You inspect dangerous commands first instead of copying and running them casually
-
-## Case Study
-
-### Case 1. When a Single Tutorial Command Line Suddenly Looks Dangerous
-
-Suppose a learner sees commands such as `python train.py > train.log` or `export OPENAI_API_KEY=...` in an internet tutorial. Because there are many symbols, it can feel like an entirely new syntax that has to be memorized.
-
-The human default attitude is usually close to `for now, let me just copy and run it`. But in a line like this, different actions such as output saving, file overwriting, environment-variable passing, and command connection can all be present at once. So if you run it without knowing the meaning, you risk overwriting a log file, leaving a secret value exposed, or following a line mixed with dangerous deletion commands.
-
-The level to aim for here is not the stage where you can freely use `pipes`, `redirection`, `environment variables`, and `shell scripts`, but the stage where you can at least read `what kind of action it is`. In other words, if you only have the sense that `|` is connection, `>` is output-direction change, and `KEY=...` is passing an outside configuration value, you can already read much more safely.
-
-The confirmable result is whether you can split and read one command line by function. For example, if you can look at `python train.py > train.log` and explain `it runs training, and instead of screen output it saves the result into a log file`, then you have moved one step beyond the stage of copying and running commands without thinking.
+PowerShell pipelines can also pass objects between commands, and their syntax is not identical to Bash. In particular, do not copy the `<` input redirection above directly into PowerShell.
 
 ## Checklist
 
-- Can you explain a shell script as a file bundling multiple commands?
-- Can you explain a pipe as a connection that passes the output of one command as the input of the next?
-- Can you explain redirection as notation that changes the direction of input and output?
-- Can you explain an environment variable as a configuration value outside the code?
-- Do you remember that `sudo`, `rm`, `>`, `|`, and exposure of secret values should be checked first?
-- Can you explain shell scripts, pipes, redirection, and environment variables together as `the language for reading the execution environment`?
+- You can distinguish the programs that interpret shell scripts and Python scripts.
+- You can explain that `|` connects standard output to standard input.
+- You can distinguish file input, overwriting, and appending with `<`, `>`, and `>>`.
+- You can explain that standard output and standard error are separate streams.
+- You can read a setting passed through an environment variable in Python.
+- You can check how file contents change when input numbers or output connections change.
 
 ## Sources and References
 

@@ -1,0 +1,51 @@
+{
+  "scene": "b-mira",
+  "inputs": [
+    {
+      "role": "Picture 1: reviewed character",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "93167ba469672565f3ce0c5ebc27c6f13bd432c52d3984fc0f7dc009f248ade7"
+    }
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10-result.json",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "prompt": "Neutral uniform lighting Preserve identity and composition",
+  "steps": 10,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "negative_prompt": " ",
+  "lora": {
+    "repository": "prithivMLmods/QIE-2511-Studio-DeLight",
+    "path": "/home/cbsim/ws/AiBook/.tmp/download/weight-prithivmlmods-qie-2511-studio-delight/QIE-2511-Studio-DeLight-5000.safetensors",
+    "sha256": "6e8004bba1df89ac49a1129ccb73b6321782098926831a2bde7d3f95e6245c7d",
+    "scale": 1.0
+  },
+  "source_code_sha256": "34e616730b9ba8a4f6a9c000acc57be586bd3883e578c2d9d5e2ff94e89ff54c",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "status": "generated",
+  "stage": "studio_delight_after_bfs_or_supporting_book",
+  "output_sha256": "7367f4164ef670568aea83b1f234c8045af6850cc781b8786de1279d967090c5",
+  "elapsed_seconds": 252.91
+}

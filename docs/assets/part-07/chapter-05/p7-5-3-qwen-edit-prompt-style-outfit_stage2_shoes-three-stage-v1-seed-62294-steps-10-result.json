@@ -1,0 +1,68 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-edit-outfit_stage2_shoes",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "dtype": "bfloat16",
+  "transformer": "official_bf16",
+  "offload_mode": "sequential_cpu_offload",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "identity_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "sha256": "0bd04d263866eff2e67f90f52f4692a7b257e87d0d5261c944343db47fb2829e"
+  },
+  "rendering_contract": {
+    "source": "identity_contract.rendering_contract",
+    "components": [
+      "portrait_style_prompt",
+      "front_face_illustration_prompt"
+    ]
+  },
+  "prompt_contracts_applied": {
+    "watercolor_style": false,
+    "illustration": false
+  },
+  "target": "outfit_stage2_shoes",
+  "run_label": "three-stage-v1",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage1_face_openpose-three-stage-v1-seed-62294-steps-10.png",
+      "sha256": "5a449b12c5548a52f438e5f60061ea124def03585b01d394ab06144b8a771e04"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "7c87b107d8619dca03aca9ce7317be0be0f1c93974e6f3da00bf519710d90c71"
+    }
+  ],
+  "input_roles": [
+    "stage_1_barefoot_fullbody",
+    "white_sneakers_reference"
+  ],
+  "seed": 62294,
+  "steps": 10,
+  "size": [
+    960,
+    1440
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": "text, panel, collage, extra person",
+  "prompt": "Put the shoes from Picture 2 on both feet of the woman in Picture 1. Preserve the shoe design and colors from Picture 2. Keep the face, hair, clothing, pose, proportions, and background of Picture 1 unchanged.",
+  "prompt_word_count": 37,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_shoes-three-stage-v1-seed-62294-steps-10.png",
+    "sha256": "81ec5348683007dee2d390841571ff5e9b51b14c66e830da64f411cda8af00c8"
+  },
+  "elapsed_seconds": 361.11,
+  "decision": "Generated staged front outfit reference; compare the stated inputs and outfit change."
+}
