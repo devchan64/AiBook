@@ -1,0 +1,58 @@
+{
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+    "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539"
+  },
+  "size": [
+    1024,
+    1024
+  ],
+  "steps": 20,
+  "seed": 62294,
+  "true_cfg_scale": 4.0,
+  "negative_prompt": " ",
+  "independent_from_original": true,
+  "extra_lora": null,
+  "expression_spec": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-9-mira-expression-spec.json",
+    "sha256": "1124f27db610e3002f35ccba64671594139d103d6987d1596cfffd167054721f",
+    "profile": "puffed-pout-v2"
+  },
+  "status": "generated",
+  "experiment_id": "p7-5-9-mira-expressions",
+  "expression": "puffed_pout",
+  "design": {
+    "id": "puffed_pout",
+    "label_ko": "볼 부푼 삐짐",
+    "family": "distinct_movements",
+    "au_hints": [],
+    "movement_prompt": "a restrained closed-mouth pout, lips gently brought together and pushed slightly forward, with only a faint localized fullness in the lower cheeks immediately beside the mouth; keep the original overall face width, jawline and chin shape nearly unchanged, cheeks otherwise relaxed, mildly lowered inner brows, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+    "review_question": "입술이 조금 앞으로 나오고 입 옆 볼에만 약한 부피 변화가 나타나며 얼굴 폭·턱선이 보존되는가"
+  },
+  "prompt": "Edit only the facial expression of the woman in Picture 1 to show a restrained closed-mouth pout, lips gently brought together and pushed slightly forward, with only a faint localized fullness in the lower cheeks immediately beside the mouth; keep the original overall face width, jawline and chin shape nearly unchanged, cheeks otherwise relaxed, mildly lowered inner brows, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged. Keep the same person, facial proportions, iris color, hair color and hairstyle. Keep her head facing straight forward, the same framing, shoulders, background, lighting and illustration style. Do not add text or objects.",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "attention_slicing": null,
+  "model_load_seconds": 1.69,
+  "elapsed_seconds": 374.55,
+  "peak_allocated_bytes": 4458353152,
+  "peak_reserved_bytes": 4651483136,
+  "source_code_sha256": "ee66f9f0e56de6ef4a0c9b41f9a8bd4605f5b8dba8514639c91b70fe3a6842ca",
+  "helper_code_sha256": "1c5ef7452a488f49ee86a16565b4ba47e670275b04cfd79d354deaf2d363648d",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-9-mira-expression-puffed_pout-puffed-pout-v2-size-1024-seed-62294-steps-20.png",
+    "sha256": "1db347aac48dca24803f85f48af78cfa7daa380244c1e72d85428563b9168e8d"
+  }
+}

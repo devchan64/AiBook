@@ -600,7 +600,7 @@ nav:
               - "P7-5.6 보충학습: Q4 GGUF와 GPU 메모리": parts/part-07/chapter-05/section-06.md
               - "P7-5.7 보충학습: 착장 추출과 Try-On LoRA": parts/part-07/chapter-05/section-07.md
               - "P7-5.8 보충학습: OpenPose로 동작과 구도 조건 비교하기": parts/part-07/chapter-05/section-08.md
-              - "P7-5.9 StoryDiffusion으로 여러 컷의 일관성 읽기": parts/part-07/chapter-05/section-09.md
+              - "P7-5.9 보충학습: Mira의 표정 바꾸기": parts/part-07/chapter-05/section-09.md
               - "P7-5.10 텍스트 모션으로 12개 OpenPose 키프레임 준비하기": parts/part-07/chapter-05/section-10.md
           - "Chapter 6. 로컬 LLM 실행 실습":
               - "P7-6.1 로컬 LLM으로 양자화와 context 길이 비교하기": parts/part-07/chapter-06/section-01.md

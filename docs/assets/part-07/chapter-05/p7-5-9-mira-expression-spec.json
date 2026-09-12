@@ -1,0 +1,543 @@
+{
+  "schema_version": 3,
+  "experiment_id": "p7-5-9-mira-expressions",
+  "design_note": "One current prompt per expression. Replace prompts in place; do not retain discarded prompts or expression versions. AU hints describe design intent, not measured output.",
+  "expressions": [
+    {
+      "id": "sternness",
+      "label_ko": "엄격함",
+      "family": "anger",
+      "level": 1,
+      "au_hints": [
+        4,
+        23
+      ],
+      "movement_prompt": "mild sternness, slightly lowered brows and slightly tightened closed lips, eyes facing forward",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "indignation",
+      "label_ko": "분개",
+      "family": "anger",
+      "level": 2,
+      "au_hints": [
+        4,
+        5,
+        23
+      ],
+      "movement_prompt": "indignation, brows drawn downward and together, upper eyelids raised, lips tense and slightly parted",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "anger",
+      "label_ko": "분노",
+      "family": "anger",
+      "level": 3,
+      "au_hints": [
+        4,
+        7,
+        23,
+        25
+      ],
+      "movement_prompt": "anger, strongly lowered inward brows, tense eyelids and tight lips parted to reveal clenched teeth",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "rage",
+      "label_ko": "격노",
+      "family": "anger",
+      "level": 4,
+      "au_hints": [
+        4,
+        7,
+        10,
+        27
+      ],
+      "movement_prompt": "rage, deeply lowered inward brows, tense eyelids, raised upper lip and a wide open shouting mouth, without changing head direction",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "disdain",
+      "label_ko": "경멸",
+      "family": "disgust",
+      "au_hints": [],
+      "movement_prompt": "a contemptuous expression, narrowed eyes and brows drawn together, one side of the upper lip lifted slightly more than the other with a little teeth visible, the lower lip relaxed and centered",
+      "review_question": "윗입술의 비대칭 당김과 소량의 치아 노출이 보이고 아랫입술은 중앙에 자연스럽게 남는가? 아랫입술이 한쪽으로 밀리거나 두툼하게 돌출되지 않는가?",
+      "reference_note": "User-supplied sample photo, 2026-09-12. Facial expression interpreted only; pose, hand gesture, outfit and identity excluded. Photo not copied into manuscript assets."
+    },
+    {
+      "id": "aversion",
+      "label_ko": "반감",
+      "family": "disgust",
+      "level": 2,
+      "au_hints": [
+        9,
+        10
+      ],
+      "movement_prompt": "aversion, the muscles beside the nasal bridge pulled gently upward to form shallow short creases at the upper sides of the bridge, slightly raised upper lip, mouth mostly closed"
+    },
+    {
+      "id": "disgust",
+      "label_ko": "혐오",
+      "family": "disgust",
+      "level": 3,
+      "au_hints": [
+        9,
+        10,
+        7
+      ],
+      "movement_prompt": "disgust, the muscles beside the nasal bridge pulled upward to form short creases at the upper sides of the bridge, raised upper lip and narrowed eyelids",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "revulsion",
+      "label_ko": "극심한 혐오",
+      "family": "disgust",
+      "level": 4,
+      "au_hints": [
+        9,
+        10,
+        7,
+        25
+      ],
+      "movement_prompt": "intense revulsion, the muscles beside the nasal bridge pulled strongly upward to form deep short creases at the upper sides of the bridge, strongly raised upper lip, tightly narrowed eyes and an open grimacing mouth, no vomit"
+    },
+    {
+      "id": "concern",
+      "label_ko": "걱정",
+      "family": "fear",
+      "level": 1,
+      "au_hints": [
+        1,
+        4
+      ],
+      "movement_prompt": "mild concern, inner eyebrows slightly raised and drawn together, lips gently tense",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "anxiety",
+      "label_ko": "불안",
+      "family": "fear",
+      "level": 2,
+      "au_hints": [
+        1,
+        4,
+        20
+      ],
+      "movement_prompt": "anxiety, inner eyebrows raised and drawn together, eyes slightly widened and lips stretched sideways",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "fear",
+      "label_ko": "두려움",
+      "family": "fear",
+      "level": 3,
+      "au_hints": [
+        1,
+        2,
+        4,
+        5,
+        20,
+        25
+      ],
+      "movement_prompt": "fear, raised and drawn-together brows, widened eyes and sideways stretched lips parted in tension",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "terror",
+      "label_ko": "극도의 공포",
+      "family": "fear",
+      "level": 4,
+      "au_hints": [
+        1,
+        2,
+        4,
+        5,
+        20,
+        27
+      ],
+      "movement_prompt": "terror, strongly raised and drawn-together brows, very wide eyes and a wide open mouth with tense sideways stretched corners",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "satisfaction",
+      "label_ko": "만족",
+      "family": "joy",
+      "level": 1,
+      "au_hints": [
+        12
+      ],
+      "movement_prompt": "quiet satisfaction, slightly lifted mouth corners with closed lips and relaxed eyes",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "amusement",
+      "label_ko": "즐거움",
+      "family": "joy",
+      "level": 2,
+      "au_hints": [
+        6,
+        12
+      ],
+      "movement_prompt": "amusement, a clear closed-mouth smile, raised cheeks and gently narrowed eyes",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "joy",
+      "label_ko": "기쁨",
+      "family": "joy",
+      "level": 3,
+      "au_hints": [
+        6,
+        12,
+        25
+      ],
+      "movement_prompt": "joy, a broad smile with visible upper teeth, raised cheeks and narrowed smiling eyes",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "laughter",
+      "label_ko": "큰 웃음",
+      "family": "joy",
+      "level": 4,
+      "au_hints": [
+        6,
+        12,
+        25,
+        26
+      ],
+      "movement_prompt": "hearty laughter, a wide open smiling mouth, raised cheeks and eyes nearly closed from smiling, head kept upright",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "dejection",
+      "label_ko": "낙담",
+      "family": "sadness",
+      "level": 1,
+      "au_hints": [
+        1,
+        15
+      ],
+      "movement_prompt": "dejection, slightly raised inner brows and slightly lowered mouth corners, head kept upright",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "melancholy",
+      "label_ko": "우울한 표정",
+      "family": "sadness",
+      "level": 2,
+      "au_hints": [
+        1,
+        4,
+        15
+      ],
+      "movement_prompt": "melancholy, raised and drawn-together inner brows, lowered mouth corners and gently drooping eyelids",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "sadness",
+      "label_ko": "슬픔",
+      "family": "sadness",
+      "level": 3,
+      "au_hints": [
+        1,
+        4,
+        15,
+        17
+      ],
+      "movement_prompt": "sadness, strongly raised inner brows, downturned mouth corners and raised chin skin pushing the lower lip upward, without tears",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "grief",
+      "label_ko": "비통함",
+      "family": "sadness",
+      "level": 4,
+      "au_hints": [
+        1,
+        4,
+        15,
+        17,
+        25,
+        26
+      ],
+      "movement_prompt": "grief, strongly raised and drawn-together inner brows, tightly narrowed eyes and an open sobbing mouth with downturned corners, without tears",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "alertness",
+      "label_ko": "주의 집중",
+      "family": "surprise",
+      "level": 1,
+      "au_hints": [
+        2,
+        5
+      ],
+      "movement_prompt": "alertness, slightly raised outer brows and slightly widened eyes, relaxed closed mouth",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "wonder",
+      "label_ko": "경이로움",
+      "family": "surprise",
+      "level": 2,
+      "au_hints": [
+        1,
+        2,
+        5,
+        25
+      ],
+      "movement_prompt": "wonder, raised eyebrows, widened eyes and gently parted lips, no smile",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "surprise",
+      "label_ko": "놀람",
+      "family": "surprise",
+      "level": 3,
+      "au_hints": [
+        1,
+        2,
+        5,
+        26
+      ],
+      "movement_prompt": "surprise, high raised eyebrows, wide eyes and a dropped jaw forming a small round open mouth",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "shock",
+      "label_ko": "충격",
+      "family": "surprise",
+      "level": 4,
+      "au_hints": [
+        1,
+        2,
+        5,
+        27
+      ],
+      "movement_prompt": "shock, very high raised eyebrows, very wide eyes and a widely opened mouth with relaxed rather than sideways stretched corners",
+      "sources": [
+        "User-provided expression chart and AU list, 2026-09-12; original chart attribution unverified; image not redistributed",
+        "https://www.paulekman.com/facial-action-coding-system/",
+        "https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units"
+      ]
+    },
+    {
+      "id": "pouting",
+      "label_ko": "삐짐",
+      "family": "hurt",
+      "au_hints": [],
+      "movement_description_ko": "입술을 다문 채 아래입술을 조금 내밀고 눈썹을 약하게 모음",
+      "movement_prompt": "slightly lowered inner brows, closed lips with the lower lip pushed a little forward, relaxed cheeks and eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "입꼬리를 내리는 슬픔보다 아래입술 돌출이 보이는가"
+    },
+    {
+      "id": "sulking",
+      "label_ko": "토라짐",
+      "family": "hurt",
+      "au_hints": [],
+      "movement_description_ko": "입술을 단단히 누르고 눈꺼풀을 조금 내림",
+      "movement_prompt": "mildly lowered brows, upper eyelids slightly lowered and lips firmly pressed together without protruding, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "삐짐의 내민 입술과 달리 입술 누름이 보이는가"
+    },
+    {
+      "id": "hurt_feelings",
+      "label_ko": "서운함",
+      "family": "hurt",
+      "au_hints": [],
+      "movement_description_ko": "눈썹 안쪽을 조금 올리고 입꼬리를 약하게 내림",
+      "movement_prompt": "inner brows gently raised and drawn together, mouth corners slightly lowered with closed relaxed lips and eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "슬픔·낙담과 구분되지 않으면 중복 후보로 표시"
+    },
+    {
+      "id": "aggrieved",
+      "label_ko": "억울함",
+      "family": "hurt",
+      "au_hints": [],
+      "movement_description_ko": "눈썹 안쪽을 높여 모으고 아래입술을 긴장시킨 채 입을 조금 벌림",
+      "movement_prompt": "inner brows raised and drawn together, lower lip raised and tense, lips slightly parted without a wide jaw opening, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "두려움처럼 눈과 입이 과도하게 커지지 않는가"
+    },
+    {
+      "id": "shy_smile",
+      "label_ko": "수줍은 미소",
+      "family": "self_conscious",
+      "au_hints": [],
+      "movement_description_ko": "작게 다문 입으로 웃고 눈꺼풀을 부드럽게 내림",
+      "movement_prompt": "a small symmetric closed-lip smile, relaxed brows and gently lowered upper eyelids, head upright and eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "만족과 중복되는지, 홍조 없이 움직임만 나타나는지 확인"
+    },
+    {
+      "id": "sheepish_smile",
+      "label_ko": "머쓱한 미소",
+      "family": "self_conscious",
+      "au_hints": [],
+      "movement_description_ko": "눈썹 안쪽을 올리면서 입꼬리는 작게 올림",
+      "movement_prompt": "inner brows slightly raised and a small symmetric closed-mouth smile with mildly tense lips, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "편안한 미소와 달리 눈썹의 긴장이 남는가"
+    },
+    {
+      "id": "embarrassed",
+      "label_ko": "민망함",
+      "family": "self_conscious",
+      "au_hints": [],
+      "movement_description_ko": "입술을 살짝 안으로 말고 눈꺼풀을 조금 내림",
+      "movement_prompt": "lips gently rolled inward and held closed, upper eyelids slightly lowered and brows gently raised, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "다문 입과 달리 붉은 입술 부분이 덜 보이는가"
+    },
+    {
+      "id": "perplexed",
+      "label_ko": "난처함",
+      "family": "self_conscious",
+      "au_hints": [],
+      "movement_description_ko": "눈썹 안쪽을 모아 올리고 다문 입을 가로로 약하게 당김",
+      "movement_prompt": "inner brows raised and drawn together, closed lips stretched slightly sideways with tense mouth corners, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "불안과 겹치는지, 치아 노출 없이 입의 긴장이 나타나는지 확인"
+    },
+    {
+      "id": "skeptical",
+      "label_ko": "의심",
+      "family": "attitude",
+      "au_hints": [],
+      "movement_description_ko": "한쪽 눈썹만 올리고 눈꺼풀을 조금 좁힘",
+      "movement_prompt": "one eyebrow raised and the other relaxed, slightly narrowed eyelids and a neutral closed mouth, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "입꼬리 비웃음 없이 눈썹 비대칭이 나타나는가"
+    },
+    {
+      "id": "unimpressed",
+      "label_ko": "못마땅함",
+      "family": "attitude",
+      "au_hints": [],
+      "movement_description_ko": "눈꺼풀을 내리고 입술을 수평으로 누름",
+      "movement_prompt": "slightly lowered brows, half-lowered upper eyelids and lips pressed into a nearly horizontal closed line, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "토라짐과 구분되지 않으면 중복 후보로 표시"
+    },
+    {
+      "id": "mischievous",
+      "label_ko": "장난기",
+      "family": "attitude",
+      "au_hints": [],
+      "movement_description_ko": "한쪽 입꼬리를 올리고 눈을 밝게 뜸",
+      "movement_prompt": "one mouth corner gently raised, eyes open and alert, brows slightly raised and lips closed, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "경멸보다 눈이 열리고 눈썹이 올라가는가"
+    },
+    {
+      "id": "relieved",
+      "label_ko": "안도",
+      "family": "attitude",
+      "au_hints": [],
+      "movement_description_ko": "눈썹 긴장을 풀고 눈을 부드럽게 감으며 약하게 미소",
+      "movement_prompt": "relaxed brows, eyes softly closed without squeezing and a faint symmetric closed-mouth smile, head upright, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "큰 웃음처럼 볼을 강하게 올리지 않고 눈을 감는가"
+    },
+    {
+      "id": "puffed_pout",
+      "label_ko": "볼 부푼 삐짐",
+      "family": "distinct_movements",
+      "au_hints": [],
+      "movement_prompt": "a restrained closed-mouth pout, lips gently brought together and pushed slightly forward, with only a faint localized fullness in the lower cheeks immediately beside the mouth; keep the original overall face width, jawline and chin shape nearly unchanged, cheeks otherwise relaxed, mildly lowered inner brows, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+      "review_question": "입술이 조금 앞으로 나오고 입 옆 볼에만 약한 부피 변화가 나타나며 얼굴 폭·턱선이 보존되는가",
+      "sources": [
+        "https://github.com/USC-ICT/ICT-FaceKit"
+      ]
+    },
+    {
+      "id": "wink",
+      "label_ko": "윙크",
+      "family": "distinct_movements",
+      "au_hints": [],
+      "movement_prompt": "a gentle wink with the eye on the right side of the picture closed, its upper cheek slightly lifted, the other eye naturally open, relaxed brows and a small closed-mouth smile",
+      "review_question": "화면 오른쪽 눈이 자연스럽게 닫히고 윗볼이 약하게 올라가는가? 반대쪽 눈이 과하게 커지거나 볼 팽창·과장된 미소가 나타나지 않는가?",
+      "reference_note": "User-supplied sample photo, 2026-09-12. Facial movement reference only. Hand gesture, outfit, pose and identity are not transferred; photo is not copied into book assets."
+    },
+    {
+      "id": "yawn",
+      "label_ko": "하품",
+      "family": "distinct_movements",
+      "au_hints": [],
+      "movement_prompt": "a yawn with eyes squeezed closed, inner brows slightly drawn together, jaw dropped and lips forming a vertical oval, relaxed mouth corners, naturally shaded tongue and upper teeth",
+      "review_question": "감긴 눈·살짝 모인 미간·세로 입 벌림이 함께 보이는가? 입안이 균일한 검정이거나 입꼬리가 웃는 모양으로 변하지 않았는가?",
+      "reference_note": "User-supplied sample photo, 2026-09-12. Facial movement reference only; source photo not included in book assets."
+    }
+  ]
+}
