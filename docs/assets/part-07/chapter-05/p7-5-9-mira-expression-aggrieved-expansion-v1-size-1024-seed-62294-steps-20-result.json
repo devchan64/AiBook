@@ -1,0 +1,58 @@
+{
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+    "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539"
+  },
+  "size": [
+    1024,
+    1024
+  ],
+  "steps": 20,
+  "seed": 62294,
+  "true_cfg_scale": 4.0,
+  "negative_prompt": " ",
+  "independent_from_original": true,
+  "extra_lora": null,
+  "expression_spec": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-9-mira-expression-expansion-v1-spec.json",
+    "sha256": "280f75f7def4841a206475f9b9c61776615cfd70e849e084fdb6940fd9c7ab14"
+  },
+  "status": "generated",
+  "experiment_id": "p7-5-9-mira-expressions",
+  "expression": "aggrieved",
+  "design": {
+    "id": "aggrieved",
+    "label_ko": "억울함",
+    "family": "hurt",
+    "au_hints": [],
+    "movement_description_ko": "눈썹 안쪽을 높여 모으고 아래입술을 긴장시킨 채 입을 조금 벌림",
+    "movement_prompt": "inner brows raised and drawn together, lower lip raised and tense, lips slightly parted without a wide jaw opening, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged",
+    "review_question": "두려움처럼 눈과 입이 과도하게 커지지 않는가"
+  },
+  "prompt": "Edit only the facial expression of the woman in Picture 1 to show inner brows raised and drawn together, lower lip raised and tense, lips slightly parted without a wide jaw opening, eyes looking forward, keep the original skin tone of the nose and cheeks unchanged. Keep the same person, facial proportions, iris color, hair color and hairstyle. Keep her head facing straight forward, the same framing, shoulders, background, lighting and illustration style. Do not add text or objects.",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "attention_slicing": null,
+  "model_load_seconds": 2.5,
+  "elapsed_seconds": 353.87,
+  "peak_allocated_bytes": 4458213888,
+  "peak_reserved_bytes": 5003804672,
+  "source_code_sha256": "fcc1351c7f86d64a705c5cec98b82f51dedda10d044d671d3167245b933f5f41",
+  "helper_code_sha256": "1c5ef7452a488f49ee86a16565b4ba47e670275b04cfd79d354deaf2d363648d",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-9-mira-expression-aggrieved-expansion-v1-size-1024-seed-62294-steps-20.png",
+    "sha256": "361f3386faa1e8b4fa77a5e8e4da43cc3832da53a7cd82a48c97bffb4308e355"
+  }
+}
