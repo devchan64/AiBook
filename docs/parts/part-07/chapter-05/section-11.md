@@ -60,6 +60,48 @@ LoRA는 기반 모델의 가중치를 고정하고 작은 추가 행렬을 학�
 
 [학습 이미지 40개 목록 JSON](../../../assets/part-07/chapter-05/sec-11/training-images.json)
 
+아래는 학습에 사용한 40장 전체다. 01–12는 5.2에서 선정한 기존 이미지, 13–40은 추가 생성 후 채택한 이미지다. 방향 표기는 화면을 보는 독자 기준이다. 각도·표정·배경·조명·의상이 달라질 때 얼굴과 헤어가 어떻게 보이는지 함께 비교한다.
+
+| 01 · 정면 얼굴 | 02 · 정면 상반신 | 03 · 위에서 본 우측 사선 | 04 · 위에서 본 좌측 사선 |
+| --- | --- | --- | --- |
+| ![학습 이미지 01 · 정면 얼굴](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png){ width="240" } | ![학습 이미지 02 · 정면 상반신](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png){ width="240" } | ![학습 이미지 03 · 위에서 본 우측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 04 · 위에서 본 좌측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png){ width="240" } |
+
+| 05 · 위에서 본 정면 | 06 · 눈높이 우측 사선 | 07 · 눈높이 우측 측면 | 08 · 눈높이 좌측 사선 |
+| --- | --- | --- | --- |
+| ![학습 이미지 05 · 위에서 본 정면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 06 · 눈높이 우측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 07 · 눈높이 우측 측면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 08 · 눈높이 좌측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png){ width="240" } |
+
+| 09 · 눈높이 좌측 측면 | 10 · 아래에서 본 우측 사선 | 11 · 아래에서 본 좌측 사선 | 12 · 아래에서 본 정면 |
+| --- | --- | --- | --- |
+| ![학습 이미지 09 · 눈높이 좌측 측면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 10 · 아래에서 본 우측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 11 · 아래에서 본 좌측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 12 · 아래에서 본 정면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png){ width="240" } |
+
+| 13 · 배경 01 | 14 · 배경 02 | 15 · 배경 03 | 16 · 배경 04 |
+| --- | --- | --- | --- |
+| ![학습 이미지 13 · 배경 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png){ width="240" } | ![학습 이미지 14 · 배경 02](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-02.png){ width="240" } | ![학습 이미지 15 · 배경 03](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-03.png){ width="240" } | ![학습 이미지 16 · 배경 04](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-04.png){ width="240" } |
+
+| 17 · 배경 07 | 18 · 배경 08 | 19 · 표정 01 | 20 · 표정 02 |
+| --- | --- | --- | --- |
+| ![학습 이미지 17 · 배경 07](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-07.png){ width="240" } | ![학습 이미지 18 · 배경 08](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-08.png){ width="240" } | ![학습 이미지 19 · 표정 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-01.png){ width="240" } | ![학습 이미지 20 · 표정 02](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-02.png){ width="240" } |
+
+| 21 · 표정 03 | 22 · 표정 04 | 23 · 표정 05 | 24 · 표정 06 |
+| --- | --- | --- | --- |
+| ![학습 이미지 21 · 표정 03](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-03.png){ width="240" } | ![학습 이미지 22 · 표정 04](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-04.png){ width="240" } | ![학습 이미지 23 · 표정 05](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-05.png){ width="240" } | ![학습 이미지 24 · 표정 06](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-06.png){ width="240" } |
+
+| 25 · 표정 07 | 26 · 조명 01 | 27 · 조명 02 | 28 · 조명 03 |
+| --- | --- | --- | --- |
+| ![학습 이미지 25 · 표정 07](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-07.png){ width="240" } | ![학습 이미지 26 · 조명 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-01.png){ width="240" } | ![학습 이미지 27 · 조명 02](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-02.png){ width="240" } | ![학습 이미지 28 · 조명 03](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-03.png){ width="240" } |
+
+| 29 · 조명 04 | 30 · 조명 06 | 31 · 조명 07 | 32 · 조명 08 |
+| --- | --- | --- | --- |
+| ![학습 이미지 29 · 조명 04](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-04.png){ width="240" } | ![학습 이미지 30 · 조명 06](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-06.png){ width="240" } | ![학습 이미지 31 · 조명 07](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-07.png){ width="240" } | ![학습 이미지 32 · 조명 08](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-08.png){ width="240" } |
+
+| 33 · 의상 01 | 34 · 의상 02 | 35 · 의상 03 | 36 · 의상 04 |
+| --- | --- | --- | --- |
+| ![학습 이미지 33 · 의상 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-01.png){ width="240" } | ![학습 이미지 34 · 의상 02](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-02.png){ width="240" } | ![학습 이미지 35 · 의상 03](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-03.png){ width="240" } | ![학습 이미지 36 · 의상 04](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-04.png){ width="240" } |
+
+| 37 · 의상 05 | 38 · 의상 06 | 39 · 의상 07 | 40 · 의상 08 |
+| --- | --- | --- | --- |
+| ![학습 이미지 37 · 의상 05](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-05.png){ width="240" } | ![학습 이미지 38 · 의상 06](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-06.png){ width="240" } | ![학습 이미지 39 · 의상 07](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-07.png){ width="240" } | ![학습 이미지 40 · 의상 08](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-08.png){ width="240" } |
+
 5.2 공유 원본은 `sec-02/`, 새로 만든 학습 이미지는 `sec-11/training-images/`, 검증 이미지는 `sec-11/validation/images/`에 있다. 설정·목록과 생성 기록은 `docs/assets/part-07/chapter-05/sec-11/`에서 관리한다.
 
 ## 캐릭터 이름과 바뀌는 속성을 나누어 적는다
