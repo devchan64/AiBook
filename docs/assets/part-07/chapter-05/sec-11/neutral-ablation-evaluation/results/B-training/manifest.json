@@ -1021,7 +1021,7 @@
     {
       "id": "p7-5-11-mira-v2-background-01",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-background-01.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png",
       "sha256": "8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-background-01-result.json",
       "record_sha256": "17c8aaca8aae0bfe1a695636425dda3effa9d48d1fddd95ddbb0f26cceb7a847",
@@ -1034,7 +1034,7 @@
     {
       "id": "p7-5-11-mira-v2-background-02",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-background-02.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-02.png",
       "sha256": "c9be837ecf353450934a8d0ff5ff32033bddb9e76c87dd6ab59cc53d73796934",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-background-02-result.json",
       "record_sha256": "a5a262cd58456189fa22b0dd626779d687d39ab7d96b6d2ac7f78c0ebf08c9be",
@@ -1047,7 +1047,7 @@
     {
       "id": "p7-5-11-mira-v2-background-03",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-background-03.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-03.png",
       "sha256": "34ac6ccaf3d6b037aa630f186636527668e18c3ba98515e497a049c042a6da8c",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-background-03-result.json",
       "record_sha256": "10d4b53b8e45d6b7547c230b488bbf4507fcd69c00c0266e57e2839ec8087053",
@@ -1060,7 +1060,7 @@
     {
       "id": "p7-5-11-mira-v2-background-04",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-background-04.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-04.png",
       "sha256": "343d24b9a1fbca4038e5007b9f3982e8783a378b39b3d84093a8aeda22a6e75a",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-background-04-result.json",
       "record_sha256": "5069d630174786e74a35db75e02163f8d7fa7fdd8c0d7a88ae3a7837c8c12b65",
@@ -1073,7 +1073,7 @@
     {
       "id": "p7-5-11-mira-v2-background-07",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-background-07.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-07.png",
       "sha256": "25d23db4d559eaab862d5a88935b84c54da06dd92f38913fac081bf5db19a6e9",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-background-07-result.json",
       "record_sha256": "b6ebc7b464c5e55936f22ce1d57e093e6fc73da9d3d32c2b0583516c7c30a082",
@@ -1086,7 +1086,7 @@
     {
       "id": "p7-5-11-mira-v2-background-08",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-background-08.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-08.png",
       "sha256": "ccd52b3237cf70b3f18c7e84551153357c9d1e57300132a948e1ee0b01f79c3b",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-background-08-result.json",
       "record_sha256": "b1b12fd4d91428ae17d397d679558e7b4173b8a7fca541e874a45eb9232daf5a",
@@ -1151,7 +1151,7 @@
     {
       "id": "p7-5-11-mira-v2-expression-01",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-expression-01.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-01.png",
       "sha256": "883983f1d875449b8d2b44c46f7134e6e8b10fe06edd8cdae87a5d8deefad2b6",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-expression-01-result.json",
       "record_sha256": "00e9abb8e98dcd83a6fdccf580e340051ffec6b9f1dc946e0f6675356eb59815",
@@ -1164,7 +1164,7 @@
     {
       "id": "p7-5-11-mira-v2-expression-02",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-expression-02.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-02.png",
       "sha256": "2fc913ff8d50af68a86b36ef7347d02d7ff8aae45bc49570a3abed572b28a98a",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-expression-02-result.json",
       "record_sha256": "2ea5d7de990f414c7633c1bceefee9edc7c8309be3abda4577bca25e9bf1c77d",
@@ -1177,7 +1177,7 @@
     {
       "id": "p7-5-11-mira-v2-expression-03",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-expression-03.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-03.png",
       "sha256": "854972ceeb4e9bbeaa12b29081f988fbc8fd281e835f31ea520f73c36d75b244",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-expression-03-result.json",
       "record_sha256": "9210effd0c8ee6ce5e7ce6ea73ae0885dbeb611927bb90ffcb5647030c860a03",
@@ -1190,7 +1190,7 @@
     {
       "id": "p7-5-11-mira-v2-expression-04",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-expression-04.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-04.png",
       "sha256": "7b41921130fa263e33ba7c2edb39cff997d54447fbde54596485d3b5b91c5315",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-expression-04-result.json",
       "record_sha256": "65850a024d845deb670a6188ff6036f705cac6669df2b29081c77981fcffa5cc",
@@ -1203,7 +1203,7 @@
     {
       "id": "p7-5-11-mira-v2-expression-05",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-expression-05.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-05.png",
       "sha256": "069d91fd0ad5bfd060958bd867b94a6f1fea6aa53a3058c63a663e4e5e66681c",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-expression-05-result.json",
       "record_sha256": "aa4a90577643b06fe96d9eb2eff9c5b63b69fa4fbeea55ca4378ae3b2328c5a9",
@@ -1216,7 +1216,7 @@
     {
       "id": "p7-5-11-mira-v2-expression-06",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-expression-06.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-06.png",
       "sha256": "b9ddeca9d026624ef25769150a0a43ab3dce6366b7e0ac3779944f3dd1138372",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-expression-06-result.json",
       "record_sha256": "a88a6d104b205c4f2df808178faf5f6cd91b3931520783c279d5c1e7bc1e88b8",
@@ -1229,7 +1229,7 @@
     {
       "id": "p7-5-11-mira-v2-expression-07",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-expression-07.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-07.png",
       "sha256": "55cc1bb3e0654599c62d67f77730e5fd0d618ed09376854acd5415a6654e87d7",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-expression-07-result.json",
       "record_sha256": "efd5d16fb66e38f7b89aa9e1c481d6530419c0fbe832be295fb38151bd1a614f",
@@ -1242,7 +1242,7 @@
     {
       "id": "p7-5-11-mira-v2-lighting-01",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-lighting-01.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-01.png",
       "sha256": "a9be19e7cf7eb7ab9d5c01edf4f4673be96be372d7c6e9185387209c525d3667",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-lighting-01-result.json",
       "record_sha256": "0784dd9556654f3d66c81736aa49960e4698208f0c3e4d29d474e232c7ea39f5",
@@ -1255,7 +1255,7 @@
     {
       "id": "p7-5-11-mira-v2-lighting-02",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-lighting-02.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-02.png",
       "sha256": "f392ffd252b8ff685aedbce11abc41b995a8711f11dc832bcd895e52425fb521",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-lighting-02-result.json",
       "record_sha256": "c4c34c026d362f4ef1c817962d959ac45cd83729ab681ce61b2a08c215abdda5",
@@ -1268,7 +1268,7 @@
     {
       "id": "p7-5-11-mira-v2-lighting-03",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-lighting-03.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-03.png",
       "sha256": "d0f02e7f143c785f875c317f59406f39d133924a52fe9f948d466912dee2b0ec",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-lighting-03-result.json",
       "record_sha256": "7177ac9e1388999b59e18f6e7c3d59de7c8206975e9a1a4ee55e04855824068b",
@@ -1281,7 +1281,7 @@
     {
       "id": "p7-5-11-mira-v2-lighting-04",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-lighting-04.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-04.png",
       "sha256": "4c99a08361d280fcd27f7249bf983d39e498f4d68756ba10029269614594de13",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-lighting-04-result.json",
       "record_sha256": "bf2491738f65dc577e50316495cfabc1f995e005bf34307f75d446b81566efdd",
@@ -1294,7 +1294,7 @@
     {
       "id": "p7-5-11-mira-v2-lighting-06",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-lighting-06.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-06.png",
       "sha256": "47431c7cf1ef9f4d87ffb1a094ef6e3b4f9cb55b5dfb0a7f923abe28259d87e1",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-lighting-06-result.json",
       "record_sha256": "6618670a9a87c633f90cee1aed2ccbf40624e262d3140d77f5df1d10d2b54d6b",
@@ -1307,7 +1307,7 @@
     {
       "id": "p7-5-11-mira-v2-lighting-07",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-lighting-07.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-07.png",
       "sha256": "620bec613e863502e0893f8ae4ce2899faeec203b8d60e30f743a2bb106be1f9",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-lighting-07-result.json",
       "record_sha256": "2ac296f731d5cbf81772db2a4baa34b95de472141b59830574ef610dfbb95590",
@@ -1320,7 +1320,7 @@
     {
       "id": "p7-5-11-mira-v2-lighting-08",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-lighting-08.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-08.png",
       "sha256": "cba898b1120e280a1d27aeb4089c4485520705f4c5139ebc7e3287f7ca15d161",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-lighting-08-result.json",
       "record_sha256": "c8b2aa11e8ceb7412514b9739aef111d24522f9fc33954e540791e158e8e2a65",
@@ -1333,7 +1333,7 @@
     {
       "id": "p7-5-11-mira-v2-outfit-01",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-outfit-01.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-01.png",
       "sha256": "8f0cc69fc3fadf17ab76b535b537a84c404bb43af118d43be8354070186ddfd3",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-outfit-01-result.json",
       "record_sha256": "352e3799a3f1cfbb2bd6ff5b137a92f2c379e3ab6da46871edd556b29fdb1495",
@@ -1346,7 +1346,7 @@
     {
       "id": "p7-5-11-mira-v2-outfit-02",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-outfit-02.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-02.png",
       "sha256": "df1dd6ec626e321d4c39406b2783d25ff09ee52db4dcc32faea28cea166ca5d4",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-outfit-02-result.json",
       "record_sha256": "a774aa0857fd7898babae19bd4f5e1098b30b234d5b53c991ce3150c14a8b27f",
@@ -1359,7 +1359,7 @@
     {
       "id": "p7-5-11-mira-v2-outfit-03",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-outfit-03.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-03.png",
       "sha256": "8fc597c33f206775a5f4ff56d3ab455d773bde9b0027b18f7003055f1de4b63b",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-outfit-03-result.json",
       "record_sha256": "893defeb62854f327b542d42e01fdac336671f47c9122476040043e080575b6f",
@@ -1372,7 +1372,7 @@
     {
       "id": "p7-5-11-mira-v2-outfit-04",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-outfit-04.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-04.png",
       "sha256": "6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-outfit-04-result.json",
       "record_sha256": "98fe19c4ab7d4d6642df0b42501f86bcc2f7b54d3291136634cdc9733233a2c1",
@@ -1385,7 +1385,7 @@
     {
       "id": "p7-5-11-mira-v2-outfit-05",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-outfit-05.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-05.png",
       "sha256": "7e2e1bd26a5ba8437d379b1f2cd0fd57f54b7f16c014f0489d4ba14b417a2977",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-outfit-05-result.json",
       "record_sha256": "1f01c6dd78802943c886db65c3c0a6bf619a0366b66954b7e8f20a9302bb15dd",
@@ -1398,7 +1398,7 @@
     {
       "id": "p7-5-11-mira-v2-outfit-06",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-outfit-06.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-06.png",
       "sha256": "a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-outfit-06-result.json",
       "record_sha256": "7a296b3c3db8b800270f0aecb4fadbb4b30d9751b56141e99196e1d5c90c9fff",
@@ -1411,7 +1411,7 @@
     {
       "id": "p7-5-11-mira-v2-outfit-07",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-outfit-07.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-07.png",
       "sha256": "ffc040f45c033c2833d65de7db7ef932310a6969f86d3e7d6b9b19bcfc3922bf",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-outfit-07-result.json",
       "record_sha256": "8efe997d65af3d96a96117aa364b6c996886a992050f17e04842d8b8dbdb0ae0",
@@ -1424,7 +1424,7 @@
     {
       "id": "p7-5-11-mira-v2-outfit-08",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-outfit-08.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-08.png",
       "sha256": "f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-outfit-08-result.json",
       "record_sha256": "74120d3ed182790783a0d844e9a35e382cd4e477759d51744dbae75b0581c1d2",
@@ -1464,7 +1464,7 @@
   "review_scope": "AI visual screening; held-out synthetic scenes are qualitative references, not independent identity ground truth. Original 5.9 candidates remain pending.",
   "purpose": "neutral_control_ablation",
   "neutral_control": {
-    "path": "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+    "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png",
     "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
     "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
   }
