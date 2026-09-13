@@ -7,7 +7,7 @@
 
 ## 같은 얼굴에서 표정 바꾸기
 
-![Mira 정면 머리 입력](../../../assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png)
+![Mira 정면 머리 입력](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png)
 
 39컷은 모두 이 원본에서 독립적으로 생성했다. 웃는 결과를 다시 화난 표정으로 편집하지 않았으므로 앞선 변형이 다음 컷에 누적되지 않는다. 공통 조건은 1024×1024, 20스텝, seed `62294`, true CFG `4.0`이다. 얼굴 비례·홍채색·헤어스타일·정면 구도·배경·조명·화풍은 유지하도록 요청했다.
 
@@ -197,7 +197,7 @@ FACS의 Action Unit(AU)은 눈썹 올리기나 입꼬리 당기기처럼 얼굴 
 
 [Mira 표정 생성 Python](../../../assets/part-07/chapter-05/p7_5_9_qwen_edit_2511_mira_expressions.py){ .lazy-source }
 
-[공통 경로·해시·환경 기록 Python](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py){ .lazy-source }
+[공통 경로·해시·환경 기록 Python](../../../assets/part-07/chapter-05/sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso.py){ .lazy-source }
 
 생성기는 `QwenImageEditPlusPipeline`으로 공식 BF16 모델을 한 번 읽고 선택한 표정을 순차 생성한다. 원본 1280×1280 이미지를 1024×1024로 줄여 입력하고 추가 LoRA는 사용하지 않는다. 모델은 `.tmp/download/huggingface/hub`의 로컬 캐시에서 읽는다.
 

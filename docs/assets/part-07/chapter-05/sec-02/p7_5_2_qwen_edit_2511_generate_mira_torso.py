@@ -18,15 +18,16 @@ import time
 from pathlib import Path
 
 
-ASSETS = Path(__file__).resolve().parent
+ASSETS = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = Path(__file__).resolve().parent
 ROOT = ASSETS.parents[3]
 CACHE_DIR = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 DEFAULT_FACE = ASSETS / (
-    "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-"
+    "sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-"
     "seed-62294-steps-30-size-1280.png"
 )
-DEFAULT_IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
+DEFAULT_IDENTITY_CONTRACT = ASSETS / "sec-02/p7-5-2-mira-identity-contract.json"
 
 
 def sha256(path: Path) -> str:
@@ -74,7 +75,7 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--run-label", default="p7-5-4-direct-v1")
-    parser.add_argument("--output-dir", type=Path, default=ASSETS)
+    parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()

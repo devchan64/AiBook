@@ -18,7 +18,7 @@
     "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
   },
   "identity_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-identity-contract.json",
     "sha256": "0bd04d263866eff2e67f90f52f4692a7b257e87d0d5261c944343db47fb2829e"
   },
   "rendering_contract": {

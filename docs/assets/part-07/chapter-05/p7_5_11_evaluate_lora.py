@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Evaluate identity from a neutral canvas: no face or hair in the model input."""
 import argparse,json,time,fcntl,shutil
+import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent / "sec-02"))
 from p7_5_2_qwen_edit_2511_generate_mira_torso import ROOT,ASSETS,CACHE_DIR,MODEL_ID,sha256,runtime_record
 from p7_5_11_generate_supplements import write
 

@@ -18,12 +18,12 @@
   },
   "gpu_memory_before": "NVIDIA GeForce RTX 5070 Laptop GPU, 8151 MiB, 837 MiB, 6872 MiB",
   "identity_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-identity-contract.json",
     "sha256": "bcb4eb58f240786b723a5a4c3d412754d032efcba44062a0dc0eaaee8a1c6add",
     "bytes": 1634
   },
   "rendering_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-identity-contract.json",
     "components": [
       "front_face_illustration_prompt"
     ],
@@ -43,7 +43,7 @@
   "negative_prompt": " ",
   "status": "generated",
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
     "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
     "bytes": 1310873
   },

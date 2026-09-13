@@ -5,7 +5,7 @@
   "crop_provenance": {
     "operation": "pixel crop with optional horizontal flip; no resizing or AI generation",
     "horizontal_flip": false,
-    "input": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+    "input": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
     "input_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
     "crop_box": [
       360,

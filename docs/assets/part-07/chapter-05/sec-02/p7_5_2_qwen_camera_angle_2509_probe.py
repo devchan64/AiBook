@@ -31,7 +31,8 @@ sys.path.insert(0, "/tmp")
 from nunchaku_lora_qwen import apply_lora  # noqa: E402
 
 
-ASSETS = Path(__file__).resolve().parent
+ASSETS = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = Path(__file__).resolve().parent
 HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = (
@@ -45,7 +46,7 @@ TRANSFORMER_FILENAME = (
 )
 ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
 ANGLE_LORA_FILE = "镜头转换.safetensors"
-DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png"
+DEFAULT_REFERENCE_IMAGE = ASSETS / "sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png"
 SIZE = (1024, 1024)
 LIGHTNING_SCHEDULER_CONFIG = {
     "base_image_seq_len": 256,
@@ -231,7 +232,7 @@ def main() -> None:
         default="torso",
         help="Subject framing represented by --reference-image; used in output filenames.",
     )
-    parser.add_argument("--output-dir", type=Path, default=ASSETS)
+    parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     args = parser.parse_args()
     if args.steps < 1:
         raise ValueError("--steps must be at least 1")

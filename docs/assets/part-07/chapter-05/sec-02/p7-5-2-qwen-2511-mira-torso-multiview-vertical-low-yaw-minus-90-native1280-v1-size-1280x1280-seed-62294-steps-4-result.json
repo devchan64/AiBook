@@ -41,18 +41,18 @@
   "inputs": [
     {
       "role": "Picture 1: Mira frontal torso reference",
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
       "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
     }
   ],
   "camera": {
     "yaw_degrees": -90,
     "azimuth": "left side view",
-    "vertical": "elevated",
-    "elevation": "elevated shot",
+    "vertical": "low",
+    "elevation": "low-angle shot",
     "distance": "medium shot"
   },
-  "prompt": "<sks> left side view elevated shot medium shot",
+  "prompt": "<sks> left side view low-angle shot medium shot",
   "seed": 62294,
   "steps": 4,
   "size": [
@@ -60,10 +60,10 @@
     1280
   ],
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
-    "sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+    "sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
     "width": 1280,
     "height": 1280
   },
-  "elapsed_seconds": 686.02
+  "elapsed_seconds": 84.24
 }

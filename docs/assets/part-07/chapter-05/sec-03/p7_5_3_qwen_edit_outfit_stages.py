@@ -21,11 +21,11 @@ from diffusers.utils import load_image
 
 ASSETS = Path(__file__).resolve().parent.parent
 HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
-IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
+IDENTITY_CONTRACT = ASSETS / "sec-02/p7-5-2-mira-identity-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 OUTPUT_DIR = ASSETS / "sec-03"
 DEFAULT_STEPS = 10
-QWEN_FACE_REFERENCE = "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png"
+QWEN_FACE_REFERENCE = "sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png"
 SHOE_REFERENCE = "sec-03/p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png"
 # 960×1440 BODY_18 map: 90% overall figure height with 7 px-radius joints.
 STAGE2_BODY_ONLY_OPENPOSE = "sec-03/p7-5-3-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"

@@ -31,7 +31,7 @@ DEFAULT_RUN_LABEL = "mira-identity-v1"
 DEFAULT_MIRA_REFERENCE = ASSETS / (
     'sec-03/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
 )
-DEFAULT_IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
+DEFAULT_IDENTITY_CONTRACT = ASSETS / "sec-02/p7-5-2-mira-identity-contract.json"
 LINEART_BY_SCENE = {
     scene: ASSETS / (
         f"p7-5-4-qwen-image-2512-scene-{scene}-lineart-v1-size-1280x1280-"

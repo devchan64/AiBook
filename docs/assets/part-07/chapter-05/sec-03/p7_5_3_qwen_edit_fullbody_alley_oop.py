@@ -26,7 +26,7 @@ MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 OUTFIT_REFERENCE = ASSETS / (
     'sec-03/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
 )
-TORSO_REFERENCE = ASSETS / "p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png"
+TORSO_REFERENCE = ASSETS / "sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png"
 DEFAULT_SEED = 62294
 DEFAULT_STEPS = 20
 DEFAULT_SIZE = (1024, 1536)

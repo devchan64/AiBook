@@ -6,8 +6,10 @@ import argparse
 import json
 import re
 import time
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "sec-02"))
 from p7_5_2_qwen_edit_2511_generate_mira_torso import (
     ASSETS, CACHE_DIR, DEFAULT_FACE, MODEL_ID, runtime_record, sha256,
 )
@@ -110,7 +112,7 @@ def main() -> None:
             "peak_allocated_bytes": torch.cuda.max_memory_allocated(),
             "peak_reserved_bytes": torch.cuda.max_memory_reserved(),
             "source_code_sha256": source_code_hash,
-            "helper_code_sha256": sha256(ASSETS / "p7_5_2_qwen_edit_2511_generate_mira_torso.py"),
+            "helper_code_sha256": sha256(ASSETS / "sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso.py"),
             "output": {"path": job["output"], "sha256": sha256(Path(job["output"]))},
         }
         Path(job["record"]).write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")

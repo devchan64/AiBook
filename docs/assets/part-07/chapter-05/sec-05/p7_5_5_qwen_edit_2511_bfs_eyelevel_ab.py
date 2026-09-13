@@ -61,21 +61,21 @@ SOURCES = {
     'b': 'sec-05/p7-5-5-qwen-2511-mannequin-outfit-b-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png',
     'c': 'sec-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png',
 }
-DEFAULT_FACE = ASSETS / 'p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png'
+DEFAULT_FACE = ASSETS / 'sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png'
 REFERENCES = {
-    'a': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (320, 10, 960, 650), False, 1280),
-    'b': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png', (280, 10, 792, 522), False, 1024),
+    'a': ('sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (320, 10, 960, 650), False, 1280),
+    'b': ('sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png', (280, 10, 792, 522), False, 1024),
 }
 
 
 ZERO_REFERENCES = {
-    'a': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png', (400, 40, 912, 552), False, 1280),
-    'b': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (320, 10, 960, 650), False, 1280),
+    'a': ('sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png', (400, 40, 912, 552), False, 1280),
+    'b': ('sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (320, 10, 960, 650), False, 1280),
 }
 
 
 LOW45_REFERENCES = {
-    'b': ('p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (360, 20, 1000, 660), False, 1280),
+    'b': ('sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png', (360, 20, 1000, 660), False, 1280),
 }
 
 

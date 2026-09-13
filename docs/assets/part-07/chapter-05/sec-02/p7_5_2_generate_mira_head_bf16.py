@@ -15,20 +15,23 @@ import json
 import platform
 import subprocess
 import time
+import sys
 from pathlib import Path
 
 import torch
 from diffusers import QwenImagePipeline
 from huggingface_hub import snapshot_download
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from p7_5_image_output_naming import candidate_stem
 
 
-ASSETS = Path(__file__).resolve().parent
+ASSETS = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = Path(__file__).resolve().parent
 ROOT = ASSETS.parents[3]
 HF_HUB_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image"
-IDENTITY_CONTRACT = ASSETS / "p7-5-2-mira-identity-contract.json"
+IDENTITY_CONTRACT = ASSETS / "sec-02/p7-5-2-mira-identity-contract.json"
 DEFAULT_SIZE = 1280
 DEFAULT_STEPS = 30
 DEFAULT_CFG = 4.0
@@ -92,7 +95,7 @@ def main() -> None:
     parser.add_argument("--size", type=int, default=DEFAULT_SIZE)
     parser.add_argument("--cfg", type=float, default=DEFAULT_CFG)
     parser.add_argument("--run-label", default="front-v1")
-    parser.add_argument("--output-dir", type=Path, default=ASSETS)
+    parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     if args.steps < 1 or args.size < 256 or args.size % 16:

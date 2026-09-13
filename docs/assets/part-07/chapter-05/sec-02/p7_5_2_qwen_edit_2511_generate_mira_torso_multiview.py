@@ -25,7 +25,8 @@ import time
 from pathlib import Path
 
 
-ASSETS = Path(__file__).resolve().parent
+ASSETS = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = Path(__file__).resolve().parent
 ROOT = ASSETS.parents[3]
 CACHE_DIR = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
@@ -35,7 +36,7 @@ LIGHTNING_ID = "lightx2v/Qwen-Image-Edit-2511-Lightning"
 LIGHTNING_FILENAME = "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors"
 LIGHTNING_DIR = ROOT / ".tmp" / "download" / "weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
 DEFAULT_TORSO = ASSETS / (
-    "p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-"
+    "sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-"
     "size-1280x1280-seed-62294-steps-30.png"
 )
 YAW_VIEWS = {
@@ -73,7 +74,7 @@ VIEW_DEFAULTS = {
 DEFAULT_STEPS = 4
 DEFAULT_SAMPLING_PROFILE = "lightning4"
 DEFAULT_ANGLE_LORA_WEIGHT = 0.9
-DEFAULT_OUTPUT_DIR = ASSETS
+DEFAULT_OUTPUT_DIR = OUTPUT_DIR
 DEFAULT_VIEW_SELECTION: tuple[str, ...] | None = None
 DEFAULT_EXCLUDES: tuple[str, ...] = ()
 SAMPLING_PROFILES = ("standard", "lightning4")

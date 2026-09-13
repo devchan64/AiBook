@@ -3,7 +3,7 @@
   "experiment": "level",
   "crop_provenance": {
     "operation": "pixel crop without resizing or AI generation",
-    "input": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+    "input": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
     "input_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
     "crop_box": [
       310,

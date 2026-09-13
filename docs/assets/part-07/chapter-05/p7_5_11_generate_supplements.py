@@ -5,7 +5,9 @@ import fcntl
 import json
 import re
 import time
+import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent / "sec-02"))
 from p7_5_2_qwen_edit_2511_generate_mira_torso import ASSETS, ROOT, CACHE_DIR, MODEL_ID, sha256, runtime_record
 
 
@@ -45,7 +47,7 @@ def main():
 
 def run(out, spec_path, spec):
     fingerprint = {'spec_sha256':sha256(spec_path),'code_sha256':sha256(Path(__file__)),
-                   'helper_sha256':sha256(ASSETS / 'p7_5_2_qwen_edit_2511_generate_mira_torso.py')}
+                   'helper_sha256':sha256(ASSETS / 'sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso.py')}
     state_path = out / 'generation-state.json'
     if state_path.exists():
         old = json.loads(state_path.read_text())

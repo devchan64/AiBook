@@ -7,7 +7,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/background-01.png",
@@ -19,7 +19,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/background-02.png",
@@ -31,7 +31,7 @@
       "decision": "train",
       "review_note": "원본 왼쪽 사선의 눈·코·입과 갈색 홍채, 부드러운 피부색 유지. v1과 달리 굵은 눈썹·선명한 주황 홍채 문제가 두드러지지 않음.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/background-03.png",
@@ -43,7 +43,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/background-04.png",
@@ -55,7 +55,7 @@
       "decision": "hold",
       "review_note": "양옆의 큰 검은 띠. 얼굴 정체성 결함과 구분하여 전처리 전 보류.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/background-05.png",
@@ -67,7 +67,7 @@
       "decision": "hold",
       "review_note": "철도 대합실 대신 검은 단색 배경. 목표 배경 다양성에 기여하지 않아 보류.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/background-06.png",
@@ -79,7 +79,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/background-07.png",
@@ -91,7 +91,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/background-08.png",
@@ -103,7 +103,7 @@
       "decision": "hold",
       "review_note": "눈썹·눈매가 굵고 날카로워지고 헤어 끝과 화풍이 달라 정답용 보류.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/evaluation-01.png",
@@ -115,7 +115,7 @@
       "decision": "validation",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/evaluation-02.png",
@@ -127,7 +127,7 @@
       "decision": "hold",
       "review_note": "참조와 반대 방향 측면으로 생성되며 턱·코 윤곽과 머리 끝이 달라짐. 방향 참조 효과를 보장하지 못함.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9"
       },
       "image": ".tmp/p7-5-11/supplements-v2/evaluation-03.png",
@@ -139,7 +139,7 @@
       "decision": "validation",
       "review_note": "전신 보행·코트 구도용 평가. 얼굴이 작아 세밀한 정체성 정답 또는 정량 점수 기준으로 사용하지 않음.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/evaluation-04.png",
@@ -151,7 +151,7 @@
       "decision": "validation",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/evaluation-05.png",
@@ -163,7 +163,7 @@
       "decision": "validation",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/evaluation-06.png",
@@ -175,7 +175,7 @@
       "decision": "hold",
       "review_note": "윤곽선·눈매·얼굴 음영이 만화풍으로 바뀌어 정답용 보류.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/evaluation-07.png",
@@ -187,7 +187,7 @@
       "decision": "hold",
       "review_note": "강한 색조와 날카로운 눈매·진한 눈썹 및 헤어 끝 변화로 정답용 보류.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/evaluation-08.png",
@@ -199,7 +199,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/expression-01.png",
@@ -211,7 +211,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/expression-02.png",
@@ -223,7 +223,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/expression-03.png",
@@ -235,7 +235,7 @@
       "decision": "train",
       "review_note": "입 벌림과 턱 하강은 하품 동작으로 해석. 눈이 닫혀 홍채색은 판정 불가.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/expression-04.png",
@@ -247,7 +247,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/expression-05.png",
@@ -259,7 +259,7 @@
       "decision": "train",
       "review_note": "실제 결과는 눈을 내리깔고 입을 다문 걱정/슬픔 표정. 요청한 눈썹 하강과 차이가 있어 캡션 수정.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/expression-06.png",
@@ -271,7 +271,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/expression-07.png",
@@ -283,7 +283,7 @@
       "decision": "hold",
       "review_note": "열린 눈과 홍채가 원본보다 크게 확대되고 하이라이트가 늘어 눈매 일관성이 약해짐.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/expression-08.png",
@@ -295,7 +295,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/lighting-01.png",
@@ -307,7 +307,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/lighting-02.png",
@@ -319,7 +319,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/lighting-03.png",
@@ -331,7 +331,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/lighting-04.png",
@@ -343,7 +343,7 @@
       "decision": "hold",
       "review_note": "주황색 광원과 강한 명암으로 피부·헤어 색 판독이 어려워 첫 학습 보류. 피부 고유색 변화라고 단정하지 않음.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/lighting-05.png",
@@ -355,7 +355,7 @@
       "decision": "train",
       "review_note": "청색 광원의 영향은 있으나 눈·코·입 형태와 홍채 갈색 계열이 유지됨.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/lighting-06.png",
@@ -367,7 +367,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/lighting-07.png",
@@ -379,7 +379,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/lighting-08.png",
@@ -391,7 +391,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/outfit-01.png",
@@ -403,7 +403,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/outfit-02.png",
@@ -415,7 +415,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/outfit-03.png",
@@ -427,7 +427,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/outfit-04.png",
@@ -439,7 +439,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/outfit-05.png",
@@ -451,7 +451,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
         "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
       },
       "image": ".tmp/p7-5-11/supplements-v2/outfit-06.png",
@@ -463,7 +463,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
         "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
       },
       "image": ".tmp/p7-5-11/supplements-v2/outfit-07.png",
@@ -475,7 +475,7 @@
       "decision": "train",
       "review_note": "참조와 비교해 얼굴 배치·눈매·홍채의 갈색 계열·피부·가르마와 단발 실루엣이 시각적으로 이어짐. 조명/표정 차이는 고유 정체성 변화와 구분.",
       "input": {
-        "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+        "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
         "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
       },
       "image": ".tmp/p7-5-11/supplements-v2/outfit-08.png",

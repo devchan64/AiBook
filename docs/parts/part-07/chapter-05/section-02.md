@@ -1,7 +1,7 @@
 # P7-5.2 Mira 정면 머리 기준 만들기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.09.11`
+> Version: `v2026.09.13`
 
 같은 인물을 다음 단계에서 다시 사용할 때는 먼저 얼굴·머리 기준을 한 장으로 고정한다. 이 절은 캐릭터 **Mira**의 정면 머리 기준을 만들고, 이를 바탕으로 카메라 각도가 달라진 참조 묶음을 만든다. 전신·착장·자세는 [P7-5.3](section-03.md)에서 다룬다.
 
@@ -9,7 +9,7 @@
 
 Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱선, 호박빛이 섞인 갈색 홍채, 짙은 petrol-teal의 볼륨 있는 턱 길이 단발을 가진 성인 여성 캐릭터다. Mira identity 계약 JSON은 얼굴·헤어·기본 착장만 정의하며, 자세·카메라·장면·출력 품질은 정의하지 않는다.
 
-[Mira identity 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json)
+[Mira identity 계약 JSON](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-identity-contract.json)
 
 | 계약 필드 | Mira에 고정하는 정보 | 이 절에서 맡기지 않는 정보 |
 | --- | --- | --- |
@@ -20,22 +20,22 @@ Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱�
 
 정면 머리 T2I 생성은 공식 `Qwen/Qwen-Image` BF16 가중치를 `sequential CPU offload`로 직접 호출한다. 참조 이미지를 넣지 않으므로, 이 한 장이 이후 모든 비교의 얼굴·헤어 기준이 된다.
 
-![Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png)
+![Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png)
 
-[정면 얼굴 result.json — T2I 입력 조건과 출력 기록](../../../assets/part-07/chapter-05/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280-result.json)
+[정면 얼굴 result.json — T2I 입력 조건과 출력 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280-result.json)
 
-[정면 얼굴 T2I Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_generate_mira_head_bf16.py)
+[정면 얼굴 T2I Python 생성기](../../../assets/part-07/chapter-05/sec-02/p7_5_2_generate_mira_head_bf16.py)
 
 저장소 루트에서 다음 명령으로 입력 조건을 확인한다. 이 절의 `--dry-run` 명령은 생성 계획을 출력하며, 실제 GPU 생성을 하려면 `--dry-run`을 뺀다. 정면 머리 생성기는 실행 계획 출력 전에도 CUDA 사용 가능 여부를 확인하므로 GPU가 인식되는 환경에서 실행한다. 재실행에는 기존 결과와 구분되는 실행 이름을 사용한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_mira_head_bf16.py \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-02/p7_5_2_generate_mira_head_bf16.py \
   --run-label front-repeat-v1 --dry-run
 ```
 
 생성기는 얼굴 일러스트 계약과 Mira identity 계약, seed·step·CFG, 완성 PNG의 해시를 result JSON에 기록한다. 기본값은 1280px·30 step·CFG 4.0이다. 조건을 바꿀 때는 정수리 여백·양쪽 눈과 귀·홍채색·단발 실루엣이 유지되는지 확인한다.
 
-[Mira identity·화풍·일러스트 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-mira-identity-contract.json)
+[Mira identity·화풍·일러스트 계약 JSON](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-identity-contract.json)
 
 ### 정면 생성기가 고정하는 것과 바꿀 수 있는 것
 
@@ -61,7 +61,7 @@ Mira는 매우 밝은 피치 피부, 부드러운 타원형 얼굴과 V자 턱�
 P7-5.1의 T2I 흐름에 참조 이미지가 더해진다. 정면 상반신을 만들 때는 정면 머리와 상반신 확장 지시를, 카메라 참조를 만들 때는 완성한 정면 상반신과 카메라 지시를 넣는다. 두 실행 모두 `QwenImageEditPlusPipeline`을 사용하며, 입력 이미지는 편집할 인물의 기준을 제공한다.
 
 ```mermaid
---8<-- "assets/part-07/chapter-05/p7-5-2-qwen-edit-pipeline-ko.mmd"
+--8<-- "assets/part-07/chapter-05/sec-02/p7-5-2-qwen-edit-pipeline-ko.mmd"
 ```
 
 참조 이미지는 두 경로로 처리된다. Qwen2.5-VL은 이미지와 편집 지시를 함께 읽어 조건 표현을 만들고, VAE encoder는 참조 이미지를 형태 정보를 담은 latent로 압축한다. 생성할 이미지의 초기 latent는 seed에서 만든 noise로 따로 준비한다. Transformer는 이 latent와 두 조건을 함께 받아 갱신 방향을 예측하고, scheduler는 timestep에 따라 생성할 latent를 갱신한다. 반복이 끝나면 VAE decoder가 결과를 RGB 픽셀로 바꾼다. 참조 이미지의 픽셀을 그대로 복사하는 과정은 아니므로 얼굴이나 배경도 달라질 수 있다.
@@ -76,16 +76,16 @@ P7-5.1의 T2I 흐름에 참조 이미지가 더해진다. 정면 상반신을 �
 
 정면 머리 기준만 회전시키면 어깨와 이너탑을 새로 추측해야 한다. 그래서 정면 머리를 참조해 어깨가 보이는 상반신 기준 한 장을 먼저 만들고, 그 이미지만 `Picture 1`로 넣어 카메라 조건을 바꿨다. 이 단계는 새 포즈나 새 착장을 만드는 단계가 아니라, 이후 캐릭터 시트에서 비교할 **카메라 참조 묶음**을 만드는 단계다.
 
-![Mira 정면 상반신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png)
+![Mira 정면 상반신 기준](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png)
 
-[정면 상반신 기준 result JSON](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30-result.json)
+[정면 상반신 기준 result JSON](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
 정면 상반신 Direct V1 Python 생성기는 정면 머리 한 장과 이너탑 설명을 입력으로 사용한다. `--size 1280 --steps 30 --seed 62294`로 실행하며, 파이프라인에 `width=1280`, `height=1280`을 직접 전달한다. 입력 이미지 크기만 바꾸면 출력 크기는 달라질 수 있으므로, 저장 전에 실제 출력이 `1280×1280`인지 검사하고 result JSON에도 기록한다.
 
-[정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py)
+[정면 상반신 Direct V1 Python 생성기](../../../assets/part-07/chapter-05/sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso.py \
   --run-label torso-repeat-v1 --dry-run
 ```
 
@@ -93,24 +93,24 @@ P7-5.1의 T2I 흐름에 참조 이미지가 더해진다. 정면 상반신을 �
 
 `Qwen/Qwen-Image-Edit-2511`에 Multiple-Angles LoRA와 Lightning 4-step LoRA를 함께 적용한다. 카메라 prompt는 `<sks> [azimuth] [elevation] [distance]` 순서로 두며, 표의 모든 결과는 4 step으로 생성했다. 로우앵글 `0°`는 검수 후 시드를 1 올린 결과를 채택했으므로, 해당 컷은 카메라 조건뿐 아니라 시드도 다르다는 점을 함께 고려한다.
 
-[상반신 15방향 Python 생성기](../../../assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py)
+[상반신 15방향 Python 생성기](../../../assets/part-07/chapter-05/sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py)
 
 전체 방향의 실행 계획은 다음과 같이 확인한다. 크기·시드·스텝은 생성기의 기본값을 사용한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
   --run-label multiview-repeat-v1 --dry-run
 ```
 
 아이레벨과 엘리베이티드의 `+45°`만 각각 확인하려면 방향을 지정한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
   --vertical level --yaw plus-45 --run-label level-repeat-v1 --dry-run
 ```
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py \
   --vertical elevated --yaw plus-45 --run-label elevated-repeat-v1 --dry-run
 ```
 
@@ -133,45 +133,45 @@ Lightning 4-step LoRA는 긴 확산 과정을 네 step으로 줄이는 속도 �
 
 | 로우앵글 `−90°` | 로우앵글 `−45°` | 로우앵글 `0°` | 로우앵글 `+45°` | 로우앵글 `+90°` |
 | --- | --- | --- | --- | --- |
-| ![Mira 로우앵글 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) | ![Mira 로우앵글 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![Mira 로우앵글 −90도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 −45도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 정면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) | ![Mira 로우앵글 +45도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 로우앵글 +90도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
-[로우앵글 −90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[로우앵글 −90도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[로우앵글 −45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[로우앵글 −45도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[로우앵글 0도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4-result.json){ .lazy-source }
+[로우앵글 0도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4-result.json){ .lazy-source }
 
-[로우앵글 +45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[로우앵글 +45도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[로우앵글 +90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[로우앵글 +90도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
 | 아이레벨 `−90°` | 아이레벨 `−45°` | 아이레벨 `0°` | 아이레벨 `+45°` | 아이레벨 `+90°` |
 | --- | --- | --- | --- | --- |
-| ![Mira 아이레벨 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![Mira 아이레벨 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![Mira 아이레벨 −90도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 −45도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 정면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 아이레벨 +45도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![Mira 아이레벨 +90도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
-[아이레벨 −90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[아이레벨 −90도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[아이레벨 −45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[아이레벨 −45도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[아이레벨 0도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[아이레벨 0도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[아이레벨 +45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4-result.json){ .lazy-source }
+[아이레벨 +45도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4-result.json){ .lazy-source }
 
-[아이레벨 +90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[아이레벨 +90도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
 | 엘리베이티드 `−90°` | 엘리베이티드 `−45°` | 엘리베이티드 `0°` | 엘리베이티드 `+45°` | 엘리베이티드 `+90°` |
 | --- | --- | --- | --- | --- |
-| ![Mira 엘리베이티드 −90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 −45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 정면](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +45도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +90도](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![Mira 엘리베이티드 −90도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 −45도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 정면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +45도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![Mira 엘리베이티드 +90도](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
-[엘리베이티드 −90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[엘리베이티드 −90도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[엘리베이티드 −45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[엘리베이티드 −45도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[엘리베이티드 0도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[엘리베이티드 0도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
-[엘리베이티드 +45도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4-result.json){ .lazy-source }
+[엘리베이티드 +45도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4-result.json){ .lazy-source }
 
-[엘리베이티드 +90도 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
+[엘리베이티드 +90도 실행 기록](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json){ .lazy-source }
 
 로우앵글 `−90°`에서는 배경이 하늘색으로 바뀌고, 엘리베이티드 `−45°`에서는 상반신에서 전신으로 구도가 넓어졌다. 시점 변화와 함께 생긴 배경·프레이밍 변형을 구분해 검수한다. 1280px 출력이라는 조건만으로 얼굴의 화면 내 크기나 구도 보존까지 보장되지는 않는다.
 

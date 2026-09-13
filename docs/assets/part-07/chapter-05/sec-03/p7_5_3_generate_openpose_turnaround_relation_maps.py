@@ -44,7 +44,7 @@ ASSETS = Path(__file__).resolve().parent.parent
 # Direction inspection uses the P7-5.2 frontal Mira head that P7-5.3 already
 # supplies to the full-body editor; the deterministic BODY_18 template itself
 # does not derive identity or body coordinates from this image.
-DEFAULT_REFERENCE = ASSETS / "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png"
+DEFAULT_REFERENCE = ASSETS / "sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png"
 # File names encode the run, so candidate output stays directly in the chapter
 # asset root instead of creating a directory per candidate.
 DEFAULT_OUTPUT = ASSETS / "sec-03"
