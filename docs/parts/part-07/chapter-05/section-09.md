@@ -1,7 +1,7 @@
 # P7-5.9 보충학습: Mira의 표정 바꾸기
 
 > Section ID: `P7-5.9`
-> Version: `v2026.09.12`
+> Version: `v2026.09.13`
 
 같은 얼굴에서 눈썹·눈·볼·입을 바꾸면 표정이 달라진다. [P7-5.2](section-02.md)의 Mira 정면 머리를 Qwen-Image-Edit-2511로 편집한 39개 결과를 비교한다. 표정 이름에 맞는 움직임이 나타났는지, 그 과정에서 얼굴과 머리 모양이 유지됐는지가 중심이다.
 
@@ -67,7 +67,7 @@
 | --- | --- | --- | --- |
 | ![Mira 삐짐](../../../assets/part-07/chapter-05/p7-5-9-mira-expression-pouting-expansion-v1-size-1024-seed-62294-steps-20.png) | ![Mira 볼 부푼 삐짐](../../../assets/part-07/chapter-05/p7-5-9-mira-expression-puffed_pout-puffed-pout-v2-size-1024-seed-62294-steps-20.png) | ![Mira 토라짐](../../../assets/part-07/chapter-05/p7-5-9-mira-expression-sulking-expansion-v1-size-1024-seed-62294-steps-20.png) | ![Mira 못마땅함](../../../assets/part-07/chapter-05/p7-5-9-mira-expression-unimpressed-expansion-v1-size-1024-seed-62294-steps-20.png) |
 
-삐짐은 아래입술 돌출이 약하고 눈썹 안쪽이 올라가 슬픔과 닮았다. 볼 부푼 삐짐은 다문 입과 내려간 입꼬리가 보이지만 입 옆 볼의 부피 변화가 약해 일반 삐짐에 가깝다. 토라짐과 못마땅함은 입술 누름이 약하고 서로 비슷하다. 볼의 부피, 입술 돌출, 입술 압착을 같은 움직임으로 취급하지 않는다.
+삐짐은 아래입술 돌출이 약하고 눈썹 안쪽이 올라가 슬픔과 닮았다. 볼 부푼 삐짐은 다문 입과 내려간 입꼬리가 보이지만 입 옆 볼의 부피 변화가 약해 일반 삐짐에 가깝다. 토라짐과 못마땅함은 입술 누름이 약하고 서로 비슷하다. 볼의 부피, 입술 돌출, 입술 압착을 같은 움직임으로 취급하지 않는다. ICT-FaceKit도 입술 오므림(`mouthPucker`)과 볼 부풀림(`cheekPuff_L/R`)을 별도 표정 형태로 구분한다. 이 구분을 설계에 참고했으며, Qwen의 표정 강도를 수치로 제어한 것은 아니다.
 
 [삐짐 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-9-mira-expression-pouting-expansion-v1-size-1024-seed-62294-steps-20-result.json){ .lazy-source }
 
@@ -236,3 +236,5 @@ RTX 5070 Laptop GPU 8GB·시스템 RAM 64GB 환경에서 순차 CPU 오프로딩
 - Tadas Baltrušaitis, [OpenFace Action Units](https://github.com/TadasBaltrusaitis/OpenFace/wiki/Action-Units){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-09-12. 지원 AU와 검출·강도 출력의 구분.
 
 - Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-11. 이미지 입력과 편집 지시를 받는 공식 Diffusers 실행 예시를 참고했다.
+
+- USC Institute for Creative Technologies, [ICT-FaceKit: Expression Shapes](https://github.com/USC-ICT/ICT-FaceKit#expression-shapes){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-09-13. 입술 오므림과 볼 부풀림을 별도로 기술하는 설계 참고.
