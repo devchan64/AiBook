@@ -8,9 +8,9 @@
 - `results/`: 보충 이미지의 원본 생성 기록.
 - `checkpoint-matrix-evaluation/`, `memorization-evaluation/`, `identity-evaluation/`, `neutral-ablation-evaluation/`: 평가 입력·결과·검수 및 비교 근거.
 
-[현재 학습·검증 목록](p7-5-11-mira-lora-reviewed-v2.json)
+[현재 학습·검증 목록](../sec-11/p7-5-11-mira-lora-reviewed-v2.json)
 
-[통합 A/B 비교 계획](p7-5-11-ab-comparison-plan.json)
+[통합 A/B 비교 계획](../sec-11/p7-5-11-ab-comparison-plan.json)
 
 원고·코드·목록에서 참조하는 5.11 전용 자산과 실행 의존 파일을 이 폴더에서 관리한다. 참조되지 않는 실험 자료와 불필요한 호환 링크는 폐기했다. 학습 패키지와 원본 기록에서 사용하는 이전 경로의 호환 링크는 유지한다. 원본 결과 JSON·JSONL의 실행 당시 경로와 해시는 보존한다. 새 패키지는 현재 목록으로 준비한다.
 
