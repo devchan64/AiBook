@@ -57,9 +57,9 @@ def square_canvas(path: Path, size: int) -> Image.Image:
     return canvas.convert("RGB")
 
 SOURCES = {
-    'a': ASSETS / 'p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png',
-    'b': ASSETS / 'p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png',
-    'c': ASSETS / 'p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png',
+    'a': ASSETS / 'sec-04/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png',
+    'b': ASSETS / 'sec-04/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png',
+    'c': ASSETS / 'sec-04/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png',
 }
 PROMPTS = {
     'a': 'Remove the large woman in the center of Picture 1, including her foreground shoe. Fill her area with the street and sky. Preserve the six surrounding people, buildings and composition.',

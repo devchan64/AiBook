@@ -71,7 +71,7 @@ SOURCES = {
     for scene in ('a', 'b', 'c')
 }
 PROMPT_BASIS = {
-    scene: ASSETS / f'p7-5-4-qwen-2511-lineart-scene-{scene}-extras-audit-20260909-v1-size-1280x1280-seed-{seed}-steps-20.png'
+    scene: ASSETS / f'sec-04/p7-5-4-qwen-2511-lineart-scene-{scene}-extras-audit-20260909-v1-size-1280x1280-seed-{seed}-steps-20.png'
     for scene, seed in (('a', 5420), ('b', 5421), ('c', 5422))
 }
 ROLES = ['Picture 1: composed scene to relight']

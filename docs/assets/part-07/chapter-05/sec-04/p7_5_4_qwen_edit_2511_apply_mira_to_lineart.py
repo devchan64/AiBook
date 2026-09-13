@@ -19,7 +19,8 @@ from pathlib import Path
 from PIL import Image
 
 
-ASSETS = Path(__file__).resolve().parent
+ASSETS = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = Path(__file__).resolve().parent
 ROOT = ASSETS.parents[3]
 CACHE_DIR = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
@@ -34,7 +35,7 @@ DEFAULT_MIRA_REFERENCE = ASSETS / (
 DEFAULT_IDENTITY_CONTRACT = ASSETS / "sec-02/p7-5-2-mira-identity-contract.json"
 LINEART_BY_SCENE = {
     scene: ASSETS / (
-        f"p7-5-4-qwen-image-2512-scene-{scene}-lineart-v1-size-1280x1280-"
+        f"sec-04/p7-5-4-qwen-image-2512-scene-{scene}-lineart-v1-size-1280x1280-"
         f"seed-{seed}-steps-20.png"
     )
     for scene, seed in DEFAULT_SEEDS.items()
@@ -112,7 +113,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--size", type=int, default=DEFAULT_SIZE)
     parser.add_argument("--true-cfg-scale", type=float, default=DEFAULT_TRUE_CFG_SCALE)
     parser.add_argument("--run-label", default=DEFAULT_RUN_LABEL)
-    parser.add_argument("--output-dir", type=Path, default=ASSETS)
+    parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()

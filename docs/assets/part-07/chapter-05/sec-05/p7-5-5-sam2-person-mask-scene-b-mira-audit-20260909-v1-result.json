@@ -11,7 +11,7 @@
     }
   },
   "input": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
     "sha256": "e64d353bad3830c7783a0df129c76d6be49c69ec370eb4763f26707a14b2cdf6"
   },
   "input_role": "scene; one selected visible character",

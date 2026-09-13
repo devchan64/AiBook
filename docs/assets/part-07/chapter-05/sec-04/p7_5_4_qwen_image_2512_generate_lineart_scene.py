@@ -17,7 +17,8 @@ import time
 from pathlib import Path
 
 
-ASSETS = Path(__file__).resolve().parent
+ASSETS = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = Path(__file__).resolve().parent
 ROOT = ASSETS.parents[3]
 CACHE_DIR = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-2512"
@@ -74,7 +75,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
     parser.add_argument("--size", type=int, default=DEFAULT_SIZE)
     parser.add_argument("--run-label", default=DEFAULT_RUN_LABEL)
-    parser.add_argument("--output-dir", type=Path, default=ASSETS)
+    parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--allow-download", action="store_true")
     args = parser.parse_args()
     if args.size < 32 or args.size % 32:

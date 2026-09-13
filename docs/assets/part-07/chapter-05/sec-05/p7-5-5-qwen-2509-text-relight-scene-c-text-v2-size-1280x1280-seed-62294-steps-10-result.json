@@ -11,7 +11,7 @@
   "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10.png",
   "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10-result.json",
   "prompt_basis": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
     "sha256": "6ca3fab7acb3e90a234db769adf513a46b0a71d5d8ec4e34aa8edd610d75bf0e",
     "usage": "visual prompt authoring only; not a model input",
     "description_type": "qualitative visual interpretation",

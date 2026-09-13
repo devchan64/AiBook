@@ -23,13 +23,13 @@
 
 | Scene A · 도시 달리기 | Scene B · 숲 공터 도약 | Scene C · 언덕 독서 |
 | --- | --- | --- |
-| ![Qwen Image 2512으로 만든 Scene A 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![Qwen Image 2512으로 만든 Scene B 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![Qwen Image 2512으로 만든 Scene C 라인아트 구도](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
+| ![Qwen Image 2512으로 만든 Scene A 라인아트 구도](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![Qwen Image 2512으로 만든 Scene B 라인아트 구도](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![Qwen Image 2512으로 만든 Scene C 라인아트 구도](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
 
-[Scene A line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+[Scene A line-art result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
-[Scene B line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+[Scene B line-art result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
-[Scene C line-art result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+[Scene C line-art result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
 A에서는 전경 신발의 밑창이 크게 강조됐다. 앞부분과 뒤꿈치를 나누어 보고, 다음 편집에서도 이 원근 표현이 이어지는지 비교한다. B에서는 도약 자세, 열린 하늘, 나무와 양치식물이 만드는 공간을 확인한다. 선 중심의 그림을 요청했지만 색·명암과 석양 조명도 생성됐다. 따라서 라인아트를 무채색 윤곽선만의 출력으로 해석하지 않는다. C에서는 두 인물·책·난간·먼 도시의 배치를 기준으로 삼는다.
 
@@ -41,13 +41,13 @@ A의 달리는 여성, B의 도약하는 여성, C의 왼쪽 독자를 Mira로 �
 
 | Scene A · 도시 달리기 | Scene B · 숲 공터 도약 | Scene C · 언덕 독서 |
 | --- | --- | --- |
-| ![Mira 아이덴티티와 화풍을 이식한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![Mira 아이덴티티와 화풍을 이식한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![Mira 아이덴티티와 화풍을 이식한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
+| ![Mira 아이덴티티와 화풍을 이식한 Scene A](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![Mira 아이덴티티와 화풍을 이식한 Scene B](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![Mira 아이덴티티와 화풍을 이식한 Scene C](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
 
-[Scene A Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+[Scene A Mira 이식 result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
-[Scene B Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+[Scene B Mira 이식 result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
-[Scene C Mira 이식 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+[Scene C Mira 이식 result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
 구도판과는 포즈·배경을, 전신 참조와는 외형을 비교한다. 청록 머리와 흰 재킷의 반영만으로 전체 외형이 보존됐다고 판단하지 않는다.
 
@@ -65,13 +65,13 @@ A의 달리는 여성, B의 도약하는 여성, C의 왼쪽 독자를 Mira로 �
 
 | Scene A · 도시 달리기 | Scene B · 숲 공터 도약 | Scene C · 언덕 독서 |
 | --- | --- | --- |
-| ![캐주얼 복장으로 달리는 주변 인물을 추가한 Scene A](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![왼쪽 아래 토끼와 오른쪽 나무 밑 다람쥐를 추가한 Scene B](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![난간 기둥 두 곳과 왼쪽 아래 바위에 새 세 마리를 추가한 Scene C](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
+| ![캐주얼 복장으로 달리는 주변 인물을 추가한 Scene A](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png) | ![왼쪽 아래 토끼와 오른쪽 나무 밑 다람쥐를 추가한 Scene B](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png) | ![난간 기둥 두 곳과 왼쪽 아래 바위에 새 세 마리를 추가한 Scene C](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png) |
 
-[Scene A 주변 인물 보강 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
+[Scene A 주변 인물 보강 result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json){ .lazy-source }
 
-[Scene B 작은 동물 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
+[Scene B 작은 동물 배치 result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json){ .lazy-source }
 
-[Scene C 새 배치 result.json](../../../assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
+[Scene C 새 배치 result.json](../../../assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json){ .lazy-source }
 
 **Scene A — 주변 인물.** 프롬프트는 `Add several pedestrians and several people running in casual clothing to Image 1.`이다. 인물 수·상대 크기·기존 장면 보존은 별도로 지정하지 않았다. 캐주얼 복장의 여섯 명이 추가됐지만 대부분 달리는 자세여서, 행인과 달리는 사람의 구분이 뚜렷한지는 따로 판단해야 한다. Mira의 구도·착장은 대체로 유지됐고 배경 나무·구름의 세부 표현은 달라졌다.
 
@@ -91,7 +91,7 @@ B의 다람쥐와 C의 오른쪽 새를 보고 종류·자세·위치가 각각 
 
 `--scene`으로 장면을 선택한다. 구도 표현의 영향을 볼 때는 seed·스텝을 고정하고 `--prompt`의 표현 하나를 바꾼다. 반복 횟수의 영향을 볼 때는 나머지 조건을 고정하고 `--steps`만 바꾼다.
 
-[P7-5.4 라인아트 씬 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py)
+[P7-5.4 라인아트 씬 생성기](../../../assets/part-07/chapter-05/sec-04/p7_5_4_qwen_image_2512_generate_lineart_scene.py)
 
 ```bash
 assets=docs/assets/part-07/chapter-05
@@ -106,7 +106,7 @@ done
 
 `--lineart`에 방금 생성한 구도판을, `--mira-reference`에 전신 착장 참조를 지정한다. 기본 입력에 의존하면 이전 구도판을 읽을 수 있으므로 경로를 직접 연결한다. `--scenes b c`로 기본 입력의 여러 장면을 한 번 로드한 모델에서 처리할 수도 있지만, 아래처럼 새 구도판을 지정할 때는 한 장면씩 실행한다.
 
-[라인아트 Mira 아이덴티티 이식 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py)
+[라인아트 Mira 아이덴티티 이식 생성기](../../../assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py)
 
 ```bash
 assets=docs/assets/part-07/chapter-05
@@ -127,7 +127,7 @@ done
 
 `--scene-image`에 직전 Mira 이식 결과를 지정한다. A·B·C는 각각 주변 인물, 토끼·다람쥐, 새를 추가한다. Mira 이식과 주변 대상 추가 명령에 `--dry-run`을 붙이면 모델을 실행하지 않고 입력·프롬프트·출력 경로를 확인할 수 있다.
 
-[Mira 장면 주변 인물·오브젝트 보강 생성기](../../../assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py)
+[Mira 장면 주변 인물·오브젝트 보강 생성기](../../../assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py)
 
 ```bash
 assets=docs/assets/part-07/chapter-05
@@ -161,7 +161,7 @@ output=/tmp/p7-5-4-practice
 
 전체 실행 점검 기록에는 소스코드 해시, 실제 명령, 아홉 결과의 입력·출력 해시와 설정, 시각 검토를 모았다. 위 명령은 실습용 출력 폴더를 제외하면 기록과 같은 입력 연결·설정을 사용한다. 실행과 산출물 연결의 검증 통과는 외형·위치의 완전한 재현을 뜻하지 않는다.
 
-[전체 실행 점검 기록](../../../assets/part-07/chapter-05/p7-5-4-generation-audit-20260909-v1.json){ .lazy-source }
+[전체 실행 점검 기록](../../../assets/part-07/chapter-05/sec-04/p7-5-4-generation-audit-20260909-v1.json){ .lazy-source }
 
 ## 체크리스트
 

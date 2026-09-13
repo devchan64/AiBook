@@ -21,7 +21,7 @@
   "inputs": [
     {
       "role": "Picture 1: fixed line-art composition",
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
       "sha256": "249c087f3a016016570cd9d0231f7e339c1dd9ed8bfe5c04c691b7dac05c7306"
     },
     {
@@ -47,7 +47,7 @@
     1280
   ],
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
     "sha256": "f9ed69e4cfad812f5c352b8c704bad8dffb64a02dc398600ff74b54bbbecd853",
     "width": 1280,
     "height": 1280

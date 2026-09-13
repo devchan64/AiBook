@@ -5,15 +5,15 @@
   "status": "verified",
   "source_files": [
     {
-      "path": "docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
+      "path": "docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
       "sha256": "987d06ec23d42e7f778141e4dc8d45676382693b649d6ddac76c2230457bb570"
     },
     {
-      "path": "docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
+      "path": "docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
       "sha256": "67cc427039b94dd5570d83f7ca691df76a1c69566805424208bb94e448790901"
     },
     {
-      "path": "docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
+      "path": "docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
       "sha256": "e1c90da5b54f8ac1ca32c5d512f8cb8973560cab22eb2be38959346b291bc694"
     }
   ],
@@ -32,7 +32,7 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
         "--scene",
         "a",
         "--run-label",
@@ -44,11 +44,11 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
       "result_sha256": "c2e569cbd6e4fa89a66bae58b3f28973ccdf77ca4d975ea850aeed78e5c95ab6",
       "inputs": [],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
         "sha256": "4cb7db3c4a44d3c0ff8692425bf826682cd0a7da7babafc7b63e28814079801b",
         "width": 1280,
         "height": 1280
@@ -87,7 +87,7 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
         "--scene",
         "b",
         "--run-label",
@@ -99,11 +99,11 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
       "result_sha256": "0c5ac2e0b04ce39d7518c3e5924eb19919952e262c15dcb721457b41390fdd96",
       "inputs": [],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
         "sha256": "2737440ba27c8584359e4181fc27c8cae9a746fd047384262053629d35ed62fc",
         "width": 1280,
         "height": 1280
@@ -142,7 +142,7 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_image_2512_generate_lineart_scene.py",
         "--scene",
         "c",
         "--run-label",
@@ -154,11 +154,11 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
       "result_sha256": "20963a9511a48bb411cffaa5c68906696409743df9e0866cbbf70c014fcb023c",
       "inputs": [],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
         "sha256": "249c087f3a016016570cd9d0231f7e339c1dd9ed8bfe5c04c691b7dac05c7306",
         "width": 1280,
         "height": 1280
@@ -197,11 +197,11 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
         "--scenes",
         "a",
         "--lineart",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
         "--mira-reference",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-03/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
         "--run-label",
@@ -213,12 +213,12 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
       "result_sha256": "8d1935f8ae368f60ed65a329116846d685d866813af65a08075035ce7ef11789",
       "inputs": [
         {
           "role": "Picture 1: fixed line-art composition",
-          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-a-lineart-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
           "sha256": "4cb7db3c4a44d3c0ff8692425bf826682cd0a7da7babafc7b63e28814079801b"
         },
         {
@@ -228,7 +228,7 @@
         }
       ],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
         "sha256": "3bbc407ba580bbe200a8c6d35ec163eed3f7f19ffb642bbaf66845cc9391bf57",
         "width": 1280,
         "height": 1280
@@ -267,11 +267,11 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
         "--scenes",
         "b",
         "--lineart",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
         "--mira-reference",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-03/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
         "--run-label",
@@ -283,12 +283,12 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
       "result_sha256": "ffcb30cfff18a3e56ba5782b7f9f6b14d35c454dbb0e7db234ab775413c1d686",
       "inputs": [
         {
           "role": "Picture 1: fixed line-art composition",
-          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-b-lineart-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
           "sha256": "2737440ba27c8584359e4181fc27c8cae9a746fd047384262053629d35ed62fc"
         },
         {
@@ -298,7 +298,7 @@
         }
       ],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
         "sha256": "b0ea9a576e442f8c782fd5bb9d9fef616940603158683b1dd62f1bd9fcfae57c",
         "width": 1280,
         "height": 1280
@@ -337,11 +337,11 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py",
         "--scenes",
         "c",
         "--lineart",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
         "--mira-reference",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-03/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
         "--run-label",
@@ -353,12 +353,12 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
       "result_sha256": "7005a0bfee0c50e448019987620c10a3451514aed22b3d96b9e1d4cad5203bae",
       "inputs": [
         {
           "role": "Picture 1: fixed line-art composition",
-          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-image-2512-scene-c-lineart-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
           "sha256": "249c087f3a016016570cd9d0231f7e339c1dd9ed8bfe5c04c691b7dac05c7306"
         },
         {
@@ -368,7 +368,7 @@
         }
       ],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
         "sha256": "f9ed69e4cfad812f5c352b8c704bad8dffb64a02dc398600ff74b54bbbecd853",
         "width": 1280,
         "height": 1280
@@ -407,11 +407,11 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
         "--scenes",
         "a",
         "--scene-image",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
         "--run-label",
         "extras-audit-20260909-v1",
         "--size",
@@ -421,17 +421,17 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20-result.json",
       "result_sha256": "b65aec5cb19e4b2564c74846c4028df93d7cd3cc2ba477456a42ffb2050fd0c7",
       "inputs": [
         {
           "role": "Picture 1: fixed Mira scene; preserve composition and lead character",
-          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-mira-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
           "sha256": "3bbc407ba580bbe200a8c6d35ec163eed3f7f19ffb642bbaf66845cc9391bf57"
         }
       ],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
         "sha256": "7c0d860637e0ea66af0a09376cec521862f0da338abe46c648c11cbcfcfc46ec",
         "width": 1280,
         "height": 1280
@@ -470,11 +470,11 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
         "--scenes",
         "b",
         "--scene-image",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
         "--run-label",
         "extras-audit-20260909-v1",
         "--size",
@@ -484,17 +484,17 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20-result.json",
       "result_sha256": "41e34a6cd1672468eef63b47142d23b9c6c3c32cf7c7c2f3eaae6b57d4e79330",
       "inputs": [
         {
           "role": "Picture 1: fixed Mira scene; preserve composition and lead character",
-          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-mira-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
           "sha256": "b0ea9a576e442f8c782fd5bb9d9fef616940603158683b1dd62f1bd9fcfae57c"
         }
       ],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
         "sha256": "e64d353bad3830c7783a0df129c76d6be49c69ec370eb4763f26707a14b2cdf6",
         "width": 1280,
         "height": 1280
@@ -533,11 +533,11 @@
       "executed_command": [
         "/home/cbsim/ws/AiBook/.venv/bin/python",
         "-u",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py",
         "--scenes",
         "c",
         "--scene-image",
-        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
         "--run-label",
         "extras-audit-20260909-v1",
         "--size",
@@ -547,17 +547,17 @@
         "--output-dir",
         "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05"
       ],
-      "result_file": "docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
+      "result_file": "docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20-result.json",
       "result_sha256": "d539b3dea7df9d7bb550997a2857b43878af3c462f0129a2ddbc40c719badb65",
       "inputs": [
         {
           "role": "Picture 1: fixed Mira scene; preserve composition and lead character",
-          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+          "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-mira-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
           "sha256": "f9ed69e4cfad812f5c352b8c704bad8dffb64a02dc398600ff74b54bbbecd853"
         }
       ],
       "output": {
-        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+        "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
         "sha256": "6ca3fab7acb3e90a234db769adf513a46b0a71d5d8ec4e34aa8edd610d75bf0e",
         "width": 1280,
         "height": 1280

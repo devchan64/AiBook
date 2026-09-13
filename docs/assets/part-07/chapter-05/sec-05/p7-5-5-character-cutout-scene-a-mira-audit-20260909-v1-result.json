@@ -5,7 +5,7 @@
   "purpose": "Pose, framing, and perspective reference for later character identity transfer",
   "inputs": {
     "camera_frame": {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-04/p7-5-4-qwen-2511-lineart-scene-a-extras-audit-20260909-v1-size-1280x1280-seed-5420-steps-20.png",
       "sha256": "7c0d860637e0ea66af0a09376cec521862f0da338abe46c648c11cbcfcfc46ec"
     },
     "person_mask": {
