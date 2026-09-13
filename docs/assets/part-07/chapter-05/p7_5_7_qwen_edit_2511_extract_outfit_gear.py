@@ -26,7 +26,7 @@ LORA_ID = "Xabsurd/Clothing-Extractor"
 LORA_DIR = PROJECT_ROOT / ".tmp" / "download" / "weight-xabsurd-clothing-extractor"
 LORA_FILENAME = "qwen-image-edit-2511-白底图-v1-e50.safetensors"
 PROMPT = "生成图中人物全身衣物和一双鞋子的商品白底图，去除背景和人物，只保留服装与鞋子"
-DEFAULT_REFERENCE = ASSETS / "p7-5-3-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8.png"
+DEFAULT_REFERENCE = ASSETS / "p7-5-3/p7-5-3-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8.png"
 SIZE = (1280, 1280)
 
 

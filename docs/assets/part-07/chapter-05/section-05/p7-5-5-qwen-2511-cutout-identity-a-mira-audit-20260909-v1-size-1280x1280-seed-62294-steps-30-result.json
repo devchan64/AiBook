@@ -1,7 +1,7 @@
 {
   "target": "a-mira",
   "source": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png",
-  "reference": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+  "reference": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
   "source_sha256": "f40bf3590ed6de5bffb5cb15ddb6f25a95d20f6a551b36c1c1657f42e861da3c",
   "reference_sha256": "c524b964ef9a68a777f2172fb7439283709b70fa823e371d19f03a1ff2620053",
   "prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose. Preserve the framing and white background of Picture 1.",

@@ -29,15 +29,15 @@ from p7_5_11_qwen_experiment_utils import asset_record, runtime_record, sha256
 
 
 OUT = ROOT / "docs" / "assets" / "part-07" / "chapter-05" / "p7-5-11-qwen-edit-grid-output"
-SUBJECT = ROOT / "docs/assets/part-07/chapter-05/p7-5-3-face-front-reference.png"
+SUBJECT = ROOT / "docs/assets/part-07/chapter-05/p7-5-3/p7-5-3-face-front-reference.png"
 # The approved front full-body reference already shows the inner shirt, bag,
 # strap, trousers, and shoes.  Do not default to the older hip crop, which
 # cannot establish those full-outfit relationships.
-OUTFIT = ROOT / "docs/assets/part-07/chapter-05/p7-5-3-fullbody-front-refined-reference.png"
+OUTFIT = ROOT / "docs/assets/part-07/chapter-05/p7-5-3/p7-5-3-fullbody-front-refined-reference.png"
 STORYBOARD = {
     scene: {
-        "storyboard-depth": ROOT / f"docs/assets/part-07/chapter-05/p7-5-3-scene-{scene}-approved-storyboard-depth.png",
-        "storyboard-rgb": ROOT / f"docs/assets/part-07/chapter-05/p7-5-3-scene-{scene}-approved-storyboard-rgb.png",
+        "storyboard-depth": ROOT / f"docs/assets/part-07/chapter-05/p7-5-3/p7-5-3-scene-{scene}-approved-storyboard-depth.png",
+        "storyboard-rgb": ROOT / f"docs/assets/part-07/chapter-05/p7-5-3/p7-5-3-scene-{scene}-approved-storyboard-rgb.png",
     }
     for scene in ("a", "b", "c")
 }

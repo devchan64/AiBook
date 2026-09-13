@@ -26,7 +26,7 @@ CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 
 MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
 
-DEFAULT_CHARACTER = ASSETS / 'p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
+DEFAULT_CHARACTER = ASSETS / 'p7-5-3/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()

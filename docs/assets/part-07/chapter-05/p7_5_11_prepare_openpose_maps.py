@@ -17,11 +17,11 @@ ASSETS = Path(__file__).resolve().parent
 ANNOTATOR_REPOSITORY = "lllyasviel/Annotators"
 HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 REFERENCES = {
-    "front": "p7-5-3-fullbody-front-reference.png",
-    "front-quarter-right": "p7-5-3-fullbody-front-quarter-right-reference.png",
-    "profile-left": "p7-5-3-fullbody-profile-left-reference.png",
-    "profile-right": "p7-5-3-fullbody-profile-right-reference.png",
-    "rear": "p7-5-3-fullbody-rear-reference.png",
+    "front": "p7-5-3/p7-5-3-fullbody-front-reference.png",
+    "front-quarter-right": "p7-5-3/p7-5-3-fullbody-front-quarter-right-reference.png",
+    "profile-left": "p7-5-3/p7-5-3-fullbody-profile-left-reference.png",
+    "profile-right": "p7-5-3/p7-5-3-fullbody-profile-right-reference.png",
+    "rear": "p7-5-3/p7-5-3-fullbody-rear-reference.png",
 }
 
 

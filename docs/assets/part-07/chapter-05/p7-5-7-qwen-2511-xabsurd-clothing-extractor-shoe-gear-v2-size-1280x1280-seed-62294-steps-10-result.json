@@ -23,7 +23,7 @@
     "adapter": "clothingextractor"
   },
   "input": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8.png",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3/p7-5-3-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8.png",
     "sha256": "af0fac22943f3e88a7805bb0fe259ae4de7537967bc5a59955d308790ef4f885"
   },
   "prompt": "生成图中人物全身衣物和一双鞋子的商品白底图，去除背景和人物，只保留服装与鞋子",

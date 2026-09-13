@@ -123,7 +123,7 @@ A Mira와 C 조연의 흰 배경 컷아웃을 Qwen Image Edit 2511에 각각 넣
 | A Mira | A Mira 컷아웃 | P7-5.3 최종 3단계 착장에서 인물 외형·착장 참조 |
 | C 조연 | 신규 조연 컷아웃 | 두 번째 이미지 없이 텍스트로 새 외형 지정 |
 
-[Mira의 P7-5.3 최종 3단계 착장 참조](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 A Mira의 외형 참조로 사용한다. Mira의 외형을 텍스트로 다시 묘사하지 않고 다음 지시를 전달했다.
+[Mira의 P7-5.3 최종 3단계 착장 참조](../../../assets/part-07/chapter-05/p7-5-3/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 A Mira의 외형 참조로 사용한다. Mira의 외형을 텍스트로 다시 묘사하지 않고 다음 지시를 전달했다.
 
 > Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose. Preserve the framing and white background of Picture 1.
 
@@ -167,7 +167,7 @@ B에서는 긴 머리·재킷·바지·신발이 짧은 머리와 회색 운동�
 
 Picture 1에는 각 장면의 마네킨, Picture 2에는 P7-5.3의 최종 3단계 착장 이미지를 넣는다. 착장·신발 반영과 포즈·크기 보존을 따로 비교하고, 얼굴·머리는 이후 BFS에서 보강한다. 마스크·추가 LoRA·결과 합성은 사용하지 않는다.
 
-[공통 3단계 착장 참조](../../../assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 사용하고, 옷의 색·길이·디자인을 텍스트로 다시 풀어 쓰지 않았다. 실제 프롬프트는 다음 두 문장이다.
+[공통 3단계 착장 참조](../../../assets/part-07/chapter-05/p7-5-3/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 사용하고, 옷의 색·길이·디자인을 텍스트로 다시 풀어 쓰지 않았다. 실제 프롬프트는 다음 두 문장이다.
 
 > Dress the woman in Picture 1 in the complete outfit, including shoes, from Picture 2. Keep the face, hairstyle, pose, perspective, framing and white background of Picture 1.
 
