@@ -14,11 +14,49 @@ from pathlib import Path
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parent / "section-05"))
 
-from p7_5_5_qwen_edit_common import (
-    ASSETS, CACHE_DIR, MODEL_ID, runtime_record, sha256, square_canvas,
-)
+import hashlib
+import importlib.metadata
+import platform
+from PIL import Image
+
+ASSETS = Path(__file__).resolve().parent
+
+PROJECT_ROOT = ASSETS.parents[3]
+
+CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
+
+MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+def runtime_record() -> dict[str, object]:
+    packages = {}
+    for package in ("diffusers", "torch", "transformers", "accelerate"):
+        try:
+            packages[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            packages[package] = "not-installed"
+    return {
+        "python": sys.version.split()[0],
+        "platform": platform.platform(),
+        "packages": packages,
+    }
+
+def square_canvas(path: Path, size: int) -> Image.Image:
+    """Return an RGB, white-backed square canvas without distorting the input."""
+    with Image.open(path) as source:
+        source = source.convert("RGBA")
+        source.thumbnail((size, size), Image.Resampling.LANCZOS)
+        canvas = Image.new("RGBA", (size, size), "white")
+        offset = ((size - source.width) // 2, (size - source.height) // 2)
+        canvas.alpha_composite(source, offset)
+    return canvas.convert("RGB")
 
 SOURCE = ASSETS / 'p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png'
 PROMPT = 'Show one sneaker from Picture 1 from directly underneath, with its entire outsole facing the camera, toe at the top and heel at the bottom. Keep the shoe design and illustration style on a white background.'
@@ -90,7 +128,7 @@ def main() -> None:
         image.save(stream, format='PNG')
     record = dict(plan, status='generated', output_sha256=sha256(output),
                   source_code_sha256=sha256(Path(__file__)),
-                  helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_common.py'),
+
                   runtime=runtime_record(), cuda_device=torch.cuda.get_device_name(0),
                   offload='sequential CPU offload',
                   preprocessing='aspect-preserving resize on white 1280x1280 canvases',

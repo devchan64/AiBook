@@ -12,9 +12,51 @@ import re
 import time
 from pathlib import Path
 
-from p7_5_5_qwen_edit_common import (
-    ASSETS, CACHE_DIR, DEFAULT_CHARACTER, MODEL_ID, runtime_record, sha256, square_canvas,
-)
+import hashlib
+import importlib.metadata
+import platform
+import sys
+from PIL import Image
+
+ASSETS = Path(__file__).resolve().parent.parent
+
+PROJECT_ROOT = ASSETS.parents[3]
+
+CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
+
+MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
+
+DEFAULT_CHARACTER = ASSETS / 'p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+def runtime_record() -> dict[str, object]:
+    packages = {}
+    for package in ("diffusers", "torch", "transformers", "accelerate"):
+        try:
+            packages[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            packages[package] = "not-installed"
+    return {
+        "python": sys.version.split()[0],
+        "platform": platform.platform(),
+        "packages": packages,
+    }
+
+def square_canvas(path: Path, size: int) -> Image.Image:
+    """Return an RGB, white-backed square canvas without distorting the input."""
+    with Image.open(path) as source:
+        source = source.convert("RGBA")
+        source.thumbnail((size, size), Image.Resampling.LANCZOS)
+        canvas = Image.new("RGBA", (size, size), "white")
+        offset = ((size - source.width) // 2, (size - source.height) // 2)
+        canvas.alpha_composite(source, offset)
+    return canvas.convert("RGB")
 
 SOURCES = {
     'a-mira': 'section-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png',
@@ -106,7 +148,7 @@ def main() -> None:
         image.save(plan['output'])
         record = dict(plan, status='generated', model=MODEL_ID, runtime=runtime_record(),
                       source_code_sha256=sha256(Path(__file__)),
-                      helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_common.py'),
+
                       device=torch.cuda.get_device_name(0), dtype='bfloat16',
                       offload='sequential CPU offload', seed=args.seed, generator_device='cpu',
                       steps=args.steps, true_cfg_scale=4.0, guidance_scale=1.0,

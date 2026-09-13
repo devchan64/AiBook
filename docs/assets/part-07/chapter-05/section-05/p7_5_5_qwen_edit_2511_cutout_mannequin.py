@@ -15,9 +15,38 @@ from pathlib import Path
 
 from PIL import Image
 
-from p7_5_5_qwen_edit_common import (
-    ASSETS, CACHE_DIR, MODEL_ID, runtime_record, sha256,
-)
+import hashlib
+import importlib.metadata
+import platform
+import sys
+
+ASSETS = Path(__file__).resolve().parent.parent
+
+PROJECT_ROOT = ASSETS.parents[3]
+
+CACHE_DIR = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
+
+MODEL_ID = "Qwen/Qwen-Image-Edit-2511"
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+def runtime_record() -> dict[str, object]:
+    packages = {}
+    for package in ("diffusers", "torch", "transformers", "accelerate"):
+        try:
+            packages[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            packages[package] = "not-installed"
+    return {
+        "python": sys.version.split()[0],
+        "platform": platform.platform(),
+        "packages": packages,
+    }
 
 RECIPE = ASSETS / 'section-05/p7-5-5-character-separation-recipe-v1.json'
 BASE_PROMPT = (
@@ -97,7 +126,7 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     output_dir.mkdir(parents=True, exist_ok=True)
     provenance = dict(source_code_sha256=sha256(Path(__file__)), recipe_sha256=sha256(RECIPE),
-                      helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_common.py'),
+
                       runtime=runtime_record(), cuda_device=torch.cuda.get_device_name(0),
                       offload='sequential CPU offload')
     for plan in plans:

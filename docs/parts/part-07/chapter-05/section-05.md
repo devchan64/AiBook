@@ -412,13 +412,11 @@ C에서는 두 권의 책이 처음 다시 생긴 결과를 찾아 DeLight·합�
 
 `--dry-run`이 있는 명령은 모델을 불러오지 않고 입력·프롬프트·출력 계획을 확인한다. 이를 빼면 생성한다. 기존 출력을 덮어쓰지 않도록 재실행에는 새 `--run-label`이나 지원되는 `--output-dir`을 지정한다. 새 결과를 다음 생성기에 연결할 때는 계획에 표시된 실제 입력 경로를 확인한다. 각 JSON의 입력·출력 해시, 프롬프트, 모델·코드·실행 환경은 원고의 채택 결과를 추적하는 기준이다.
 
-[공통 경로·이미지 전처리·해시 함수](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_common.py){ .lazy-source }
-
 ### 인물 마스크와 컷아웃을 재현한다
 
 재현 코드는 A·B·C Mira와 C 조연을 각각 마스크·오버레이·흰 배경 컷아웃·투명 PNG로 출력한다. 설정 파일에는 현재 1280×1280 입력의 SHA-256, 대상 인물의 선택점, 추가 포함점·제외점, 상자와 후처리 옵션을 기록한다. 다른 이미지에 그대로 적용하는 일반 좌표가 아니므로 입력 해시가 다르면 실행 전에 중단한다.
 
-[분리 재현 실행 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_reproduce_character_separation.py)
+[분리 재현 실행 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_reproduce_character_separation.py){ .lazy-source }
 
 [인물별 설정 파일](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-separation-recipe-v1.json){ .lazy-source }
 
@@ -452,15 +450,15 @@ C 미라와 조연만 재현하려면 대상을 선택한다.
 
 실제 추론은 인물 마스크 생성 코드가, 픽셀 복사와 알파 저장은 흰 배경·투명 컷아웃 생성 코드가 담당한다.
 
-[인물 마스크 생성 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_generate_person_mask.py)
+[인물 마스크 생성 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_generate_person_mask.py){ .lazy-source }
 
-[흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_extract_pose_cutout.py)
+[흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_extract_pose_cutout.py){ .lazy-source }
 
 ### A Mira와 C 조연의 외형을 적용한다
 
 생성기는 신규 컷아웃 경로와 Mira 참조를 기본값으로 사용하며 추가 LoRA를 불러오지 않는다.
 
-[컷아웃 아이덴티티 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_identity.py)
+[컷아웃 아이덴티티 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_identity.py){ .lazy-source }
 
 CPU 난수 생성기를 사용하며 각 입력은 비율을 유지해 1280×1280 흰 캔버스에 배치한다.
 
@@ -478,7 +476,7 @@ CPU 난수 생성기를 사용하며 각 입력은 비율을 유지해 1280×128
 
 생성기는 분리 설정 파일에서 각 Mira의 흰 배경 컷아웃을 찾아 원본 캔버스 그대로 입력한다. CPU 난수 생성기를 사용했다.
 
-[신규 컷아웃 마네킨 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py)
+[신규 컷아웃 마네킨 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py \
@@ -491,7 +489,7 @@ CPU 난수 생성기를 사용하며 각 입력은 비율을 유지해 1280×128
 
 B·C 마네킨과 공통 착장 참조는 비율을 유지해 각각 1280×1280 흰 캔버스에 배치한다. CPU 난수 생성기를 사용했다.
 
-[마네킨 착장 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py)
+[마네킨 착장 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py \
@@ -502,7 +500,7 @@ B·C 마네킨과 공통 착장 참조는 비율을 유지해 각각 1280×1280 
 
 ### C Mira와 조연에게 책을 추가한다
 
-[Scene C 책 보강 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_identity_c_book.py)
+[Scene C 책 보강 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_identity_c_book.py){ .lazy-source }
 
 C Mira의 착장 1차 결과 한 장을 입력으로 사용하며 CPU 난수 생성기로 실행했다.
 
@@ -513,7 +511,7 @@ C Mira의 착장 1차 결과 한 장을 입력으로 사용하며 CPU 난수 생
 
 `--input`으로 보강할 이미지, `--prompt`로 지시, `--steps`와 `--seed`로 생성 조건을 바꿀 수 있다.
 
-[C 조연 책 보강 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_supporting_c_book.py)
+[C 조연 책 보강 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_supporting_c_book.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_supporting_c_book.py --run-label book-repeat-v1
@@ -521,7 +519,7 @@ C Mira의 착장 1차 결과 한 장을 입력으로 사용하며 CPU 난수 생
 
 ### 머리 크롭을 준비하고 BFS를 적용한다
 
-[C 얼굴 크롭 BFS 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py)
+[C 얼굴 크롭 BFS 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
@@ -532,7 +530,7 @@ C Mira의 착장 1차 결과 한 장을 입력으로 사용하며 CPU 난수 생
 
 각 명령쌍에서 `--prepare-reference`는 크롭 파일이 없을 때만 실행한다. 두 번째 명령으로 BFS 입력과 생성 계획을 확인한다.
 
-[A·B 방향별 머리 크롭 BFS 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py)
+[A·B 방향별 머리 크롭 BFS 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
@@ -554,7 +552,7 @@ A 명령의 `zero-v3`는 로우뷰 0° 크롭을, B 명령의 `low45-v4`는 로�
 
 ### 네 캐릭터의 조명을 중립화한다
 
-[네 캐릭터 DeLight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py)
+[네 캐릭터 DeLight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py \
@@ -567,7 +565,7 @@ A 명령의 `zero-v3`는 로우뷰 0° 크롭을, B 명령의 `low45-v4`는 로�
 
 ### 장면에서 편집 대상 인물을 제거한다
 
-[장면별 배경판 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py)
+[장면별 배경판 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py){ .lazy-source }
 
 A·B는 생성기의 기본 프롬프트를 사용한다. C는 원래 새의 위치를 지정한 v2 결과를 사용하며, 이를 재현할 때는 아래 `--prompt`를 명시한다.
 
@@ -585,7 +583,7 @@ A·B는 생성기의 기본 프롬프트를 사용한다. C는 원래 새의 위
 
 ### 배경판의 조명을 중립화한다
 
-[배경 DeLight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py)
+[배경 DeLight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py \
@@ -597,7 +595,7 @@ A·B는 생성기의 기본 프롬프트를 사용한다. C는 원래 새의 위
 
 ### 배경과 캐릭터를 합성한다
 
-[DeLight 배경·캐릭터 합성 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py)
+[DeLight 배경·캐릭터 합성 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py \
@@ -608,7 +606,7 @@ A·B는 생성기의 기본 프롬프트를 사용한다. C는 원래 새의 위
 
 ### 장면별 조명을 텍스트로 적용한다
 
-[씬별 텍스트 조명 Relight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py)
+[씬별 텍스트 조명 Relight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py \
