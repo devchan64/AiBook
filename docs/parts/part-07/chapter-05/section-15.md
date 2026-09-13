@@ -1,7 +1,7 @@
-# P7-5.10 텍스트 모션으로 12개 OpenPose 키프레임 준비하기
+# P7-5.15 텍스트 모션으로 12개 OpenPose 키프레임 준비하기
 
-> Section ID: `P7-5.10`
-> Version: `v2026.09.11`
+> Section ID: `P7-5.15`
+> Version: `v2026.09.13`
 
 정지 pose 한 장은 현재 P7-5.3의 OpenPose 구조 입력으로 만들 수 있다. 걷기처럼 시간에 따라 팔·다리·골반의 관계가 바뀌는 동작은 pose 이미지 12장을 각각 따로 생성하면 접지와 이동 순서가 쉽게 끊긴다. 이 절은 **텍스트에서 먼저 3D 관절 모션을 만들고, 그 시퀀스에서 12개 2D OpenPose 키프레임을 뽑기 위한 실험 조건**을 준비한다. 여기서는 모델 가중치를 아직 내려받거나 실행하지 않는다.
 
@@ -52,10 +52,10 @@ MoMask의 예시 기준 모션은 20fps다. 12포즈를 직접 생성하면 약 
 
 아래 준비 코드는 가중치·데이터셋을 설치하지 않고 MoMask 입력 파일과 실험 계획 JSON만 `.tmp/`에 만든다. 실제 추론은 다음 단계에서 별도 실행 기록으로 남긴다.
 
-[MoMask 보행 키프레임 준비 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_10_prepare_momask_walk_keyframes.py)
+[MoMask 보행 키프레임 준비 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_15_prepare_momask_walk_keyframes.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_10_prepare_momask_walk_keyframes.py
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_15_prepare_momask_walk_keyframes.py
 ```
 
 생성되는 `experiment-plan.json`에는 아직 `prepared_not_run` 상태만 남는다. MoMask 결과의 실제 배열 모양, peak VRAM, 실행 시간, 카메라 투영 규칙, OpenPose 매핑표는 추론이 끝난 뒤에만 result JSON으로 기록한다.
