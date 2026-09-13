@@ -26,21 +26,21 @@ OpenPose는 이미지에서 사람의 관절 위치를 추정하는 도구다. �
 
 아래 그림의 왼쪽은 저장한 관절 맵, 가운데는 ControlNet을 끈 결과, 오른쪽은 켠 결과다. 관절 조건의 강도를 `0.0`에서 `1.0`으로 바꾸고 나머지 생성 조건을 고정했다.
 
-![저장 우측 쿼터 OpenPose map과 ControlNet off/on 산출물](../../../assets/part-07/chapter-05/p7-5-11-openpose-static-quarter-right-contact-sheet.png)
+![저장 우측 쿼터 OpenPose map과 ControlNet off/on 산출물](../../../assets/part-07/chapter-05/sec-11/p7-5-11-openpose-static-quarter-right-contact-sheet.png)
 
 맵에는 두 다리가 교차하는 배치가 있다. 가운데 인물은 두 발로 나란히 서 있지만, 오른쪽 인물은 다리를 교차하고 한쪽 발을 들어 맵의 배치에 더 가까워졌다. 동시에 재킷 소매와 가방의 형태도 달라졌다. **동작이 맵에 가까워진 정도와 외형이 유지된 정도는 별개의 관찰**이다.
 
 직접 점을 배치한 팔 올리기 맵도 같은 방식으로 비교했다.
 
-![선언형 OpenPose map ControlNet off/on](../../../assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-controlnet-ab-contact-sheet.png)
+![선언형 OpenPose map ControlNet off/on](../../../assets/part-07/chapter-05/sec-11/p7-5-11-openpose-declarative-reach-up-controlnet-ab-contact-sheet.png)
 
 이 결과에서는 ControlNet을 켰을 때 팔이 맵의 방향을 더 따랐다. 두 비교에서 무릎·발목 또는 어깨·팔꿈치·손목을 순서대로 짚어 보면, 막연히 “자세가 비슷하다”는 인상보다 어느 부위가 반영됐는지 구체적으로 볼 수 있다.
 
 저장 맵 비교는 Animagine XL, `960×1440`, 30스텝, seed `62296`, 캐릭터 LoRA 강도 `0.6`에서 실행했다. 각 비교의 전체 설정은 아래 기록에 있다.
 
-[저장 관절 맵 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-static-quarter-right-report.json)
+[저장 관절 맵 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-11/p7-5-11-openpose-static-quarter-right-report.json)
 
-[팔 올리기 맵 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-controlnet-ab-report.json)
+[팔 올리기 맵 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-11/p7-5-11-openpose-declarative-reach-up-controlnet-ab-report.json)
 
 ## 외형과 구도 반영이 부족했던 결과
 
@@ -48,37 +48,37 @@ OpenPose는 이미지에서 사람의 관절 위치를 추정하는 도구다. �
 
 이번에는 얼굴 참조와 캐릭터 LoRA를 함께 사용하는 전신 생성에서 OpenPose 조건을 끄고 켰다.
 
-![SDXL 전신 safe-face 조건의 OpenPose off/on 비교](../../../assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-openpose-ab-contact-sheet.png)
+![SDXL 전신 safe-face 조건의 OpenPose off/on 비교](../../../assets/part-07/chapter-05/sec-11/p7-5-11-sdxl-safe-face-openpose-ab-contact-sheet.png)
 
-![SDXL safe-face 전신 후보와 기준 얼굴 비교](../../../assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-contact-sheet.png)
+![SDXL safe-face 전신 후보와 기준 얼굴 비교](../../../assets/part-07/chapter-05/sec-11/p7-5-11-sdxl-safe-face-contact-sheet.png)
 
 다리·몸통의 배치가 맵에 가까워진 결과에서도 머리 길이와 복장이 달라졌다. 얼굴이 자연스럽게 그려졌는지와 기준 인물의 얼굴인지도 구분해야 한다. 청록 단발, 재킷, 와이드 바지, 가방을 각각 비교하면 자세의 개선만으로 캐릭터 전체가 유지됐다고 판단하기 어려운 이유가 드러난다.
 
 이 비교는 Plus Face 얼굴 참조 강도 `0.15`, 캐릭터 LoRA 강도 `0.30`, seed `62295`, CFG `5.0`, `960×1440`, 50스텝을 고정했다. FaceID와 전신 착장 이미지 어댑터는 사용하지 않았다.
 
-[전신 생성 — OpenPose 끔 실행 기록 — JSON](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-without-openpose-960x1440-result.json)
+[전신 생성 — OpenPose 끔 실행 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-11/p7-5-11-sdxl-safe-face-without-openpose-960x1440-result.json)
 
-[전신 생성 — OpenPose 켬 실행 기록 — JSON](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json)
+[전신 생성 — OpenPose 켬 실행 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-11/p7-5-11-sdxl-safe-face-with-openpose-960x1440-result.json)
 
 ### 카메라 문구만으로 고각도 구도가 만들어지지 않았다
 
 팔을 올리는 동작을 그대로 두고, 위에서 내려다보는 시점인 `high-angle`을 프롬프트에 추가했다.
 
-![선언형 OpenPose map에서 카메라 문구를 바꾼 비교](../../../assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-camera-ab-contact-sheet.png)
+![선언형 OpenPose map에서 카메라 문구를 바꾼 비교](../../../assets/part-07/chapter-05/sec-11/p7-5-11-openpose-declarative-reach-up-camera-ab-contact-sheet.png)
 
 이 비교에서는 문구를 추가해도 기대한 고각도 원근이 나타나지 않았다. 이 절의 2D 관절 맵에는 카메라 높이나 관절의 깊이 값이 별도로 들어 있지 않다. 점 배치에서 시점의 단서를 추정할 수는 있어도, 그것만으로 카메라 위치나 팔·몸통의 앞뒤 관계가 하나로 정해지지는 않는다.
 
-[카메라 문구 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/p7-5-11-openpose-declarative-reach-up-camera-ab-report.json)
+[카메라 문구 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-11/p7-5-11-openpose-declarative-reach-up-camera-ab-report.json)
 
 ### 배경 원근은 일부 남았지만 인물과 동작이 달라졌다
 
 다음 실험에서는 위에서 내려다본 공간을 가진 안내 이미지(guide)를 먼저 만들었다. 아래 이미지는 Animagine으로 만든 익명 인물의 고각도 장면이다.
 
-![익명 인물로 만든 고각도 보행 guide](../../../assets/part-07/chapter-05/p7-5-11-experimental-animagine-high-angle-guide.png)
+![익명 인물로 만든 고각도 보행 guide](../../../assets/part-07/chapter-05/sec-11/p7-5-11-experimental-animagine-high-angle-guide.png)
 
 이 이미지에서 인물의 관절 배치와 배경의 윤곽선을 따로 준비했다. **Canny**는 이미지의 경계를 선으로 나타내는 방식이다. 여기서는 인물을 제외한 배경 Canny로 공간의 원근 단서를 주고, OpenPose 맵으로 동작을 주었다. 안내 이미지의 얼굴·옷 색을 그대로 전달하는 입력은 사용하지 않았다.
 
-![익명 guide·OpenPose·인물 제외 배경 Canny와 SDXL Mira 전이 후보](../../../assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-review-sheet.png)
+![익명 guide·OpenPose·인물 제외 배경 Canny와 SDXL Mira 전이 후보](../../../assets/part-07/chapter-05/sec-11/p7-5-11-sdxl-anonymous-high-angle-transfer-review-sheet.png)
 
 | SDXL에 준 구조 조건 | 이 실험에서 관찰한 결과 |
 | --- | --- |
@@ -90,9 +90,9 @@ OpenPose는 이미지에서 사람의 관절 위치를 추정하는 도구다. �
 
 두 ControlNet을 함께 사용한 추가 실행은 당시 8GB GPU의 순차 CPU 오프로딩 경로에서 완료되지 않았다. 이 사례는 출력이 없으므로 위 표의 품질 비교에 포함하지 않는다.
 
-[고각도 장면 전이 실행 결과 — JSON](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-result.json)
+[고각도 장면 전이 실행 결과 — JSON](/AiBook/assets/part-07/chapter-05/sec-11/p7-5-11-sdxl-anonymous-high-angle-transfer-result.json)
 
-[고각도 장면 전이 비교 조건 — JSON](/AiBook/assets/part-07/chapter-05/p7-5-11-sdxl-anonymous-high-angle-transfer-report.json)
+[고각도 장면 전이 비교 조건 — JSON](/AiBook/assets/part-07/chapter-05/sec-11/p7-5-11-sdxl-anonymous-high-angle-transfer-report.json)
 
 이 사례들에서 효과가 확인된 부분은 다리 교차와 팔 올리기의 2D 배치다. 얼굴·착장 유지와 고각도 장면 구성은 목표에 미치지 못했다. 따라서 결과를 비교할 때도 동작 반영과 캐릭터·장면 전체의 재현을 따로 판단한다.
 

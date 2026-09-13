@@ -1,0 +1,53 @@
+# P7-5.11 LoRA 평가 근거와 현재 판정
+
+확인일: 2026-09-13. 목표는 얼굴 참조 없이 새 장면에서도 Mira와 같은 인물로 보이는 것이다. **B400은 일부 특징이 개선됐지만 동일 인물 재현 목표에는 미달한다.** 머리색 변화, 학습 손실 감소, 가중치 생성 완료를 정체성 재현 성공으로 기록하지 않는다.
+
+## 실험별 관찰과 판정 범위
+
+- 정면 1장 암기 시험: 100스텝에서 청록색 머리가 나타났고, 200스텝에서는 홍채·얼굴·헤어가 목표에 더 가까워졌다. 학습에 사용한 한 장에 대한 특징 변화이며 새 장면의 정체성 보존을 입증하지 않는다. 100스텝의 반복량은 한 장 100회 대 40장 평균 2.5회다. 목표 수·반복량·캡션·참조가 함께 달라 참조 효과의 근거로 사용하지 않는다.
+- 통합 A/B 비교: 목표 40장·평가 4장과 캡션·학습 설정을 고정하고 100·200·400·800·1600스텝의 정면·카페·정원을 비교한다. 총 30장 중 100·200·400의 18장은 검수 완료, 800·1600의 12장은 체크포인트·평가 생성 대기다. A는 Mira 참조, B는 단색 참조이며 두 조건 경로를 함께 변경한다.
+- 실행 경계: 100·200·400은 기존 400스텝 실행, 800·1600은 동일 설정으로 기반 모델에서 새로 시작한 1600스텝 실행에서 저장한다. 전체가 단일 연속 학습 과정인 것은 아니다. 장당 평균 반복은 2.5·5·10·20·40회다.
+- 완료 구간의 판정: A는 세 스텝 모두 갈색 머리가 남았다. B100→B200에서 청록색 단발이 나타나며 B200→B400은 대체로 유사한 외형의 세부 차이다. 검수한 18장 모두 동일 인물 재현 목표에 미달한다. 추가 구간에서는 A의 특징 출현 시점과 같은 스텝의 B를 비교하며, 변화 출현과 충분한 품질은 구분한다.
+- 장면 지시: 카페 재킷·컵과 정원 카디건·배경은 대체로 따르지만, 정원은 모두 눈을 감아 홍채를 판정할 수 없다. 일부 구도는 정면에 가깝고 A100 정원은 입을 다문 미소 지시와 다르다.
+- 적용 범위: 최종 사용은 Qwen-Image-Edit-2511의 LoRA 어댑터다. 단색 입력 진단과 실제 장면 입력의 편집 품질은 구분한다. 장면 보존·요청 편집·정체성의 미적용/적용 비교는 미실행이다.
+
+[100·200·400 검수 JSON](../../docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/review.json)
+
+[통합 A/B 비교 계획 JSON](../../docs/assets/part-07/chapter-05/sec-11/p7-5-11-ab-comparison-plan.json)
+
+[전체 30장 결과·대기 목록 JSON](../../docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/index.json)
+
+[1장 암기 검수 JSON](../../docs/assets/part-07/chapter-05/sec-11/memorization-evaluation/results/review.json)
+
+## 확인한 사실
+
+- A의 같은 40개 목표·참조 쌍·캡션·학습률·시드로 400스텝까지 학습했다. 200·400스텝 정면과 400스텝 카페도 정체성 재현에 실패했다. 이는 400스텝까지의 결과이며 더 긴 학습의 효과 전체를 부정하지 않는다.
+- 400스텝 체크포인트의 840개 출력 측 LoRA 가중치 중 836개가 0이 아니며 모든 값이 유한하다. 메타데이터상 학습률은 0.0001, 스케줄러는 constant다. 가중치 갱신 자체와 원하는 인물의 학습은 다르다.
+- 학습용 ComfyUI DiT와 평가용 Diffusers DiT의 0·30·59번 블록에서 Q/K/V/출력 투영 가중치 총 12개를 비교해 모두 정확히 일치했다. 전체 기반 가중치·텍스트 인코더를 모두 비교한 것은 아니며, 학습 중 FP8 처리와 추론 BF16의 차이는 남는다.
+- 실제 400스텝 실행의 캐시에서 원본 정면 및 카페 보충본의 목표·참조 4개를 VAE로 복원했다. 표본 모두 청록색 머리·주황색 홍채·기준 피부색이 유지됐다. 캐시 전처리가 Mira의 색을 전부 없앴다는 증거는 없다. 40개 전체의 캐시 시각 검수는 아니다.
+
+캐시 복원 증거: [이미지·캐시 해시 JSON](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/results/cache-decode-audit.json). 기반 가중치 표본: [비교 JSON](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/results/base-weight-sample-audit.json).
+
+| 캐시 복원 · 정면 목표 | 캐시 복원 · 카페 목표 | 캐시 복원 · 카페 목표의 참조 |
+| --- | --- | --- |
+| ![정면 학습 목표](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/1-latents_1x64x64_bfloat16.png) | ![카페 학습 목표](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/0-latents_1x64x64_bfloat16.png) | ![카페 학습 참조](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/0-latents_control_0_1x64x64_bfloat16.png) |
+
+## 검증되지 않은 원인 가설
+
+학습 코드는 참조의 VAE 잠재표현을 목표 쪽 입력에 연결하고, 캡션과 참조를 Qwen-VL에 함께 넣는다. 이 입력 구조는 코드에서 확인한 사실이다. 다음 설명은 모델 내부의 실제 원인으로 확인되지 않았다.
+
+- 인물 참조의 외형 조건이 목표 복원과 충돌했을 가능성.
+- 참조에서 외형을 얻을 수 있어 `mira_person`과 외형을 연결하는 학습이 약해졌을 가능성.
+- Mira 참조로 학습한 A를 단색 입력으로 평가하는 조건 차이의 영향.
+- 목표별 반복량 부족과 참조 구성·학습량 사이의 상호작용.
+
+단색에는 인물 외형 정보가 없는데도 B400에 일부 특징이 나타났다는 관찰은 이 가설들을 검토할 출발점이다. 단색의 특정 색상 자체가 정체성을 개선한다거나 인물 참조가 보편적으로 방해된다는 결론은 아니다. 한 학습 시드·세 장면의 탐색적 비교이며, 두 참조 경로의 기여도 분리하지 못했다. 학습량과 참조 구성 중 어느 쪽의 영향이 더 큰지도 확정하지 않는다.
+
+학습 목표는 `target = noise - latents`의 flow matching이며 별도 정체성 손실은 넣지 않았다. 손실 감소만으로 얼굴 유사도를 판정할 수 없지만, 별도 정체성 손실이 없다는 사실을 실패 원인으로 단정하지 않는다. FP8 학습과 BF16 추론 차이도 완전히 분리 검증하지 않았다.
+
+## 근거 코드
+
+- [실행한 학습 쌍 구성](../../docs/assets/part-07/chapter-05/sec-11/p7_5_11_mira_lora.py): `prepare`의 다른 Mira 이미지 선택.
+- [고정 Musubi 문서](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/docs/qwen_image.md): 2511 제어 이미지 학습 지원.
+- [Qwen-VL 캐시 코드](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/src/musubi_tuner/qwen_image_cache_text_encoder_outputs.py): 캡션과 제어 이미지를 함께 인코딩.
+- [학습 코드](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/src/musubi_tuner/qwen_image_train_network.py): 제어 잠재표현 연결과 `target = noise - latents`.

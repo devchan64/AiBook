@@ -1,0 +1,18 @@
+{
+  "status": "100_step_review_included_in_completed_matrix_review",
+  "reviewer": "AI visual inspection",
+  "training_targets_per_arm": 40,
+  "training_steps": 100,
+  "nominal_exposures_per_target": 2.5,
+  "matched_inference_settings": true,
+  "observations": {
+    "hair_color": "Neither A nor B reproduces the target teal hair; A is brown, B is dark brown to near black.",
+    "hair_shape": "B has shorter curled hair in all three scenes, closer to the target bob silhouette; cafe bangs still differ from the target.",
+    "iris": "Neither open-eyed case clearly reproduces the target vivid orange iris; garden eyes closed, not assessable.",
+    "face_and_skin": "B has lighter skin and softer facial rendering; this alone is not proof of identity preservation.",
+    "instructions": "Both arms follow portrait/cafe/garden setup and requested cafe cream jacket/cup and garden pink cardigan."
+  },
+  "conclusion": "B shows partial appearance changes toward the target, but both fail to reproduce the full target identity at 100 steps in these cases.",
+  "limits": "Three cases, one training seed, qualitative nonblind review. Do not generalize this to 200/400 steps or a causal mechanism.",
+  "full_review": "review.json"
+}

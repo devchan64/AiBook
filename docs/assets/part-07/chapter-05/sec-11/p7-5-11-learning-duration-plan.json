@@ -1,0 +1,17 @@
+{
+  "comparison": "100 vs 200 vs 400 training steps",
+  "changed_training_fields": {
+    "steps": [
+      100,
+      400
+    ]
+  },
+  "unchanged": "targets, control pairs, captions, validation split, seed, rank, alpha, learning rate, optimizer and precision settings",
+  "training_pairs": 40,
+  "validation_pairs": 4,
+  "restart": "Same base weights and seed; fresh optimizer, not weights-only continuation",
+  "save_every": 100,
+  "pair_comparison": "Exact ordered target basename / control basename / caption equality after dataset folder relocation",
+  "old_package_sha256": "07f561c0cbc3ed618db3a7d0cb50ddd6ae9a3616c8ab1f7dbdf44c174ce758ab",
+  "new_package_sha256": "706cd61a6e2d1b35219e633c554bc0886228cbd4810af5b816aa65f6904a8f63"
+}

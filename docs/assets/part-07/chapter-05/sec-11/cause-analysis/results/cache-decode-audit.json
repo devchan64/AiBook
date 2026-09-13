@@ -1,0 +1,33 @@
+{
+  "scope": "Two training pairs, four decoded target/control caches; visual inspection is a sample, not a full 40-image cache audit.",
+  "items": [
+    {
+      "cache": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/cache/p7-5-11-mira-v2-background-03_1024x1024_qie.safetensors",
+      "key": "latents_1x64x64_bfloat16",
+      "image": "0-latents_1x64x64_bfloat16.png",
+      "output_sha256": "db8b3794254b578895e4124b15431aeac4662541a2ad1a28f5279647f349666b",
+      "cache_sha256": "f40beccd0b7f536c06561feede4ecfba084a841cce5e917680c7da16aa7e6f46"
+    },
+    {
+      "cache": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/cache/p7-5-11-mira-v2-background-03_1024x1024_qie.safetensors",
+      "key": "latents_control_0_1x64x64_bfloat16",
+      "image": "0-latents_control_0_1x64x64_bfloat16.png",
+      "output_sha256": "213dc7112440b18b27b24531bf7b008b1e6e70c41f8fa1b597e05a30a47ecc29",
+      "cache_sha256": "f40beccd0b7f536c06561feede4ecfba084a841cce5e917680c7da16aa7e6f46"
+    },
+    {
+      "cache": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/cache/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280_1280x1280_qie.safetensors",
+      "key": "latents_1x64x64_bfloat16",
+      "image": "1-latents_1x64x64_bfloat16.png",
+      "output_sha256": "b70ea9a2b5da3bfce617dfd43df3b3b1b1bf893b0b01d80e039d7c57fa0da5f6",
+      "cache_sha256": "d3ed711e18eafdddf8c606e3a4dcf977425e2bbd9fcb6bd8c5c9e59928f94abb"
+    },
+    {
+      "cache": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/cache/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280_1280x1280_qie.safetensors",
+      "key": "latents_control_0_1x64x64_bfloat16",
+      "image": "1-latents_control_0_1x64x64_bfloat16.png",
+      "output_sha256": "e5c46e6ff28044ef6a52bd53353e3deaf3a669a0270acde59b3a1a9f76a50c9f",
+      "cache_sha256": "d3ed711e18eafdddf8c606e3a4dcf977425e2bbd9fcb6bd8c5c9e59928f94abb"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+[general]
+resolution = [512, 512]
+batch_size = 1
+enable_bucket = true
+bucket_no_upscale = true
+
+[[datasets]]
+image_jsonl_file = "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/train.jsonl"
+cache_directory = "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/cache"
+control_resolution = [512, 512]
+num_repeats = 1

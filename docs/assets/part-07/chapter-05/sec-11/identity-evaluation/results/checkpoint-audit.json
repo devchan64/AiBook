@@ -1,0 +1,38 @@
+{
+  "checkpoint": ".tmp/p7-5-11/lora-v2-run100-retry1/checkpoints/mira_identity.safetensors",
+  "tensors": 2520,
+  "all_finite": true,
+  "up_modules": 840,
+  "nonzero_up_modules": 836,
+  "up_abs_max": 0.14852094650268555,
+  "up_rms_min": 0.0,
+  "up_rms_max": 0.003295083763077855,
+  "alpha_values": [
+    16.0
+  ],
+  "converted_tensors": 1680,
+  "converted_modules": 840,
+  "converted_all_finite": true,
+  "converted_example_keys": [
+    "transformer.transformer_blocks.0.attn.add_k_proj.lora_A.weight",
+    "transformer.transformer_blocks.0.attn.add_k_proj.lora_B.weight",
+    "transformer.transformer_blocks.0.attn.add_q_proj.lora_A.weight",
+    "transformer.transformer_blocks.0.attn.add_q_proj.lora_B.weight"
+  ],
+  "target_model": "Qwen/Qwen-Image-Edit-2511",
+  "target_mapping_shape_errors": [],
+  "target_mapping_tensors_checked": 1680,
+  "zero_cond_t": true,
+  "date": "2026-09-13",
+  "checkpoint_sha256": "d76b96198d210ef27a9d97955315e4dfec8f688044d9a832520281a10698d0f3",
+  "limitations": [
+    "Static checkpoint and model mapping inspection, not a live probe of the running pipeline activations.",
+    "Nonzero updates and valid conversion do not demonstrate identity learning."
+  ],
+  "zero_up_modules": [
+    "transformer_blocks.59.attn.add_q_proj",
+    "transformer_blocks.59.attn.to_add_out",
+    "transformer_blocks.59.txt_mlp.net.0.proj",
+    "transformer_blocks.59.txt_mlp.net.2"
+  ]
+}

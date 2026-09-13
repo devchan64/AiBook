@@ -22,7 +22,7 @@
 
 주체 개인화의 목표는 다른 맥락에서도 같은 주체를 재현하는 것이다([DreamBooth 원저자 설명](https://dreambooth.github.io/), 확인일 2026-09-12). 이 일반 목표가 Qwen-Image-Edit-2511의 현재 참조·목표 쌍이나 분할을 검증해 주지는 않는다. Mira 참조를 항상 주는 편집 학습과 참조 없이 이름만으로 인물을 불러오는 학습도 별도로 평가해야 한다.
 
-[검수 목록 JSON](../../docs/assets/part-07/chapter-05/p7-5-11/datasets/p7-5-11-mira-lora-reviewed.json)
+[검수 목록 JSON](../../docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-lora-reviewed.json)
 
 ## 이전 학습 제안
 

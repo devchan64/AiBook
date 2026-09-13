@@ -1,0 +1,159 @@
+{
+  "purpose": "matched_100_200_400_by_A_B",
+  "conditions": {
+    "model": "Qwen/Qwen-Image-Edit-2511",
+    "size": 512,
+    "steps": 20,
+    "cfg": 4.0,
+    "scales": [
+      1
+    ],
+    "cases": [
+      {
+        "id": "portrait",
+        "prompt": "Create an illustrated head-and-shoulders portrait of mira_person facing forward, with a relaxed expression and a plain light background.",
+        "seed": 62401,
+        "reference": {
+          "path": "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+          "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+          "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+        }
+      },
+      {
+        "id": "cafe",
+        "prompt": "Create an illustration of mira_person sitting at a cafe table, wearing a cream jacket and holding a cup, three-quarter upper-body view.",
+        "seed": 62402,
+        "reference": {
+          "path": "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+          "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+          "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+        }
+      },
+      {
+        "id": "garden",
+        "prompt": "Create an illustration of mira_person in a garden, wearing a pale pink cardigan, smiling with closed lips, three-quarter upper-body view.",
+        "seed": 62403,
+        "reference": {
+          "path": "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+          "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+          "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+        }
+      }
+    ]
+  },
+  "jobs": [
+    {
+      "arm": "A",
+      "training_steps": 100,
+      "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints/mira_identity-step00000100.safetensors",
+      "checkpoint_sha256": "717248e50920305230a47455c3ff6b2a8456867b861b6839b079d464844b179a",
+      "reuse": [],
+      "generate_cases": [
+        "portrait",
+        "cafe",
+        "garden"
+      ],
+      "output": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/checkpoint-matrix/A-100"
+    },
+    {
+      "arm": "B",
+      "training_steps": 100,
+      "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity-step00000100.safetensors",
+      "checkpoint_sha256": "4ee9ea33092e1e3c76fe6b5f4d271bff06d7c226062cc2040e19b076e396c902",
+      "reuse": [],
+      "generate_cases": [
+        "portrait",
+        "cafe",
+        "garden"
+      ],
+      "output": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/checkpoint-matrix/B-100"
+    },
+    {
+      "arm": "A",
+      "training_steps": 200,
+      "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints/mira_identity-step00000200.safetensors",
+      "checkpoint_sha256": "2c7f5b0cc1889155ed91c8703645d6d00a49735d564a7ded3e19333049ab3017",
+      "reuse": [
+        {
+          "case": "portrait",
+          "directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/identity-evaluation-run200-duration-retry1"
+        }
+      ],
+      "generate_cases": [
+        "cafe",
+        "garden"
+      ],
+      "output": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/checkpoint-matrix/A-200"
+    },
+    {
+      "arm": "B",
+      "training_steps": 200,
+      "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity-step00000200.safetensors",
+      "checkpoint_sha256": "1411fcddc5d5c7758360a613f42e8bdf88329087b223019d42986b391b8241ec",
+      "reuse": [],
+      "generate_cases": [
+        "portrait",
+        "cafe",
+        "garden"
+      ],
+      "output": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/checkpoint-matrix/B-200"
+    },
+    {
+      "arm": "A",
+      "training_steps": 400,
+      "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints/mira_identity-step00000400.safetensors",
+      "checkpoint_sha256": "9006771595d67161209b4476a93964c5b75207f414567cfa4cf88c8a45d4a2fc",
+      "reuse": [
+        {
+          "case": "portrait",
+          "directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/identity-evaluation-run400-duration-retry1"
+        },
+        {
+          "case": "cafe",
+          "directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/identity-evaluation-run400-duration-retry1"
+        },
+        {
+          "case": "garden",
+          "directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/identity-evaluation-run400-duration-retry1"
+        }
+      ],
+      "generate_cases": [],
+      "output": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/checkpoint-matrix/A-400"
+    },
+    {
+      "arm": "B",
+      "training_steps": 400,
+      "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity-step00000400.safetensors",
+      "checkpoint_sha256": "1948189bfcbe26ff2800269f578cd9cabc69e83524add3380f240395f0246700",
+      "reuse": [
+        {
+          "case": "portrait",
+          "directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/neutral-ablation-evaluation-step400"
+        },
+        {
+          "case": "cafe",
+          "directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/neutral-ablation-evaluation-step400"
+        },
+        {
+          "case": "garden",
+          "directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/neutral-ablation-evaluation-step400"
+        }
+      ],
+      "generate_cases": [],
+      "output": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/checkpoint-matrix/B-400"
+    }
+  ],
+  "expected_images": 18,
+  "reuse_images": 7,
+  "new_images": 11,
+  "criteria": [
+    "hair color",
+    "hair length/part/curl shape",
+    "iris color when visible",
+    "facial proportions",
+    "skin tone",
+    "scene and clothing instruction adherence"
+  ],
+  "review_policy": "Qualitative criterion-by-criterion visual review; do not infer causality or universal superiority from one training seed. Existing 400-step results are already known, so this is not a blinded confirmatory study.",
+  "A_100_rule": "Use the checkpoint from the same 400-step A training trajectory, not the separate original 100-step run."
+}
