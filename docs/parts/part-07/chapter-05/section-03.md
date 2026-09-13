@@ -212,7 +212,7 @@ OpenPose와 정면 머리를 입력하고, 기본 의상 지시 뒤에 `with bar
 
 같은 폴더의 공통 경로·이미지 전처리·해시 함수를 가져오므로 재실행할 때 함께 유지한다.
 
-[공통 경로·이미지 전처리·해시 함수](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_pose_identity.py){ .lazy-source }
+[공통 경로·이미지 전처리·해시 함수](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_common.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_generate_shoe_outsole.py \

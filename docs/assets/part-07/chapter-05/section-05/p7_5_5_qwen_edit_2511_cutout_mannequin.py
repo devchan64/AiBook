@@ -15,7 +15,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from p7_5_5_qwen_edit_2511_pose_identity import (
+from p7_5_5_qwen_edit_common import (
     ASSETS, CACHE_DIR, MODEL_ID, runtime_record, sha256,
 )
 
@@ -97,7 +97,7 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     output_dir.mkdir(parents=True, exist_ok=True)
     provenance = dict(source_code_sha256=sha256(Path(__file__)), recipe_sha256=sha256(RECIPE),
-                      helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_2511_pose_identity.py'),
+                      helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_common.py'),
                       runtime=runtime_record(), cuda_device=torch.cuda.get_device_name(0),
                       offload='sequential CPU offload')
     for plan in plans:

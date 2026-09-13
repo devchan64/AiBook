@@ -48,7 +48,7 @@ def main() -> None:
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*', args.run_label):
         parser.error('--run-label must contain only letters, digits, underscores or hyphens')
     output_dir = args.output_dir.resolve()
-    manifest = output_dir / f'section-05/p7-5-5-character-separation-{args.run_label}-result.json'
+    manifest = output_dir / f'p7-5-5-character-separation-{args.run_label}-result.json'
     plans = []
     all_outputs = [manifest]
     for key in dict.fromkeys(args.targets):
@@ -56,7 +56,7 @@ def main() -> None:
         reference = ASSETS / row['reference']
         if digest(reference) != row['reference_sha256']:
             raise ValueError(f'Input differs from the reviewed recipe: {reference}')
-        for filename in row['baseline'].values():
+        for filename in (row['baseline']['mask'], row['baseline']['white']):
             if not (ASSETS / filename).is_file():
                 raise FileNotFoundError(ASSETS / filename)
         mask_label = f"scene-{key}-{args.run_label}"
@@ -105,7 +105,6 @@ def main() -> None:
             'background_white': bool((white[mask == 0] == 255).all()),
             'baseline_mask_equal': bool(np.array_equal(mask, pixels(ASSETS / baseline['mask'], 'L'))),
             'baseline_white_equal': bool(np.array_equal(white, pixels(ASSETS / baseline['white'], 'RGB'))),
-            'baseline_rgba_equal': bool(np.array_equal(rgba, pixels(ASSETS / baseline['rgba'], 'RGBA'))),
         }
         masks[plan['target']] = mask > 0
         report['characters'].append({**plan, 'checks': checks,

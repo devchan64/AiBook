@@ -12,7 +12,7 @@ import re
 import time
 from pathlib import Path
 
-from p7_5_5_qwen_edit_2511_pose_identity import (
+from p7_5_5_qwen_edit_common import (
     ASSETS, CACHE_DIR, MODEL_ID, runtime_record, sha256, square_canvas,
 )
 
@@ -30,7 +30,7 @@ REFERENCES = {
 
 def crop_paths(view: str) -> tuple[Path, Path]:
     stem = f'p7-5-5-bfs-c-{view}-native1280-head-crop-v1'
-    return ASSETS / f'{stem}.png', ASSETS / f'{stem}-result.json'
+    return ASSETS / 'section-05' / f'{stem}.png', ASSETS / 'section-05' / f'{stem}-result.json'
 
 LORA_FILE = 'bfs_head_v5_2511_original.safetensors'
 LORA_PATH = ASSETS.parents[3] / '.tmp/download/weight-mr2along-bfs-head-v5-2511' / LORA_FILE
@@ -128,7 +128,7 @@ def main() -> None:
     pipeline.enable_sequential_cpu_offload()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     provenance = dict(source_code_sha256=sha256(Path(__file__)),
-                      helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_2511_pose_identity.py'),
+                      helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_common.py'),
                       runtime=runtime_record(), cuda_device=torch.cuda.get_device_name(0),
                       offload='sequential CPU offload',
                       preprocessing='aspect-preserving resize on white 1280x1280 canvases')

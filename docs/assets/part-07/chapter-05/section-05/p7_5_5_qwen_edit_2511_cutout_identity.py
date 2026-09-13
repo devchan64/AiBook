@@ -12,7 +12,7 @@ import re
 import time
 from pathlib import Path
 
-from p7_5_5_qwen_edit_2511_pose_identity import (
+from p7_5_5_qwen_edit_common import (
     ASSETS, CACHE_DIR, DEFAULT_CHARACTER, MODEL_ID, runtime_record, sha256, square_canvas,
 )
 
@@ -106,7 +106,7 @@ def main() -> None:
         image.save(plan['output'])
         record = dict(plan, status='generated', model=MODEL_ID, runtime=runtime_record(),
                       source_code_sha256=sha256(Path(__file__)),
-                      helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_2511_pose_identity.py'),
+                      helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_common.py'),
                       device=torch.cuda.get_device_name(0), dtype='bfloat16',
                       offload='sequential CPU offload', seed=args.seed, generator_device='cpu',
                       steps=args.steps, true_cfg_scale=4.0, guidance_scale=1.0,

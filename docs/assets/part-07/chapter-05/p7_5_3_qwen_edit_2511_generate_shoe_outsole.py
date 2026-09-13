@@ -16,7 +16,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "section-05"))
 
-from p7_5_5_qwen_edit_2511_pose_identity import (
+from p7_5_5_qwen_edit_common import (
     ASSETS, CACHE_DIR, MODEL_ID, runtime_record, sha256, square_canvas,
 )
 
@@ -90,7 +90,7 @@ def main() -> None:
         image.save(stream, format='PNG')
     record = dict(plan, status='generated', output_sha256=sha256(output),
                   source_code_sha256=sha256(Path(__file__)),
-                  helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_2511_pose_identity.py'),
+                  helper_code_sha256=sha256(ASSETS / 'section-05/p7_5_5_qwen_edit_common.py'),
                   runtime=runtime_record(), cuda_device=torch.cuda.get_device_name(0),
                   offload='sequential CPU offload',
                   preprocessing='aspect-preserving resize on white 1280x1280 canvases',

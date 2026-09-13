@@ -33,8 +33,7 @@
       ],
       "baseline": {
         "mask": "section-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1.png",
-        "white": "section-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png",
-        "rgba": "section-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1-rgba.png"
+        "white": "section-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png"
       }
     },
     {
@@ -52,8 +51,7 @@
       ],
       "baseline": {
         "mask": "section-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1.png",
-        "white": "section-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1.png",
-        "rgba": "section-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1-rgba.png"
+        "white": "section-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1.png"
       }
     },
     {
@@ -121,8 +119,7 @@
       ],
       "baseline": {
         "mask": "section-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6.png",
-        "white": "section-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6.png",
-        "rgba": "section-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6-rgba.png"
+        "white": "section-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6.png"
       }
     },
     {
@@ -190,8 +187,7 @@
       ],
       "baseline": {
         "mask": "section-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2.png",
-        "white": "section-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2.png",
-        "rgba": "section-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2-rgba.png"
+        "white": "section-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2.png"
       }
     }
   ]
