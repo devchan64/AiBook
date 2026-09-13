@@ -1,1 +1,0 @@
-sec-11/p7_5_11_simplify_scene_a_structure_guide.py
