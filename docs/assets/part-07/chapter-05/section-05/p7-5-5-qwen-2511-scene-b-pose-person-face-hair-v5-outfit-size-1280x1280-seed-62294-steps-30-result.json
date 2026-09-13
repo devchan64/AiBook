@@ -1,0 +1,51 @@
+{
+  "stage": "pose-person-face-hair",
+  "prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose. Preserve the split-leap pose and the cast shadow beneath the woman.",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-scene-b-pose-person-v1-size-1280x1280-seed-62294-steps-20.png",
+      "role": "Picture 1: 20-step pose person",
+      "sha256": "63afd0c793c1f084b903069610ec22ec521f115631f369583c2e9be95cf86787"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+      "role": "Picture 2: face and hairstyle reference",
+      "sha256": "c609cb7fb072f18727d53818152b5833a2be1d080f9ff8fed999edb6125e99b7"
+    }
+  ],
+  "settings": {
+    "size": 1280,
+    "steps": 30,
+    "seed": 62294,
+    "true_cfg_scale": 4.0,
+    "mask": false,
+    "lora": null,
+    "output_compositing": false
+  },
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-scene-b-pose-person-face-hair-v5-outfit-size-1280x1280-seed-62294-steps-30.png",
+    "sha256": "2ae32c437ab7d0649e32f12772b3b5e0af705bba8b31fc6132b1a94ce038895f",
+    "width": 1280,
+    "height": 1280
+  },
+  "input_preprocessing": {
+    "mode": "native aspect ratio; RGB; transparency on white; no square padding",
+    "sizes": [
+      [
+        1280,
+        1280
+      ],
+      [
+        960,
+        1440
+      ]
+    ],
+    "pipeline": "QwenImageEditPlusPipeline performs per-image condition and VAE resizing"
+  },
+  "status": "generated",
+  "elapsed_seconds": 1013.01,
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload"
+}

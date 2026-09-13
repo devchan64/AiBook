@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate a sneaker outsole reference from the P7-5.3 shoe image.
+"""Restore scene B subject scale, placement and pose using its mannequin.
 
-Local Qwen Edit 2511; single image, no mask or LoRA. The unseen tread is
-generated, not recovered from the source. Inspect before using downstream.
+Local Qwen 2511, two image inputs, no masks or LoRA. Face/hair refinement is
+reserved for the final BFS pass. Inspect the result before further editing.
 """
 from __future__ import annotations
 
@@ -12,44 +12,44 @@ import re
 import time
 from pathlib import Path
 
-import sys
-
-sys.path.insert(0, str(Path(__file__).resolve().parent / "section-05"))
-
 from p7_5_5_qwen_edit_2511_pose_identity import (
     ASSETS, CACHE_DIR, MODEL_ID, runtime_record, sha256, square_canvas,
 )
 
-SOURCE = ASSETS / 'p7-5-3-qwen-image-2512-white-sneakers-v1-size-1280x1280-seed-62294-steps-10.png'
-PROMPT = 'Show one sneaker from Picture 1 from directly underneath, with its entire outsole facing the camera, toe at the top and heel at the bottom. Keep the shoe design and illustration style on a white background.'
-STAGE = 'white-sneaker-outsole'
-PAIRED_PROMPT = 'Show the sneakers from Picture 1 side by side: the left shoe from directly above, showing its upper and laces; the right shoe from directly below, showing a light taupe rubber outsole with clearly defined triangular tread grooves. Light both shoes evenly so the outsole pattern is clearly visible. Point both toes upward. Keep the white shoe design and illustration style on a white background.'
+SOURCE = ASSETS / 'section-05/p7-5-5-qwen-2511-mannequin-outfit-b-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png'
+REFERENCE = ASSETS / 'section-05/p7-5-5-qwen-2511-cutout-mannequin-b-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png'
+REFERENCE_ROLE = 'Picture 2: pose, subject size and placement only'
+PROMPT = 'Match the pose, subject size and placement of the woman in Picture 1 to Picture 2. Use Picture 2 only for pose and framing. Keep the appearance, complete outfit, shoes and white background of Picture 1.'
+STAGE = 'refine-b-pose'
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input', type=Path, default=SOURCE)
+    parser.add_argument('--reference', type=Path, default=REFERENCE)
     parser.add_argument('--prompt', help='Override the selected experiment prompt.')
     parser.add_argument('--steps', type=int, default=20)
     parser.add_argument('--seed', type=int, default=62294)
     parser.add_argument('--run-label', default='v1')
-    parser.add_argument('--output-dir', type=Path, default=ASSETS)
+    parser.add_argument('--output-dir', type=Path, default=ASSETS / "section-05")
     parser.add_argument('--dry-run', action='store_true')
-    parser.add_argument('--paired-views', action='store_true', help='Show one upper view and one outsole view together.')
+    parser.add_argument('--mannequin-first', action='store_true', help='Use the mannequin as Picture 1 and the outfit result as Picture 2.')
     args = parser.parse_args()
     if args.steps < 1 or (args.prompt is not None and not args.prompt.strip()):
         parser.error('Positive steps and a nonempty prompt are required.')
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*', args.run_label):
         parser.error('Use letters, digits, underscores and hyphens for --run-label.')
-    prompt = args.prompt or (PAIRED_PROMPT if args.paired_views else PROMPT)
-    image_paths = [(args.input, 'Picture 1: P7-5.3 white sneaker design')]
+    prompt = args.prompt or ('Dress the woman in Picture 1 in the outfit and shoes from Picture 2. Keep the pose, subject size, placement and white background of Picture 1.' if args.mannequin_first else PROMPT)
+    image_paths = ([(args.reference, 'Picture 1: mannequin pose, size and placement'),
+                    (args.input, 'Picture 2: outfit and shoes only')] if args.mannequin_first else
+                   [(args.input, 'Picture 1: outfit first-pass result'), (args.reference, REFERENCE_ROLE)])
     inputs = []
     for path, role in image_paths:
         path = path.resolve()
         if not path.is_file():
             raise FileNotFoundError(path)
         inputs.append(dict(path=str(path), role=role, sha256=sha256(path)))
-    stem = (f'p7-5-3-qwen-2511-{STAGE}-{args.run_label}'
+    stem = (f'p7-5-5-qwen-2511-{STAGE}-{args.run_label}'
             f'-size-1280x1280-seed-{args.seed}-steps-{args.steps}')
     output = args.output_dir.resolve() / f'{stem}.png'
     result = output.with_name(f'{stem}-result.json')
@@ -60,7 +60,7 @@ def main() -> None:
                 output=str(output), result=str(result), steps=args.steps, seed=args.seed,
                 size=[1280, 1280], true_cfg_scale=4.0, guidance_scale=1.0,
                 generator_device='cpu', dtype='bfloat16', mask=None, lora=None,
-                experiment='shoe-upper-and-bottom-views' if args.paired_views else 'shoe-bottom-view')
+                experiment='mannequin-first' if args.mannequin_first else 'outfit-first')
     if args.dry_run:
         print(json.dumps(dict(plan, status='planned'), indent=2))
         return

@@ -1,0 +1,66 @@
+{
+  "scene": "b",
+  "prompt": "重新照明, relight Picture 1 to match the light direction, color temperature, brightness and contrast of Picture 2. Use Picture 2 only as a lighting reference. Preserve the characters, faces, hairstyles, outfits, poses, objects and composition of Picture 1.",
+  "inputs": [
+    {
+      "role": "Picture 1: composed scene to relight",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "e003308c9c7ba504e340a72c27da81e507d38399129fc244bb099ca15d18d18b"
+    },
+    {
+      "role": "Picture 2: original scene lighting reference",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+      "sha256": "e64d353bad3830c7783a0df129c76d6be49c69ec370eb4763f26707a14b2cdf6"
+    }
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-reference-relight-scene-b-evidence-repeat-v1-size-1280x1280-seed-62294-steps-10.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-reference-relight-scene-b-evidence-repeat-v1-size-1280x1280-seed-62294-steps-10-result.json",
+  "prompt_basis": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-b-extras-audit-20260909-v1-size-1280x1280-seed-5421-steps-20.png",
+    "sha256": "e64d353bad3830c7783a0df129c76d6be49c69ec370eb4763f26707a14b2cdf6",
+    "usage": "Picture 2 model input",
+    "description_type": "qualitative visual interpretation",
+    "prompt_override": false
+  },
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "steps": 10,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "negative_prompt": " ",
+  "lora": {
+    "repository": "dx8152/Qwen-Image-Edit-2509-Relight",
+    "path": "/home/cbsim/ws/AiBook/.tmp/download/weight-dx8152-qwen-image-edit-2509-relight/Qwen-Edit-Relight.safetensors",
+    "sha256": "2a11c2b74ce0965abf35a8c8db52305072e970a689ca904b5a5b5a94d0aab86c",
+    "adapter": "dx8152_relight",
+    "trigger": "重新照明",
+    "scale": 1.0
+  },
+  "reference_mode": "two images: composite and original lighting reference",
+  "source_code_sha256": "ea4cf2a3c77d5b866a7c9cf191546c9d66b5277d57d221d41ee5536a80930e4d",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "status": "generated",
+  "stage": "scene_reference_lighting_relight",
+  "output_sha256": "cbde967ec6a0c3688a4047d2ea3f0b18926d6aca38b08525e069b650993cf085",
+  "elapsed_seconds": 405.61
+}

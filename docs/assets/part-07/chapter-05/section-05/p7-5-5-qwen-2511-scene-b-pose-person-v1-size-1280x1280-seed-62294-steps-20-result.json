@@ -1,0 +1,42 @@
+{
+  "stage": "pose-person",
+  "prompt": "Change the person in Picture 1 into an adult woman with a very short buzz cut, wearing a plain sports bra and briefs. Keep her face, facial features, and expression. Preserve the original pose, head orientation, joint positions, fingertips, toes, body placement, framing, and illustration style.",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-b-mira-extras-v8-v1.png",
+      "role": "Picture 1: original B cutout; preserve face and pose",
+      "sha256": "be0e90180db1b0fb6cf1dc442d9c76e0775886d9bc1fe8720611735bd7490974"
+    }
+  ],
+  "settings": {
+    "size": 1280,
+    "steps": 20,
+    "seed": 62294,
+    "true_cfg_scale": 4.0,
+    "mask": false,
+    "lora": null,
+    "output_compositing": false
+  },
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-scene-b-pose-person-v1-size-1280x1280-seed-62294-steps-20.png",
+    "sha256": "63afd0c793c1f084b903069610ec22ec521f115631f369583c2e9be95cf86787",
+    "width": 1280,
+    "height": 1280
+  },
+  "input_preprocessing": {
+    "mode": "native aspect ratio; RGB; transparency on white; no square padding",
+    "sizes": [
+      [
+        1280,
+        1280
+      ]
+    ],
+    "pipeline": "QwenImageEditPlusPipeline performs per-image condition and VAE resizing"
+  },
+  "status": "generated",
+  "elapsed_seconds": 461.87,
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload"
+}

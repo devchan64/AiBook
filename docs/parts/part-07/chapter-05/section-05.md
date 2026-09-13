@@ -1,7 +1,7 @@
 # P7-5.5 스토리보드 장면에서 캐릭터를 분리하고 적용하는 경로
 
 > Section ID: `P7-5.5`
-> Version: `v2026.09.11`
+> Version: `v2026.09.13`
 
 이 절은 [P7-5.4](section-04.md)의 마지막 단계에서 주변 인물과 동물까지 추가한 A·B·C를 입력으로 이어받는다. 캐릭터와 배경을 각각 처리한 뒤 합성·리라이트한 장면까지 연결하며, 한 단계의 출력이 다음 단계의 입력이 되는 파이프라인을 구성한다.
 
@@ -10,7 +10,7 @@
 장면을 캐릭터와 배경 두 흐름으로 나눈다. 캐릭터 쪽에서는 외형과 필요한 소품을 적용하고, Mira의 얼굴·헤어를 BFS로 보강한다. 배경 쪽에서는 편집 대상 인물을 제거해 빈 영역을 채운다. 두 흐름에 각각 DeLight를 적용해 조명을 중립화한 뒤 합성하고, 마지막으로 장면에 필요한 조명을 텍스트로 지시한다.
 
 ```mermaid
---8<-- "assets/part-07/chapter-05/p7-5-5-scene-pipeline-ko.mmd"
+--8<-- "assets/part-07/chapter-05/section-05/p7-5-5-scene-pipeline-ko.mmd"
 ```
 
 화살표는 앞 단계의 결과 이미지를 다음 단계의 입력으로 전달한다는 뜻이다. C 조연은 외형·책 적용 후 BFS를 거치지 않고 DeLight로 이어진다. 마지막 Relight의 조명 설명은 최초 장면을 보고 작성하되, 모델에는 합성 결과 한 장만 넣는다. 합성과 조명 처리도 이미지를 다시 생성하므로, 각 단계에서 인물·소품·구도가 유지되는지 확인한다.
@@ -55,43 +55,43 @@ A에서는 화면 앞으로 크게 나온 신발 끝까지 포함하고 배경�
 
 | Scene A Mira | Scene B Mira | Scene C Mira | Scene C 조연 |
 | --- | --- | --- | --- |
-| ![Scene A Mira 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1-overlay.png) | ![Scene B Mira 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1-overlay.png) | ![Scene C Mira 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6-overlay.png) | ![Scene C 조연 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2-overlay.png) |
+| ![Scene A Mira 마스크 오버레이](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1-overlay.png) | ![Scene B Mira 마스크 오버레이](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1-overlay.png) | ![Scene C Mira 마스크 오버레이](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6-overlay.png) | ![Scene C 조연 마스크 오버레이](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2-overlay.png) |
 
 **마스크 이미지**
 
 | Scene A Mira | Scene B Mira | Scene C Mira | Scene C 조연 |
 | --- | --- | --- | --- |
-| ![Scene A Mira 마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1.png) | ![Scene B Mira 마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1.png) | ![Scene C Mira 마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6.png) | ![Scene C 조연 마스크](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2.png) |
+| ![Scene A Mira 마스크](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1.png) | ![Scene B Mira 마스크](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1.png) | ![Scene C Mira 마스크](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6.png) | ![Scene C 조연 마스크](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2.png) |
 
 **분리 결과**
 
 | Scene A Mira | Scene B Mira | Scene C Mira | Scene C 조연 |
 | --- | --- | --- | --- |
-| ![Scene A Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png) | ![Scene B Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1.png) | ![Scene C Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6.png) | ![Scene C 조연의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2.png) |
+| ![Scene A Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png) | ![Scene B Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1.png) | ![Scene C Mira의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6.png) | ![Scene C 조연의 보이는 영역을 추출한 흰 배경 컷아웃](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2.png) |
 
 **Scene A Mira**
 
-[마스크 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1-result.json){ .lazy-source }
+[마스크 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-a-mira-audit-20260909-v1-result.json){ .lazy-source }
 
-[컷아웃 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1-result.json){ .lazy-source }
+[컷아웃 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1-result.json){ .lazy-source }
 
 **Scene B Mira**
 
-[마스크 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1-result.json){ .lazy-source }
+[마스크 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-b-mira-audit-20260909-v1-result.json){ .lazy-source }
 
-[컷아웃 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1-result.json){ .lazy-source }
+[컷아웃 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-b-mira-audit-20260909-v1-result.json){ .lazy-source }
 
 **Scene C Mira**
 
-[마스크 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6-result.json){ .lazy-source }
+[마스크 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-c-mira-audit-20260909-v6-result.json){ .lazy-source }
 
-[컷아웃 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6-result.json){ .lazy-source }
+[컷아웃 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6-result.json){ .lazy-source }
 
 **Scene C 조연**
 
-[마스크 기록](../../../assets/part-07/chapter-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2-result.json){ .lazy-source }
+[마스크 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-c-supporting-audit-20260909-v2-result.json){ .lazy-source }
 
-[컷아웃 기록](../../../assets/part-07/chapter-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2-result.json){ .lazy-source }
+[컷아웃 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-c-supporting-audit-20260909-v2-result.json){ .lazy-source }
 
 ### 분리 결과의 한계
 
@@ -99,7 +99,7 @@ C의 빈 부분은 다른 인물·책·새에 가려져 원본에 보이지 않�
 
 인물별 입력·선택 조건과 실행 기록에 네 분리 결과를 모았다.
 
-[인물별 입력·선택 조건과 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-character-separation-audit-20260909-v1-result.json){ .lazy-source }
+[인물별 입력·선택 조건과 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-separation-audit-20260909-v1-result.json){ .lazy-source }
 
 ## 분리한 캐릭터의 외형과 소품을 적용한다
 
@@ -135,11 +135,11 @@ A Mira와 C 조연의 흰 배경 컷아웃을 Qwen Image Edit 2511에 각각 넣
 
 | Scene A Mira | Scene C 조연 |
 | --- | --- |
-| ![Scene A Mira 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png) | ![Scene C 조연 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-supporting-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png) |
+| ![Scene A Mira 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png) | ![Scene C 조연 아이덴티티 적용 30스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-identity-c-supporting-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png) |
 
-[A Mira 직접 아이덴티티 적용 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json)
+[A Mira 직접 아이덴티티 적용 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
-[C 조연 직접 아이덴티티 적용 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-identity-c-supporting-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json)
+[C 조연 직접 아이덴티티 적용 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-identity-c-supporting-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json)
 
 A는 신발 부분에 오류가 남았다. 앞쪽 발에서 밑창이 크게 보이는 구조라 신발 형태를 안정적으로 바꾸지 못했고, 이 입력·참조·30스텝 조건에서는 적용 가능한 개선 방안을 확보하지 못했다. 따라서 이 사례는 신발 밑창처럼 큰 전경 구조를 참조 외형으로 바꾸는 데서 드러난 현재 모델 경로의 한계로 기록한다.
 
@@ -155,13 +155,13 @@ B·C에서는 컷아웃에 남은 머리·옷·신발 외형을 줄인 뒤 새 �
 
 | Scene B Mira | Scene C Mira |
 | --- | --- |
-| ![B 원본 컷아웃에서 생성한 20스텝 마네킨](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-b-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png) | ![C 원본 컷아웃에서 생성한 20스텝 마네킨](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png) |
+| ![B 원본 컷아웃에서 생성한 20스텝 마네킨](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-mannequin-b-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png) | ![C 원본 컷아웃에서 생성한 20스텝 마네킨](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png) |
 
 B에서는 긴 머리·재킷·바지·신발이 짧은 머리와 회색 운동복·맨발로 바뀌었다. 다리를 벌린 도약 자세의 큰 형태는 남았지만 얼굴 방향과 팔·다리의 세부 각도가 변했다. C에서도 짧은 머리와 회색 운동복·맨발이 반영됐고 앉은 자세는 남았지만, 원본 컷아웃의 빈 가림 영역이 채워지며 손·다리 형태가 변했다. C에서 채워진 신체는 원본에서 확인된 형상이 아니다.
 
-[B 마네킨 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-b-mira-cutout-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+[B 마네킨 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-mannequin-b-mira-cutout-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
-[C 마네킨 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+[C 마네킨 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
 ### B·C 마네킨에 같은 착장을 적용한다
 
@@ -177,15 +177,15 @@ Picture 1에는 각 장면의 마네킨, Picture 2에는 P7-5.3의 최종 3단�
 
 | Scene B | Scene C |
 | --- | --- |
-| ![B 마네킨에 최종 3단계 착장을 적용한 20스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-b-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png) | ![C 마네킨에 최종 3단계 착장을 적용한 20스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png) |
+| ![B 마네킨에 최종 3단계 착장을 적용한 20스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-mannequin-outfit-b-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png) | ![C 마네킨에 최종 3단계 착장을 적용한 20스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20.png) |
 
 B에는 흰 재킷·넓은 바지와 양쪽 흰 스니커즈가 반영됐다. 도약 자세의 큰 형태는 남았지만 마네킨 입력보다 인물이 커지고 팔·다리의 위치가 달라졌다. 착장 반영과 포즈·크기 보존은 별도로 판단한다.
 
 C에도 흰 재킷·넓은 바지와 양쪽 흰 스니커즈가 반영됐고, 앉은 자세의 큰 형태는 대체로 유지됐다. 두 결과 모두 마네킨의 짧은 머리가 남아 있으며, Mira의 얼굴·헤어 아이덴티티까지 완성한 결과는 아니다.
 
-[B 착장 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-b-mira-stage3-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+[B 착장 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-mannequin-outfit-b-mira-stage3-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
-[C 착장 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+[C 착장 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-mannequin-outfit-c-mira-stage3-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
 ## C 두 인물의 책을 보강한다
 
@@ -197,19 +197,19 @@ C Mira는 착장 1차 결과를, C 조연은 텍스트 아이덴티티 결과를
 
 > Add an open book held in both hands over the lap of the woman in Picture 1.
 
-![C Mira의 1차 착장 결과에 펼친 책을 추가한 20스텝 2차 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png)
+![C Mira의 1차 착장 결과에 펼친 책을 추가한 20스텝 2차 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png)
 
 무릎 위에 갈색 표지의 펼친 책이 추가됐고, 두 손은 책을 받치는 모양으로 바뀌었다. 흰 재킷·넓은 바지·양쪽 스니커즈와 앉은 자세의 큰 형태는 대체로 유지됐다. 이 책은 원본 책의 픽셀을 복원한 것이 아니라 지시에 따라 새로 생성한 소품이다. 얼굴·헤어는 이번 보강 대상이 아니므로 Mira의 얼굴·헤어 아이덴티티는 여전히 후속 단계에서 다룬다.
 
-[C 책 보강 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json)
+[C 책 보강 입력·프롬프트·출력 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json)
 
 ### C 조연의 책 보강
 
 조연 아이덴티티 결과 한 장에 `Add an open book held in both hands over the lap of the man in Picture 1.`을 적용했다.
 
-[C 조연 책 보강 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-supporting-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
+[C 조연 책 보강 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-identity-c-supporting-stage2-book-v1-size-1280x1280-seed-62294-steps-20-result.json){ .lazy-source }
 
-![C 조연의 아이덴티티 결과에 펼친 책을 추가한 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-identity-c-supporting-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png)
+![C 조연의 아이덴티티 결과에 펼친 책을 추가한 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-identity-c-supporting-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png)
 
 펼친 책이 추가됐고 손은 책을 받치는 형태로 바뀌었다. 갈색 머리·안경·파란 후드티와 앉은 자세의 큰 형태는 유지됐다. 원본 책을 픽셀 단위로 복원한 것이 아니라 새로 생성한 소품이다.
 
@@ -233,20 +233,20 @@ Picture 1에는 BFS 이전의 아이덴티티 결과를, Picture 2에는 얼굴�
 
 | 구분 | A: 로우뷰 0° | B: 로우뷰 +45° | C: 아이레벨 쿼터뷰 |
 | --- | --- | --- | --- |
-| 참조 머리 크롭 | ![A 로우뷰 정면 512px 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3.png) | ![B 로우뷰 +45도 640px 머리 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-b-low45-native-head-crop-v4.png) | ![C 아이레벨 쿼터뷰 640px 얼굴 크롭](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-level-native1280-head-crop-v1.png) |
-| BFS 10스텝 결과 | ![A 로우뷰 정면 크롭 BFS 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10.png) | ![B 로우뷰 +45도 크롭 BFS 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10.png) | ![C 아이레벨 쿼터뷰 얼굴 크롭 BFS 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10.png) |
+| 참조 머리 크롭 | ![A 로우뷰 정면 512px 머리 크롭](../../../assets/part-07/chapter-05/section-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3.png) | ![B 로우뷰 +45도 640px 머리 크롭](../../../assets/part-07/chapter-05/section-05/p7-5-5-bfs-b-low45-native-head-crop-v4.png) | ![C 아이레벨 쿼터뷰 640px 얼굴 크롭](../../../assets/part-07/chapter-05/section-05/p7-5-5-bfs-c-level-native1280-head-crop-v1.png) |
+| BFS 10스텝 결과 | ![A 로우뷰 정면 크롭 BFS 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10.png) | ![B 로우뷰 +45도 크롭 BFS 10스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10.png) | ![C 아이레벨 쿼터뷰 얼굴 크롭 BFS 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10.png) |
 
-[A 로우뷰 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[A 로우뷰 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[B 로우뷰 +45° BFS 10스텝 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[B 로우뷰 +45° BFS 10스텝 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-b-mira-low45-native-headcrop-weight10-low45-v4-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[C 아이레벨 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[C 아이레벨 BFS 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-level-native1280-headcrop-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[A 로우뷰 머리 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3-result.json){ .lazy-source }
+[A 로우뷰 머리 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3-result.json){ .lazy-source }
 
-[B 로우뷰 +45° 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-b-low45-native-head-crop-v4-result.json){ .lazy-source }
+[B 로우뷰 +45° 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-bfs-b-low45-native-head-crop-v4-result.json){ .lazy-source }
 
-[C 얼굴 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/p7-5-5-bfs-c-level-native1280-head-crop-v1-result.json){ .lazy-source }
+[C 얼굴 크롭 좌표·원본 해시 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-bfs-c-level-native1280-head-crop-v1-result.json){ .lazy-source }
 
 ### A 로우뷰 0° 적용 결과
 
@@ -274,17 +274,17 @@ Qwen Image Edit 2511에 Studio DeLight LoRA만 강도 `1.0`으로 적용해 각�
 
 | A Mira | B Mira | C Mira | C 조연 — 책 보강 후 |
 | --- | --- | --- | --- |
-| ![A Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-a-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![B Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![C Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 조연 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-supporting-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![A Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-a-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![B Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![C Mira DeLight 10스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-mira-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 조연 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-supporting-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 A의 달리는 자세, B의 도약 자세, C 두 인물의 앉은 자세와 책을 확인한다. C 조연은 책 보강 후에도 펼친 책을 유지했다. 별도의 그림자 추가 단계는 두지 않는다. 이후 DeLight·합성·Relight 비교에서도 그림자 유무는 평가에서 제외하고 인물·소품·구도와 색·명암 변화를 본다. B에서 기록한 얼굴 아이덴티티 불일치가 DeLight로 해결됐다고 판단하지는 않는다.
 
-[A Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-a-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[A Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-a-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[B Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[B Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[C Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[C Mira DeLight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-mira-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[C 조연 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-supporting-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[C 조연 DeLight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-c-supporting-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## 최종 장면에서 인물을 제거해 배경판을 만든다
 
@@ -304,15 +304,15 @@ Qwen Image Edit 2511에 장면 한 장씩 넣어 10스텝 생성했다. 별도 �
 
 | A — 주변 인물 6명 유지 | B — 토끼·다람쥐 유지 | C v2 — 새 3마리 유지 |
 | --- | --- | --- |
-| ![A 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 인물 제거 배경판](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-c-v2-size-1280x1280-seed-62294-steps-10.png) |
+| ![A 인물 제거 배경판](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-background-scene-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B 인물 제거 배경판](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 인물 제거 배경판](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-background-scene-c-v2-size-1280x1280-seed-62294-steps-10.png) |
 
 A에서는 중앙 Mira와 전경 신발이 제거되고 도로와 하늘이 채워졌다. B에서는 도약하는 Mira가 제거되고 숲과 노을, 토끼·다람쥐가 남았다. C v2에서는 두 인물과 책이 제거됐으며, 왼쪽 바위에 한 마리와 난간에 두 마리의 새가 남았다. 이 배경판은 다음 DeLight 처리의 입력이며, 이후 DeLight 캐릭터와 함께 통합 장면을 생성한다.
 
-[A 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[A 배경판 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-background-scene-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[B 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[B 배경판 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-background-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[C 배경판 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-background-scene-c-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[C 배경판 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-background-scene-c-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## 배경판에 Studio DeLight를 적용한다
 
@@ -326,15 +326,15 @@ A에서는 중앙 Mira와 전경 신발이 제거되고 도로와 하늘이 채�
 
 | A | B | C — 배경판 v2 입력 |
 | --- | --- | --- |
-| ![A 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-c-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![A 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-background-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C 배경 DeLight 10스텝 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-background-c-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 A의 주변 인물 여섯 명, B의 토끼·다람쥐, C의 새 세 마리가 남아 있으며 배경의 큰 구도는 유지됐다. 세 장 모두 전체 대비가 낮아졌고, A의 구름과 B의 노을·태양은 사라졌다. C는 흑백 선화 중심 배경에 옅은 색조가 추가됐다. 따라서 이 결과는 밝기만 바꾼 보정이 아니라 하늘·색조 변화도 포함하는 생성 편집으로 기록한다. 모델 카드도 야외 장면에서는 배경이 희거나 비워질 수 있다고 설명한다. 이 안내는 변화 가능성의 근거이며, 위 장면별 변화는 저장된 입력과 결과를 비교한 관찰이다.
 
-[A 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[A 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-background-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[B 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[B 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[C 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-studio-delight-background-c-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[C 배경 DeLight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-background-c-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## DeLight 캐릭터와 배경을 장면별로 합친다
 
@@ -358,17 +358,17 @@ DeLight를 적용한 배경과 캐릭터를 Qwen Image Edit 2511의 다중 이�
 
 | A | B | C |
 | --- | --- | --- |
-| ![A DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10.png) |
+| ![A DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-a-v1-size-1280x1280-seed-62294-steps-10.png) | ![B DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png) | ![C DeLight 배경과 캐릭터 합성 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10.png) |
 
 A에서는 중앙 전경에 Mira가 배치됐고 주변 여섯 인물이 유지됐다. B에서는 Mira의 도약 자세와 토끼·다람쥐가 남았다. C에서는 왼쪽 Mira와 오른쪽 조연, 두 사람의 펼친 책과 새 세 마리가 함께 배치됐다. 인물의 큰 포즈와 착장을 전달한 결과이며, 얼굴 아이덴티티의 완전한 일치를 입증하는 결과는 아니다.
 
 **합성 과정에서 DeLight 입력의 밝기가 그대로 유지되지는 않았다.** A·C 배경은 상당히 어두워졌고, B는 녹색의 채도와 대비가 강해졌다. 이 단계는 배치뿐 아니라 장면의 색·명암도 다시 생성하는 편집이므로, 캐릭터와 배경을 합친 성과와 중립 조명을 유지했는지는 구분한다.
 
-[A 합성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[A 합성 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-a-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[B 합성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[B 합성 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[C 합성 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2511-delight-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[C 합성 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## 최초 씬의 조명을 텍스트로 설명해 리라이트한다
 
@@ -388,17 +388,17 @@ Qwen Image Edit 2509 및 `dx8152/Qwen-Image-Edit-2509-Relight` LoRA를 사용한
 
 | A — 밝은 주광 | B — 노을 역광 | C — 부드러운 주광 |
 | --- | --- | --- |
-| ![A 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-a-text-v2-size-1280x1280-seed-62294-steps-10.png) | ![B 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-b-text-v2-size-1280x1280-seed-62294-steps-10.png) | ![C 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10.png) |
+| ![A 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-text-relight-scene-a-text-v2-size-1280x1280-seed-62294-steps-10.png) | ![B 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-text-relight-scene-b-text-v2-size-1280x1280-seed-62294-steps-10.png) | ![C 단일 이미지 텍스트 조명 리라이트 결과](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10.png) |
 
 A는 하늘과 도로가 밝아지고 건물 측면은 어둡게 남았다. Mira의 단발과 주변 여섯 인물이 유지됐다. B에는 황금빛 역광과 가장자리 빛이 뚜렷하게 반영됐고, 단발·두 신발·토끼·다람쥐가 남았다. 다만 최초 씬에 비해 가장자리 빛이 과장됐다. C는 두 인물·두 권의 책·새 세 마리를 유지하며 하늘과 도시 배경이 밝아지고 부드러운 주광이 반영됐다.
 
 이번 결과에서는 조명 지시에 따른 변화가 보이지만 얼굴·구도·세부 형태도 달라졌다. 최초 씬의 조명을 정확히 복원했거나 다른 픽셀을 모두 보존했다고 판단하지 않는다. 또한 LoRA 미적용 대조군을 생성하지 않았으므로 변화 전체를 LoRA만의 효과로 분리해 설명할 수는 없다.
 
-[A 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-a-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[A 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-text-relight-scene-a-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[B 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-b-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[B 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-text-relight-scene-b-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
-[C 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
+[C 텍스트 조명 Relight 실행 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10-result.json){ .lazy-source }
 
 ## 한 단계의 성공과 다음 단계의 보존을 따로 판단한다
 
@@ -416,28 +416,28 @@ C에서는 두 권의 책이 처음 다시 생긴 결과를 찾아 DeLight·합�
 
 재현 코드는 A·B·C Mira와 C 조연을 각각 마스크·오버레이·흰 배경 컷아웃·투명 PNG로 출력한다. 설정 파일에는 현재 1280×1280 입력의 SHA-256, 대상 인물의 선택점, 추가 포함점·제외점, 상자와 후처리 옵션을 기록한다. 다른 이미지에 그대로 적용하는 일반 좌표가 아니므로 입력 해시가 다르면 실행 전에 중단한다.
 
-[분리 재현 실행 코드](../../../assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py)
+[분리 재현 실행 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_reproduce_character_separation.py)
 
-[인물별 설정 파일](../../../assets/part-07/chapter-05/p7-5-5-character-separation-recipe-v1.json){ .lazy-source }
+[인물별 설정 파일](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-separation-recipe-v1.json){ .lazy-source }
 
 Grounding DINO Tiny와 SAM 2.1 Hiera Small 모델은 `.tmp/download/huggingface/hub`에 준비한다. 먼저 네 인물의 입출력 계획을 확인한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_reproduce_character_separation.py \
   --output-dir /tmp/p7-5-5-separation-repeat --dry-run
 ```
 
 다음 명령은 네 인물의 분리 이미지와 인물별 실행 JSON, 전체 검증 JSON을 저장한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_reproduce_character_separation.py \
   --output-dir /tmp/p7-5-5-separation-repeat
 ```
 
 C 미라와 조연만 재현하려면 대상을 선택한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_reproduce_character_separation.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_reproduce_character_separation.py \
   --targets c-mira c-supporting \
   --output-dir /tmp/p7-5-5-separation-c-repeat
 ```
@@ -446,24 +446,24 @@ C 미라와 조연만 재현하려면 대상을 선택한다.
 
 실제 재실행 검증 기록에서는 네 인물 모두 마스크·흰 배경·투명 PNG가 기준 이미지와 픽셀 단위로 일치했다. 검증은 투명 PNG의 알파와 마스크 일치, 선택된 원본 픽셀의 보존, 흰 배경과 출력 크기도 확인한다. 기준과 다르거나 픽셀 검사가 실패하면 결과 JSON을 남기고 오류로 종료한다. 이 재현 확인은 기록된 로컬 환경에서 수행했으며, 모델·패키지 환경이 달라지면 결과 JSON의 실행 환경과 차이 항목을 확인해야 한다. 경계의 미세 누락이나 C의 가림 영역까지 복구됐다는 의미는 아니다.
 
-[실제 재실행 검증 기록](../../../assets/part-07/chapter-05/p7-5-5-character-separation-reproduction-check-v1-result.json){ .lazy-source }
+[실제 재실행 검증 기록](../../../assets/part-07/chapter-05/section-05/p7-5-5-character-separation-reproduction-check-v1-result.json){ .lazy-source }
 
 실제 추론은 인물 마스크 생성 코드가, 픽셀 복사와 알파 저장은 흰 배경·투명 컷아웃 생성 코드가 담당한다.
 
-[인물 마스크 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_generate_person_mask.py)
+[인물 마스크 생성 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_generate_person_mask.py)
 
-[흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/p7_5_5_extract_pose_cutout.py)
+[흰 배경·투명 컷아웃 생성 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_extract_pose_cutout.py)
 
 ### A Mira와 C 조연의 외형을 적용한다
 
 생성기는 신규 컷아웃 경로와 Mira 참조를 기본값으로 사용하며 추가 LoRA를 불러오지 않는다.
 
-[컷아웃 아이덴티티 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_identity.py)
+[컷아웃 아이덴티티 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_identity.py)
 
 CPU 난수 생성기를 사용하며 각 입력은 비율을 유지해 1280×1280 흰 캔버스에 배치한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_identity.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_identity.py \
   --targets a-mira c-supporting \
   --steps 30 --run-label identity-repeat-v1 \
   --supporting-prompt "Give the man in Picture 1 a new character identity: a young adult man with short dark brown hair, round glasses, a muted blue hoodie, charcoal trousers, and white sneakers. Preserve the seated pose, body proportions, framing and white background of Picture 1." \
@@ -476,10 +476,10 @@ CPU 난수 생성기를 사용하며 각 입력은 비율을 유지해 1280×128
 
 생성기는 분리 설정 파일에서 각 Mira의 흰 배경 컷아웃을 찾아 원본 캔버스 그대로 입력한다. CPU 난수 생성기를 사용했다.
 
-[신규 컷아웃 마네킨 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py)
+[신규 컷아웃 마네킨 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py \
   --scenes b c --steps 20 --run-label manuscript-repeat-v1 --dry-run
 ```
 
@@ -489,10 +489,10 @@ CPU 난수 생성기를 사용하며 각 입력은 비율을 유지해 1280×128
 
 B·C 마네킨과 공통 착장 참조는 비율을 유지해 각각 1280×1280 흰 캔버스에 배치한다. CPU 난수 생성기를 사용했다.
 
-[마네킨 착장 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py)
+[마네킨 착장 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py \
   --scenes b c --steps 20 --run-label stage3-repeat-v1 --dry-run
 ```
 
@@ -500,51 +500,51 @@ B·C 마네킨과 공통 착장 참조는 비율을 유지해 각각 1280×1280 
 
 ### C Mira와 조연에게 책을 추가한다
 
-[Scene C 책 보강 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_identity_c_book.py)
+[Scene C 책 보강 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_identity_c_book.py)
 
 C Mira의 착장 1차 결과 한 장을 입력으로 사용하며 CPU 난수 생성기로 실행했다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_identity_c_book.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_identity_c_book.py \
   --steps 20 --seed 62294 --run-label book-repeat-v1 --dry-run
 ```
 
 `--input`으로 보강할 이미지, `--prompt`로 지시, `--steps`와 `--seed`로 생성 조건을 바꿀 수 있다.
 
-[C 조연 책 보강 코드](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_supporting_c_book.py)
+[C 조연 책 보강 코드](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_supporting_c_book.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_supporting_c_book.py --run-label book-repeat-v1
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_supporting_c_book.py --run-label book-repeat-v1
 ```
 
 ### 머리 크롭을 준비하고 BFS를 적용한다
 
-[C 얼굴 크롭 BFS 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py)
+[C 얼굴 크롭 BFS 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
   --views level --prepare-reference
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py \
   --views level --steps 10 --seed 62294 --run-label level-repeat-v1 --dry-run
 ```
 
 각 명령쌍에서 `--prepare-reference`는 크롭 파일이 없을 때만 실행한다. 두 번째 명령으로 BFS 입력과 생성 계획을 확인한다.
 
-[A·B 방향별 머리 크롭 BFS 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py)
+[A·B 방향별 머리 크롭 BFS 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
   --scenes a --reference-profile zero-v3 --prepare-reference
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
   --scenes a --reference-profile zero-v3 --steps 10 --seed 62294 --run-label a-lowzero-repeat-v1 --dry-run
 ```
 
 B는 다음 명령으로 재현한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
   --scenes b --reference-profile low45-v4 --prepare-reference
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py \
   --scenes b --reference-profile low45-v4 --steps 10 --seed 62294 --run-label b-low45-repeat-v1 --dry-run
 ```
 
@@ -552,10 +552,10 @@ A 명령의 `zero-v3`는 로우뷰 0° 크롭을, B 명령의 `low45-v4`는 로�
 
 ### 네 캐릭터의 조명을 중립화한다
 
-[네 캐릭터 DeLight 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py)
+[네 캐릭터 DeLight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py \
   --targets a-mira b-mira c-mira c-supporting \
   --steps 10 --seed 62294 --delight-scale 1.0 \
   --run-label repeat-v1 --dry-run
@@ -565,15 +565,15 @@ A 명령의 `zero-v3`는 로우뷰 0° 크롭을, B 명령의 `low45-v4`는 로�
 
 ### 장면에서 편집 대상 인물을 제거한다
 
-[장면별 배경판 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py)
+[장면별 배경판 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py)
 
 A·B는 생성기의 기본 프롬프트를 사용한다. C는 원래 새의 위치를 지정한 v2 결과를 사용하며, 이를 재현할 때는 아래 `--prompt`를 명시한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py \
   --targets a b --steps 10 --seed 62294 --run-label background-repeat-v1 --dry-run
 
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py \
   --targets c --steps 10 --seed 62294 --run-label background-repeat-v2 \
   --prompt 'Remove the two readers and their books from Picture 1. Preserve the original three birds: one on the left rock and two on the railing. Keep the path empty.' \
   --dry-run
@@ -583,10 +583,10 @@ A·B는 생성기의 기본 프롬프트를 사용한다. C는 원래 새의 위
 
 ### 배경판의 조명을 중립화한다
 
-[배경 DeLight 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py)
+[배경 DeLight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py \
   --targets a b c --steps 10 --seed 62294 --delight-scale 1.0 \
   --run-label repeat-v1 --dry-run
 ```
@@ -595,10 +595,10 @@ A·B는 생성기의 기본 프롬프트를 사용한다. C는 원래 새의 위
 
 ### 배경과 캐릭터를 합성한다
 
-[DeLight 배경·캐릭터 합성 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py)
+[DeLight 배경·캐릭터 합성 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py \
   --targets a b c --steps 10 --seed 62294 --run-label repeat-v1 --dry-run
 ```
 
@@ -606,10 +606,10 @@ A·B는 생성기의 기본 프롬프트를 사용한다. C는 원래 새의 위
 
 ### 장면별 조명을 텍스트로 적용한다
 
-[씬별 텍스트 조명 Relight 생성기](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py)
+[씬별 텍스트 조명 Relight 생성기](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py \
+.venv/bin/python docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py \
   --targets a b c --steps 10 --seed 62294 --lora-scale 1.0 \
   --run-label text-repeat-v2 --dry-run
 ```

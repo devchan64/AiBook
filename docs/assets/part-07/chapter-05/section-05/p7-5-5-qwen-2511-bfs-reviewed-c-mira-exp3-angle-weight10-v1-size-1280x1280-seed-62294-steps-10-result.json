@@ -1,0 +1,57 @@
+{
+  "scene": "c",
+  "experiment": "3",
+  "lora_weight": 1.0,
+  "inputs": [
+    {
+      "role": "Picture 1: reviewed pre-BFS identity result",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-identity-c-mira-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png",
+      "sha256": "37e16a0afcca5e9e82e9ee8696e1b193f2ec3afd8768d53c5e55b3688f540e61"
+    },
+    {
+      "role": "Picture 2: angled torso reference",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-lowcost-v2-size-640x640-seed-62294-steps-4.png",
+      "sha256": "c7f443f927bbc48f30fb876f7f5b7d282f7add4fd4993edc908d6002bee38295"
+    }
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-c-mira-exp3-angle-weight10-v1-size-1280x1280-seed-62294-steps-10-result.json",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "prompt": "head_swap: start with Picture 1 as the base image, keeping its lighting, environment, and background. remove the head from Picture 1 completely and replace it with the head from Picture 2, strictly preserving the hair, eye color, and nose structure of Picture 2. copy the eye direction, head rotation, and micro-expressions from Picture 1. high quality, sharp details, 4k",
+  "steps": 10,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "lora": {
+    "repository": "mr2along/BFS",
+    "revision": "d9ffba9012dfa1b299a4294572791c3275ae6ae4",
+    "file": "bfs_head_v5_2511_original.safetensors",
+    "sha256": "5055ec271228d4767fd327efa59dbdea6f2a628d6d890101eb4fd5015cb1ac57"
+  },
+  "source_code_sha256": "8a603d149f2d55c7b6367e6c4f5e6bc7996b4466dd2a37b839a262d836e8c8ff",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "status": "generated",
+  "stage": "bfs_direction_experiment",
+  "output_sha256": "f6fa175836468ad9de8b3808144f074f3a715e276db0840984103db7bef6f834",
+  "elapsed_seconds": 362.65
+}

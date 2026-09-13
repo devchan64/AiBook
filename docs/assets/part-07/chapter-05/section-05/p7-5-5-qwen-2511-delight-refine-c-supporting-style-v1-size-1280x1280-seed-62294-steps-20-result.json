@@ -1,0 +1,50 @@
+{
+  "status": "generated",
+  "stage": "post_delight_refinement",
+  "task": "c-supporting-style",
+  "inputs": [
+    {
+      "role": "Image 1: edit target",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-studio-delight-scene-c-supporting-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "d271036fd554556e5c28ae0a606c6ad3cbea72b9e1e1fa73d8d6c7db65ccf906"
+    },
+    {
+      "role": "Image 2: rendering style only",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-studio-delight-scene-c-mira-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "fe34dabde85bfabf1bc17e0fe034f396804f4e49e1b813959235cdeaf3248257"
+    }
+  ],
+  "prompt": "Redraw the man in Image 1 using the clean outlined comic linework and flat restrained colors of Image 2. Use Image 2 only as a rendering-style reference. Preserve the man's identity, black short hair, gray hoodie and trousers, shoes, seated pose, hands, proportions, framing, lighting, and background of Image 1. Keep one man and the existing clothing design.",
+  "settings": {
+    "seed": 62294,
+    "steps": 20,
+    "size": 1280,
+    "true_cfg_scale": 4.0,
+    "guidance_scale": 1.0
+  },
+  "source_generated_in_this_run": false,
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "dtype": "bfloat16",
+    "device_placement": "sequential_cpu_offload",
+    "lora": null
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "diffusers": "0.37.0",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-refine-c-supporting-style-v1-size-1280x1280-seed-62294-steps-20.png",
+    "sha256": "85e6daf39cd1fbf86bb5327d5b39ae9d715fbd03e0cac0dd5fc686c8c734cb2b",
+    "width": 1280,
+    "height": 1280
+  },
+  "elapsed_seconds": 661.91,
+  "review_required": "Prompt-only editing; check non-target drift, pose, identity, style and boundaries."
+}

@@ -1,0 +1,77 @@
+{
+  "scene": "a",
+  "experiment": "zero-view",
+  "reference_profile": "zero-v3",
+  "crop_provenance": {
+    "operation": "pixel crop with optional horizontal flip; no resizing or AI generation",
+    "horizontal_flip": false,
+    "input": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png",
+    "input_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
+    "crop_box": [
+      400,
+      40,
+      912,
+      552
+    ],
+    "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3.png",
+    "size": [
+      512,
+      512
+    ],
+    "output_sha256": "ab53872368baff736c26626861dd1267d420d5d834cf3cd108aaf9c122ebd1cb",
+    "source_code_sha256": "a5af9e40c864377405c9b603324d5c035cc2accb1766e3cb6a995ff49ba74a4f"
+  },
+  "lora_weight": 1.0,
+  "inputs": [
+    {
+      "role": "Picture 1: reviewed pre-BFS identity result",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png",
+      "sha256": "cc6483e556636d9bbb7b07aef158f6838a48598cf631535a392a1886ef25aab0"
+    },
+    {
+      "role": "Picture 2: native head crop from direction-matched torso reference",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-bfs-a-zero-view-native-head-crop-v3.png",
+      "sha256": "ab53872368baff736c26626861dd1267d420d5d834cf3cd108aaf9c122ebd1cb"
+    }
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-bfs-reviewed-a-mira-zero-view-native-headcrop-weight10-zero-view-v3-size-1280x1280-seed-62294-steps-10-result.json",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "prompt": "head_swap: start with Picture 1 as the base image, keeping its lighting, environment, and background. remove the head from Picture 1 completely and replace it with the head from Picture 2, strictly preserving the hair, eye color, and nose structure of Picture 2. copy the eye direction, head rotation, and micro-expressions from Picture 1. high quality, sharp details, 4k",
+  "steps": 10,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "lora": {
+    "repository": "mr2along/BFS",
+    "revision": "d9ffba9012dfa1b299a4294572791c3275ae6ae4",
+    "file": "bfs_head_v5_2511_original.safetensors",
+    "sha256": "5055ec271228d4767fd327efa59dbdea6f2a628d6d890101eb4fd5015cb1ac57"
+  },
+  "source_code_sha256": "a5af9e40c864377405c9b603324d5c035cc2accb1766e3cb6a995ff49ba74a4f",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "status": "generated",
+  "stage": "bfs_head_crop_reference_comparison",
+  "output_sha256": "5083f9c24412117606b1b8fa81d487261378ed428967844c27f3e04c4aeb1e98",
+  "elapsed_seconds": 363.35
+}

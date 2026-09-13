@@ -1,0 +1,18 @@
+{
+  "operation": "pixel crop without resizing or AI generation",
+  "input": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+  "input_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
+  "crop_box": [
+    310,
+    20,
+    950,
+    660
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-bfs-c-level-native1280-head-crop-v1.png",
+  "size": [
+    640,
+    640
+  ],
+  "output_sha256": "3352bdf1daf51399190467eac6ba795cc320d759bb55feca9b9f91ba0dbe255f",
+  "source_code_sha256": "e3ee07b99299b0bdddefb1c2ee9af7aef93958057ca63c8e8e2362b7f6c8b4af"
+}

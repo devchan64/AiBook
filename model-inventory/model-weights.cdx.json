@@ -82,7 +82,7 @@
       "properties": [
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_identity.py"
+          "value": "docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_mannequin_identity.py"
         },
         {
           "name": "aibook:download-selector",
@@ -124,7 +124,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_5_generate_person_mask.py"
+          "value": "docs/assets/part-07/chapter-05/section-05/p7_5_5_generate_person_mask.py"
         },
         {
           "name": "aibook:download-selector",
@@ -174,7 +174,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_5_generate_person_mask.py"
+          "value": "docs/assets/part-07/chapter-05/section-05/p7_5_5_generate_person_mask.py"
         },
         {
           "name": "aibook:download-selector",
@@ -467,7 +467,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py"
+          "value": "docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_studio_delight.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py"
         },
         {
           "name": "aibook:cache-status",
@@ -510,7 +510,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py"
+          "value": "docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_relight_scene_reference.py"
         },
         {
           "name": "aibook:cache-status",
@@ -604,7 +604,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2509_studio_delight.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py"
+          "value": "docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2509_studio_delight.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py"
         },
         {
           "name": "aibook:cache-status",
@@ -721,7 +721,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py; docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py; docs/assets/part-07/chapter-05/p7_5_9_qwen_edit_2511_mira_expressions.py; docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py; docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_fullbody_alley_oop.py; docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py; docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_refine_delight.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_identity.py; docs/assets/part-07/chapter-05/p7_5_7_qwen_edit_2511_extract_outfit_gear.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_identity.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_identity_c_book.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_refine_a_foreground_shoe.py; docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_generate_shoe_outsole.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_refine_b_pose.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_supporting_c_book.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py; docs/assets/part-07/chapter-05/p7_5_11_mira_lora.py; docs/assets/part-07/chapter-05/p7_5_11_evaluate_lora.py"
+          "value": "docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py; docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso.py; docs/assets/part-07/chapter-05/p7_5_9_qwen_edit_2511_mira_expressions.py; docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_outfit_stages.py; docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_fullbody_alley_oop.py; docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_apply_mira_to_lineart.py; docs/assets/part-07/chapter-05/p7_5_4_qwen_edit_2511_enrich_mira_scene_extras.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_camera_direct.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_pose_identity.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_refine_delight.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_mannequin_identity.py; docs/assets/part-07/chapter-05/p7_5_7_qwen_edit_2511_extract_outfit_gear.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_identity.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_cutout_mannequin.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_mannequin_outfit.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_identity_c_book.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_refine_a_foreground_shoe.py; docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_generate_shoe_outsole.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_refine_b_pose.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_supporting_c_book.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_reviewed_characters_delight.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_scene_backgrounds.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_backgrounds_delight.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_composite_reviewed_delight.py; docs/assets/part-07/chapter-05/p7_5_11_mira_lora.py; docs/assets/part-07/chapter-05/p7_5_11_evaluate_lora.py"
         },
         {
           "name": "aibook:cache-status",
@@ -842,7 +842,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py; docs/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_camera_direct.py"
+          "value": "docs/assets/part-07/chapter-05/p7_5_2_qwen_edit_2511_generate_mira_torso_multiview.py; docs/assets/part-07/chapter-05/p7_5_3_qwen_rotate_fullbody_outfit.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_camera_direct.py"
         },
         {
           "name": "aibook:cache-status",
@@ -885,7 +885,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_head_identity.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py; docs/assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py"
+          "value": "docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_head_identity.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_native1280_head_crop.py; docs/assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_bfs_eyelevel_ab.py"
         },
         {
           "name": "aibook:cache-status",

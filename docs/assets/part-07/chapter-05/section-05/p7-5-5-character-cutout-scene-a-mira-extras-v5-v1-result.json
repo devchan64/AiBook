@@ -1,0 +1,29 @@
+{
+  "status": "generated",
+  "stage": "white_background_pose_cutout",
+  "character": "mira",
+  "purpose": "Pose, framing, and perspective reference for later character identity transfer",
+  "inputs": {
+    "camera_frame": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-a-extras-v5-size-1280x1280-seed-5420-steps-20.png",
+      "sha256": "c0dd296680711cf312e8f5deaa9df41dbd387c52bd5c3ce2d020f0337e698b09"
+    },
+    "person_mask": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-sam2-person-mask-scene-a-mira-extras-v5-v2.png",
+      "sha256": "7b20c911edd687a4fb72880dde137b8056fd18ffc556a6a764bb8a0a4420a56f",
+      "semantics": "white=source character copied; black=white background"
+    }
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1.png",
+    "sha256": "1fd08604d6a85d16fd349fafc9c95a894a2070996e3515e12f31d97311a0167e",
+    "width": 1280,
+    "height": 1280
+  },
+  "canvas": "opaque white; this is a pose reference, not an alpha compositing asset",
+  "rgba_layer": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-a-mira-extras-v5-v1-rgba.png",
+    "sha256": "c99ff3d264133f13bd57749d0836533926645b40ed91acc3fe4feeb61bc58065"
+  },
+  "elapsed_seconds": 0.47
+}

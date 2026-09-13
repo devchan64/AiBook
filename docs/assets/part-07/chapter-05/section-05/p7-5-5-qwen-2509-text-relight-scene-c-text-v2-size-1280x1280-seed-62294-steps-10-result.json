@@ -1,0 +1,61 @@
+{
+  "scene": "c",
+  "prompt": "重新照明, soft neutral daylight from the open sky, evenly illuminating the readers, books and rocks, with gentle shade beneath the tree. Preserve the scene content and composition.",
+  "inputs": [
+    {
+      "role": "Picture 1: composed scene to relight",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-c-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "27d51238c09bf4e0cd4583635fef309a0636ac23e8ddc6fe6c40adebf77a8bc5"
+    }
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-text-relight-scene-c-text-v2-size-1280x1280-seed-62294-steps-10-result.json",
+  "prompt_basis": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-2511-lineart-scene-c-extras-audit-20260909-v1-size-1280x1280-seed-5422-steps-20.png",
+    "sha256": "6ca3fab7acb3e90a234db769adf513a46b0a71d5d8ec4e34aa8edd610d75bf0e",
+    "usage": "visual prompt authoring only; not a model input",
+    "description_type": "qualitative visual interpretation",
+    "prompt_override": false
+  },
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "steps": 10,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "negative_prompt": " ",
+  "lora": {
+    "repository": "dx8152/Qwen-Image-Edit-2509-Relight",
+    "path": "/home/cbsim/ws/AiBook/.tmp/download/weight-dx8152-qwen-image-edit-2509-relight/Qwen-Edit-Relight.safetensors",
+    "sha256": "2a11c2b74ce0965abf35a8c8db52305072e970a689ca904b5a5b5a94d0aab86c",
+    "adapter": "dx8152_relight",
+    "trigger": "重新照明",
+    "scale": 1.0
+  },
+  "reference_mode": "single image with text lighting instruction",
+  "source_code_sha256": "29551c6993b6eb245ee803917963f481d9819839e45b5e7315b0035707d2f92b",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "status": "generated",
+  "stage": "scene_text_lighting_relight",
+  "output_sha256": "a6132f3c6b28f87db1c38327f3436b05cd571de115afcbfc4238e659dfb900cb",
+  "elapsed_seconds": 242.58
+}

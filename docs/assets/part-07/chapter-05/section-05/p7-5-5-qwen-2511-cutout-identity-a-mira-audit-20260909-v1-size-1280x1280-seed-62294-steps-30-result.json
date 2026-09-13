@@ -1,0 +1,42 @@
+{
+  "target": "a-mira",
+  "source": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-a-mira-audit-20260909-v1.png",
+  "reference": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png",
+  "source_sha256": "f40bf3590ed6de5bffb5cb15ddb6f25a95d20f6a551b36c1c1657f42e861da3c",
+  "reference_sha256": "c524b964ef9a68a777f2172fb7439283709b70fa823e371d19f03a1ff2620053",
+  "prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose. Preserve the framing and white background of Picture 1.",
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-identity-a-mira-audit-20260909-v1-size-1280x1280-seed-62294-steps-30-result.json",
+  "text_only": false,
+  "reference_role": "identity and outfit",
+  "status": "generated",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "source_code_sha256": "c8a1e60b42d338595dec0e3f8b54bfd3e8ac9aacf450e227e40be746ebf48108",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "offload": "sequential CPU offload",
+  "seed": 62294,
+  "generator_device": "cpu",
+  "steps": 30,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "size": [
+    1280,
+    1280
+  ],
+  "mask": null,
+  "lora": null,
+  "output_sha256": "cc6483e556636d9bbb7b07aef158f6838a48598cf631535a392a1886ef25aab0",
+  "elapsed_seconds": 998.1
+}

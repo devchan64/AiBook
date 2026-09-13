@@ -26,7 +26,7 @@ LORA_ID = "FoxBaze/Try_On_Qwen_Edit_Lora_Alpha"
 LORA_DIR = PROJECT_ROOT / ".tmp" / "download" / "weight-foxbaze-try-on-qwen-edit-alpha"
 LORA_FILENAME = "Try_On_Qwen_Edit_Lora.safetensors"
 PROMPT = "A single full-body image of the woman in Picture 1, wearing every article of clothing from Picture 2"
-DEFAULT_PERSON = ASSETS / "p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png"
+DEFAULT_PERSON = ASSETS / "section-05/p7-5-5-qwen-2511-cutout-shadow-scene-b-v1-size-1280x1280-seed-62294-steps-10.png"
 DEFAULT_GARMENT = ASSETS / "p7-5-7-qwen-2511-xabsurd-clothing-extractor-shoe-gear-v2-size-1280x1280-seed-62294-steps-10.png"
 
 

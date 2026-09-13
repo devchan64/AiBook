@@ -1,0 +1,47 @@
+{
+  "scene": "c",
+  "inputs": [
+    {
+      "role": "Picture 1: original segmented Mira cutout",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-character-cutout-scene-c-mira-audit-20260909-v6.png",
+      "sha256": "6d07c7381bd0c0367c4d75613414fb4ff3a500ba0751a6a70721d70b6612ac64"
+    }
+  ],
+  "prompt": "Replace the woman in Picture 1 with a generic adult female pose mannequin depicted as an illustrated person with a visible face, ordinary facial features, a very short buzz cut, a plain gray sports bra and plain gray briefs, and bare feet. Replace the original face, hairstyle, outfit and shoes with this neutral appearance. Preserve the original expression, head orientation, body proportions, joint positions, hand gestures, foot positions, perspective, body placement, framing and white background. Preserve the seated pose, bent knees, lowered head and hands held in front of the body.",
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-cutout-mannequin-c-mira-cutout-v1-size-1280x1280-seed-62294-steps-20-result.json",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "steps": 20,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "lora": null,
+  "identity_reference": null,
+  "source_code_sha256": "c8b3db27d95372bc3f6916da28f56a2e0768c5d1007b5fdccba60c5fb81db6f3",
+  "recipe_sha256": "d839dae96cdc64eb3c78724a5b13a05ba0bc40ffafea5b9a5431bc240258b58a",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "status": "generated",
+  "stage": "segmented_cutout_to_pose_mannequin",
+  "output_sha256": "0f47b1897534107bc3e9426633241818415bbd34a5091d3dac8f2cf855974f94",
+  "elapsed_seconds": 445.82,
+  "review_required": "Compare pose, foreshortening, hands and occluded boundaries before identity transfer."
+}

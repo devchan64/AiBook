@@ -1,0 +1,51 @@
+{
+  "scene": "b",
+  "prompt": "Place the woman from Picture 2 in midair at the center of Picture 1. Preserve her split-leap pose, face, hair and outfit. Keep the rabbit, squirrel and forest background.",
+  "inputs": [
+    {
+      "role": "Picture 1: DeLight background",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-background-b-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "c2154fe9055e231a820352128b9213622435a4ab4d66a94ecee8e0165b0948fa"
+    },
+    {
+      "role": "Picture 2: DeLight Mira",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-studio-delight-reviewed-b-mira-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "7367f4164ef670568aea83b1f234c8045af6850cc781b8786de1279d967090c5"
+    }
+  ],
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10.png",
+  "result": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-composite-scene-b-v1-size-1280x1280-seed-62294-steps-10-result.json",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "steps": 10,
+  "seed": 62294,
+  "size": [
+    1280,
+    1280
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "generator_device": "cpu",
+  "dtype": "bfloat16",
+  "mask": null,
+  "negative_prompt": " ",
+  "lora": null,
+  "source_code_sha256": "e951008d406fdd76ddd5dd89f70f74a7555713390efc2cbdb93248d678d9b17c",
+  "helper_code_sha256": "4a013dcfdc4f302175d87b7f684a5db50f00a96749258a94a8cab4c1de542151",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "offload": "sequential CPU offload",
+  "preprocessing": "aspect-preserving resize on white 1280x1280 canvases",
+  "status": "generated",
+  "stage": "delight_background_character_composite",
+  "output_sha256": "e003308c9c7ba504e340a72c27da81e507d38399129fc244bb099ca15d18d18b",
+  "elapsed_seconds": 336.89
+}

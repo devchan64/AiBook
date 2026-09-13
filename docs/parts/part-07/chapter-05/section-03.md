@@ -1,7 +1,7 @@
 # P7-5.3 캐릭터 identity와 추가 페인팅으로 특징 완성하기
 
 > Section ID: `P7-5.3`
-> Version: `v2026.09.11`
+> Version: `v2026.09.13`
 
 [P7-5.2](section-02.md)의 정면 머리와 상반신 참조를 다른 자세의 전신으로 이어 쓰려면, 새로 추가할 특징과 유지할 특징을 나누어야 한다. 이 절에서는 **맨발 기본 의상 → 신발 추가 → 재킷 추가**로 착장을 만든 뒤, 카메라 회전과 동적 장면에서 무엇이 유지되는지 비교한다. 핵심은 입력에 맡긴 역할과 실제 출력의 보존 정도를 구분하는 것이다.
 
@@ -212,7 +212,7 @@ OpenPose와 정면 머리를 입력하고, 기본 의상 지시 뒤에 `with bar
 
 같은 폴더의 공통 경로·이미지 전처리·해시 함수를 가져오므로 재실행할 때 함께 유지한다.
 
-[공통 경로·이미지 전처리·해시 함수](../../../assets/part-07/chapter-05/p7_5_5_qwen_edit_2511_pose_identity.py){ .lazy-source }
+[공통 경로·이미지 전처리·해시 함수](../../../assets/part-07/chapter-05/section-05/p7_5_5_qwen_edit_2511_pose_identity.py){ .lazy-source }
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_generate_shoe_outsole.py \

@@ -1,0 +1,50 @@
+{
+  "status": "generated",
+  "stage": "post_delight_refinement",
+  "task": "c-shoes",
+  "inputs": [
+    {
+      "role": "Image 1: edit target",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2509-studio-delight-scene-c-mira-extras-v7-v1-size-1280x1280-seed-62294-steps-10.png",
+      "sha256": "fe34dabde85bfabf1bc17e0fe034f396804f4e49e1b813959235cdeaf3248257"
+    },
+    {
+      "role": "Image 2: footwear design only",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+      "sha256": "c609cb7fb072f18727d53818152b5833a2be1d080f9ff8fed999edb6125e99b7"
+    }
+  ],
+  "prompt": "Replace only both shoes in Image 1 with the white low-top lace-up sneakers in Image 2. Fit them to the existing feet and perspective. Preserve the seated pose, foot positions, trouser hems, face, hair, clothing, linework, lighting, framing, and background of Image 1.",
+  "settings": {
+    "seed": 62294,
+    "steps": 20,
+    "size": 1280,
+    "true_cfg_scale": 4.0,
+    "guidance_scale": 1.0
+  },
+  "source_generated_in_this_run": false,
+  "model": {
+    "repository": "Qwen/Qwen-Image-Edit-2511",
+    "dtype": "bfloat16",
+    "device_placement": "sequential_cpu_offload",
+    "lora": null
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "diffusers": "0.37.0",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/section-05/p7-5-5-qwen-2511-delight-refine-c-shoes-v1-size-1280x1280-seed-62294-steps-20.png",
+    "sha256": "fd4c8f5f05e1c2875483c35bf7f1c5379bcff677078b64f976aa5c5380621b9e",
+    "width": 1280,
+    "height": 1280
+  },
+  "elapsed_seconds": 684.96,
+  "review_required": "Prompt-only editing; check non-target drift, pose, identity, style and boundaries."
+}
