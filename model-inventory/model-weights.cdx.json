@@ -217,7 +217,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py; docs/assets/part-07/chapter-05/p7_5_2_generate_mira_head_bf16.py; docs/assets/part-07/chapter-05/p7_5_6_qwen_image_gguf_low_vram_probe.py; docs/assets/part-07/chapter-05/p7_5_11_mira_lora.py"
+          "value": "docs/assets/part-07/chapter-05/sec-01/p7_5_1_regenerate_local_gpu_style_references.py; docs/assets/part-07/chapter-05/p7_5_2_generate_mira_head_bf16.py; docs/assets/part-07/chapter-05/p7_5_6_qwen_image_gguf_low_vram_probe.py; docs/assets/part-07/chapter-05/p7_5_11_mira_lora.py"
         },
         {
           "name": "aibook:cache-status",
@@ -260,7 +260,7 @@
         },
         {
           "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py"
+          "value": "docs/assets/part-07/chapter-05/sec-01/p7_5_1_regenerate_local_gpu_style_references.py"
         },
         {
           "name": "aibook:cache-status",

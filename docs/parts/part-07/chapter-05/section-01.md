@@ -1,7 +1,7 @@
 # P7-5.1 공통 T2I 프롬프트로 화풍 데이터 축적하기
 
 > Section ID: `P7-5.1`
-> Version: `v2026.09.11`
+> Version: `v2026.09.13`
 
 이 프로젝트는 Qwen Image의 text-to-image(T2I) 생성에서 공통 화풍 프롬프트 계약을 모든 행에 재사용하고, 장면별 장소·시간·카메라만 바꾸어 배경 화풍 데이터를 축적합니다. 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 관찰 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 같은 특성이 반복되는지는 별도로 기록합니다.
 
@@ -14,7 +14,7 @@
 화풍 생성은 [프롬프트](../../../reference/concept-glossary-parts/13-pieup.md#prompt) 한 번으로 끝나지 않습니다. 먼저 어떤 선과 색을 유지할지 계약을 고정하고, 그 계약이 장소·시간·카메라가 달라져도 남는지 확인할 장면 행렬을 만듭니다. 각 행의 원본을 생성한 뒤 사람은 프레임, 선, 색, 장소, 시간, 카메라를 함께 관찰합니다. 기대와 다른 점은 crop이나 상태 변경으로 덮지 않고, 다음 프롬프트의 장면 구조를 바꾼 비교 기록으로 남깁니다.
 
 ```mermaid
---8<-- "assets/part-07/chapter-05/p7-5-1-style-reference-pipeline-ko.mmd"
+--8<-- "assets/part-07/chapter-05/sec-01/p7-5-1-style-reference-pipeline-ko.mmd"
 ```
 
 이 흐름에서 모델은 배경 후보를 먼저 만들고, 사람은 후보에서 계약의 일치와 이탈을 기록합니다. 행별 기록과 스무 행의 비교는 다음 입력을 자동으로 허용하거나 차단하는 상태가 아닙니다. 타일로 합친 비교 이미지는 모델 입력으로 쓰지 않습니다.
@@ -71,7 +71,7 @@
 | seed 생성기 | `torch.Generator(device="cpu").manual_seed(...)` | 초기 latent 출발점 | 비교 기록이며 픽셀 동일성 보장은 아님 |
 
 ```mermaid
---8<-- "assets/part-07/chapter-05/p7-5-1-ai-model-inference-pipeline-ko.mmd"
+--8<-- "assets/part-07/chapter-05/sec-01/p7-5-1-ai-model-inference-pipeline-ko.mmd"
 ```
 
 `QwenImagePipeline` 안에서는 먼저 입력이 prompt, generator, size, step, true CFG로 나뉩니다. tokenizer와 text encoder는 prompt를 token ID와 [text embedding](../../../reference/concept-glossary-parts/08-ieung.md#embedding) 같은 조건 표현으로 만들고, CPU seed에서 출발한 noise는 해상도에 맞는 초기 latent가 됩니다. scheduler와 [transformer](../../../reference/concept-glossary-parts/12-tieut.md#transformer)는 조건 표현과 timestep을 보며 latent를 반복 갱신하고, VAE는 이를 RGB 픽셀 이미지로 되돌립니다. offload는 이 내부 단계를 바꾸는 알고리즘이 아니라 GPU 상주량을 줄이는 메모리 운용입니다. prompt, seed, step, guidance는 **생성 조건**이고, 프레임 없음·선화 유지·시간대 광원·camera 충족은 **생성 뒤 검수 조건**입니다.
@@ -106,7 +106,7 @@ Qwen Image는 text-to-image와 이미지 편집을 지원하는 이미지 생성
 
 공통 화풍 계약은 화풍 프롬프트 JSON에 분리한다. 이 자산에는 프레임 없는 캔버스, 얇은 charcoal 선, 반투명 수채화 색층, 안료 질감, 제외 대상만 들어 있다. 장소·시간·카메라는 실행 코드의 장면별 prompt가 맡으므로, 한 행의 공간 문제를 고칠 때 공통 화풍 계약을 함께 바꾸지 않는다.
 
-[화풍 프롬프트 JSON](../../../assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json)
+[화풍 프롬프트 JSON](../../../assets/part-07/chapter-05/sec-01/p7-5-1-style-prompt-contract.json)
 
 현재 `background-style-v3` 계약은 같은 핵심 조건을 47단어에서 30단어로 압축했다. 1~20번 참조 원본은 이 v3 계약으로 재생성했다. 계약을 바꾸면 기존 원본의 역할을 소급해 바꾸지 않고, 새 후보와 관찰 기록을 별도로 남긴다.
 
@@ -121,11 +121,11 @@ Qwen Image는 text-to-image와 이미지 편집을 지원하는 이미지 생성
 
 공통 계약의 원문에는 `common_contract`(모델에 전달할 짧은 조건), `fixed_checks`(사람이 결과에서 확인할 항목), `assembly_rule`(한 장면 prompt와 계약을 결합하는 규칙)을 둡니다. 본문에서는 세 필드의 역할을 먼저 읽고, 필요할 때만 아래 패널에서 전문을 확인합니다.
 
-[화풍 계약 JSON 원문 보기](/AiBook/assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json)
+[화풍 계약 JSON 원문 보기](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-prompt-contract.json)
 
 P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용하며, 내장 이미지 생성으로 만든 자산은 이 절의 원본 표에 넣지 않습니다.
 
-[스무 로컬 GPU 화풍 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py)
+[스무 로컬 GPU 화풍 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/sec-01/p7_5_1_regenerate_local_gpu_style_references.py)
 
 ### 실행 환경과 장면 선택
 
@@ -134,14 +134,14 @@ P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용하며, 내장 �
 스크립트와 같은 폴더의 화풍 계약 JSON 및 `p7_5_image_output_naming.py`도 필요합니다. 실행 조건은 명령행 옵션으로 전달합니다. 기본값은 **30스텝·1024×1024**이므로 일반 실행에서는 스텝과 해상도를 생략합니다. 다음 명령은 `downtown-clear-day-wide` 장면 한 장을 생성합니다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-01/p7_5_1_regenerate_local_gpu_style_references.py \
   --scene downtown-clear-day-wide --run-label practice-one-v1
 ```
 
 `--scene`은 코드의 `SCENES`에 있는 장면 ID를 선택합니다. 위 장면은 seed `420703`을 사용하며, seed를 바꾸려면 해당 장면의 `seed`를 수정합니다. `--scene`을 생략하면 전체 20개 장면을 순서대로 생성합니다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-01/p7_5_1_regenerate_local_gpu_style_references.py \
   --run-label practice-all-v1
 ```
 
@@ -159,10 +159,10 @@ P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용하며, 내장 �
 사용 가능한 옵션은 다음 명령으로 확인합니다. `--help`는 모델을 불러오거나 이미지를 생성하지 않습니다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py --help
+.venv/bin/python docs/assets/part-07/chapter-05/sec-01/p7_5_1_regenerate_local_gpu_style_references.py --help
 ```
 
-앞의 단일 장면·전체 장면 명령은 실제 GPU 생성을 시작하며, `--dry-run` 기능은 없습니다. 결과 PNG와 장면별 `-result.json`은 `docs/assets/part-07/chapter-05/`에 저장됩니다. 파일명에는 실행 이름과 실행마다 새로 만드는 코드, seed, 스텝 수가 붙습니다. 모든 장면이 끝나면 터미널에 실행 시간·GPU 메모리·출력 파일 목록을 담은 JSON 요약이 표시됩니다. 장면별 JSON에서는 prompt, seed, size, steps와 출력 경로를 확인합니다. 비교 실행에는 `--run-label practice-one-v2`처럼 구분되는 이름을 사용합니다.
+앞의 단일 장면·전체 장면 명령은 실제 GPU 생성을 시작하며, `--dry-run` 기능은 없습니다. 결과 PNG와 장면별 `-result.json`은 `docs/assets/part-07/chapter-05/sec-01/`에 저장됩니다. 파일명에는 실행 이름과 실행마다 새로 만드는 코드, seed, 스텝 수가 붙습니다. 모든 장면이 끝나면 터미널에 실행 시간·GPU 메모리·출력 파일 목록을 담은 JSON 요약이 표시됩니다. 장면별 JSON에서는 prompt, seed, size, steps와 출력 경로를 확인합니다. 비교 실행에는 `--run-label practice-one-v2`처럼 구분되는 이름을 사용합니다.
 
 ### 공통 화풍 계약과 장면 조건이 만나는 코드
 
@@ -255,23 +255,23 @@ for scene in scenes:
 
 | 1 · 실내 아트리움 · 새벽 · high angle | 2 · courtyard · 이른 아침 · high angle | 3 · 도심 · 낮 · wide eye-level | 4 · 주택가 · 해질녘 · low angle |
 | --- | --- | --- | --- |
-| ![새벽의 실내 아트리움을 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-v3-scene01-code-7a21c8-seed-420713-steps-30.png) | ![이른 아침 courtyard를 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-qwen-image-qwen30-v3-scene02-code-6d4e55-seed-420702-steps-30.png) | ![맑은 낮 도심 교차로의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-qwen-image-qwen30-v3-scene03-code-1f7147-seed-420703-steps-30.png) | ![해질녘 주택가를 낮은 시점에서 올려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-qwen-image-qwen30-v3-scene04-code-a895b0-seed-420704-steps-30.png) |
+| ![새벽의 실내 아트리움을 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-v3-scene01-code-7a21c8-seed-420713-steps-30.png) | ![이른 아침 courtyard를 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-courtyard-early-morning-high-angle-qwen-image-qwen30-v3-scene02-code-6d4e55-seed-420702-steps-30.png) | ![맑은 낮 도심 교차로의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-downtown-clear-day-wide-qwen-image-qwen30-v3-scene03-code-1f7147-seed-420703-steps-30.png) | ![해질녘 주택가를 낮은 시점에서 올려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-residential-sunset-low-angle-qwen-image-qwen30-v3-scene04-code-a895b0-seed-420704-steps-30.png) |
 
 | 5 · 독서실 · 밤 · oblique | 6 · 옥상 광장 · 우천 야간 · overhead high angle | 7 · 베니스 운하 · 해질녘 · oblique | 8 · 공원 연못 · 낮 · eye-level |
 | --- | --- | --- | --- |
-| ![창밖의 밤과 작은 스탠드 조명이 있는 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-qwen-image-qwen30-v3-scene05-code-b45954-seed-420705-steps-30.png) | ![우천 야간의 옥상 광장을 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-rooftop-rainy-night-overhead-qwen-image-qwen30-v3-scene06-code-7f2220-seed-420706-steps-30.png) | ![해질녘 베니스 운하를 사선으로 본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-qwen-image-qwen30-v3-scene07-code-5ac727-seed-420707-steps-30.png) | ![맑은 낮 공원 연못의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-park-clear-day-eye-level-qwen-image-qwen30-v3-scene08-code-41a06e-seed-420708-steps-30.png) |
+| ![창밖의 밤과 작은 스탠드 조명이 있는 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-night-lit-reading-room-oblique-qwen-image-qwen30-v3-scene05-code-b45954-seed-420705-steps-30.png) | ![우천 야간의 옥상 광장을 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-rooftop-rainy-night-overhead-qwen-image-qwen30-v3-scene06-code-7f2220-seed-420706-steps-30.png) | ![해질녘 베니스 운하를 사선으로 본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-venice-sunset-oblique-qwen-image-qwen30-v3-scene07-code-5ac727-seed-420707-steps-30.png) | ![맑은 낮 공원 연못의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-park-clear-day-eye-level-qwen-image-qwen30-v3-scene08-code-41a06e-seed-420708-steps-30.png) |
 
 | 9 · 열차 승강장 · 우천 야간 · oblique | 10 · gallery · 낮 · oblique | 11 · 높은 로비 도서관 · 낮 · high oblique | 12 · harbor terrace · 해돋이 · high oblique |
 | --- | --- | --- | --- |
-| ![우천 야간 열차 승강장의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-qwen-image-qwen30-v3-scene09-code-8839e3-seed-420709-steps-30.png) | ![맑은 낮 gallery의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-gallery-midday-oblique-qwen-image-qwen30-v3-scene10-code-cd1676-seed-420810-steps-30.png) | ![높은 로비 도서관의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-library-stairwell-day-high-angle-qwen-image-qwen30-v3-scene11-code-88d15f-seed-420811-steps-30.png) | ![해돋이 harbor terrace의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-harbor-plaza-sunrise-high-qwen-image-qwen30-v3-scene12-code-9a60a0-seed-420812-steps-30.png) |
+| ![우천 야간 열차 승강장의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-train-platform-rainy-night-oblique-qwen-image-qwen30-v3-scene09-code-8839e3-seed-420709-steps-30.png) | ![맑은 낮 gallery의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-gallery-midday-oblique-qwen-image-qwen30-v3-scene10-code-cd1676-seed-420810-steps-30.png) | ![높은 로비 도서관의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-library-stairwell-day-high-angle-qwen-image-qwen30-v3-scene11-code-88d15f-seed-420811-steps-30.png) | ![해돋이 harbor terrace의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-harbor-plaza-sunrise-high-qwen-image-qwen30-v3-scene12-code-9a60a0-seed-420812-steps-30.png) |
 
 | 13 · underpass · 우천 twilight · oblique | 14 · hillside alley · 오후 · eye-level | 15 · market arcade · 흐림 · oblique | 16 · riverside terrace · 밤 · oblique |
 | --- | --- | --- | --- |
-| ![우천 twilight underpass의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-underpass-rainy-twilight-qwen-image-qwen30-v3-scene13-code-9ee1f2-seed-420813-steps-30.png) | ![오후 hillside alley의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-hillside-alley-late-afternoon-qwen-image-qwen30-v3-scene14-code-6ee12e-seed-420814-steps-30.png) | ![흐린 market arcade의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-market-arcade-overcast-qwen-image-qwen30-v3-scene15-code-d05493-seed-420815-steps-30.png) | ![밤 riverside terrace의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-riverside-terrace-night-qwen-image-qwen30-v3-scene16-code-d330ab-seed-420816-steps-30.png) |
+| ![우천 twilight underpass의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-underpass-rainy-twilight-qwen-image-qwen30-v3-scene13-code-9ee1f2-seed-420813-steps-30.png) | ![오후 hillside alley의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-hillside-alley-late-afternoon-qwen-image-qwen30-v3-scene14-code-6ee12e-seed-420814-steps-30.png) | ![흐린 market arcade의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-market-arcade-overcast-qwen-image-qwen30-v3-scene15-code-d05493-seed-420815-steps-30.png) | ![밤 riverside terrace의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-riverside-terrace-night-qwen-image-qwen30-v3-scene16-code-d330ab-seed-420816-steps-30.png) |
 
 | 17 · greenhouse · blue hour · eye-level | 18 · ferry deck · 아침 · oblique | 19 · cinema foyer · 밤 · eye-level | 20 · 세라믹 스튜디오 · 오후 · oblique |
 | --- | --- | --- | --- |
-| ![blue hour greenhouse의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-greenhouse-blue-hour-qwen-image-qwen30-v3-scene17-code-d58c43-seed-420817-steps-30.png) | ![아침 ferry deck의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ferry-deck-morning-qwen-image-qwen30-v3-scene18-code-757f71-seed-420818-steps-30.png) | ![밤 cinema foyer의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-cinema-foyer-night-qwen-image-qwen30-v3-scene19-code-42de24-seed-420819-steps-30.png) | ![오후 창빛이 들어오는 세라믹 스튜디오의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ceramics-studio-afternoon-qwen-image-qwen30-v3-scene20-code-c1b8a5-seed-420820-steps-30.png) |
+| ![blue hour greenhouse의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-greenhouse-blue-hour-qwen-image-qwen30-v3-scene17-code-d58c43-seed-420817-steps-30.png) | ![아침 ferry deck의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-ferry-deck-morning-qwen-image-qwen30-v3-scene18-code-757f71-seed-420818-steps-30.png) | ![밤 cinema foyer의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-cinema-foyer-night-qwen-image-qwen30-v3-scene19-code-42de24-seed-420819-steps-30.png) | ![오후 창빛이 들어오는 세라믹 스튜디오의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/sec-01/p7-5-1-style-ceramics-studio-afternoon-qwen-image-qwen30-v3-scene20-code-c1b8a5-seed-420820-steps-30.png) |
 
 스무 장면의 자산 이름과 장면 식별자는 위 원본 표와 각 PNG 파일명에서 확인하고, 행별 관찰은 커밋하지 않는 로컬 기록으로 분리합니다.
 

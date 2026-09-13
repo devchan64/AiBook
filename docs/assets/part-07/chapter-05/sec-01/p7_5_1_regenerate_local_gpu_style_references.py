@@ -10,6 +10,7 @@ Each saved PNG receives a neighboring ``-result.json`` generation record.
 import argparse
 import json
 import subprocess
+import sys
 import threading
 import time
 from pathlib import Path
@@ -19,7 +20,7 @@ MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image"
 TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image.safetensors"
 TRANSFORMER_ID = f"{TRANSFORMER_REPOSITORY}/{TRANSFORMER_FILENAME}"
-HF_HUB_CACHE = ASSET_DIR.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
+HF_HUB_CACHE = ASSET_DIR.parents[4] / ".tmp" / "download" / "huggingface" / "hub"
 # All ordinary style-reference runs use a square 1024 canvas.  A comparison
 # experiment may override this explicitly with --width/--height.
 SIZE = (1024, 1024)
@@ -186,6 +187,8 @@ def main() -> None:
     from diffusers import QwenImagePipeline
     from huggingface_hub import snapshot_download
     from nunchaku import NunchakuQwenImageTransformer2DModel
+    # The shared naming helper remains in the chapter asset directory.
+    sys.path.insert(0, str(ASSET_DIR.parent))
     from p7_5_image_output_naming import candidate_stem
 
     before = gpu_memory_mib()
