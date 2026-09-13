@@ -171,7 +171,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 ### 재사용 OpenPose map 자산
 
 - detector를 매 실험에서 다시 실행하지 않도록 승인 전신 기준의 정면·우측 3/4·좌측 측면·우측 측면·후면 OpenPose skeleton map을 정적 자산으로 저장했다.
-- 생성기는 `p7_5_11_prepare_openpose_maps.py`이며, 저장 파일은 모두 `p7-5-11-openpose-...-reference.png` 형식으로 `openpose` 키워드를 포함한다.
+- OpenPose 맵 준비 코드는 5.8의 `sec-08/p7_5_8_prepare_openpose_maps.py`로 이관했다. 입력 이미지는 명시적으로 지정하며, 이전 실험의 기본 입력·출력 이름은 생성 당시 기록으로 구분한다.
 - 이후 OpenPose 실험은 이 자산을 직접 입력으로 사용한다. 구조 실험의 재현성은 높아지지만, 2D skeleton map이 camera/rotation 정보를 충분히 주지 못한다는 기존 판정은 유지한다.
 
 ### LoRA 학습 기반 일치 비교

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Save reusable OpenPose maps for the approved P7-5.3 full-body references."""
+"""Extract a body-only OpenPose map from an explicitly selected reference image."""
 
 from __future__ import annotations
 
+import argparse
 import importlib.util
 import sys
 import sysconfig
@@ -16,23 +17,17 @@ from PIL import Image
 ASSETS = Path(__file__).resolve().parent.parent
 ANNOTATOR_REPOSITORY = "lllyasviel/Annotators"
 HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
-REFERENCES = {
-    "front": "sec-03/p7-5-3-fullbody-front-reference.png",
-    "front-quarter-right": "sec-03/p7-5-3-fullbody-front-quarter-right-reference.png",
-    "profile-left": "sec-03/p7-5-3-fullbody-profile-left-reference.png",
-    "profile-right": "sec-03/p7-5-3-fullbody-profile-right-reference.png",
-    "rear": "sec-03/p7-5-3-fullbody-rear-reference.png",
-}
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 
 def detector_class():
     root = Path(sysconfig.get_paths()["purelib"]) / "controlnet_aux"
-    parent = types.ModuleType("p7_5_11_openpose_assets_aux")
+    parent = types.ModuleType("p7_5_8_openpose_assets_aux")
     parent.__path__ = [str(root)]
     sys.modules[parent.__name__] = parent
     directory = root / "open_pose"
     spec = importlib.util.spec_from_file_location(
-        "p7_5_11_openpose_assets_aux.open_pose",
+        "p7_5_8_openpose_assets_aux.open_pose",
         directory / "__init__.py",
         submodule_search_locations=[str(directory)],
     )
@@ -45,20 +40,29 @@ def detector_class():
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--reference-image", type=Path, required=True)
+    parser.add_argument("--output", type=Path,
+                        default=OUTPUT_DIR / "p7-5-8-openpose-body-reference.png")
+    args = parser.parse_args()
+    source = args.reference_image.resolve()
+    if not source.is_file():
+        parser.error(f"Reference image does not exist: {source}")
+    output = args.output.resolve()
+    if output == source:
+        parser.error("Output must differ from the reference image")
     annotator_path = Path(
         snapshot_download(ANNOTATOR_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
     )
     detector = detector_class().from_pretrained(annotator_path, local_files_only=True)
-    for label, filename in REFERENCES.items():
-        source = ASSETS / filename
-        if not source.is_file():
-            raise FileNotFoundError(source)
-        output = ASSETS / f"sec-11/p7-5-11-openpose-fullbody-{label}-reference.png"
-        pose = detector(Image.open(source).convert("RGB"), hand_and_face=False).convert("RGB")
-        if pose.size != Image.open(source).size:
-            pose = pose.resize(Image.open(source).size, Image.Resampling.NEAREST)
-        pose.save(output)
-        print(output)
+    with Image.open(source) as opened:
+        image = opened.convert("RGB")
+    pose = detector(image, hand_and_face=False).convert("RGB")
+    if pose.size != image.size:
+        pose = pose.resize(image.size, Image.Resampling.NEAREST)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    pose.save(output)
+    print(output)
     return 0
 
 
