@@ -1,7 +1,7 @@
 # Part 07 Chapter 05 P7-5 통합 관리노트
 
-- 통합 범위: `P7-5.1`~`P7-5.8`
-- 대응 본문: `docs/parts/part-07/chapter-05/section-01.md`~`section-08.md`
+- 통합 범위: `P7-5.1`~`P7-5.7`, `P7-5.15`
+- 대응 본문: `docs/parts/part-07/chapter-05/section-01.md`~`section-07.md`, `section-15.md`
 - 통합일: 2026-08-14
 - 문서 성격: 원고 릴리즈 이력의 대체 관리노트. 독자용 본문이나 `mkdocs.yml`의 nav에 연결하지 않는다.
 
@@ -20,7 +20,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 ### P7-5.1 — 배경 화풍 기준
 
 - 인물 없이 배경만 생성하고, 장소·시간·카메라를 장면 변수로 분리한다.
-- 공통 화풍은 `docs/assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json`으로 관리한다.
+- 공통 화풍은 `docs/assets/part-07/chapter-05/sec-01/p7-5-1-style-prompt-contract.json`으로 관리한다.
 - 로컬 GPU 배경 원본은 화풍 입력으로 쓸 수 있으나, 별도 manifest로 다음 입력을 고정하지 않는다. 각 이미지의 장소·시간·카메라·선·채색 역할과 관찰 한계를 함께 기록한다.
 - 참조 표는 빈 열 없이 4열 중심으로 정리하며, 표의 장소 라벨은 이미지와 분리하지 않는다.
 - P7-5.1 화풍 입력과 P7-5.3 인물 identity 입력은 서로 대체하지 않는다.
@@ -37,14 +37,16 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 
 ### P7-5.5 — 캐릭터 분리와 재적용
 
+- 본문은 채택한 입력·출력을 합성·텍스트 Relight까지 연결하는 단방향 파이프라인을 설명한다. 스텝·해상도·강도 크기 및 대안 참조 경로의 비교는 본문에서 제외하며, 원고 미참조 실험 이미지·소스·결과 JSON은 폐기했다.
+
 - 현행 확인일: 2026-09-11. 입력은 P7-5.4 최종 extras A·B·C이며 Grounding DINO와 SAM 2.1로 Mira 세 명과 C 조연을 각각 분리한다. 마스크는 픽셀 추출에 사용하며 후속 생성 편집에는 전달하지 않는다.
 - A Mira는 직접 아이덴티티 적용, B·C Mira는 마네킨 → 5.3 최종 3단계 착장 적용 경로를 사용한다. C Mira와 조연은 책을 별도로 보강한다.
 - Mira 세 장은 방향에 맞춘 머리 크롭으로 BFS Head V5를 적용한다. B의 얼굴 불일치는 남은 한계이며, 채택과 아이덴티티 완전 일치를 구분한다.
 - 네 캐릭터와 별도로 분리한 세 배경에 DeLight를 적용하고, 장면별 합성 뒤 단일 합성 이미지와 텍스트 조명 지시로 2509 Relight를 실행한다. 최초 씬은 조명 프롬프트 작성 근거이며 Relight 모델 입력이 아니다.
 - 그림자 유무는 현재 검수 대상에서 제외한다. 이전 그림자 포함 컷아웃·2단계 착장 경로는 현행 절차가 아니다.
-- 출처·실행 근거 검수는 [P7-5.5 근거 검수 기록](part-07-p7-5-5-evidence-review.md)에 정리한다. 이미지·JSON별 링크와 세부 실행 조건은 현행 원고를 기준으로 확인한다.
+- 출처·이미지·실행 JSON과 세부 실행 조건은 [P7-5.5 원고](../../docs/parts/part-07/chapter-05/section-05.md)를 기준으로 확인한다.
 
-### P7-5.8 — 텍스트 모션·OpenPose 키프레임 준비
+### P7-5.15 — 텍스트 모션·OpenPose 키프레임 준비
 
 - 텍스트 모션 모델은 시간 순서가 있는 3D 관절 시퀀스를 만들고, OpenPose는 이를 같은 camera에서 2D 구조 guide로 기록하는 다음 단계로 분리한다.
 - 8GB GPU의 첫 조건은 MoMask batch 1, 보행 48포즈 한 시퀀스다. 12개 키프레임은 인덱스 `0, 4, …, 44`를 균등 추출한다.
@@ -169,7 +171,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 ### 재사용 OpenPose map 자산
 
 - detector를 매 실험에서 다시 실행하지 않도록 승인 전신 기준의 정면·우측 3/4·좌측 측면·우측 측면·후면 OpenPose skeleton map을 정적 자산으로 저장했다.
-- 생성기는 `p7_5_11_prepare_openpose_maps.py`이며, 저장 파일은 모두 `p7-5-11-openpose-...-reference.png` 형식으로 `openpose` 키워드를 포함한다.
+- OpenPose 맵 준비 코드는 5.16의 `sec-16/p7_5_16_prepare_openpose_maps.py`로 이관했다. 입력 이미지는 명시적으로 지정하며, 이전 실험의 기본 입력·출력 이름은 생성 당시 기록으로 구분한다.
 - 이후 OpenPose 실험은 이 자산을 직접 입력으로 사용한다. 구조 실험의 재현성은 높아지지만, 2D skeleton map이 camera/rotation 정보를 충분히 주지 못한다는 기존 판정은 유지한다.
 
 ### LoRA 학습 기반 일치 비교
@@ -306,7 +308,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - source-aligned CatVTON 후보: `.tmp/p7-5-11-face-fixed-catvton-jacket-aligned/`, `.tmp/p7-5-11-face-fixed-catvton-pants/`, `.tmp/p7-5-11-face-fixed-catvton-outfit/`
 - 쌍별·3중 결합 후보: `.tmp/p7-5-11-outfit-plus-proportion-*`, `.tmp/p7-5-11-triple-grid-*`
 - `.tmp/`는 재현·검수용 임시 기록이며 커밋 대상이 아니다.
-- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.3, P7-5.5, P7-5.8~P7-5.10과 P7-5.12~P7-5.13 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
+- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.9, P7-5.15 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
 - 아래 `authoring/` 공통 노트 8개는 고유 내용을 이 문서의 6절로 흡수한 뒤 삭제한다. 오픈 체크리스트와 Section 분석은 Part 전체 운영 문서이므로 유지한다.
   - `part-07-character-pack-generation-research-2026-08-03.md`
   - `part-07-controlnet-webtoon-pipeline-v1.md`

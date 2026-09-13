@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-13",
+  "case": "portrait",
+  "scale": 2,
+  "seed": 62401,
+  "status": "failed_identity_reproduction_in_this_case",
+  "reviewer": "AI visual inspection",
+  "visual_review": "강도 1보다 얼굴·머리 길이·상의가 달라졌지만, 갈색 머리와 기준과 다른 피부색·얼굴이 남아 Mira의 정체성을 재현하지 못했다.",
+  "cause": "not established"
+}

@@ -1,0 +1,135 @@
+{
+  "status": "trained_not_evaluated",
+  "trainer_commit": "e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1",
+  "wrapper_sha256": "7fc7f96b9fee46bdf4f1433207e39e5d6ca126416074b72d05ca813c383ed043",
+  "package_sha256": "706cd61a6e2d1b35219e633c554bc0886228cbd4810af5b816aa65f6904a8f63",
+  "steps": [
+    {
+      "stage": "cache_latents",
+      "command": [
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python",
+        "/tmp/p7511-musubi/src/musubi_tuner/qwen_image_cache_latents.py",
+        "--dataset_config",
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/dataset.toml",
+        "--model_version",
+        "edit-2511",
+        "--vae",
+        "/home/cbsim/ws/AiBook/.tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors",
+        "--batch_size",
+        "1",
+        "--num_workers",
+        "1"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 19.61
+    },
+    {
+      "stage": "cache_text",
+      "command": [
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python",
+        "/tmp/p7511-musubi/src/musubi_tuner/qwen_image_cache_text_encoder_outputs.py",
+        "--dataset_config",
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/dataset.toml",
+        "--model_version",
+        "edit-2511",
+        "--text_encoder",
+        "/home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors",
+        "--batch_size",
+        "1",
+        "--num_workers",
+        "1",
+        "--device",
+        "cpu"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 613.02
+    },
+    {
+      "stage": "train",
+      "command": [
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python",
+        "-m",
+        "accelerate.commands.launch",
+        "--num_processes",
+        "1",
+        "--num_machines",
+        "1",
+        "--mixed_precision",
+        "bf16",
+        "--num_cpu_threads_per_process",
+        "1",
+        "/tmp/p7511-musubi/src/musubi_tuner/qwen_image_train_network.py",
+        "--dataset_config",
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/dataset.toml",
+        "--model_version",
+        "edit-2511",
+        "--dit",
+        "/home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-dit/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors",
+        "--vae",
+        "/home/cbsim/ws/AiBook/.tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors",
+        "--text_encoder",
+        "/home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors",
+        "--sdpa",
+        "--mixed_precision",
+        "bf16",
+        "--timestep_sampling",
+        "shift",
+        "--discrete_flow_shift",
+        "2.2",
+        "--weighting_scheme",
+        "none",
+        "--optimizer_type",
+        "adamw8bit",
+        "--learning_rate",
+        "0.0001",
+        "--gradient_checkpointing",
+        "--max_data_loader_n_workers",
+        "0",
+        "--network_module",
+        "networks.lora_qwen_image",
+        "--network_dim",
+        "16",
+        "--network_alpha",
+        "16",
+        "--max_train_steps",
+        "400",
+        "--save_every_n_steps",
+        "100",
+        "--seed",
+        "62294",
+        "--blocks_to_swap",
+        "55",
+        "--output_dir",
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints",
+        "--output_name",
+        "mira_identity",
+        "--fp8_base",
+        "--fp8_scaled"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 3633.69
+    }
+  ],
+  "checkpoints": [
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints/mira_identity-step00000100.safetensors",
+      "sha256": "717248e50920305230a47455c3ff6b2a8456867b861b6839b079d464844b179a"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints/mira_identity-step00000200.safetensors",
+      "sha256": "2c7f5b0cc1889155ed91c8703645d6d00a49735d564a7ded3e19333049ab3017"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints/mira_identity-step00000300.safetensors",
+      "sha256": "276b39db2c9792bc5f6f247e91a226af2eabe1fdb7a9d747c2fb53037ad4cb48"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints/mira_identity-step00000400.safetensors",
+      "sha256": "9006771595d67161209b4476a93964c5b75207f414567cfa4cf88c8a45d4a2fc"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400/checkpoints/mira_identity.safetensors",
+      "sha256": "bd0163b87fcc2677ec9adda45ca1217738e6688d8c7ea26e28211c1f98318f5e"
+    }
+  ]
+}

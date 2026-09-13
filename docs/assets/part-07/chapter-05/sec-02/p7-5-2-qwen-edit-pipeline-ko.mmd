@@ -1,0 +1,33 @@
+flowchart TD
+  subgraph inputs["입력 조건"]
+    image["참조 이미지 · Picture 1<br/>정면 머리 또는 정면 상반신"]
+    prompt["편집 지시<br/>상반신 확장 또는 카메라 조건"]
+    settings["seed · 출력 해상도<br/>steps · guidance"]
+  end
+
+  subgraph pipeline["Diffusers QwenImageEditPlusPipeline"]
+    semantic["Qwen2.5-VL<br/>이미지와 지시를 조건 표현으로 변환"]
+    encode["VAE encode<br/>참조 이미지 → 이미지 latent"]
+    noise["생성할 이미지의 초기 latent<br/>seed에서 만든 noise"]
+    transformer["Qwen Image transformer<br/>조건을 보고 갱신 방향 예측"]
+    scheduler["FlowMatch scheduler<br/>생성할 이미지의 latent 갱신"]
+    decode["VAE decode<br/>완성 latent → RGB 이미지"]
+  end
+
+  adapters["카메라 참조 실행의 LoRA<br/>Multiple-Angles + Lightning 4-step"]
+  output["PNG · 실행 JSON 저장"]
+  review["정면 기준과 대조<br/>얼굴·헤어 · 방향 · 프레이밍"]
+
+  image --> semantic
+  prompt --> semantic
+  image --> encode
+  settings --> noise
+  settings --> scheduler
+  semantic --> transformer
+  encode --> transformer
+  noise --> transformer
+  adapters -. 가중치에 적용 .-> transformer
+  transformer --> scheduler
+  scheduler -. 다음 timestep .-> transformer
+  scheduler -->|반복 완료| decode
+  decode --> output --> review

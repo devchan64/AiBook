@@ -1,0 +1,9 @@
+# Generated output and local environments
+site/
+site-dev/
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.cache/
+.tmp/

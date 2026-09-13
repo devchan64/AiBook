@@ -1,0 +1,289 @@
+{
+  "description": "P7-5.11에서 실제 학습에 채택한 이미지 목록. 검증용·보류 후보는 제외한다.",
+  "path_base": "repository_root",
+  "training_image_count": 40,
+  "shared_reference_count": 12,
+  "supplement_count": 28,
+  "items": [
+    {
+      "id": "p7-5-11-mira-v2-background-01",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png",
+      "caption": "Illustrate mira_person, front view, wearing a gray cropped top, with a quiet library with bookshelves in the background.",
+      "sha256": "8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3"
+    },
+    {
+      "id": "p7-5-11-mira-v2-background-02",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-02.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a gray cropped top, with a sunlit park with green trees in the background.",
+      "sha256": "c9be837ecf353450934a8d0ff5ff32033bddb9e76c87dd6ab59cc53d73796934"
+    },
+    {
+      "id": "p7-5-11-mira-v2-background-03",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-03.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen left, wearing a gray cropped top, with a simple cafe with wooden furniture in the background.",
+      "sha256": "34ac6ccaf3d6b037aa630f186636527668e18c3ba98515e497a049c042a6da8c"
+    },
+    {
+      "id": "p7-5-11-mira-v2-background-04",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-04.png",
+      "caption": "Illustrate mira_person, front view, wearing a gray cropped top, with a modern office with glass partitions in the background.",
+      "sha256": "343d24b9a1fbca4038e5007b9f3982e8783a378b39b3d84093a8aeda22a6e75a"
+    },
+    {
+      "id": "p7-5-11-mira-v2-background-07",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-07.png",
+      "caption": "Illustrate mira_person, front view, wearing a gray cropped top, with a plain muted blue studio backdrop in the background.",
+      "sha256": "25d23db4d559eaab862d5a88935b84c54da06dd92f38913fac081bf5db19a6e9"
+    },
+    {
+      "id": "p7-5-11-mira-v2-background-08",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-08.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a gray cropped top, with a plain warm brown studio backdrop in the background.",
+      "sha256": "ccd52b3237cf70b3f18c7e84551153357c9d1e57300132a948e1ee0b01f79c3b"
+    },
+    {
+      "id": "p7-5-11-mira-v2-expression-01",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-01.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a gray cropped top, with a small closed-mouth smile, against a plain cream background.",
+      "sha256": "883983f1d875449b8d2b44c46f7134e6e8b10fe06edd8cdae87a5d8deefad2b6"
+    },
+    {
+      "id": "p7-5-11-mira-v2-expression-02",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-02.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen left, wearing a gray cropped top, with slightly parted lips while speaking, against a plain cream background.",
+      "sha256": "2fc913ff8d50af68a86b36ef7347d02d7ff8aae45bc49570a3abed572b28a98a"
+    },
+    {
+      "id": "p7-5-11-mira-v2-expression-03",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-03.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a gray cropped top, with a broad toothy smile, against a plain cream background.",
+      "sha256": "854972ceeb4e9bbeaa12b29081f988fbc8fd281e835f31ea520f73c36d75b244"
+    },
+    {
+      "id": "p7-5-11-mira-v2-expression-04",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-04.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen left, wearing a gray cropped top, with closed eyes and a vertically opened mouth while yawning, against a plain cream background.",
+      "sha256": "7b41921130fa263e33ba7c2edb39cff997d54447fbde54596485d3b5b91c5315"
+    },
+    {
+      "id": "p7-5-11-mira-v2-expression-05",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-05.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a gray cropped top, with slightly raised inner eyebrows and a concerned expression, against a plain cream background.",
+      "sha256": "069d91fd0ad5bfd060958bd867b94a6f1fea6aa53a3058c63a663e4e5e66681c"
+    },
+    {
+      "id": "p7-5-11-mira-v2-expression-06",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-06.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen left, wearing a gray cropped top, with downcast eyes, worried eyebrows and closed lips, against a plain cream background.",
+      "sha256": "b9ddeca9d026624ef25769150a0a43ab3dce6366b7e0ac3779944f3dd1138372"
+    },
+    {
+      "id": "p7-5-11-mira-v2-expression-07",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-07.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a gray cropped top, with raised eyebrows and a small round open mouth, against a plain cream background.",
+      "sha256": "55cc1bb3e0654599c62d67f77730e5fd0d618ed09376854acd5415a6654e87d7"
+    },
+    {
+      "id": "p7-5-11-mira-v2-lighting-01",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-01.png",
+      "caption": "Illustrate mira_person, front view, wearing a gray cropped top, under soft frontal daylight.",
+      "sha256": "a9be19e7cf7eb7ab9d5c01edf4f4673be96be372d7c6e9185387209c525d3667"
+    },
+    {
+      "id": "p7-5-11-mira-v2-lighting-02",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-02.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a gray cropped top, under soft window light from the viewer left.",
+      "sha256": "f392ffd252b8ff685aedbce11abc41b995a8711f11dc832bcd895e52425fb521"
+    },
+    {
+      "id": "p7-5-11-mira-v2-lighting-03",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-03.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen left, wearing a gray cropped top, under soft window light from the viewer right.",
+      "sha256": "d0f02e7f143c785f875c317f59406f39d133924a52fe9f948d466912dee2b0ec"
+    },
+    {
+      "id": "p7-5-11-mira-v2-lighting-04",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-04.png",
+      "caption": "Illustrate mira_person, front view, wearing a gray cropped top, under diffuse overcast daylight.",
+      "sha256": "4c99a08361d280fcd27f7249bf983d39e498f4d68756ba10029269614594de13"
+    },
+    {
+      "id": "p7-5-11-mira-v2-lighting-06",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-06.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen left, wearing a gray cropped top, under cool indoor light with natural skin tones.",
+      "sha256": "47431c7cf1ef9f4d87ffb1a094ef6e3b4f9cb55b5dfb0a7f923abe28259d87e1"
+    },
+    {
+      "id": "p7-5-11-mira-v2-lighting-07",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-07.png",
+      "caption": "Illustrate mira_person, front view, wearing a gray cropped top, under gentle backlighting with the face clearly filled by soft light.",
+      "sha256": "620bec613e863502e0893f8ae4ce2899faeec203b8d60e30f743a2bb106be1f9"
+    },
+    {
+      "id": "p7-5-11-mira-v2-lighting-08",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-08.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a gray cropped top, under soft overhead studio lighting without harsh eye shadows.",
+      "sha256": "cba898b1120e280a1d27aeb4089c4485520705f4c5139ebc7e3287f7ca15d161"
+    },
+    {
+      "id": "p7-5-11-mira-v2-outfit-01",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-01.png",
+      "caption": "Illustrate mira_person, front view, wearing a navy crew-neck sweater, against a plain cream background.",
+      "sha256": "8f0cc69fc3fadf17ab76b535b537a84c404bb43af118d43be8354070186ddfd3"
+    },
+    {
+      "id": "p7-5-11-mira-v2-outfit-02",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-02.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a white collared shirt, against a plain cream background.",
+      "sha256": "df1dd6ec626e321d4c39406b2783d25ff09ee52db4dcc32faea28cea166ca5d4"
+    },
+    {
+      "id": "p7-5-11-mira-v2-outfit-03",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-03.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen left, wearing a burgundy cardigan over a plain shirt, against a plain cream background.",
+      "sha256": "8fc597c33f206775a5f4ff56d3ab455d773bde9b0027b18f7003055f1de4b63b"
+    },
+    {
+      "id": "p7-5-11-mira-v2-outfit-04",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-04.png",
+      "caption": "Illustrate mira_person, front view, wearing a beige linen jacket, against a plain cream background.",
+      "sha256": "6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c"
+    },
+    {
+      "id": "p7-5-11-mira-v2-outfit-05",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-05.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a dark green turtleneck, against a plain cream background.",
+      "sha256": "7e2e1bd26a5ba8437d379b1f2cd0fd57f54b7f16c014f0489d4ba14b417a2977"
+    },
+    {
+      "id": "p7-5-11-mira-v2-outfit-06",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-06.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen left, wearing a blue denim jacket, against a plain cream background.",
+      "sha256": "a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e"
+    },
+    {
+      "id": "p7-5-11-mira-v2-outfit-07",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-07.png",
+      "caption": "Illustrate mira_person, front view, wearing a pale lavender blouse, against a plain cream background.",
+      "sha256": "ffc040f45c033c2833d65de7db7ef932310a6969f86d3e7d6b9b19bcfc3922bf"
+    },
+    {
+      "id": "p7-5-11-mira-v2-outfit-08",
+      "source_section": "P7-5.11",
+      "image": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-08.png",
+      "caption": "Illustrate mira_person, three-quarter view facing screen right, wearing a charcoal hooded sweatshirt, against a plain cream background.",
+      "sha256": "f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e"
+    },
+    {
+      "id": "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+      "caption": "Illustrate mira_person in a front-facing head-and-shoulders illustration against a plain off-white background with open eyes and slightly parted relaxed lips.",
+      "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+      "caption": "Illustrate mira_person in a front-view upper-body illustration wearing a gray cropped top against a plain cream background.",
+      "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person, facing screen right, viewed from above, wearing a gray cropped top against a plain light background.",
+      "sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person in an illustration viewed from above, turned toward the viewer's left and framed to the thighs wearing a gray cropped top against a plain cream background.",
+      "sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person, front view, viewed from above, wearing a gray cropped top against a plain light background.",
+      "sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person in an eye-level three-quarter upper-body illustration turned toward the viewer's right wearing a gray cropped top against a plain cream background.",
+      "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person in an eye-level profile upper-body illustration facing the viewer's right wearing a gray cropped top against a plain cream background.",
+      "sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person in an eye-level three-quarter upper-body illustration turned toward the viewer's left wearing a gray cropped top against a plain cream background.",
+      "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person in an eye-level profile upper-body illustration facing the viewer's left wearing a gray cropped top against a plain cream background.",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person in an upper-body illustration viewed from below, turned toward the viewer's right wearing a gray cropped top against a plain cream background.",
+      "sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "caption": "Illustrate mira_person in an upper-body illustration viewed from below, turned toward the viewer's left wearing a gray cropped top against a plain cream background.",
+      "sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9"
+    },
+    {
+      "id": "p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png",
+      "caption": "Illustrate mira_person, front view, viewed from below, wearing a gray cropped top against a plain light background.",
+      "sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4"
+    }
+  ]
+}

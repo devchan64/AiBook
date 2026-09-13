@@ -1,0 +1,15 @@
+{
+  "status": "prepared_not_trained",
+  "trainer_commit": "e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1",
+  "counts": {
+    "train": 40,
+    "validation": 4
+  },
+  "files": {
+    "train.jsonl": "201f7344feef714f60558f3bb41553a77117421aae2fb006ad1ea5ff5ab8bd80",
+    "validation.jsonl": "1f22bf71c66307c966642d6891d98f692759545ee85648198c92ed19f67c2395",
+    "dataset.toml": "d6837acc0fbc0bb91f76b3e7fdc3c21f4c61f01413968fb822714698e8fc999e",
+    "manifest.json": "26c1f9c004cf2aee5f24e9a151a10486b12bbbd0ed0b2fc026c413e6fb0d2902",
+    "config.json": "19fb501bea6981bba771601606ef3d508145950b7631d4ec2e09e4c3ef3f9174"
+  }
+}

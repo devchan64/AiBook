@@ -1,0 +1,54 @@
+{
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity-step00000400.safetensors",
+  "checkpoint_sha256": "1948189bfcbe26ff2800269f578cd9cabc69e83524add3380f240395f0246700",
+  "size": 512,
+  "steps": 20,
+  "cfg": 4.0,
+  "scales": [
+    1
+  ],
+  "cases": [
+    {
+      "id": "portrait",
+      "prompt": "Create an illustrated head-and-shoulders portrait of mira_person facing forward, with a relaxed expression and a plain light background.",
+      "seed": 62401,
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png",
+        "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+        "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+      }
+    },
+    {
+      "id": "cafe",
+      "prompt": "Create an illustration of mira_person sitting at a cafe table, wearing a cream jacket and holding a cup, three-quarter upper-body view.",
+      "seed": 62402,
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png",
+        "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+        "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+      }
+    },
+    {
+      "id": "garden",
+      "prompt": "Create an illustration of mira_person in a garden, wearing a pale pink cardigan, smiling with closed lips, three-quarter upper-body view.",
+      "seed": 62403,
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png",
+        "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+        "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+      }
+    }
+  ],
+  "code_sha256": "52b5c4e39c6c32dc1c75fec31eba70c00fb7d2f4e210a4f3f3214000c9a556f3",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  }
+}

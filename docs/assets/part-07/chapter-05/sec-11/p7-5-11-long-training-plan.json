@@ -1,0 +1,74 @@
+{
+  "status": "prepared_not_started",
+  "training_steps": 1600,
+  "save_steps": [
+    800,
+    1600
+  ],
+  "restart": "from_base_no_optimizer_state_available",
+  "targets": 40,
+  "validation": 4,
+  "batch_size": 1,
+  "nominal_exposures": {
+    "800": 20,
+    "1600": 40
+  },
+  "arms": {
+    "A": {
+      "package": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-a-run1600",
+      "manifest": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-lora-reviewed-v2.json",
+      "config": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/p7-5-11-a-run1600-config.json",
+      "prior_package": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-v2-run400",
+      "same_selected_ids_image_hashes_splits_captions": true,
+      "pair_checks": [
+        {
+          "split": "train",
+          "rows": 40,
+          "same_caption_order_target_and_control_filenames": true
+        },
+        {
+          "split": "validation",
+          "rows": 4,
+          "same_caption_order_target_and_control_filenames": true
+        }
+      ],
+      "plan": {
+        "status": "plan_only",
+        "commands": {
+          "cache_latents": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python /tmp/p7511-musubi/src/musubi_tuner/qwen_image_cache_latents.py --dataset_config /home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-a-run1600/dataset.toml --model_version edit-2511 --vae /home/cbsim/ws/AiBook/.tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors --batch_size 1 --num_workers 1",
+          "cache_text": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python /tmp/p7511-musubi/src/musubi_tuner/qwen_image_cache_text_encoder_outputs.py --dataset_config /home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-a-run1600/dataset.toml --model_version edit-2511 --text_encoder /home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors --batch_size 1 --num_workers 1 --device cpu",
+          "train": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python -m accelerate.commands.launch --num_processes 1 --num_machines 1 --mixed_precision bf16 --num_cpu_threads_per_process 1 /tmp/p7511-musubi/src/musubi_tuner/qwen_image_train_network.py --dataset_config /home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-a-run1600/dataset.toml --model_version edit-2511 --dit /home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-dit/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors --vae /home/cbsim/ws/AiBook/.tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors --text_encoder /home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors --sdpa --mixed_precision bf16 --timestep_sampling shift --discrete_flow_shift 2.2 --weighting_scheme none --optimizer_type adamw8bit --learning_rate 0.0001 --gradient_checkpointing --max_data_loader_n_workers 0 --network_module networks.lora_qwen_image --network_dim 16 --network_alpha 16 --max_train_steps 1600 --save_every_n_steps 800 --seed 62294 --blocks_to_swap 55 --output_dir /home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-a-run1600/checkpoints --output_name mira_identity --fp8_base --fp8_scaled"
+        },
+        "note": "No model or GPU loaded; local weights/environment still require preflight."
+      }
+    },
+    "B": {
+      "package": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-b-run1600",
+      "manifest": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/p7-5-11-neutral-ablation-manifest.json",
+      "config": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/p7-5-11-b-run1600-config.json",
+      "prior_package": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400",
+      "same_selected_ids_image_hashes_splits_captions": true,
+      "pair_checks": [
+        {
+          "split": "train",
+          "rows": 40,
+          "same_caption_order_target_and_control_filenames": true
+        },
+        {
+          "split": "validation",
+          "rows": 4,
+          "same_caption_order_target_and_control_filenames": true
+        }
+      ],
+      "plan": {
+        "status": "plan_only",
+        "commands": {
+          "cache_latents": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python /tmp/p7511-musubi/src/musubi_tuner/qwen_image_cache_latents.py --dataset_config /home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-b-run1600/dataset.toml --model_version edit-2511 --vae /home/cbsim/ws/AiBook/.tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors --batch_size 1 --num_workers 1",
+          "cache_text": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python /tmp/p7511-musubi/src/musubi_tuner/qwen_image_cache_text_encoder_outputs.py --dataset_config /home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-b-run1600/dataset.toml --model_version edit-2511 --text_encoder /home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors --batch_size 1 --num_workers 1 --device cpu",
+          "train": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python -m accelerate.commands.launch --num_processes 1 --num_machines 1 --mixed_precision bf16 --num_cpu_threads_per_process 1 /tmp/p7511-musubi/src/musubi_tuner/qwen_image_train_network.py --dataset_config /home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-b-run1600/dataset.toml --model_version edit-2511 --dit /home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-dit/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors --vae /home/cbsim/ws/AiBook/.tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors --text_encoder /home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors --sdpa --mixed_precision bf16 --timestep_sampling shift --discrete_flow_shift 2.2 --weighting_scheme none --optimizer_type adamw8bit --learning_rate 0.0001 --gradient_checkpointing --max_data_loader_n_workers 0 --network_module networks.lora_qwen_image --network_dim 16 --network_alpha 16 --max_train_steps 1600 --save_every_n_steps 800 --seed 62294 --blocks_to_swap 55 --output_dir /home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-b-run1600/checkpoints --output_name mira_identity --fp8_base --fp8_scaled"
+        },
+        "note": "No model or GPU loaded; local weights/environment still require preflight."
+      }
+    }
+  }
+}

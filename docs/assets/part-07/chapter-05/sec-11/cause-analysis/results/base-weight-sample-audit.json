@@ -1,0 +1,74 @@
+[
+  {
+    "key": "transformer_blocks.0.attn.to_q.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.0.attn.to_k.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.0.attn.to_v.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.0.attn.to_out.0.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.30.attn.to_q.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.30.attn.to_k.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.30.attn.to_v.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.30.attn.to_out.0.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.59.attn.to_q.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.59.attn.to_k.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.59.attn.to_v.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  },
+  {
+    "key": "transformer_blocks.59.attn.to_out.0.weight",
+    "equal": true,
+    "train_dtype": "torch.bfloat16",
+    "eval_dtype": "torch.bfloat16"
+  }
+]

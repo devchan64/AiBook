@@ -16,10 +16,10 @@
 ```bash
 ./.venv/bin/python tool/model_weight_manager.py list
 ./.venv/bin/python tool/model_weight_manager.py fetch \
-  --ref weight:dx8152-qwen-edit-2509-multiple-angles \
+  --ref weight:unsloth-qwen-image-q3-ks-gguf \
   --dry-run
 ./.venv/bin/python tool/model_weight_manager.py relocate \
-  --ref weight:dx8152-qwen-edit-2509-multiple-angles \
+  --ref weight:unsloth-qwen-image-q3-ks-gguf \
   --dry-run
 ./.venv/bin/python tool/model_weight_manager.py relocate-directory \
   --ref model:depth-anything-v2-small-hf \
@@ -36,7 +36,7 @@
 
 기존 Hugging Face cache를 옮길 때는 `relocate`를 사용한다. 이 명령은 구성요소의 원본 저장소에서 Hugging Face cache 디렉터리를 찾고, 이동 전후의 일반 파일마다 SHA-256·크기를 비교한 뒤 `.tmp/download/huggingface/hub/`에 이전 기록을 남긴다. 한 모델만 처리하며, 대상 디렉터리가 이미 있으면 덮어쓰지 않는다.
 
-Hugging Face hub 형식이 아닌 직접 내려받은 모델 폴더는 `relocate-directory`를 사용한다. 이 명령도 이동 전후의 일반 파일 SHA-256·크기를 비교하지만, 대상은 구성요소 `bom-ref`에서 만든 `.tmp/download/<component>/` 경로다. 기존 모델 폴더를 삭제하지 않고 검증된 이동으로만 정리한다.
+Hugging Face hub 형식이 아닌 직접 내려받은 모델 폴더는 `relocate-directory`를 사용한다. 이 명령도 이동 전후의 일반 파일 SHA-256·크기를 비교하지만, 대상은 구성요소 `bom-ref`에서 만든 `.tmp/download/artifacts/<component>/` 경로다. 기존 모델 폴더를 삭제하지 않고 검증된 이동으로만 정리한다.
 
 `verify-migrations`는 과거 `relocate`·`relocate-directory`가 남긴 파일별 매니페스트를 다시 계산해 현재 이동 모델의 SHA-256·크기를 검증한다. 직접 다운로드 파일은 기존 `verify`를 사용한다.
 

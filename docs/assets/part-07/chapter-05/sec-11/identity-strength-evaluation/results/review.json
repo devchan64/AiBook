@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-13",
+  "status": "reviewed_identity_failed_in_tested_conditions",
+  "checkpoint_sha256": "d76b96198d210ef27a9d97955315e4dfec8f688044d9a832520281a10698d0f3",
+  "loaded_tensors_exactly_matched": 1680,
+  "adapter_modules_state_checked_per_scale": 840,
+  "scales": [
+    0,
+    1,
+    2,
+    4
+  ],
+  "runtime_probes": "Passed; nonzero LoRA branch outputs at blocks 0, 30, 59 for nonzero scales, no branch calls when disabled.",
+  "first_prediction_relative_l2_vs_disabled": {
+    "0": 0.0,
+    "1": 0.05161873623728752,
+    "2": 0.09115266799926758,
+    "4": 0.14543090760707855
+  },
+  "visual_result": "Portrait identity failed at scales 1, 2 and 4; increasing strength changed appearance and style without reproducing Mira.",
+  "scope": "One portrait prompt and seed 62401. Scale 1 complete image comes from prior matched evaluation; scales 0 and 1 in this run are first-step runtime probes only. Prediction difference is not an identity score.",
+  "next_controlled_comparison": "Keep the reviewed 40 targets, control pairs, captions, seed, rank and learning rate fixed; compare training duration. This run did not retrain or establish a causal role for face controls."
+}

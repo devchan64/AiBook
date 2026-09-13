@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-13",
+  "reviewer": "AI visual inspection",
+  "status": "partial_target_features_observed_not_identity_validation",
+  "observations": {
+    "100": "청록색 머리와 옅은 피부색이 재현된다. 학습 목표와 앞머리·눈 모양·홍채색에 차이가 남는다.",
+    "200": "청록색 단발·주황색 홍채·얼굴 형태가 학습 목표에 더 가까워졌다. 완전한 픽셀 복제나 새 장면 일반화로 판정하지 않는다."
+  },
+  "conditions": "One target image; neutral canvas for both training control paths and evaluation; same training/evaluation caption; scale 1; seed 62401",
+  "inference": "학습에 사용한 한 장에서 일부 목표 특징이 나타났다. 동일 인물 재현 성공이나 새 장면 일반화의 근거로 사용하지 않는다.",
+  "causal_limit": "Target count, target exposures, caption and control content differ from the 40-image experiment; this does not isolate the effect of face controls.",
+  "target_exposures": "배치 1·100스텝: 목표 1장은 100회, 목표 40장은 장당 평균 약 2.5회. 이 차이를 먼저 설명하며 캡션·참조도 달라 단일 변수 효과로 해석하지 않는다."
+}

@@ -1,0 +1,18 @@
+{
+  "case": {
+    "id": "garden",
+    "prompt": "Create an illustration of mira_person in a garden, wearing a pale pink cardigan, smiling with closed lips, three-quarter upper-body view.",
+    "seed": 62403,
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png",
+      "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+      "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+    }
+  },
+  "scale": 1,
+  "checkpoint_sha256": "717248e50920305230a47455c3ff6b2a8456867b861b6839b079d464844b179a",
+  "plan_sha256": "c696259e85562137ff4e815f1877c41668164d0ebd72f2c68e013f99fc58be66",
+  "output_sha256": "f8372db2b06e3cb555c7d80d6b89348f918173ca9a25f46ecbc1b91658215763",
+  "elapsed_seconds": 274.59,
+  "status": "pending_visual_review"
+}
