@@ -1,0 +1,135 @@
+{
+  "status": "trained_not_evaluated",
+  "trainer_commit": "e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1",
+  "wrapper_sha256": "5160a1498c559b414e01163d1561e64e32a700e96efbe7bb697182303bce53c9",
+  "package_sha256": "ed292f663313c1f32909659a512bd30c4bc115726399dd2ad59f1d1f7d4b3217",
+  "steps": [
+    {
+      "stage": "cache_latents",
+      "command": [
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python",
+        "/tmp/p7511-musubi/src/musubi_tuner/qwen_image_cache_latents.py",
+        "--dataset_config",
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/dataset.toml",
+        "--model_version",
+        "edit-2511",
+        "--vae",
+        "/home/cbsim/ws/AiBook/.tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors",
+        "--batch_size",
+        "1",
+        "--num_workers",
+        "1"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 17.73
+    },
+    {
+      "stage": "cache_text",
+      "command": [
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python",
+        "/tmp/p7511-musubi/src/musubi_tuner/qwen_image_cache_text_encoder_outputs.py",
+        "--dataset_config",
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/dataset.toml",
+        "--model_version",
+        "edit-2511",
+        "--text_encoder",
+        "/home/cbsim/ws/AiBook/.tmp/download/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors",
+        "--batch_size",
+        "1",
+        "--num_workers",
+        "1",
+        "--device",
+        "cpu"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 416.94
+    },
+    {
+      "stage": "train",
+      "command": [
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/musubi-venv/bin/python",
+        "-m",
+        "accelerate.commands.launch",
+        "--num_processes",
+        "1",
+        "--num_machines",
+        "1",
+        "--mixed_precision",
+        "bf16",
+        "--num_cpu_threads_per_process",
+        "1",
+        "/tmp/p7511-musubi/src/musubi_tuner/qwen_image_train_network.py",
+        "--dataset_config",
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/dataset.toml",
+        "--model_version",
+        "edit-2511",
+        "--dit",
+        "/home/cbsim/ws/AiBook/.tmp/download/weight-mira-qwen-2511-dit/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors",
+        "--vae",
+        "/home/cbsim/ws/AiBook/.tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors",
+        "--text_encoder",
+        "/home/cbsim/ws/AiBook/.tmp/download/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors",
+        "--sdpa",
+        "--mixed_precision",
+        "bf16",
+        "--timestep_sampling",
+        "shift",
+        "--discrete_flow_shift",
+        "2.2",
+        "--weighting_scheme",
+        "none",
+        "--optimizer_type",
+        "adamw8bit",
+        "--learning_rate",
+        "0.0001",
+        "--gradient_checkpointing",
+        "--max_data_loader_n_workers",
+        "0",
+        "--network_module",
+        "networks.lora_qwen_image",
+        "--network_dim",
+        "16",
+        "--network_alpha",
+        "16",
+        "--max_train_steps",
+        "400",
+        "--save_every_n_steps",
+        "100",
+        "--seed",
+        "62294",
+        "--blocks_to_swap",
+        "55",
+        "--output_dir",
+        "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints",
+        "--output_name",
+        "mira_identity",
+        "--fp8_base",
+        "--fp8_scaled"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 3578.43
+    }
+  ],
+  "checkpoints": [
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity-step00000100.safetensors",
+      "sha256": "4ee9ea33092e1e3c76fe6b5f4d271bff06d7c226062cc2040e19b076e396c902"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity-step00000200.safetensors",
+      "sha256": "1411fcddc5d5c7758360a613f42e8bdf88329087b223019d42986b391b8241ec"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity-step00000300.safetensors",
+      "sha256": "beb76b2941e4eecf50bb46539548017bc00236d9cc526b5f86e8c8f2865350aa"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity-step00000400.safetensors",
+      "sha256": "1948189bfcbe26ff2800269f578cd9cabc69e83524add3380f240395f0246700"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/lora-neutral-ablation-run400/checkpoints/mira_identity.safetensors",
+      "sha256": "c7332f37cfc04c4b47e937ad6a12e3ff82cd0bff1a71655c0b9f83c12aa66b62"
+    }
+  ]
+}

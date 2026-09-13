@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "trigger": "mira_person",
+  "purpose": "single_image_memorization",
+  "neutral_control": {
+    "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png",
+    "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+    "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+  },
+  "items": [
+    {
+      "id": "p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280",
+      "source_section": "P7-5.2",
+      "image": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+      "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
+      "record": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280-result.json",
+      "record_sha256": "798b42c5d7c37d6d1e1a3d56e949f7713c6fe172e73ce04b013e3d8f077c67cb",
+      "label": "Qwen 정면 얼굴 기준",
+      "group": "reference_front",
+      "split": "train",
+      "caption": "Create an illustrated head-and-shoulders portrait of mira_person facing forward, with a relaxed expression and a plain light background.",
+      "review_note": "기준 얼굴. 주황빛 홍채, 가는 눈썹, 작은 코끝, 완만하게 좁아지는 턱, 비대칭 가르마와 바깥으로 말린 단발 끝을 확인했다. 입은 조금 벌어져 있어 완전한 다문 입으로 캡션하지 않는다. 2026-09-13: 재검수된 방향 우선 후보를 첫 학습에 채택.; Single-image memorization diagnostic, not a generalization benchmark.",
+      "previous_split": "train",
+      "identity_suitability": "visual_candidate",
+      "previous_review_note": "정면 얼굴·홍채·가르마·단발 끝 형태를 비교하는 기준 컷.",
+      "candidate_role": "priority_view",
+      "identity_review": {
+        "date": "2026-09-12",
+        "scope": "original image visual review; no measured identity score or trainer preprocessing validation",
+        "preprocessing": "original head reference",
+        "split_status": "pending overall dataset design; candidate role is not train/validation assignment"
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import tomllib
 import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
-SPEC = importlib.util.spec_from_file_location('mira_lora', ROOT / 'docs/assets/part-07/chapter-05/p7_5_11_mira_lora.py')
+SPEC = importlib.util.spec_from_file_location('mira_lora', ROOT / 'docs/assets/part-07/chapter-05/sec-11/p7_5_11_mira_lora.py')
 M = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(M)
 
@@ -53,6 +53,46 @@ class PackagingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Group leakage'):
             self.package()
         self.assertFalse((self.root / 'package').exists())
+
+    def test_single_image_diagnostic_uses_neutral_control(self):
+        self.manifest['items'] = self.manifest['items'][:1]
+        with self.assertRaisesRegex(ValueError, 'two reviewed'):
+            self.package()
+        self.manifest['purpose'] = 'single_image_memorization'
+        path = ROOT / 'docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png'
+        self.manifest['neutral_control'] = {'path': str(path), 'sha256': M.sha(path)}
+        package = self.package()
+        row = json.loads((package / 'train.jsonl').read_text())
+        self.assertEqual(row['control_path'], str(path))
+        self.assertEqual((package / 'validation.jsonl').read_text(), '')
+        M.check_package(package)
+
+    def test_diagnostic_rejects_face_control(self):
+        self.manifest['items'] = self.manifest['items'][:1]
+        self.manifest['purpose'] = 'single_image_memorization'
+        item = self.manifest['items'][0]
+        self.manifest['neutral_control'] = {'path': item['image'], 'sha256': item['sha256']}
+        with self.assertRaisesRegex(ValueError, 'uniform RGB'):
+            self.package()
+
+    def test_ablation_preserves_targets_captions_and_validation(self):
+        self.manifest['purpose'] = 'neutral_control_ablation'
+        path = ROOT / 'docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png'
+        self.manifest['neutral_control'] = {'path': str(path), 'sha256': M.sha(path)}
+        package = self.package()
+        for split in ('train', 'validation'):
+            rows = [json.loads(x) for x in (package / f'{split}.jsonl').read_text().splitlines()]
+            items = sorted((x for x in self.manifest['items'] if x['split'] == split), key=lambda x: x['id'])
+            self.assertEqual([(r['image_path'], r['caption']) for r in rows],
+                             [(str(M.local(x['image'])), x['caption']) for x in items])
+            self.assertTrue(all(r['control_path'] == str(path) for r in rows))
+        M.check_package(package)
+
+    def test_ablation_still_requires_heldout(self):
+        self.manifest['purpose'] = 'neutral_control_ablation'
+        self.manifest['items'] = self.manifest['items'][:2]
+        with self.assertRaisesRegex(ValueError, 'held-out'):
+            self.package()
 
     def test_pending_does_not_become_training_data(self):
         for row in self.manifest['items']:

@@ -1,0 +1,18 @@
+{
+  "case": {
+    "id": "portrait",
+    "prompt": "Create an illustrated head-and-shoulders portrait of mira_person facing forward, with a relaxed expression and a plain light background.",
+    "seed": 62401,
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+      "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+      "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+    }
+  },
+  "scale": 1,
+  "checkpoint_sha256": "9006771595d67161209b4476a93964c5b75207f414567cfa4cf88c8a45d4a2fc",
+  "plan_sha256": "b8b26070545d1dbdd3197f7fa6d123b70be2775231763c957a82314a5cf354d4",
+  "output_sha256": "3a161e876843e19a45b17ffae022b11c7ffcc0dd62b2f1091f528240cea90b77",
+  "elapsed_seconds": 274.03,
+  "status": "pending_visual_review"
+}

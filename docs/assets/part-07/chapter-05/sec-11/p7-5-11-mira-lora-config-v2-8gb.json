@@ -1,0 +1,39 @@
+{
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "trainer_commit": "e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1",
+  "training": {
+    "resolution": 512,
+    "control_resolution": 512,
+    "rank": 16,
+    "alpha": 16,
+    "learning_rate": 0.0001,
+    "steps": 100,
+    "save_every": 100,
+    "seed": 62294,
+    "blocks_to_swap": 55,
+    "fp8_base": true,
+    "fp8_scaled": true,
+    "fp8_vl": false,
+    "text_encoder_device": "cpu"
+  },
+  "weights": {
+    "dit": {
+      "path": ".tmp/download/weight-mira-qwen-2511-dit/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors",
+      "sha256": "ae42d927b5fac4f278b9a894554c727e619727a63622976f2d95625be4bce08c",
+      "repo_id": "Comfy-Org/Qwen-Image-Edit_ComfyUI",
+      "revision": "7d41107b653d3039be20972fb82398b01b3213eb"
+    },
+    "vae": {
+      "path": ".tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors",
+      "sha256": "a70580f0213e67967ee9c95f05bb400e8fb08307e017a924bf3441223e023d1f",
+      "repo_id": "Comfy-Org/Qwen-Image_ComfyUI",
+      "revision": "7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f"
+    },
+    "text_encoder": {
+      "path": ".tmp/download/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors",
+      "sha256": "cfafd739459bc86257397259f612a9aee88e5b98e85b5c0d0d1717e898b3463a",
+      "repo_id": "Comfy-Org/Qwen-Image_ComfyUI",
+      "revision": "7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f"
+    }
+  }
+}

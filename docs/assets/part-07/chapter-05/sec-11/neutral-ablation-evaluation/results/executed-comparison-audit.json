@@ -1,0 +1,32 @@
+{
+  "training_configs_equal": true,
+  "training_command_equal_except_run_paths": true,
+  "ordered_train_targets_and_captions_equal": true,
+  "training_count": 40,
+  "validation_count": 4,
+  "A_control_unique_count": 40,
+  "B_control_unique_count": 1,
+  "run_results": {
+    "A": {
+      "status": "trained_not_evaluated",
+      "stage_exit_codes": [
+        0,
+        0,
+        0
+      ]
+    },
+    "B": {
+      "status": "trained_not_evaluated",
+      "stage_exit_codes": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "package_sha256": {
+    "A": "706cd61a6e2d1b35219e633c554bc0886228cbd4810af5b816aa65f6904a8f63",
+    "B": "ed292f663313c1f32909659a512bd30c4bc115726399dd2ad59f1d1f7d4b3217"
+  },
+  "scope": "Read-back audit of executed packages; no quality score implied."
+}
