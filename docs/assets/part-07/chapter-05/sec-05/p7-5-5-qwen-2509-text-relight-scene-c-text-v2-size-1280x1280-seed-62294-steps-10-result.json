@@ -32,7 +32,7 @@
   "negative_prompt": " ",
   "lora": {
     "repository": "dx8152/Qwen-Image-Edit-2509-Relight",
-    "path": "/home/cbsim/ws/AiBook/.tmp/download/weight-dx8152-qwen-image-edit-2509-relight/Qwen-Edit-Relight.safetensors",
+    "path": "/home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-dx8152-qwen-image-edit-2509-relight/Qwen-Edit-Relight.safetensors",
     "sha256": "2a11c2b74ce0965abf35a8c8db52305072e970a689ca904b5a5b5a94d0aab86c",
     "adapter": "dx8152_relight",
     "trigger": "重新照明",

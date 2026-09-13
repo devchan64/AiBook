@@ -73,7 +73,7 @@ def crop_paths(view: str) -> tuple[Path, Path]:
     return ASSETS / 'sec-05' / f'{stem}.png', ASSETS / 'sec-05' / f'{stem}-result.json'
 
 LORA_FILE = 'bfs_head_v5_2511_original.safetensors'
-LORA_PATH = ASSETS.parents[3] / '.tmp/download/weight-mr2along-bfs-head-v5-2511' / LORA_FILE
+LORA_PATH = ASSETS.parents[3] / '.tmp/download/artifacts/weight-mr2along-bfs-head-v5-2511' / LORA_FILE
 LORA_SHA256 = '5055ec271228d4767fd327efa59dbdea6f2a628d6d890101eb4fd5015cb1ac57'
 PROMPT = (
     "head_swap: start with Picture 1 as the base image, keeping its lighting, "

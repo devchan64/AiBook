@@ -24,7 +24,7 @@ from urllib.request import Request, urlopen
 ASSETS = Path(__file__).resolve().parent
 ROOT = ASSETS.parents[3]
 COMFY = ROOT / ".tmp" / "ComfyUI"
-WEIGHT = ROOT / ".tmp" / "download" / "weight-unsloth-qwen-image-q4-ks-gguf" / "qwen-image-Q4_K_S.gguf"
+WEIGHT = ROOT / ".tmp" / "download" / "artifacts/weight-unsloth-qwen-image-q4-ks-gguf" / "qwen-image-Q4_K_S.gguf"
 COMFY_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub" / "models--Comfy-Org--Qwen-Image_ComfyUI" / "snapshots"
 TEXT_ENCODER_NAME = "qwen_2.5_vl_7b_fp8_scaled.safetensors"
 VAE_NAME = "qwen_image_vae.safetensors"

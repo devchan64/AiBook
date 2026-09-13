@@ -29,7 +29,7 @@ ANGLE_LORA_ID = "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"
 ANGLE_LORA_FILENAME = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
 LIGHTNING_ID = "lightx2v/Qwen-Image-Edit-2511-Lightning"
 LIGHTNING_FILENAME = "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors"
-LIGHTNING_DIR = PROJECT_ROOT / ".tmp" / "download" / "weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
+LIGHTNING_DIR = PROJECT_ROOT / ".tmp" / "download" / "artifacts/weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
 DEFAULT_REFERENCE = ASSETS / (
     'sec-03/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png'
 )

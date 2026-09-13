@@ -123,9 +123,9 @@ def distribution_url(component: dict[str, Any]) -> str | None:
 
 def safe_component_directory(ref: str) -> Path:
     slug = re.sub(r"[^0-9A-Za-z._-]+", "-", ref).strip(".-")
-    directory = (DOWNLOAD_ROOT / slug).resolve()
+    directory = (DOWNLOAD_ROOT / "artifacts" / slug).resolve()
     try:
-        directory.relative_to(DOWNLOAD_ROOT.resolve())
+        directory.relative_to((DOWNLOAD_ROOT / "artifacts").resolve())
     except ValueError as error:
         raise SystemExit(f"Unsafe component ref: {ref}") from error
     return directory

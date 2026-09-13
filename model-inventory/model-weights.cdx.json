@@ -303,7 +303,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified: .tmp/download/weight-unsloth-qwen-image-q3-ks-gguf (sha256 recorded)"
+          "value": "verified: .tmp/download/artifacts/weight-unsloth-qwen-image-q3-ks-gguf (sha256 recorded)"
         },
         {
           "name": "aibook:license-review",
@@ -342,7 +342,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified: .tmp/download/weight-unsloth-qwen-image-q4-ks-gguf (sha256 recorded)"
+          "value": "verified: .tmp/download/artifacts/weight-unsloth-qwen-image-q4-ks-gguf (sha256 recorded)"
         },
         {
           "name": "aibook:license-review",
@@ -471,7 +471,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified: .tmp/download/model-qwen-image-edit-2509/transformer (five official shards; SHA-256 recorded)"
+          "value": "verified: .tmp/download/artifacts/model-qwen-image-edit-2509/transformer (five official shards; SHA-256 recorded)"
         },
         {
           "name": "aibook:license-review",
@@ -514,7 +514,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified: .tmp/download/weight-dx8152-qwen-image-edit-2509-relight (sha256 recorded)"
+          "value": "verified: .tmp/download/artifacts/weight-dx8152-qwen-image-edit-2509-relight (sha256 recorded)"
         },
         {
           "name": "aibook:sha256",
@@ -561,7 +561,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified: .tmp/download/weight-kun1009-qwen-image-edit-2511-relight (sha256 recorded)"
+          "value": "verified: .tmp/download/artifacts/weight-kun1009-qwen-image-edit-2511-relight (sha256 recorded)"
         },
         {
           "name": "aibook:sha256",
@@ -608,7 +608,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified: .tmp/download/weight-prithivmlmods-qie-2511-studio-delight (sha256 recorded)"
+          "value": "verified: .tmp/download/artifacts/weight-prithivmlmods-qie-2511-studio-delight (sha256 recorded)"
         },
         {
           "name": "aibook:sha256",
@@ -651,7 +651,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified: .tmp/download/weight-xabsurd-clothing-extractor (sha256 recorded)"
+          "value": "verified: .tmp/download/artifacts/weight-xabsurd-clothing-extractor (sha256 recorded)"
         },
         {
           "name": "aibook:license-review",
@@ -803,7 +803,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified: .tmp/download/weight-foxbaze-try-on-qwen-edit-alpha"
+          "value": "verified: .tmp/download/artifacts/weight-foxbaze-try-on-qwen-edit-alpha"
         },
         {
           "name": "aibook:license-review",
@@ -1057,7 +1057,7 @@
         },
         {
           "name": "aibook:cache-status",
-          "value": "verified-adopted: .tmp/download/weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
+          "value": "verified-adopted: .tmp/download/artifacts/weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
         },
         {
           "name": "aibook:license-review",

@@ -63,7 +63,7 @@ SOURCES = {
     'c-supporting': ASSETS / 'sec-05/p7-5-5-qwen-2511-identity-c-supporting-stage2-book-v1-size-1280x1280-seed-62294-steps-20.png',
 }
 PROMPT = 'Neutral uniform lighting Preserve identity and composition'
-LORA = ASSETS.parents[3] / '.tmp/download/weight-prithivmlmods-qie-2511-studio-delight/QIE-2511-Studio-DeLight-5000.safetensors'
+LORA = ASSETS.parents[3] / '.tmp/download/artifacts/weight-prithivmlmods-qie-2511-studio-delight/QIE-2511-Studio-DeLight-5000.safetensors'
 
 
 def main() -> None:

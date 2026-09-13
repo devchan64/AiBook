@@ -61,9 +61,9 @@ def square_canvas(path: Path, size: int) -> Image.Image:
     return canvas.convert("RGB")
 
 MODEL_ID = 'Qwen/Qwen-Image-Edit-2509'
-TRANSFORMER_DIR = ASSETS.parents[3] / '.tmp/download/model-qwen-image-edit-2509/transformer'
+TRANSFORMER_DIR = ASSETS.parents[3] / '.tmp/download/artifacts/model-qwen-image-edit-2509/transformer'
 LORA_ID = 'dx8152/Qwen-Image-Edit-2509-Relight'
-LORA = ASSETS.parents[3] / '.tmp/download/weight-dx8152-qwen-image-edit-2509-relight/Qwen-Edit-Relight.safetensors'
+LORA = ASSETS.parents[3] / '.tmp/download/artifacts/weight-dx8152-qwen-image-edit-2509-relight/Qwen-Edit-Relight.safetensors'
 LORA_SHA256 = '2a11c2b74ce0965abf35a8c8db52305072e970a689ca904b5a5b5a94d0aab86c'
 
 SOURCES = {

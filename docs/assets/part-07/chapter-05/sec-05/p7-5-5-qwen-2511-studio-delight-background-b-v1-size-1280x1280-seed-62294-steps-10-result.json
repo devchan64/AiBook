@@ -25,7 +25,7 @@
   "negative_prompt": " ",
   "lora": {
     "repository": "prithivMLmods/QIE-2511-Studio-DeLight",
-    "path": "/home/cbsim/ws/AiBook/.tmp/download/weight-prithivmlmods-qie-2511-studio-delight/QIE-2511-Studio-DeLight-5000.safetensors",
+    "path": "/home/cbsim/ws/AiBook/.tmp/download/artifacts/weight-prithivmlmods-qie-2511-studio-delight/QIE-2511-Studio-DeLight-5000.safetensors",
     "sha256": "6e8004bba1df89ac49a1129ccb73b6321782098926831a2bde7d3f95e6245c7d",
     "scale": 1.0
   },

@@ -34,7 +34,7 @@ LORA_ID = "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"
 LORA_FILENAME = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
 LIGHTNING_ID = "lightx2v/Qwen-Image-Edit-2511-Lightning"
 LIGHTNING_FILENAME = "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors"
-LIGHTNING_DIR = ROOT / ".tmp" / "download" / "weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
+LIGHTNING_DIR = ROOT / ".tmp" / "download" / "artifacts/weight-lightx2v-qwen-image-edit-2511-lightning-4steps"
 DEFAULT_TORSO = ASSETS / (
     "sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-"
     "size-1280x1280-seed-62294-steps-30.png"

@@ -63,7 +63,7 @@ SOURCES = {
 }
 
 PROMPT = 'Neutral uniform lighting Preserve identity and composition'
-LORA = ASSETS.parents[3] / '.tmp/download/weight-prithivmlmods-qie-2511-studio-delight/QIE-2511-Studio-DeLight-5000.safetensors'
+LORA = ASSETS.parents[3] / '.tmp/download/artifacts/weight-prithivmlmods-qie-2511-studio-delight/QIE-2511-Studio-DeLight-5000.safetensors'
 
 
 def main() -> None:
