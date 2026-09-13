@@ -22,12 +22,12 @@ OUTPUT_DIR = Path(__file__).resolve().parent
 
 def detector_class():
     root = Path(sysconfig.get_paths()["purelib"]) / "controlnet_aux"
-    parent = types.ModuleType("p7_5_8_openpose_assets_aux")
+    parent = types.ModuleType("p7_5_16_openpose_assets_aux")
     parent.__path__ = [str(root)]
     sys.modules[parent.__name__] = parent
     directory = root / "open_pose"
     spec = importlib.util.spec_from_file_location(
-        "p7_5_8_openpose_assets_aux.open_pose",
+        "p7_5_16_openpose_assets_aux.open_pose",
         directory / "__init__.py",
         submodule_search_locations=[str(directory)],
     )
@@ -43,7 +43,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--reference-image", type=Path, required=True)
     parser.add_argument("--output", type=Path,
-                        default=OUTPUT_DIR / "p7-5-8-openpose-body-reference.png")
+                        default=OUTPUT_DIR / "p7-5-16-openpose-body-reference.png")
     args = parser.parse_args()
     source = args.reference_image.resolve()
     if not source.is_file():
