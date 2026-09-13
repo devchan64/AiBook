@@ -35,7 +35,7 @@ A에서는 전경 신발의 밑창이 크게 강조됐다. 앞부분과 뒤꿈�
 
 ## 구도를 이어 쓰며 Mira의 외형을 비교한다
 
-구도판을 Picture 1, [P7-5.3의 3단계 재킷 착장 참조](../../../assets/part-07/chapter-05/p7-5-3/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 Picture 2로 넣어 `Qwen-Image-Edit-2511`로 편집한다. Picture 1은 포즈·카메라·배경을, Picture 2는 Mira의 얼굴·헤어·착장·선화·색을 맡긴다. 이 역할은 프롬프트로 요청하는 조건이며, 이미지 일부를 잠그는 기능은 아니다.
+구도판을 Picture 1, [P7-5.3의 3단계 재킷 착장 참조](../../../assets/part-07/chapter-05/sec-03/p7-5-3-qwen-edit-prompt-style-outfit_stage3_jacket_face-three-stage-v1-seed-62294-steps-10.png)를 Picture 2로 넣어 `Qwen-Image-Edit-2511`로 편집한다. Picture 1은 포즈·카메라·배경을, Picture 2는 Mira의 얼굴·헤어·착장·선화·색을 맡긴다. 이 역할은 프롬프트로 요청하는 조건이며, 이미지 일부를 잠그는 기능은 아니다.
 
 A의 달리는 여성, B의 도약하는 여성, C의 왼쪽 독자를 Mira로 바꾼다. C의 오른쪽 독자는 별도 참조 없이 기존 인물과 배경 관계를 유지하도록 요청한다. 아래 `mira-audit-20260909-v1`은 각 장면의 새 라인아트와 같은 착장 참조를 사용한 결과다.
 

@@ -19,7 +19,7 @@ from PIL import Image, ImageOps
 
 
 ROOT = Path(__file__).resolve().parents[4]
-SOURCE = ROOT / "docs/assets/part-07/chapter-05/p7-5-3/p7-5-3-scene-a-approved-storyboard-depth.png"
+SOURCE = ROOT / "docs/assets/part-07/chapter-05/sec-03/p7-5-3-scene-a-approved-storyboard-depth.png"
 OUTPUT = ROOT / "docs/assets/part-07/chapter-05/p7-5-11-scene-a-simplified-structure-guide.png"
 
 
