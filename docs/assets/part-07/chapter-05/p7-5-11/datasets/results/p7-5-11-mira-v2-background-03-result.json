@@ -1,0 +1,55 @@
+{
+  "status": "generated_pending_review",
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "fingerprint": {
+    "spec_sha256": "0c8b79673627722d2d6c1ce6991d2818eed81dc740ccf509f0429387e8bf6d7c",
+    "code_sha256": "131bb400343fcc2a1b81bd77d02cec7b76e8aef7756e04bb18eac258ed1902c9",
+    "helper_sha256": "1c5ef7452a488f49ee86a16565b4ba47e670275b04cfd79d354deaf2d363648d"
+  },
+  "design": {
+    "id": "background-03",
+    "order": 11,
+    "category": "background",
+    "intended_role": "training_candidate",
+    "condition": "a simple cafe with wooden furniture",
+    "reference": "left",
+    "prompt": "Replace only the background of Picture 1 with a simple cafe with wooden furniture. Keep the woman unchanged.",
+    "seed": 62310,
+    "review_status": "pending_generation",
+    "review_checks": [
+      "facial identity beyond hair color",
+      "parting, bob length and curled ends",
+      "requested variable and framing",
+      "eyes, mouth and anatomy artifacts"
+    ]
+  },
+  "input": {
+    "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+    "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
+  },
+  "settings": {
+    "size": 1024,
+    "steps": 20,
+    "true_cfg_scale": 4.0,
+    "extra_lora": null
+  },
+  "reference_preprocessing": "RGB Lanczos square resize to target size",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "elapsed_seconds": 343.96,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/supplements-v2/background-03.png",
+    "sha256": "34ac6ccaf3d6b037aa630f186636527668e18c3ba98515e497a049c042a6da8c"
+  }
+}

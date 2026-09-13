@@ -1,0 +1,713 @@
+{
+  "schema_version": 1,
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "purpose": "Mira identity supplementation; generated outputs require review before training",
+  "settings": {
+    "size": 1024,
+    "steps": 20,
+    "true_cfg_scale": 4.0,
+    "extra_lora": null
+  },
+  "references": {
+    "front": {
+      "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+      "sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd"
+    },
+    "right": {
+      "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
+    },
+    "left": {
+      "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+      "sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf"
+    }
+  },
+  "independent_from_fixed_references": true,
+  "counts": {
+    "training_candidate": 32,
+    "evaluation_only": 8
+  },
+  "split_policy": "Evaluation outputs and their derivatives must not enter training. Shared synthetic ancestry means this is not independent real-world validation.",
+  "items": [
+    {
+      "id": "outfit-01",
+      "order": 1,
+      "category": "outfit",
+      "intended_role": "training_candidate",
+      "condition": "a navy crew-neck sweater",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Change only her clothing to a navy crew-neck sweater. Keep her relaxed expression, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62300,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "outfit-02",
+      "order": 2,
+      "category": "outfit",
+      "intended_role": "training_candidate",
+      "condition": "a white collared shirt",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Change only her clothing to a white collared shirt. Keep her relaxed expression, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62301,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "outfit-03",
+      "order": 3,
+      "category": "outfit",
+      "intended_role": "training_candidate",
+      "condition": "a burgundy cardigan over a plain shirt",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Change only her clothing to a burgundy cardigan over a plain shirt. Keep her relaxed expression, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62302,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "outfit-04",
+      "order": 4,
+      "category": "outfit",
+      "intended_role": "training_candidate",
+      "condition": "a beige linen jacket",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Change only her clothing to a beige linen jacket. Keep her relaxed expression, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62303,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "outfit-05",
+      "order": 5,
+      "category": "outfit",
+      "intended_role": "training_candidate",
+      "condition": "a dark green turtleneck",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Change only her clothing to a dark green turtleneck. Keep her relaxed expression, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62304,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "outfit-06",
+      "order": 6,
+      "category": "outfit",
+      "intended_role": "training_candidate",
+      "condition": "a blue denim jacket",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Change only her clothing to a blue denim jacket. Keep her relaxed expression, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62305,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "outfit-07",
+      "order": 7,
+      "category": "outfit",
+      "intended_role": "training_candidate",
+      "condition": "a pale lavender blouse",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Change only her clothing to a pale lavender blouse. Keep her relaxed expression, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62306,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "outfit-08",
+      "order": 8,
+      "category": "outfit",
+      "intended_role": "training_candidate",
+      "condition": "a charcoal hooded sweatshirt",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Change only her clothing to a charcoal hooded sweatshirt. Keep her relaxed expression, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62307,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "background-01",
+      "order": 9,
+      "category": "background",
+      "intended_role": "training_candidate",
+      "condition": "a quiet library with bookshelves",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Place her against a quiet library with bookshelves. Keep the gray cropped T-shirt, relaxed expression and soft daylight. No text, watermark, additional people or collage.",
+      "seed": 62308,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "background-02",
+      "order": 10,
+      "category": "background",
+      "intended_role": "training_candidate",
+      "condition": "a sunlit park with green trees",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Place her against a sunlit park with green trees. Keep the gray cropped T-shirt, relaxed expression and soft daylight. No text, watermark, additional people or collage.",
+      "seed": 62309,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "background-03",
+      "order": 11,
+      "category": "background",
+      "intended_role": "training_candidate",
+      "condition": "a simple cafe with wooden furniture",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Place her against a simple cafe with wooden furniture. Keep the gray cropped T-shirt, relaxed expression and soft daylight. No text, watermark, additional people or collage.",
+      "seed": 62310,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "background-04",
+      "order": 12,
+      "category": "background",
+      "intended_role": "training_candidate",
+      "condition": "a modern office with glass partitions",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Place her against a modern office with glass partitions. Keep the gray cropped T-shirt, relaxed expression and soft daylight. No text, watermark, additional people or collage.",
+      "seed": 62311,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "background-05",
+      "order": 13,
+      "category": "background",
+      "intended_role": "training_candidate",
+      "condition": "a residential street in daylight",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Place her against a residential street in daylight. Keep the gray cropped T-shirt, relaxed expression and soft daylight. No text, watermark, additional people or collage.",
+      "seed": 62312,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "background-06",
+      "order": 14,
+      "category": "background",
+      "intended_role": "training_candidate",
+      "condition": "a railway waiting room",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Place her against a railway waiting room. Keep the gray cropped T-shirt, relaxed expression and soft daylight. No text, watermark, additional people or collage.",
+      "seed": 62313,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "background-07",
+      "order": 15,
+      "category": "background",
+      "intended_role": "training_candidate",
+      "condition": "a plain muted blue studio backdrop",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Place her against a plain muted blue studio backdrop. Keep the gray cropped T-shirt, relaxed expression and soft daylight. No text, watermark, additional people or collage.",
+      "seed": 62314,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "background-08",
+      "order": 16,
+      "category": "background",
+      "intended_role": "training_candidate",
+      "condition": "a plain warm brown studio backdrop",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Place her against a plain warm brown studio backdrop. Keep the gray cropped T-shirt, relaxed expression and soft daylight. No text, watermark, additional people or collage.",
+      "seed": 62315,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "lighting-01",
+      "order": 17,
+      "category": "lighting",
+      "intended_role": "training_candidate",
+      "condition": "soft frontal daylight",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Use soft frontal daylight. Keep the gray cropped T-shirt, relaxed expression and plain cream background. Preserve the underlying teal hair color; allow physically plausible illumination changes. No text, watermark, additional people or collage.",
+      "seed": 62316,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "lighting-02",
+      "order": 18,
+      "category": "lighting",
+      "intended_role": "training_candidate",
+      "condition": "soft window light from the viewer left",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Use soft window light from the viewer left. Keep the gray cropped T-shirt, relaxed expression and plain cream background. Preserve the underlying teal hair color; allow physically plausible illumination changes. No text, watermark, additional people or collage.",
+      "seed": 62317,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "lighting-03",
+      "order": 19,
+      "category": "lighting",
+      "intended_role": "training_candidate",
+      "condition": "soft window light from the viewer right",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Use soft window light from the viewer right. Keep the gray cropped T-shirt, relaxed expression and plain cream background. Preserve the underlying teal hair color; allow physically plausible illumination changes. No text, watermark, additional people or collage.",
+      "seed": 62318,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "lighting-04",
+      "order": 20,
+      "category": "lighting",
+      "intended_role": "training_candidate",
+      "condition": "diffuse overcast daylight",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Use diffuse overcast daylight. Keep the gray cropped T-shirt, relaxed expression and plain cream background. Preserve the underlying teal hair color; allow physically plausible illumination changes. No text, watermark, additional people or collage.",
+      "seed": 62319,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "lighting-05",
+      "order": 21,
+      "category": "lighting",
+      "intended_role": "training_candidate",
+      "condition": "warm indoor lamplight with natural skin tones",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Use warm indoor lamplight with natural skin tones. Keep the gray cropped T-shirt, relaxed expression and plain cream background. Preserve the underlying teal hair color; allow physically plausible illumination changes. No text, watermark, additional people or collage.",
+      "seed": 62320,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "lighting-06",
+      "order": 22,
+      "category": "lighting",
+      "intended_role": "training_candidate",
+      "condition": "cool indoor light with natural skin tones",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Use cool indoor light with natural skin tones. Keep the gray cropped T-shirt, relaxed expression and plain cream background. Preserve the underlying teal hair color; allow physically plausible illumination changes. No text, watermark, additional people or collage.",
+      "seed": 62321,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "lighting-07",
+      "order": 23,
+      "category": "lighting",
+      "intended_role": "training_candidate",
+      "condition": "gentle backlighting with the face clearly filled by soft light",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Use gentle backlighting with the face clearly filled by soft light. Keep the gray cropped T-shirt, relaxed expression and plain cream background. Preserve the underlying teal hair color; allow physically plausible illumination changes. No text, watermark, additional people or collage.",
+      "seed": 62322,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "lighting-08",
+      "order": 24,
+      "category": "lighting",
+      "intended_role": "training_candidate",
+      "condition": "soft overhead studio lighting without harsh eye shadows",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Use soft overhead studio lighting without harsh eye shadows. Keep the gray cropped T-shirt, relaxed expression and plain cream background. Preserve the underlying teal hair color; allow physically plausible illumination changes. No text, watermark, additional people or collage.",
+      "seed": 62323,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "expression-01",
+      "order": 25,
+      "category": "expression",
+      "intended_role": "training_candidate",
+      "condition": "a small closed-mouth smile",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show a small closed-mouth smile. Keep the gray cropped T-shirt, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62324,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "expression-02",
+      "order": 26,
+      "category": "expression",
+      "intended_role": "training_candidate",
+      "condition": "slightly parted lips while speaking",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show slightly parted lips while speaking. Keep the gray cropped T-shirt, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62325,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "expression-03",
+      "order": 27,
+      "category": "expression",
+      "intended_role": "training_candidate",
+      "condition": "a broad toothy smile",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show a broad toothy smile. Keep the gray cropped T-shirt, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62326,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "expression-04",
+      "order": 28,
+      "category": "expression",
+      "intended_role": "training_candidate",
+      "condition": "closed eyes and a vertically opened mouth while yawning",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show closed eyes and a vertically opened mouth while yawning. Keep the gray cropped T-shirt, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62327,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "expression-05",
+      "order": 29,
+      "category": "expression",
+      "intended_role": "training_candidate",
+      "condition": "slightly raised inner eyebrows and a concerned expression",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show slightly raised inner eyebrows and a concerned expression. Keep the gray cropped T-shirt, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62328,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "expression-06",
+      "order": 30,
+      "category": "expression",
+      "intended_role": "training_candidate",
+      "condition": "lowered drawn-together eyebrows and closed lips",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show lowered drawn-together eyebrows and closed lips. Keep the gray cropped T-shirt, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62329,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "expression-07",
+      "order": 31,
+      "category": "expression",
+      "intended_role": "training_candidate",
+      "condition": "raised eyebrows and a small round open mouth",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show raised eyebrows and a small round open mouth. Keep the gray cropped T-shirt, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62330,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "expression-08",
+      "order": 32,
+      "category": "expression",
+      "intended_role": "training_candidate",
+      "condition": "a wink with the nearer eye closed and the other eye open",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show a wink with the nearer eye closed and the other eye open. Keep the gray cropped T-shirt, plain cream background and soft lighting. No text, watermark, additional people or collage.",
+      "seed": 62331,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "evaluation-01",
+      "order": 33,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "sitting by a window reading a book in a rust-colored sweater",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her sitting by a window reading a book in a rust-colored sweater. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62332,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "evaluation-02",
+      "order": 34,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "talking outdoors beside a river in a cream jacket",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her talking outdoors beside a river in a cream jacket. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62333,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "evaluation-03",
+      "order": 35,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "sitting in side profile at a kitchen table wearing a striped shirt",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her sitting in side profile at a kitchen table wearing a striped shirt. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62334,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "evaluation-04",
+      "order": 36,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "walking through a covered courtyard wearing a dark blue coat",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her walking through a covered courtyard wearing a dark blue coat. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62335,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "evaluation-05",
+      "order": 37,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "standing in a museum looking over one shoulder in a green blouse",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her standing in a museum looking over one shoulder in a green blouse. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62336,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "evaluation-06",
+      "order": 38,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "holding a cup on a balcony in a pale pink cardigan",
+      "reference": "left",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her holding a cup on a balcony in a pale pink cardigan. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62337,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "evaluation-07",
+      "order": 39,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "writing in a notebook at a desk under a reading lamp in a white shirt",
+      "reference": "front",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, front view. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her writing in a notebook at a desk under a reading lamp in a white shirt. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62338,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    },
+    {
+      "id": "evaluation-08",
+      "order": 40,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "standing near a garden gate in afternoon light wearing a brown jacket",
+      "reference": "right",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, three-quarter view facing the viewer's right. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her standing near a garden gate in afternoon light wearing a brown jacket. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62339,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "evaluation_type": "identity_from_neutral_canvas",
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "cases": [
+    {
+      "id": "portrait",
+      "prompt": "Create an illustrated head-and-shoulders portrait of mira_person facing forward, with a relaxed expression and a plain light background.",
+      "seed": 62401,
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+        "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+        "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+      }
+    },
+    {
+      "id": "cafe",
+      "prompt": "Create an illustration of mira_person sitting at a cafe table, wearing a cream jacket and holding a cup, three-quarter upper-body view.",
+      "seed": 62402,
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+        "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+        "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+      }
+    },
+    {
+      "id": "garden",
+      "prompt": "Create an illustration of mira_person in a garden, wearing a pale pink cardigan, smiling with closed lips, three-quarter upper-body view.",
+      "seed": 62403,
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+        "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+        "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "purpose": "Correct evaluation-03 using matching P7-5.2 left profile; supersedes original evaluation-03 after visual review.",
+  "settings": {
+    "size": 1024,
+    "steps": 20,
+    "true_cfg_scale": 4.0,
+    "extra_lora": null
+  },
+  "references": {
+    "left_profile": {
+      "path": "docs/assets/part-07/chapter-05/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9"
+    }
+  },
+  "independent_from_fixed_references": true,
+  "counts": {
+    "training_candidate": 0,
+    "evaluation_only": 1
+  },
+  "split_policy": "Evaluation outputs and their derivatives must not enter training. Shared synthetic ancestry means this is not independent real-world validation.",
+  "items": [
+    {
+      "id": "evaluation-03",
+      "order": 1,
+      "category": "evaluation",
+      "intended_role": "evaluation_only",
+      "condition": "sitting in side profile at a kitchen table wearing a striped shirt",
+      "reference": "left_profile",
+      "prompt": "Create one upper-body illustration of the same woman in Picture 1, eye-level side profile facing the viewer's left. Preserve her facial identity, eye shape, nose and jaw proportions, amber-orange irises, teal side-parted bob and curled hair ends. Preserve the illustration style. Keep the entire crown, both hair ends and chin visible, with the head large enough to inspect. Show her sitting in side profile at a kitchen table wearing a striped shirt. Keep the face and hair clearly visible. No text, watermark, additional people or collage.",
+      "seed": 62334,
+      "review_status": "pending_generation",
+      "review_checks": [
+        "facial identity beyond hair color",
+        "parting, bob length and curled ends",
+        "requested variable and framing",
+        "eyes, mouth and anatomy artifacts"
+      ],
+      "supersedes": "supplements-v1/evaluation-03"
+    }
+  ]
+}

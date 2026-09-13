@@ -1,0 +1,23 @@
+{
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "trainer_commit": "e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1",
+  "training": {
+    "resolution": 512,
+    "control_resolution": 1024,
+    "rank": 16,
+    "alpha": 16,
+    "learning_rate": 0.0001,
+    "steps": 100,
+    "save_every": 100,
+    "seed": 62294,
+    "blocks_to_swap": 45,
+    "fp8_base": true,
+    "fp8_scaled": true,
+    "fp8_vl": true
+  },
+  "weights": {
+    "dit": {"path": null, "sha256": null, "repo_id": "Qwen/Qwen-Image-Edit-2511", "revision": null},
+    "vae": {"path": null, "sha256": null, "repo_id": "Qwen/Qwen-Image-Edit-2511", "revision": null},
+    "text_encoder": {"path": null, "sha256": null, "repo_id": "Qwen/Qwen-Image-Edit-2511", "revision": null}
+  }
+}
