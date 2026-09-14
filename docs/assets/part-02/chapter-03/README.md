@@ -7,7 +7,7 @@
 - When updating a Mermaid diagram set, revise the English original first. Sync the Korean derivative, and add or refresh a Simplified Chinese derivative only when the diagram itself needs localized labels.
 - SVG assets follow the same language-suffixed basename rule when the visible labels differ by manuscript language.
 - Python examples:
-  - `p2_3_6_numpy_linear_algebra.py`: checks vector, matrix, batch matrix multiplication, and a real shape mismatch error.
+  - `p2_3_6_numpy_linear_algebra.py`: compares dot product, norm, distance and cosine similarity; demonstrates a (3, 2) @ (2, 4) batch, a shape error and its repair. Includes purchase-vector and sample-count experiments.
 - Current language sets:
   - `execution-location-flow-en.mmd` / `execution-location-flow-ko.mmd`
   - `vector-space-near-far-en.svg` / `vector-space-near-far-ko.svg` / `vector-space-near-far-zh.svg`
