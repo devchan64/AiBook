@@ -19,3 +19,9 @@
 - Current language sets:
   - `chain-rule-composition-flow-en.mmd` / `chain-rule-composition-flow-ko.mmd`
   - `learning-adjustment-flow-en.mmd` / `learning-adjustment-flow-ko.mmd`
+
+## P2-4.5 direction and field diagrams
+
+- `p2_4_5_direction_field_diagrams.py` regenerates `partial-vs-directional-derivative-{ko,en,zh}.svg`, `vector-calculus-context-{ko,en,zh}.svg`, and `gradient-descent-update-intuition-{ko,en,zh}.svg`.
+- The three plots use exact coordinates for `F=3x+4y`, `L=x²+2y²`, and `Q=(w−3)²`. Vector-field arrows share a scale factor of 0.1; the one-variable update separates parameter displacement from loss change.
+- PNG review previews and the Matplotlib cache are saved under `.tmp/p2-4-5-diagrams/`.
