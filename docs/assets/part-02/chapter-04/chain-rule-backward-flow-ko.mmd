@@ -1,0 +1,10 @@
+flowchart TD
+  A["입력·현재 파라미터<br/>a=2, w=1, b=1"]
+  B["예측<br/>ŷ=wa+b=3"]
+  C["손실<br/>L=(ŷ−t)²=4, t=5<br/>∂L/∂L=1"]
+  A --> B
+  B --> C
+  C -. "∂L/∂ŷ = −4" .-> B
+  B -. "∂L/∂w = −8<br/>∂L/∂b = −4" .-> A
+  linkStyle 0,1 stroke:#2563eb,stroke-width:2px
+  linkStyle 2,3 stroke:#b91c1c,stroke-width:2px

@@ -25,3 +25,8 @@
 - `p2_4_5_direction_field_diagrams.py` regenerates `partial-vs-directional-derivative-{ko,en,zh}.svg`, `vector-calculus-context-{ko,en,zh}.svg`, and `gradient-descent-update-intuition-{ko,en,zh}.svg`.
 - The three plots use exact coordinates for `F=3x+4y`, `L=x²+2y²`, and `Q=(w−3)²`. Vector-field arrows share a scale factor of 0.1; the one-variable update separates parameter displacement from loss change.
 - PNG review previews and the Matplotlib cache are saved under `.tmp/p2-4-5-diagrams/`.
+
+## P2-4.6 chain rule diagrams
+
+- `chain-rule-composition-flow-{ko,en,zh}.mmd` shows the forward values `x=1 → y=3 → z=9` in three nodes.
+- `chain-rule-backward-flow-{ko,en,zh}.mmd` separates forward values (blue solid arrows) from backward derivatives (red dashed arrows) for `ŷ=wa+b`, `L=(ŷ−t)²`, with `a=2`, `t=5`, `w=b=1`.
