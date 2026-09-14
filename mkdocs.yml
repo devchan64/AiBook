@@ -22,7 +22,6 @@ not_in_nav: |
   parts/part-01/chapter-05/section-03.md
   parts/part-01/chapter-07/section-04.md
   parts/part-02/chapter-04/section-05.md
-  parts/part-02/chapter-04/section-06.md
   parts/part-02/chapter-05/section-03.md
   parts/part-02/chapter-05/section-04.md
   parts/part-02/chapter-05/section-05.md
@@ -192,7 +191,7 @@ nav:
               - "P2-4.3 미분(derivative)과 그래디언트(gradient)": parts/part-02/chapter-04/section-03.md
               - "P2-4.4 학습에서 미분이 필요한 이유": parts/part-02/chapter-04/section-04.md
               - "P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로": parts/part-02/chapter-05/section-01.md
-              - "P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)": parts/part-02/chapter-05/section-02.md
+              - "P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)": parts/part-02/chapter-04/section-06.md
           - "Chapter 5. 확률과 통계는 왜 필요한가":
               - "P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가": parts/part-02/chapter-06/section-01.md
               - "P2-5.2 분포(distribution), 평균(mean), 분산(variance)": parts/part-02/chapter-06/section-02.md
@@ -791,7 +790,7 @@ plugins:
                         - "P2-4.3 Derivative and Gradient": parts/part-02/chapter-04/section-03.md
                         - "P2-4.4 Why Learning Needs Derivatives": parts/part-02/chapter-04/section-04.md
                         - "P2-4.5 Supplementary Learning: From High-School Derivatives to Multivariable Differentiation": parts/part-02/chapter-05/section-01.md
-                        - "P2-4.6 Composite Functions and the Chain Rule": parts/part-02/chapter-05/section-02.md
+                        - "P2-4.6 Composite Functions and the Chain Rule": parts/part-02/chapter-04/section-06.md
                     - "Chapter 5. Why Probability and Statistics Are Needed":
                         - "P2-5.1 How Probability Expresses Uncertainty Numerically": parts/part-02/chapter-06/section-01.md
                         - "P2-5.2 Distribution, Mean, and Variance": parts/part-02/chapter-06/section-02.md
@@ -1222,7 +1221,7 @@ plugins:
                         - "P2-4.3 微分(derivative)与梯度(gradient)": parts/part-02/chapter-04/section-03.md
                         - "P2-4.4 为什么学习需要微分": parts/part-02/chapter-04/section-04.md
                         - "P2-4.5 梯度补充学习：从高中微分走到多变量微分": parts/part-02/chapter-05/section-01.md
-                        - "P2-4.6 复合函数(composite function)与链式法则(chain rule)": parts/part-02/chapter-05/section-02.md
+                        - "P2-4.6 复合函数(composite function)与链式法则(chain rule)": parts/part-02/chapter-04/section-06.md
                     - "Chapter 5. 为什么需要概率与统计":
                         - "P2-5.1 概率(probability)怎样把不确定性表示成数字": parts/part-02/chapter-06/section-01.md
                         - "P2-5.2 分布(distribution)、平均(mean)、方差(variance)": parts/part-02/chapter-06/section-02.md
