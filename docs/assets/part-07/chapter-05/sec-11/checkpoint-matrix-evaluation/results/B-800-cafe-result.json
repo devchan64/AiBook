@@ -1,0 +1,18 @@
+{
+  "case": {
+    "id": "cafe",
+    "prompt": "Create an illustration of mira_person sitting at a cafe table, wearing a cream jacket and holding a cup, three-quarter upper-body view.",
+    "seed": 62402,
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png",
+      "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18",
+      "content": "uniform RGB (240,240,240); no person, face, hair, pose or scene"
+    }
+  },
+  "scale": 1,
+  "checkpoint_sha256": "eda8fab5a1196cabe23590a5974ccfa05f29ee68b21c74692670c1ff80bb7765",
+  "plan_sha256": "b66e562f3a787445b8ac098f37f507ce9a3c0e8b24c78c9874124d620d5e0eaf",
+  "output_sha256": "b6d3411d6ba36fefd547743f3274edc28c23dff8415f93203d350458ae6a729b",
+  "elapsed_seconds": 269.47,
+  "status": "pending_visual_review"
+}
