@@ -7,6 +7,8 @@
 - Run the script with Python and Matplotlib from the repository environment. SVGs are saved beside the script; PNG review previews and the Matplotlib cache are saved under `.tmp/p2-4-2-diagrams/`.
 - Labels and accessible descriptions are localized in Korean, English, and Simplified Chinese.
 
+- `p2_4_3_gradient_diagram.py` generates `gradient-directions-{ko,en,zh}.svg` for P2-4.3. It plots calculated contours of `L=w₁²+w₂²` and unit direction arrows at `[3,4]`, with equal axis scales. Review PNGs are saved under `.tmp/p2-4-3-diagrams/`.
+
 ## Mermaid assets
 
 - Korean public manuscript pages include the `-ko.mmd` files through `pymdownx.snippets`.
