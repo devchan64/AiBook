@@ -1,7 +1,7 @@
 # P2-3.5 Python 运行环境：Colab 与本地 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.14`
 
 Python 代码可以在 Colab 笔记本的代码单元中运行，也可以在本地 PC 的 Python 解释器中运行。安装命令应符合运行环境，已安装的包则在 Python 代码中通过 `import` 导入。
 
@@ -54,13 +54,13 @@ Google Colab 是一种托管服务，它让你在浏览器里以 Jupyter Noteboo
 
 例如，在本地 PC 终端里，可以这样安装 NumPy。
 
-```bash
+```bash title="Bash · 本地终端"
 python -m pip install numpy
 ```
 
 而在 Python 文件里，则这样导入 NumPy。
 
-```python
+```python title="Python"
 # 这一行是在 Python 代码里导入 NumPy。
 import numpy as np
 ```
@@ -71,14 +71,14 @@ Colab 笔记本里有写文字的单元，也有执行代码的单元。Python �
 
 例如，下面这段代码可以放进代码单元并直接运行。
 
-```python
+```python title="Python"
 # 这是确认 Colab 代码单元正在运行的最小输出例子。
 print("hello, colab")
 ```
 
 运行结果会像这样出现。
 
-```text
+```text title="文本 · 运行结果"
 hello, colab
 ```
 
@@ -88,7 +88,7 @@ hello, colab
 
 在很多情况下，Colab 环境里已经准备好了 NumPy。但由于环境可能变化，如果需要，也可以在代码单元里运行下面这个命令。
 
-```python
+```text title="IPython · 笔记本代码单元"
 # %pip 是在 Colab/Jupyter 代码单元中使用的安装命令。
 %pip install numpy
 ```
@@ -97,7 +97,7 @@ hello, colab
 
 在 Colab 或 Jupyter 文档里，你也可能看到用感叹号(`!`)运行 shell 命令的示例，比如：
 
-```python
+```text title="IPython · 笔记本代码单元"
 # 感叹号形式是在代码单元中调用终端命令的方式。
 !pip install numpy
 ```
