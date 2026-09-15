@@ -1,62 +1,15 @@
-# P2-8.7 Supplemental Learning: Distinguishing References and Copies
+# P2-8.7 Supplementary Learning: References and Copies
 
 > Section ID: `P2-8.7`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
-In P2-8.2, we saw that assigning a list to another name does not automatically create a new copy. Many readers get confused immediately at this point.
+## Assignment and References
 
-`Is this the same value under another name?`  
-`Or did we create another similar value?`
+Assignment connects a name to an object. `other_scores = scores` creates no new list: both names refer to the list already named `scores`. This relationship from a name to an object is called a reference.
 
-This supplement gives a basic explanation that distinguishes `reference`, `shallow copy`, and `deep copy`. It organizes the criteria for deciding whether a list or dictionary structure is looking at the same actual object or at a separate copy.
-
-Rather than explaining Python's memory model in depth, this supplement builds the minimum criteria needed to read whether `the original changes together` in data work and practice code.
-
-| Term | Meaning to capture first in this Section |
-| --- | --- |
-| reference | A state where multiple names point to the same object together. |
-| assignment | An operation that connects a name to another value or object without guaranteeing a new copy. |
-| shallow copy | A copy that makes only the outer container new and may still share inner values. |
-| deep copy | A copy that also creates new nested inner values so that they are separated from the original. |
-| nested structure | A structure where another grouped value exists inside, such as a list inside a list. |
-
-## First Reading Criteria: How to First Distinguish References, Shallow Copy, and Deep Copy
-
-- You can explain that two names can point to the same object together.
-- You can explain shallow copy as a copy that creates only the outer shell anew.
-- You can explain deep copy as a way of copying that also recreates nested inner values.
-- You can explain why shallow copy in a nested list can look as if it changes together with the original.
-- You can explain that when preserving the original is important in data preprocessing, you should check copying first.
-
-## Learning Background
-
-In early Python learning, many scenes involve putting one value into a variable and changing it. But once you start handling structures that contain many values inside, such as lists, dictionaries, and DataFrames, `which object did I change?` becomes as important as `what did I change?`
-
-This sense becomes necessary again later in Pandas and data preprocessing. When handling tables, interpretation can change depending on whether you preserve the original, create a new intermediate result, or have multiple names referring to the same object.
-
-## Criteria for Separating Assignment, Shallow Copy, and Deep Copy
-
-This supplement first captures the following three distinctions as a large frame.
-
-| Distinction | Question to hold first | Core sense at this stage |
-| --- | --- | --- |
-| assignment | Did we create a new value, or are we calling the same object by another name? | Assignment does not automatically mean copying |
-| shallow copy | Up to where is something newly created, and up to where is it still shared? | It creates only the outside anew, while the inside may still be shared |
-| deep copy | Do we need a copy completely separated from the original? | It recreates even the nested inner values |
-
-If you capture these three distinctions first, you can read `why did the original also change?` more quickly in later list-handling and data-preprocessing examples.
-
-## Two Names Can Point to the Same List
-
-The first point to hold is that assignment does not always mean copy.
-
-Problem situation: You want to check whether two names are looking at the same list after assigning one list to another variable.
-Input: A list `scores` and `other_scores` pointing to the same list.
-Expected output: When you add a value through one name, the result viewed through both names changes together.
-Concept to check: Simple assignment does not guarantee creation of a new copy.
+Refer to `[82, 75, 91]` through two names, then append `68` via `other_scores`. Both outputs are `[82, 75, 91, 68]`.
 
 ```python
-# This example checks how reference and copying differ for mutable values such as lists.
 scores = [82, 75, 91]
 other_scores = scores
 
@@ -66,31 +19,46 @@ print(scores)
 print(other_scores)
 ```
 
-The example output is as follows.
+Example output:
 
 ```text
 [82, 75, 91, 68]
 [82, 75, 91, 68]
 ```
 
-Here, `scores` and `other_scores` point to the same list. So when you add a value through one name, the same change appears when you look through the other name as well.
+`scores` and `other_scores` refer to the same list. A value added through one name is visible through the other.
 
-Remember it this way here.
+## Equal Values and Identical Objects
 
-- `a = b` does not automatically guarantee that a new copy was created.
-- Multiple names can look at the same mutable object together.
-
-### A shallow copy creates only the outside anew
-
-A shallow copy creates a new outer container, while the values inside may still be referred to as they are.
-
-Problem situation: You want to see how a shallow copy that recreated only the outer list differs from the original.
-Input: A list `scores` and `copied_scores` created with `scores.copy()`.
-Expected output: A value is added only to `copied_scores`, while the original `scores` remains as it was.
-Concept to check: Because shallow copy creates the outer container anew, top-level addition and deletion can become separate.
+`==` compares values; `is` checks object identity. Copying a list with equal contents does not make the two lists the same object.
 
 ```python
-# This example checks how reference and copying differ for mutable values such as lists.
+scores = [82, 75]
+alias = scores
+copied = scores.copy()
+print(scores == copied)
+print(scores is copied)
+print(scores is alias)
+```
+
+The outputs are `True`, `False`, and `True`. Value comparison alone does not establish that original and copy are separate objects. The arrows below show the object each name refers to.
+
+```mermaid
+flowchart LR
+    A["scores"] --> L["List A: 82, 75"]
+    B["alias"] --> L
+    C["copied"] --> M["List B: 82, 75"]
+```
+
+Use `==` to compare numeric or string values, rather than relying on internal object reuse with `is`. The check `value is None` asks whether the value is the `None` object.
+
+## Shallow Copies
+
+A shallow copy creates a new outer container while retaining references to its contents.
+
+Create a new outer list with `scores.copy()` and append `68` to the copy. The original is `[82, 75, 91]`; the copy is `[82, 75, 91, 68]`.
+
+```python
 scores = [82, 75, 91]
 copied_scores = scores.copy()
 
@@ -100,28 +68,22 @@ print(scores)
 print(copied_scores)
 ```
 
-The example output is as follows.
+Example output:
 
 ```text
 [82, 75, 91]
 [82, 75, 91, 68]
 ```
 
-In this case, the outer list itself was created anew, so the result of `append()` is not directly reflected in the original.
+Because the outer list is new, appending to it does not directly change the original list.
 
-But if we stop here, we have not fully understood shallow copy. The story changes when another list exists inside.
+Adding an item to the outer list and changing an item inside an inner list modify different objects.
 
-### Shallow copy becomes easy to misunderstand in a nested list
+## Shared Nested Lists
 
-Now look at a case where a list contains another list.
-
-Problem situation: You want to directly check why shallow copy becomes confusing in a nested list.
-Input: A nested list `matrix` and its shallow copy `shallow`.
-Expected output: When you change an inner list, the original and the shallow copy both change together.
-Concept to check: A shallow copy may not recreate nested inner objects.
+Shallow-copy `[[1, 2], [3, 4]]`, then change the first value of its first row to `99`. Both original and copy become `[[99, 2], [3, 4]]`.
 
 ```python
-# This example checks how reference and copying differ for mutable values such as lists.
 matrix = [[1, 2], [3, 4]]
 shallow = matrix.copy()
 
@@ -131,31 +93,24 @@ print(matrix)
 print(shallow)
 ```
 
-The example output is as follows.
+Example output:
 
 ```text
 [[99, 2], [3, 4]]
 [[99, 2], [3, 4]]
 ```
 
-Why does this happen?
+`matrix` and `shallow` are different outer lists, but their first items refer to the same row list. `shallow[0][0] = 99` changes a value inside that shared row.
 
-- The outer list `matrix` was copied anew.
-- But the inner lists `[1, 2]` and `[3, 4]` may still be shared as they are.
+Replace the mutation with `shallow[0] = [99, 2]` and rerun from the beginning. The original stays `[[1, 2], [3, 4]]`, because this replaces the copy's first item with a new row rather than mutating the shared row.
 
-In other words, it helps to understand shallow copy with the image: `we created only the outer box again, but the smaller boxes inside may remain the same`.
+## Deep Copies
 
-### A deep copy recreates the inside too
+A deep copy recursively copies internal objects that support copying. Here it creates both a new outer list and new inner row lists.
 
-A deep copy also copies nested inner values anew.
-
-Problem situation: You want to check whether a deep copy also separates nested inner values.
-Input: `deep` created with `copy.deepcopy(matrix)`.
-Expected output: Even if you change `deep`, the original `matrix` remains unchanged.
-Concept to check: A deep copy recreates even nested inner structures and separates them from the original.
+Using `copy.deepcopy()` on this nested list also creates new inner rows. Changing the copy's first value to `99` leaves the original as `[[1, 2], [3, 4]]`.
 
 ```python
-# This example checks how reference and copying differ for mutable values such as lists.
 import copy
 
 matrix = [[1, 2], [3, 4]]
@@ -167,63 +122,31 @@ print(matrix)
 print(deep)
 ```
 
-The example output is as follows.
+Example output:
 
 ```text
 [[1, 2], [3, 4]]
 [[99, 2], [3, 4]]
 ```
 
-Now even the inner lists were newly created, so changing `deep` does not affect `matrix`.
+The effect on the original depends on whether you modify the outer or inner list. Deep copying does not recreate every object: immutable objects may be reused, and it does not duplicate external resources such as files or sockets.
 
-Distinguish them here with the following criteria.
-
-| Method | Intuition | Point to watch in nested structures |
+| Method | Intuition | Nested-structure concern |
 | --- | --- | --- |
-| assignment | We see the same object under another name | A change on one side can appear together as it is |
-| shallow copy | Only the outside is newly created | Nested inner values may still be shared |
-| deep copy | Even the inside is newly created | Better for preserving the original, but may cost more |
+| Assignment | View one object through another name | Changes can be visible through both names |
+| Shallow copy | Create only a new outer container | Nested objects may remain shared |
+| Deep copy | Copy inner structure too | Helps preserve the original but may cost more |
 
-## Cases and Examples
+## Case: Preserving Original Scores During Experiments
 
-In data preprocessing, you often want to keep the original table and make a separate experimental copy.
-
-- Keep the original data.
-- Make a separate experimental version with derived columns.
-- Keep intermediate versions too when comparing filtered results.
-
-If you do not stay aware of copying, you may think you preserved the original while actually changing the same object together.
-
-You need to be even more careful about this in Pandas. However, this Section does not go deeply into the details of Pandas `copy()` and view or view-like behavior. Instead, it connects to the attitude of asking first in Part 2 Chapter 12, `Do I need to preserve the original dataset?`
-
-### Case 1. Why the original also changes when I thought I made a separate preprocessing list
-
-Suppose a learner wanted to preserve the original score list while modifying only an experimental list. So they wrote `experiment_scores = base_scores` and changed only one list, but later found that the original had changed too.
-
-The human-first assumption is often `I created a new name, so it must have been copied.` But with mutable structures, assignment does not necessarily mean a new copy. In a nested structure where a list contains another list, the result changes a lot depending on whether only the outer layer was copied or the inner layer was recreated too.
-
-This is also why this supplement separates reference, shallow copy, and deep copy. In data preprocessing, preserving the original is often important, so you should first check `Is the object I am changing actually separated from the original?`
-
-The checkable result is whether the value seen through another name also changes when you modify one side. If changing one side immediately changes the other side too, there is a high chance both names are looking at the same object together. In a nested structure, if only the outside was copied, you should suspect shallow copy.
-
-## Practice and Examples
-
-Look at the following code and first guess whether each case is `assignment`, `shallow copy`, or `deep copy`.
-
-Problem situation: You want to compare assignment, shallow copy, and deep copy at once and see the difference directly.
-Input: A nested list `base` and `case_a`, `case_b`, `case_c`.
-Expected output: In A and B, the original changes together; in C, the original stays preserved.
-Concept to check: In a nested structure, assignment and shallow copy can still share the original, while deep copy breaks that sharing.
+Change the first value in the first row of `[[10, 20], [30, 40]]` to `-1`. A uses assignment, B a shallow copy, and C a deep copy; each starts with a fresh original. A and B change the original, while C preserves it.
 
 ```python
-# This example checks how reference and copying differ for mutable values such as lists.
 import copy
 
 base = [[10, 20], [30, 40]]
 
 case_a = base
-case_b = base.copy()
-case_c = copy.deepcopy(base)
 
 case_a[0][0] = -1
 print("A:", base, case_a)
@@ -239,7 +162,7 @@ case_c[0][0] = -1
 print("C:", base, case_c)
 ```
 
-The example output is as follows.
+Example output:
 
 ```text
 A: [[-1, 20], [30, 40]] [[-1, 20], [30, 40]]
@@ -247,16 +170,21 @@ B: [[-1, 20], [30, 40]] [[-1, 20], [30, 40]]
 C: [[10, 20], [30, 40]] [[-1, 20], [30, 40]]
 ```
 
-The key point here is B. The outer layer was copied, but the inner list changed together, so you can directly see how far shallow copy creates a new target.
+In B, changing an item inside the first row also affects the original. Replacing that mutation with `case_b.append([50, 60])` and rerunning leaves two rows in the original and three in the copy. The required copying depth depends on which object you will modify.
 
 ## Checklist
 
-- Can you explain that two names can point to the same list together?
-- Can you explain the difference between a shallow copy and a deep copy through a nested-list example?
-- Can you explain why data preprocessing needs caution about whether copying happened?
-- Can you distinguish assignment, shallow copy, and deep copy by whether the original is still shared?
+- Can you explain how two names can refer to one list?
+- Can you distinguish shallow and deep copies with a nested-list example?
+- Can you explain why copying matters in data preprocessing?
+- Can you distinguish assignment, shallow copy, and deep copy by what remains shared?
+
+- Can you explain how `==` compares values while `is` checks object identity?
 
 ## Sources and References
 
-- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm list assignment, `list.copy()`, slice copying, and list-method examples.
-- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as the core basis for the difference between assignment and copying, the definitions of shallow and deep copy, and the copying difference for nested objects.
+
+- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-07-20. Used to confirm list assignment, `list.copy()`, slice copying, and list-method examples.
+- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-09-15. Used as the core basis for the difference between assignment and copying, the definitions of shallow and deep copy, and the copying difference for nested objects.
+
+- Python Software Foundation, [Built-in Types: Comparisons](https://docs.python.org/3/library/stdtypes.html#comparisons){: target="_blank" rel="noopener noreferrer" }, 2026-09-15. Value equality and object identity.

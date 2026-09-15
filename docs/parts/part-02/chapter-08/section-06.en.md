@@ -1,87 +1,15 @@
-# P2-8.6 Supplemental Learning: First Meeting Classes and Objects
+# P2-8.6 Supplementary Learning: A First Look at Classes and Objects
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
-In this example, what matters first is not the string-cleaning technique itself, but the call shape of `text.strip()` and `text.lower()`. The same value, `text`, comes first, and the action provided by that value is named after the dot. Later, when you see `model.fit()` or `dataset.map()`, recall this structure first.
+`text.lower()` lowercases a string, while `scores.append(91)` adds a value to a list. Before the dot (`.`) is the target object; after it is the method name. Available operations depend on the object's type.
 
-In P2-8.5, we looked at functions as small units of reuse. Functions receive input, process it, and return a result. But when reading Python code, we often meet expressions that look similar to function calls but are slightly different.
+## Objects and Types
 
-Here we provide a basic supplemental explanation for reading `class`, `object`, and `method`. This supplemental learning organizes the standard for reading call shapes such as `value.method()` and `model.fit()`. The representative explanations of `value`, `type`, and `dictionary` remain in P2-8.1, P2-8.3, and P2-8.6, and here we read class and object on top of that.
-
-Problem situation: We want to see, through the smallest example, how a dot-based call differs from an ordinary function call.
-Input: The string `text = " AI is Useful "`.
-Expected output: A string with spaces removed and a string converted to lowercase.
-Concept to check: A form like `value.method()` is the shape of calling an action provided by a value or object.
+Python objects have identity, type, and value. Numbers, strings, lists, and dictionaries are objects too. The code prints `<class 'int'>`, `<class 'str'>`, `<class 'list'>`, and `<class 'dict'>`.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-text = " AI is Useful "
-
-print(text.strip())
-print(text.lower())
-```
-
-`strip()` and `lower()` are called with parentheses like functions, but they have `text.` in front of them. To understand this kind of expression, we need a very light introduction to object, method, and class.
-
-This section does not teach the full syntax of classes. The goal is to give the minimum standard so that later, when reading library code, we do not stop at expressions such as `value.method()`, `model.fit()`, or `dataset.map()`.
-
-Here we organize questions such as `why do strings use .lower(), while lists use .append()?` under the standard that `an object provides actions in method form according to its type`.
-
-Because this is supplemental learning, the explanation is slightly more detailed. But the goal is not to design classes freely. The goal is to read the shape of Python library code that we will meet later.
-
-| Term | Meaning to fix first in this section |
-| --- | --- |
-| object | a thing we handle that has both values and the actions connected to those values |
-| class | the definition or template for making such objects |
-| method | a function-like action called while attached to an object |
-| attribute | a value or name tag that an object has |
-| `value.method()` | the shape of calling an action provided by a specific value or object |
-
-## First Reading Criteria: First Meeting Classes and Objects
-
-- You can explain an object as a thing that has both values and actions.
-- You can explain a class as the definition for creating objects.
-- You can read a method as a function-like form that is called while attached to an object.
-- You can explain at an entry level the difference between `function(value)` and `value.method()`.
-- You can read expressions such as `model.fit()` and `model.predict()` in AI libraries from the perspective of classes and methods.
-
-## First Standard to Hold
-
-The first standard to hold in this supplement is this: `a call with a dot is an action provided by an object`.
-
-| Expression | First way to read it |
-| --- | --- |
-| `text.lower()` | an action provided by a string object |
-| `scores.append(91)` | an action provided by a list object |
-| `model.fit(X, y)` | a form in which a model object provides a training action |
-| `sample.text` | a value or attribute owned by an object |
-
-So the core of this section is not learning to design classes freely, but building a standard that does not stop at `value.method()` and `object.attribute`.
-
-## Three Criteria
-
-| Criterion | Why it matters | Level of understanding needed here |
-| --- | --- | --- |
-| An object is one thing we handle that has both value and action | It becomes the starting point for reading call forms such as `value.method()`. | Understand it as a thing that has both values and methods together. |
-| A class is the definition for making such objects | It explains why attributes and methods appear as one bundle. | Be able to explain it as something like a blueprint. |
-| These expressions appear often in AI libraries because it is convenient to handle a model or dataset as one bundle | It helps us read `model.fit()` structurally instead of reading only the syntax. | Understand that models, datasets, and settings are handled like objects. |
-
-## in Python, Many Things Are Objects
-
-The Python official documentation explains an object as something that has identity, type, and value. Here it is enough to understand it like this:
-
-An object is the actual thing Python is handling as a value.
-
-Numbers, strings, lists, and dictionaries can all be read as objects.
-
-Problem situation: We want to confirm through type output that different kinds of values are all handled as Python objects.
-Input: Integer, string, list, and dictionary values.
-Expected output: The type of each value is printed in order.
-Concept to check: In Python, many kinds of values are all objects, and type reveals their character.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
 score = 82
 text = "AI"
 scores = [82, 75, 91]
@@ -93,32 +21,18 @@ print(type(scores))
 print(type(student))
 ```
 
-What matters here is `type()`. Each value has a type, and in Python that type affects what actions are available.
-
-For example, strings provide methods suited to strings.
-
-Problem situation: We want to see how methods provided by a string object are called.
-Input: The string `text` containing spaces and uppercase letters.
-Expected output: The results of `strip()` and `lower()`.
-Concept to check: An object provides actions in method form according to its type.
+Strings provide `strip()` and `lower()`. Applied separately to `" AI is Useful "`, they print `AI is Useful` and ` ai is useful `, the latter retaining surrounding spaces.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
 text = " AI is Useful "
 
 print(text.strip())
 print(text.lower())
 ```
 
-Lists provide methods suited to lists.
-
-Problem situation: We want to confirm that a list object also has methods suited to its own type.
-Input: The list `scores = [82, 75]` and the value `91` to add.
-Expected output: The list after the value is added.
-Concept to check: If the type differs, the methods that can be used also differ.
+Both methods return a processed string without changing `text`. In contrast, list `append()` changes the original list. Adding `91` to `[82, 75]` prints `[82, 75, 91]`.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
 scores = [82, 75]
 
 scores.append(91)
@@ -126,29 +40,21 @@ scores.append(91)
 print(scores)
 ```
 
-Strings have `strip()`, and lists have `append()`. Because the types differ, the available actions also differ.
+`text.append(91)` requests a method strings do not provide, raising `AttributeError`.
 
-## A Class Is the Definition for Making Objects
+## Classes and Instances
 
-A class is the definition used to make objects. More simply, it is a template that decides what kind of data and what kind of actions a certain object should have.
+A class defines what data and behavior a kind of object can have. An individual object created from that class is an instance.
 
-Even Python’s built-in types can be read this way.
-
-| Value | Type or class | Common actions |
+| Object example | Class | Example methods |
 | --- | --- | --- |
 | `"AI"` | `str` | `.lower()`, `.strip()` |
 | `[1, 2, 3]` | `list` | `.append()`, `.extend()` |
 | `{"a": 1}` | `dict` | `.get()`, `.items()` |
 
-The reader can also make a class directly.
-
-Problem situation: We want to see the smallest example of defining a class and making an object from it.
-Input: The values `"AI is useful"` and `"positive"` for text and label.
-Expected output: The object’s `text` and `label` attributes are printed.
-Concept to check: A class is the definition for creating objects, and an object can hold its own data.
+A custom `Sample` class can create objects with text and a label. This code prints `AI is useful` and `positive`.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -160,21 +66,37 @@ print(sample.text)
 print(sample.label)
 ```
 
-This code defines a class called `Sample` and creates an object called `sample`. `sample.text` and `sample.label` are values held by the object.
+`Sample` is the class; `sample` names the resulting instance. `sample.text` and `sample.label` read that object's attributes.
 
-There is no need here to memorize the detailed rules of `__init__`. The key point is only that a class is the definition for creating objects, and an object can hold its own data.
+`__init__()` runs when initializing a new instance. It stores the supplied `text` and `label` in `self.text` and `self.label`, making them part of the object's data.
 
-## Why Dictionaries and Classes Can Feel Different
+## self and Individual Object State
 
-In P2-8.3, we said that a dictionary is a structure that looks up values by key. In fact, one small piece of data can also be represented by a dictionary.
+`self` is the conventional parameter name for the instance receiving a method call. With `sample.method()`, the object is passed automatically, so callers do not supply `self` separately.
 
-Problem situation: We want to see an example where small data with text and label is represented as a dictionary.
-Input: The dictionary `sample` with the keys `text` and `label`.
-Expected output: The values of `sample["text"]` and `sample["label"]`.
-Concept to check: A dictionary is the most direct data representation that finds values by key.
+Two objects from the same class can hold different values. The code changes only the first object's label to `positive`, printing `positive` and `None`.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
+class Sample:
+    def __init__(self, text, label):
+        self.text = text
+        self.label = label
+
+first = Sample("good product", None)
+second = Sample("new review", None)
+first.label = "positive"
+
+print(first.label)
+print(second.label)
+```
+
+During the first initialization, `self` is the first object; during the second, it is the second object. An attribute read externally as `first.label` is `self.label` inside that object's method.
+
+## Dictionary Keys and Object Attributes
+
+Text and labels can also be represented by a dictionary. Reading the two keys prints `AI is useful` and `positive`.
+
+```python
 sample = {
     "text": "AI is useful",
     "label": "positive",
@@ -184,57 +106,22 @@ print(sample["text"])
 print(sample["label"])
 ```
 
-If we represent the same data through a class, it looks like this.
+Use `sample.text` for the earlier `Sample` object and `sample["text"]` for a dictionary. Dictionaries are objects too, but keys and attributes use different access mechanisms.
 
-Problem situation: We want to compare how the same data changes in shape when represented as a class-based object.
-Input: The class `Sample` and the construction arguments `"AI is useful"`, `"positive"`.
-Expected output: The values of `sample.text` and `sample.label`.
-Concept to check: A class-based object lets us read data through attribute access rather than key lookup.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-class Sample:
-    def __init__(self, text, label):
-        self.text = text
-        self.label = label
-
-sample = Sample("AI is useful", "positive")
-
-print(sample.text)
-print(sample.label)
-```
-
-Both pieces of code hold text and label. But the way we read them feels different.
-
-| Perspective | dictionary | object made from a class |
+| Aspect | Dictionary | Custom Sample instance |
 | --- | --- | --- |
-| central thought | find values by key | make a certain kind of thing |
-| access form | `sample["text"]` | `sample.text` |
-| explicitness of structure | the key name is confirmed during execution | the class name reveals the meaning of the target |
-| adding behavior | used together with separate functions | methods can be placed inside the object |
-| suitable situation | simple data, JSON, configuration values | targets that handle state and behavior together |
+| Access | `sample["text"]` | `sample.text` |
+| Storage | Associate values with keys | Store values in attributes |
+| Processing | Can be used with separate functions | Can define methods in the class |
+| Example use | Settings or data loaded from JSON | Samples with data and dedicated behavior |
 
-At the beginning, dictionaries are easier. Real data files and API responses also often read like dictionaries. That is why this book introduced dictionaries first.
+A class name communicates meaning, but does not automatically validate attribute types or values.
 
-The moment classes start to matter is when we want not only data, but also the actions to be bundled together with that data.
+## State and Methods
 
-## State and Behavior Are Bundled Together
-
-When explaining objects, the words `state` and `behavior` appear often.
-
-State means the values an object currently has.
-
-Behavior means the things that object can do.
-
-The following example shows a text sample that has its own state and also has an action that checks that state.
-
-Problem situation: We want to confirm through a class example that an object has both values and actions.
-Input: A `TextSample` object with text and label.
-Expected output: The object’s `text` value and the result of `is_labeled()`.
-Concept to check: State is the values an object has, and behavior is the method the object provides.
+State is an object's current data; behavior reads or changes it. `TextSample` stores text and a label, and `is_labeled()` checks whether the label is `None`. The outputs are `AI is useful` and `True`.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
 class TextSample:
     def __init__(self, text, label):
         self.text = text
@@ -249,17 +136,11 @@ print(sample.text)
 print(sample.is_labeled())
 ```
 
-Here, `sample.text` and `sample.label` are the state of the object. `sample.is_labeled()` is its behavior.
+Set `sample.label` to `None` and call `sample.is_labeled()` again to get `False`. This method only checks whether the label is not `None`. Even `""` yields `True`; it does not validate label content.
 
-The same work can also be done with functions.
-
-Problem situation: We want to see that the same label-checking work can also be expressed through the combination of a function and a dictionary.
-Input: A sample dictionary with the key `label`.
-Expected output: The result `True` from `is_labeled(sample)`.
-Concept to check: Even without a class, a similar handling structure can be made through a function and a dictionary.
+A function and dictionary can express the same check. Checking the dictionary label `"positive"` prints `True`.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
 def is_labeled(sample):
     return sample["label"] is not None
 
@@ -268,28 +149,27 @@ sample = {"text": "AI is useful", "label": "positive"}
 print(is_labeled(sample))
 ```
 
-We cannot say that one is always better than the other. What matters is the purpose of the structure.
+`is_labeled(sample)` passes the sample to a function; `sample.is_labeled()` calls its method. Dictionaries support key-based data lookup, while classes can define state together with dedicated behavior.
 
-| Purpose | Simpler approach |
-| --- | --- |
-| read data such as JSON as it is | dictionary |
-| quickly find many values by key | dictionary |
-| bundle data and behavior as one target | class |
-| use a library that provides stateful targets | class-based object |
+## Retrieving a Method Versus Calling It
 
-In the early stage of AI practice, dictionaries and functions are often enough. But once we start using libraries, targets such as models, datasets, tokenizers, and optimizers are often provided as objects. Those targets have internal state, and methods run on the basis of that state.
-
-## A Method Looks Like a Function Called While Attached to an Object
-
-We usually call a function like `function(value)`, and a method like `value.method()` while attached to an object.
-
-Problem situation: I want to compare the centers of an independent function call and a method call at once.
-Input: The string `text = " AI "`.
-Expected output: The function-call result and the method-call result.
-Concept to check: `function(value)` puts the value into a function, while `value.method()` calls an action provided by the object.
+`sample.is_labeled` retrieves a method; `sample.is_labeled()` executes it and receives its return value. Run this after the earlier `TextSample` definition to print `False` and `True`.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
+sample = TextSample("new review", None)
+check = sample.is_labeled
+print(check())
+sample.label = "positive"
+print(check())
+```
+
+`check` is bound to `sample`. Since the label changes after the first call, the second reads the current state and returns `True`. Omitting parentheses, as in `if sample.is_labeled:`, does not run the check. This method object itself is truthy, so that condition passes even when the label is `None`.
+
+## Function Calls and Method Calls
+
+A function cleaning `" AI "` can call string methods internally. The code prints `function: ai` and `method: AI`.
+
+```python
 def clean_text(text):
     return text.strip().lower()
 
@@ -299,168 +179,37 @@ print("function:", clean_text(text))
 print("method:", text.strip())
 ```
 
-Both expressions run an action. But the center of the call is different.
+`clean_text(text)` trims whitespace and lowercases. `text.strip()` removes only whitespace, leaving uppercase letters.
 
-```text
-clean_text(text)  -> put text into a function and process it
-text.strip()      -> call the strip() action provided by the text object
-```
-
-If we compare one more string method, we can read it like this.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-text = " AI "
-
-print(text.strip())
-print(text.lower())
-```
-
-Here, `strip()` and `lower()` are both actions provided by the string object. Because the target before the dot is a string, we can use methods that fit strings.
-
-| Expression | Center of the call | How to read it |
-| --- | --- | --- |
-| `clean_text(text)` | the function name | put `text` into the function and process it |
-| `text.strip()` | the object `text` | call the `strip()` action provided by the `text` object |
-
-We can also put methods into a class we defined ourselves.
-
-Problem situation: We want to confirm that an object we defined ourselves can also have its own method.
-Input: A `Sample` object and the method `has_label()`.
-Expected output: The result `True` from `sample.has_label()`.
-Concept to check: A method can also be placed inside a user-defined class.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-class Sample:
-    def __init__(self, text, label):
-        self.text = text
-        self.label = label
-
-    def has_label(self):
-        return self.label is not None
-
-sample = Sample("AI is useful", "positive")
-
-print(sample.has_label())
-```
-
-`sample.has_label()` is a method called while attached to the object `sample`. It looks like a function, but the target object appears in front.
-
-When reading methods, the following questions help.
-
-1. What is the target in front of the dot (`.`)?
-2. What state does that target have?
-3. Does the method after the dot read that state or change it?
-4. What additional values are passed inside the parentheses?
-
-For example, if we see `model.predict(test_data)`, we can read it like this.
-
-| Question | Answer |
+| Expression | Target and operation |
 | --- | --- |
-| target before the dot | `model` |
-| meaning of the target | likely a trained model object |
-| method after the dot | `predict()` |
-| value being passed | `test_data` |
-| full interpretation | the model object performs a prediction action on the test data |
+| `clean_text(text)` | Pass a string to a function |
+| `text.strip()` | Call a string object's whitespace-removal method |
+| `sample.is_labeled()` | Call a sample object's label-checking method |
+| `model.predict(test_data)` | Pass data to a model object's prediction method |
 
-## `self` Is the Name That Refers to the Object Itself
+## Case: Model State Before and After Training
 
-In Python class examples, we often see the name `self`.
+Model objects store settings and learned values; methods change or use that state. `SimplePassModel` is a teaching class that stores the lowest passing score as a threshold. It does not implement a real machine-learning library's training algorithm.
 
-Problem situation: We want the smallest example of what place `self` takes inside a class.
-Input: The `__init__` method of the `Sample` class and the input `text`.
-Expected output: A class definition that stores `self.text` inside the object.
-Concept to check: `self` is the conventional name that refers to the object itself inside a method.
+Each pair in `[(62, False), (75, True), (83, True)]` contains a score and pass status. `fit()` stores `75`, the minimum passing score; `predict()` compares `[70, 78]` with that threshold.
 
 ```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-class Sample:
-    def __init__(self, text):
-        self.text = text
-```
-
-Here, it is enough to understand `self` as “the object that is currently being created or used.” `self.text = text` means “store the value `text` inside this object.”
-
-Someone who learned another language first can read it as playing a role similar to `this`. But in Python, what stands out is that `self` is written explicitly in the method definition.
-
-For now, remember only the following.
-
-- `self` is a conventional name.
-- It is used when reading or changing the values of the object itself inside a method.
-- When we call something like `sample.has_label()`, we do not pass `self` directly by hand.
-
-If `self` feels unfamiliar, compare the following two lines.
-
-Problem situation: We want to connect attribute access seen from outside a class with the inside-class use of `self`.
-Input: The object `sample` created as `Sample("AI is useful", "positive")`.
-Expected output: The value of `sample.label` is printed.
-Concept to check: Outside the class we read `sample.label`, while inside the class the same place is read as `self.label`.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-sample = Sample("AI is useful", "positive")
-
-print(sample.label)
-```
-
-`sample.label` is the expression that reads the `label` value stored inside the object `sample`. Inside the class, we call that object by the name `self`.
-
-Problem situation: We want to recheck the class definition that stores attributes using forms such as `self.label`.
-Input: The `__init__` method of the `Sample` class.
-Expected output: A class definition that stores `self.text` and `self.label`.
-Concept to check: Inside the class, the object’s own attributes are handled through `self`.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-class Sample:
-    def __init__(self, text, label):
-        self.text = text
-        self.label = label
-```
-
-So, from outside we read `sample.label`, and from inside the class we read `self.label`. For now, it is enough to hold this correspondence exactly.
-
-## Is a Class Always Necessary?
-
-No. Learning Python does not mean every piece of code must be turned into a class.
-
-The following standard is more practical here.
-
-| Situation | Approach to consider first |
-| --- | --- |
-| calculate one value | function |
-| handle several values in order | list |
-| find a value by name | dictionary |
-| repeat the same handling | loop and function |
-| make a target that has both state and behavior | class |
-
-Classes are powerful, but if used too early, they can make the structure heavy. On the other hand, when reading library code, we often cannot avoid classes and objects. Here we focus less on `making everything into a class` and more on `being able to read code that was made through classes`.
-
-## Why Do Classes and Methods Appear So Often in AI Libraries?
-
-In AI practice, we often see code like the following.
-
-Problem situation: We want to run the `fit()` and `predict()` call shape that appears often in AI libraries in the simplest way.
-Input: Simple training data `train_data` and checking data `test_data`.
-Expected output: The model state before and after calling `fit()`, and the result of `predict()`.
-Concept to check: `fit()` can change state inside an object, and `predict()` can use that state to make a result.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
 class SimplePassModel:
     def __init__(self):
         self.threshold = None
 
     def fit(self, train_data):
-        # fit() reads training data and stores state inside the object.
+        # fit() reads training data and stores state in the object.
         passed_scores = [score for score, passed in train_data if passed]
+        if not passed_scores:
+            raise ValueError("at least one passing score is required")
         self.threshold = min(passed_scores)
 
     def predict(self, test_data):
-        # predict() uses the state that fit() stored.
+        # predict() uses the state saved by fit().
         if self.threshold is None:
-            raise ValueError("Call fit() first.")
+            raise ValueError("call fit() first")
         return [score >= self.threshold for score in test_data]
 
 
@@ -476,7 +225,7 @@ predictions = model.predict(test_data)
 print("predictions:", predictions)
 ```
 
-We can read the output as follows.
+The output is:
 
 ```text
 before fit: None
@@ -484,63 +233,29 @@ after fit: 75
 predictions: [False, True]
 ```
 
-This code differs by library, but the reading method is similar.
+`model.threshold` is `None` before training and `75` after `fit()`. Keep using the same object because `predict()` reads its stored threshold. Calling `predict()` on a new object raises the code's `ValueError` because no threshold has been stored.
 
-| Expression | Entry-level interpretation |
-| --- | --- |
-| `model` | a model object |
-| `.fit()` | a method that performs training |
-| `.predict()` | a method that performs prediction |
-| `train_data`, `test_data` | the data passed into the method |
+Changing training pair `(75, True)` to `(68, True)` sets the threshold to `68` and predictions to `[True, True]`. Test scores stay fixed while changed model state changes the decisions.
 
-Why is this style used? Because a model is not just one simple function. It can hold many kinds of state. Learned parameters, settings, internal structure, and preprocessing information can all live together inside the object. So a library makes the model an object and attaches methods such as `fit()`, `predict()`, and `save()` to that object.
-
-This perspective matters later when reading machine learning libraries and deep learning frameworks.
-
-- A function separates one kind of processing by name.
-- An object can bundle state and behavior together.
-- A class is the definition for making such objects.
-- A method is an action called while attached to an object.
-
-Here, we read that there is an object called `model`, and that the object runs methods called `fit()` and `predict()`. In this case, `fit()` may do more than a simple calculation. It can change the state inside the model object. For example, learned parameters may be stored inside the object. `predict()` makes prediction results by using the state of a model object that has already been trained. So instead of looking only at one function, we also need to think about what state the object is holding.
-
-This perspective matters later in machine learning.
-
-- A model before training and a model after training can look like the same object, but their internal state can differ.
-- `fit()` can be a method that changes state.
-- `predict()` can be a method that uses state to make a result.
-- `save()` can be a method that stores state into a file.
-
-## Looking Through a Case
-
-### Case 1. Why Doesn’t `model.fit()` Look Like an Ordinary Function?
-
-Suppose a learner sees `model.fit(train_data)` and `model.predict(test_data)` for the first time in a machine learning example. A person may expect a function form like `fit(model, train_data)`, and then stop when they see the dot-based call form.
-
-What matters here is not memorizing syntax, but reading the center of the call. `model` is likely to be an object that holds some state, `fit()` can be an action that changes that object’s state, and `predict()` can be an action that uses that state to make a result.
-
-So when first meeting classes and objects, we need to hold the standard that `an object has both values and actions`, and that `a method is called while attached to that object`. The string call `text.strip()` and the model call `model.fit()` differ greatly in complexity, but they share the same call shape.
-
-The confirmable result is that if the target before the call changes, the action also changes. `text.lower()` handles a string, `scores.append(91)` changes a list, and `model.predict(test_data)` uses model state. If we can read what the target before the dot is, code interpretation becomes much easier.
+The example requires at least one passing score. Otherwise `fit()` raises an explicit `ValueError`; inspect the input rather than continuing to predict after that exception. Failing scores are not used to calculate the threshold, so this rule cannot be directly applied to complex real classification problems.
 
 ## Checklist
 
-- Can you explain an object as `a target that has both values and actions`?
-- Can you state the difference between a class and an object?
-- Can you distinguish `function(value)` from `value.method()`?
-- Can you explain why expressions such as `model.fit()` need the perspective of class and method?
-- Can you explain an object as the actual target Python handles as a value?
-- Can you explain a class as the definition for creating objects?
-- Can you explain a method as a function-like form called while attached to an object?
-- Can you explain at an entry level the difference between a dictionary and a class-based object?
-- Can you explain through an example what it means to bundle state and behavior together?
-- Can you explain the difference in calling center between `function(value)` and `value.method()`?
-- Can you explain `self` as the name that refers to the object itself?
-- Can you explain that classes are not always necessary, and that in some cases functions and dictionaries are enough?
-- Can you read AI-library expressions such as `model.fit()` and `model.predict()` from the perspective of object and method?
+- Explain objects as the actual entities holding Python values.
+- Explain a class as a definition used to create objects.
+- Explain a method as a function-like operation called through an object.
+- Distinguish dictionaries and class-based objects at an introductory level.
+- Explain bundling state and behavior through an example.
+- Distinguish the call targets in `function(value)` and `value.method()`.
+- Explain `self` as the name for the instance itself.
+- Explain when functions and dictionaries suffice without a class.
+- Read `model.fit()` and `model.predict()` as object method calls.
+
+- Distinguish retrieving a method from calling it and explain why a condition without parentheses does not run the check.
 
 ## Sources and References
 
-- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as the official basis for the introductory explanation of class objects, instance objects, attribute references, and method objects.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as background for the explanation that objects have identity, type, and value, and that behavior differs by type.
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm the explanation of reading `value.method()` calls as function-like behavior attached to an object.
+
+- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-09-15. Used as the official basis for the introductory explanation of class objects, instance objects, attribute references, and method objects.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-07-20. Used as background for the explanation that objects have identity, type, and value, and that behavior differs by type.
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-09-15. Used to confirm the explanation of reading `value.method()` calls as function-like behavior attached to an object.

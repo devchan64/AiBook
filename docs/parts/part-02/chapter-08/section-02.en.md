@@ -1,188 +1,106 @@
 # P2-8.2 Lists: Ordered Groups of Values
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
-In this example, first notice not whether the scores are high or low, but that the four values are printed as an ordered group under one name, `scores`. The `type(scores)` output below confirms that the group is handled as one list value, not as four scattered numbers.
+## Order and Indices
 
-In P2-8.1, we looked at values, variables, and types. Now we look at the first structure for handling several values at once: the list.
+A list is a data structure that holds values in order. An index lets you retrieve a particular value from scores, sentences, or file names.
 
-A list is a data structure that gathers values of the same purpose or context in order. You often encounter it in situations such as a score list, a sentence list, a file-name list, or a model-output list, where you want to `look at several things in order`.
-
-Here, we explain the basic distinction between a `list` and an `index`. The representative explanation of `value`, `variable`, and `type` is placed in P2-8.1 and in P2-8.2, and here we focus on why, once values become several, an ordered group is needed first.
-
-If the previous section dealt with `how a single value exists with a name and a type`, here we look at why, once there are several such values, an ordered group becomes necessary first. If this criterion is established, then even the dictionary in the very next section becomes easier to read not as `another piece of syntax`, but as `a structure for finding by name instead of by order`.
-
-| What to establish in this section | Question that follows immediately | Where it is used again later |
-| --- | --- | --- |
-| The idea that a list is an ordered group of values | This leads to how it differs from a dictionary, which finds by name, in P2-8.3. | It repeats later when reading NumPy arrays, file lists, and groups of model outputs. |
-| The idea that an index is the way to take a value out again by position | This leads to scenes in P2-8.4 where several values are processed in order by iteration. | It reconnects later to slicing, reading array axes, and checking part of a DataFrame. |
-| The idea that a list is a mutable value and can therefore change together | This leads to the distinction between reference and copy in the supplementary section P2-8.7. | It continues to matter in preprocessing examples, storing intermediate results, and debugging. |
-
-| Term | Meaning to establish first in this section |
-| --- | --- |
-| list | An ordered group of values. |
-| index | A number indicating a position inside the group. |
-| item | An individual value inside the list. |
-| mutable value | A value structure in which items can be added or changed. |
-| nested list | A structure where a list contains another list inside it. |
-
-## Core Criteria: Lists: Ordered Groups of Values
-
-- You can explain a list as an ordered group of values.
-- You can explain that an index starts from 0.
-- You can distinguish a list that begins with known values, an empty list, and a list filled with the same value.
-- You can explain that a list is a mutable value.
-- You can read scores, sentences, model outputs, and file-name lists as lists in AI practice.
-
-## Criteria to Hold First
-
-The criterion you should hold first in this section is that `a list is an ordered group of values`.
-
-| Scene now being seen | Question to recall first |
-| --- | --- |
-| `[82, 75, 91, 68]` | Which value number matters? |
-| `scores[0]` | Is it taking a value out again by position? |
-| `scores.append(68)` | Is it changing the existing group itself? |
-| `rows = [[1, 2], [3, 4]]` | Even if it looks two-dimensional, is it still a list inside a list? |
-
-In other words, the first feeling that must be established is that a list is `a structure that stores in order, takes out by position, and changes when needed`.
-
-## Three Criteria
-
-Here, rather than Python syntax, we first look at `how should several values be handled together?` The following three criteria become the foundation of later explanations of dictionaries, iteration, and arrays.
-
-| Criterion | Why it matters | Level of understanding needed in this section |
-| --- | --- | --- |
-| A list is an ordered group of values | It becomes the starting point for grasping the difference from a dictionary | Understand it as a structure where which value is first, second, and so on matters |
-| An index is a position number | It connects later to slices, arrays, and reading DataFrames | Read with the rule that the first value starts from `0` |
-| A list is a mutable value | It explains why values change together in preprocessing and example code | Remember that two names can be looking at the same list together |
-
-## A List Is an Ordered Group of Values
-
-In general, an ordered group is a structure that places several values in a fixed order and takes them out again by position. Such a structure is needed when `which numbered value it is` has meaning, as in a score list, sentence list, or file list.
-
-In Python, this kind of structure is often expressed with a list.
-
-Problem situation: I first want to see the most basic shape that expresses several scores as one ordered group.
-Input: four scores, `82, 75, 91, 68`.
-Expected output: the score list and its type are printed.
-Concept to check: a list is the basic structure that stores several values in order.
+Place `82, 75, 91, 68` inside square brackets and name the list `scores`. The code prints `[82, 75, 91, 68]` and `<class 'list'>`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68]
 
 print(scores)
 print(type(scores))
 ```
 
-Each value inside a Python list can be called an item or an element.
+Each value in a Python list is called an item or element.
 
-Because a Python list has order, you can take a value out by position.
-
-Problem situation: I want to check how to take out the first and second values by position from a list.
-Input: the score list `scores`.
-Expected output: the values of `scores[0]` and `scores[1]` are printed.
-Concept to check: values in a list are accessed by index, and in Python counting usually starts from 0.
+The first index is `0`. The code prints `82` and `75`, the values at indices `0` and `1`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68]
 
 print(scores[0])
 print(scores[1])
 ```
 
-In Python, an index usually starts from 0. So `scores[0]` is the first value. What matters is that `values are placed in some order, and can be taken out again by that position`.
+Negative indices count from the end. `-1` refers to the last item.
 
 | Expression | Meaning | Value |
 | --- | --- | --- |
-| `scores[0]` | first item | `82` |
-| `scores[1]` | second item | `75` |
-| `scores[-1]` | last item | `68` |
+| `scores[0]` | First item | `82` |
+| `scores[1]` | Second item | `75` |
+| `scores[-1]` | Last item | `68` |
 
-This rule of starting from 0 can feel unfamiliar. But counting from 0 appears often in Python strings, lists, and later NumPy indexing as well. What matters here is not to call a list an array, but to have the sense that `an ordered structure may need position numbers`.
+## Out-of-Range Indices and Empty Lists
 
-| Perspective | General explanation | In Python |
-| --- | --- | --- |
-| ordered group | A structure that places several values in order | Uses a list |
-| position | The number used to find a value in the group | Usually starts from 0 |
-| item | An individual value in the group | Can be taken out like `scores[0]` |
+A list of length 4 has nonnegative indices 0 through 3. `scores[4]` requests a fifth item and raises `IndexError`. A slice, however, returns the available portion even if its end exceeds the list length.
 
-## A List Is Not Just Another Word for Array
+| Expression | Result for `scores = [82, 75, 91, 68]` |
+| --- | --- |
+| `scores[3]` | `68` |
+| `scores[4]` | `IndexError` |
+| `scores[2:10]` | `[91, 68]` |
+| `scores[4:10]` | `[]` |
 
-A person who learned another language first may immediately understand a list as an array. That is because both have order and allow values to be taken out by position.
+Both `len([])` and `sum([])` are 0, but an empty list does not have mean 0. `sum([]) / len([])` divides by zero and raises `ZeroDivisionError`. Check that at least one item was collected before computing a mean.
 
-But in this section, we do not use list and array as the same word. A Python list is more similar to a general-purpose container that stores several values and handles them in order. By contrast, an array in AI numerical computation usually means a data structure for placing numbers of the same kind in a fixed structure and computing on them quickly.
+## Lists and Arrays
 
-The official Python documentation supports this distinction. `list` is described as a mutable sequence, while the `array` module in the standard library separately provides arrays that efficiently store numeric values. An `array` behaves like a list in some ways, but the kinds of values it can store are limited by a type code fixed at creation.
+Readers familiar with another language may equate lists with arrays: both have an order and support indexed access.
 
-The confusion can become greater when you look at a multidimensional array. In Python too, if you put lists inside a list, you can make a structure that looks like a table.
+A Python list is a general-purpose container for ordered values. In AI numerical computing, an array usually means a structure for arranging numbers of the same kind and computing with them efficiently.
 
-Problem situation: I first want to see that putting lists inside a list makes a structure that looks like a table.
-Input: two row lists, `[1, 2, 3]` and `[4, 5, 6]`.
-Expected output: the nested list `rows`.
-Concept to check: a nested list may look two-dimensional, but it is still a structure where a list contains lists.
+Python documents `list` as a mutable sequence. Its standard-library `array` module separately provides efficient arrays of numeric values. Although an `array` behaves like a list in some respects, its element types are constrained by the type code chosen at creation.
+
+Multidimensional arrays can make this distinction harder to see. Lists inside a list can also form a table-like structure.
+
+Putting the rows `[1, 2, 3]` and `[4, 5, 6]` inside one list creates a nested list. The code prints the full structure and `4`, the first value of the second row.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 rows = [
     [1, 2, 3],
     [4, 5, 6],
 ]
+
+print(rows)
+print(rows[1][0])
 ```
 
-This shape looks like a matrix or a two-dimensional array. But it is still simply `a structure where lists are inside a list`. A NumPy multidimensional array (`ndarray`) is a computation structure that has information such as shape, axis, and dtype, and NumPy documentation also describes `ndarray` as an N-dimensional array. Therefore, `a nested list looks like a matrix` and `a nested list is a multidimensional array for numerical computation` must be distinguished.
+This resembles a matrix or two-dimensional array, but it remains a list containing lists. NumPy's `ndarray` is a computational structure with information such as shape, axis, and dtype; its documentation calls it an N-dimensional array. Looking like a matrix does not make a nested list a numerical multidimensional array.
 
-| Perspective | Python list | Array perspective in numerical computation |
+| Aspect | Python list | Array in numerical computing |
 | --- | --- | --- |
-| central idea | ordered group of values | a computation target that structurally stores numbers of the same kind |
-| main use | storing several targets such as sample lists, file names, or text lists | performing numerical computation on vectors, matrices, model input, and so on |
-| kind of values | can hold different types, though usually values of the same purpose are grouped | usually expects the same numeric type |
-| way of changing | easy to add or remove values | size, axis, and operation method become more important |
-| place in this section | recovery of basic Python syntax | handled separately in Part 2 Chapter 3 and Part 2 Chapter 11 |
+| Main idea | Ordered group of values | Structured numbers used for computation |
+| Typical use | Store samples, file names, or texts | Calculate with vectors, matrices, or model inputs |
+| Value types | May mix types, usually grouped for one purpose | Usually expects one numerical type |
+| Changes | Easy to add or remove items | Size, axes, and operations matter more |
 
-So in this section, read a list only as `an ordered group of values`. Arrays, vectors, and matrices for fast numerical computation are handled separately in Part 2 Chapter 3 and Part 2 Chapter 11.
+## Choosing a Data Structure
 
-This distinction is important. A Python list is convenient for gathering several samples, but when quickly computing a large amount of numbers in model computation, a separate structure such as a NumPy array is usually used. Therefore, `a list can hold numbers` and `a list is a numerical-computation array` are not the same statement.
+A Python list is a mutable sequence designed to hold ordered values, support adding or removing items at the end, and make iteration convenient. The official tutorial separately discusses list methods, stacks, limitations as queues, dictionaries, sets, and tuples.
 
-## A List Has a Different Role from Other Data Structures
+A list does not replace every kind of collection. Choose a structure according to how you need to handle its values.
 
-The design of a Python list can be understood as `a mutable sequence that stores ordered values, can add to the end or take them out when needed, and is easy to process repeatedly`. The official Python tutorial also separately explains list methods, the way of using a list like a stack, the limits of using it like a queue, dictionaries, sets, and tuples.
-
-In other words, a list is not a structure that stands in for every kind of grouping. Different structures are chosen depending on what criterion is used to handle values.
-
-| Structure | Central question | Difference from a list |
+| Structure | Main question | Difference from a list |
 | --- | --- | --- |
-| list | Should several values be stored in order and processed one by one? | Position and order matter, and values can be added or changed |
-| tuple | Should it remain as an unchanging group? | A tuple is an immutable sequence, used more like a fixed group of values |
-| dictionary | Should a value be found by name or key? | Accesses values by key rather than by position |
-| set | Are duplicate-free elements and membership important? | Uniqueness and membership test matter more than order |
-| deque | Will values be added and removed often at both ends? | If something must often be taken from the front like a queue, `collections.deque` fits better than a list |
-| array | Should numbers of the same kind be computed structurally? | Numeric type, shape, axis, and computation method matter |
+| List | Store and process values in order? | Index and order matter; items can be added or changed |
+| Tuple | Keep a fixed grouping? | An immutable sequence, often used for fixed groups |
+| Dictionary | Find values by name or key? | Access by key rather than position |
+| Set | Need unique elements and membership tests? | Uniqueness and membership matter more than order |
+| Deque | Frequently add and remove at both ends? | `collections.deque` suits frequent removal from the front better |
+| Array | Compute with structured numerical values? | Numerical type, shape, axes, and operations matter |
 
-Therefore, when looking at a list, it is better to ask first not `is it an array?`, but `is it an ordered general-purpose group?` A list is the most frequently encountered basic structure in Python code, but once the computation purpose becomes clearer, thought has to move toward other structures such as dictionaries, sets, deques, and NumPy arrays.
+## Mutation and References
 
-To summarize this difference again briefly:
+Lists are mutable sequences: their items can be added or changed.
 
-| Question needed now | Structure to recall first |
-| --- | --- |
-| Which numbered value is it? | list |
-| Is it found by name? | dictionary |
-| Are numbers of the same kind being computed? | array, NumPy |
-
-## A List Can Add and Change Values
-
-A list is a mutable value. If you first understand this point, it becomes easier to read more carefully the pattern of gathering values into an empty list and the pattern of preparing a length with the same value.
-
-Problem situation: I want to directly check that a list can have values added and changed even after it is created.
-Input: an initial score list, `append`, and index assignment.
-Expected output: a list where a value was added and some items were changed.
-Concept to check: a list is a mutable value, and both appending at the end and changing by position are possible.
+Append `68` to the scores and change the second score from `75` to `77`. The result is `[82, 77, 91, 68]`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91]
 
 scores.append(68)
@@ -191,17 +109,11 @@ scores[1] = 77
 print(scores)
 ```
 
-`append()` adds a value to the end of a list. `scores[1] = 77` changes the second item.
+`append()` adds a value at the end. `scores[1] = 77` changes the second item.
 
-In P2-8.1, we said that `a variable is a name attached to a value`. In lists, this perspective becomes even more important.
-
-Problem situation: I want to see whether, when the same list is pointed to by two names, a change through one name is also visible through the other.
-Input: `scores` and `other_scores`, both pointing to the same list.
-Expected output: the same changed result is printed through both names.
-Concept to check: assigning a list to another variable does not always automatically create a copy.
+`other_scores = scores` adds another name for the same list; it does not copy it. Appending `68` through `other_scores` makes both outputs `[82, 75, 91, 68]`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91]
 other_scores = scores
 
@@ -211,33 +123,32 @@ print(scores)
 print(other_scores)
 ```
 
-`scores` and `other_scores` are not copies of different lists. They point to the same list. So if you add a value through one name, the same change is visible through the other name too.
+`scores` and `other_scores` refer to the same list, not separate copies. A change through either name is visible through the other.
 
-In this section, we keep only the following criteria.
+## Return Values of Mutating Methods
 
-- The sense of changing one number or string and the sense of changing a list can be different.
-- Assigning a list to another name does not automatically create a new copy.
-- If the original must be preserved in data preprocessing, whether it is copied must be treated carefully.
-
-The question of whether copying happened and `when the original and the copy change together` is reorganized immediately afterward in the P2-8.7 supplementary learning section.
-
-## A List Can Be Joined, Sliced, and Changed with Compact Syntax
-
-When reading Python lists, symbols and square-bracket syntax often appear before function names. Actions that in other languages were encountered with names such as `concat`, `join`, `slice`, and `splice` are sometimes expressed in Python through operators, slices, assignment statements, and the `del` statement.
-
-What matters here is not that `Python list has functions with all of those names`. Python provides a common syntax for handling sequences, and lists use that syntax often.
-
-### Join Lists Together: Concatenation
-
-When you join two lists and make a new list, you can use `+`. If you want to attach other values to the end of an already existing list, you can use `extend()`.
-
-Problem situation: I want to compare whether `+` and `extend()` both join lists but differ in how they change the original.
-Input: `front`, `back`, and `scores`.
-Expected output: the newly made `combined`, the unchanged `front`, and the modified `scores`.
-Concept to check: `+` makes a new joined list, while `extend()` modifies the existing list itself.
+`append()` changes the original list and returns `None`. This code prints `[82, 75, 91]` and `None`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
+scores = [82, 75]
+result = scores.append(91)
+print(scores)
+print(result)
+```
+
+`result` is not the modified list. With `scores = scores.append(91)`, the item is appended, but the name `scores` then refers to `None`. To keep using the list, call the mutation alone: `scores.append(91)`.
+
+## Concatenation, Slicing, and Deletion
+
+Python list code often uses symbols and square brackets rather than named functions. Operations called `concat`, `join`, `slice`, or `splice` elsewhere may appear as operators, slices, assignments, or `del` statements in Python.
+
+### Concatenation
+
+Use `+` to combine two lists into a new list. Use `extend()` to add values to the end of an existing list.
+
+`[1, 2] + [3, 4]` creates `[1, 2, 3, 4]` while `front` stays `[1, 2]`. In contrast, `extend()` changes the existing `scores` to `[82, 75, 91, 68]`.
+
+```python
 front = [1, 2]
 back = [3, 4]
 
@@ -251,19 +162,15 @@ scores.extend([91, 68])
 print("scores after extend:", scores)
 ```
 
-`+` creates a new joined result, while `extend()` changes the existing list. This difference matters later when distinguishing references from changes.
+`+` creates a new concatenated result; `extend()` changes the original list.
 
-### Cut a List: Slice
+### Slicing
 
-When you want to take out only part of a list, you use a slice.
+A slice retrieves a range of items from a list.
 
-Problem situation: I want to see all at once how to cut out the front, middle, and back parts of a list.
-Input: `scores` containing five scores.
-Expected output: the middle part, the first two items, and the back part are each printed.
-Concept to check: a slice is syntax for reading a partial range by specifying a start and end range.
+Retrieve a middle range, the first two items, and the trailing range from five scores. The outputs are `[75, 91, 68]`, `[82, 75]`, and `[68, 88]`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68, 88]
 
 print(scores[1:4])
@@ -271,21 +178,17 @@ print(scores[:2])
 print(scores[3:])
 ```
 
-`scores[1:4]` takes values from index 1 up to just before 4. So the result is `[75, 91, 68]`. The rule that `the ending number is not included` can feel unfamiliar, but it is a repeated pattern in Python strings and lists.
+`scores[1:4]` includes indices from 1 up to, but not including, 4. It returns `[75, 91, 68]`; the value `88` at index 4 is excluded.
 
-A slice is syntax for reading part of the original list.
+Slicing a list creates a new list containing the selected items.
 
-### Delete or Replace Part of a List: Deletion and Slice Assignment
+### Deleting and Replacing a Range
 
-An action like `splice` from other languages, where a middle range of a list is deleted or replaced, is not provided in Python as a separate `splice()` method. A similar purpose is expressed through `del`, `insert()`, and slice assignment.
+Python has no separate list `splice()` method for deleting or replacing a middle range. Similar operations use `del`, `insert()`, or slice assignment.
 
-Problem situation: I want to check what remains if a middle range of a list is deleted.
-Input: `items = ["A", "B", "C", "D"]` and the deletion range `1:3`.
-Expected output: a list with the middle two items removed.
-Concept to check: if you use `del` together with a slice, you can delete a specific range.
+Deleting indices 1 up to, but not including, 3 from `["A", "B", "C", "D"]` prints `['A', 'D']`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 items = ["A", "B", "C", "D"]
 
 del items[1:3]
@@ -293,17 +196,11 @@ del items[1:3]
 print(items)
 ```
 
-`del items[1:3]` deletes from index 1 up to just before 3. The result is `["A", "D"]`.
+`del items[1:3]` removes that range, leaving `["A", "D"]`.
 
-You can also replace a range with other values.
-
-Problem situation: I want to check whether part of a list can be replaced with a value group of a different length.
-Input: the range `items[1:3]` and the new values `["X", "Y", "Z"]`.
-Expected output: a list reflecting the changed range.
-Concept to check: slice assignment can replace a range even when the length is not the same.
+Replace the middle items `"B"`, `"C"` with `"X"`, `"Y"`, `"Z"`. The result is `['A', 'X', 'Y', 'Z', 'D']`, increasing the length from 4 to 5.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 items = ["A", "B", "C", "D"]
 
 items[1:3] = ["X", "Y", "Z"]
@@ -311,19 +208,13 @@ items[1:3] = ["X", "Y", "Z"]
 print(items)
 ```
 
-The result is `["A", "X", "Y", "Z", "D"]`. A range does not have to be replaced only with another range of the same length.
+### Joining Strings: join
 
-### `join` Is a String Action, Not a List Action
+`join` is common in Python but is not a list method. It is a string method that joins a collection of strings into one string.
 
-`join` appears often in Python, but it is not a list method. It is a method used by a string to connect a list of strings into a single string.
-
-Problem situation: I want to see how `join` is used when combining a list of strings into a single sentence.
-Input: the string list `words` and the separator `" "`.
-Expected output: the sentence `sentence` connected by spaces.
-Concept to check: `join()` belongs to the string side, not to the list side.
+Joining `["AI", "needs", "data"]` with spaces prints `AI needs data`. The space string in `" ".join(words)` is the separator.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 words = ["AI", "needs", "data"]
 
 sentence = " ".join(words)
@@ -331,38 +222,26 @@ sentence = " ".join(words)
 print(sentence)
 ```
 
-The result is `"AI needs data"`. Here, the subject of the action is not the list, but the string `" "`. This string connects the strings inside `words` by placing spaces between them.
+The result is `"AI needs data"`. The operation belongs to the string `" "`, which joins the strings in `words` with spaces between them.
 
-Therefore, when reading lists in Python, it is safer to distinguish things like this.
-
-| What you want to do | Expression often seen in Python | Point of caution |
+| Goal | Common Python expression | Note |
 | --- | --- | --- |
-| Join two lists | `front + back` | Makes a new list |
-| Attach things at the end of an existing list | `items.extend(values)` | Changes the existing list |
-| Read a partial range | `items[1:4]` | The ending index is not included |
-| Delete a partial range | `del items[1:4]` | Changes the existing list |
-| Replace a partial range | `items[1:4] = values` | The replacement can have a different length |
-| Combine a list of strings into one string | `" ".join(words)` | `join()` is a string method |
+| Combine two lists | `front + back` | Creates a new list |
+| Extend an existing list | `items.extend(values)` | Mutates the list |
+| Read a range | `items[1:4]` | Excludes the end index |
+| Delete a range | `del items[1:4]` | Mutates the list |
+| Replace a range | `items[1:4] = values` | Replacement length may differ |
+| Join strings into one string | `" ".join(words)` | `join()` is a string method |
 
-In this section, you do not need to memorize all of this syntax. It is enough to remember that `Python lists are often handled not only by named functions, but also by sequence syntax that joins, cuts, and changes them`.
+## Initializing Lists
 
-## Basic Patterns for Creating a List at the Beginning
+Initialization creates a data structure. Choose its initial form according to whether values are already available or will be collected later.
 
-In general, to initialize a data structure means to create that structure for the first time. In Python, the way you start a list differs depending on whether values already exist, whether you will fill them later, or whether you first want to make space with the same value. At that time, remember together that a list is a mutable value.
+### When Values Are Known
 
-Generalizing it, the ways to start a list divide into three questions. Do you already know the values, will you fill them later, or do you want to first create positions with the same value?
-
-### When You Already Know the Values
-
-If you already know the values that will go in from the beginning, write them inside square brackets (`[]`).
-
-Problem situation: I want to see at once examples of creating different kinds of lists when the values are already known.
-Input: a score list, a label list, and a boolean list.
-Expected output: the three lists are each printed.
-Concept to check: a list can directly initialize groups of numbers, strings, booleans, and other values.
+Write known values directly inside brackets. The code prints lists of scores, labels, and Boolean values in their original order.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68]
 labels = ["positive", "negative", "neutral"]
 flags = [True, False, True]
@@ -372,19 +251,13 @@ print(labels)
 print(flags)
 ```
 
-This method reveals the composition of values most directly when making learning examples or small setting lists.
+This makes the contents explicit for small learning examples or configuration lists.
 
-### When Starting from an Empty List
+### Starting with an Empty List
 
-If you do not yet have values but plan to put them in later, you can start with an empty list.
-
-Problem situation: I want to check the basic pattern of starting with an empty list and gathering values one by one later.
-Input: an empty list `passed_scores` and two `append` calls.
-Expected output: a list containing the added values.
-Concept to check: an empty list is often used as the starting point for building results later.
+Adding `82` and `75` to `[]` one at a time prints `[82, 75]`. Each new value is collected with `append()`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 passed_scores = []
 
 passed_scores.append(82)
@@ -393,33 +266,23 @@ passed_scores.append(75)
 print(passed_scores)
 ```
 
-This example shows that values can be added even after the list is made. In actual data processing, it is common to gather values that match a condition into an empty list using iteration. That pattern is revisited in P2-8.4.
+Lists can grow after creation. Data processing often uses a loop to collect matching values in an initially empty list.
 
-### When Starting by Filling with the Same Value
+### Filling a Known Length with One Value
 
-There are also times when you know the needed length and want to first fill it with the same value.
-
-Problem situation: I want to see an example of quickly making a list of a fixed length with the same default value.
-Input: the default value `0` and the repetition count `5`.
-Expected output: a list containing five `0`s.
-Concept to check: `[value] * count` can be used when quickly making a simple initial value list.
+`[0] * 5` repeats the initial value `0` five times, printing `[0, 0, 0, 0, 0]`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 predictions = [0] * 5
 
 print(predictions)
 ```
 
-This code makes `[0, 0, 0, 0, 0]`. But while this method is easy to understand for simple values such as numbers or strings, you must be careful when putting lists inside a list.
+This creates `[0, 0, 0, 0, 0]`. It is straightforward for simple values such as numbers or strings, but nested lists need care.
 
-Problem situation: I want to check why code that looks like it duplicated the same inner list several times can be dangerous.
-Input: `rows = [[]] * 3` and adding `"A"` to the first inner list.
-Expected output: a result that looks as if all inner lists changed together.
-Concept to check: in nested lists, initialization that points to the same object multiple times can create unexpected sharing.
+`[[]] * 3` refers to one inner empty list in three positions. Appending `"A"` through the first position prints `[['A'], ['A'], ['A']]`.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 rows = [[]] * 3
 
 rows[0].append("A")
@@ -427,34 +290,17 @@ rows[0].append("A")
 print(rows)
 ```
 
-This code can look different from what you expected. That is because each inner list was not newly created; instead, the same list is being pointed to multiple times. In this section, we keep the criterion of not creating nested lists in this way.
+Create the inner lists separately to change rows independently. With `rows = [[], [], []]`, the result becomes `[['A'], [], []]`: only the first row changes.
 
-### When Making a New List by a Repetition Rule
+## Lists of Scores, Sentences, and Files
 
-It is also common to process existing values one by one and make a new list. But that is more the topic of iteration than of the list itself. In this section, we leave only the point that `a list is needed to hold a new result`, and actual iteration patterns are handled in P2-8.4.
+Use a list when values share a purpose or context and their positions or order matter.
 
-In this section, choose the starting shape of a list by the following criteria.
+### Multiple Scores
 
-| Situation | Initialization pattern |
-| --- | --- |
-| You already know the values | `scores = [82, 75, 91]` |
-| You add values later | `results = []` |
-| You fill with the same simple value | `predictions = [0] * 5` |
-| You make a new list by a repetition rule | `for` and list comprehension in P2-8.4 |
-
-## Situations Where Lists Are Used
-
-Lists are used when values of the same purpose or context are gathered in order and that position or order has meaning.
-
-### Several Scores
-
-Problem situation: I want to see a basic example of using one score list to calculate several summary values.
-Input: the score list `scores`.
-Expected output: the calculation results of maximum, minimum, and average.
-Concept to check: a list can gather several numeric values at once and serve as the input to summary computation.
+For `[82, 75, 91, 68]`, the maximum is `91`, minimum `68`, and mean `79.0`. `sum()` returns the total and `len()` the item count; dividing them gives the mean.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68]
 
 print(max(scores))
@@ -462,17 +308,11 @@ print(min(scores))
 print(sum(scores) / len(scores))
 ```
 
-A score list can have order, and the whole thing can also be gathered to calculate an average.
+### Multiple Sentences
 
-### Several Sentences
-
-Problem situation: I want to see an example of processing several sentences one by one in the same way.
-Input: the list `texts` containing three sentences.
-Expected output: each sentence is printed one after another in a loop.
-Concept to check: a list is good for iterating over several items of the same kind, such as text, in order.
+A `for` loop retrieves three sentences in order. `text` refers to each sentence in turn, and each is printed on its own line.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 texts = [
     "AI is useful.",
     "Data quality matters.",
@@ -483,37 +323,29 @@ for text in texts:
     print(text)
 ```
 
-In LLM or text-classification practice, you often encounter lists of sentences.
+Sentence lists are common in LLM and text-classification exercises.
 
-### Several Model Outputs
+### Multiple Model Outputs
 
-Problem situation: I want to see an example of judging several probability scores one by one against a criterion.
-Input: the probability list `probabilities` and the threshold `0.8`.
-Expected output: `high confidence` or `check` is printed for each score.
-Concept to check: a list can be used to evaluate multiple model output values in order.
+Compare `[0.92, 0.31, 0.77, 0.12]` against `0.8`. Only the first value passes, so the code prints `above threshold` once and `check` three times.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 probabilities = [0.92, 0.31, 0.77, 0.12]
 
 for probability in probabilities:
     if probability >= 0.8:
-        print("high confidence")
+        print("above threshold")
     else:
         print("check")
 ```
 
-If a model produced probability scores for several inputs, that result can also be seen as a list.
+Changing the threshold to `0.7` also admits `0.77`, producing `above threshold` twice. Passing a chosen threshold does not guarantee a correct prediction.
 
-### Several File Names
+### Multiple File Names
 
-Problem situation: I want to see the simplest example of processing several file names by the same procedure.
-Input: the list containing `train.csv`, `valid.csv`, and `test.csv`.
-Expected output: each file name is printed one after another.
-Concept to check: a list is suitable for listing several work targets of the same kind in order.
+The code retrieves three file names and prints `train.csv`, `valid.csv`, and `test.csv` in order. It does not read the files themselves.
 
 ```python
-# This example checks how a list stores and processes multiple values in order.
 file_names = [
     "train.csv",
     "valid.csv",
@@ -524,40 +356,39 @@ for file_name in file_names:
     print(file_name)
 ```
 
-In project practice, there are many cases where several files must be processed in the same way.
+## Case: Inspecting the Third Prediction Score
 
-## Case Study
+Suppose `[0.92, 0.31, 0.77, 0.12]` stores predictions in input order. The third input's score is `0.77` at index `2`. Appending a new score `0.85` preserves the existing positions and increases the length to `5`.
 
-### Case 1. What Is Needed to Handle Several Prediction Scores at Once?
+```python
+probabilities = [0.92, 0.31, 0.77, 0.12]
+print(probabilities[2])
 
-Suppose a model produced five probability scores for five samples. At first, a person may be able to look at values one by one such as `0.92`, `0.31`, and `0.77`, but soon the need appears: `I want to process the whole thing in order` and `I want to look again only at the third result`.
+probabilities.append(0.85)
+print(probabilities)
+print(len(probabilities))
+```
 
-At that point, if the values are placed in separate variables like `score1`, `score2`, and `score3`, managing them becomes inconvenient very quickly. It becomes hard to handle several ordered values by the same criterion, and iteration or partial selection also becomes cumbersome.
-
-The list is exactly the structure suited for this scene. When there are several values of the same purpose, such as scores, sentences, or file names, and order has meaning, once they are grouped in a list, it becomes easy to take them out by index, add a new one at the end when needed, and make a new list.
-
-The confirmable result appears immediately through the index. If you can directly check a third value like `probabilities[2]`, and if you can attach a new result at the end with `append()`, then this is a situation where a list fits better than naming separate variables one by one.
+The outputs are `0.77`, `[0.92, 0.31, 0.77, 0.12, 0.85]`, and `5`. If inputs and predictions correspond by position, do not reorder only one list. Sorting only scores can make the third position refer to a different input.
 
 ## Checklist
 
-- Can you explain a list as an `ordered group of values`?
-- Can you read `scores[0]` and `scores[-1]`?
-- Can you explain why it is dangerous to use list and NumPy array as the same word?
-- Can you say that the same list can be pointed to by two names together?
-- You can explain a list as an ordered group of values.
-- You can explain the meaning of `scores[0]` and `scores[-1]`.
-- You can distinguish a list that starts with known values, an empty list, and a list filled with the same value.
-- You can read the flow of adding values with `append()`.
-- You can roughly distinguish `+`, `extend()`, slice, `del`, and slice assignment.
-- You can explain that `join()` is not a list method but a string method.
-- You can explain that Python lists do not have a JavaScript-style `splice()` method, and that similar work is expressed through `del`, `insert()`, and slice assignment.
-- You can explain that the same list can be pointed to by several names.
-- You can explain that care is needed when creating a nested list by repeating the same value.
-- Can you first distinguish whether the current question is about order, index, or mutability?
+- Explain a list as an ordered group of values.
+- Explain `scores[0]` and `scores[-1]`.
+- Distinguish known-value, empty, and repeated-value initialization.
+- Read how `append()` adds an item.
+- Distinguish `+`, `extend()`, slicing, `del`, and slice assignment.
+- Explain that `join()` is a string method, not a list method.
+- Explain how `del`, `insert()`, and slice assignment replace JavaScript-style `splice()` operations.
+- Explain how multiple names can refer to one list.
+- Explain the risk of repeating nested lists.
+
+- Explain out-of-range indexing versus slicing, the empty-list mean error, and the return value of `append()`.
 
 ## Sources and References
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm list methods, examples of using lists as stacks, list comprehensions, and nested list examples.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm sequence types, mutable sequence operations, indexing, and slicing behavior.
-- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm that the standard-library `array` stores values of the same basic type efficiently.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm that NumPy arrays are the core structure for handling large numeric data efficiently, unlike ordinary Python lists.
+
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-07-20. Used to confirm list methods, examples of using lists as stacks, list comprehensions, and nested list examples.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-09-15. Used to confirm sequence types, mutable sequence operations, indexing, and slicing behavior.
+- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-07-20. Used to confirm that the standard-library `array` stores values of the same basic type efficiently.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used to confirm that NumPy arrays are the core structure for handling large numeric data efficiently, unlike ordinary Python lists.

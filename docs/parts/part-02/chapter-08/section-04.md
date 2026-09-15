@@ -1,7 +1,7 @@
 # P2-8.4 반복(loop): 이터러블(iterable)을 하나씩 처리하기
 
 > Section ID: `P2-8.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 점수 네 개에 같은 기준을 적용하려면 각 점수를 꺼내 비교해야 합니다. 반복(loop)은 이 처리를 항목마다 실행하여 결과를 출력하거나, 필요한 값만 모으거나, 합계와 개수를 계산합니다.
 
@@ -97,6 +97,23 @@ print(next(iterator, "end"))
 | 반복문 | 받은 값에 처리를 적용 | `for score in scores` |
 
 2001년에 작성된 PEP 234는 객체가 반복 방식을 제공하는 인터페이스를 제안했습니다. Python 2.2 시기의 이 제안은 시퀀스 중심 반복을 넘어 여러 객체를 같은 `for` 문으로 처리하는 배경이 되었습니다.
+
+## 한 번 소비한 이터레이터
+
+리스트에서 새 반복을 시작하면 다시 첫 항목부터 읽을 수 있지만, 이미 끝까지 읽은 이터레이터는 되감기지 않습니다. `zip()`도 이터레이터를 반환합니다.
+
+```python
+texts = ["good", "bad"]
+labels = ["positive", "negative"]
+pairs = zip(texts, labels)
+
+print(list(pairs))
+print(list(pairs))
+```
+
+첫 출력은 `[('good', 'positive'), ('bad', 'negative')]`이고 두 번째는 `[]`입니다. 데이터가 사라진 것이 아니라 `pairs`가 끝까지 소비된 것입니다. `pairs = list(zip(texts, labels))`로 바꾸면 결과를 리스트로 보관하므로 두 번 모두 같은 쌍이 출력됩니다. 대신 모든 쌍을 메모리에 보관합니다.
+
+빈 리스트에 대한 `for`는 본문을 한 번도 실행하지 않습니다. 합계를 반복 밖에서 `total = 0`으로 초기화하면 빈 입력에서도 합계는 0으로 남습니다. 반복 안에서만 이름을 처음 할당하면 빈 입력에서는 그 할당 자체가 실행되지 않는다는 점도 확인해야 합니다.
 
 ## 필터링과 변환
 
@@ -338,12 +355,14 @@ print(lengths)
 - 컴프리헨션이 복잡해지면 일반 `for` 문이 더 적합할 수 있음을 설명할 수 있다.
 - 반복 중 원본 데이터를 직접 바꾸는 일이 문제를 만들 수 있음을 설명할 수 있다.
 
+- 소진된 이터레이터를 다시 읽으면 빈 결과가 나오는 이유를 설명할 수 있다.
+
 ## 출처와 참고 자료
 
-- Python Software Foundation, [More Control Flow Tools](https://docs.python.org/3/tutorial/controlflow.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `for`, `range()`, 함수 정의 예시와 제어 흐름 설명을 반복 문법의 공식 근거로 사용했다.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 리스트 컴프리헨션, 딕셔너리 순회, `items()` 예시와 반복 중 컬렉션 수정 주의 설명 확인에 사용했다.
-- Python Software Foundation, [Glossary: iterable, iterator](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. iterable과 iterator 용어를 입문 수준으로 구분하는 근거로 사용했다.
-- Python Software Foundation, [The for statement](https://docs.python.org/3/reference/compound_stmts.html#the-for-statement){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `for` 문이 이터러블 표현식의 이터레이터에서 항목을 하나씩 대입한다는 설명 확인에 사용했다.
+- Python Software Foundation, [More Control Flow Tools](https://docs.python.org/3/tutorial/controlflow.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. `for`, `range()`, 함수 정의 예시와 제어 흐름 설명을 반복 문법의 공식 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 리스트 컴프리헨션, 딕셔너리 순회, `items()` 예시와 반복 중 컬렉션 수정 주의 설명 확인에 사용했다.
+- Python Software Foundation, [Glossary: iterable, iterator](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. iterable과 iterator 용어를 입문 수준으로 구분하는 근거로 사용했다.
+- Python Software Foundation, [The for statement](https://docs.python.org/3/reference/compound_stmts.html#the-for-statement){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. `for` 문이 이터러블 표현식의 이터레이터에서 항목을 하나씩 대입한다는 설명 확인에 사용했다.
 - Ka-Ping Yee, Guido van Rossum, [PEP 234 -- Iterators](https://peps.python.org/pep-0234/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 2001, 확인 날짜: 2026-07-20. Python 반복 인터페이스가 시퀀스 중심 반복을 넘어 객체가 반복 방식을 제공하는 방향으로 정리된 역사적 배경 확인에 사용했다.
 
-- Python Software Foundation, [Built-in Functions: iter, next, zip](https://docs.python.org/3/library/functions.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-08. 이터레이터의 종료와 기본값, zip의 길이 차이 처리 및 strict 옵션을 확인했다.
+- Python Software Foundation, [Built-in Functions: iter, next, zip](https://docs.python.org/3/library/functions.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. 이터레이터의 종료와 기본값, zip의 길이 차이 처리 및 strict 옵션을 확인했다.

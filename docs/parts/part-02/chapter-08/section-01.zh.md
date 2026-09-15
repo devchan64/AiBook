@@ -1,15 +1,10 @@
 # P2-8.1 值、变量与类型
 
 > Section ID: `P2-8.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `82` 与 `"82"` 在屏幕上看起来相似，计算结果却不同。`82 + 3` 得到 `85`，而 `"82" + 3` 会报错，因为数字与字符串的类型(type)不同。
 
-| 标准 | 为什么重要 |
-| --- | --- |
-| 值(value)是计算处理的数据 | 数字、文本与真假值都可作为运算输入。 |
-| 变量(variable)是指向值的名称 | 可通过名称复用值，或改为指向其他值。 |
-| 类型(type)是值的种类 | 区分可以应用于值的运算。 |
 
 ## 值与运算
 
@@ -182,6 +177,21 @@ print(score >= threshold)
 
 `score_text` 指向原始字符串，`score` 指向转换后的数字。将最后代码中的 `threshold` 改为 `90.0`，结果变为 `False`。分数类型匹配后才能执行比较，改变比较标准则会改变判断结果。
 
+## 真值转换与字符串内容
+
+`bool()` 不会理解字符串里单词的含义。空字符串为 `False`，非空字符串为 `True`。因此对配置字符串 `"False"` 应用 `bool()`，也会得到 `True`。
+
+```python
+print(bool(""))
+print(bool("False"))
+print(bool("0"))
+print(bool(0))
+```
+
+输出依次为 `False`、`True`、`True`、`False`。数字 0 与字符串 `"0"` 的真值不同。字符串配置需要明确允许的写法与转换规则。
+
+数字转换也要求内容符合格式。`float("82.5")` 得到 `82.5`，但 `float("未录入")` 会引发 `ValueError`。表示缺失的 `None` 不同于数字 0 或字符串 `"None"`。随意把未录入分数转成 0，会与实际 0 分混淆，因此应区分缺失处理与数值转换。
+
 ## 检查清单
 
 - 能区分值、变量与类型。
@@ -192,9 +202,11 @@ print(score >= threshold)
 - 能说明出现类型错误时应先检查数据状态。
 - 能说明即使屏幕上看起来像数字，也应先检查实际类型的原因。
 
+- 能解释 `bool("False")` 为何是 `True`，以及将缺失值 `None` 替换成 0 会丢失什么信息。
+
 ## 来源与参考资料
 
 - Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org，确认日期：2026-07-20。用于确认 Python 的动态语义(dynamic semantics)、动态类型(dynamic typing)和高层内置数据结构说明。
-- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Python 交互式示例中 prompt、数字、字符串和列表的介绍方式。
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 `int`、`float`、`str`、`bool` 等基本类型，以及不同类型对应的运算差异。
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Python 对象具有 identity、type、value 这一说明。
+- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认 Python 交互式示例中 prompt、数字、字符串和列表的介绍方式。
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-09-15。用于确认 `int`、`float`、`str`、`bool` 等基本类型，以及不同类型对应的运算差异。
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认 Python 对象具有 identity、type、value 这一说明。

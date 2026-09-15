@@ -1,69 +1,17 @@
-# P2-8.5 函数(function)与小规模复用
+# P2-8.5 函数与小范围复用
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
-第一段代码还不是函数。先看输入值 `score` 如何经过条件语句，变成名为 `result` 的输出候选。紧接着的函数例子不是把这个流程拆开，而是给同一个输入-处理-输出关系命名，使它可以复用。
+## 定义与调用函数
 
-在 P2-8.1 里，我们看了值(value)、变量(variable)、类型(type)。从 P2-8.2 到 P2-8.4，我们看了如何通过列表(list)、字典(dictionary)、循环(loop)来处理多个值。
+函数通常接收输入、执行处理并返回结果。数学强调输入与输出的关系，编程则把关系表达为可执行代码。
 
-现在还剩下一个问题：
+Python 用 `def` 为函数命名，并以形参（parameter）命名所需输入。
 
-如果同一种处理要反复使用很多次，该怎么办？
-
-在 Python 里，我们使用函数(function)。函数是一种结构：它给重复处理起名字，接收需要的值，完成计算，然后把结果返回出去。
-
-这里解释 `函数(function)`、`参数(parameter)`、`实参(argument)`、`返回值(return value)` 之间的基本区分。`值(value)`、`变量(variable)`、`循环(loop)` 的代表性说明仍然放在 P2-8.1、P2-8.4 和[函数词条](/AiBook/zh/reference/concept-glossary-pinyin/f/#function)里，而这里集中在把输入-处理-输出契约读成一个可复用的小单元。
-
-这一节不会要求把函数语法全部背下来，而是建立这样一种感觉：数学里的函数和 Python 函数怎样相似、又怎样不同；以及怎样把一小段数据处理代码切分成可以复用的单位。
-
-更一般地说，函数就是把 `输入、处理、输出` 打包成一个单元的方法。Python 语法只是表达这种单元的一种方式，而同样的视角也会继续延伸到数学函数、模型函数、API 函数、库函数。
-
-这里不是去学函数的高级特性，而是把前一节里的循环和数据结构处理重新打包成小的复用单元。如果之前我们是分别阅读列表、字典、循环，那么这里就是进入“给那段处理流程起名，从而可以再次使用”的位置。先抓住这个把手，后面再看库函数或模型 API 时，就会更容易先读懂 `输入-处理-输出契约`，而不是先被 `语法` 卡住。
-
-| 术语 | 本节先固定的含义 |
-| --- | --- |
-| 函数(function) | 接收输入、进行处理并返回结果的有名字代码单元 |
-| 参数(parameter) | 定义函数时写下的输入名称 |
-| 实参(argument) | 调用函数时实际传入的值 |
-| 返回值(return value) | 函数计算后返回到外部的结果 |
-| 方法(method) | 附着在某个值或对象上被调用的函数形式 |
-
-## 核心判断标准：函数(function)与小规模复用
-
-- 能读懂使用 `def` 定义函数的基本形式。
-- 能区分参数(parameter)和实参(argument)。
-- 能说明 `return` 是把函数结果返回出去的语法。
-- 能把重复计算和数据处理拆成小函数。
-- 能说明数学函数和 Python 函数的差别。
-- 能说明 Python 函数也可以像值一样被放进变量里，并传递给其他函数。
-- 能在入门层面区分函数(function)和方法(method)在调用形式上的不同。
-
-## 学习背景
-
-这里先看的是 `怎样给重复处理起名并再次使用`，而不是先背函数语法。下面三个基准会成为后面阅读库函数和方法的基础。
-
-| 基准 | 为什么重要 | 本节所需的理解水平 |
-| --- | --- | --- |
-| 函数把输入、处理、输出打包成一个单元 | 它让我们能在同一个大框架里阅读数学函数和代码函数。 | 理解它是“接收值并返回结果的有名字代码”。 |
-| 如果同一种处理不断重复，拆成函数更容易阅读 | 它帮助我们理解为什么小型数据处理代码会变成可复用结构。 | 能把通关判断、归一化这类计算读成函数。 |
-| `print` 和 `return` 的角色不同 | 这对区分执行输出和计算结果很重要。 | 能解释“显示在屏幕上”和“返回给下一步计算”不是一回事。 |
-
-## 函数把处理单元用名字分离出来
-
-一般来说，函数(function)就是一个单元：接收输入，进行处理，然后把结果返回出去。数学更强调输入与输出的关系，而编程则把这种关系写成真正能运行的代码。
-
-在 Python 里，我们用 `def` 给函数起名字，并把需要的输入名写成参数(parameter)。
-
-下面的代码按分数判断是否通过。
-
-问题场景：在拆成函数之前，先看一段直接判断单个分数的代码。
-输入(input)：分数值 `82`。
-期望输出(output)：字符串 `pass`。
-要确认的概念：重复判断也可以先用普通条件语句表达。
+分数 `82` 不低于阈值 `60`，因此输出 `pass`。这段代码不使用函数，直接通过条件语句判断。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 score = 82
 
 if score >= 60:
@@ -74,17 +22,11 @@ else:
 print(result)
 ```
 
-如果这种判断只写一次，完全可以保持原样。但如果要对很多分数反复做同样的判断，代码就会开始重复。
+只判断一次时可以这样写。但若要对多个分数反复做相同判断，就会重复代码。
 
-如果用函数，我们就能给这段处理起名字。
-
-问题场景：想看一个把同样的通过/不通过判断打包成函数，以便多次复用的例子。
-输入(input)：函数 `pass_or_fail` 和分数 `82`、`55`。
-期望输出(output)：分别得到 `pass`、`fail`。
-要确认的概念：函数能给重复处理起名字，并让它再次使用。
+把通过判断命名为 `pass_or_fail` 后，只需改变分数就能调用。下面依次输出 `pass`、`fail`。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def pass_or_fail(score):
     if score >= 60:
         return "pass"
@@ -94,69 +36,45 @@ print(pass_or_fail(82))
 print(pass_or_fail(55))
 ```
 
-`pass_or_fail` 是函数名。`score` 是函数内部使用的输入名。`return` 会把结果送回函数外部。
-
-在这一节里，我们用下面这个标准来理解函数：
-
-函数是“接收输入、进行处理、返回结果的有名字代码”。
-
-| 视角 | 一般说明 | 在 Python 里 |
-| --- | --- | --- |
-| 函数(function) | 把输入、处理、输出打包成一个单元 | 用 `def` 定义 |
-| 输入 | 函数要处理的值 | 要区分参数(parameter)和实参(argument) |
-| 输出 | 交给下一步计算的结果 | 用 `return` 返回 |
+`pass_or_fail` 是函数名，`score` 是内部使用的输入名称。`return` 把结果送回调用处并结束本次执行。输入 `82` 时返回 `"pass"`，不会再执行下方的 `return "fail"`。
 
 ### 数学函数与 Python 函数
 
-在数学里，函数通常通过输入与输出的关系来说明。
+数学中通常用输入与输出的关系描述函数。
 
 $$
 f(x) = x + 1
 $$
 
-换成 Python，可以写成这样。
-
-问题场景：想看最小的例子，把数学函数 \(f(x)=x+1\) 搬成 Python 函数。
-输入(input)：输入值 `3`。
-期望输出(output)：`4`。
-要确认的概念：数学函数的输入-输出关系，也可以用 Python 的函数形式表达。
+数学函数 \(f(x)=x+1\) 可以写成下面的 Python 代码。传入实参 `3`，输出 `4`。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def f(x):
     return x + 1
 
 print(f(3))
 ```
 
-两者确实相似。都有输入 `x`，也都有结果。
-
-但它们并不完全相同。
-
-| 视角 | 数学函数 | Python 函数 |
+| 方面 | 数学函数 | Python 函数 |
 | --- | --- | --- |
-| 核心关注 | 输入与输出的关系 | 真正运行的代码与结果 |
-| 表达形式 | \(f(x) = x + 1\) | `def f(x): return x + 1` |
-| 副作用(side effect) | 通常看成纯关系 | 可以打印、存文件、修改列表 |
-| 错误 | 超出定义域时按数学处理 | 可能出现类型错误、键错误、运行错误 |
+| 重点 | 输入与输出的关系 | 执行的代码及结果 |
+| 表达 | \(f(x) = x + 1\) | `def f(x): return x + 1` |
+| 副作用 | 通常作为纯粹关系处理 | 可以输出、保存文件、修改列表 |
+| 错误 | 在数学上处理定义域外输入 | 可能出现类型、键或执行错误 |
 
-在 AI 实践里，这两种视角都需要。
+AI 练习需要两种视角。
 
-- 损失函数(loss function)需要按数学关系理解。
-- Python 函数让我们能在代码里复用那个计算。
-- 库函数则让我们即使不知道内部实现，也能根据输入-输出契约来使用它。
+- 把损失函数理解为数学关系。
+- 用 Python 函数复用这些计算。
+- 通过输入输出约定使用库函数，无需了解全部内部实现。
 
-### 区分参数与实参
+### 形参与实参
 
-既然已经看到数学函数和 Python 函数都会接收输入，现在就可以区分 Python 文档里常见的术语了。学习函数时，经常会遇到 parameter 和 argument。
+形参是在函数定义中命名输入的名称，实参（argument）是调用时传入的值。
 
-问题场景：想通过一个真实调用例子区分参数和实参。
-输入(input)：函数 `add_bonus(score, bonus)` 与调用时传入的 `80`、`5`。
-期望输出(output)：相加后的结果 `85`。
-要确认的概念：定义函数时写的名字是参数，调用时实际传入的值是实参。
+给分数 `80` 加上奖励分 `5`，返回 `85`。定义中的 `score`、`bonus` 是形参，调用中的 `80`、`5` 是实参。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def add_bonus(score, bonus):
     return score + bonus
 
@@ -165,29 +83,19 @@ result = add_bonus(80, 5)
 print(result)
 ```
 
-在这段代码里，`score` 和 `bonus` 是参数(parameter)。它们是函数定义内部用来称呼输入值的名字。
-
-`80` 和 `5` 是实参(argument)。它们是调用函数时真正传进去的值。
-
-| 区分 | 所在位置 | 示例 |
+| 术语 | 位置 | 示例 |
 | --- | --- | --- |
-| 参数(parameter) | 定义函数时写下的名字 | `score`, `bonus` |
-| 实参(argument) | 调用函数时实际放进去的值 | `80`, `5` |
-| 返回值(return value) | 函数送回来的结果 | `85` |
+| 形参 | 定义时使用的输入名称 | `score`、`bonus` |
+| 实参 | 调用时传入的实际值 | `80`、`5` |
+| 返回值 | 函数返回的结果 | `85` |
 
-这种区分会在之后阅读模型函数、损失函数、API 函数、库函数文档时反复出现。
+### 返回与输出
 
-### `return` 会把结果返回出去
+`return` 将函数计算的结果返回给调用处。
 
-`return` 是一种语法：把函数计算出来的结果送回到调用它的位置。
-
-问题场景：想看一个函数计算结果被下一步计算继续使用的例子。
-输入(input)：分数 `82`。
-期望输出(output)：归一化结果 `0.82`。
-要确认的概念：`return` 会把函数结果返回给调用者。
+把百分制分数 `82` 除以 100 并返回。调用方把收到的 `0.82` 保存到 `normalized` 并输出。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def normalize_score(score):
     return score / 100
 
@@ -196,17 +104,13 @@ normalized = normalize_score(82)
 print(normalized)
 ```
 
-当 `normalize_score(82)` 运行时，结果 `0.82` 会被返回。然后这个结果被放进名为 `normalized` 的变量里。
+`normalize_score(82)` 返回 `0.82`，并将结果关联到名称 `normalized`。
 
-`print()` 和 `return` 是不同的。
+`print()` 与 `return` 是不同操作。
 
-问题场景：想比较“屏幕上显示的东西”和“真正返回的值”之间的区别。
-输入(input)：分数 `82`。
-期望输出(output)：函数内部会打印 `82`，但外部变量 `result` 会得到 `None`。
-要确认的概念：`print()` 是显示输出，而 `return` 是传递计算结果。
+`show_score(82)` 在屏幕上输出 `82`，但没有 `return`，因此返回值为 `None`，`print(result)` 输出 `None`。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def show_score(score):
     print(score)
 
@@ -215,26 +119,15 @@ result = show_score(82)
 print(result)
 ```
 
-这个函数会在屏幕上打印 `82`，但它没有返回值。在 Python 里，如果没有显式返回某个值，结果通常会被读成 `None`。
+函数执行到末尾而没有 `return` 时会返回 `None`。屏幕上的 `82` 不会保存在 `result` 中。计算 `result + 1` 会因 `None` 不能与整数相加而引发 `TypeError`。
 
-在这一节里，我们要区分下面两件事。
+## 复用重复计算
 
-- `print()` 是给人看的输出。
-- `return` 是把结果送给下一步计算。
+为重复计算命名，可以显露代码意图。
 
-## 细部学习内容
-
-### 把重复计算拆成函数
-
-只要给重复计算起名字，代码意图就会更清楚。
-
-问题场景：想看一个把分数归一化拆成函数，并在循环里复用的例子。
-Input: 分数列表 `scores`。
-期望输出(output)：归一化后的分数列表 `normalized_scores`。
-要确认的概念：如果同一个计算出现在循环里，拆成函数会让意图更清晰。
+对四个分数应用 `normalize_score()`，输出 `[0.82, 0.75, 0.91, 0.68]`。循环逐个取分数，函数将每个分数除以 100。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def normalize_score(score):
     return score / 100
 
@@ -247,41 +140,31 @@ for score in scores:
 print(normalized_scores)
 ```
 
-现在，比起 `score / 100` 这个表达式本身，`normalize` 的意图会更先被看见。
+简单计算不一定要拆成函数。但在多处使用相同计算，或命名能让意图更清楚时，函数很有用。
 
-当计算非常简单时，不一定非得拆成函数。但如果同样的计算会在多个地方反复使用，或者给它一个名字会让意图更明确，那么函数就会变得有用。
+### 处理单个样本
 
-### 处理单条数据的函数
+AI 练习中经常使用处理单个样本的函数。
 
-在 AI 实践里，我们经常会创建“处理一条样本(sample)”的函数。
-
-问题场景：想看一个检查单个样本是否具备所有必要键的函数。
-输入(input)：一个带有 `text`、`label` 键的样本字典。
-期望输出(output)：有效性结果 `True`。
-要确认的概念：函数可以把“检查一条数据”的规则封装起来。
+检查样本是否同时具有 `"text"` 和 `"label"` 键。本例两者都有，因此输出 `True`。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
-def is_valid_sample(sample):
+def has_required_keys(sample):
     return "text" in sample and "label" in sample
 
 sample = {"text": "AI is useful", "label": "positive"}
 
-print(is_valid_sample(sample))
+print(has_required_keys(sample))
 ```
 
-这个函数检查样本里是否有 `text` 和 `label` 两个键。
+该函数只检查键是否存在。`{"text": "", "label": None}` 也会得到 `True`，不会检查文本是否为空或标签值是否允许。
 
-它也可以被应用到很多样本上。
+同一函数可以处理多个样本。
 
-问题场景：想看一个把刚才创建的样本检查函数重复应用到多个样本上的例子。
-输入(input)：样本字典列表 `samples`。
-期望输出(output)：只保留有效样本的 `valid_samples`。
-要确认的概念：当“处理一条数据的函数”和循环结合时，它的复用价值会明显变大。
+对三个样本应用相同键检查。第二个缺少 `"label"`，因此结果列表只保留第一个和第三个字典。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
-def is_valid_sample(sample):
+def has_required_keys(sample):
     return "text" in sample and "label" in sample
 
 samples = [
@@ -290,34 +173,22 @@ samples = [
     {"text": "Models can fail", "label": "negative"},
 ]
 
-valid_samples = []
+samples_with_keys = []
 
 for sample in samples:
-    if is_valid_sample(sample):
-        valid_samples.append(sample)
+    if has_required_keys(sample):
+        samples_with_keys.append(sample)
 
-print(valid_samples)
+print(samples_with_keys)
 ```
 
-这个结构虽然小，但很重要。
+### 形参默认值
 
-- 循环会把多个样本一个一个取出来。
-- 函数负责检查一条样本。
-- 条件语句根据检查结果改变处理方式。
+函数形参可以设置默认值。
 
-这种小组合，会成为后面预处理(preprocessing)、评估(evaluation)、筛选(filtering)代码的基本形状。
-
-### 可以设置默认值
-
-函数参数还可以带默认值(default value)。
-
-问题场景：想看一个阈值不常变化的函数里，默认值是如何工作的。
-输入(input)：`score`、默认值 `threshold=60`、以及显式传入的 `threshold=90`。
-期望输出(output)：同一个分数会因为阈值不同而得到不同判定。
-要确认的概念：默认参数让函数即使省略某个实参，也能保持默认行为。
+默认阈值 `60` 下，分数 `82` 返回 `pass`；指定 `threshold=90` 则返回 `fail`。两次调用仅阈值不同。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def pass_or_fail(score, threshold=60):
     if score >= threshold:
         return "pass"
@@ -327,30 +198,24 @@ print(pass_or_fail(82))
 print(pass_or_fail(82, threshold=90))
 ```
 
-第一次调用没有单独给阈值，所以会用 `60`。第二次调用则显式写了 `threshold=90`。
+第一次调用未传阈值，因此使用 `60`；第二次明确指定 `threshold=90`。
 
-在 AI 工具和库里，我们也经常会看到这种形状。
+AI 工具和库中经常出现这种形式。
 
 - `batch_size=32`
 - `learning_rate=0.001`
 - `shuffle=True`
 - `max_tokens=100`
 
-默认值很方便，但如果不知道默认值是什么，就可能误解代码行为。所以，需要养成查看库文档里默认值的习惯。
+默认值很方便，但不了解默认设置就可能误判代码行为，因此应查看库文档中的默认值。
 
-### Python 函数也能像值一样被对待
+### 传递函数对象
 
-如果先学过 C 或 Java，Python 函数可能会显得有点不同。在 Python 里，函数也是对象(object)。所以函数名不只是代码位置的标签，它也可以被看成“指向函数对象的名字”。
+Python 函数也是对象，函数名指向该对象。
 
-例如，我们可以把函数放到另一个名字里。
-
-问题场景：想确认函数也能像值一样放到另一个变量名里再调用。
-输入(input)：函数 `normalize_score` 和新名字 `normalize`。
-期望输出(output)：`normalize(82)` 得到 `0.82`。
-要确认的概念：Python 函数是对象，因此可以被放进变量里，用另一个名字来引用。
+`normalize = normalize_score` 为函数对象增加一个名称，`normalize(82)` 也会输出 `0.82`。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def normalize_score(score):
     return score / 100
 
@@ -359,17 +224,11 @@ normalize = normalize_score
 print(normalize(82))
 ```
 
-`normalize` 并没有创建新的计算，它只是用另一个名字指向了同一个函数对象。这种感觉可能一开始比较陌生，但在 Python 库代码里经常出现。
+`normalize` 没有创建新计算，而是用另一名称指向 `normalize_score`。应区分函数对象 `normalize_score` 与调用结果 `normalize_score(82)`。
 
-函数也可以作为实参传给另一个函数。
-
-问题场景：想看一个把函数本身作为实参传给另一个函数，再在公共循环逻辑里应用的例子。
-输入(input)：分数列表 `scores` 和函数 `normalize_score`。
-期望输出(output)：`apply_to_scores` 产生的归一化分数列表。
-要确认的概念：在 Python 里，函数也可以像其他值一样被传递。
+把分数 `[82, 75, 91]` 和处理函数 `normalize_score` 一起传入。`apply_to_scores()` 对各分数应用该函数，返回 `[0.82, 0.75, 0.91]`，由外层 `print()` 输出。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def normalize_score(score):
     return score / 100
 
@@ -384,30 +243,24 @@ scores = [82, 75, 91]
 print(apply_to_scores(scores, normalize_score))
 ```
 
-在这个例子里，`apply_to_scores()` 同时接收一组分数和一个函数。然后它把那个函数应用到每一个分数上。这里的函数不再只是“会执行的代码片段”，也像一种“可以被传递的值”。
+`apply_to_scores()` 同时接收分数列表与函数，在执行 `function(score)` 时调用传入函数来处理当前分数。
 
-这种方式会在后面的数据处理和 AI 库里经常出现。
+这种方式经常用于数据处理和 AI 库。
 
-- 排序标准会以函数形式传入。
-- 预处理函数会传给重复处理逻辑。
-- 评估函数(metric function)会传给训练代码。
-- callback 函数会指定某个时刻该发生什么行为。
+- 用函数指定排序依据。
+- 把预处理函数传给重复处理流程。
+- 把评估函数传给训练代码。
+- 用回调函数指定特定时刻的操作。
 
-这一节不讨论高级函数式编程(functional programming)。当前正文里也不会把函数式编程单独扩展开来，这里所需的范围只到 `函数也可以像值一样传递` 这一点为止。不过，只要先知道 Python 里的函数可以像值一样传递，读库 API 时就会没那么陌生。
+### 函数与方法
 
-### 函数和方法的调用中心不同
+`function(value)` 按函数名调用，`value.method()` 则在对象上找到并调用方法。
 
-在阅读 Python 代码时，我们会同时看到 `function(value)` 这种调用，以及 `value.method()` 这种调用。这里不进入类(class)的详细概念，只区分函数(function)和方法(method)的调用形状。
+函数是独立定义的处理单元。方法看起来像附着于某个对象并通过它调用的函数。
 
-函数(function)是独立定义出来的处理单元。方法(method)则看起来像附着在某个对象(object)上的函数。
-
-问题场景：想一次比较独立函数调用和字符串方法调用的形状。
-输入(input)：字符串 `text = " AI is Useful "`。
-期望输出(output)：分别打印 `clean_text(text)`、`text.strip()`、`text.lower()` 的结果。
-要确认的概念：函数通过独立名称调用，方法则附着在值或对象上调用。
+对 `" AI is Useful "` 去除空白并转小写。`clean_text(text)` 输出 `ai is useful`，`text.strip()` 输出 `AI is Useful`，`text.lower()` 输出保留首尾空格的 ` ai is useful `。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def clean_text(text):
     return text.strip().lower()
 
@@ -418,54 +271,32 @@ print(text.strip())
 print(text.lower())
 ```
 
-这里的 `clean_text(text)` 是独立函数调用，`strip()` 和 `lower()` 是字符串对象提供的方法。它们和函数一样带括号调用，但方法前面有目标对象。
+`clean_text(text)` 是独立函数调用，`strip()` 和 `lower()` 是字符串提供的方法。方法同样用括号调用，但方法名前带有目标对象。
 
-在这一节里，先记住下面这个层次就够了。
-
-| 表达 | 入门说明 | 例子 |
+| 形式 | 入门说明 | 示例 |
 | --- | --- | --- |
-| 函数(function) | 独立的、有名字的处理单元 | `clean_text(text)` |
-| 方法(method) | 附着在值或对象上被调用的函数形式 | `text.strip()` |
+| 函数 | 具有名称的独立处理单元 | `clean_text(text)` |
+| 方法 | 通过值或对象调用的函数式操作 | `text.strip()` |
 
-类(class)和对象(object)会在 P2-8.6 的补充学习里再回来。这里先只区分：`function(value)` 和 `value.method()` 虽然都表示“调用某个行为”，但调用的中心并不一样。
+### 拆分处理步骤
 
-### 如果一个函数做的事情太多，就把它拆开
+小函数的输入、处理和输出比较清晰。一个函数承担过多任务，会让代码职责变得模糊。
 
-小函数能让输入、处理、输出更清楚。相反，如果一个函数做的事情太多，它负责的范围就会开始模糊。
+例如，假设一个函数同时执行以下任务：
 
-例如，想象下面这些工作全部塞进一个函数里：
-
-1. 读文件。
+1. 读取文件。
 2. 删除空行。
-3. 把分数转成数字。
+3. 把分数转换成数字。
 4. 计算平均值。
 5. 保存结果。
 
-这种函数一开始看起来也许还算简单，但以后要改其中某一部分时就会变得很困难。
+这种函数看似简单，之后只修改其中一部分却可能很困难。
 
-在这一节里，当我们考虑要不要拆分函数时，会问下面这些问题。
+## 案例：清理空白后排除空文本
 
-- 这个函数只做一件事吗？
-- 函数名能不能准确说明它的实际行为？
-- 输入和输出是否清楚？
-- 屏幕输出和返回结果有没有混在一起？
-- 同样的处理是不是已经在很多地方重复出现？
-
-这些标准在 AI 实践里也很有用。只要把数据加载、预处理、模型执行、评估稍微分开，找错误就会容易得多。
-
-## 案例与示例
-
-### 一个小复用示例
-
-下面这个例子会对文本样本做很轻量的整理，并只保留非空样本。
-
-问题场景：想看一个把两个小函数组合起来，对多条文本进行清理与筛选的例子。
-输入(input)：包含空格和空字符串的文本列表 `texts`。
-期望输出(output)：只保留整理后且非空文本的 `cleaned_texts`。
-要确认的概念：函数会制造小的处理单元，而循环则把这些单元应用到多条数据上。
+清理 `[" AI is Useful ", "", " Models can FAIL "]` 后排除空字符串，输出 `['ai is useful', 'models can fail']`。
 
 ```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def clean_text(text):
     return text.strip().lower()
 
@@ -483,49 +314,80 @@ for text in texts:
 print(cleaned_texts)
 ```
 
-这段代码从 Python 语法上看很简单，但它展示了一个重要的数据处理流程。
+`clean_text()` 清理一个字符串，`is_not_empty()` 检查是否还剩字符。即使添加三个空格的 `"   "`，清理后也变成空字符串，因此结果不变。若先检查再清理，它的长度为 3，会通过检查。调用顺序会影响结果。
 
-- `clean_text()` 清理一条文本。
-- `is_not_empty()` 检查一条文本。
-- 循环把同样的处理应用到多条文本上。
-- 结果被放进一个新的列表里。
+## 案例：改变满分标准
 
-当许多这样的“小函数”积累起来之后，它们就会帮助我们理解后面出现的 Pandas、NumPy 和机器学习库代码。
+假设把分数除以 100 的代码复制到两处，之后考试满分改为 50。只把一处改为 `/ 50`，同样的 40 分就会在一处得到 `0.8`，另一处得到 `0.4`。
 
-### 案例 1. 为什么同样的归一化计算不该一直复制粘贴
+把满分设为形参，就能向同一个函数传入分数与满分。下面 100 分制的 80 分和 50 分制的 40 分都会返回 `0.8`。
 
-假设一个学习者把“分数归一化”代码复制到了好几个笔记本单元里。刚开始看起来也许很快，但以后只要归一化标准需要改变，就必须重新找回所有单元并逐个修改。
+```python
+def score_ratio(score, maximum):
+    return score / maximum
 
-人的第一反应可能会是：`这段很短，那就再写一遍吧。` 但一旦同样的处理开始重复，与其盯着那个计算式本身，不如先把“这段处理到底在做什么工作”分离成一个有名字的单元，这样会更容易阅读，也更容易修改。
+print(score_ratio(80, 100))
+print(score_ratio(40, 50))
+```
 
-函数正是在这个位置变得必要。只要把输入、处理、输出打包成一个单元，并给它一个名字，那么重复使用同一计算时，就能减少代码重复，也能更清楚地表达意图。区分 `print` 和 `return` 的原因，也是在于要把“给人看”的输出和“交给下一步计算”的结果分开。
+把第二次调用的满分改为 `100`，结果变成 `0.4`。函数可以集中管理公式，但调用方也必须传入正确满分。本函数假定满分为正，分数介于 0 与满分之间。
 
-这种结构的可验证结果，会直接体现在“需要修改的地方数量”上。如果改变归一化标准时，只需要修改一个函数，而所有调用结果都会一起改变，那就说明复用结构比简单复制代码更合理。
+## 修改输入对象与重新赋值
 
-## 练习与例子
+把列表传入函数后，形参引用该列表。函数内部调用 `append()`，调用方也会看到变化；但仅给形参名称赋一个新列表，不会改变外部名称。
 
-下面这些小练习足以重新确认本节的核心。
+```python
+def add_score(scores):
+    scores.append(91)
 
-- 写一个接收单个分数并返回等级的函数，然后把它反复应用到多个分数上。
-- 分别写一个只使用 `print()` 的函数和一个使用 `return` 的函数，然后比较结果差异。
-- 把“清理单个字符串的函数”和“检查是否为空的函数”拆开，再去筛选多条文本。
+def replace_scores(scores):
+    scores = [100]
+
+original = [82, 75]
+add_score(original)
+print(original)
+replace_scores(original)
+print(original)
+```
+
+两次输出都是 `[82, 75, 91]`。第一个函数修改共享列表，第二个只将内部名称重新绑定到新列表。使用函数时，需要知道它会修改原对象还是返回新结果。
+
+## 列表默认值的共享
+
+`def collect(score, results=[]):` 这样的可变默认值并不会在每次调用时创建空列表。默认值在函数定义时只求值一次，因此上次添加的值可能保留到下次调用。每次需要新结果时，可将默认值设为 `None`，在函数内部创建列表。
+
+```python
+def collect(score, results=None):
+    if results is None:
+        results = []
+    results.append(score)
+    return results
+
+print(collect(82))
+print(collect(75))
+```
+
+输出为 `[82]`、`[75]`。两次调用均省略 `results`，因此创建不同列表。反之，若明确传入同一个列表，就会继续向该列表添加。
 
 ## 检查清单
 
 - 能读懂以 `def` 开头的函数定义。
-- 能区分参数(parameter)和实参(argument)。
-- 能解释 `print()` 和 `return` 的区别。
-- 能把重复计算拆成函数。
-- 能写一个处理单条数据的函数，并在循环里复用它。
-- 能说明 Python 函数可以被放进变量，也可以作为实参传给别的函数。
-- 能解释函数(function)和方法(method)在调用形状上的不同。
-- 能说明函数名应该揭示代码意图。
-- 能说明函数为什么会把重复处理变成有名字的可复用单元。
+- 能区分形参与实参。
+- 能解释 `print()` 与 `return` 的差别。
+- 能将重复计算提取为函数。
+- 能编写处理单个样本的函数并在循环中复用。
+- 能解释为函数绑定名称、将函数作为实参传递。
+- 能区分函数与方法的调用形式。
+- 能说明函数名应表达代码意图。
+- 能解释函数如何把重复处理变成有名称的可复用单元。
+
+- 能区分修改输入列表与重新绑定形参，并在每次调用需要新列表时使用 `None` 默认值。
 
 ## 来源与参考资料
 
-- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为 `def`、parameter、`return` 和函数调用示例的官方依据。
-- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认默认参数示例和关于 mutable default 的注意说明。
-- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认函数定义语法、参数列表和函数对象创建的说明。
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为说明 Python 中函数可以被当作对象处理的背景依据。
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为入门层面区分函数调用和方法调用形状的依据。
+
+- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-09-15。作为 `def`、parameter、`return` 和函数调用示例的官方依据。
+- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-09-15。用于确认默认参数示例和关于 mutable default 的注意说明。
+- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认函数定义语法、参数列表和函数对象创建的说明。
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。作为说明 Python 中函数可以被当作对象处理的背景依据。
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-09-15。作为入门层面区分函数调用和方法调用形状的依据。

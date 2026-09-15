@@ -1,7 +1,7 @@
 # P2-8.2 리스트(list): 순서가 있는 값 묶음
 
 > Section ID: `P2-8.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 순서와 인덱스
 
@@ -17,8 +17,6 @@ print(type(scores))
 ```
 
 Python 리스트 안의 각 값은 항목(item) 또는 원소(element)라고 부를 수 있습니다.
-
-Python 리스트는 순서가 있으므로 위치(index)로 값을 꺼낼 수 있습니다.
 
 리스트의 첫 번째 위치 번호는 `0`입니다. 다음 코드는 인덱스 `0`과 `1`의 값인 `82`, `75`를 차례로 출력합니다.
 
@@ -36,6 +34,19 @@ print(scores[1])
 | `scores[0]` | 첫 번째 항목 | `82` |
 | `scores[1]` | 두 번째 항목 | `75` |
 | `scores[-1]` | 마지막 항목 | `68` |
+
+## 범위 밖 인덱스와 빈 목록
+
+길이가 4인 리스트의 음수가 아닌 인덱스는 0부터 3까지입니다. `scores[4]`는 다섯 번째 항목을 요청하므로 `IndexError`가 납니다. 반면 슬라이스는 끝 범위가 리스트 길이를 넘어도 가능한 부분만 반환합니다.
+
+| 표현 | `scores = [82, 75, 91, 68]`에서 결과 |
+| --- | --- |
+| `scores[3]` | `68` |
+| `scores[4]` | `IndexError` |
+| `scores[2:10]` | `[91, 68]` |
+| `scores[4:10]` | `[]` |
+
+빈 리스트의 `len([])`과 `sum([])`은 모두 0입니다. 그렇다고 평균도 0인 것은 아닙니다. `sum([]) / len([])`은 0으로 나누어 `ZeroDivisionError`가 납니다. 데이터를 모은 뒤 항목이 하나 이상 있는지 확인해야 평균을 계산할 수 있습니다.
 
 ## 리스트와 배열
 
@@ -114,6 +125,19 @@ print(other_scores)
 
 `scores`와 `other_scores`는 서로 다른 리스트를 복사한 것이 아니라 같은 리스트를 가리킵니다. 그래서 한쪽 이름으로 값을 추가하면 다른 이름으로 봐도 같은 변경이 보입니다.
 
+## 변경 메서드의 반환값
+
+`append()`는 원래 리스트를 바꾸고 `None`을 반환합니다. 다음 코드의 출력은 `[82, 75, 91]`과 `None`입니다.
+
+```python
+scores = [82, 75]
+result = scores.append(91)
+print(scores)
+print(result)
+```
+
+`result`는 변경된 리스트가 아닙니다. `scores = scores.append(91)`로 쓰면 기존 리스트에는 값이 추가되지만, 이름 `scores`는 반환값 `None`을 가리키게 됩니다. 이후 리스트를 계속 쓰려면 `scores.append(91)`처럼 변경 동작만 호출합니다.
+
 ## 연결·슬라이스·삭제
 
 Python 리스트를 읽다 보면 함수 이름보다 기호와 대괄호 문법이 먼저 보일 때가 많습니다. 다른 언어에서 `concat`, `join`, `slice`, `splice` 같은 이름으로 만났던 동작이 Python에서는 연산자(operator), 슬라이스(slice), 대입문(assignment), `del` 문으로 표현되기도 합니다.
@@ -174,8 +198,6 @@ print(items)
 
 `del items[1:3]`은 인덱스 1부터 3 바로 앞까지 지웁니다. 결과는 `["A", "D"]`입니다.
 
-구간을 다른 값으로 바꿀 수도 있습니다.
-
 가운데 두 항목 `"B"`, `"C"`를 세 항목 `"X"`, `"Y"`, `"Z"`로 바꿉니다. 결과는 `['A', 'X', 'Y', 'Z', 'D']`이며 길이가 4에서 5로 늘어납니다.
 
 ```python
@@ -185,8 +207,6 @@ items[1:3] = ["X", "Y", "Z"]
 
 print(items)
 ```
-
-결과는 `["A", "X", "Y", "Z", "D"]`입니다. 구간을 같은 길이로만 바꿔야 하는 것은 아닙니다.
 
 ### 문자열 연결: join
 
@@ -204,8 +224,6 @@ print(sentence)
 
 결과는 `"AI needs data"`입니다. 여기서 동작의 주체는 리스트가 아니라 `" "`라는 문자열입니다. 이 문자열이 `words` 안의 문자열들을 사이에 공백을 넣어 이어 붙입니다.
 
-따라서 Python에서 리스트를 읽을 때는 다음처럼 구분하는 편이 안전합니다.
-
 | 하고 싶은 일 | Python에서 자주 보이는 표현 | 주의할 점 |
 | --- | --- | --- |
 | 리스트 두 개를 붙인다 | `front + back` | 새 리스트를 만듦 |
@@ -220,8 +238,6 @@ print(sentence)
 초기화(initialize)는 자료구조를 처음 만드는 일입니다. 값이 준비되어 있는지, 나중에 모을지에 따라 시작 형태를 고릅니다.
 
 ### 이미 값을 알고 있을 때
-
-처음부터 들어갈 값을 알고 있다면 대괄호(`[]`) 안에 값을 적습니다.
 
 들어갈 값을 이미 알고 있다면 대괄호 안에 직접 적습니다. 다음 코드는 점수, 라벨, 참거짓 목록을 각각 입력한 순서대로 출력합니다.
 
@@ -239,8 +255,6 @@ print(flags)
 
 ### 빈 리스트로 시작할 때
 
-값이 없지만 나중에 값을 담을 예정이라면 빈 리스트로 시작할 수 있습니다.
-
 빈 리스트 `[]`에 점수 `82`, `75`를 하나씩 추가하면 `[82, 75]`가 출력됩니다. 수집할 값이 생길 때마다 `append()`를 실행하는 방식입니다.
 
 ```python
@@ -255,8 +269,6 @@ print(passed_scores)
 이 예시는 리스트가 만든 뒤에도 값을 추가할 수 있음을 보여 줍니다. 실제 데이터 처리에서는 반복(loop)을 사용해 조건에 맞는 값을 빈 리스트에 모으는 일이 많습니다.
 
 ### 같은 값으로 길이를 맞춰 시작할 때
-
-필요한 길이를 알고 있고, 일단 같은 값으로 채워 두고 싶을 때도 있습니다.
 
 기본값 `0`을 다섯 번 나열하려면 `[0] * 5`로 시작할 수 있습니다. 출력은 `[0, 0, 0, 0, 0]`입니다.
 
@@ -295,8 +307,6 @@ print(max(scores))
 print(min(scores))
 print(sum(scores) / len(scores))
 ```
-
-점수 목록은 순서가 있을 수도 있고, 전체를 모아 평균을 낼 수도 있습니다.
 
 ### 문장 여러 개
 
@@ -346,8 +356,6 @@ for file_name in file_names:
     print(file_name)
 ```
 
-프로젝트 실습에서는 여러 파일을 같은 방식으로 처리해야 하는 경우가 많습니다.
-
 ## 사례: 세 번째 예측 점수 확인
 
 네 입력의 예측 점수를 입력 순서대로 `[0.92, 0.31, 0.77, 0.12]`에 담았다고 하겠습니다. 세 번째 입력의 점수는 인덱스 `2`의 값 `0.77`입니다. 새 입력의 점수 `0.85`를 끝에 추가하면 기존 네 값의 위치는 유지되고 항목 수가 `5`가 됩니다.
@@ -375,9 +383,11 @@ print(len(probabilities))
 - 같은 리스트를 여러 이름이 가리킬 수 있음을 설명할 수 있다.
 - 중첩 리스트를 같은 값 반복으로 만들 때 주의가 필요함을 설명할 수 있다.
 
+- 범위 밖 인덱스와 슬라이스의 차이, 빈 목록의 평균 오류, `append()`의 반환값을 설명할 수 있다.
+
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 리스트 메서드, 리스트를 스택처럼 쓰는 예, 리스트 컴프리헨션과 중첩 리스트 예시 확인에 사용했다.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 시퀀스 타입과 mutable sequence 연산, 인덱싱·슬라이싱 동작 확인에 사용했다.
-- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 표준 라이브러리의 `array`가 같은 기본 타입의 값을 효율적으로 저장하는 구조라는 설명 확인에 사용했다.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. NumPy 배열이 Python 리스트와 다르게 빠르고 많은 숫자 데이터를 다루는 핵심 구조라는 설명 확인에 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 리스트 메서드, 리스트를 스택처럼 쓰는 예, 리스트 컴프리헨션과 중첩 리스트 예시 확인에 사용했다.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. 시퀀스 타입과 mutable sequence 연산, 인덱싱·슬라이싱 동작 확인에 사용했다.
+- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python 표준 라이브러리의 `array`가 같은 기본 타입의 값을 효율적으로 저장하는 구조라는 설명 확인에 사용했다.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. NumPy 배열이 Python 리스트와 다르게 빠르고 많은 숫자 데이터를 다루는 핵심 구조라는 설명 확인에 사용했다.

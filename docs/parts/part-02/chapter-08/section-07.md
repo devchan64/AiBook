@@ -1,7 +1,7 @@
 # P2-8.7 보충학습: 참조와 복사 구분
 
 > Section ID: `P2-8.7`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 대입과 참조
 
@@ -27,6 +27,30 @@ print(other_scores)
 ```
 
 여기서는 `scores`와 `other_scores`가 같은 리스트를 가리킵니다. 그래서 한쪽 이름으로 값을 추가하면 다른 이름으로 봐도 같은 변화가 보입니다.
+
+## 같은 값과 같은 객체
+
+`==`는 값이 같은지를, `is`는 같은 객체인지를 비교합니다. 리스트 내용을 같게 복사해도 두 리스트가 같은 객체가 되는 것은 아닙니다.
+
+```python
+scores = [82, 75]
+alias = scores
+copied = scores.copy()
+print(scores == copied)
+print(scores is copied)
+print(scores is alias)
+```
+
+출력은 `True`, `False`, `True`입니다. 값 비교만으로 원본과 복사본이 분리됐다고 판단할 수 없습니다. 아래 화살표는 이름이 가리키는 객체를 나타냅니다.
+
+```mermaid
+flowchart LR
+    A["scores"] --> L["리스트 A: 82, 75"]
+    B["alias"] --> L
+    C["copied"] --> M["리스트 B: 82, 75"]
+```
+
+숫자나 문자열의 값 비교에는 `==`를 사용합니다. 내부 객체 재사용 여부에 기대어 `is`로 값을 비교하지 않습니다. 값이 없음을 확인할 때 쓰는 `value is None`은 `None` 객체인지를 묻는 비교입니다.
 
 ## 얕은 복사
 
@@ -57,8 +81,6 @@ print(copied_scores)
 
 ## 중첩 리스트의 공유
 
-다음처럼 리스트 안에 리스트가 들어 있는 경우를 봅니다.
-
 중첩 리스트 `[[1, 2], [3, 4]]`를 얕게 복사한 뒤 첫 행의 첫 값을 `99`로 바꿉니다. 원본과 복사본 모두 `[[99, 2], [3, 4]]`가 됩니다.
 
 ```python
@@ -84,7 +106,7 @@ print(shallow)
 
 ## 깊은 복사
 
-깊은 복사(deep copy)는 내부 객체를 재귀적으로 복사합니다. 이 예시에서는 바깥 리스트와 안쪽 행 리스트를 모두 새로 만듭니다.
+깊은 복사(deep copy)는 복사 가능한 내부 객체를 재귀적으로 복사합니다. 이 예시에서는 바깥 리스트와 안쪽 행 리스트를 모두 새로 만듭니다.
 
 같은 중첩 리스트를 `copy.deepcopy()`로 복사하면 안쪽 행 리스트도 새로 만들어집니다. 복사본의 첫 값을 `99`로 바꿔도 원본은 `[[1, 2], [3, 4]]`로 남습니다.
 
@@ -107,9 +129,7 @@ print(deep)
 [[99, 2], [3, 4]]
 ```
 
-이제는 안쪽 리스트까지 새로 생겼기 때문에 `deep`을 바꿔도 `matrix`는 그대로 남습니다.
-
-바깥 리스트와 안쪽 리스트 중 어디를 바꾸는지에 따라 원본에 미치는 영향이 달라집니다.
+바깥 리스트와 안쪽 리스트 중 어디를 바꾸는지에 따라 원본에 미치는 영향이 달라집니다. 깊은 복사가 모든 객체를 새로 만든다는 뜻은 아닙니다. 불변 객체는 재사용될 수 있고 파일·소켓 같은 외부 자원을 복제하는 방법도 아닙니다.
 
 | 방식 | 직관 | 중첩 구조에서 주의할 점 |
 | --- | --- | --- |
@@ -159,7 +179,11 @@ B에서 첫 행의 항목 수정은 원본에도 영향을 줍니다. 반면 수
 - 왜 데이터 전처리에서 복사 여부를 조심해야 하는지 말할 수 있는가?
 - 대입, 얕은 복사, 깊은 복사를 원본 공유 여부로 구분할 수 있는가?
 
+- `==`와 `is`가 각각 값과 객체 정체성을 비교한다는 점을 설명할 수 있는가?
+
 ## 출처와 참고 자료
 
-- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 리스트 대입, `list.copy()`, 슬라이스 복사, 리스트 메서드 예시를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 대입과 복사의 차이, 얕은 복사와 깊은 복사의 정의, 중첩 객체 복사 차이를 확인하는 핵심 근거로 사용했다.
+- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 리스트 대입, `list.copy()`, 슬라이스 복사, 리스트 메서드 예시를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. 대입과 복사의 차이, 얕은 복사와 깊은 복사의 정의, 중첩 객체 복사 차이를 확인하는 핵심 근거로 사용했다.
+
+- Python Software Foundation, [Built-in Types: Comparisons](https://docs.python.org/3/library/stdtypes.html#comparisons){: target="_blank" rel="noopener noreferrer" }, 2026-09-15. 값 비교와 객체 정체성 비교의 구분.

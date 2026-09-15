@@ -1,7 +1,7 @@
 # P2-8.3 딕셔너리(dictionary): 키(key)로 값을 찾는 구조
 
 > Section ID: `P2-8.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 키와 값
 
@@ -243,6 +243,22 @@ print(student.get("label", "unknown"))
 
 기본값을 사용해도 딕셔너리에 그 키가 추가되지는 않습니다. 필수 항목이 빠졌다면 오류를 확인해 입력을 고쳐야 하고, 생략 가능한 항목이라면 `get()`으로 기본값을 정할 수 있습니다.
 
+## 없는 키와 값이 없는 항목
+
+키가 없다는 것과 키는 있지만 값이 `None`이라는 것은 다릅니다. `get()`의 기본값은 키가 없을 때만 사용됩니다.
+
+```python
+sample = {"text": "hello", "label": None}
+print(sample.get("label", "unknown"))
+print(sample.get("source", "unknown"))
+print("label" in sample)
+print("hello" in sample)
+```
+
+출력은 `None`, `unknown`, `True`, `False`입니다. `"label"` 키는 존재하므로 기본값으로 바뀌지 않습니다. `in`은 값이 아니라 키를 검사하므로 값에 `"hello"`가 있어도 마지막 결과는 `False`입니다.
+
+`sample["label"] = ""`로 바꿔도 `get("label", "unknown")`은 빈 문자열을 그대로 반환합니다. 필수 라벨을 검사할 때는 키 존재 여부와 그 값이 허용된 라벨인지를 별도로 확인해야 합니다.
+
 ## 사례: 연속되지 않은 라벨 번호
 
 감성 분류 결과가 `10`, `20`, `90`이라는 번호를 사용한다고 하겠습니다. 번호를 리스트 위치로 쓰면 빈 자리를 많이 만들어야 하지만, 딕셔너리에는 필요한 번호와 이름만 연결하면 됩니다. 다음 코드는 예측 번호 `90`에 해당하는 `neutral`과, 대응표에 없는 `30`에 대한 기본값 `unknown`을 출력합니다.
@@ -267,9 +283,11 @@ print(label_map.get(30, "unknown"))
 - 라벨 맵, 설정값, 샘플 ID 조회, 컬럼 설명 예시를 읽을 수 있다.
 - 키가 없을 수 있는 상황에서 조회 방식을 구분할 수 있다.
 
+- 키 누락과 값이 `None`인 상태를 구분하고 `get()`의 기본값이 적용되는 조건을 설명할 수 있다.
+
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 딕셔너리 생성, 키로 값에 접근, `items()`를 이용한 순회 예시 확인에 사용했다.
-- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `dict`가 mutable mapping type이며 키를 통해 값을 찾는 구조라는 설명 확인에 사용했다.
-- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. dictionary와 hashable 용어 정의를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 객체의 identity/type/value와 hash 가능성 설명을 딕셔너리 키 제약의 배경으로 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 딕셔너리 생성, 키로 값에 접근, `items()`를 이용한 순회 예시 확인에 사용했다.
+- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. `dict`가 mutable mapping type이며 키를 통해 값을 찾는 구조라는 설명 확인에 사용했다.
+- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. dictionary와 hashable 용어 정의를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 객체의 identity/type/value와 hash 가능성 설명을 딕셔너리 키 제약의 배경으로 확인하는 근거로 사용했다.
