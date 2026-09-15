@@ -1,39 +1,32 @@
 # P2-5.2 分布(distribution)、均值(mean)、方差(variance)
 
 > Section ID: `P2-5.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 分布显示数值集中在哪里、各处有多少值。均值用数字概括中心，方差概括均值周围的离散程度。两组数据即使均值相同，分布与方差也可能不同。
 
-## 分布、中心与离散程度
+## 分数区间与个数
 
-| 标准 | 为什么重要 |
-| --- | --- |
-| 分布是值的形状 | 因为要读一组数据，必须先看整体摆放，才能解释中心和扩散。 |
-| 均值把中心压成一个值 | 因为要比较很多值，就需要一个可以对比的代表数字。 |
-| 方差把扩散单独揭露出来 | 因为只看均值，没法区分中心相同却性质不同的数据组。 |
-
-## 数值的分布
-
-分布(distribution)说的是：值是怎样摆出来的。
-
-假设有 10 个考试分数。
+把 10 个考试分数按区间分组，就能看出数值集中在哪里。
 
 `40, 45, 48, 50, 52, 55, 58, 60, 62, 90`
 
-如果一个一个看，它们只是数字列表。但从分布的角度看，下面这些问题会更重要。
+直方图的横轴表示分数区间，纵轴表示各区间内数值的个数。这里所有区间的宽度都是 10 分。每个区间包含左边界，右边界则归入下一个区间。
 
-- 值是不是集中在较低的一侧？
-- 是不是集中在较高的一侧？
-- 是不是很多值都堆在中间？
-- 是不是向两边散得很开？
-- 有没有特别突出、显得异常的值？
+| 分数区间 | 区间内的分数 | 个数 |
+| --- | --- | --- |
+| 35 ≤ 分数 < 45 | 40 | 1 |
+| 45 ≤ 分数 < 55 | 45, 48, 50, 52 | 4 |
+| 55 ≤ 分数 < 65 | 55, 58, 60, 62 | 4 |
+| 65 ≤ 分数 < 75 | 无 | 0 |
+| 75 ≤ 分数 < 85 | 无 | 0 |
+| 85 ≤ 分数 < 95 | 90 | 1 |
 
-分布会让我们把一串数字，读成一种“形状”。所以像直方图(histogram)、条形图(bar chart)、密度曲线(density curve)这样的可视化会一起出现。
+45 分属于第二个区间，55 分属于第三个区间。这样规定边界，就不会把同一个分数计算两次。各区间的个数相加为 10，等于原始分数的总个数。
 
-下面这张图展示的是：应该按什么顺序去看分布、均值和方差。我们先看整体形状，再看中心和扩散。
+![按分数区间显示个数并标出均值 56 的直方图](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-zh.png)
 
-![一起读取分布、均值和方差的图](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-zh.png)
+10 个值中有 8 个集中在大于等于 45、小于 65 的范围内，大于等于 65、小于 85 的范围内没有值。90 分与其余数值相隔较远。红色虚线表示均值 56。只看均值线无法知道哪些区间没有值，也看不出相隔较远的分数，因此还要一起观察柱子的排列。
 
 ## 数据分布与概率分布
 
@@ -98,7 +91,7 @@ Sigma 压缩了把所有值相加的计算。将总和除以个数 `n`，就得�
 
 如果只看均值，两组数据可能会看起来差不多。但实际上，稳定性、可预测性、风险都可能不同。
 
-下面这张图展示的是：即使均值一样，扩散程度也可能完全不同。
+下面这张图展示的是：即使均值一样，离散程度也可能完全不同。
 
 ![均值相同但方差不同的两组数据](/AiBook/assets/part-02/chapter-05/same-mean-different-variance-zh.png)
 
@@ -169,6 +162,6 @@ v = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2
 
 ## 来源与参考资料
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认通过直方图读取大数据组的形状、中心、扩散这一说明。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认通过直方图读取大数据组的形状、中心、离散程度这一说明。
 - Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于支撑把均值(mean)说明为数据中心代表值的表述。
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认方差与标准差围绕均值的扩散、平方偏差、回到原始单位这一说明。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认方差与标准差围绕均值的离散程度、平方偏差、回到原始单位这一说明。

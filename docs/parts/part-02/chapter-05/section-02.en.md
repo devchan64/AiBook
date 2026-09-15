@@ -1,39 +1,32 @@
 # P2-5.2 Distribution, Mean, and Variance
 
 > Section ID: `P2-5.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 A distribution shows where values are concentrated and how many are there. The mean summarizes the center, and variance summarizes the spread around the mean. Two datasets can have the same mean but different distributions and variances.
 
-## Distribution, Center, and Spread
+## Score Intervals and Counts
 
-| Criterion | Why It Matters |
-| --- | --- |
-| A distribution is the shape of values | When reading a data bundle, we must first see the whole arrangement in order to interpret center and spread. |
-| Mean summarizes the center into one value | We need to compress many values into one comparable number. |
-| Variance reveals spread separately | With the mean alone, we cannot distinguish different data bundles that share the same center. |
-
-## Distribution of Values
-
-Distribution means how values are arranged.
-
-Suppose there are 10 test scores.
+Grouping 10 test scores into intervals shows where the values are concentrated.
 
 `40, 45, 48, 50, 52, 55, 58, 60, 62, 90`
 
-If we look one by one, they are just a list of numbers. But from the perspective of distribution, the following questions become important.
+In a histogram, the horizontal axis shows score intervals and the vertical axis shows the number of values in each interval. Here, every interval is 10 points wide. Each interval includes its left boundary, while its right boundary belongs to the next interval.
 
-- Are the values concentrated on the lower side?
-- Are they concentrated on the higher side?
-- Are many of them gathered in the middle?
-- Are they spread widely to both sides?
-- Is there a value that sticks out unusually?
+| Score interval | Scores in the interval | Count |
+| --- | --- | --- |
+| 35 ≤ score < 45 | 40 | 1 |
+| 45 ≤ score < 55 | 45, 48, 50, 52 | 4 |
+| 55 ≤ score < 65 | 55, 58, 60, 62 | 4 |
+| 65 ≤ score < 75 | None | 0 |
+| 75 ≤ score < 85 | None | 0 |
+| 85 ≤ score < 95 | 90 | 1 |
 
-Distribution lets us read a list of values as a `shape`. That is why visualizations such as histograms, bar charts, and density curves appear together.
+A score of 45 belongs to the second interval, and 55 belongs to the third. Defining the boundaries this way avoids counting the same score twice. Adding the interval counts gives 10, the original number of scores.
 
-The chart below shows the order for reading distribution, mean, and variance. We first look at the whole shape, and then look at center and spread.
+![Histogram showing counts by score interval and the mean of 56](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-en.png)
 
-![Chart for reading shape, mean, and variance together](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-en.png)
+Eight of the 10 values fall between 45 inclusive and 65 exclusive; none fall between 65 inclusive and 85 exclusive. The score of 90 is separated from the other values. The red dashed line marks the mean of 56. A mean line alone cannot show empty intervals or separated scores, so the arrangement of the bars must also be read.
 
 ## Data Distributions and Probability Distributions
 
