@@ -1,0 +1,56 @@
+{
+  "status": "generated_pending_review",
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "fingerprint": {
+    "spec_sha256": "321e110e3f4b90da7c3a9c7906145408e094b817e505a4702054c25bb365e4a2",
+    "code_sha256": "8598eb767e527a3b92e3a27db73734718c0f2e9f29cfcb537bb26353d5670270",
+    "helper_sha256": "647496bb123e379689d007f144e7f8d3752d3bd304efed5ecd124b335bd70d01"
+  },
+  "design": {
+    "id": "mira-target-right-outfit-02",
+    "order": 34,
+    "category": "outfit",
+    "intended_role": "unassigned_candidate",
+    "condition": "a white collared shirt",
+    "reference": "right",
+    "prompt": "Change only the clothing of the woman in Picture 1 to a white collared shirt. Keep everything else unchanged.",
+    "seed": 76033,
+    "review_status": "pending_generation",
+    "review_checks": [
+      "facial identity beyond hair color",
+      "parting, bob length and curled ends",
+      "requested variable and framing",
+      "eyes, mouth and anatomy artifacts"
+    ],
+    "group": "mira-target-outfit-02"
+  },
+  "input": {
+    "path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+    "sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f"
+  },
+  "settings": {
+    "size": 1024,
+    "steps": 20,
+    "true_cfg_scale": 4.0,
+    "extra_lora": null
+  },
+  "reference_preprocessing": "RGB Lanczos square resize to target size",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "elapsed_seconds": 377.47,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-right-outfit-02.png",
+    "sha256": "476167c3fcae715754f7acc5b1e4f89901707177770d31ee35989d0f3844a2e5"
+  }
+}
