@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
   <title id="title">图中的直接邻居和两跳邻居</title>
-  <desc id="desc">图中把 Lee 和 Park 标为 Kim 的直接邻居，把经由 Lee 到达的 Choi 标为两跳邻居。</desc>
+  <desc id="desc">图中把 Lee 和 Park 标为 Kim 的直接邻居，把经由 Park 到达的 Choi 标为两跳邻居。</desc>
   <defs>
     <style>
       .panel-title { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
@@ -23,18 +23,18 @@
   <g transform="translate(86 188)">
     <line x1="250" y1="0" x2="100" y2="-70" class="edge-direct"/>
     <line x1="250" y1="0" x2="100" y2="70" class="edge-direct"/>
-    <line x1="100" y1="-70" x2="520" y2="-70" class="edge-hop"/>
+    <line x1="100" y1="70" x2="520" y2="70" class="edge-hop"/>
     <line x1="100" y1="-70" x2="100" y2="70" class="edge"/>
 
     <circle cx="250" cy="0" r="34" class="start"/>
     <circle cx="100" cy="-70" r="30" class="direct"/>
     <circle cx="100" cy="70" r="30" class="direct"/>
-    <circle cx="520" cy="-70" r="30" class="hop"/>
+    <circle cx="520" cy="70" r="30" class="hop"/>
 
     <text x="250" y="5" text-anchor="middle" class="label">Kim</text>
     <text x="100" y="-65" text-anchor="middle" class="label">Lee</text>
     <text x="100" y="75" text-anchor="middle" class="label">Park</text>
-    <text x="520" y="-65" text-anchor="middle" class="label">Choi</text>
+    <text x="520" y="75" text-anchor="middle" class="label">Choi</text>
 
     <rect x="40" y="132" width="176" height="34" rx="8" fill="#ecfdf5" stroke="#10b981"/>
     <text x="128" y="154" text-anchor="middle" class="small">直接邻居</text>

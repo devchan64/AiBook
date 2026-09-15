@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="title desc">
   <title id="title">그래프의 노드, 엣지, 인접 리스트</title>
-  <desc id="desc">A graph represents objects as nodes and relationships as edges. The same graph can be written as an adjacency list in Python.</desc>
+  <desc id="desc">같은 친구 관계를 표현하는 노드·엣지와 인접 리스트</desc>
   <defs>
     <style>
       .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }

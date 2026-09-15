@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="title desc">
   <title id="title">방향 그래프와 가중 그래프 예시</title>
-  <desc id="desc">A directed graph represents one-way links, while a weighted graph adds numeric information such as distance, cost, score, or similarity to edges.</desc>
+  <desc id="desc">엣지의 방향과 가중치에 따른 관계 의미</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>

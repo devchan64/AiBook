@@ -1,7 +1,7 @@
 # P2-9.3 그래프(graph)는 관계를 어떻게 표현하는가
 
 > Section ID: `P2-9.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 노드와 엣지
 
@@ -11,7 +11,7 @@ NIST Dictionary of Algorithms and Data Structures는 그래프를 엣지(edge)�
 
 아래 도식은 같은 그래프를 그림과 인접 리스트(adjacency list)로 함께 보여 줍니다.
 
-![A graph can be shown as nodes and edges or as an adjacency list](../../../assets/part-02/chapter-09/graph-node-edge-adjacency-ko.svg)
+![같은 친구 관계를 표현하는 노드·엣지와 인접 리스트](../../../assets/part-02/chapter-09/graph-node-edge-adjacency-ko.svg)
 
 그림에서 `Kim`, `Lee`, `Park`, `Choi`는 노드입니다.
 
@@ -43,7 +43,7 @@ NIST Dictionary of Algorithms and Data Structures는 그래프를 엣지(edge)�
 
 아래 도식은 같은 관계 데이터를 표로 읽을 때와 그래프로 읽을 때 질문이 어떻게 달라지는지 보여 줍니다.
 
-![The same relationship records can be read as a table or a graph](../../../assets/part-02/chapter-09/table-to-graph-reading-ko.svg)
+![같은 친구 관계 기록을 표와 그래프로 읽는 방법](../../../assets/part-02/chapter-09/table-to-graph-reading-ko.svg)
 
 표 데이터를 그래프 관점으로 읽으려면 관계 행을 노드별 이웃 목록으로 다시 묶어 보면 됩니다.
 
@@ -159,7 +159,7 @@ AI와 검색 문맥에서는 방향이 중요할 때가 많습니다. 문서가 
 
 아래 도식은 방향과 가중치가 엣지의 의미를 어떻게 바꾸는지 보여 줍니다.
 
-![Direction and weight change what a graph edge means](../../../assets/part-02/chapter-09/directed-weighted-graph-ko.svg)
+![엣지의 방향과 가중치에 따른 관계 의미](../../../assets/part-02/chapter-09/directed-weighted-graph-ko.svg)
 
 방향 그래프를 읽을 때는 양쪽에 모두 관계가 있다고 가정하지 않습니다. 관계가 실제로 향하는 쪽만 읽습니다.
 
@@ -200,6 +200,27 @@ A에서 C로 바로 가는 비용은 325이고, B를 거치는 비용은 160 + 2
 
 기준을 `0.8`로 올리면 `doc_b`의 0.72는 기준 미만이 되고 `doc_a`만 남습니다. 관계 점수는 후보 선택에 사용하는 값이며, 문서 내용이 정확하다는 보증은 아닙니다.
 
+## 적은 단계와 낮은 비용
+
+최단 경로의 기준이 엣지 수인지 비용 합계인지에 따라 선택이 달라집니다. 앞 비용 표에서 A–C를 400으로 바꾼 상황을 코드로 확인합니다.
+
+```python
+import networkx as nx
+
+routes = nx.Graph()
+routes.add_edge("A", "B", cost=160)
+routes.add_edge("A", "C", cost=400)
+routes.add_edge("B", "C", cost=200)
+
+print(nx.shortest_path(routes, "A", "C"))
+print(nx.shortest_path(routes, "A", "C", weight="cost"))
+print(nx.shortest_path_length(routes, "A", "C", weight="cost"))
+```
+
+출력은 `['A', 'C']`, `['A', 'B', 'C']`, `360`입니다. 가중치를 지정하지 않으면 한 단계의 직접 연결을 고릅니다. `weight="cost"`는 각 엣지의 `cost`를 합해 더 싼 경로를 고릅니다. 직접 비용을 325로 낮추면 비용 기준도 직접 경로와 `325`를 반환합니다.
+
+유사도를 그대로 비용 자리에 넣으면 작은 유사도의 경로를 선호할 수 있습니다. 알고리즘은 숫자가 유사도인지 이동 비용인지 알아서 구분하지 않으므로, 무엇을 최소화할 값인지 먼저 정해야 합니다.
+
 ## 직접 이웃과 두 단계 이웃
 
 시작 노드를 Kim으로 두고 최단 경로의 엣지 수로 거리를 셉니다. 직접 이웃과 최단 거리가 두 단계인 노드는 다음과 같습니다.
@@ -211,7 +232,7 @@ A에서 C로 바로 가는 비용은 325이고, B를 거치는 비용은 160 + 2
 
 아래 도식은 Kim을 기준으로 직접 이웃과 두 단계 이웃을 구분해 보여 줍니다.
 
-![A graph distinguishes direct neighbors and two-hop neighbors](../../../assets/part-02/chapter-09/graph-neighbor-hop-ko.svg)
+![Park를 거쳐 Choi에 도달하는 Kim의 직접 이웃과 두 단계 이웃](../../../assets/part-02/chapter-09/graph-neighbor-hop-ko.svg)
 
 Lee도 Kim → Park → Lee로 두 단계를 걸어 도달할 수 있지만, Kim과 직접 연결되어 최단 거리는 1입니다. 따라서 앞 코드의 두 단계 이웃에는 포함되지 않습니다.
 
@@ -235,6 +256,12 @@ Kim의 직접 이웃은 `['Choi', 'Lee', 'Park']`로 늘고, 최단 거리가 �
 
 그림에서 노드의 배치를 바꾸는 것과 엣지를 추가·삭제하는 것은 다릅니다. 노드 위치만 바꾸고 연결을 유지하면 이웃과 경로는 그대로입니다.
 
+## 같은 연결의 재입력
+
+`nx.Graph()`는 같은 두 노드의 연결을 여러 건으로 쌓지 않습니다. 앞 친구 그래프에 `friend_graph.add_edge("Kim", "Park", weight=0.5)`를 실행하면 기존 연결의 가중치가 `0.9`에서 `0.5`로 바뀌며 엣지 수는 늘지 않습니다. 여러 번의 클릭이나 거래를 각각 보존하려면 사건별 표나 다중 엣지를 지원하는 구조가 필요합니다.
+
+연결 없는 노드가 존재하는 것과 노드 자체가 없는 것도 다릅니다. 명시적으로 추가한 고립 노드 Choi는 Kim의 도달 거리 결과에 나타나지 않습니다. 이를 거리 0으로 해석하면 안 됩니다. 거리 0은 시작 노드 자신이고, 경로를 찾을 수 없다는 것은 다른 상태입니다.
+
 ## 체크리스트
 
 - 그래프(graph)를 노드(node)와 엣지(edge)의 구조로 설명할 수 있다.
@@ -246,9 +273,12 @@ Kim의 직접 이웃은 `['Choi', 'Lee', 'Park']`로 늘고, 최단 거리가 �
 - 작은 그래프를 노드별 이웃 목록으로 표현하고 이웃을 따라가 볼 수 있다.
 - NetworkX 같은 Python 그래프 도구가 노드, 엣지, 이웃, 방향, 가중치를 어떻게 다루는지 읽을 수 있다.
 - 연결이 핵심인 데이터를 만났을 때 그래프 관점을 먼저 떠올릴 수 있다.
+- 최소 단계 경로와 최소 비용 경로, 같은 엣지의 재입력과 새 연결 추가를 구분할 수 있다.
 
 ## 출처와 참고 자료
 
 - Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 그래프를 vertices/nodes와 edges/arcs로 구성된 구조로 설명하는 근거로 사용했다.
 - NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, 확인 날짜: 2026-07-20. 작은 무방향 그래프, 노드, 엣지, 인접 관계를 확인하는 근거로 사용했다.
 - NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, 확인 날짜: 2026-07-20. 방향 그래프와 successor 관계를 확인하는 근거로 사용했다.
+- NetworkX Developers, [shortest_path](https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.shortest_paths.generic.shortest_path.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 가중치를 생략한 경로와 비용 합계를 최소화한 경로를 구분하는 근거로 사용했다.
+- NetworkX Developers, [Graph.add_edge](https://networkx.org/documentation/stable/reference/classes/generated/networkx.Graph.add_edge.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 기존 엣지를 다시 추가하면 속성이 갱신되는 동작을 확인했다.

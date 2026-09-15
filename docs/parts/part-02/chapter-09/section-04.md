@@ -1,7 +1,7 @@
 # P2-9.4 보충학습: 전통적인 자료구조를 처음 읽는 법
 
 > Section ID: `P2-9.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 배열은 위치로 값을 찾고, 연결 리스트는 다음 항목을 가리키는 연결을 따라갑니다. 스택과 큐는 넣고 꺼내는 순서를 정하며, 트리와 그래프는 대상 사이의 관계를 표현합니다. 자료구조 이름은 저장 방식이나 연산 규칙을 구분합니다.
 
@@ -60,6 +60,8 @@ while node is not None:
 
 노드를 만드는 세 줄 다음에 `first["next"] = third`를 넣으면 출력은 `Kim`, `Park`가 됩니다. Lee 노드는 여전히 존재하지만 첫 노드에서 따라가는 연결에서는 빠집니다. 이처럼 논리적 순서는 노드 사이의 연결로 정해집니다.
 
+연결 리스트에서 값을 찾으려면 시작 노드부터 링크를 따라가야 합니다. 특정 노드나 그 앞 노드를 이미 알고 있으면 링크를 바꿀 수 있지만, 그 위치를 찾는 과정까지 항상 빠른 것은 아닙니다. 앞 예제에서 마지막 노드의 `next`를 첫 노드로 연결하면 순환이 생겨 `None`을 만나지 못하므로 기존 `while` 문은 끝나지 않습니다.
+
 ## 스택: 마지막 입력부터
 
 스택(stack)은 마지막에 넣은 항목을 먼저 꺼내는 LIFO(last in, first out) 규칙을 따릅니다. 접시를 쌓은 뒤 맨 위 접시부터 꺼내는 순서와 같습니다.
@@ -101,6 +103,22 @@ print(queue)
 ```
 
 `append()`는 뒤에 추가하고 `popleft()`는 앞에서 꺼냅니다. 작업 대기열에 요청 A, B, C가 들어왔을 때 이 규칙을 사용하면 A부터 처리 대상으로 꺼냅니다. 여러 작업을 동시에 실행하는 서비스에서는 꺼낸 순서와 완료 순서가 달라질 수 있습니다.
+
+## 빈 구조에서 꺼내기
+
+항목을 모두 꺼낸 리스트의 `pop()`과 덱의 `popleft()`는 `IndexError`를 발생시킵니다. 다음 코드는 요청을 하나씩 꺼내고, 더 없으면 반복을 끝냅니다.
+
+```python
+from collections import deque
+
+queue = deque(["A", "B"])
+while queue:
+    request = queue.popleft()
+    print(request)
+print("remaining:", len(queue))
+```
+
+출력은 `A`, `B`, `remaining: 0`입니다. 처음부터 `deque()`로 시작하면 반복 본문은 실행되지 않고 마지막 줄만 출력됩니다. 리스트의 `pop(0)`도 앞 항목을 꺼내지만 뒤 항목들의 위치를 당겨야 하므로, 앞에서 자주 꺼내는 대기열에는 `deque`가 적합합니다. 이 코드는 한 실행 흐름에서 자료구조를 다루는 예이며, 여러 작업이 동시에 접근하는 대기열의 동기화를 구현한 것은 아닙니다.
 
 ## 트리: 부모와 자식
 
@@ -185,6 +203,8 @@ print(score_by_name)
 
 두 번째 출력은 `{'Kim': 82, 'Lee': 75, 'Park': 91, 'Choi': 88}`입니다. 딕셔너리 사용법인 `score_by_name["Kim"]`과 내부에서 저장 위치를 찾는 해시 테이블 구현은 서로 다른 설명 수준입니다.
 
+해시 테이블의 충돌은 서로 다른 키가 같은 해시값이나 저장 후보 위치에 대응하는 상황입니다. 충돌이 곧 기존 값의 덮어쓰기를 뜻하지는 않습니다. 구현은 실제 키를 구분하여 값을 보관합니다. 같은 키에 새 값을 대입해 교체하는 동작과, 서로 다른 키의 해시 충돌을 처리하는 동작은 다릅니다.
+
 ## 사례: 대기열과 실행 취소
 
 요청 A, B, C가 들어온 순서대로 실행하려면 큐에서 A를 먼저 꺼냅니다. 이미 수행한 작업 A, B, C를 되돌리려면 스택에서 C를 먼저 꺼냅니다. 같은 항목을 담아도 꺼내는 규칙이 목적에 따라 다릅니다.
@@ -216,9 +236,12 @@ print(score_by_name)
 - 딕셔너리(dictionary)와 해시 테이블(hash table)이 키 기반 검색과 연결됨을 설명할 수 있다.
 - Python의 편리한 문법 뒤에도 전통 자료구조 감각이 숨어 있음을 설명할 수 있다.
 - 배열, 연결 리스트, 스택, 큐, 트리, 그래프, 딕셔너리 예제를 Python으로 실행해 보고 출력 흐름을 설명할 수 있다.
+- 빈 큐의 종료 조건, 연결 리스트의 순환, 해시 충돌을 설명할 수 있다.
 
 ## 출처와 참고 자료
 
 - NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-07-20. 전통 자료구조 이름을 데이터 조직 방식으로 읽는 기본 정의 확인에 사용했다.
 - NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-07-20. 스택·큐 같은 구조를 구현보다 제공 동작 중심으로 설명하는 근거로 사용했다.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 리스트와 딕셔너리 문법이 전통 자료구조 감각과 어떻게 연결되는지 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python 리스트와 딕셔너리 문법이 전통 자료구조 감각과 어떻게 연결되는지 확인하는 근거로 사용했다.
+- Python Software Foundation, [deque objects](https://docs.python.org/3/library/collections.html#collections.deque){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 빈 deque의 popleft 오류와 양 끝 삽입·삭제 특성을 확인했다.
+- Paul E. Black, NIST, [collision](https://xlinux.nist.gov/dads/HTML/collision.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 서로 다른 키의 해시 충돌과 같은 키의 값 갱신을 구분하는 근거로 사용했다.

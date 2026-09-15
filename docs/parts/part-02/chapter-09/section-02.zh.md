@@ -1,175 +1,108 @@
-# P2-9.2 数组(array)、表(table)、树(tree)、图(graph)的直觉
+# P2-9.2 数组、表、树与图的直观理解
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.23`
+> Version: `v2026.09.15`
 
-在 P2-9.1 中，我们已经把数据结构看成“数据被组织成什么形状”的问题。现在来广泛比较 AI 实践中经常遇到的四种形状。
+## 位置、行列、层级与连接
 
-数组(array)、表(table)、树(tree)、图(graph)。
+数组以位置和轴为中心，表以行和列为中心，树以层级为中心，图以连接关系为中心表示数据。
 
-这里提供一段基础说明，把 `array`、`table`、`tree`、`graph` 放在一起比较。即使后面的章节会单独再看图，这四种结构分别在回答什么问题，仍然会回到这里建立的标准。
+![数组、表、树与图回答不同的数据问题](/AiBook/assets/part-02/chapter-09/data-structure-four-views-zh.svg)
 
-这四种都是承载数据的方式，但它们回答的是不同的问题。数组问位置与轴，表问行与列，树问层级，图问关系。
-
-本节不要求一次性背下所有数据结构名称，而是比较“什么问题会自然地呼唤什么结构”。如果前一节已经给出“为什么需要数据结构”的大图景，那么这里就是把这张图展开成数组、表、树、图这四种代表视角。先抓住这种区分，后面再次遇到 NumPy 和 Pandas 时，就更容易先想到“现在是在问什么结构问题”，而不是只盯着工具名称。
-
-| 本节现在要抓住的内容 | 紧接着会延伸到的问题 | 之后再次出现的位置 |
-| --- | --- | --- |
-| 数组、表、树、图是回答不同问题的结构 | 会延伸到为什么在 P2-9.3 中还要单独再看一次图，尤其是关系表示更重要时 | 之后会在 NumPy、Pandas、文档结构、关系数据的说明中反复出现 |
-| 同一份数据也会因为你看的是位置、比较、层级还是关系，而读成不同结构 | 会延伸到判断当前任务里哪一种结构更自然的标准 | 之后会在数据集设计、预处理、搜索、推荐、知识图谱说明中再次使用 |
-| Chapter 9 训练的是结构选择问题，而不是名称记忆 | 会延伸到如何更稳妥地阅读 P2-9.4 补充学习中的传统术语列表 | 它会成为之后不把数据结构术语和实际实践场景混在一起阅读的基础 |
-
-| 术语 | 本节先要抓住的含义 |
-| --- | --- |
-| array | 按位置和轴来读取值的结构 |
-| table | 通过行与列交叉来整理值的结构 |
-| tree | 主要通过父子层级来阅读的结构 |
-| graph | 主要通过节点和连接关系来阅读的结构 |
-| structure question | 询问当前数据里到底是位置、行列、层级还是关系更重要的问题 |
-
-## 核心判断标准：数组(array)、表(table)、树(tree)、图(graph)的直觉
-
-- 能把数组、表、树、图区分成不同的数据视角。
-- 能分别用位置与轴、行与列、父子关系、节点与边来解释数组、表、树、图。
-- 能说明在 AI 实践中，token、embedding、dataset、文档结构、知识图谱分别更接近哪一种结构直觉。
-- 能说明同样的信息会因为目的不同而被看成数组、表、树或图。
-
-## 先抓住的标准
-
-本节最先要抓住的标准，不是 `数据结构的名字`，而是 `现在正在问什么问题`。
-
-| 现在问的问题 | 先想到的结构 |
-| --- | --- |
-| 这个值在什么位置？ | 数组(array) |
-| 这个值属于哪一行哪一列？ | 表(table) |
-| 上下层是怎么分开的？ | 树(tree) |
-| 什么和什么相连？ | 图(graph) |
-
-也就是说，即使是同样的数据，只要你看的重点变成 `位置`、`行列`、`层级`、`关系` 中的不同项，更自然的结构也会跟着改变。
-
-## 三个标准
-
-| 标准 | 为什么重要 | 本节需要达到的理解程度 |
-| --- | --- | --- |
-| 为什么同样的数据能用多种结构来看 | 因为一旦问题改变，更容易看清它的结构也会改变 | 只要理解“同样的信息会因为看的是位置、比较、层级还是关系，而读成不同结构”就足够了 |
-| 数组、表、树、图之间的区别 | 它让你按“阅读标准”而不是按“名称”去区分四种结构 | 只要能分开位置、行列、层级、连接这几种不同视角就足够了 |
-| 现在首先该记住什么 | 它能帮助你在后面先想起结构问题，而不是工具名称 | 先记住每种结构更擅长回答什么问题，再记名称 |
-
-## 一次比较四种结构
-
-第一次接触数据结构时，比起名称，更重要的是“它在问什么”。
-
-下面这张图展示了四种结构分别强调哪一种问题。
-
-![Array, table, tree, and graph compare different data questions](/AiBook/assets/part-02/chapter-09/data-structure-four-views-zh.svg)
-
-| 结构 | 核心问题 | 基本单位 | 在 AI 实践里会看到的例子 |
+| 结构 | 核心问题 | 基本单位 | AI 示例 |
 | --- | --- | --- | --- |
-| 数组(array) | 这是哪个位置上的值？ | 索引(index)、轴(axis)、值(value) | 向量、矩阵、图像像素、embedding |
-| 表(table) | 这个值属于哪一行哪一列？ | 行(row)、列(column)、单元格(cell) | CSV 数据集、训练数据、评估结果 |
-| 树(tree) | 上层和下层是怎么分开的？ | 根(root)、父(parent)、子(child) | 目录、文件夹、分类体系、决策流程 |
-| 图(graph) | 什么和什么相连？ | 节点(node)、边(edge) | 链接、推荐关系、知识图谱、搜索连接 |
+| 数组 | 值在哪个位置？ | 索引、轴、值 | 向量、矩阵、图像像素、嵌入 |
+| 表 | 哪一行、哪一列？ | 行、列、单元格 | CSV 数据集、训练数据、评估结果 |
+| 树 | 上下级如何组织？ | 根、父节点、子节点 | 目录、文件夹、分类体系、决策流程 |
+| 图 | 什么与什么连接？ | 节点、边 | 链接、推荐关系、知识图谱、搜索 |
 
-这四种结构并不是完全隔离的世界。表中的某一列可以像数组那样计算，树也可以被解释成图的一种特殊形式，甚至图也可以通过组合 Python 字典和列表来简单表示。
+这些视角并非完全分离。表的一列可作为数组计算，树是图的一种特殊形式，图也能用 Python 字典和列表表示。
 
-这里重要的不是记住“正确答案结构”。而是学会：一旦提的问题不同，数据看起来就会不同。
+计算平均值、比较学生属性、查询归属与查找朋友，需要的信息各不相同。
 
-下面这张图重新整理了从问题走向数据结构的流程。
+![根据问题选择数据结构](/AiBook/assets/part-02/chapter-09/question-to-structure-map-zh.svg)
 
-![Choose array, table, tree, or graph by the question](/AiBook/assets/part-02/chapter-09/question-to-structure-map-zh.svg)
+## 数组：位置与轴
 
-先写问题，再写数据名称。
+数组按索引处理值。NumPy 将 `ndarray` 描述为保存相同类型和大小元素的多维容器。数值数组把数字放在规定的位置与轴上。
 
-| 先写的问题 | 会想到的结构 |
-| --- | --- |
-| 是否要按顺序计算数字？ | 数组(array) |
-| 是否要按案例比较属性？ | 表(table) |
-| 是否要看上下层之间的包含关系？ | 树(tree) |
-| 是否要沿着对象之间的连接往下走？ | 图(graph) |
+一维数值数组是一列按顺序排列的数字。
 
-如果把这张表改写成更贴近实践的形式：
-
-| AI 实践场景 | 先读的结构直觉 |
-| --- | --- |
-| embedding 向量、图像像素 | 数组 |
-| CSV 文件、训练数据集、实验结果表 | 表 |
-| 目录、文件夹、分类体系 | 树 |
-| 链接、推荐、知识关系 | 图 |
-
-## 数组(array)：按位置和轴来读的数据
-
-数组是按位置处理值的结构。NumPy 文档把 `ndarray` 解释为一种多维容器，用来承载相同类型和大小的元素。这里把数组理解成下面这样。
-
-数组是一种把数字放在位置和轴上的结构。
-
-一维数组就是一排数字。
-
-问题场景：你想用最小的数字列表示例来确认“按位置读取值”的数组直觉。
-输入(input)：数字列表 `embedding`。
-期望输出(output)：打印第一个值和第三个值。
-要确认的概念：在数组里，不只值本身重要，它属于哪个位置也重要。
+从 NumPy 数组 `[0.12, -0.03, 0.44, 0.18]` 读取索引 `0` 和 `2`，输出 `0.12`、`0.44`。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
-embedding = [0.12, -0.03, 0.44, 0.18]
+import numpy as np
+
+embedding = np.array([0.12, -0.03, 0.44, 0.18])
 
 print(embedding[0])
 print(embedding[2])
 ```
 
-二维数组则可以看成带有行和列的数字网格。
+二维数组可视为有行和列的数值网格。
 
-问题场景：你想看一个例子，如何从看起来像二维数组的数字网格里取出某个位置的值。
-输入(input)：一个 2 行 3 列的数字结构 `image_patch`。
-期望输出(output)：两个指定行列位置上的值。
-要确认的概念：二维数组会同时读取行和列的位置来找到值。
+在这个 2 行 3 列数组中，第一行第三个值为 `40`，第二行第二个值为 `30`。索引从 0 开始，因此分别用 `[0, 2]`、`[1, 1]` 读取。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
-image_patch = [
+import numpy as np
+
+image_patch = np.array([
     [0, 20, 40],
     [10, 30, 50],
-]
+])
 
-print(image_patch[0][2])
-print(image_patch[1][1])
+print(image_patch[0, 2])
+print(image_patch[1, 1])
 ```
 
-在数组里，重要的不只是值，还有位置。图像像素的位置一变，就成了另一张图；embedding 向量里的数字也必须按固定顺序放置，才能用于计算。
+数组中位置和值同样重要。像素位置改变可能产生不同图像，嵌入向量也需要按规定顺序排列坐标才能计算。
 
-在 AI 实践里，数组直觉经常出现在这些场景中。
+以下 AI 任务经常需要数组视角：
 
-- 把句子变成 token ID 的序列时
-- 把词、句子、图像表示成 embedding 向量时
-- 把多个样本像矩阵那样组合后一起计算时
-- 按高度、宽度、通道这些轴来处理图像数据时
+- 将句子转为词元 ID 序列。
+- 把词语、句子或图像表示为嵌入向量。
+- 将多个样本组成矩阵。
+- 按高度、宽度、通道轴处理图像。
 
-数组更接近 `用于数值计算的结构`。所以它会在 P2-11 的 NumPy 数组、Chapter 3 的向量和矩阵，以及 Part 4 之后的 tensor 说明里再次出现。
+NumPy 数组可对多个数字应用同一运算。
 
-例如，要计算分数平均值时，比起看整张表，直接取出分数数组更简单。
+例如，求平均分时，从整张表中取出分数数组通常更简单。
 
-问题场景：你想通过平均值计算例子，看看“只包含数字的结构”为什么对计算更有利。
-输入(input)：分数列表 `scores`。
-期望输出(output)：平均值 `average`。
-要确认的概念：数组直觉在以数值计算为中心的工作里尤其有用。
+分数 `[82, 75, 45]` 的总和是 202，共 3 项，平均约为 67.33。代码输出 `67.33333333333333`。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
-scores = [82, 75, 45]
+import numpy as np
 
-average = sum(scores) / len(scores)
+scores = np.array([82, 75, 45])
+
+average = scores.mean()
 print(average)
 ```
 
-在这个例子里，关注点不是学生姓名或标签，而是数字的位置与计算。在这种时刻，就应该先想到数组直觉。
+平均值不需要姓名或标签。调整分数顺序不改变平均值，但查找某名学生的分数仍需保留学生与数组位置的对应。
 
-## 表(table)：按行和列来读的数据
+## 数组形状与按轴计算
 
-表是一种通过行和列来读取数据的结构。Pandas 把 DataFrame 解释成一种二维、可改变大小、并且可以容纳异构数据的表格式数据结构，同时说明它带有行与列这两个带标签的轴。
+2 行 3 列数组的 `shape` 为 `(2, 3)`。轴 0 沿行维度变化，轴 1 沿列维度变化；求平均时，沿指定轴合并数值。
 
-这里把表理解成下面这样。
+```python
+import numpy as np
 
-表是一种“一个案例是一行、一个属性是一列”的结构。
+patch = np.array([[0, 20, 40], [10, 30, 50]])
+print(patch.shape)
+print(patch.mean(axis=0).tolist())
+print(patch.mean(axis=1).tolist())
+```
+
+输出依次为 `(2, 3)`、`[5.0, 25.0, 45.0]`、`[20.0, 30.0]`。`axis=0` 合并两行，得到三个列平均值；`axis=1` 合并每行的三个值，得到两个行平均值。应确认哪些值一起计算，而不是只记轴编号。
+
+`patch.reshape(3, 2)` 保留六个元素，重新分成 3 行 2 列。它不理解像素位置或学生属性的含义。`reshape(2, 2)` 需要四个元素，因此引发 `ValueError`。形状是否合法与是否保留原含义，是两项独立检查。
+
+## 表：行与列
+
+表通过行与列表示数据。pandas 将 DataFrame 描述为二维、大小可变、可能包含不同类型的表格数据，行轴和列轴均具有标签。
+
+表通常把一个案例放在一行，把一种属性放在一列。
 
 | name | age | score | label |
 | --- | ---: | ---: | --- |
@@ -177,15 +110,11 @@ print(average)
 | Lee | 20 | 75 | pass |
 | Park | 22 | 45 | fail |
 
-在 Python 中，小型表可以通过列表和字典来表示。
+小型表格可用 Python 列表和字典表示。
 
-问题场景：你想看一个例子，如何遍历像表一样整理好的“按案例组织属性”的数据。
-输入(input)：包含学生记录的列表 `students`。
-期望输出(output)：按顺序打印学生姓名和分数。
-要确认的概念：表结构可以理解成“一行就是一个案例，每个键都扮演一列”。
+用字典表示每一行，再放入列表。代码输出 `Kim 82`、`Lee 75`、`Park 45`。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 students = [
     {"name": "Kim", "age": 21, "score": 82, "label": "pass"},
     {"name": "Lee", "age": 20, "score": 75, "label": "pass"},
@@ -196,26 +125,22 @@ for student in students:
     print(student["name"], student["score"])
 ```
 
-表里重要的是，一行代表什么，一列代表什么。
+表中关键的是一行代表什么、一列代表什么。
 
-在 AI 实践里，表的直觉经常出现在这些场景中。
+以下 AI 任务经常需要表格视角：
 
-- 把 CSV 文件读成数据集时
-- 分开输入特征和目标标签时
-- 按模型或按实验比较训练结果时
-- 检查缺失值、异常值和数据类型时
+- 将 CSV 文件读取为数据集。
+- 区分输入特征与目标标签。
+- 按模型或实验比较结果。
+- 检查缺失值、异常值和数据类型。
 
-表更接近 `整理案例和属性的结构`。做数值计算时，它可以转成数组；但当人需要检查和解释数据时，表通常更容易阅读。
+表组织案例与属性。数值计算时可以转成数组，而供人检查和解释时，表格通常更易读。
 
-例如，如果想筛出合格学生，比起分数数组，表结构会更自然。
+选择通过的学生时，使用记录表通常比只看分数数组更自然。
 
-问题场景：你想看一个例子，在同时查看一个案例的多个属性时进行条件过滤。
-输入(input)：学生记录列表 `students`。
-期望输出(output)：只收集了合格学生姓名的 `passed_students`。
-要确认的概念：当需要一起看多个属性来比较或过滤时，表的直觉更有优势。
+继续使用前面的 `students`，收集标签为 `"pass"` 的姓名，输出 `['Kim', 'Lee']`。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 passed_students = []
 
 for student in students:
@@ -225,15 +150,13 @@ for student in students:
 print(passed_students)
 ```
 
-在这个例子里，关注点不只是数值计算，还有一个案例所携带的多个属性。因此，行列直觉就很重要。
+此处关注的是每个案例的多个属性，而不只是计算，因此行与列所保留的对应关系很重要。
 
-## 树(tree)：按层级来读的数据
+## 树：父节点与子节点
 
-树是一种从根(root)开始，沿着父(parent)-子(child)关系向下展开的结构。NIST 的 Dictionary of Algorithms and Data Structures 把树解释为：可以从根节点访问，并且内部节点拥有一个或多个子节点的结构。
+有根树从根节点开始，沿父子关系向下展开。NIST 将树描述为从根节点访问、内部节点具有一个或多个子节点的结构。
 
-这里把树理解成下面这样。
-
-树是一种从上到下范围逐步收窄的层级结构。
+在有根树中，根以外的每个节点都有一个父节点。
 
 ```text
 study-book
@@ -245,15 +168,11 @@ study-book
    └─ Chapter 9
 ```
 
-在 Python 中，小型树可以用字典和列表表示。
+可以用 Python 字典和列表表示小型树。
 
-问题场景：你想看一个例子，如何用类似树的数据来表达文档结构这样的层级。
-输入(input)：拥有根标题和子项列表的 `course_tree`。
-期望输出(output)：打印每个 Part 标题。
-要确认的概念：树是一种“上级项目下面放着下级项目”的层级结构。
+在根 `study-course` 下放两个主题组，代码输出直接子节点标题 `Foundations`、`Data Work`。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 course_tree = {
     "title": "study-course",
     "children": [
@@ -266,41 +185,35 @@ for part in course_tree["children"]:
     print(part["title"])
 ```
 
-树里重要的是层级和路径。哪个项目属于哪个上级项目、从哪里开始、往哪里往下走，这些都很重要。
+树中重要的是层级与路径：某项归属在哪一项之下，以及从哪里开始、如何向下移动。
 
-在 AI 实践和服务中，树的直觉会出现在这些场景中。
+以下 AI 与服务任务会用到树的视角：
 
-- 阅读文档目录和章节结构时
-- 处理文件夹和文件路径时
-- 创建分类体系或类别时
-- 理解决策树时
-- 阅读 JSON、HTML 这类嵌套结构时
+- 阅读文档目录与章节层级。
+- 处理文件夹和路径。
+- 创建分类体系或类别。
+- 理解决策树。
+- 阅读 JSON、HTML 等嵌套结构。
 
-树更接近 `把关系整理成层级的结构`。并不是所有关系都适合用树表示，但对于上下级清晰的数据，树的直觉非常合适。
+树按层级组织关系。并非所有关系都能用树表示，但上下级明确的数据很适合这种视角。
 
-在树里，你会问：`某个项目下面有什么？` 例如，取出某个 Part 下属的 Chapter 列表。
+树回答某项下面有哪些内容，例如某个 Part 下有哪些 Chapter。
 
-问题场景：你想看一个例子，如何在树里找到某个上级项目下面的下级列表。
-输入(input)：`course_tree` 和要找的项目 `"Data Work"`。
-期望输出(output)：`"Data Work"` 下的下级主题列表。
-要确认的概念：在树里，从根开始走到目标路径的感觉很重要。
+在前面的 `course_tree` 中找到 `"Data Work"` 并输出其子项，会得到 `['Tables', 'Graphs']`。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 for item in course_tree["children"]:
     if item["title"] == "Data Work":
         print(item["children"])
 ```
 
-在这个例子里，重要的不是值的大小，也不是表的列，而是路径。你需要从根开始，一路往下走到目标位置的感觉。
+这里关键的是从根到目标位置的路径，而非数值大小或表的列。
 
-## 图(graph)：按连接来读的数据
+## 图：节点与连接
 
-图用来表示对象之间的连接。NIST 把图解释成“由边(edge)连接起来的一组项目”，并把每个项目解释成顶点(vertex)或节点(node)。
+图表示对象之间的连接。NIST 将图描述为由边连接的项集合，每项称为顶点或节点。
 
-这里把图理解成下面这样。
-
-图是一种用点和线来表达关系的结构。
+节点代表对象，边代表连接。
 
 ```text
 Kim -- Lee
@@ -309,15 +222,11 @@ Lee -- Choi
 Park -- Choi
 ```
 
-在 Python 中，小型图可以写成类似邻接表(adjacency list)的形式。
+Python 中的小型图可用邻接表表示。
 
-问题场景：你想看一个最简单的例子，如何把人与人之间的连接表示成图。
-输入(input)：朋友关系字典 `friends`。
-期望输出(output)：打印与 `"Kim"` 直接相连的人列表。
-要确认的概念：图是一种保存并追踪“对象与对象之间连接”的结构。
+用列表保存每个人的邻居。遍历 Kim 的邻居，输出 `Kim is connected to Lee`、`Kim is connected to Park`。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 friends = {
     "Kim": ["Lee", "Park"],
     "Lee": ["Kim", "Choi"],
@@ -329,153 +238,80 @@ for person in friends["Kim"]:
     print("Kim is connected to", person)
 ```
 
-图里重要的不是顺序或层级，而是连接。谁和谁相连、可以沿着什么路径走，这些才是重点。
+图强调连接而非顺序或层级：谁与谁相连，以及有哪些可走的路径。
 
-在 AI 实践和服务里，图的直觉会出现在这些场景中。
+以下 AI 与服务任务会用到图的视角：
 
-- 沿着文档与文档之间的链接走时
-- 在知识图谱里表达概念关系时
-- 在推荐系统里看用户与物品的连接时
-- 在搜索系统里看文档、关键词、来源之间的连接时
-- 在 RAG 里处理文档片段与元数据的关系时
+- 沿文档链接移动。
+- 在知识图谱中表达概念关系。
+- 查看推荐系统中的用户与物品连接。
+- 在搜索中连接文档、关键词与来源。
+- 在 RAG 中表示片段与元数据的关系。
 
-图更接近 `沿着关系往前走的结构`。在 P2-9.3 中，我们会从节点和边的视角再更详细地看一次图。
+## 案例：转班前后的数据
 
-在图里，第一步通常先问：`和这个对象直接相连的对象有哪些？`
+从四种视角看同一份学生数据。
 
-问题场景：你想再看一个例子，如何确认图中某个节点直接相连的邻居。
-输入(input)：`friends["Kim"]`。
-期望输出(output)：与 `"Kim"` 相连的朋友姓名。
-要确认的概念：阅读图时，第一个问题通常是谁是它的直接邻居。
+下图把分数表示为数组、记录表示为表、学校归属表示为层级、朋友关系表示为图。
 
-```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
-for friend in friends["Kim"]:
-    print(friend)
-```
+![同一份学生数据的四种结构表示](/AiBook/assets/part-02/chapter-09/same-data-four-structures-zh.svg)
 
-然后会再往前走一步，问：`如果沿着这些连接继续走，还能看到什么？` 这个问题会在 P2-9.3 里更详细处理。
-
-## 用四种结构重新看同样的信息
-
-现在我们用四种视角重新看同样的学生数据。
-
-下面这张图展示了：同样的学生数据，如何被读成分数数组、记录表、学校层级、朋友关系。
-
-![The same student data can become an array, table, tree, or graph](/AiBook/assets/part-02/chapter-09/same-data-four-structures-zh.svg)
-
-如果只按顺序看分数，就是数组直觉。如果把学生属性按行和列来看，就是表的直觉。如果看的是学校、班级、学生这样的层级，就是树的直觉。如果看的是学生之间的朋友关系，就是图的直觉。
-
-问题场景：我想确认同一组学生记录，在问题改变时会怎样被读成不同结构。
-输入(input)：包含姓名、班级、分数、标签、朋友关系的学生列表。
-期望输出(output)：数组直觉下的平均分、表直觉下的通过学生姓名、树直觉下的班级-学生层级、图直觉下的直接朋友。
-要确认的概念：同一份源数据会根据问题是计算、比较、层级还是连接，被重新组织成不同结构。
+Kim、Lee 属于 A 班，Park 属于 B 班，分数依次为 82、75、45。Kim–Lee、Lee–Park 是朋友。代码从这些记录生成分数数组、通过姓名、班级归属和朋友关系。
 
 ```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
+import numpy as np
+
 students = [
     {"name": "Kim", "class": "A", "score": 82, "label": "pass", "friends": ["Lee"]},
     {"name": "Lee", "class": "A", "score": 75, "label": "pass", "friends": ["Kim", "Park"]},
     {"name": "Park", "class": "B", "score": 45, "label": "fail", "friends": ["Lee"]},
 ]
 
-scores = [student["score"] for student in students]
-pass_names = [student["name"] for student in students if student["label"] == "pass"]
-school = {
-    "School": {
-        "Class A": ["Kim", "Lee"],
-        "Class B": ["Park"],
-    }
-}
-friends = {student["name"]: student["friends"] for student in students}
-
-print("array question:", sum(scores) / len(scores))
-print("table question:", pass_names)
-print("tree question:", school["School"]["Class A"])
-print("graph question:", friends["Kim"])
-```
-
-重要的不是哪一种表达才是 `正确答案`。问题一旦变化，结构也会跟着变化。
-
-| 问题 | 更自然的结构 |
-| --- | --- |
-| 想计算分数数字吗？ | 数组(array) |
-| 想比较每个学生的属性吗？ | 表(table) |
-| 想看学校-班级-学生的层级吗？ | 树(tree) |
-| 想看学生之间的关系吗？ | 图(graph) |
-
-在小型练习里，把同样的数据转换成多种结构来读，会很有帮助。
-
-问题场景：你想看一个例子，如何从同一份源数据里，同时做出数组、层级分组和图表示。
-输入(input)：学生记录列表 `students`。
-期望输出(output)：分数数组 `scores`、按班级分组的姓名 `names_by_class`、朋友图 `friends`。
-要确认的概念：同样的数据会因为问题不同而重新表示成多种结构。
-
-```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
-students = [
-    {"name": "Kim", "class": "A", "score": 82, "friends": ["Lee"]},
-    {"name": "Lee", "class": "A", "score": 75, "friends": ["Kim", "Park"]},
-    {"name": "Park", "class": "B", "score": 45, "friends": ["Lee"]},
-]
-
-scores = [student["score"] for student in students]
+scores = np.array([student["score"] for student in students])
+passed_names = [student["name"] for student in students if student["label"] == "pass"]
 names_by_class = {}
 friends = {}
 
 for student in students:
-    names_by_class.setdefault(student["class"], []).append(student["name"])
+    class_name = student["class"]
+    if class_name not in names_by_class:
+        names_by_class[class_name] = []
+    names_by_class[class_name].append(student["name"])
     friends[student["name"]] = student["friends"]
 
-print("array:", scores)
-print("tree-like grouping:", names_by_class)
-print("graph:", friends)
+print("mean:", round(float(scores.mean()), 2))
+print("passed:", passed_names)
+print("classes:", names_by_class)
+print("Kim's friends:", friends["Kim"])
 ```
 
-这段代码并不是说“永远只有一种结构才是正确的”。它只是展示：从同一份源数据里，可以分别做出用于计算的数组、层级分组，以及关系图。
+```text
+mean: 67.33
+passed: ['Kim', 'Lee']
+classes: {'A': ['Kim', 'Lee'], 'B': ['Park']}
+Kim's friends: ['Lee']
+```
 
-## 一旦改变结构，看见的东西也会变
+`names_by_class` 表示学校下的班级及班级下的学生，`friends` 表示跨班连接。A 班 Lee 与 B 班 Park 是朋友，因此仅凭归属树无法知道朋友关系。
 
-改变数据结构，并不只是改变存储方式。它还会改变：哪些问题变得更容易回答。
-
-按数组看时，计算会更容易。
-
-按表看时，比对和过滤会更容易。
-
-按树看时，层级和包含关系会更容易。
-
-按图看时，连接和路径会更容易。
-
-在 AI 实践里，这些结构还会互相转换。先按表读进来的数据集数值列，可以转成数组再喂给模型；文档表里的元数据，也可以扩展成图关系；原本像目录那样的树状文档结构，在搜索阶段也可能重新解释成文档片段之间的连接图。
-
-## 通过案例来看
-
-### 案例 1. 同一份班级数据，用四种结构来读时会有什么变化？
-
-假设有一份数据，同时包含某个班级里学生的姓名、分数、所属班级和朋友关系。人一开始可能只想把它看成一张表。
-
-但问题一变，容易看清的结构也会变。只想计算分数时，数组最自然；比较学生属性时，表更方便；看学校-班级-学生这种归属体系时，树更合适；沿着朋友关系往下走时，图更直接。
-
-本节展示的正是这种转换。数组、表、树、图不是彼此竞争的“唯一正确结构”，而是擅长回答不同问题的视角。因此，只有能把同一份源数据用多种方式重新读取，后面遇到 AI 数据集、embedding、文档结构、链接关系时，才能更准确地解释它们。
-
-可检查的结果是：代码会不会随着问题变化而改变。如果只取分数列表求平均、按班级分组姓名、查看朋友连接时，各自都有更简洁的表示方式，那就说明“改变结构”这件事是有意义的。
+把 Park 的 `"class"` 改为 `"A"` 后重新运行，班级列表变为 `{'A': ['Kim', 'Lee', 'Park']}`，平均值、通过姓名和朋友关系不变。若只把 Park 分数改为 `60`，平均变为 `72.33`，但已有 `"label": "fail"` 不会自动更新。若标签由分数决定，也应按规则更新标签。
 
 ## 检查清单
 
-- 能不能用一句话分别区分数组、表、树、图？
-- 能不能解释为什么同样的数据也能用不同结构来读？
-- 能不能说明为什么 CSV 文件和 embedding 向量不是同一种结构问题？
-- 能不能从位置、轴、数值计算的角度解释数组？
-- 能不能从行、列、数据集的角度解释表？
-- 能不能从根、父、子、层级的角度解释树？
-- 能不能从节点、边、关系的角度解释图？
-- 能不能说明同样的数据会因为问题不同而被看成数组、表、树或图？
-- 能不能说明在 AI 实践里，token、embedding、dataset、文档结构、知识图谱分别更接近哪一种结构直觉？
-- 能不能先区分当前问题是在看数组、表、层级还是关系？
+- 能从索引、轴和数值计算角度解释数组。
+- 能从行、列和数据集角度解释表。
+- 能从根、父子节点和层级角度解释树。
+- 能从节点、边和关系角度解释图。
+- 能说明同一数据如何因问题不同而采用不同结构。
+- 能将词元、嵌入、数据集、文档结构和知识关系与这些视角联系起来。
+- 能判断当前问题关注数组、记录、层级还是关系。
+- 能根据 shape 和 axis 计算平均值合并的元素及结果形状。
 
 ## 来源与参考资料
 
-- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 `ndarray` 的维度、shape、dtype、索引与切片说明，作为数组直觉的依据。
-- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-20。作为把 DataFrame 说明为具有行和列的二维结构的依据。
+- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual，确认日期：2026-07-20。用于确认 `ndarray` 的维度、shape、dtype、索引与切片说明，作为数组直觉的依据。
+- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation，确认日期：2026-07-20。作为把 DataFrame 说明为具有行和列的二维结构的依据。
 - Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-20。作为把 tree 说明为具有 root 与 parent-child relationships 的层级结构的依据。
 - Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-20。作为把 graph 说明为用 nodes 与 edges 表达关系的结构的依据。
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, 核对日期：2026-09-15。确认按轴求平均值及其结果形状。
+- NumPy Developers, [numpy.reshape](https://numpy.org/doc/stable/reference/generated/numpy.reshape.html){: target="_blank" rel="noopener noreferrer" }, 核对日期：2026-09-15。确认保持元素数量的形状变换条件。

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="title desc">
   <title id="title">표의 행과 그래프 관계</title>
-  <desc id="desc">The same 친구ship records can be read as table rows or as graph connections. A table is good for listing records, while a graph is good for following connected neighbors.</desc>
+  <desc id="desc">같은 친구 관계 기록을 표와 그래프로 읽는 방법</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
