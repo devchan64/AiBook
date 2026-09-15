@@ -1,12 +1,15 @@
-// Run: node --test management/tools/tests/test_csv_preview.cjs
+// Run: node --test management/tools/tests/test_view_contents.cjs
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
-const script = fs.readFileSync(path.resolve(__dirname, '../../../docs/javascripts/csv-preview.js'), 'utf8');
+const script = fs.readFileSync(path.resolve(__dirname, '../../../docs/javascripts/view-contents.js'), 'utf8');
 class Element {
-  constructor(tag) { this.tagName = tag; this.children = []; this.dataset = {}; this.attrs = {}; this.listeners = {}; }
+  constructor(tag) { this.tagName = tag; this.children = []; this.dataset = {}; this.attrs = {}; this.listeners = {}; this.classList = {contains: () => false}; }
+  get firstChild() { return this.children[0]; }
+  removeChild(child) { this.children.splice(this.children.indexOf(child),1); }
+  insertBefore(child, before) { this.children.splice(this.children.indexOf(before),0,child); }
   appendChild(child) { this.children.push(child); return child; }
   setAttribute(key, value) { this.attrs[key] = value; }
   getAttribute(key) { return this.attrs[key]; }
@@ -21,6 +24,7 @@ function setup(hrefs, fetch, clipboard = {}, container = null) {
   const links = hrefs.map(href => Object.assign(new Element('a'), { href, attrs: {href} }));
   links.forEach(link => { link.container = container; });
   const document = { baseURI: 'https://example.test/book/', readyState: 'complete',
+    createTextNode: text => Object.assign(new Element('#text'), {textContent:text}),
     createElement: tag => new Element(tag), querySelectorAll: selector => {
       assert.equal(selector, '.md-content a[href]');
       return links.filter(link => !link.replaced);
@@ -31,8 +35,8 @@ function setup(hrefs, fetch, clipboard = {}, container = null) {
 }
 function find(node, tag) { return [ ...(node.tagName === tag ? [node] : []), ...node.children.flatMap(c => find(c, tag)) ]; }
 const response = text => ({ok:true, text:async () => text});
-test('CSV query/hash/uppercase paths initialize once; non-CSV is ignored', () => {
-  const {links, init} = setup(['https://example.test/A.CSV?v=2#top', 'https://example.test/a.json'], () => {});
+test('CSV query/hash/uppercase paths initialize once; unrelated files are ignored', () => {
+  const {links, init} = setup(['https://example.test/A.CSV?v=2#top', 'https://example.test/a.png'], () => {});
   const button = links[0].next; assert.ok(button); assert.equal(links[1].next, undefined);
   init(); assert.equal(links[0].next, button); assert.equal(button.attrs['aria-controls'], button.next.id);
 });
@@ -93,8 +97,46 @@ test('copy uses the complete original CSV and reports success or clipboard rejec
   await toggle.click();
   assert.equal(download.disabled,false); assert.equal(copy.disabled,false);
   await copy.click(); assert.equal(copied,original);
-  assert.match(find(panel,'span')[0].textContent,/복사했습니다/);
+  assert.match(find(panel,'span').find(s=>s.attrs.role==='status').textContent,/복사했습니다/);
   clipboard.writeText = async () => {throw new Error('denied');};
-  await copy.click(); assert.match(find(panel,'span')[0].textContent,/복사하지 못했습니다/);
+  await copy.click(); assert.match(find(panel,'span').find(s=>s.attrs.role==='status').textContent,/복사하지 못했습니다/);
   await toggle.click(); assert.equal(panel.hidden,true);
+});
+test('JSON shares inline preview, lazy loading, cache and full-source clipboard', async () => {
+  const source = '{"message":"<script>never execute</script>","items":[1,2]}';
+  let calls=0, copied;
+  const {links,init} = setup(['https://example.test/data.JSON?v=1#source'], async () => {calls++;return response(source);}, {writeText:async text=>{copied=text;}});
+  const button=links[0].next, panel=button.next;
+  assert.equal(calls,0); init();
+  await button.click();
+  assert.equal(find(panel,'table').length,0);
+  const text = node => node.textContent || node.children.map(text).join('');
+  assert.equal(text(find(panel,'code')[0]),source);
+  assert.equal(find(panel,'code')[0].className,'language-json');
+  assert.equal(find(panel,'span')[0].textContent,'JSON');
+  await find(panel,'button')[1].click(); assert.equal(copied,source);
+  await button.click(); await button.click(); assert.equal(calls,1);
+});
+test('Python preserves all source characters while applying syntax tokens', async () => {
+  const source = '# example\ndef f(x):\n    return "<tag>" + str(x)\n';
+  const {links} = setup(['https://example.test/run.py'], async () => response(source));
+  await links[0].next.click();
+  const code=find(links[0].next.next,'code')[0];
+  assert.equal(find(links[0].next.next,'span')[0].textContent,'Python');
+  const text = node => node.textContent || node.children.map(text).join('');
+  assert.equal(text(code),source);
+  assert.ok(find(code,'span').some(node=>node.className.endsWith('--keyword')));
+});
+test('JSON highlights keys, escaped strings, exponents and literals without changing source', async () => {
+  const source = '{\n  "key\\\"name": "a\\\\b <tag>", "n": -1.25e+3, "ok": true, "no": false, "missing": null\n}';
+  const {links}=setup(['https://example.test/data.json'],async()=>response(source));
+  await links[0].next.click();
+  const code=find(links[0].next.next,'code')[0];
+  const text=node=>node.textContent || node.children.map(text).join('');
+  assert.equal(text(code),source);
+  const tokens=find(code,'span');
+  assert.equal(tokens.filter(t=>t.className.endsWith('--key')).length,5);
+  assert.equal(tokens.find(t=>t.className.endsWith('--number')).textContent,'-1.25e+3');
+  assert.deepEqual(tokens.filter(t=>t.className.endsWith('--keyword')).map(t=>t.textContent),['true','false','null']);
+  assert.equal(find(code,'tag').length,0);
 });
