@@ -1,0 +1,55 @@
+{
+  "status": "generated_pending_review",
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "fingerprint": {
+    "spec_sha256": "787487e3c64e24850045cb9d28b0c2c119a4ccc63a85b13979710a7f98467b97",
+    "code_sha256": "8598eb767e527a3b92e3a27db73734718c0f2e9f29cfcb537bb26353d5670270",
+    "helper_sha256": "647496bb123e379689d007f144e7f8d3752d3bd304efed5ecd124b335bd70d01"
+  },
+  "design": {
+    "id": "bfs-input-42-clay-render",
+    "order": 86,
+    "reference": "target-42",
+    "seed": 74085,
+    "review_status": "pending_generation",
+    "source_variant": "clay-render",
+    "prompt": "Replace the depicted woman with a different adult woman with an angular face, brown eyes and long black hair tied back. Render the entire image in matte clay-like 3D rendering. Preserve the original pose, head direction, gaze direction, facial expression, mouth openness, clothing design, camera angle, framing, background objects and their spatial arrangement. Keep the same scene and action. Do not add or remove objects. Keep the camera viewpoint, viewing height, perspective, horizon, framing, subject position and apparent body scale identical to Picture 1. Do not zoom, crop, reframe, rotate the camera, change body proportions or move scene objects. Change facial features and hair silhouette only as requested; do not change head orientation or expression.",
+    "training_target": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-06.png",
+    "training_target_sha256": "a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e",
+    "training_caption": "Transform the woman into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+    "category": "bfs-input",
+    "group": "a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e",
+    "reserved_split": "train",
+    "source_identity_variant": 4
+  },
+  "input": {
+    "path": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-06.png",
+    "sha256": "a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e"
+  },
+  "settings": {
+    "size": 1024,
+    "steps": 20,
+    "true_cfg_scale": 4.0,
+    "extra_lora": null
+  },
+  "reference_preprocessing": "RGB Lanczos square resize to target size",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "elapsed_seconds": 370.4,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/candidate-inputs-v2/bfs-input-42-clay-render.png",
+    "sha256": "47cd1bc8b7c5053d1970338a88bb9f4f415361354e275aaddda1d6adac751776",
+    "original_path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-12/candidate-inputs-v2/bfs-input-42-clay-render.png"
+  }
+}
