@@ -1,7 +1,7 @@
 # P3-9.5 By What Is the Same Event Continuously Tracked Across Multiple Outputs
 
 > Section ID: `P3-9.5`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Even if a comparison report, a review-candidate queue, and a target-candidate table play different roles, one sample should still be tracked continuously by the same identification rule whenever possible. That is why a column such as `event_id` appears repeatedly across multiple tables. If this link becomes vague, it may still be possible to understand that the three outputs are different tables, but it becomes hard to explain again why a given event was promoted and how a given review result later turned into a target candidate. A [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and target candidate table can play different roles, but the same sample identity and the minimum evidence link should not be broken if possible.
 
@@ -59,9 +59,9 @@ Suppose the same event `A` exists.
 
 ### 3. Target-candidate table
 
-| event_id | mid_flow_mean | late_drop_rate | review_needed | note_source |
+| event_id | late_flow_mean | baseline_diff | review_needed | note_source |
 | --- | ---: | ---: | ---: | --- |
-| A | 2.2 | -0.4 | 1 | The late-stage mean is lower than the baseline |
+| A | 2.2 | -0.4 | 1 | The late-segment mean is below baseline |
 
 The three tables have different columns, but all point to the same `event_id = A`. Only with this link can you later explain again `why did A become review_needed = 1`.
 
@@ -86,6 +86,11 @@ So even before a target-candidate table becomes a completely `clean learning tab
 This diagram shows more directly not just that the same `event_id` repeats across many tables, but why that repetition is needed. Even when the comparison report, review queue, and target-candidate table serve different purposes, it should still be possible in the end to explain `why was A promoted`. So what matters more than merge code is that `the same sample identity + retained evidence` creates the traceability structure.
 
 The same identifier column therefore repeats not `to mechanically join tables`, but `to explain later the source of the result and the grounds for the judgment`. A comparison report, a review queue, and a target-candidate table should keep the same sample-identification rule whenever possible so that evidence and label candidates can later be reconnected. If this identification rule becomes vague, it becomes difficult to reconnect the same event's comparison evidence, review result, and target candidate.
+
+## Checklist
+
+- Did you join tables by event_id and check that columns representing the same values keep consistent names?
+- Did you specify the identifiers needed to connect period-level and event-level tables?
 
 ## Sources and References
 

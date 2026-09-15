@@ -1,7 +1,7 @@
 # P3-5.2 汇总表如何保留平均值之外的模式
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 因此，在摘要表中要把 `early_mean`、`mid_mean`、`late_mean`、`rise_slope`、`drop_slope`、`peak_segment` 等追溯模式的列放在整体平均旁边。这些列不是装饰平均值的辅助说明，而是以后写出`平均相同但后半段下降不同`这类比较句的依据。使用了什么模式 标准，也要留在 `pattern_note` 或派生规则 备注 中，才能用同样 判断 重新摘要同一原始日志。
 
@@ -56,7 +56,7 @@
 
 问题情境：确认即使整体平均值看起来相同，只要分段流动不同，就应该读作不同的运行结构。
 
-输入(input)：[`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){ .csv-preview } 文件。一行是一条动作汇总行，`early_flow_mean`、`mid_flow_mean`、`late_flow_mean` 是三个区间平均值。把多大的差异视为模式变化，由 `pattern_change_threshold` 控制。
+输入：[`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){ .csv-preview }。一行汇总一次动作，`early_flow_mean`、`mid_flow_mean` 和 `late_flow_mean` 是三个区段的均值。通过 `pattern_change_threshold` 调整被视为模式变化的最小差值。
 
 期望输出(output)：即使 `overall_mean` 相同，区间差异和 `pattern_note` 仍然不同的输出。改变 `pattern_change_threshold` 时，被读作模式的差异大小也会改变。
 
@@ -164,6 +164,8 @@ E07: mid_minus_early=1.20 late_minus_mid=-0.30 -> mid peak then drop
 E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 ```
 
+下面的计算给三个区段相同的权重。在区段时长和测量点数相同的假设下，它与整体平均一致。如果区段时长不同，直接把三个均值相加再除以 3，可能不同于整个动作的时间平均。
+
 所有动作的 `overall_mean` 都是 2.4。但看第 2 步时，同一个平均值下面仍然分出了 12 个 `flat across segments`、12 个 `mid peak then drop`、12 个 `late decline after high early/mid`。这里可以操作的值是 `pattern_change_threshold`。把这个值调低，较小的区间差异也会被读作模式变化；把它调高，比较缓慢的差异可能仍会被归为平坦走势。第 3 步中的 `pattern_note`，就是把这种差异重新折叠成一句说明。所以，只看平均值，这些行像是同一种案例；把区间平均值和区间差异一起看，就能看出它们是不同的动作结构。
 
 这个例子也可以按同样顺序来读。
@@ -183,6 +185,11 @@ E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 --8<-- "assets/part-03/chapter-05/p3-5-2-mermaid-01-zh.mmd"
 
 如果因为平均值相同，就把两个动作直接归为同一类，就可能漏掉那些实际上后段下降更快的案例。所以，汇总表里应该能看见 `即使平均值相同，结构也可能不同`。这个想法会自然延伸到后面的特征设计、区段表示和基准线比较。
+
+## 检查清单
+
+- 你是否构造了均值相同但区段顺序不同的案例？
+- 区段长度不同时，你能否说明如何计算整体平均？
 
 ## 来源与参考资料
 

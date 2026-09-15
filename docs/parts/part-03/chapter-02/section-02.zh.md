@@ -1,11 +1,13 @@
 # P3-2.2 数据集候选里要放进哪些结构
 
 > Section ID: `P3-2.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
-正如前一节所看到的，已存的记录还不一定就是数据集。那么下一个问题就会立刻接上来：如果要重新做出一个[数据集候选](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)，里面到底应该放进哪些结构？为了回答这个问题，Part 3 会把 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、[output structure](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure) 放在一起看。与其把这些词当成彼此分开的记忆清单，不如把它们读成一个数据集设计结构。只有先决定什么算一条样本，才能做出特征；只有有了特征，才能决定该拿什么和基准线比较；只有这层比较先成立，才能决定最后要做成什么输出结构。
+如前一节所示，即使已经存储了数据集，也可能需要按照当前问题重新组织。接下来的问题自然是：重新构建[候选数据集](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)时，里面应包含哪些结构？Part 3 为回答这个问题，会一起看[样本](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、[特征](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[基准线](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)和[输出结构](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)。把这些词理解为相互连接的数据集设计，比逐项背诵更准确。先确定什么算一条样本，才能构造特征；有了特征，才能决定拿什么与基准线比较；有了比较，才能决定构造什么输出结构。
 
 这一节尤其重要的一点，是在它还没有直接凝固成 [target](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) 之前，先把 `输出结构` 读成一种问题设计轴：它负责区分面向复核的结果和面向预测的目标候选。这也是为什么数据集候选不能被读成单一表名，而要读成几种互相连接的结构。只有“什么算样本、保留哪些特征、和什么基准线比较、最后以什么输出结构收口”这些判断一起定下来，数据集候选的含义才会清楚。
+
+下面四个要素是本书状态比较案例的设计框架，并不是说每个数据集都必须包含基准线列和输出列。例如，无标签图像集合也叫数据集；特征可以是直接测量的值或类别，并不一定要通过汇总计算得到。
 
 以一次自动执行的动作为例。样本可以是 `把这一次完整动作看成一条案例`。特征可以是从这次动作里计算并留下来的值，例如 `总时长`、`中段均值`、`后段下降率`、`跟踪误差`。基准线可以是非近期区段的代表值，或者平常状态的比较群体。输出结构则是人或模型最后要读到的结果形式，例如 `需要复核`、`注意`、`正常范围`，或者 `预测标签候选`。
 
@@ -37,6 +39,8 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | A | 0.74 | -0.32 | 0.92 | -0.05 | -0.27 | `需要复核` |
 | B | 0.89 | -0.08 | 0.92 | -0.05 | -0.03 | `正常范围` |
+
+这里假定流量单位为 L/min，后段下降率为最后两个测量点之间每秒的流量变化，并按 `baseline_gap = late_drop_rate−baseline_late_drop_rate` 计算。虚构规则在 `baseline_gap < −0.20` 时将案例列为复核对象。示例中的`正常范围`只表示没有触发这条规则，并不是确认不存在故障或原因的标签。
 
 读这张表的顺序，会自然地从左往右走。`sample_id` 固定了什么被算成一条样本。`mean_flow` 和 `late_drop_rate` 是描述这条样本的特征。`baseline_mean_flow` 和 `baseline_late_drop_rate` 是平常状态的基准线。`baseline_gap` 写下比较结果，说明当前样本的后段下降率比基准线多下降了多少。只要这个比较结果足够大，`output` 列里就会形成像 `需要复核` 这样的运营判断。
 
@@ -234,6 +238,11 @@ shape: (36, 4)
 4. 决定人要读、或模型要接收的输出结构。
 
 这四个阶段在后面会分别展开成不同章节，但在实际里，它们是一条连续判断。所以无论读到哪一章，只要一起追问 `现在这段说明属于样本、特征、基准线、输出结构里的哪一步`，就不容易迷失。一旦抓住 `先定样本才有特征，先定特征才有比较结构，有了比较结构输出结构才会整理出来` 这层关系，就会更清楚：数据集候选不是某一个文件名，而是一张让这四种结构彼此咬合的设计表。从更宽一点的角度看，这一节建立的是一个最小契约：它整理了 `example 单位`、`描述变量`、`比较基准`、`结果形式` 在同一个数据问题里按什么顺序咬合。因此，数据集候选不该被读成 `列很多的表`，而该被读成：在同一个 example 里，描述值、比较基准、结果形式各自分工的结构。
+
+## 检查清单
+
+- 你是否在表中指出了样本、特征、标签和基准线各自的作用？
+- 你是否区分了本例的比较结构与数据集也可以没有标签这一事实？
 
 ## 来源与参考资料
 

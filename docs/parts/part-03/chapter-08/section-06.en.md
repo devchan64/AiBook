@@ -1,7 +1,7 @@
 # P3-8.6 Confirmed Labels Left Only on Some Cases
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 _Subtitle: What should be written with the interpretation when confirmed labels exist only for reviewed cases?_
 
@@ -130,6 +130,11 @@ If we look only at reviewed labels, the accuracy is `1.0`. But when all events a
 The key point in this section is not to read `confirmed labels that remain only on reviewed cases` as if they were the answer table for all events. Once confirmed labels appear, the `meaning of missing labels`, the `review path`, and possible `bias` should be written beside them so the interpretation is not overstated.
 
 --8<-- "assets/part-03/chapter-08/p3-8-6-mermaid-01-en.mmd"
+
+## Checklist
+
+- Can you explain why overall performance is hard to estimate from reviewed cases alone?
+- Did you propose a way to check outcomes for unreviewed cases?
 
 ## Sources and References
 

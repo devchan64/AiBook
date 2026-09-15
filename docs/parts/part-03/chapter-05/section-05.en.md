@@ -1,7 +1,7 @@
 # P3-5.5 How Do We Handle Samples with Missing Values or Empty Segments
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 This judgment should remain inside the table too. Columns such as `keep_sample`, `missing_scope`, `avoid_features`, `missing_indicator`, and `raw_log_recheck_needed` let you see again which policy handled blanks. If you keep the sample but decide not to create a certain feature, also leave whether the reason was `late_segment_missing` or `end_detected=0`; later you can tell whether missing-value handling was simple preprocessing or a sample-boundary problem.
 
@@ -66,6 +66,8 @@ So the concern here is more similar to `how should we classify the current state
 
 This diagram shows that we do not treat `being empty` as one single state. The judgment branches according to the location of the missingness and the state of the sample boundary. So the example in this section aims less to reveal values themselves and more to reveal first the judgment structure that branches into `keep`, `exclude features`, and `structural collapse`.
 
+Before replacing missing values with zero, establish what zero means. A flow of zero is a measurement of stopped flow; missingness means a measurement was unavailable. If the observed values are 2 and 4 and the third is missing, the observed-value mean is 3. Filling the blank with zero produces a mean of 2 by introducing a different assumption. Excluding incomplete samples can also remove particular operating conditions, so retain condition counts before and after exclusion.
+
 ## Why Can the Missingness Itself Remain as a Column
 
 People often think only `blanks should be removed`. But in practice, the missingness itself can have meaning.
@@ -84,7 +86,7 @@ Once this judgment is made first, we stop mixing together `values that can be fi
 
 Problem situation: check that not all samples with missing values are in the same state; some only require avoiding certain features, while others have their sample structure itself broken.
 
-Input: the [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview } file. One row is one action-summary row, and an empty value means that the segment average could not be produced. The policy for keeping partially missing samples is controlled by `keep_partial_samples`.
+Input: [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview }. One row summarizes one action, and an empty value means the corresponding segment mean was not produced. Use `keep_partial_samples` to control whether partially incomplete samples are retained.
 
 Expected output: output that organizes `late_segment_missing`, `sample_structure_broken`, `keep_sample`, and `avoid_features` together. If `keep_partial_samples` changes, the keep/drop decision for rows with only partial segment missingness changes.
 
@@ -206,6 +208,11 @@ The core of this example is not code that fills values. It is the point that `pa
 The last thing to check here is threefold. Is this sample still the same comparison unit? Have we separated the features that should not be built because of the missingness? Have we decided whether the missingness itself should remain as a flag column? Only when these three conditions stand together does a blank become readable not as a simple cleaning target but as a data-modeling item mixed with judgment about sample structure.
 
 The fact that values are missing is not only a [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing) problem. It is a data-modeling signal that asks again whether the sample is still the same comparison unit and whether the missingness itself should remain as structural information. So to say that we handle missingness means, before filling blanks, redrawing the boundary that says which samples remain comparable and which should be pulled back from comparison.
+
+## Checklist
+
+- Did you calculate means treating actual zero and missingness differently?
+- Did you check which operating conditions may become underrepresented when incomplete samples are excluded?
 
 ## Sources and Further Reading
 

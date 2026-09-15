@@ -1,11 +1,11 @@
 # P3-1.1 What Is Data Modeling Trying to Achieve
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 As soon as the reader enters Part 3, they meet words such as [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#target). These terms do not stand alone. The outer judgment that decides what counts as one case, which values remain, what gets compared, and in what result format the process closes is [data modeling](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling).
 
-If data modeling is understood only as organizing storage structure, it is easy to think of it as little more than making an already existing table look cleaner. But in AI and data analysis, data modeling is an earlier judgment than that. Data modeling is the work of deciding what question this [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) can be turned into an answerable structure for.
+If data modeling is understood only as organizing storage structures, it can sound like making existing tables look tidier. In Part 3, this book uses the term more broadly to mean designing samples and representations for a question. This is the scope chosen for the book, not a standard definition that replaces data modeling in databases. The task is to decide which questions the available [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) should enable us to answer.
 
 The most common early confusion is to treat `how should we store the database?` and `how should we build a problem structure that AI can read?` as if they were the same task. They are connected, but their goals differ.
 
@@ -66,8 +66,10 @@ This table is sufficient for storage and traceability, but it is difficult to co
 
 | action_id | flow_mean | flow_std | pressure_mean | late_drop_rate | baseline_gap | review_flag |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| A-101 | 24.60 | 0.63 | 101.53 | -1.2 | 0.9 | review |
-| A-102 | 24.77 | 0.06 | 101.00 | 0.0 | 0.1 | normal |
+| A-101 | 24.60 | 0.62 | 101.53 | -1.2 | -1.2 | review |
+| A-102 | 24.77 | 0.06 | 101.00 | 0.0 | 0.0 | no_flag |
+
+This table is calculated from fictional records for illustration. Assume flow is measured in L/min and pressure in kPa. `flow_std` is the sample standard deviation of the three flow values (denominator 3−1), and `late_drop_rate` is the difference between the final two flow values divided by one second. For A-101, `(23.9−25.1)/1 = −1.2 L/min/s`. A more negative value means a steeper decline. Assuming a separately supplied usual decline rate of 0, we calculate `baseline_gap = late_drop_rate−0` and assign `review` only when the difference is below −0.5. `no_flag` means this rule did not trigger; it does not confirm normal operation. The baseline and threshold were not estimated from the six log rows above alone.
 
 The difference between these two tables shows exactly what data modeling is for.
 
@@ -96,13 +98,18 @@ Whether data modeling has succeeded is not judged by whether a flashy model was 
 - What should it be compared against?
 - Is this result an automatic conclusion, or only a candidate for human review?
 
-If those four questions can be answered, data modeling has already succeeded to a large degree. If they cannot be answered, then no matter how much source data exists, later model explanations are likely to remain unstable. Increasing learning density is not mainly about piling on more definitions. It is closer to showing enough cases and comparison structure that the reader can answer these four questions alone.
+If these four questions can be answered, much of the data-modeling work has succeeded. If they cannot, later explanations of models remain fragile no matter how much source data exists. Each column must be traceable to the raw records or a calculation rule so that another person can reproduce the same table.
 
 That is why Part 3 does not unfold every topic of data science. Data cleaning and exploration are brought in only as needed, while statistical testing and algorithm details are kept outside the center. Instead, it first fixes `what should count as a sample`, `which values should remain`, `what it should be compared to`, and `what output structure it should pass into`. Once that boundary is secured, the data problem can be read as `a problem solved on top of an already designed structure`.
 
 Seen more broadly, this section is the starting point of data-problem design, where `what should count as one case`, `in what representation should it remain`, `what should it be compared against`, and `in what result format should it close` are all decided together.
 
 So it is more accurate to read data modeling as `designing representation and comparison structure that can answer a question` than as simply `organizing a table`.
+
+## Checklist
+
+- Did you recalculate A's flow standard deviation and baseline difference and match them to the table?
+- Can you distinguish a database storage-structure description from the analytical input design in this example?
 
 ## Sources and Further Reading
 

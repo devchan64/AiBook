@@ -1,7 +1,7 @@
 # P3-5.7 Rules for Folding Multiple Follow-Up Events
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 The final table should also keep the folding rule traceable. For example, if you leave `folding_rule`, `severity_cutoff`, `follow_up_window_days`, `source_event_count`, and `target_candidate_name` in a memo, you can explain again what event range and threshold produced `any_failure=1`. Even from the same follow-up event log, `first_event` and `worst_event` are different columns, so do not freeze one column name as if it were the actual target label.
 
@@ -46,6 +46,10 @@ Leaving the notes below first reduces later confusion.
 | Which of `any`, `first`, `worst`, `count` was used | To explain again what the result column means |
 | Whether the folded result is for reporting or a prediction candidate | To avoid mixing comparison reports with target candidates |
 
+Before folding events into a result, define the observation period and deduplication rules. For `failure within 7 days`, a failure on day 9 is excluded. If a transmission retry stores the same event twice, compare event identifiers so that `count` does not count it twice. Define `first` using occurrence-time order, and establish tie-breaking rules for events at the same time or with the same severity.
+
+The example below assumes follow-up is complete for the entire sample roster, the event log is already restricted to the analysis period, and there are no duplicates. Only under those assumptions can S30, which has no events, be assigned 0. A sample still under observation must remain `pending` even if no event has occurred.
+
 Small example:
 
 Problem situation: check that when several follow-up events exist after the same sample, different folding rules such as `first`, `worst`, `count`, and `any` create different result columns.
@@ -72,11 +76,9 @@ selected_failure_severity_cutoff = 4
 failure_severity_cutoffs = [4, 3, 2]
 preview_row_count = 12
 
-
 def read_csv(path):
     with path.open(newline="", encoding="utf-8") as file:
         return list(csv.DictReader(file))
-
 
 sample_roster = read_csv(sample_roster_path)
 follow_ups = read_csv(follow_up_events_path)
@@ -235,6 +237,11 @@ The key point in this example is that even while looking at the same source even
 This section compresses one point: `several follow-up events` do not automatically become one result column. The same event list turns into different representative result columns depending on whether it is folded by `any`, `first`, `worst`, or `count`.
 
 --8<-- "assets/part-03/chapter-05/p3-5-7-mermaid-01-en.mmd"
+
+## Checklist
+
+- Did you specify the observation period, deduplication, and representative-label selection rules for follow-up events?
+- Did you distinguish zero follow-up events from incomplete observation?
 
 ## Sources and Further Reading
 

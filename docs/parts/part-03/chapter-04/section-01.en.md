@@ -1,7 +1,7 @@
 # P3-4.1 How Do We Decide One Comparable Sample
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 When you move this judgment into a draft table, leave it as column names. If one operation is the sample, the first column should identify that operation, such as `event_id`, not a time index; nearby columns should be feature candidates summarizing the whole operation, such as `pressure_mean`, `pressure_rise`, and `flow_mean`. If the table compares recent windows, columns such as `window_name`, `window_start`, `window_end`, and `event_count` should show that several samples were grouped again. This keeps the sample-unit decision from staying in your head and turns it into the row and column structure of the next table.
 
@@ -20,9 +20,7 @@ This table shows that even with the same data, `the meaning of one row` changes 
 
 To call something a `comparable sample` here, at least three things must be satisfied together.
 
-1. The boundary of one case has to be clear.
-2. The same kinds of features must be attachable to all cases in the same way.
-3. The labels or comparison criteria attached later must connect naturally to that unit.
+Which unit satisfies these conditions depends on the question. When predicting the next value, consistent features and outcomes can also be attached to time-point samples. When comparing daily operating states, a day can itself be a sample. Here, we choose one action because we compare patterns across entire actions. The decision in this section is therefore which of `one time point`, `one action`, or `one recent period` should count as one comparable sample.
 
 Using those three criteria, a per-time-point measurement row usually satisfies only the first, while the second and third are weak. By contrast, an action-level summary table often satisfies all three. A recent-segment table is strong in the third sense of comparison criteria, but it is more similar to an interpretation structure formed by regrouping several samples than to an individual sample comparison. So what this section must decide is which of `one time point`, `one full action`, and `one recent segment` should count as one comparable sample.
 
@@ -47,13 +45,15 @@ The small table below makes this difference clearer.
 
 In this table, one row is not `one full action`, but `one time point during the action`. So if we want one sample to mean one full action, then several rows with the same `event_id` must be grouped together. And if we look one step more closely here, even with the same source data, choosing whether to read `one time point`, `one full action`, or `one recent segment` as one case changes not only the number of samples, but also which columns make sense only at that unit.
 
+The suitability judgments below apply specifically to the question `How do entire actions compare?` Changing the question changes the judgments in the table.
+
 If we reread the same example now with the three criteria above, it becomes clearer why `one full action` is more similar to a comparable sample.
 
-| Candidate unit | Is the boundary clear? | Is it easy to attach the same features? | Is it natural to attach labels / comparison criteria? |
+| Candidate unit | Is the boundary clear? | Is it easy to attach consistent features? | Do labels/comparison criteria fit naturally? |
 | --- | --- | --- | --- |
-| one measurement row | Yes | Weak | Weak |
-| one full action | Yes | Yes | Yes |
-| one recent-segment bundle | Yes | Only partly | Strong for comparison criteria, weak for individual-sample labels |
+| One measurement-time row | Yes | Suitable for comparing instantaneous values | Its unit differs from a whole-action outcome |
+| One action | Yes | Yes | Yes |
+| One recent-period group | Yes | Suitable for comparing period aggregates | Its unit differs from the outcome of one action |
 
 In other words, if we take `one full action` as one sample, then features such as `pressure_mean`, `pressure_rise`, and `flow_mean` can be attached to all cases in the same way, and later results such as `needs review`, `normal`, or `anomalous` also connect naturally at that unit. By contrast, one measurement row is good for holding an instant observation value, but it is difficult to place features and labels on it stably when the goal is to compare the structure of the whole action. A recent-segment bundle is closer not to an individual action-comparison sample, but to an interpretation unit formed by regrouping several actions.
 
@@ -79,6 +79,8 @@ Problem situation: confirm that even with the same source log, the comparable ta
 Input: time-point records by `event_id` in [p3_4_1_measurement_log.csv](/AiBook/assets/part-03/chapter-04/p3_4_1_measurement_log.csv){ .csv-preview }, event-level review results in [p3_4_1_review_decisions.csv](/AiBook/assets/part-03/chapter-04/p3_4_1_review_decisions.csv){ .csv-preview }, and `question_focus_options`, the candidate questions we are currently trying to answer
 
 One row in the first CSV is a measurement taken at one time point during an action. One row in the second CSV is a review result attached after one full action has ended. Some events may have too few time-point rows or no review result yet, so the code must first rebuild the sample unit and separately check completeness and whether labels can be joined.
+
+The question-to-unit mapping here is a predefined example rule. It is not an algorithm that automatically recommends an optimal unit from the data or validates one with scores. Record counts and completeness are actually calculated from the CSV.
 
 Expected output: the units `measurement_row`, `event`, and `window` produce different sample counts and different possibilities for features. When the question focus and the event-completeness threshold change, the recommended unit and valid sample count change with them.
 
@@ -146,8 +148,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": len(raw),
             "can_use_pressure_rise": "no",
             "label_attaches_naturally": "weak",
-            "feature_score": 1,
-            "label_score": 0,
         },
         {
             "unit_name": "event",
@@ -155,8 +155,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": int(event_summary["is_complete_event_sample"].sum()),
             "can_use_pressure_rise": "yes",
             "label_attaches_naturally": "yes",
-            "feature_score": 3,
-            "label_score": 2,
         },
         {
             "unit_name": "window",
@@ -164,8 +162,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": len(window_summary),
             "can_use_pressure_rise": "partial",
             "label_attaches_naturally": "weak",
-            "feature_score": 2,
-            "label_score": 1,
         },
     ]
 )
@@ -175,10 +171,6 @@ recommended_unit = {
     "recent_vs_baseline": "window",
 }[selected_question_focus]
 unit_check["selected_for_question"] = unit_check["unit_name"] == recommended_unit
-unit_check["question_match_score"] = unit_check["selected_for_question"].map({True: 2, False: 0})
-unit_check["total_score"] = (
-    unit_check["feature_score"] + unit_check["label_score"] + unit_check["question_match_score"]
-)
 
 focus_result = pd.DataFrame(
     [
@@ -319,10 +311,10 @@ window_name  event_count  complete_event_count  labeled_event_count  pressure_me
 recent_vs_baseline           window
 
 9) unit check for selected_question_focus = event_comparison
-      unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  feature_score  label_score  selected_for_question  question_match_score  total_score
-measurement_row            36                  36                    no                     weak              1            0                  False                     0            1
-          event            12                  12                   yes                      yes              3            2                   True                     2            7
-         window             2                   2               partial                     weak              2            1                  False                     0            3
+      unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  selected_for_question
+measurement_row            36                  36                    no                     weak                  False
+          event            12                  12                   yes                      yes                   True
+         window             2                   2               partial                     weak                  False
 ```
 
 What we should see first in this output is `how many cases are being counted`. In the raw table, there are 36 measurement time points; when grouped by `event_id`, there are 12 candidate action-level samples; and when grouped again into recent versus baseline segments, there are 2 aggregates for comparison. But the next thing to see is `which values become meaningful only at which unit`. The review results are not repeatedly injected into raw time-point rows. They arrive separately at the `event_id` level and are then joined to the one-action summary table. The values to manipulate here are `selected_question_focus`, `question_focus_options`, and `expected_rows_per_event`. With `"event_comparison"`, one full action becomes the recommended unit. If it is changed to `"instant_value"`, a measurement time-point row is more natural. If it is changed to `"recent_vs_baseline"`, the recent/baseline segment aggregate is more natural. If `expected_rows_per_event` is raised to `4`, all 12 current events fall out of the complete event-sample set. In other words, even with the same source data, choosing whether to read `one time point`, `one full action`, or `one recent segment` as one sample changes the row count, the meaning of the table, the role of the columns that can sit on top of it, and the valid sample count together.
@@ -352,6 +344,11 @@ The purpose of this diagnosis table is not to memorize table names. It is to qui
 Only after an action-level summary table exists can features such as means, slopes, and variability be built stably, and only then can recent-segment and baseline comparison be read on the same unit. So the question `what does one row mean?` does not stop at deciding one sample unit. It becomes a floor rule that supports the later structures of all of Part 3.
 
 A comparable sample is not determined first by the data itself. It is determined together by the comparison unit required by the question and the feature and label structure that will sit on top of it. So when we say `decide one sample`, it does not mean recounting rows. It means deciding which object, between observation unit and aggregate unit, will be treated as the comparable analytical unit.
+
+## Checklist
+
+- Did you choose time point, action, or recent period as the unit for your question and justify it?
+- Did you check how the valid sample count changes when an action has too few records?
 
 ## Sources and Further Reading
 

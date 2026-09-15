@@ -1,7 +1,7 @@
 # P3-9.1 How Far Should the Current Problem Be Raised
 
 > Section ID: `P3-9.1`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 When looking at real records, the first reaction is often "we have event records and at least some result notes, so shouldn't we raise this straight to a [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) problem?" But with real records, that move is often too fast. Some problems can truly become prediction problems, but others are more honestly left as `problems of choosing review candidates well`, and that also fits the current data state better. Once [interpretation boundaries](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) are set, the next step is to decide how far the current problem should be raised among [alert](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), [review candidate](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and [label prediction](/AiBook/en/reference/concept-glossary-alpha/l/#label-prediction).
 
@@ -27,11 +27,11 @@ At this stage, the following three questions should be checked immediately.
 
 Written more directly, the difference looks like this.
 
-| Stage | Example input | Example output | What must exist first | What should not be raised yet if missing |
+| Stage | Example input | Example output | What must be in place first | What this stage alone does not establish |
 | --- | --- | --- | --- | --- |
-| Alert | Difference between recent window and baseline | `caution` | Comparison structure and difference value | Cause label |
-| Review candidate | Difference value + repeatability + judgment conditions | `look first` | Alert + repeatability + priority criteria | Stable target label |
-| Label prediction | Event-level feature table | `normal/abnormal` or a specific state | Relatively stable target label and evaluation setup | Building a complex classification problem before labels are sufficient |
+| Warning | Recent-period difference from baseline | `Caution` | Comparison structure and differences | A cause label |
+| Review candidate | Difference + repetition + judgment conditions | `Check first` | Warning + repetition + priority criteria | A stable target label |
+| Label prediction | Event-level feature table | `Normal/abnormal` or a specific state | Relatively stable target labels and evaluation structure | Grounds for starting with complex classification without enough labels |
 
 So you do not move to a higher learning problem simply because `you want to raise it`. You move upward only when enough evidence has accumulated at the lower stage.
 
@@ -51,6 +51,8 @@ In practice, this usually becomes the following order.
 
 Prediction is therefore not the starting point. It becomes worth considering only after the evidence and structure from earlier stages are sufficiently organized. For some problems, it can remain more honest to leave them as a comparison report and a review queue all the way through. There is no need to force a judgment that is already well supported by comparison structure alone upward into a label-prediction problem.
 
+These three outputs are not mandatory grades that every project must pass through in order. A problem with consistently collected outcome labels can be designed for supervised learning without first running comparison reports or review queues. Predicting a label also does not prove a cause. Here, the purpose is to distinguish which outputs the current example has enough evidence to support.
+
 ## A Small Diagram
 
 ```mermaid
@@ -58,6 +60,11 @@ Prediction is therefore not the starting point. It becomes worth considering onl
 ```
 
 This diagram shows that the judgment of raising a problem upward is not `always move one stage higher`, but a branch that asks what level of evidence currently exists. It is not about listing label names, but about separating, step by step, whether to stop at `alert`, whether to go to `review candidate`, or whether to raise it to `label prediction`. The key is that `an alert is a change signal, a review candidate is review prioritization, and label prediction is a stronger problem setup than both`. How far the current problem should be raised must be judged not by `is it more advanced`, but by `how far does the current data honestly support`.
+
+## Checklist
+
+- Did you distinguish warnings, review candidates, and confirmed outcomes?
+- Did you separate outputs supported by your data from those still lacking evidence?
 
 ## Sources and References
 

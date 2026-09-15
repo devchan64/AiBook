@@ -1,7 +1,7 @@
 # P3-4.4 What Signals Show That the Sample Unit Was Chosen Wrong
 
 > Section ID: `P3-4.4`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 When you see this signal, the next action is not to create more features but to rewind the table once. If a repeated label appears, first write down the identifier of the object receiving the label. If a feature cannot be explained by one row, first write down the grouping rule used to compute it. If the same operation appears in both training and evaluation, attach the split column to the sample unit again, not to rows. This turns the warning signal into table-repair work rather than a mere checklist item.
 
@@ -200,7 +200,7 @@ In practice, the direction becomes much clearer simply by writing down the follo
 3. Is the sentence I am trying to write talking about one row, or one full action?
 4. Does the training/evaluation split divide the rows of the current table, or divide the sample unit?
 
-If two or three of these four questions already fail to align, it is usually better to recheck the sample unit before adding more features.
+If any of these four questions reveals a mismatch with the current analysis purpose, revisit the sample unit before constructing more features.
 
 ## A Small Diagram
 
@@ -209,6 +209,11 @@ The warning signs in this section are not independent checklist items. Repeated 
 --8<-- "assets/part-03/chapter-04/p3-4-4-mermaid-01-en.mmd"
 
 When these diagnostic signals are collected first, it becomes easier to distinguish earlier between cases where the sample unit must be regrouped and cases where it can safely stay as it is. In other words, what matters here is not previewing the next stage, but noticing the mistaken sample-unit judgment early through repeated labels, unexplained features, and awkward comparison sentences that are already visible in the current table.
+
+## Checklist
+
+- Did you find a sign that your question and sample boundaries do not match?
+- Can you explain duplicated features or labels by tracing them back to the original event?
 
 ## Sources and Further Reading
 

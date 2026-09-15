@@ -1,7 +1,7 @@
 # Part 3. Data Modeling
 
 > Section ID: `P3-index`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 The first plan for this opening page is to separate `source data`, `sample unit`, `features`, `baseline`, `interpretation boundary`, and `prediction candidate` in order. Each Section reinforces the flow in which data does not become a learning problem immediately, but is organized into a problem through comparable structure and record language.
 
@@ -18,11 +18,11 @@ The way this representative case evolves through the Part can first be held with
 | Recent-vs-baseline comparison table | a state comparison built from several actions | recent mean, baseline mean, difference value |
 | Operational output | a result read by a person or handed to the next step | warning, review candidate, target-label candidate |
 
-Here, data modeling does not mean only organizing storage structure. Data modeling is the work of re-expressing source data from reality into samples, features, baselines, and output structures that people can compare and AI can use. More precisely, it is more similar to designing `what should count as one sample`, `how raw logs should be regrouped into summary tables`, `which features and comparison structures should remain`, `how conservatively we should speak`, and `what should still remain a comparison report versus what should be raised into a prediction problem`, rather than simply `reading a given table`.
+This book extends the scope of data modeling to designing input and comparison structures for analytical problems. It means representing real-world source data as samples, features, baselines, and output structures that people can compare and AI can use. More precisely, it is less about `reading a given table` than about deciding `which event counts as one sample`, `which summary tables to construct from raw logs`, `which features and comparisons to retain`, `how cautiously to interpret them`, and `what should remain a comparison report versus become a prediction problem`.
 
 Part 3 re-bundles topics that often appear separately in a data-science curriculum, such as data wrangling, feature engineering, sample design, inference, and problem framing, into one relearning flow. It does not list those items as a sequence of named procedures. Instead, it follows one case and checks in order `what becomes a sample`, `what gets regrouped into a table`, `what gets compared`, and `how far we can speak`. So the focus of Part 3 is on establishing `problem representation structure` before algorithms.
 
-The table below shows more briefly that the spine of Part 3 is not an arbitrary order, but a rearrangement of standard concept bundles from data science and machine learning through the perspective of `rebuilding problem structure`.
+The following table maps this book's explanatory flow to related standard concepts. It does not imply that this order is a mandatory procedure shared by every analysis.
 
 | Bundle in this Part | Corresponding standard concepts | Representative evidence axis |
 | --- | --- | --- |
@@ -30,9 +30,9 @@ The table below shows more briefly that the spine of Part 3 is not an arbitrary 
 | Building features and baselines | feature engineering, labeled example, base period | Google ML Glossary, BLS |
 | Wrapping Up interpretation strength and output boundaries | problem framing, conservative interpretation, output structure | Google ML Glossary, NASEM |
 
-Within Part 3, the larger definition of `data modeling` itself is first fixed in 3.1, and the working sequence is fixed in 3.2. Later sections keep only the minimum connection needed for the current question rather than repeating long definitions of the same term. [Sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) can be checked again in the glossary when needed.
+Within Part 3, P3-1.1 first defines the broad scope of `data modeling`, and P3-1.2 establishes its sequence of decisions. Later sections retain the minimum connections needed for their questions instead of repeating detailed definitions. Consult the glossary when needed for [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#target).
 
-Part 3 first fixes what data modeling is trying to achieve and in what order it proceeds. It then checks why stored records should not be read immediately as a dataset, decides the meaning of one row and one sample, and regroups raw logs into comparable tables. After that, it designs features and intermediate representations, and separates which columns are for identification, comparison, and target candidates. It then builds the structure that compares recent segments with a baseline, places boundaries on how far interpretation can go in front of small samples and unstable repeatability, and finally separates problems that should remain comparison reports from problems that should be raised into prediction problems while wrapping up input/output boundaries and time boundaries.
+Part 3 begins by establishing what data modeling should achieve and in what order decisions are made. It then examines why stored records need to be reorganized for an analysis purpose, defines rows and samples, and regroups raw logs into comparable tables. Next, it designs features and intermediate representations, separating identifier, comparison, and candidate-target columns. It builds comparisons between recent periods and baselines, then sets interpretation limits for small samples and uncertain repetition. Finally, it distinguishes problems that should remain comparison reports from those suitable for prediction and checks input/outcome and time boundaries.
 
 ## The Role Data Modeling Takes On
 
@@ -51,13 +51,13 @@ Part 3 first fixes what data modeling is trying to achieve and in what order it 
 
 ## Main Questions
 
-- What role does data modeling play in the overall data-science flow?
-- Why are stored records not immediately a dataset?
-- How are one row and one sample different, and what table structure is needed?
-- Why are features and intermediate representations designed the way they are?
-- Why must baselines and comparison structure be fixed before models?
-- How far can interpretation go in front of sample size and repeatability?
-- What should remain a comparison report, and what should be passed into a learning problem?
+- What role does data modeling play in the overall data-science workflow?
+- Why must stored records be reorganized for the analysis purpose?
+- How do a row and a sample differ, and which table structures are needed?
+- What are features and intermediate representations designed to preserve?
+- Why should baselines and comparison structures be defined before models?
+- How far can we interpret results given sample counts and repetition?
+- What should remain a comparison report, and what should become a learning problem?
 
 ## Flow for Building Problem Structure
 

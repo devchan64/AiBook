@@ -1,7 +1,7 @@
 # P3-7.4 By What Range and Conditions Should We Set the Baseline
 
 > Section ID: `P3-7.4`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Once we understand that a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is needed, the next question immediately follows. `Then what exactly should count as usual?` This is where readers easily get stuck again. If we gather past ranges at random for comparison with the recent range, a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) may still be produced, but the interpretation will shake easily. So it is better to hold on first to the order: `write the comparison question first`, `leave only the candidates that fit that question`, and `among the remaining candidates, choose the bundle that matches the current sample most closely in condition`.
 
@@ -54,13 +54,15 @@ NIST's explanation of control charts says that to regard a process as having rea
 
 A common mistake when choosing a baseline is to group together cases that simply look similar in average. But even if the averages look similar, that does not mean they belong to the same comparison group. If the process type differs, the action length differs, or the operating mode differs, then the same average can still mean a completely different structure.
 
-| The sample currently being examined | A baseline candidate that is closer | A less appropriate candidate |
+| Samples currently being examined | More suitable baseline candidate | Less suitable candidate |
 | --- | --- | --- |
-| A `type-A` one-action summary table | A bundle of past `type-A` action summary tables | An overall average mixing `type-B` and `type-C` |
-| A recent-20-case aggregate table | A past aggregate table of roughly 20 cases under the same condition | A tiny bundle of only 3 cases |
-| An action after maintenance | A stable range after maintenance | A long-term average from before maintenance |
+| A summary table of `type-A` actions | A collection of past `type-A` action summaries | An overall mean mixing `type-B` and `type-C` |
+| An aggregate of the latest 20 actions | Enough past actions using the same conditions and aggregation rules | A small group of only three actions |
+| Actions after maintenance | A stable post-maintenance period | A long-term pre-maintenance mean |
 
 The key point of this table is not `do the numbers look similar?` but `are the comparison conditions the same?` In the end, choosing a baseline is not the act of collecting cases with similar averages. It is the act of leaving a reference group that can answer the same question as the current sample.
+
+It is possible to compare the latest 20 actions with 200 past actions. Matching sample definitions and calculation methods matters more than equal counts; record both counts separately. Choosing a past period because its mean resembles the recent mean can erase the very difference being investigated. Do not select candidate conditions opportunistically after seeing outcomes. If the question concerns maintenance effects, compare before and after maintenance, while also checking for other changes in operating conditions.
 
 ## Looking Through a Small Diagram
 
@@ -71,6 +73,11 @@ The key point of this table is not `do the numbers look similar?` but `are the c
 This diagram shows that baseline selection is not the act of picking one average value. It is a judgment that filters comparison conditions step by step. In other words, it is less about printing a candidate table and more about holding on to the selection structure that checks in sequence `same sample unit`, `same process condition`, `enough sample count`, and `same operational state`.
 
 So this section is more accurately read not as a list of field rules, but as the problem of [selecting a comparable reference group](/AiBook/en/reference/concept-glossary-alpha/b/#baseline). Choosing a baseline is not `picking one past average`, but a process of narrowing down by condition to a reference group that is comparable with the current sample.
+
+## Checklist
+
+- Did you explain why you chose the candidate baseline's operating conditions and period?
+- Can you explain the problem with choosing a baseline because its mean resembles the current mean?
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P3-8.7 Data Interpretation Changed by Operational Intervention
 
 > Section ID: `P3-8.7`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 _Subtitle: Why should later data not be read as a natural course when review rules and actions change it?_
 
@@ -38,6 +38,11 @@ The important point is that `if current operational rules are already changing f
 The key point in this section is that current rules and actions may not leave later data untouched. If the review rule triggers intervention and the intervention changes later data, the later difference has to be read by separating `the original pattern` from `the intervention effect`.
 
 --8<-- "assets/part-03/chapter-08/p3-8-7-mermaid-01-en.mmd"
+
+## Checklist
+
+- Can you explain why results before and after an operational intervention cannot simply be compared directly?
+- Did you specify columns for recording intervention timing and details?
 
 ## Sources and References
 

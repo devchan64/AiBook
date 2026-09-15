@@ -1,7 +1,7 @@
 # P3-6.2 当特征本身还不够时，还可以加入什么中间表示
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
 
@@ -61,7 +61,6 @@ token_settings = {
     "conservative": {"strong_threshold": 0.90, "weak_threshold": 0.30},
 }
 
-
 def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float) -> str:
     if slope >= strong_threshold:
         return "UP2"
@@ -72,7 +71,6 @@ def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float)
     if slope <= -weak_threshold:
         return "DOWN1"
     return "FLAT"
-
 
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 for row in rows:
@@ -225,7 +223,9 @@ event_id           token_sequence  token_similarity
        B FLAT FLAT FLAT FLAT FLAT          0.120765
 ```
 
-如果只看数值平均值，`A` 和 `B` 是同样接近的候选。但 `B` 实际上每个区段都是平的，并没有和查询相同的“上升-平坦-下降”结构。把 token 序列向量化之后，`A` 会变成最接近的候选，而共享部分上升和下降结构的 `C` 会排到后面。这里的重点并不是说 `TfidfVectorizer` 就是正确答案。重点是：当人先定义好的区段 token 被转换成真实库可以处理的输入时，我们就能重新比较那些被平均值摘要抹掉的顺序和方向差异。
+只看数值平均，`A` 与 `B` 是同样接近的候选。但 `B` 的所有区段实际上都平坦，并不具有查询中的上升—平坦—下降结构。对 token 序列进行向量化后，`A` 最近，共享部分上升与下降结构的 `C` 排在后面。这里并不是说 `TfidfVectorizer` 就是正确答案，而是说明：把人工定义的区段 token 转为实际库的输入，就能比较被均值摘要抹去的方向 token 和相邻 token 对的差异。
+
+这里 `ngram_range=(1, 2)` 同时统计单个 token 和相邻的两个 token。改成 `(1, 1)` 时，A 与顺序相反的 D 具有相同的 token 数量，无法区分。即使使用 token 对，也不能保留全部顺序和绝对时点。例如，`UP FLAT UP DOWN UP` 与 `UP DOWN UP FLAT UP` 的顺序不同，但单个 token 和相邻对的数量相同。保留 token 序列与把序列转换成频率向量，是信息损失不同的两个阶段。
 
 这一点之所以重要，是因为区段 token 仍然是人自己定规则的表达，但它已经拥有 `具有顺序的序列` 这一性质。所以，它可以更直接地保留那些数字特征容易漏掉的结构；而到了后面讲顺序数据和表示学习时，也能自然地沿用同一类输入结构继续看下去。
 
@@ -253,10 +253,16 @@ event_id           token_sequence  token_similarity
 
 --8<-- "assets/part-03/chapter-06/p3-6-2-mermaid-01-zh.mmd"
 
-
 因此，token 化与其被看成独立技巧，不如更准确地读成一种选择：在保留原始日志和过度强压缩之间，`究竟要把结构保留到什么分辨率`。
+
+## 检查清单
+
+- 你是否用例子检查了 unigram 和 bigram 各自保留的信息？
+- 你能否说明即使 token 与相邻对频率相同，整体顺序仍可能不同？
 
 ## 来源与参考资料
 
 - TensorFlow, `Subword tokenizers`. 它把 subword tokenizer 解释成一种位于 word-based tokenization 和 character-based tokenization 之间的表示，因此可以帮助解释一种一般化视角：Part 3 的区段 token 也处在原始日志与强汇总之间的中间表示位置。这里把它直接连到时间序列 token 化的部分，是基于官方说明做出的类比性应用。 [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为决定哪些变换有助于模型训练的过程，因此支持这样一点：中间表示同样不是原样保留原始值，而是把它们改写成有利于比较和学习的形式。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+
+- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){ target="_blank" rel="noopener noreferrer" }。用于确认词频与 n-gram 所保留的局部顺序信息。确认日期：2026-09-15。

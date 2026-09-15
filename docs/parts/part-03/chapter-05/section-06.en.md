@@ -1,7 +1,7 @@
 # P3-5.6 Overlapping Input Windows and Sample Counts
 
 > Section ID: `P3-5.6`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 When you turn windows into an actual table, each derived input window should keep the source event identifier. Columns such as `source_event_id`, `window_id`, `window_start`, `window_end`, `stride`, and `source_event_weight` let you count input windows and source events separately. Without these columns, the fact that 237 windows came from 36 events disappears, and the evidence unit may look larger than it really is when you read representativeness or evaluation scores later.
 
@@ -17,6 +17,8 @@ The number of input windows and the number of [source events](/AiBook/en/referen
 | Number of input windows | The number of learning-input pieces cut from those events |
 
 For example, if we cut one action with length 30 and stride 10, one event can expand into several inputs.
+
+`stride` is the number of measurement points by which the window start moves. With source length 100, window length 30, and stride 10, the starts are 0, 10, …, 70: eight windows. If incomplete windows at the end are discarded, `window count = floor((source length−window length)/stride)+1`; if the source is shorter than the window, the count is zero. Here, `floor` means rounding down to the integer below.
 
 | event_id | Source length | Window length | stride | Number of windows created |
 | --- | ---: | ---: | ---: | ---: |
@@ -80,7 +82,6 @@ with source_events_path.open(newline="", encoding="utf-8") as file:
             }
         )
 
-
 def print_event_preview(rows):
     print("event_id line_id     mode  length  window  stride  window_count")
     for row in rows:
@@ -89,7 +90,6 @@ def print_event_preview(rows):
             f"{row['length']:>7} {row['window']:>7} {row['stride']:>7} "
             f"{row['window_count']:>13}"
         )
-
 
 def print_expansion_preview(rows):
     print("event_id  window_count")
@@ -181,6 +181,11 @@ The purpose of this example is less to calculate the number of windows than to c
 The core of this section is to separate `the window count grew` from `the number of source events increased`. If many overlapping windows are created from the same two events, the number of input pieces grows, but the event count itself stays the same.
 
 --8<-- "assets/part-03/chapter-05/p3-5-6-mermaid-01-en.mmd"
+
+## Checklist
+
+- Did you calculate the window count from the input length and stride?
+- Can you explain why overlapping window counts differ from independent event counts?
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P3-5.4 Where Do We Cut the Input Window and How Do We Align Its Length
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 It is better to leave this judgment as a window-design memo, not only as a separate explanation. Columns or document notes such as `window_start_rule`, `window_end_rule`, `alignment_rule`, `target_length`, and `padding_policy` make it possible to trace why this input length came from the same source time series. If you aligned by progress rate, the actual time difference may disappear, so keep original length information such as `duration_seconds` as well to check later what was discarded and what was kept.
 
@@ -62,14 +62,18 @@ Aligning lengths is not just the job of making the number of values match. The m
 
 So the length-alignment method should not be chosen only for model convenience. For example, if differences in actual time are important, keeping only a progress-based view may discard important information. Conversely, even if total time varies, progress-based segmentation may be better if the key question is `does the action collapse in the late phase?`
 
+Resampling at regular intervals standardizes measurement spacing. Resampling both a 40-second record and an 80-second record at one-second intervals does not give them the same number of points. A fixed point count requires a separate rule: truncate to a common time range, use the same number of progress intervals, or pad shorter inputs. If padding uses zeros, retain an indicator that distinguishes padding from an actual measured zero.
+
+For predictions made before an action finishes, final progress percentages and segments immediately before completion are not yet available if calculating them requires the actual end time. Distinguish windows used to compare completed actions from windows used for predictions during an ongoing action.
+
 ## Looking Again Through One Scene
 
 Suppose action A lasts 40 seconds and action B lasts 80 seconds. Both show a structure of early stability and late decline, but under absolute time, the location of the decline can appear different.
 
-| Action | How it looks by absolute time | How it looks when read again by progress |
+| Action | Appearance on an absolute-time basis | Interpretation on a progress basis |
 | --- | --- | --- |
-| A | Sharp drop after 30 seconds | Decline in the last 25% range |
-| B | Sharp drop after 65 seconds | Decline in the last 25% range |
+| A | Sharp decline after 30 seconds | Decline in the final 25% |
+| B | Sharp decline after 60 seconds | Decline in the final 25% |
 
 If the question is `at what second does the sharp drop happen?`, absolute-time alignment matters more. If the question is `does collapse appear in the final stage of the action?`, progress-based alignment is more natural. In other words, the window and alignment criteria are determined by the question, not by the data itself.
 
@@ -103,6 +107,11 @@ The boundary should also be kept clear here. This section answers `why was the i
 | How should we implement padding, masking, or architecture details? | No | Yes |
 
 The input window is not a format created because the model demanded it. It is the result of data modeling that decides what should count as one comparable input. Once written this way, even when we later read a longer input structure, we still look first at `why was the input window cut this way?` It also becomes clear that summary features are already results built on a particular window and alignment criterion.
+
+## Checklist
+
+- Did you calculate where the final 25% of an 80-second action begins?
+- Can you explain the problem with using final action length for a prediction made before completion?
 
 ## Sources and Further Reading
 

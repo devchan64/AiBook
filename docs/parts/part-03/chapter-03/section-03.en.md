@@ -1,7 +1,7 @@
 # P3-3.3 Which Columns Should Be Sketched First to Move a Question into the First Table Draft
 
 > Section ID: `P3-3.3`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 After receiving a question, what is immediately needed is not to write the finished table all at once, but to separate first, in the first table draft, which [columns](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) identify the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) and which columns play the roles of state, comparison, and result. When the question sentence changes, the column structure of the draft table also changes with it, so if stored records are to be moved into [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), this first sketch has to be clear. What matters in the first table draft is not a complete column list, but this division of roles.
 
@@ -76,6 +76,11 @@ Concept to check: the first table draft is not a finished list of column names, 
 The key in this example is not the list of column names, but seeing `which column group changes first when the question changes`. In comparing one action, `event_id` and `review_needed` appear first. In comparing the recent 20 cases, `window_id` and `report_sentence` are more natural. By contrast, once later learning candidates are being considered, the result column changes into `target_candidate`. So the first table draft is not the process of completing the correct table all at once. It is a sketch that first reveals the sample unit and result direction required by the question.
 
 Once the question has first been moved into role-based column groups, later sections about sample units and summary tables can also be read with `what counts as one case` and `which values play the role of comparison and result` already visible. In other words, the core of this section is to convert the question sentence directly into the role units of the table structure, so that the first table draft becomes not an abstract memo, but the design starting point of a real working table. If this section is reread as the problem of how to write `first-table specification` in role units, it becomes clearer that the first table draft is not a finished column dictionary, but the stage where the role-based column groups required by the question are specified first.
+
+## Checklist
+
+- Did you separate identifier, observation, and comparison-reference columns in your first table?
+- Did you mark the additional data needed for columns you cannot yet fill, rather than filling them with zero?
 
 ## Sources and Further Reading
 

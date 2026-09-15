@@ -1,11 +1,11 @@
 # Part 3 Summary
 
 > Section ID: `P3-summary`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
-The review plan for this summary page is to regroup `what counted as one sample`, `which features and baseline were left`, `what remained a comparison report`, and `what was promoted to a learning-problem candidate`. These four questions must be organized before the training and evaluation explanations in Part 4 can sit on top of the data structure.
+This Part treated [data modeling](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) as designing problem representations rather than simply describing storage structures. The key is that [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) is also a [dataset](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset), but using it as input for a particular analysis requires checking the meanings of samples and columns. Parts 2 and 3 together rebuild fundamentals, with Part 3 focusing on `reconstructing data-science problem structure`. The later machine-learning discussion becomes grounded after we establish modeling goals and scope, reconsider stored records as dataset candidates, define samples and tables, design [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) and [baselines](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and set interpretation boundaries.
 
-In this Part, [data modeling](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) was read not as a description of storage structure but as the design of problem-representation structure. The core point is that [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) is not immediately a [dataset](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset). Part 2 and Part 3 together form the basic-skills recovery range, and Part 3 is responsible for `rebuilding data-science problem structure`. Only after fixing the goal and scope of data modeling, rereading stored records as dataset candidates, deciding samples and table structure, designing [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) and [baselines](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and setting interpretation boundaries, can the later machine-learning explanations be read properly.
+The final check brings together four questions: `What counted as one sample?`, `Which features and baselines did we retain?`, `What remained a comparison report?`, and `What became a candidate learning problem?` Resolving these questions places Part 4's explanations of learning and evaluation on a defined data structure.
 
 The representative case is a structure with one automatically executed action, a control-parameter time series and sensor time series left inside it, and several actions later compared again as a recent segment versus a baseline. Part 3 explained how this structure is turned into a table structure that people can read and models can inherit.
 
@@ -44,6 +44,17 @@ What should remain after Part 3 is not `just some table`. It is a structure wher
 - Is the time axis confirmed, meaning how much information is seen and when the result is being predicted?
 
 Once these premises are confirmed, the later learning explanations can naturally continue through the question `what is being learned on top of an already organized problem structure`. In other words, the role of Part 3 is not to explain the next Part in advance, but to organize the current data and problem into a stable structure first.
+
+## Finish with a One-Page Design Note
+
+Write the following note for the question `Select 10 recent actions to review first`.
+
+1. Specify the action identifier and start/end criteria, and decide how to mark actions with missing records.
+2. Define calculation rules and units for two retained features, and choose the baseline period and operating conditions.
+3. Sketch an output row containing a candidate's rank and supporting evidence. Keep scores and actual review outcomes in different columns.
+4. If the question changes to `Predict failure within the next 7 days`, specify the additional prediction time, outcome observation period, and confirmed labels required.
+
+For the first question, comparison rules can produce a review queue without confirmed failure labels. The second requires a period and labels that establish actual outcomes. If you can explain this difference without filling incomplete observations with zero, you have distinguished comparison outputs from prediction problems.
 
 ## Sources and Further Reading
 

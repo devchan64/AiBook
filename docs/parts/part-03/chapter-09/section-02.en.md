@@ -1,7 +1,7 @@
 # P3-9.2 Why Should Some Problems Remain Comparison Reports All the Way Through
 
 > Section ID: `P3-9.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Pushing every real problem into a [label prediction](/AiBook/en/reference/concept-glossary-alpha/l/#label-prediction) problem is not good data modeling. In some cases, a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) is more honest and fits the current data state better. This is especially true when cause labels are weak, or when what the decision-maker actually wants is not `correct classification` but `choosing what to inspect first right now`. Here, you also need to organize the possibility that some problems are more correctly left as comparison reports all the way through instead of being raised upward.
 
@@ -24,12 +24,12 @@ By contrast, moving to a prediction problem requires at least the following cond
 
 The difference between the two approaches can be summarized like this.
 
-| Category | Comparison report | Prediction problem |
+| Aspect | Comparison report | Prediction problem |
 | --- | --- | --- |
-| Central question | What should be reviewed first? | What should be automatically matched? |
-| Labels needed | Can start even when weak | Must be relatively stable |
-| Output | Priority table, comparison sentence, [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) | Target label, predicted value, evaluation result |
-| Human role | Central in follow-up checking | Central in evaluation and exception handling |
+| Central question | What changed relative to the reference, and by how much? | How well can the defined outcome be predicted from the inputs? |
+| Required labels | Can start with weak labels | Should be relatively stable |
+| Output | Comparison values and statements | Predictions and evaluation results |
+| Human role | Central to follow-up checking | Central to evaluation and exception handling |
 
 This table shows that a comparison report is not `a temporary artifact used only because prediction is not possible`. It is a different problem setup from the start. A comparison report helps the reader read the state and decide the next action. A prediction problem is a structure for automatically matching a relatively stable target label.
 
@@ -58,6 +58,11 @@ The difference between comparison reports and prediction problems becomes cleare
 This diagram shows that a comparison report is not just a stopover used because prediction is not yet possible. For some questions, it can remain the better output all the way through. If what is needed first is to show `what changed`, then a comparison report is natural, and only when stable target labels exist does it make sense to move to a prediction problem. Good data modeling is not the act of defining the most complex problem from the start. It is the act of honestly choosing the output form that matches the current data state. If change explanation and review priority matter more, and stable target labels are still weak, then keeping a comparison report through to the end can be more accurate.
 
 A comparison report is therefore not a temporary alternative before prediction. For some questions, it can itself be the most correct output structure.
+
+## Checklist
+
+- Did you distinguish the question answered by a comparison report from predicting a future outcome?
+- Did you identify an operational decision that the current report alone can support?
 
 ## Sources and References
 

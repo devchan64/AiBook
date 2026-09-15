@@ -1,7 +1,7 @@
 # P3-6.1 What Features Should We Keep to Represent a Structure for Comparison
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 When people first learn about [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), they often take them to mean `wouldn't more columns always be better?` But a feature is not just the act of inserting many values. A feature is a value that rewrites the structure of a sample so it can be used for comparison and prediction. So a good feature is less about being numerous and more about making `what it is trying to show` clear. If the raw log was turned into a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) in the previous chapter, we now have to decide what structure should remain inside that summary table.
 
@@ -12,7 +12,7 @@ To say that we design features means not that we use the numbers already sitting
 | Variable transformation | Into what expression should the same structure be converted? | Average, segment difference, slope, ratio, token |
 | Feature selection | Which of the converted expressions should actually remain? | Features for overall level, features for late-stage collapse detection, variability features |
 
-Suppose we treat one automatically executed action as one sample. In that case, we cannot place the entire time-point sensor sequence into one row as-is. Instead, we need to create summary values that reveal important aspects of the action. For example, the following values are often good starting points.
+Suppose one automatically executed action is one sample. We could retain all time-point sensor values as a vector or sequence aligned in length and order. Here, we instead select summaries that expose important aspects so people can compare actions easily. The following values often provide useful starting points.
 
 - mean
 - slope
@@ -202,6 +202,8 @@ structure_features predictions: [('G', 1, 1), ('H', 0, 0)]
 
 If we look only at the overall mean, `G` is hard to distinguish from a stable action. But if we also look at `late_minus_early` and `segment_variability`, the downward late-section structure and segment fluctuation become visible. So even with the same model, `G` is missed when only the mean is visible, and correctly predicted when structure features are visible. This output shows that a feature is not just another column. It is a choice about which structure the model can see.
 
+`segment_variability` describes differences among segment means. Variation of the sensor within a segment must be calculated separately from the raw time-point values. Every segment could have mean 2, yet an action with values 2, 2 in each segment differs in within-segment variation from one with values 0, 4. A zero standard deviation of segment means therefore does not establish that the action was steady.
+
 If these features are read in smaller layers, the role of each value becomes clearer.
 
 | Feature type | Representative examples | What it mainly shows |
@@ -249,8 +251,12 @@ The flow of this section is to decide `the structure to compare` first, convert 
 
 --8<-- "assets/part-03/chapter-06/p3-6-1-mermaid-01-en.mmd"
 
-
 So a feature is not `adding more columns`, but translating the structure we want to compare into numerical forms such as level, change, and stability.
+
+## Checklist
+
+- Did you calculate a feature that reveals a difference hidden by the mean?
+- Did you distinguish variation among segment means from variation among measurements within a segment?
 
 ## Sources and Further Reading
 

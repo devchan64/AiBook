@@ -325,7 +325,7 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 
 #### Chapter 2. Reading Storage Structure and Design Axes First `Modeling Perspective`
 
-- **P3-2.1 Why Are Stored Records Not Yet a Dataset**: reviews why storage structure alone is not yet a comparable dataset
+- **P3-2.1 Why Must Stored Records Be Reorganized for the Analysis Purpose**: explains that raw records can be a dataset while still needing sample and column definitions suited to the analysis purpose
 - **P3-2.2 What Structures Go Inside a Dataset Candidate**: reviews how samples, features, baselines, and output structure are bundled together
 - **P3-2.3 What Should Be Written Down First When a New Table Arrives**: organizes table-reading notes that first check row meaning, identifiers, time or order columns, and comparability
 
@@ -341,7 +341,7 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 
 - **P3-4.1 How Do We Decide One Comparable Sample**: distinguishes one row from one sample and fixes the unit of comparison
 - **P3-4.2 What Else Starts to Drift When the Sample Unit Drifts**: shows that features, labels, and evaluation also depend on the sample unit
-- **P3-4.3 How Are One Row, One Sample, and One Recent Segment Different**: separates time records, one event, and one recent aggregated window to reduce level confusion
+- **P3-4.3 How Do Time-Point Records, Action Samples, and Period Aggregates Differ**: separates time records, one event, and one recent aggregated window to reduce level confusion
 - **P3-4.4 What Signals Show That the Sample Unit Was Chosen Wrong**: checks warning signs such as repeated labels, unexplained features, and awkward review sentences
 - **P3-4.5 How Well Does the Sample Set We Collected Represent the Overall Operating Situation**: organizes how representativeness can still be weak even when the sample unit itself is correct
 
@@ -371,7 +371,7 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 - **P3-7.1 What Should We Compare the Structure We Kept Against So That Change Becomes Visible**: reviews that a baseline is itself part of comparison structure
 - **P3-7.2 How Should We Read a Comparison Table as a Human Review Sentence**: reviews the order for turning recent-window vs baseline comparisons into review language
 - **P3-7.3 What Is a Baseline the Reference For**: separates a data comparison reference from a model evaluation reference
-- **P3-7.4 By What Range and Conditions Should We Set the Baseline**: organizes how to choose a baseline with matched sample unit, operating condition, and sample size
+- **P3-7.4 By What Range and Conditions Should We Set the Baseline**: organizes how to align sample units and operating conditions when choosing a baseline, while checking sample counts separately
 - **P3-7.5 Should a Baseline Stay Fixed, or Should It Be Updated as a Recent-Usual Reference**: organizes which questions fit a fixed baseline and which fit a recent-normal baseline better
 
 ### Module 4. Boundaries of Interpretation
@@ -393,15 +393,15 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 - **P3-9.1 How Far Should the Current Problem Be Raised**: distinguishes warning, review-candidate, and target-label-candidate levels
 - **P3-9.2 Why Should Some Problems Remain Comparison Reports All the Way Through**: reviews when a comparison report is more appropriate than prediction
 - **P3-9.3 Differences Among Three Operational Tables**: reviews how the same data branches into three output forms
-- **P3-9.4 How Do Review Results Turn from Review Notes into Target Candidates**: organizes how review notes and operational judgments accumulate into more stable target candidates
+- **P3-9.4 How Do Review Notes Become Candidate Target Labels**: organizes how review notes and operational judgments accumulate into more stable target candidates
 - **P3-9.5 By What Is the Same Event Continuously Tracked Across Multiple Outputs**: organizes why consistent sample identifiers and minimal evidence must remain even when outputs differ
 - **P3-9.6 Checking Label Consistency**: reviews why label consistency must be checked before target candidates are trusted
-- **P3-9.7 Under What Conditions Can Inputs and Results Be Read as a Prediction Problem**: organizes input/output separation, leakage prevention, operational-time reproducibility, cutoff, and horizon
-- **P3-9.8 What Does One Prediction Actually Decide, and Why Are Scores and Policy Different**: separates prediction unit, model output, operational policy, and real action
-- **P3-9.9 How Should the Actual Target and a Proxy Target Be Distinguished**: reviews whether the current target is a true objective or a substitute field
-- **P3-9.10 Delayed Label Confirmation and Incomplete Negatives**: organizes how to record label-confirmation delay separately from incomplete negative observation
-- **P3-9.11 Target Candidates and Changing Criteria**: reviews why the representative target and definition version must be fixed first
-- **P3-9.12 Target Names and Error Costs**: explains why the operating cost difference between false negatives and false positives should be fixed early
+- **P3-9.7 How Do We Separate Inputs Available at Prediction Time from Later Outcomes**: organizes input/output separation, leakage prevention, operational-time reproducibility, cutoff, and horizon
+- **P3-9.8 Which Rules Turn Prediction Scores into Actions**: separates prediction unit, model output, operational policy, and real action
+- **P3-9.9 How Do We Distinguish the Actual Target from a Proxy Target**: reviews whether the current target is a true objective or a substitute field
+- **P3-9.10 How Do We Distinguish Delayed Label Confirmation from Incomplete Observation**: distinguishes delayed label confirmation from observations that have not yet finished
+- **P3-9.11 Candidate Targets and Changing Criteria**: reviews why the representative target and definition version must be fixed first
+- **P3-9.12 How Do False-Alarm and Miss Costs Change Decision Criteria**: explains why the operating cost difference between false negatives and false positives should be fixed early
 - **P3-9.13 Problem Boundaries to Hand Off to Part 4**: fixes only the names and need of evaluation and problem-type topics that will be recovered later
 
 ## Part 4. Machine Learning

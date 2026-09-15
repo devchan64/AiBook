@@ -1,7 +1,7 @@
 # P3-9.6 Checking Label Consistency
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 _Subtitle: What should be checked first when the same event receives different labels by person or time?_
 
@@ -217,6 +217,13 @@ review_month  normal  review_needed
 ```
 
 The purpose of this example is not to build model inputs, but to check first `how many reviews were performed for the same event, and where did the labels diverge`. When you first look at the review count by event, then count the number of label types, and finally check the actual disagreement-event list and detailed records, it becomes clearer why this section asks you to look at `does label meaning repeat` before `is there a label column`. In the output, events such as `A`, `D`, `F`, `G`, `I`, and `L` appear separately because their label variety is 2 among the 12 events. Looking at the monthly label distribution together also lets you note the possibility of rule changes by period. What matters here is not one team's memo habit, but checking `label meaning stability`. When reading a target candidate, you need to ask together whether the current label candidate repeats with relatively the same meaning, whether a point of rule change can be noted, and whether unstable labels are being kept from being used directly as the result column. Only with that check does a target-candidate table become more than a list of columns. It becomes a structure that includes `the stability of label meaning`.
+
+Two reviewers can assign the same label and both be wrong. Agreement is not accuracy. When monthly positive rates change, distinguish changes in case composition from changes in labeling criteria. Comparing judgments on the same fixed cases using the same information, alongside criterion versions, helps separate those two effects.
+
+## Checklist
+
+- Did you find reviewer disagreements and specify a re-adjudication rule?
+- Can you explain why high agreement does not guarantee accuracy?
 
 ## Sources and References
 

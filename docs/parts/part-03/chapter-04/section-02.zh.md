@@ -1,7 +1,7 @@
 # P3-4.2 一旦样本单位摇摆，哪些东西会一起摇摆
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 因此，如果决定改变样本单位，表设计也必须一起改变。不要保留按时间点的表并反复贴同一个标签，而要先制作一次动作的摘要表，并让该表中的特征列和标签列指向同一个 `event_id`。分割列也应贴在一次动作样本上，而不是时间点行上。这样以后读分数时，`到底预测的是什么`才不会在时间点行和一次动作之间摇摆。
 
@@ -130,7 +130,7 @@ print("3) event-level features and labels line up on the same unit")
 print(per_event)
 print()
 print("4) split stability differs by unit")
-print(unit_summary)
+print(unit_summary.to_string(index=False))
 ```
 
 期望输出：
@@ -153,9 +153,9 @@ event-level samples: 3
 2        C   1.266667       1.9        0.6              1
 
 4) split stability differs by unit
-    unit  sample_count                    feature_example  label_rows train_events test_events
-0    row             9                 flow at one second           6        A,B,C       A,B,C
-1  event             3  flow_mean / flow_max / late_drop           2          A,B           C
+ unit  sample_count                  feature_example  label_rows train_events test_events
+  row             9               flow at one second           6        A,B,C       A,B,C
+event             3 flow_mean / flow_max / late_drop           2          A,B           C
 ```
 
 这段输出同时展示了三件事。第一，`review_needed` 是贴在整次动作上的标签，但在时点表里，它会在 A 和 C 上各重复三次。第二，像 `late_drop` 这样的特征，只有在数据先被归成一次完整动作后才算得出来。第三，如果看 `unit summary`，在时点级分割里，同一个 `event_id` 可能同时出现在训练和评估两边；但在动作级分割里，就能把整个 `C` 都完整地留作测试。正是这个差别，说明了为什么 feature、label、split、evaluation 这些单位会一起摇摆。
@@ -209,7 +209,6 @@ row_test = raw[raw["second"].eq(2)]
 event_train = raw[raw["event_id"].isin(["A", "B", "C", "D"])]
 event_test = raw[raw["event_id"].isin(["E", "F", "G", "H"])]
 
-
 def evaluate(train, test):
     model = DecisionTreeClassifier(random_state=0)
     model.fit(train[["flow"]], train["review_needed"])
@@ -218,7 +217,6 @@ def evaluate(train, test):
         (event_id, int(prediction), int(actual))
         for event_id, prediction, actual in zip(test["event_id"], predictions, test["review_needed"])
     ]
-
 
 row_accuracy, _ = evaluate(row_train, row_test)
 event_accuracy, event_predictions = evaluate(event_train, event_test)
@@ -259,6 +257,11 @@ event split predictions: [('E', 0, 1), ('E', 0, 1), ('E', 0, 1), ('F', 0, 0), ('
 | 运营问题和数据单位会错位 | 运营问题和数据单位会对齐 |
 
 所以，当样本单位摇摆时，这个问题不应该被读成简单的记号混乱，而应该被读成一种一致性崩塌：feature、label、split、evaluation 开始指向不同单位。
+
+## 检查清单
+
+- 同一事件的行出现在训练与评估两边时，你是否指出了重叠的信息？
+- 你是否举例说明改变样本单位时，特征和标签也会一起变化？
 
 ## 来源与参考资料
 

@@ -1,7 +1,7 @@
 # P3-5.6 重叠输入窗口与样本数
 
 > Section ID: `P3-5.6`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 把窗口做成实际表时，每个派生输入窗口也要保留源事件识别符。有 `source_event_id`、`window_id`、`window_start`、`window_end`、`stride`、`source_event_weight` 等列，就可以分别统计输入窗口数和源事件数。没有这些列，237 个窗口来自 36 个事件这一事实会消失；以后读取代表性或评估分数时，依据单位可能看起来比实际更大。
 
@@ -17,6 +17,8 @@ _副标题: 把同一事件切成多个窗口时，为什么样本数会看起�
 | 输入窗口数 | 从这些事件里切出来的学习输入片段数 |
 
 例如，如果对一次动作用长度 30、stride 10 来切窗口，那么一个事件就可能扩展成多个输入。
+
+`stride` 表示窗口起点每次移动多少个测量点。源长度为 100、窗口长度为 30、步长为 10 时，起点为 0、10、…、70，共八个窗口。如果规则是丢弃末尾不完整的窗口，则 `窗口数 = floor((源长度−窗口长度)/步长)+1`；源长度短于窗口时，窗口数为 0。这里 `floor` 表示向下取整。
 
 | event_id | 源长度 | 窗口长度 | stride | 生成的窗口数 |
 | --- | ---: | ---: | ---: | ---: |
@@ -80,7 +82,6 @@ with source_events_path.open(newline="", encoding="utf-8") as file:
             }
         )
 
-
 def print_event_preview(rows):
     print("event_id line_id     mode  length  window  stride  window_count")
     for row in rows:
@@ -89,7 +90,6 @@ def print_event_preview(rows):
             f"{row['length']:>7} {row['window']:>7} {row['stride']:>7} "
             f"{row['window_count']:>13}"
         )
-
 
 def print_expansion_preview(rows):
     print("event_id  window_count")
@@ -181,6 +181,11 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 这一节的核心，是把 `窗口数变大了` 和 `源事件数增加了` 分开来看。即使从同样 2 个事件里切出很多重叠窗口，输入片段数会变大，但事件数本身并不会跟着变。
 
 --8<-- "assets/part-03/chapter-05/p3-5-6-mermaid-01-zh.mmd"
+
+## 检查清单
+
+- 你是否根据输入长度和步长计算了窗口数量？
+- 你能否解释重叠窗口数为什么不等于独立事件数？
 
 ## 来源与参考资料
 

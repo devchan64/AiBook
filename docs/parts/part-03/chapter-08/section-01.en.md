@@ -1,7 +1,7 @@
 # P3-8.1 What Controls Interpretation Strength
 
 > Section ID: `P3-8.1`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Having a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) does not mean every difference should be read with the same strength. In operational data, sample sizes are often small, and it may be unclear whether the same change repeats. At the interpretation stage, you need to ask not only `what changed` but also `how strongly that difference can be trusted`.
 
@@ -21,9 +21,9 @@ Interpretation therefore needs at least two axes together. One is `how much was 
 
 If you restate this table in a more operational way, it leads to sentences like these.
 
-- If the sample size is small and repetition is weak: keep the record, but lower the warning strength.
-- If the sample size is small but the pattern repeats: send it to human review instead of auto-confirming it.
-- If both sample size and repeatability are sufficient: escalate it to a stronger warning or follow-up analysis.
+- Few samples and weak repetition: lower confidence in a claim of persistent state change.
+- Few samples but repeated occurrences: raise a human-review candidate rather than automatically confirming it.
+- Sufficient samples and repetition: consider a stronger warning or further analysis.
 
 The point here is to keep a rule for `when not to speak too strongly yet` so that interpretation strength can be adjusted. Readers should be able to see immediately why the same `diff` leads to different operational sentences. That makes the later explanations of warnings, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-design) less unstable.
 
@@ -45,6 +45,8 @@ Problem situation: all three windows have the same `-0.3` difference between the
 | few-but-repeated | -0.3 | 4 | 4 | 1.00 | review candidate |
 | enough-and-repeated | -0.3 | 20 | 17 | 0.85 | stronger warning |
 
+This table is illustrative and assumes similar comparison conditions and variation. Twenty cases is not a universal sufficiency threshold. Twenty overlapping windows cut from one event provide different evidence from twenty separate events. Here, `repeat_ratio` is the number of events moving in the same direction divided by the total number of events; it does not guarantee consecutive repetition over time.
+
 What matters in this example is that all three windows share the same `diff`. What changes is `event_count`, `repeat_ratio`, and the interpretation strength produced by their combination. The first case shows a difference, but the sample size is so small that it stays near a record-only level. The second still has a small sample size, but repeatability is clear enough to make it a review candidate. The third has both enough observations and enough repeatability, so it can be read as a stronger change signal.
 
 This makes the benefit of adjusting interpretation strength clearer. First, it reduces over-alerting by keeping weak-sample signals from being promoted immediately to strong warnings. Second, it preserves weak but repeated signals as `review candidates` instead of throwing them away, which helps human review time get used more carefully. Third, when strong warnings are attached only after both sample size and repeatability are sufficient, it becomes easier later to explain why the same `diff` splits into `record`, `review`, and `strong warning`.
@@ -61,6 +63,8 @@ If you compress the judgment further, it can be summarized like this.
 
 The key point of this table is not to stop interpreting. It is that even the same difference should be reported with different strength depending on the observation conditions.
 
+A small sample does not automatically call for a weaker operational response. Even one observation may justify immediate checking if it exceeds a separately defined allowable limit. `How certain are we that the change persists?` and `How urgent is verification?` are different judgments.
+
 ## A Small Diagram
 
 ```mermaid
@@ -70,6 +74,11 @@ The key point of this table is not to stop interpreting. It is that even the sam
 This section can be regrouped not as a matter of intuition from one domain, but as a question of how to read [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary).
 
 You therefore need to decide not only `is there a difference` but also `with what strength can that difference be stated`.
+
+## Checklist
+
+- Did you check sample count, independence, and repetition evidence separately?
+- Did you write separate statements for interpretive confidence and operational urgency?
 
 ## Sources and References
 

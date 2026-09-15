@@ -1,7 +1,7 @@
 # P3-5.7 折叠多个后续事件的规则
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 最终表中也要让折叠规则可追踪。例如留下 `folding_rule`、`severity_cutoff`、`follow_up_window_days`、`source_event_count`、`target_candidate_name` 作为 备注，就能再次说明 `any_failure=1` 是在哪个事件范围和阈值下得到的。即使来自同一个后续事件日志，`first_event` 和 `worst_event` 也是不同列，不能只看一个列名就把它固定成实际目标标签。
 
@@ -46,6 +46,10 @@ _副标题: 同一个样本之后的多个事件应该按什么规则折叠进�
 | 使用了 `any`、`first`、`worst`、`count` 里的哪一种 | 为了重新解释结果列到底是什么意思 |
 | 折叠出来的结果是用于报告，还是预测候选 | 为了避免把比较报告和目标标签候选(target candidate)混在一起 |
 
+汇总后续事件之前，还要定义观察期间和去重规则。如果目标是`7 天内是否失败`，第 9 天的失败不应计入。如果传输重试使同一事件存储了两次，就要核对事件标识，避免 `count` 重复计数。`first` 应按发生时间排序确定，并预先规定同时发生或严重程度相同的事件如何排序。
+
+下面的示例假定样本清单中的所有样本都已完成追踪，后续事件日志已限定在分析期间内，而且没有重复记录。只有在这些假设下，才能给没有事件的 S30 标记 0。仍在观察中的样本，即使尚未发生事件，也必须保留为 `pending`。
+
 小例子：
 
 问题情境：确认当同一个样本之后存在多个后续事件时，`first`、`worst`、`count`、`any` 这些不同规则会生成不同的结果列。
@@ -72,11 +76,9 @@ selected_failure_severity_cutoff = 4
 failure_severity_cutoffs = [4, 3, 2]
 preview_row_count = 12
 
-
 def read_csv(path):
     with path.open(newline="", encoding="utf-8") as file:
         return list(csv.DictReader(file))
-
 
 sample_roster = read_csv(sample_roster_path)
 follow_ups = read_csv(follow_up_events_path)
@@ -235,6 +237,11 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 这一节压缩的是一点：`多个后续事件` 并不会自动变成同一个结果列。同一组事件，按 `any`、`first`、`worst`、`count` 里的不同规则折叠后，会得到不同的代表结果列。
 
 --8<-- "assets/part-03/chapter-05/p3-5-7-mermaid-01-zh.mmd"
+
+## 检查清单
+
+- 你是否写明了后续事件的观察期间、去重和代表标签选择规则？
+- 你是否区分了后续事件为 0 条与观察未完成？
 
 ## 来源与参考资料
 

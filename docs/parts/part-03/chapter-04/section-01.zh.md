@@ -1,7 +1,7 @@
 # P3-4.1 怎样决定一条可比较的样本
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 把这个判断移到表格草案时，要把它留下为列名。如果把一次动作作为样本，第一列就不应是时间点编号，而应是像 `event_id` 这样识别一次动作的值；旁边要放 `pressure_mean`、`pressure_rise`、`flow_mean` 这类概括整次动作的特征候选。如果表格要比较最近区间，就需要 `window_name`、`window_start`、`window_end`、`event_count` 等列，留下多个样本被再次分组的痕迹。这样，样本单位的决定才不会停留在脑中判断，而会连接到下一张表的行列结构。
 
@@ -20,9 +20,7 @@
 
 在这里，要把某个单位称为 `可比较样本`，至少要同时满足三件事。
 
-1. 一条案例的边界要清楚。
-2. 同类特征必须能用同一种方式贴到所有案例上。
-3. 后面要贴上的标签或比较基准，必须能自然地接到这个单位上。
+哪个单位满足这些条件，取决于问题。预测下一个时点的值时，也可以给时点样本附上同样定义的特征和结果；比较每天的运行状态时，一天本身也可以是样本。这里比较完整动作的模式，因此选择一次动作。本节要决定的就是：`一个时点`、`一次动作`和`一个近期区间`之中，哪一个应算作一条可比较的样本。
 
 用这三条来看，按时点记录的一行通常只比较容易满足第一条，第二条和第三条都偏弱。反过来，动作 1 次的摘要表往往更容易同时满足这三条。近期区段表在第三条的比较基准上很强，但它更像是把若干样本重新聚起来后的解释结构，而不是一条单独样本比较。因此，这一节真正要定的是：在 `一个时点`、`一次完整动作`、`一个近期区段` 这三者之间，哪一个该被看作一条可比较样本。
 
@@ -47,13 +45,15 @@
 
 在这张表里，一行并不是 `一次完整动作`，而是 `动作中的某个时点`。所以，如果我们想把一条样本看成一次完整动作，那么同一个 `event_id` 下的多行就必须重新归到一起。而且再往下看一步，就会发现：即使面对同一份源数据，选择把 `一个时点`、`一次完整动作` 还是 `一个近期区段` 读成一条案例，不仅会让样本数变化，也会连带改变哪些列只在那个单位上才真正有意义。
 
+下表的适用性判断仅针对`比较完整的一次动作`这个问题。换一个问题，表中的判断也会改变。
+
 现在把这个例子再按前面三条标准重读一遍，就更清楚为什么说 `一次完整动作` 更接近可比较样本。
 
-| 候选单位 | 边界清楚吗？ | 容易贴上同类特征吗？ | 容易贴上标签 / 比较基准吗？ |
+| 候选单位 | 边界清楚吗？ | 容易附上同样定义的特征吗？ | 标签或比较标准是否自然适用？ |
 | --- | --- | --- | --- |
-| 一条测量行 | 是 | 弱 | 弱 |
-| 一次完整动作 | 是 | 是 | 是 |
-| 一组近期区段 | 是 | 只在部分情况下 | 对比较基准很强，但对单条样本标签较弱 |
+| 一个测量时点的一行 | 是 | 适合比较瞬时值 | 与整个动作结果的单位不同 |
+| 一次动作 | 是 | 是 | 是 |
+| 一组近期区间 | 是 | 适合比较区间汇总 | 与单次动作结果的单位不同 |
 
 换句话说，如果把 `一次完整动作` 作为一条样本，那么 `pressure_mean`、`pressure_rise`、`flow_mean` 这类特征就能用同样方式贴到所有案例上，而像 `需要复核`、`正常`、`异常` 这样的结果，也会自然地连接在这个单位上。反过来，一条测量行很适合保存瞬时观测值，却很难稳定地承载“比较完整动作结构”所需的特征和标签。近期区段一组，则更像不是“单条动作比较样本”，而是“把若干动作重新聚成一组后的解释单位”。
 
@@ -79,6 +79,8 @@
 输入(input)：按 `event_id` 保存时点记录的 [p3_4_1_measurement_log.csv](/AiBook/assets/part-03/chapter-04/p3_4_1_measurement_log.csv){ .csv-preview }、按 `event_id` 保存动作级复核结果的 [p3_4_1_review_decisions.csv](/AiBook/assets/part-03/chapter-04/p3_4_1_review_decisions.csv){ .csv-preview }，以及当前要回答的问题候选 `question_focus_options`
 
 第一个 CSV 的一行，是动作中的某一个时点测量值。第二个 CSV 的一行，是一次完整动作结束后贴上的复核结果。有些事件可能时点行数不足，或还没有复核结果，所以代码必须先重新构造样本单位，再分别检查完整性和标签能不能结合。
+
+这里的问题与单位对应关系，是预先设定的示例规则，并不是从数据中自动推荐最优单位、或通过评分验证单位的算法。记录数量和完整性则是实际从 CSV 中计算的。
 
 期望输出(output)：`measurement_row`、`event`、`window` 这三种单位会产生不同的样本数和不同的特征可能性。改变问题焦点和事件完整性阈值后，推荐单位和有效样本数也会一起变化。
 
@@ -146,8 +148,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": len(raw),
             "can_use_pressure_rise": "no",
             "label_attaches_naturally": "weak",
-            "feature_score": 1,
-            "label_score": 0,
         },
         {
             "unit_name": "event",
@@ -155,8 +155,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": int(event_summary["is_complete_event_sample"].sum()),
             "can_use_pressure_rise": "yes",
             "label_attaches_naturally": "yes",
-            "feature_score": 3,
-            "label_score": 2,
         },
         {
             "unit_name": "window",
@@ -164,8 +162,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": len(window_summary),
             "can_use_pressure_rise": "partial",
             "label_attaches_naturally": "weak",
-            "feature_score": 2,
-            "label_score": 1,
         },
     ]
 )
@@ -175,10 +171,6 @@ recommended_unit = {
     "recent_vs_baseline": "window",
 }[selected_question_focus]
 unit_check["selected_for_question"] = unit_check["unit_name"] == recommended_unit
-unit_check["question_match_score"] = unit_check["selected_for_question"].map({True: 2, False: 0})
-unit_check["total_score"] = (
-    unit_check["feature_score"] + unit_check["label_score"] + unit_check["question_match_score"]
-)
 
 focus_result = pd.DataFrame(
     [
@@ -319,10 +311,10 @@ window_name  event_count  complete_event_count  labeled_event_count  pressure_me
 recent_vs_baseline           window
 
 9) unit check for selected_question_focus = event_comparison
-      unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  feature_score  label_score  selected_for_question  question_match_score  total_score
-measurement_row            36                  36                    no                     weak              1            0                  False                     0            1
-          event            12                  12                   yes                      yes              3            2                   True                     2            7
-         window             2                   2               partial                     weak              2            1                  False                     0            3
+      unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  selected_for_question
+measurement_row            36                  36                    no                     weak                  False
+          event            12                  12                   yes                      yes                   True
+         window             2                   2               partial                     weak                  False
 ```
 
 这段输出里首先应该看到的是 `到底在数什么`。在原始表里，是 36 条测量时点；按 `event_id` 归组之后，是 12 条动作级样本候选；再往上按近期与基准区段重新分组之后，就变成了 2 组用于比较的聚合。接着要看的，是 `哪些值只有在某个单位上才真正有意义`。复核结果不是反复贴到原始时点行上的，而是先按 `event_id` 单位单独到达，再结合到一次动作的摘要表上。这里可以操作的值是 `selected_question_focus`、`question_focus_options`、`expected_rows_per_event`。如果设成 `"event_comparison"`，推荐单位就是一次完整动作；如果改成 `"instant_value"`，测量时点行会更自然；如果改成 `"recent_vs_baseline"`，近期/基准区段聚合会更自然。如果把 `expected_rows_per_event` 提高到 `4`，当前 12 个事件都会从完整事件样本中掉出去。也就是说，即便面对同一份源数据，只要把 `一个时点`、`一次完整动作`、`一个近期区段` 读成一条样本，行数、表的含义、能放上去的列的角色、有效样本数都会跟着一起变。
@@ -352,6 +344,11 @@ measurement_row            36                  36                    no         
 只有先有动作级摘要表，均值、斜率、波动性这类特征才能稳定地建立起来，之后近期区段和基准线的比较也才能在同一个单位上阅读。所以，`一行到底表示什么` 这个问题，并不会在决定样本单位时就结束，它会成为支撑 Part 3 后续结构的底层规则。
 
 可比较样本，并不是先由数据自己决定的。它是由问题所要求的比较单位，以及之后要放上去的特征和标签结构一起决定的。所以当我们说 `决定一条样本` 时，意思不是重新数行，而是在观测单位和聚合单位之间，决定哪个对象应该被当作可比较的分析单位。
+
+## 检查清单
+
+- 你是否从时点、动作和近期区间中选出适合问题的单位，并说明理由？
+- 动作记录不足时，你是否检查了有效样本数如何变化？
 
 ## 来源与参考资料
 

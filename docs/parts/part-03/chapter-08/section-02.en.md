@@ -1,7 +1,7 @@
 # P3-8.2 How Far Should You Describe a Change Signal, and Where Should You Stop on Cause
 
 > Section ID: `P3-8.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Once you have a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), you can read the difference between a recent window and the usual state. But it is still very risky to think, `if a difference appears, the cause must be obvious too`. A visible change signal and a confirmed cause are completely different stages. After adjusting interpretation strength, you next need to define the [interpretation boundary](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) more clearly.
 
@@ -11,11 +11,13 @@ Suppose the late-stage drop rate became larger than usual in the most recent 20 
 
 The same judgment applies when reading a figure. A recent line may sit below the baseline line, or a recent box plot may look wider than the usual range. Such figures help you catch `what looks different` quickly, but the figure alone cannot confirm whether the difference comes from too few samples, from a few outliers, or from a sustained structural shift.
 
-| What appears first in the figure | Risky sentence if spoken from the figure alone | Safer interpretation |
+| What the chart first shows | Risky conclusion from the chart alone | More cautious interpretation |
 | --- | --- | --- |
-| The recent line is below the baseline | The state has definitely worsened | The recent window appears lower than the baseline, so further checking is needed |
-| The recent bar is larger | The cause is already clear | A difference appears in the comparison value, so it should be reviewed without cause confirmation |
-| The box-plot range is wider | The system has become unstable | The recent spread looks larger, so repeatability and sample size should be checked together |
+| The recent line is below baseline | The state has definitely worsened | The recent period appears lower than baseline and needs checking |
+| The recent bar is larger | The cause is already clear | A comparison difference is visible; review it without confirming a cause |
+| The boxplot covers a wider range | The system has become unstable | Check whether the box or whisker range widened and examine the raw-data spread |
+
+A boxplot's box usually represents the interquartile range containing the middle 50%, not variance itself. The box, whiskers, and extreme-value markers carry different information. Changes to axis limits or aggregation intervals can also make a change look larger, so first check that scales and aggregation conditions match.
 
 | Expression | Meaning | Can you say it at this stage? |
 | --- | --- | --- |
@@ -76,7 +78,14 @@ The same boundary can be compressed like this.
 
 The key point of this table is not to mix the level directly supported by the comparison structure with the level that still needs additional evidence.
 
+## Checklist
+
+- Did you read the median and interquartile range of the boxplot separately?
+- Did you distinguish an observed change from an unverified causal explanation?
+
 ## Sources and References
 
 - W3C, `PROV-Overview`. It offers a provenance perspective that separates an observed result from the procedure and evidence through which that result was produced, which helps generalize this section's claim that comparison tables directly support change observation and review candidates, but not cause confirmation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It explains signal structures that compare current performance with past performance and distinguishes control limits from specification limits, which reinforces this section's boundary that change signals and cause confirmation or functional judgment should not be treated as the same level. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+
+- [NIST Box Plot](https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm){ target="_blank" rel="noopener noreferrer" }. Checked how to interpret the median and interquartile range. Checked: 2026-09-15.

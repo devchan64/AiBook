@@ -1,7 +1,7 @@
 # P3-2.3 What Should Be Written Down First When a New Table Arrives
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 When a new table first arrives, it is easy in many cases to think first of averages, distributions, or model candidates. But what should be written down before that is `what does one row of this table mean?`, `what can be grouped together?`, and `what is still missing?` Only after these three are organized can we distinguish whether what is in hand is already a sample table that can be compared directly, or still raw records that must be regrouped. Rather than deciding immediately whether a new table is `a training dataset`, it helps interpretation more to write down these three points first. Once they are written down, later sample design and dataset redesign also become much less abstract.
 
@@ -120,7 +120,12 @@ for row in rows:
 print("1) quick structural check")
 print(f"row_count: {len(rows)}")
 print(f"event_id_count: {len(events)}")
-print("has_time_order: yes")
+has_time_order = all(
+    all(a["elapsed_seconds"] < b["elapsed_seconds"]
+        for a, b in zip(event_rows, event_rows[1:]))
+    for event_rows in events.values()
+)
+print(f"has_time_order: {'yes' if has_time_order else 'no'}")
 print()
 
 print("2) repeated rows per event")
@@ -185,6 +190,11 @@ What this example shows is not simply that the columns are named `event_id` and 
 The same result becomes clearer when read again from the perspectives of format and quality. The repetition of `event_id` means, in terms of format consistency, that `a key exists that can group one sample`. The fact that `rows per event` differ means, in terms of the first quality check, that `the record length differs by sample`. This distinction has to be written down early so that when averages are compared later, we can also read `why some samples stand on less evidence than others`.
 
 Format consistency and the first quality check are written down first so that, instead of attaching averages or model names the moment a new table arrives, we first see `what kind of row is in hand now` and `what is still blocking comparison`. Only when key format, time order, repetition length, missing values, and orphan rows are organized early can the same table be read later with stable criteria when regrouping samples and building comparable columns.
+
+## Checklist
+
+- Did you check what one CSV row means and how many records belong to each event_id?
+- Did you distinguish having a time column from having correctly ordered records, and explain the effect of changing the minimum record count?
 
 ## Sources and Further Reading
 

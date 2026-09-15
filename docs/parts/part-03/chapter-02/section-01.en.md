@@ -1,26 +1,17 @@
-# P3-2.1 Why Are Stored Records Not Yet a Dataset
+# P3-2.1 Why Must Stored Records Be Reorganized for the Analysis Purpose
 
 > Section ID: `P3-2.1`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
-When people first hear data modeling, many immediately think of database-table design. In practice, the term is often used in the context of organizing [storage structure](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling). Behind that usage also sits the longer flow of data-driven systems such as `DSS/BI/DW/OLAP`, where data was collected and connected to decision making. In other words, data modeling was not originally a word only for AI. It also grew inside the broader flow of regrouping stored data, comparing it again, and connecting it to judgment. But the data modeling needed for AI and data analysis goes one step further. Here, `where should the data be stored?` matters less than `how should the stored records be reread as dataset candidates that answer a specific question?`
+In databases, data modeling represents the objects and relationships to be stored. This Part focuses on deciding which questions stored records should answer and organizing samples and columns accordingly. When storage and analysis serve different purposes, the same records need different groupings.
 
-This section focuses on separating `stored records` from a [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#dataset). A [dataset](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset) can first be understood as a collection of samples and variables grouped so they can answer the same question for learning or evaluation. Later sections will unfold `sample`, `feature`, `baseline`, and `output structure` together, but here the first task is not to define those terms at length. It is to fix why storage structure alone cannot yet enter that stage directly.
+A [dataset](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset) is a collection of data. Raw logs, image collections, and unlabeled records can all be datasets. Having a dataset does not, by itself, mean it is ready for a particular analysis or learning task. In this section, a `dataset candidate` means material whose sample units and columns are still being checked against the current question.
 
-It is also better not to read the terms in the opening with the same weight. `DSS`, `BI`, `DW`, and `OLAP` are background acronyms that show the data-use context. The core concepts of this section are `storage structure`, `dataset candidate`, `sample unit`, and [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling).
-
-| Category | How it should be read here |
-| --- | --- |
-| `DSS/BI/DW/OLAP` | the background context of collecting data and connecting it to decisions |
-| Storage structure | a table designed to preserve records without loss |
-| Dataset candidate | a comparable table where samples have been regrouped so they answer the same question |
-| Sample unit | the criterion that decides what counts as one case |
-
-In other words, a dataset is not `just a table with many rows`. It is closer to a table where samples grouped to answer the same question are gathered together and the columns describing those samples are organized alongside them. So one row in storage structure does not automatically become one sample in a dataset.
+A row in a storage table may or may not be the sample to analyze. For predicting the next measurement, time-point rows can be a starting point. For comparing whole actions, multiple rows must be grouped into one action.
 
 Suppose there is source data for automatically executed actions. Control parameters and sensor values accumulated over time can be stored directly in a storage table. Each row can hold a time point, a sensor name, a measured value, and a control-setting value. This structure is suitable for preserving records and tracing detailed flow when a problem appears.
 
-But from that table alone, it is still hard to answer questions such as `was this action longer than usual?`, `was the late-stage drop unusually slow?`, or `have the most recent 20 cases changed relative to the baseline?` That is because one row in storage structure usually means `one time-point record`, while the comparison unit required by those questions is `one full action` or `a recent segment formed by grouping multiple actions`. So the mere fact that stored records exist does not mean a dataset already exists.
+Yet this table alone does not readily answer questions such as `Was this action longer than usual?`, `Was its late decline unusually slow?`, or `Did the latest 20 actions differ from the baseline?` A row in the storage structure usually represents `one time point`, while these questions require `one action` or `a recent period containing several actions` as the unit of comparison. Stored records therefore do not automatically provide the table needed for action-level comparison.
 
 To see this difference clearly, place storage structure and problem-representation structure side by side.
 
@@ -37,7 +28,7 @@ Applied to a real table, this distinction can first be checked with the followin
 | Can this table already be compared directly? | Because storage structure may be strong for record preservation but weak for comparison |
 | If a strange value appears, where should we return to? | Because problem-representation structure alone cannot explain every detailed cause |
 
-These three questions are a quick way to separate `is the record in hand already a dataset, or is it still only a dataset candidate?` The first asks about the meaning of a row, the second asks about comparability, and the third asks when the raw logs must be reopened. Data modeling is the work of rerepresenting stored records so those three questions can be answered.
+These three questions quickly distinguish whether the current dataset can answer the current question directly or needs restructuring. The first asks what a row means, the second asks about comparability, and the third asks when the raw logs must be reopened. Data modeling represents stored records in a form that lets us answer all three.
 
 In storage structure, what matters is preserving everything without omission. In problem-representation structure, by contrast, we have to decide `what should remain` and `what should be discarded`. For example, once we decide to treat one full action as one sample, we can replace hundreds of time-point rows with new columns such as total action time, early-stage mean, late-stage drop rate, or tracking error. This does not damage the storage structure. It designs a new representation to answer a different question.
 
@@ -50,7 +41,7 @@ The small table below immediately shows how the same source data is read differe
 
 ## A Small Diagram
 
-It becomes clearer that stored records do not immediately become a dataset when the split between `record preservation` and `regrouping for a question` is reread as the flow below.
+The possible need to reorganize stored records for a question becomes clearer when we separate `preserving records` from `regrouping them for the question`, as below.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-02/p3-2-1-mermaid-01-en.mmd"
@@ -63,6 +54,8 @@ Input: a flow-log table stored as time-point records under each `event_id` and t
 Expected output: a display in which the same records are separated into two different table roles, `stored time-step records` and `event-level dataset candidate`, and events that do not meet the criterion are excluded from comparison candidates
 
 Concept to check: the fact that stored records exist is not the same as the fact that a dataset candidate able to answer a question has been prepared. If `min_points_per_event` changes, which records are accepted as one action sample also changes.
+
+These measurements are one second apart, so the difference between the final two flow values equals the change per second. With a different interval, divide by the elapsed time between them.
 
 ```python
 # This example regroupes stored time-step records into an event-level dataset candidate.
@@ -86,13 +79,15 @@ storage_table = pd.DataFrame(
     ]
 )
 
+storage_table = storage_table.sort_values(["event_id", "second"])
+
 dataset_candidate = (
     storage_table.groupby("event_id")
     .agg(
         point_count=("second", "count"),
-        duration_seconds=("second", "max"),
+        duration_seconds=("second", lambda values: values.max() - values.min()),
         mean_flow=("flow", "mean"),
-        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
+        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2] if len(values) >= 2 else float("nan")),
     )
     .reset_index()
 )
@@ -163,7 +158,12 @@ This table shows that the difference between storage structure and problem-repre
 
 More broadly, this section separates `preserving source records`, `resetting the analysis unit`, and `creating derived representations` as work at different levels, and organizes the starting conditions for lifting record structure into problem-representation structure.
 
-So when we say that stored records are not yet a dataset, it means less `the format is different` and more `the unit that will answer the question and the derived representation still have not been decided`.
+The first thing to check is therefore not what the material is called, but whether the unit and derived representation needed to answer the current question have been defined.
+
+## Checklist
+
+- Can you explain why raw logs can be a dataset yet still be unready for the current question?
+- Did you specify the identifier and grouping rule needed to build an action-comparison table?
 
 ## Sources and Further Reading
 
@@ -171,3 +171,5 @@ So when we say that stored records are not yet a dataset, it means less `the for
 - Oracle, `Introduction to Data Warehousing Concepts`. Because it explains that a data warehouse is designed for business intelligence activities, query and analysis, maintaining historical records, and data analysis, it supports the opening context that `DSS/BI/DW/OLAP` connects stored data to decision making and analysis. [https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html](https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, `PROV-Overview`. Because it treats provenance, derivation, and traceability together, it strengthens the higher-level frame that storage structure preserves raw evidence while problem-representation structure creates derived representations for different questions. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. Because it organizes the relationship among variables, observations, and table structure, it provides the general principle behind the explanation that one row in storage structure and one row in an analysis table may not mean the same thing. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+
+- [Google Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" }. Checked the distinction among datasets, labeled examples, and unlabeled examples. Checked: 2026-09-15.

@@ -1,7 +1,7 @@
 # P3-7.2 How Should We Read a Comparison Table as a Human Review Sentence
 
 > Section ID: `P3-7.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Once the [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) is built, many numbers start appearing at once. Columns such as recent average, baseline average, difference value, ratio difference, recent variability, and baseline variability can all appear together. At this point, people often look at the single most noticeable difference value and jump straight to a conclusion. But the order in which a comparison table is read matters. In Part 3, this table should be read not as an automatic diagnosis result table, but as `a table for building a human review sentence`.
 
@@ -28,11 +28,18 @@ Once we go through these questions, we stop reading the comparison table as a bu
 
 For example, suppose the recent-range average is lower than the baseline. We should not immediately say `performance got worse`. First we check whether the recent-range case count is large enough. Then we check whether variability also increased. Finally we inspect whether the pattern summary also shows repeated late-stage decline. Once we go through this order, even the same numerical difference can be read differently as `a one-off spike`, `a gradual change`, or `a repeated state shift`.
 
-Operational sentences should also be organized to reflect the comparison structure instead of being copied straight from the table. For example, they can be written like this.
+The following is a separate fictional example using 200 past actions under the same operating conditions as a baseline. Flow is in L/min, and we compare each action's late-segment mean. The decline count records how many actions met the defined within-action decline rule. This is a different observation set from the preceding section's table.
 
-- In the most recent 20 cases, the late-stage decline rate was larger than the baseline.
-- Variability in the recent range also increased, so we first read this as a possible repeated change rather than a one-off spike.
-- We postpone fixing the cause and raise the review priority.
+| Type | Recent count | Baseline mean | Recent mean | Baseline standard deviation | Recent standard deviation | Recent decline count |
+| --- | --- | --- | --- | --- | --- | --- |
+| type-A | 20 | 2.8 | 2.2 | 0.2 | 0.4 | 14 |
+| type-B | 3 | 2.8 | 1.9 | 0.2 | 0.5 | 1 |
+
+The table can be expressed in sentences as follows.
+
+- Across the latest 20 type-A actions, the late-segment mean was 0.6 L/min below baseline.
+- The type-A decline rule was met in 14/20 cases. Repetition is checked using that count and occurrence order, not the mean or standard deviation alone.
+- Raise review priority while withholding a confirmed cause.
 
 These sentences are safer because they do not use the comparison table immediately as if it were an automatic diagnosis result. The warning is closer not to an automatic confirmed diagnosis, but to a signal that narrows what a human should look at first. The reason we place the recent range and the baseline side by side is also exactly to narrow that review target more honestly.
 
@@ -44,14 +51,18 @@ The same reading order can also be shown directly through a simple diagram.
 
 This diagram shows the order in which we should not jump directly to the most visible `diff`, but should first check sample count and baseline conditions. In other words, it is less about numerical examples themselves and more about fixing `in what order the comparison table should be read so that it can be safely translated into a human review sentence`.
 
-If we now turn two rows into operational sentences, the difference becomes clearer. `type-A` can be read as a repeated-change candidate because both average decline and higher variability appear together in the most recent 20 cases. By contrast, even if the difference value of `type-B` looks noticeable, it is built from only 3 recent cases, so instead of using a sentence with the same strength, a milder expression such as `more observation is needed because the sample is small` is more appropriate. This is exactly why reading the comparison table and writing the operational sentence are handled together in one section. The difference value narrows the explanation candidate, but the comparison table alone still does not automatically tell us the cause.
+Turning the two rows into operational statements makes the contrast clearer. Because 14 of the latest 20 `type-A` actions meet the decline rule, they can be treated as a candidate repeated change. A lower mean and higher variability alone cannot establish repetition. For `type-B`, the difference is larger but comes from only three recent actions, so a more qualified statement such as `few samples; further observation needed` is appropriate. That is why reading comparison tables and writing operational statements belong together here. Differences narrow possible explanations, but one comparison table does not automatically identify a cause.
 
 This table defines not `which number catches the eye first`, but `what context must be checked first so that over-interpretation is reduced`.
 
 This section can be read not as a trick for reading tables, but as the problem of `signal-to-review translation order`.
 
-
 So the comparison table should be read not as an automatic conclusion table, but as an intermediate stage where a human checks the context first and then turns the signal into a sentence.
+
+## Checklist
+
+- Did you calculate type-A's mean difference and decline ratio and express them in a review statement?
+- Did you describe type-B's sample count and repetition evidence separately from A's?
 
 ## Sources and Further Reading
 

@@ -840,7 +840,7 @@ plugins:
                         - "P3-1.2 In What Sequence Does Data Modeling Proceed": parts/part-03/chapter-01/section-02.md
                         - "P3-1.3 How Should a Data Question Be Written So the Problem Structure Appears Before the Model": parts/part-03/chapter-01/section-03.md
                     - "Chapter 2. Reading Storage Structure and Design Axes First":
-                        - "P3-2.1 Why Are Stored Records Not Yet a Dataset": parts/part-03/chapter-02/section-01.md
+                        - "P3-2.1 Why Must Stored Records Be Reorganized for the Analysis Purpose": parts/part-03/chapter-02/section-01.md
                         - "P3-2.2 What Structures Go Inside a Dataset Candidate": parts/part-03/chapter-02/section-02.md
                         - "P3-2.3 What Should Be Written Down First When a New Table Arrives": parts/part-03/chapter-02/section-03.md
                     - "Chapter 3. A Dataset Is Not Given from the Beginning":
@@ -851,7 +851,7 @@ plugins:
                     - "Chapter 4. How to Determine the Sample Unit":
                         - "P3-4.1 How Do We Decide One Comparable Sample": parts/part-03/chapter-04/section-01.md
                         - "P3-4.2 What Else Starts to Drift When the Sample Unit Drifts": parts/part-03/chapter-04/section-02.md
-                        - "P3-4.3 How Are One Row, One Sample, and One Recent Segment Different": parts/part-03/chapter-04/section-03.md
+                        - "P3-4.3 How Do Time-Point Records, Action Samples, and Period Aggregates Differ": parts/part-03/chapter-04/section-03.md
                         - "P3-4.4 What Signals Show That the Sample Unit Was Chosen Wrong": parts/part-03/chapter-04/section-04.md
                         - "P3-4.5 How Well Does the Sample Set We Collected Represent the Overall Operating Situation": parts/part-03/chapter-04/section-05.md
                     - "Chapter 5. How to Turn Raw Logs into Summary Tables":
@@ -890,15 +890,15 @@ plugins:
                         - "P3-9.1 How Far Should the Current Problem Be Raised": parts/part-03/chapter-09/section-01.md
                         - "P3-9.2 Why Should Some Problems Remain Comparison Reports All the Way Through": parts/part-03/chapter-09/section-02.md
                         - "P3-9.3 Differences Among Three Operational Tables": parts/part-03/chapter-09/section-03.md
-                        - "P3-9.4 How Do Review Results Turn from Review Notes into Target Candidates": parts/part-03/chapter-09/section-04.md
+                        - "P3-9.4 How Do Review Notes Become Candidate Target Labels": parts/part-03/chapter-09/section-04.md
                         - "P3-9.5 By What Is the Same Event Continuously Tracked Across Multiple Outputs": parts/part-03/chapter-09/section-05.md
                         - "P3-9.6 Checking Label Consistency": parts/part-03/chapter-09/section-06.md
-                        - "P3-9.7 Under What Conditions Can Inputs and Results Be Read as a Prediction Problem": parts/part-03/chapter-09/section-07.md
-                        - "P3-9.8 What Does One Prediction Actually Decide, and Why Are Scores and Policy Different": parts/part-03/chapter-09/section-08.md
-                        - "P3-9.9 How Should the Actual Target and a Proxy Target Be Distinguished": parts/part-03/chapter-09/section-09.md
-                        - "P3-9.10 Delayed Label Confirmation and Incomplete Negatives": parts/part-03/chapter-09/section-10.md
-                        - "P3-9.11 Target Candidates and Changing Criteria": parts/part-03/chapter-09/section-11.md
-                        - "P3-9.12 Target Names and Error Costs": parts/part-03/chapter-09/section-12.md
+                        - "P3-9.7 How Do We Separate Inputs Available at Prediction Time from Later Outcomes": parts/part-03/chapter-09/section-07.md
+                        - "P3-9.8 Which Rules Turn Prediction Scores into Actions": parts/part-03/chapter-09/section-08.md
+                        - "P3-9.9 How Do We Distinguish the Actual Target from a Proxy Target": parts/part-03/chapter-09/section-09.md
+                        - "P3-9.10 How Do We Distinguish Delayed Label Confirmation from Incomplete Observation": parts/part-03/chapter-09/section-10.md
+                        - "P3-9.11 Candidate Targets and Changing Criteria": parts/part-03/chapter-09/section-11.md
+                        - "P3-9.12 How Do False-Alarm and Miss Costs Change Decision Criteria": parts/part-03/chapter-09/section-12.md
                         - "P3-9.13 Problem Boundaries to Hand Off to Part 4": parts/part-03/chapter-09/section-13.md
                 - "Summary": parts/part-03/summary.md
             - "Part 4. Machine Learning":
@@ -1371,7 +1371,7 @@ plugins:
                         - "P3-1.2 数据建模按什么顺序推进": parts/part-03/chapter-01/section-02.md
                         - "P3-1.3 数据问题要怎么写，问题结构才会先于模型显现出来": parts/part-03/chapter-01/section-03.md
                     - "Chapter 2. 先读取存储结构与设计轴":
-                        - "P3-2.1 为什么已存的记录还不能直接算作数据集": parts/part-03/chapter-02/section-01.md
+                        - "P3-2.1 为什么要按照分析目的重新组织存储记录": parts/part-03/chapter-02/section-01.md
                         - "P3-2.2 数据集候选里要放进哪些结构": parts/part-03/chapter-02/section-02.md
                         - "P3-2.3 第一次拿到新表时，应该先写下什么": parts/part-03/chapter-02/section-03.md
                     - "Chapter 3. 数据集不是一开始就给好的":
@@ -1382,7 +1382,7 @@ plugins:
                     - "Chapter 4. 怎样确定样本单位":
                         - "P3-4.1 怎样决定一条可比较的样本": parts/part-03/chapter-04/section-01.md
                         - "P3-4.2 一旦样本单位摇摆，哪些东西会一起摇摆": parts/part-03/chapter-04/section-02.md
-                        - "P3-4.3 一行、一个样本、一个近期区段有什么不同": parts/part-03/chapter-04/section-03.md
+                        - "P3-4.3 时点记录、动作样本和区间汇总有什么不同": parts/part-03/chapter-04/section-03.md
                         - "P3-4.4 哪些信号说明样本单位抓错了": parts/part-03/chapter-04/section-04.md
                         - "P3-4.5 现在收集到的样本，在多大程度上代表了整体运行情况": parts/part-03/chapter-04/section-05.md
                     - "Chapter 5. 怎样把原始日志变成汇总表":
@@ -1421,15 +1421,15 @@ plugins:
                         - "P3-9.1 现在的问题应该提升到哪一层": parts/part-03/chapter-09/section-01.md
                         - "P3-9.2 为什么有些问题应该一直保留为比较报告": parts/part-03/chapter-09/section-02.md
                         - "P3-9.3 三种运营表的差异": parts/part-03/chapter-09/section-03.md
-                        - "P3-9.4 复核结果如何从复核备注变成目标标签候选": parts/part-03/chapter-09/section-04.md
+                        - "P3-9.4 复核备忘录如何变成候选目标标签": parts/part-03/chapter-09/section-04.md
                         - "P3-9.5 同一个事件在多个产物之间靠什么持续追踪": parts/part-03/chapter-09/section-05.md
                         - "P3-9.6 检查标签一致性": parts/part-03/chapter-09/section-06.md
-                        - "P3-9.7 输入和结果满足什么条件，才能被读成预测问题": parts/part-03/chapter-09/section-07.md
-                        - "P3-9.8 一次预测到底决定什么，为什么分数和策略不是同一件事": parts/part-03/chapter-09/section-08.md
-                        - "P3-9.9 实际目标与代理 target 应该如何区分": parts/part-03/chapter-09/section-09.md
-                        - "P3-9.10 标签延迟确认与未完成的负类": parts/part-03/chapter-09/section-10.md
-                        - "P3-9.11 target 候选与变化的标准": parts/part-03/chapter-09/section-11.md
-                        - "P3-9.12 target 名称与错误成本": parts/part-03/chapter-09/section-12.md
+                        - "P3-9.7 如何区分预测时可用的输入与之后的结果": parts/part-03/chapter-09/section-07.md
+                        - "P3-9.8 预测分数通过什么规则转化为行动": parts/part-03/chapter-09/section-08.md
+                        - "P3-9.9 如何区分实际目标与代理目标": parts/part-03/chapter-09/section-09.md
+                        - "P3-9.10 如何区分标签确认延迟与观察未完成": parts/part-03/chapter-09/section-10.md
+                        - "P3-9.11 候选目标与变化的标准": parts/part-03/chapter-09/section-11.md
+                        - "P3-9.12 误报与漏报的成本如何改变判断标准": parts/part-03/chapter-09/section-12.md
                         - "P3-9.13 交给 Part 4 之前的问题边界": parts/part-03/chapter-09/section-13.md
                 - "总结": parts/part-03/summary.md
             - "Part 4. 机器学习":

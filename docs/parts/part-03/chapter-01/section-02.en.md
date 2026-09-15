@@ -1,7 +1,7 @@
 # P3-1.2 In What Sequence Does Data Modeling Proceed
 
 > Section ID: `P3-1.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Once we understand what data modeling is trying to achieve, the next question follows immediately: in what sequence should the work actually proceed? Features cannot be built before the sample unit is fixed, and without a comparison reference even the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) becomes unstable. So data modeling is best read as an order that fixes the structures needed later, one by one, from the front.
 
@@ -19,6 +19,8 @@ General machine-learning work is often explained as a broad flow of problem defi
 What has to be fixed first here is how `samples, tables, features, comparison, and output structure` fit together in sequence. Source-data collection, full exploratory data analysis, formal statistical testing, model training, and evaluation experiments each appear again later, but even those explanations stay less scattered when this front-end structure is already standing.
 
 In official documentation, these six items are usually explained not as one fixed procedure name, but as separate concepts such as `task`, `example`, `feature engineering`, `label/target`, `preprocessing`, and `classification threshold`. In Part 3, we regroup those individual concepts into `a flow for reading problem structure before learning`.
+
+This order is not a linear procedure that is fixed once and never revisited. If the late segment is often missing, for example, reconsider the question or collection scope before merely changing features. Earlier decisions are documented not to prevent revisions, but to show which judgment needs to be revisited.
 
 Reduced to one line, the connection among these six items is as follows.
 
@@ -75,6 +77,11 @@ If we map the same example back onto the six stages once more, it becomes even c
 The key to reading this table is that if an earlier judgment is missing, the later judgments are also likely to become vague together. For example, if features are built before the sample unit is fixed, it becomes unclear whether the feature describes `variation at one time point` or `variation across the whole action`.
 
 These six items are not a list that replaces later explanations. They are an order that keeps later explanations from drifting. Because if one stage is empty the next stage also tends to become ambiguous, Part 3 is safer when it first fixes the interlocking order of `question -> sample -> table -> feature and baseline -> output structure -> interpretation boundary`. For the same reason, Part 3 should be read less as `studying data science` and more as `designing a learnable data problem`. Once that viewpoint is in place, the sample design, summary tables, feature design, and baseline comparison that come later start to read not as scattered techniques, but as one procedure for setting up a problem.
+
+## Checklist
+
+- Did you list the required decisions in order from the question to the output table?
+- Can you explain which step to revisit when records for a particular segment are missing?
 
 ## Sources and Further Reading
 

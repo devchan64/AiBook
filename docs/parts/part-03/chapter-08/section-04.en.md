@@ -1,7 +1,7 @@
 # P3-8.4 Conservative Interpretation and Operational Columns
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 _Subtitle: How do interpretation sentences become warning columns and review-queue criteria?_
 
@@ -57,17 +57,19 @@ The sentence organizes the strength, but another step of structuring is still ne
 
 ## Looking at the Comparison Table First
 
-| event_id | diff | repeatability | conservative_sentence |
-| --- | ---: | --- | --- |
-| A | -0.35 | high | Raise review priority and defer cause confirmation |
-| B | -0.35 | low | A difference appears, but the sample is small, so more observation is needed |
+| window_id | diff | event_count | repeatability | conservative_sentence |
+| --- | ---: | ---: | --- | --- |
+| A | -0.35 | 20 | high | Raise review priority and withhold a confirmed cause |
+| B | -0.35 | 3 | low | A difference is visible, but few samples require further observation |
 
 If these sentences are moved into structured operational columns, they can differ like this.
 
-| event_id | warning_level | review_needed | priority_score |
+| window_id | warning_level | review_needed | priority_score |
 | --- | --- | ---: | ---: |
 | A | caution | 1 | 0.82 |
 | B | watch | 0 | 0.41 |
+
+The `priority_score` values 0.82 and 0.41 are fictional values illustrating the output format. They are neither mathematically derived from the preceding sentences nor failure probabilities. To use real scores, specify which weights and conditions apply to which columns. Without a calculation rule, retaining judgment grades such as `high/low` is more reproducible.
 
 These two tables are both needed because the first table records `why that judgment was made`, while the second records `a format that can be reused in operations`.
 
@@ -78,6 +80,11 @@ These two tables are both needed because the first table records `why that judgm
 ```
 
 This diagram shows that even the same difference value does not move directly into the same operational columns. You first read the comparison result, then adjust the interpretation strength in a human sentence, and only after that compress it into columns such as `warning_level`, `review_needed`, and `priority_score`. A column such as `warning_level` is therefore not a suddenly invented implementation artifact. It is the result of compressing an observed result, through human interpretation, into a format that is easier to reuse in operations. The order that must be fixed first is also this one: read `what changed`, adjust how strongly that difference should be stated in a sentence, and then compress it again into operational columns.
+
+## Checklist
+
+- Did you explain interpretation strength using the period identifier and event_count?
+- Did you describe the purpose of output columns without treating fictional priority scores as probabilities?
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
-# P3-9.11 Target Candidates and Changing Criteria
+# P3-9.11 Candidate Targets and Changing Criteria
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 When choosing the representative target, keep `target_name`, `target_definition_version`, `rule_changed_at`, `definition_owner`, and `candidate_targets` together. This memo separates the state of having several candidates from the state of changing the standard, reducing cases where the same target name points to different problem definitions.
 
@@ -35,7 +35,7 @@ For example, if `review_needed` is taken as the representative target, the quest
 | B | 1 | normal | recovered | medium |
 | C | 0 | normal | stable | low |
 
-In this table, `A` and `B` both have `review_needed = 1`, but their `final_status` and `status_type` values differ. If the representative target is `review_needed`, then `A` and `B` are grouped as the same result. If the representative target is `final_status`, then `pending` and `normal` become different results. That means the same event can become either the same answer or a different answer depending on which column is fixed as the representative target.
+Both `A` and `B` have `review_needed = 1`, but their `final_status` and `status_type` differ. If the primary target is `review_needed`, A and B share the same outcome. If the primary target is `final_status`, however, A's `pending` means its answer is not confirmed yet; only B's `normal` is confirmed. Do not train on `pending` as a final-state label alongside normal and abnormal. Choosing the primary target column therefore changes whether events are treated as having the same answer or different answers.
 
 ## A Small Diagram
 
@@ -48,6 +48,11 @@ When several candidates coexist, the table alone can make it feel like `we can c
 What this scene shows is that choosing the representative target is not an administrative note added later. It is the act of defining the central question of the current problem, and the target definition version is what fixes the criteria by which that question is being read.
 
 So the real difficulty when there are many target candidates is not `name collision`, but that `the problem itself becomes unstable unless the representative result and the definition version are fixed together`. What is fixed here is the combination of `representative-result definition`, `definition-version management`, and `expansion-candidate management`, so that the central problem remains stable even when several target candidates arise from the same data.
+
+## Checklist
+
+- Did you distinguish pending status from final outcome categories?
+- Did you specify the checks required before combining labels from different criterion versions?
 
 ## Sources and References
 

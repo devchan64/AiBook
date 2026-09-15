@@ -1,7 +1,7 @@
 # P3-6.5 How Should We Read and Keep Features Together When Their Units and Scales Differ
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Once we build a few [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), another confusion easily returns. `Is the column with the larger value more important?` `Can seconds and pressure units stay in the same table?` `Can a column with an average of 200 and another with 0.2 simply be compared side by side?` What is needed first here is the sense to distinguish unit, range, size of variation, and change relative to the [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) before looking at the size of the numbers.
 
@@ -70,14 +70,16 @@ At the Part 3 stage, it becomes much safer if we can write the following three t
 | The structure this column shows | level, direction, fluctuation, duration |
 | The comparison basis | the absolute value itself, or difference from baseline |
 
+The following table assumes pressure is measured in kPa and flow in L/min. A standard deviation has the same unit as the original values; a slope per second has that unit divided by seconds.
+
 For example, it can be written like this.
 
-| Column name | Unit / meaning | Structural role | Comparison method |
+| Column | Unit/meaning | Structural role | Comparison |
 | --- | --- | --- | --- |
-| `duration_seconds` | seconds | duration | Has it become longer than usual? |
-| `pressure_mean` | pressure level | average level | Is the difference from the baseline large? |
-| `flow_std` | variability | fluctuation | Has fluctuation increased compared with usual? |
-| `late_drop_rate` | rate of change | late-stage collapse speed | Has the late-phase slope become steeper? |
+| `duration_seconds` | Seconds | Duration | Is it longer than usual? |
+| `pressure_mean` | kPa | Mean level | Is the difference from baseline large? |
+| `flow_std` | L/min | Variability | Is variation greater than usual? |
+| `late_drop_rate` | L/min/s | Rate of late flow change | Has the late slope become steeper? |
 
 If we have this table, then `what kind of number this is` and `how it should be read` become fixed together.
 
@@ -116,7 +118,6 @@ So Part 3's responsibility reaches this far.
 3. Know that the raw size of the number itself can matter less than `the difference from baseline inside the same column`.
 
 Because the numbers in a feature table do not all describe the same kind of magnitude, we should first write down the unit and role, and then read them through the baseline-relative change of the same column. This section can be read not as an introduction to scaling formulas, but as the problem of role-aware reading across different measurement scales inside one working table.
-
 
 The same issue appears in model input. The next example uses the same k-NN model, but compares reading the features without scaling and reading them after `StandardScaler` puts each column onto a comparable scale.
 
@@ -175,6 +176,8 @@ with scaling prediction: 1
 
 Before scaling, A is chosen as the nearest case because it has the same `duration_seconds=44`. But when pressure change and flow-variability change are put onto a comparable scale, B becomes the nearer case. This output does not mean that `the larger number is more important`; it shows that in distance-based models, a column with a larger range can dominate the calculation. So even before studying model formulas in detail, Part 3 should record each feature's unit, range, and comparison method.
 
+Standardization in this example rescales each column using the training set's mean and standard deviation. It neither proves that all features are equally important nor guarantees better predictions. Apply that same training-set transformation to new samples; do not recompute the mean and standard deviation after mixing those new samples into the data.
+
 So a feature table should be understood not as a competition chart of raw magnitudes, but as a structure where different measurement axes are placed side by side and read according to their roles.
 
 ## A Small Diagram
@@ -183,8 +186,15 @@ The sequence in this section is that even when different units and scales sit in
 
 --8<-- "assets/part-03/chapter-06/p3-6-5-mermaid-01-en.mmd"
 
+## Checklist
+
+- Did you specify each feature's physical unit and calculation denominator?
+- Can you explain why standardization parameters must be calculated from training data alone?
+
 ## Sources and Further Reading
 
 - Google for Developers, `Machine Learning Glossary`: `feature`. Because it explains a feature as an input variable used for prediction, it supports the point that what a number measures as an input variable matters before the size of the number itself. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains the process of turning raw data into a more useful form for learning, it reinforces this section's explanation that features with different roles such as duration, level, variability, and rate of change should be read separately. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general idea that comparison works by placing the same item next to a reference point, it can support the explanation that instead of directly comparing different features with one another, we should read each column through its change from the baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }. Checked the principle of estimating preprocessing parameters from training data alone. Checked: 2026-09-15.

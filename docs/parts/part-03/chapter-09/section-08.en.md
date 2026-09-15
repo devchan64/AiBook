@@ -1,7 +1,7 @@
-# P3-9.8 What Does One Prediction Actually Decide, and Why Are Scores and Policy Different
+# P3-9.8 Which Rules Turn Prediction Scores into Actions
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 When handing this over as an actual table, separate fields at different levels, such as `prediction_unit`, `score_column`, `decision_threshold`, `policy_version`, and `action_column`. Written this way, the model output, the rule that turns it into an action, and the action that is actually executed do not collapse into the same thing.
 
@@ -31,6 +31,13 @@ One prediction does not end with a score. It must be read all the way through th
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-8-mermaid-01-en.mmd"
 ```
+
+If only 10 cases can be reviewed per day, selecting the top 10 scores and selecting `scores at least 0.7` can yield different results. Thirty cases above 0.7 would exceed capacity. Nor should a score be interpreted as an occurrence probability merely because it lies between 0 and 1. Record the score's meaning, action rule, and processing capacity separately.
+
+## Checklist
+
+- Did you specify a threshold or top-count rule connecting scores to actions?
+- Can you explain what happens when candidates exceed daily review capacity?
 
 ## Sources and References
 

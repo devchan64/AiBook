@@ -1,7 +1,7 @@
-# P3-9.4 How Do Review Results Turn from Review Notes into Target Candidates
+# P3-9.4 How Do Review Notes Become Candidate Target Labels
 
 > Section ID: `P3-9.4`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Even when the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) and [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) appear first, a target candidate is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and review notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning judgments that repeatedly remained in the review process into more stable columns`.
 
@@ -67,9 +67,11 @@ In this state, it is hard to use `reviewer_note` directly as a target label. Ins
 
 | event_id | late_drop_repeated | needs_manual_review | note_source |
 | --- | --- | --- | --- |
-| A | 1 | 1 | Repeated late sharp drop, recheck needed |
-| B | 0 | 0 | Leave only a record |
-| C | 1 | 1 | Repeated late sharp drop, inspection recommended |
+| A | 1 | 1 | Repeated sharp late declines; rechecking needed |
+| B | Unconfirmed | 0 | Record only |
+| C | 1 | 1 | Repeated sharp late declines; further checking recommended |
+
+B's `Record only` does not state that repeated sharp late declines were absent. Leave `late_drop_repeated` unconfirmed. Interpret `needs_manual_review=0` only as the absence of a request for additional review. Automatically filling unmentioned attributes with zero when converting notes into columns turns unknown states into negative labels.
 
 What makes this second table important is not that the sentences were completely removed, but that repeated judgments were moved into columns with the same meaning. If `note_source` remains, it is also possible to trace again why the label candidate was attached.
 
@@ -92,6 +94,11 @@ So what becomes easier to structure first is usually columns such as `whether re
 ```
 
 This diagram shows that a free-form note does not become a target directly. A middle stage of `grouping the same meaning` must be present. Review results and notes accumulate first, repeated judgments inside those notes are organized into common patterns, and only then do columns such as `late_drop_repeated` and `needs_manual_review` appear. What matters in this section is not string-processing technique, but the conversion structure `note -> shared meaning -> target-candidate column`. A target should therefore be read not as a suddenly given value, but as the result of structuring the review records themselves. A target candidate is often not an answer given from the start, but the result of turning repeated judgments left in the review process into more stable columns.
+
+## Checklist
+
+- Did you distinguish facts explicitly confirmed by a note from information it does not mention?
+- Can you explain why an unmentioned repetition status should not be confirmed as 0?
 
 ## Sources and References
 

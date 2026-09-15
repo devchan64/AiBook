@@ -1,7 +1,7 @@
 # P3-8.2 变化信号能说到哪里，原因又该停在哪里
 
 > Section ID: `P3-8.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 一旦有了[基线（baseline）](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)，就可以读取最近区间和平时状态之间的差异。但即便如此，若把它理解成`既然看到了差异，原因也应该马上知道`，仍然非常危险。变化信号可见，和原因被确认，是完全不同的两个阶段。调节了解读强度之后，接下来还必须更明确地规定[解释边界](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)。
 
@@ -11,11 +11,13 @@
 
 同样的判断，在读图时也一样适用。比如最近区间的折线看起来比基线更低，或者箱线图（box plot）里最近区间的范围看起来更宽。这样的图能帮助你快速抓住`哪里看起来不一样`，但单靠图本身，无法立刻确定这种差异究竟是样本量不足、少数极端值，还是持续性的结构变化造成的。
 
-| 图上先看到的现象 | 只靠图就立刻说出时会有风险的句子 | 更安全的解读 |
+| 图中首先看到的现象 | 仅凭图就这样说会有风险 | 更谨慎的解释 |
 | --- | --- | --- |
-| 最近的线低于基线 | 状态已经明显恶化了 | 最近区间看起来低于基线，因此需要进一步确认 |
-| 最近的柱子更高 | 原因已经很明确了 | 比较值出现差异，因此在不确认原因的前提下进入复核 |
-| 箱线图范围变宽 | 系统变得不稳定了 | 最近的离散程度看起来更大，因此需要把重复性和样本量一起看 |
+| 近期曲线低于基准线 | 状态肯定恶化了 | 近期区间看起来低于基准线，需要进一步确认 |
+| 近期柱更大 | 原因已经明确 | 比较值存在差异，应复核而暂不确认原因 |
+| 箱线图覆盖的范围变宽 | 系统变得不稳定 | 先确认变宽的是箱体还是须的范围，并一起检查原始数据的离散程度 |
+
+箱线图的箱体通常表示包含中间 50% 数据的四分位距，并不是方差本身。箱体、须和极端值标记承载的是不同信息。坐标轴范围或汇总间隔改变，也可能让变化看起来更大，因此首先要确认刻度和汇总条件一致。
 
 | 表述 | 含义 | 现在这个阶段能说吗 |
 | --- | --- | --- |
@@ -76,7 +78,14 @@
 
 这张表的关键，是不要把比较结构直接支撑的层级，和还需要额外证据的层级混在一起。
 
+## 检查清单
+
+- 你是否分别读出了箱线图的中位数和四分位距？
+- 你是否区分了观察到的变化与尚未验证的原因解释？
+
 ## 来源与参考资料
 
 - W3C, `PROV-Overview`。它提供了 provenance 的视角，把观测结果与生成该结果所经历的过程和证据区分开来，因此可以帮助一般化本节的主张：比较表直接支撑的是变化观测和复核候选，而不是原因确认。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
 - NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`。它说明了把当前表现和过去表现做比较的信号结构，也区分了 control limits 与 specification limits，因此可以补强本节的判断边界：不要把变化信号与原因确认或功能判定放在同一层。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+
+- [NIST Box Plot](https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm){ target="_blank" rel="noopener noreferrer" }。用于确认中位数和四分位距的解释。确认日期：2026-09-15。
