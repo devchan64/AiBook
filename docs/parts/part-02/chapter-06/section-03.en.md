@@ -1,7 +1,7 @@
 # P2-6.3 The Intuition of Gradient Descent
 
 > Section ID: `P2-6.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Gradient descent calculates the objective function’s gradient at the current parameters and changes the parameters in the opposite direction. The learning rate multiplies the gradient to control the amount of movement.
 
@@ -20,21 +20,11 @@ For the current line \(\hat{y} = 8x + 45\), the predictions are `53, 61, 69, 77`
 
 The objective is to reduce this loss by changing slope `a` and intercept `b`.
 
-![Gradient descent takes small steps toward lower loss on a loss curve](/AiBook/assets/part-02/chapter-06/gradient-descent-loss-curve-en.svg)
-
 The movement can be represented as a learning loop:
 
 ```mermaid
 --8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-en.mmd"
 ```
-
-## Direction, Step Size, and Repetition
-
-| Criterion | Why it matters |
-| --- | --- |
-| Gradient descent repeats small steps that reduce loss | Learning involves repeated adjustments rather than one jump to the answer. |
-| Move opposite to the gradient | The gradient points toward increasing loss, opposite to the objective. |
-| The learning rate controls each step | Even with the right direction, an unsuitable step size can make learning unstable or slow. |
 
 ## The Slope at the Current Position
 
@@ -77,7 +67,7 @@ Gradient descent is commonly written as:
 =
 \theta_{\text{old}}
 -
-\eta \nabla J(\theta)
+\eta \nabla J(\theta_{\text{old}})
 \]
 
 The symbols denote the following values.
@@ -115,15 +105,22 @@ At learning rate `0.01`, the update is:
 
 Predicting with the new line reduces MSE from `77.5` to about `54.76`. For the next update, recalculate the gradient at `[8.475, 45.15]`.
 
-## From Prediction to Update
+## Recalculating at the New Position
 
-Gradient descent repeats the same steps.
+The first update uses the gradient calculated at **the same pre-update position `[8, 45]` for both parameters**. This differs from changing only a first and using that changed value to calculate the gradient for b.
 
-1. Predict with the current parameters.
-2. Calculate loss.
-3. Calculate the gradient.
-4. Adjust the parameters slightly.
-5. Predict again.
+At the new position `[8.475, 45.15]`, predictions are `53.625, 62.1, 70.575, 79.05`. The errors, predicted minus actual, are now `−1.375, −2.9, −9.425, −10.95`, so the gradient must be recalculated.
+
+| Pre-update position [a, b] | Gradient at that position | Position after update with η=0.01 | MSE after update |
+| --- | --- | --- | --- |
+| [8, 45] | [−47.5, −15] | [8.475, 45.15] | About 54.7584 |
+| [8.475, 45.15] | [−39.625, −12.325] | [8.87125, 45.27325] | About 38.9750 |
+
+The second update gives `a=8.475−0.01×(−39.625)=8.87125` and `b=45.15−0.01×(−12.325)=45.27325`. Even with the same learning rate, the movement changes because the gradient changes. This is full-batch gradient descent: every update uses the loss over all four students to calculate the gradient.
+
+![Mean squared error over 20 full-batch gradient descent updates](/AiBook/assets/part-02/chapter-06/gradient-descent-training-loss-en.svg)
+
+The horizontal axis counts updates, and the vertical axis shows MSE at each step. Using the same four students, the run starts at `[8, 45]` with learning rate 0.01 and recalculates the gradient every time. Step 0 is the loss before any update. This graph records loss over 20 updates; it is not a landscape in parameter space.
 
 ## Comparing Loss Across Learning Rates
 
@@ -153,6 +150,18 @@ Several conditions affect the result.
 
 Gradient descent moves toward improvement under given criteria and conditions. It does not automatically resolve every real-world condition.
 
+## Convergence and Stopping Training
+
+Convergence means that changes in parameters or the objective become small as iterations approach a limiting value. An implementation can set a maximum iteration count and check whether the change in loss between consecutive updates or the gradient magnitude falls below a chosen tolerance. A small change in loss alone does not establish arrival at an optimum: an excessively small learning rate may simply prevent meaningful movement.
+
+Early stopping can instead use performance on validation data. For example, training can stop when validation loss has not improved for a specified period, even while training loss decreases. Convergence of the objective and performance on new data are separate judgments. Test data is not used to repeatedly choose the stopping point.
+
+## What Happens If the Old Gradient Is Reused?
+
+After the first update, start at `[8.475, 45.15]` and reuse the original `[-47.5, -15]` instead of recalculating the gradient. What are the next parameters with learning rate 0.01? Compare them with the second update in the table.
+
+**Answer:** The result is `a=8.95, b=45.3`, different from `[8.87125, 45.27325]` obtained by recalculating at the current position. In this example, reusing the old gradient also reduces MSE, to about 36.1588. A larger decrease in one step, however, does not guarantee that the direction and magnitude will remain appropriate for subsequent updates. Basic gradient descent uses the gradient at the current position.
+
 ## Checklist
 
 - You can explain gradient descent as repeated movement to reduce loss.
@@ -166,5 +175,5 @@ Gradient descent moves toward improvement under given criteria and conditions. I
 
 ## Sources and References
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-20. Used to support the deep-learning optimization context of cost functions, parameters, gradient-based movement, gradient descent, and learning rate.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-09-15. Used to support the deep-learning optimization context of cost functions, parameters, gradient-based movement, gradient descent, and learning rate.
 - Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, checked 2026-07-20. Used as supplementary support for optimization problems and gradient-based repeated movement in the mathematical optimization context.
