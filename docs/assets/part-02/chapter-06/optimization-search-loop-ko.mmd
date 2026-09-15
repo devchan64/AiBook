@@ -1,0 +1,9 @@
+flowchart TD
+    accTitle: 두 직선 후보 비교
+    P["1. 파라미터 조합<br/>후보 1: a = 10, b = 45<br/>후보 2: a = 12, b = 40"]
+    Y["2. x = 1, 2, 3, 4에서의 예측<br/>후보 1: 55, 65, 75, 85<br/>후보 2: 52, 64, 76, 88"]
+    L["3. 제곱 오차의 평균<br/>후보 1: 12.5<br/>후보 2: 7.5"]
+    S["4. 두 후보 중 더 나은 선택<br/>a = 12, b = 40<br/>7.5 &lt; 12.5"]
+    P --> Y --> L --> S
+    classDef selected fill:#f0fdf4,stroke:#16a34a,color:#14532d
+    class S selected

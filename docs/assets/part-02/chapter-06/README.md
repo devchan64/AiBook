@@ -11,6 +11,7 @@
 
 ## P2-6.1 candidate comparison
 
-- `optimization-search-loop-{ko,en,zh}.svg` follows the manuscript’s two line candidates through parameter values, predictions, mean squared errors (12.5 and 7.5), and selection.
+- `optimization-search-loop-{ko,en,zh}.mmd` follows the manuscript’s two line candidates through parameter values, predictions, mean squared errors (12.5 and 7.5), and selection.
 - The four stages use a vertical layout. The diagram does not claim a global optimum or introduce a third candidate or a constraint absent from the example.
 - All language variants share the same values and layout.
+- Manuscripts include the Mermaid sources through `pymdownx.snippets`; no pre-rendered SVG copies are maintained.

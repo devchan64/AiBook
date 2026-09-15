@@ -1,0 +1,9 @@
+flowchart TD
+    accTitle: 比较两个候选直线
+    P["1. 参数组合<br/>候选 1: a = 10, b = 45<br/>候选 2: a = 12, b = 40"]
+    Y["2. x = 1, 2, 3, 4 时的预测<br/>候选 1: 55, 65, 75, 85<br/>候选 2: 52, 64, 76, 88"]
+    L["3. 误差平方的均值<br/>候选 1: 12.5<br/>候选 2: 7.5"]
+    S["4. 两个候选中更好的选择<br/>a = 12, b = 40<br/>7.5 &lt; 12.5"]
+    P --> Y --> L --> S
+    classDef selected fill:#f0fdf4,stroke:#16a34a,color:#14532d
+    class S selected
