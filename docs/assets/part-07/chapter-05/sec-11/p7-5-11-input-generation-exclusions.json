@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "spec": "p7-5-11-bfs-input-pool-v2.json",
+  "spec_sha256": "787487e3c64e24850045cb9d28b0c2c119a4ccc63a85b13979710a7f98467b97",
+  "instruction": "폐기 확정 3건은 재생성하지 않는다. 원래 생성 항목과 코드는 보존한다. 입력 생성은 p7_5_11_generate_reviewed_inputs.py를 사용한다.",
+  "items": [
+    {
+      "id": "bfs-input-40-watercolor",
+      "sha256": "9545052398ce83dd972fd37c81da6f80fa0ee7d33bc3a6657f21269af487084a",
+      "record_sha256": "42bb808e82eb63d556b24203e08d623cf366f622fb4fee41d3a582b5701d9f89",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-13-soft-photo",
+      "sha256": "4dcd48a5354b4cb1e9b14e96df4af9c92037b49b9e94350bf048e59b5a74843e",
+      "record_sha256": "33df84da9e1badf0b4be9a3af48fb9be52f07379ba3127c83412b97fdd50fc42",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-01-oil-painting",
+      "sha256": "8882d8d50655c1b6e00df62c3efc8ea8ef9a43e3d26d12715ec351d1c3b7c88e",
+      "record_sha256": "1d41a1c6fb00b64fa6f200831c52987573085d03cbc8c27acdee51c6850c716b",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
+    }
+  ]
+}

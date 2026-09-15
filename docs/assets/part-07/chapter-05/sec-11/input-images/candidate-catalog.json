@@ -7,7 +7,7 @@
     "helper_sha256": "647496bb123e379689d007f144e7f8d3752d3bd304efed5ecd124b335bd70d01"
   },
   "planned_count": 220,
-  "generated_count": 220,
+  "generated_count": 217,
   "items": [
     {
       "id": "bfs-input-01-soft-photo",
@@ -2423,25 +2423,6 @@
       "suggested_caption": "Transform the woman into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout."
     },
     {
-      "id": "bfs-input-40-watercolor",
-      "image": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-40-watercolor.png",
-      "sha256": "9545052398ce83dd972fd37c81da6f80fa0ee7d33bc3a6657f21269af487084a",
-      "record": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-40-watercolor-result.json",
-      "record_sha256": "42bb808e82eb63d556b24203e08d623cf366f622fb4fee41d3a582b5701d9f89",
-      "category": "bfs-input",
-      "condition": "",
-      "reference": "target-40",
-      "group": "6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c",
-      "reference_sha256": "6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c",
-      "review_status": "pending",
-      "split": "pending",
-      "caption": "",
-      "reserved_split": "train",
-      "target": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-04.png",
-      "target_sha256": "6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c",
-      "suggested_caption": "Transform the woman into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout."
-    },
-    {
       "id": "bfs-input-41-clay-render",
       "image": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-41-clay-render.png",
       "sha256": "104119be3d0acddfdd4c5dfb531c7c896c87ebb411538bb7cf8eb859966e01d6",
@@ -2743,25 +2724,6 @@
       "reserved_split": "train",
       "target": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
       "target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "suggested_caption": "Transform the woman into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout."
-    },
-    {
-      "id": "bfs-input-13-soft-photo",
-      "image": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-13-soft-photo.png",
-      "sha256": "4dcd48a5354b4cb1e9b14e96df4af9c92037b49b9e94350bf048e59b5a74843e",
-      "record": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-13-soft-photo-result.json",
-      "record_sha256": "33df84da9e1badf0b4be9a3af48fb9be52f07379ba3127c83412b97fdd50fc42",
-      "category": "bfs-input",
-      "condition": "",
-      "reference": "target-13",
-      "group": "8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3",
-      "reference_sha256": "8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3",
-      "review_status": "pending",
-      "split": "pending",
-      "caption": "",
-      "reserved_split": "train",
-      "target": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png",
-      "target_sha256": "8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3",
       "suggested_caption": "Transform the woman into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout."
     },
     {
@@ -3351,25 +3313,6 @@
       "reserved_split": "train",
       "target": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-08.png",
       "target_sha256": "f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e",
-      "suggested_caption": "Transform the woman into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout."
-    },
-    {
-      "id": "bfs-input-01-oil-painting",
-      "image": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-01-oil-painting.png",
-      "sha256": "8882d8d50655c1b6e00df62c3efc8ea8ef9a43e3d26d12715ec351d1c3b7c88e",
-      "record": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-01-oil-painting-result.json",
-      "record_sha256": "1d41a1c6fb00b64fa6f200831c52987573085d03cbc8c27acdee51c6850c716b",
-      "category": "bfs-input",
-      "condition": "",
-      "reference": "target-01",
-      "group": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
-      "reference_sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
-      "review_status": "pending",
-      "split": "pending",
-      "caption": "",
-      "reserved_split": "train",
-      "target": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
-      "target_sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
       "suggested_caption": "Transform the woman into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout."
     },
     {
@@ -4188,6 +4131,33 @@
       "target": "docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-08.png",
       "target_sha256": "f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e",
       "suggested_caption": "Transform the woman into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout."
+    }
+  ],
+  "discarded_count": 3,
+  "discarded_items": [
+    {
+      "id": "bfs-input-40-watercolor",
+      "sha256": "9545052398ce83dd972fd37c81da6f80fa0ee7d33bc3a6657f21269af487084a",
+      "record_sha256": "42bb808e82eb63d556b24203e08d623cf366f622fb4fee41d3a582b5701d9f89",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-13-soft-photo",
+      "sha256": "4dcd48a5354b4cb1e9b14e96df4af9c92037b49b9e94350bf048e59b5a74843e",
+      "record_sha256": "33df84da9e1badf0b4be9a3af48fb9be52f07379ba3127c83412b97fdd50fc42",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-01-oil-painting",
+      "sha256": "8882d8d50655c1b6e00df62c3efc8ea8ef9a43e3d26d12715ec351d1c3b7c88e",
+      "record_sha256": "1d41a1c6fb00b64fa6f200831c52987573085d03cbc8c27acdee51c6850c716b",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
     }
   ]
 }
