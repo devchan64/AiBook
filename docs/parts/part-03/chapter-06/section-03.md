@@ -79,11 +79,17 @@
 
 이 순서를 보면 특징 설계는 딥러닝 이전의 낡은 준비 단계가 아니라, 어떤 학습 방법을 쓰더라도 먼저 필요한 입력 정의 단계라는 점이 분명해집니다. 따라서 이 절의 결론도 `사람이 만든 특징 vs 딥러닝`의 대립이 아니라, [입력 명세(input specification)](../../../reference/concept-glossary-parts/05-mieum.md#model-input)와 [표현 학습(representation learning)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-representation-learning)이 어디서 갈리는가에 있습니다. 특징 설계는 낡은 수작업이 아니라, 학습 단계가 기대는 입력 구조를 먼저 명세하는 일로 읽어야 합니다.
 
-## 작은 도식으로 보기
+## 수작업 특징과 학습된 표현의 관계 {#_6}
 
 이 절의 경계는 단순합니다. 사람은 먼저 특징과 중간 표현으로 `입력`을 설계하고, 모델은 그 입력을 받은 뒤에야 내부 표현을 학습합니다. 둘은 경쟁 관계가 아니라 앞뒤 단계입니다.
 
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="도식: 좌우로 스크롤하여 확인" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
+
 --8<-- "assets/part-03/chapter-06/p3-6-3-mermaid-01-ko.mmd"
+
+</div>
+</div>
 
 ## 체크리스트
 

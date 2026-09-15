@@ -34,7 +34,7 @@ Even with the same column name, if one of the following changes, Part 3 should f
 
 All four of these are not primarily model-technique issues. They are issues of `what the feature we kept actually means`.
 
-## Looking Through a Small Diagram
+## Comparing Measurement Definitions Beyond Column Names {#looking-through-a-small-diagram}
 
 | event_id | flow_mean | flow_unit | sensor_version | segment_rule | ops_definition |
 | --- | ---: | --- | --- | --- | --- |
@@ -83,7 +83,7 @@ Once it is no longer the same feature, the baseline comparison in Chapter 7 also
 
 So a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is not only a same-group comparison. It should also be a `same feature-definition` comparison. Leaving this note behind lets us check first `did different feature definitions get mixed together?` before jumping to the conclusion that `the model is strange`.
 
-## Small Code Example
+## Comparing Groups by Name Alone and by Full Definition {#small-code-example}
 
 Problem situation: check that even when the same column name `flow_mean` is used, it may not be the same feature if unit, sensor version, segment rule, and operational definition differ.
 

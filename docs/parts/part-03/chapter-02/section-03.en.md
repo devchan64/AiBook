@@ -51,7 +51,7 @@ The order in which the five items are read also matters. `Row meaning`, `identif
 
 So the first stage is closer to `identity checking` than to `calculation`.
 
-## A Small Diagram
+## Checking Row Meaning and Comparability {#a-small-diagram}
 
 When a new table is read for the first time, it is safer to close it in the order `row meaning -> grouping criterion -> format/quality checks -> regrouping decision`.
 
@@ -84,7 +84,7 @@ Going just one step further, format consistency and the first quality check can 
 - Format consistency: first check whether `event_id` groups the same action in a consistent format, and whether `elapsed_seconds` allows time order to be read.
 - First quality check: check whether some `event_id` values have abnormally few or many rows, whether time goes backward or has missing segments, and whether there are missing values that should be marked before comparison.
 
-## Small Code Example
+## Checking Table-Reading Notes Against Column Distributions {#small-code-example}
 
 Problem situation: when a new log table arrives, check whether it can already be read directly as a sample-comparison table.
 

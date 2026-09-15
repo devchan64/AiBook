@@ -38,11 +38,17 @@ Second, some people think absolute values are enough and pass lightly over the b
 
 This section is more accurate when read not through the dictionary definition of baseline, but as the problem of `what reference measurement should be placed in order to read change`. So a baseline should be read as `a reference measurement for state comparison`, separated from model-evaluation terminology.
 
-## A Small Diagram
+## Separating Data Baselines from Baseline Models {#a-small-diagram}
 
 The core point of this section is that `the usual structure` and `the current state` should not be viewed in isolation. Once a `baseline` connects them, the difference becomes readable. A baseline does not replace the absolute value; it acts as the reference line for reading state change.
 
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
+
 --8<-- "assets/part-03/chapter-07/p3-7-3-mermaid-01-en.mmd"
+
+</div>
+</div>
 
 ## Checklist
 

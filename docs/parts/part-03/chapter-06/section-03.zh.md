@@ -79,11 +79,17 @@
 
 看清这个顺序之后，就会明白：特征设计不是深度学习之前过时的准备动作，而是不管用什么学习方法都需要先完成的输入定义阶段。所以，这一节的结论也不是 `人工特征 vs 深度学习` 的对立，而是 [输入说明(input specification)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input) 和 [表示学习(representation learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-representation-learning) 究竟从哪里分开。特征设计不该被读成过时的手工劳动，而应被读成：它是先把后续学习阶段所依赖的输入结构说明清楚的工作。
 
-## 用一个小图来看
+## 手工特征与学习表示的关系 {#_5}
 
 这一节的边界很简单。人先用特征和中间表示把 `输入` 设计出来，模型收到这个输入之后，才开始学习内部表示。它们不是竞争关系，而是前后相接的阶段。
 
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
+
 --8<-- "assets/part-03/chapter-06/p3-6-3-mermaid-01-zh.mmd"
+
+</div>
+</div>
 
 ## 检查清单
 

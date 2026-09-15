@@ -92,7 +92,7 @@ This section can be read not only as the question `which numerical column is a f
 
 So instead of the misunderstanding `if it is a numerical column, it must be a feature`, we should first ask whether each column describes the sample, holds a comparison reference, records a result, or merely keeps context.
 
-## A Small Diagram
+## Separating Identifier, Context, Input, and Outcome Columns {#a-small-diagram}
 
 The core point of this section is that not every column in a working table should be read as the same kind. Even inside one table, columns split into feature, comparison, target-candidate, and context columns, and that role separation has to come first.
 

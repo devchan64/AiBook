@@ -178,7 +178,7 @@ For example, A can be summarized as `an action that is high in the middle and dr
 
 This difference becomes just as important later in baseline comparison. Even if the recent segment average looks the same as usual, the state may already have begun to change if the late-phase decline pattern has become stronger. So the ability to read `same average, different pattern` is not just a trick for looking at one extra feature. It is a preparation step for later reading `has the recent structure changed from the usual one?`
 
-## A Small Diagram
+## From Overall Means to Segment Patterns {#a-small-diagram}
 
 The reading order in this section is simple. First confirm `is the overall average the same?` Then follow `segment means` and `slope/timing`, and what remains at the end is `pattern interpretation`. The average is only the starting point; structure interpretation settles at the next level.
 

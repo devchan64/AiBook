@@ -56,7 +56,7 @@ Operational sentences are usually built in the following order.
 
 For example, a sentence like `The recent window shows a larger late-stage drop than the baseline, and because the recent count is 6, the review priority is raised without cause confirmation` reflects both the comparison structure and the interpretation boundary. By contrast, a sentence like `A sensor abnormality occurred` brings in evidence that is not there yet. The warning needs to stay a signal that narrows what a person should look at first, not an automatic diagnosis.
 
-## A Small Diagram
+## The Boundary Between Observing Change and Inferring Causes {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-2-mermaid-01-en.mmd"

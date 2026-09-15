@@ -65,7 +65,7 @@ The key point of this table is not to stop interpreting. It is that even the sam
 
 A small sample does not automatically call for a weaker operational response. Even one observation may justify immediate checking if it exceeds a separately defined allowable limit. `How certain are we that the change persists?` and `How urgent is verification?` are different judgments.
 
-## A Small Diagram
+## Matching Interpretation Strength to Sample Counts and Repetition {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-en.mmd"

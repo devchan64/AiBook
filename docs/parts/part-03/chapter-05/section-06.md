@@ -178,7 +178,7 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 이 예제의 목적은 창 수를 계산하는 것보다 `창 수가 실제 사건 수를 얼마나 부풀려 보이게 하는가`를 확인하는 데 있습니다. 여기서 조작할 값은 `stride_to_try`입니다. `10`을 `20`으로 바꾸면 창 수와 확장 비율이 줄고, 더 작은 값으로 바꾸면 같은 원천 사건에서 더 많은 입력 조각이 생깁니다. 그런데 `source_event` 수는 계속 36건입니다. 그래서 겹치는 입력 창은 같은 사건을 여러 번 잘라 본 결과일 수 있으며, 창 수를 곧바로 사건 수처럼 읽으면 안 됩니다. 출력 4단계처럼 라인과 운영 모드별로 다시 묶어 보면, 원천 사건 수는 각 조건에서 6건씩 같아도 파생된 window 수는 길이와 창 설정에 따라 다르게 불어납니다.
 
-## 작은 도식으로 보기
+## 입력 창 수와 원천 사건 수 구분하기 {#_1}
 
 이 절의 핵심은 `창 수가 커진다`와 `원천 사건 수가 늘었다`를 분리하는 데 있습니다. 같은 두 사건에서 겹치는 창을 많이 만들면 입력 조각 수는 커지지만, 사건 수 자체는 그대로 남습니다.
 
@@ -191,7 +191,7 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 단위를 전제로 하므로, 여러 입력 창이 생겼다고 해서 원천 사건 수 자체가 자동으로 늘어났다고 읽으면 안 된다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 중첩 창 수와 원천 사건 수를 따로 세는 것은 이 절의 사례에서 확인하는 구분입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - W3C, `PROV-Overview`. provenance framework가 어떤 entity가 어떤 derivation을 거쳐 생성되었는지 추적해야 한다고 정리하므로, 각 입력 창이 어떤 원천 사건에서 파생되었는지 분리해 남겨야 창 수와 사건 수를 혼동하지 않는다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Google for Developers, `Datasets: Dividing the original dataset`. 학습용 표본이 어떤 원천 데이터에서 어떤 규칙으로 만들어졌는지 구분해야 한다는 일반 관점을 제공하므로, 겹치는 창이 많을 때도 원천 사건 단위와 입력 조각 단위를 따로 적어야 한다는 이 절의 설명을 일반화하는 데 참고할 수 있습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`. 같은 원천 과정에서 나온 의존 샘플은 독립동일분포 가정이 깨질 수 있고, grouped data에서는 같은 그룹의 샘플이 훈련 fold와 검증 fold에 함께 나타나지 않게 해야 한다고 설명하므로, 겹치는 입력 창이 실제 사건 수를 늘린 것이 아니라 같은 사건에서 파생된 의존 조각일 수 있다는 이 절의 주의를 보강합니다. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

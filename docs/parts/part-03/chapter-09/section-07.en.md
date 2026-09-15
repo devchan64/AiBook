@@ -93,7 +93,7 @@ Suppose a prediction is made at 10:00. A sensor measurement taken at 09:59 but r
 
 Here, `cutoff` is the deadline for input information and `horizon` is the future period to predict. State both boundaries together, for example: `Use information available by 10:00 to predict failure within the following 7 days.` An answer arriving later can be joined as the training outcome, but must be excluded when reconstructing the inputs available at that time.
 
-## A Small Diagram
+## Separating Available Inputs from Later Outcomes at Prediction Time {#a-small-diagram}
 
 The input/result contract does not end with `separate the columns`. It must also settle in the order below so that only values available at prediction time remain.
 

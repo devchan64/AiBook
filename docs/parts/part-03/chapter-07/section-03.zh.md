@@ -38,11 +38,17 @@
 
 这一节与其从“基准线”的词典定义来理解，不如更准确地把它读成：为了读出变化，应该放入什么样的 `参考测量(reference measurement)`。因此，基准线应该被读成一种 `用于状态比较的参考测量`，并与模型评估术语分开。
 
-## 用一个小图来看
+## 区分数据基准线与基准模型的作用 {#_3}
 
 这一节的核心是：`平时结构` 和 `当前状态` 不能各自孤立地看。只有放进一条 `基准线` 之后，差异才会开始变得可读。基准线不是替代绝对值，而是读取状态变化时用到的参考线。
 
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
+
 --8<-- "assets/part-03/chapter-07/p3-7-3-mermaid-01-zh.mmd"
+
+</div>
+</div>
 
 ## 检查清单
 

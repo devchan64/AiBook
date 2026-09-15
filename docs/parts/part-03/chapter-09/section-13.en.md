@@ -25,7 +25,7 @@ At the stage of sorting out the current problem type, it is enough if boundaries
 - Has information from after the result leaked into the input?
 - Is the actual target more similar to ranking or a continuous value than to 0/1 classification?
 
-## A Small Diagram
+## Checking Time, Entity, and Information Boundaries Before Handoff {#a-small-diagram}
 
 For this last check, the more important thing is not memorizing the item names, but wrapping up the current problem structure in a sensible order.
 

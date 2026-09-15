@@ -24,7 +24,7 @@ NIST's EWMA control chart describes a monitoring statistic that weights recent o
 
 A fixed baseline can track long-term change; a recent-usual baseline can detect departures from the recent state. Placing both differences side by side in the same report separates their comparison purposes.
 
-## A Small Diagram
+## Fixed and Updating References for Different Comparison Goals {#a-small-diagram}
 
 The key point in this section is not the baseline form by itself, but which maintenance method is made more natural by the `comparison question`. Fixed baselines and recent-usual baselines support different questions better, and the meaning of the comparison sentence changes with that choice.
 

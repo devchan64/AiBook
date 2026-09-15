@@ -58,11 +58,17 @@ Before complicated missing-value imputation techniques, it is more important to 
 
 So the concern here is more similar to `how should we classify the current state of this sample?` than to `how should we fill it?` The usual order of judgment is `whether to keep the sample -> what features must not be built -> whether the missingness itself should remain as a flag column`.
 
-## Looking Through a Small Diagram
+## Choosing Sample Handling by Missingness Location {#looking-through-a-small-diagram}
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-en.mmd"
 ```
+
+</div>
+</div>
 
 This diagram shows that we do not treat `being empty` as one single state. The judgment branches according to the location of the missingness and the state of the sample boundary. So the example in this section aims less to reveal values themselves and more to reveal first the judgment structure that branches into `keep`, `exclude features`, and `structural collapse`.
 
@@ -82,7 +88,7 @@ So in Part 3, it is also worth checking whether flag columns such as `missing_se
 
 Once this judgment is made first, we stop mixing together `values that can be filled` and `missingness that has already broken the sample structure`. The key point comes before the name of any processing technique: first separate whether the current sample is still the same comparison unit and whether the missingness itself should remain as structural information.
 
-## Small Code Example
+## Deciding Sample Retention by Missingness Location {#small-code-example}
 
 Problem situation: check that not all samples with missing values are in the same state; some only require avoiding certain features, while others have their sample structure itself broken.
 
@@ -216,7 +222,7 @@ The fact that values are missing is not only a [preprocessing](/AiBook/en/refere
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example assumes the same unit where features and labels attach, it supports the point that when missingness shakes the sample boundary, we should check first whether the sample is still the same comparison unit before filling values. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Sample-retention decisions based on missingness location are design criteria applied in this section. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because feature engineering is the process of turning raw data into a form more useful for learning and comparison, it reinforces the judgment in this section that features whose meaning is broken by segment missingness should not be built. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, `PROV-Overview`. Because the provenance framework says derivation and processing steps should remain explainable, it provides the higher-level frame that the location of missingness and whether sample structure has collapsed should remain as separate information so that quality and reproducibility can be judged again later. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - scikit-learn developers, `Imputation of missing values`. Because it explains that dropping rows or columns with missing values can lose valuable data and that `MissingIndicator` can preserve information about which values were missing, it supports this section's explanation that we should first decide whether missingness itself should remain as a flag column. [https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

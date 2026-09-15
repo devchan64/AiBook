@@ -57,7 +57,7 @@ The comparison below shows a confusion that appears especially often in Part 3.
 
 The important point here is not that a `good question` must always be short. It is that it must contain the clues required for the design that follows.
 
-## A small diagram
+## Making the Question Concrete with Samples, Comparisons, and Outputs {#a-small-diagram}
 
 The same scene can lead into a completely different Part 3 flow depending on how the question is written.
 

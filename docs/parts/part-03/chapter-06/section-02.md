@@ -249,7 +249,7 @@ event_id           token_sequence  token_similarity
 
 이 절은 특정 토큰 규칙 소개가 아니라, `원시 구조와 요약 특징 사이에 어떤 중간 표현을 둘 것인가(intermediate representation between raw structure and summarized features)`의 문제로 다시 볼 수 있습니다.
 
-## 작은 도식으로 보기
+## 구간별 수치 요약을 토큰 시퀀스로 바꾸기 {#_1}
 
 이 절의 핵심은 원시 곡선을 바로 버리거나 바로 숫자 몇 개로 닫지 않는 데 있습니다. 곡선을 구간으로 나누고, 수치 요약을 거쳐 토큰 시퀀스로 바꾸면 `중간 표현`이라는 한 층위가 생깁니다.
 

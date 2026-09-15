@@ -53,11 +53,17 @@ alert 是最轻的一层。只要看见了与基线不同的变化，就可以�
 
 这三种输出并不是每个项目都必须依次通过的等级。如果一个问题已经持续收集到一致的结果标签，就可以不先运行比较报告或复核队列，直接设计监督学习。另外，预测标签也不等于证明原因。这里要区分的是：当前案例具备支持哪种输出的依据。
 
-## 用一个小图来看
+## 比较报告、复核队列与预测问题的边界 {#_1}
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-1-mermaid-01-zh.mmd"
 ```
+
+</div>
+</div>
 
 这张图说明，把问题往上提，并不是`无条件上升一层`，而是一个要问当前证据到底到了哪一层的分支判断。它不是在列标签名称，而是在一层层判断：是停在`alert`，还是走到`review candidate`，还是再提升成`label prediction`。关键在于：`alert 是变化信号，review candidate 是复核优先级，而 label prediction 是比它们都更强的问题设定。` 现在的问题能提升到哪一层，判断标准不应该是`是不是更高级`，而应是`当前数据究竟诚实地支撑到哪里`。
 

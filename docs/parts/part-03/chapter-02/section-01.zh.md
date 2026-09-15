@@ -39,13 +39,19 @@
 | 存储结构 | `timestamp`, `sensor_name`, `value` | 一个时间点记录 |
 | 问题表达结构 | `event_id`, `mid_flow_mean`, `late_drop_rate` | 一次动作的摘要 |
 
-## 用一个小图来看
+## 从保存记录到按问题重组 {#_1}
 
 如下图区分`保存记录`与`按照问题重新分组`，就更容易理解为什么存储记录可能还需要按问题重新组织。
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-02/p3-2-1-mermaid-01-zh.mmd"
 ```
+
+</div>
+</div>
 
 问题情境：确认同一份源记录，在存储结构里是按时间点逐行保存，在数据集候选里则被重新组织成按动作汇总的摘要表。
 

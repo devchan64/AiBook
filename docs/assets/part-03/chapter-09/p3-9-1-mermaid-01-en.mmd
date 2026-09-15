@@ -1,9 +1,8 @@
 flowchart TD
-    A[Current data state]
-    A --> B{Only comparison signal?}
-    B -->|Yes| C[Stop at alert]
-    B -->|No| D{Signal + review rules?}
-    D -->|Yes| E[Stop at review candidate]
-    D -->|No| F{Stable target labels + evaluation setup?}
-    F -->|Yes| G[Move to label prediction]
-    F -->|No| E
+    A{Which output does the current question require?}
+    A -->|Explain changes| B[Check comparison evidence and create a report]
+    A -->|Order reviews| C[Define review rules and capacity to create a queue]
+    A -->|Predict labels| D{Are target labels and evaluation design ready?}
+    D -->|Yes| E[Design the prediction problem]
+    D -->|No| F[Identify missing label and evaluation requirements]
+    F --> G[Reconsider outputs supported by current evidence]

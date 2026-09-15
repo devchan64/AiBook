@@ -519,3 +519,17 @@
     padding: 0.25rem 0.6rem;
   }
 }
+
+/* Keep branching diagrams readable on narrow screens. */
+.md-typeset .aibook-diagram-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.md-typeset .aibook-diagram-canvas {
+  min-width: 48rem;
+}
+.md-typeset .aibook-diagram-scroll:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}

@@ -50,7 +50,7 @@ Here the mismatch of the sample unit becomes clearer if we divide the `misattach
 
 So the sample unit is not a decision needed only in one section of Part 3. It is the floor structure on which feature engineering, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and even the interpretation of the prediction input structure all depend.
 
-## A Small Diagram
+## How Sample Units Affect Features, Labels, and Evaluation {#a-small-diagram}
 
 The core point of the previous discussion is simple. When the sample unit drifts, feature, label, split, evaluation, and operational interpretation do not drift separately. They all lose the same reference point together.
 
@@ -265,7 +265,7 @@ So when the sample unit drifts, the problem should not be read as a simple notat
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example requires features and label to be aligned on the same unit, it provides the basis for the claim that if the sample unit drifts, the meaning of both feature and label drifts together. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Provides terminology for checking feature and label alignment when the sample changes. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw in which a feature becomes a proxy for the label, it strengthens the warning that structural errors can arise when row-level features and event-level labels are mixed on the wrong unit. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`. Because it explains that, for grouped data, dependent samples from the same group should not appear in both the training and validation folds, it directly strengthens this section's split/evaluation warning that nearby rows from the same action can be mixed into training and evaluation if time-point rows are treated as samples. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, `PROV-Overview`. Because the provenance framework explains that it should support reproducibility and derivation, it strengthens the higher-level frame that split and evaluation can keep the same criterion only when the unit at which features and labels were made is recorded reproducibly. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

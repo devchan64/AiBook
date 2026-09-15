@@ -43,7 +43,7 @@ For example, even after seeing only part of the source data below, the learning-
 
 This table can quickly suggest phrases such as `classification problem`, `prediction problem`, or `time-series learning problem`. One row is a record at one time point. What remains undecided is whether to use that row as a sample or group rows by action, and which outcome to predict. Choosing a learning formulation immediately would therefore put the form of the problem ahead of the problem itself.
 
-## A Small Diagram
+## Decisions Between Source Records and a Learning Problem {#a-small-diagram}
 
 It becomes clearer which questions stay empty when source data is escalated too early into a learning problem if the flow is reread as `source records -> empty questions -> sample/label candidate cleanup`.
 

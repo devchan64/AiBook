@@ -53,11 +53,17 @@ Prediction is therefore not the starting point. It becomes worth considering onl
 
 These three outputs are not mandatory grades that every project must pass through in order. A problem with consistently collected outcome labels can be designed for supervised learning without first running comparison reports or review queues. Predicting a label also does not prove a cause. Here, the purpose is to distinguish which outputs the current example has enough evidence to support.
 
-## A Small Diagram
+## Boundaries Between Comparison Reports, Review Queues, and Prediction Problems {#a-small-diagram}
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-1-mermaid-01-en.mmd"
 ```
+
+</div>
+</div>
 
 This diagram shows that the judgment of raising a problem upward is not `always move one stage higher`, but a branch that asks what level of evidence currently exists. It is not about listing label names, but about separating, step by step, whether to stop at `alert`, whether to go to `review candidate`, or whether to raise it to `label prediction`. The key is that `an alert is a change signal, a review candidate is review prioritization, and label prediction is a stronger problem setup than both`. How far the current problem should be raised must be judged not by `is it more advanced`, but by `how far does the current data honestly support`.
 

@@ -1,11 +1,8 @@
 ```mermaid
 flowchart TD
-    U[Usual structure]
-    C[Current or recent state]
-    B[Baseline]
-    D[Difference becomes readable]
-
-    U --> B
-    C --> B
-    B --> D
+    U[Usual structure chosen as reference] --> B[Data baseline]
+    B --> D[Difference between current state and reference]
+    C[Current or recent state] --> D
+    M[Baseline model] --> E[Compare new-model and baseline-model performance]
+    N[New model] --> E
 ```

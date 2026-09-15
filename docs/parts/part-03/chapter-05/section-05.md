@@ -58,11 +58,17 @@
 
 이 판단도 표 안에 남아야 합니다. `keep_sample`, `missing_scope`, `avoid_features`, `missing_indicator`, `raw_log_recheck_needed` 같은 열을 두면 빈칸을 어떤 정책으로 처리했는지 다시 볼 수 있습니다. 특히 샘플을 유지하되 특정 특징만 만들지 않기로 했다면, 그 이유가 `late_segment_missing`인지 `end_detected=0`인지 같이 남겨야 뒤에서 결측 처리가 단순 전처리인지 샘플 경계 문제인지 구분할 수 있습니다.
 
-## 작은 도식으로 보기
+## 결측 위치에 따라 샘플 처리 나누기 {#_5}
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="도식: 좌우로 스크롤하여 확인" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-ko.mmd"
 ```
+
+</div>
+</div>
 
 이 도식은 `비어 있음`을 하나의 상태로 보지 않고, 누락 위치와 샘플 경계 상태에 따라 판단이 갈라진다는 점을 보여 줍니다. 즉 이 절의 예시는 값 자체보다 `유지`, `특징 제외`, `구조 붕괴`로 나뉘는 판단 구조를 먼저 드러내는 데 있습니다.
 
@@ -82,7 +88,7 @@
 
 이 판단을 먼저 해 두면 `채울 수 있는 값`과 `샘플 구조를 이미 무너뜨린 누락`을 섞지 않게 됩니다. 핵심은 처리 기법 이름보다 먼저, 현재 샘플이 아직 같은 비교 단위인지와 빠짐 자체를 구조 정보로 남길지 구분하는 데 있습니다.
 
-## 작은 코드 예시
+## 결측 위치별로 샘플 유지 여부 판단하기 {#_7}
 
 문제 상황: 값이 비어 있는 샘플이 모두 같은 상태가 아니라, 일부 특징만 피하면 되는 경우와 샘플 구조 자체가 무너진 경우가 갈린다는 점을 확인합니다.
 
@@ -216,7 +222,7 @@ avoid=none: 12
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 같은 단위를 전제로 하므로, 결측이 샘플 경계를 흔들 때는 값을 채우기 전에 그 샘플이 아직 같은 비교 단위인지 먼저 확인해야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 결측 위치에 따른 샘플 유지 판단은 이 절의 사례에 적용한 설계 기준입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering은 원시 데이터를 학습과 비교에 더 유용한 형태로 바꾸는 과정이므로, 구간 누락 때문에 뜻이 깨진 특징은 만들지 말아야 한다는 이 절의 판단을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - W3C, `PROV-Overview`. provenance framework가 derivation과 processing steps를 설명 가능하게 남겨야 한다고 정리하므로, 누락 위치와 샘플 구조 붕괴 여부를 별도 정보로 남겨야 나중에 품질과 재현성을 다시 판단할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - scikit-learn developers, `Imputation of missing values`. 결측값이 있는 행이나 열을 버릴 수 있지만 가치 있는 데이터 손실이 생길 수 있고, `MissingIndicator`로 결측 여부를 이진 행렬로 표시할 수 있으며 결측이 있었던 정보를 보존하는 일이 유용할 수 있다고 설명하므로, 빠짐 자체를 표시 열로 남길지 먼저 판단해야 한다는 이 절의 설명을 보강합니다. [https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

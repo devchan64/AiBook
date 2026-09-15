@@ -75,7 +75,7 @@ This distinction is needed because later concepts attach at different levels.
 
 For example, a feature such as `late_drop_rate` does not attach directly to one time-point row. It can only be calculated after one full action has been constructed as the sample. By contrast, a value such as `recent_count=20` is closer not to an individual-sample feature, but to a recent-segment aggregate. That is why, once these levels are mixed together, features, baselines, and [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) all begin to feel abstract.
 
-## Small Code Example for Seeing the Comparison at a Glance
+## Comparing Time-Point, Action, and Period Aggregations {#small-code-example-for-seeing-the-comparison-at-a-glance}
 
 Problem situation: check, through row count and output structure, that `one row`, `one sample`, and `one recent segment` are different levels in the same source log.
 
@@ -185,7 +185,7 @@ These three questions each play the role of separating `row`, `sample`, and `seg
 
 This section is not a terminology table, but something that can be reread as the problem of reading `levels of representation` at the same time.
 
-## A Small Diagram
+## Grouping Time-Point Records into Actions and Periods {#a-small-diagram}
 
 Reduced to the shortest form, the earlier explanation says that `one row -> one sample -> one segment` is a shift across levels where the same data is reread into larger comparison units. Each level answers a different question, so they should not be mixed as if they were the same unit.
 
@@ -202,4 +202,4 @@ So `one row`, `one sample`, and `one recent segment` should not be read as three
 
 - W3C, `PROV-Overview`. Because the provenance framework explains that it should support identifying an object and representing derivation, it provides a general basis for recording row-level records, event-level samples, and window-level aggregates as distinct representation levels. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used for comparison with another period, it strengthens the point that aggregate-level representations such as a recent segment and a baseline segment live at a comparison level different from a sample-level representation. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes sample-level structure, it supports the point that row-level records and window-level aggregates should not be read as if they were sample-level examples. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Time-point records and period aggregates can also be samples; choosing one action is this section’s case setting. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15

@@ -115,6 +115,6 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 是特征和标签一起定义的单位，所以它支持这一节的核心：在把原始时间序列叫做输入之前，应该先固定一条输入的起点、终点和长度标准。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 窗口起点、终点与长度规则是针对本节时间序列案例作出的设计判断。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - W3C, `PROV-Overview`. provenance framework 说明对象识别、派生关系和可复现性应得到支持，因此它强化了一个更高层的框架：输入窗口和对齐标准背后的规则，也应当被可复现地记录下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 它提供了“用于比较的参考时段”这一一般概念，因此支持这一节的判断：究竟由绝对时间还是由进度来充当比较标准，应该先由问题来决定。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

@@ -198,5 +198,5 @@ recent   events=3 early=1.00 mid=2.55 late=1.85
 ## 来源与参考资料
 
 - W3C, `PROV-Overview`. provenance framework 说明处理步骤、可复现性、版本和派生关系都应可表示，因此它为“原始日志是如何经过处理变成汇总表和聚合表”的分层记录提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary` 中的 `example` 和 `labeled example`。因为 example 预设的是特征和标签附着在样本层结构上，所以它强化了区分原始行与动作汇总行，并构建样本层表结构的必要性。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 将时点记录汇总为动作表的规则是本节自行设计的例子。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - U.S. Bureau of Labor Statistics, `Base period`. 它把基准时段说明为比较其他时段的参考，因此为“比较近期状态和基准线状态时，需要像聚合表这样的独立表示层”提供了一般依据。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

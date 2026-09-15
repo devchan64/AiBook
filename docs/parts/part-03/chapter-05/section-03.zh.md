@@ -84,7 +84,7 @@
 
 也就是说，正确顺序不是 `有原始时间序列 -> 它立刻就是学习输入`，而是 `有原始时间序列 -> 先决定要把它变成什么输入结构`。
 
-## 用一个小图来看
+## 从样本边界与学习目标到输入结构 {#_5}
 
 本节的决策顺序不会停在`已经有原始时间序列`这里。选择`输入结构`，还需要确定样本边界、区段与长度规则以及学习目标。
 
@@ -99,7 +99,7 @@
 
 ## 来源与参考资料
 
-- Google for Developers，`Machine Learning Glossary` 的 `labeled example`。监督学习中的有标签样本同时定义特征与标签，说明在把原始时间序列视为输入之前，应先确定样本边界和结果列。[https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" } / 确认日期：2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 用于样本与学习目标的术语说明，并不要求每个输入都带有答案标签。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - Google for Developers，`Machine Learning Glossary` 的 `label leakage`。其中解释了特征成为标签代理的设计缺陷，支持以下判断：若未先定义输入和目标结构，就可能把不应使用的部分时间序列直接送入模型。[https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" } / 确认日期：2026-07-20
 - W3C，`PROV-Overview`。其来源追踪框架涵盖对象识别、派生过程和可复现性，为可复现地记录输入长度、区段规则及其形成的结构提供了框架。[https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){ target="_blank" rel="noopener noreferrer" } / 确认日期：2026-07-20
 

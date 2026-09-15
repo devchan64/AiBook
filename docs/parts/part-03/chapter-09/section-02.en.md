@@ -49,7 +49,7 @@ The difference between comparison reports and prediction problems becomes cleare
 | B | -0.08 | low | 0 | none |
 | C | -0.31 | high | 1 | none |
 
-## A Small Diagram
+## Choosing Outputs That Match the Comparison Evidence {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-2-mermaid-01-en.mmd"

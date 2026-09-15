@@ -75,7 +75,7 @@
 
 例如，像 `late_drop_rate` 这样的特征，并不会直接贴在单个时点行上。它只能在先把一次完整动作构造成样本之后才能算出来。反过来，像 `recent_count=20` 这样的值就不是单条样本特征，而更像近期区段聚合。所以，只要把这些层级混着读，特征、基准线和[输出结构(output structure)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)就都会变得抽象。
 
-## 一眼看懂的代码小例子
+## 比较时点、动作与区间的汇总结果 {#_3}
 
 问题情境：通过行数和输出结构确认 `一行`、`一个样本`、`一个近期区段` 在同一份原始日志里属于不同层级。
 
@@ -185,7 +185,7 @@ window count: 2
 
 这一节并不是一个术语对照表，而可以重新读成：它在处理的是如何同时阅读 `表达层级(levels of representation)` 的问题。
 
-## 用一个小图来看
+## 将时点记录汇总为动作与区间 {#_5}
 
 把前面的说明压到最短，就是 `一行 -> 一个样本 -> 一个区段` 代表同一份数据被一步步读成更大的比较单位。每个层级回答的问题不同，所以不能把它们混成同一个单位来读。
 
@@ -202,4 +202,4 @@ window count: 2
 
 - W3C, `PROV-Overview`. provenance framework 说明它应支持 identifying an object 和 representing derivation，因此为把行级记录、事件级样本、窗口级聚合作为不同表达层级分别记录下来提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时期是拿来和其他时期比较的 reference，因此强化了这一点：像近期区段和基准区段这类聚合层级表达，属于和样本层级不同的比较层级。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 预设的是样本层级结构，所以它支持这样一点：不应该把行级记录和窗口级聚合读成样本层级 example。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 时点记录与区间汇总也可作为样本；选择单次动作是本节案例的设定。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15

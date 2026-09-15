@@ -232,7 +232,7 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 
 The key point in this example is that even while looking at the same source event, `first_event`, `worst_event`, `event_count`, `event_sequence`, and `any_failure` can become different result columns. For S01, the first follow-up event is `review`, but the most severe event is `failure`. For S02, the first event is `review`, but the most severe event is `warning`. Samples like S30 have no follow-up events, but they still exist in the sample roster, so they are folded as `none` and 0 and remain in the final table. The values to manipulate here are `selected_failure_severity_cutoff` and `failure_severity_cutoffs`. With the threshold at 4, only S01, S07, S13, S19, and S25, which have `failure`, become failure candidates. If the threshold is lowered to 3, samples whose worst event is `warning` also enter the failure-candidate set. If it is lowered to 2, samples whose worst event is `review` or `inspection` are included too. In other words, unless the folding rule and threshold are written down, the same follow-up event log can be read with different [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) meanings from table to table.
 
-## A Small Diagram
+## Combining Follow-Up Events into Sample-Level Outcomes {#a-small-diagram}
 
 This section compresses one point: `several follow-up events` do not automatically become one result column. The same event list turns into different representative result columns depending on whether it is folded by `any`, `first`, `worst`, or `count`.
 

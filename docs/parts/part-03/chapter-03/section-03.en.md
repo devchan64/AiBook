@@ -59,7 +59,7 @@ For example, the following is already enough.
 
 Even just this much already gives the outline of what table structure the question requires.
 
-## A Small Diagram
+## Turning a Question into Identifier, Descriptive, and Outcome Columns {#a-small-diagram}
 
 Problem situation: confirm that when the question changes, the column groups of the first table draft also change with it.
 
@@ -84,6 +84,6 @@ Once the question has first been moved into role-based column groups, later sect
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes feature and label structure, it provides a basis for the claim that even in the first table draft, the roles of identification, description, and result should already be separated. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Used to distinguish input and outcome columns in a draft table. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it strengthens the point that the role of result columns and descriptive columns should be separated already at the draft stage. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used to compare with another time period, it provides a general basis for why a draft should include separate comparison-role columns such as baseline differences. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

@@ -180,7 +180,7 @@ Standardization in this example rescales each column using the training set's me
 
 So a feature table should be understood not as a competition chart of raw magnitudes, but as a structure where different measurement axes are placed side by side and read according to their roles.
 
-## A Small Diagram
+## Comparing Features After Checking Units and Scales {#a-small-diagram}
 
 The sequence in this section is that even when different units and scales sit in one table, we should read them by column role and compare each one against its own baseline. Before raw magnitude, the first question is `what does this column measure?`
 

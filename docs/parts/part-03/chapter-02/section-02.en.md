@@ -40,13 +40,13 @@ The table below shows more concretely how the four elements connect inside one r
 | A | 0.74 | -0.32 | 0.92 | -0.05 | -0.27 | `needs review` |
 | B | 0.89 | -0.08 | 0.92 | -0.05 | -0.03 | `normal range` |
 
-Here, flow is in L/min and the late decline rate is the flow change per second between the final two measurements. We calculate `baseline_gap = late_drop_rate−baseline_late_drop_rate`. The fictional rule flags a case for review when `baseline_gap < −0.20`. In this example, `normal range` only means the rule did not trigger; it is not a confirmed label establishing the absence of a failure or its cause.
+Here, flow is in L/min and the late decline rate is the flow change per second between the final two measurements. We calculate `baseline_gap = late_drop_rate−baseline_late_drop_rate`. The fictional rule flags a case for review when `baseline_gap <= −0.20`. In this example, `normal range` only means the rule did not trigger; it is not a confirmed label establishing the absence of a failure or its cause. The boundary value −0.20 is included. Of −0.21, −0.20, and −0.19, only the first two trigger the rule.
 
 The order for reading this table proceeds naturally from left to right. `sample_id` fixes what was counted as one sample. `mean_flow` and `late_drop_rate` are features that describe that sample. `baseline_mean_flow` and `baseline_late_drop_rate` are the usual baseline. `baseline_gap` records the comparison result, showing how much more the late-stage drop rate of the current sample fell relative to the baseline. And if that comparison result is large enough, the `output` column creates an operational judgment such as `needs review`.
 
 In other words, an output such as `needs review` is not a phrase that gets attached suddenly at the far end of the table. The earlier columns must already have organized `what is being compared` and `what differs from the usual state`, or the final output column cannot be explained either. For that reason, sample, feature, baseline, and output structure are not independent lists even when they live in the same table. They are one design flow that runs from front to back.
 
-## A Small Diagram
+## Connecting Samples, Features, Baselines, and Outputs {#a-small-diagram}
 
 The four structures inside a dataset candidate can be read in one pass when they are compressed into the sequence `sample -> feature -> baseline comparison -> output structure`.
 

@@ -245,7 +245,7 @@ So a feature is not chosen from `a list of column candidates`. It is the act of 
 
 This section can be read not as an introduction to a list of features, but as the problem of what question should guide `the numeric representation of structure`.
 
-## A Small Diagram
+## Retaining Features for the Comparison Question {#a-small-diagram}
 
 The flow of this section is to decide `the structure to compare` first, convert that structure into expressions such as average, difference, slope, and variability, and then choose which features should actually remain. A feature is not the act of growing columns, but the process of rewriting structure into numerical form.
 

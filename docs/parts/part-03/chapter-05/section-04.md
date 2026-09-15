@@ -115,6 +115,6 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 함께 정의되는 단위이므로, 원시 시계열을 곧바로 입력이라고 부르기 전에 한 입력의 시작점, 끝점, 길이 기준을 먼저 닫아야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 입력 창의 시작·끝·길이 규칙은 이 절의 시계열 사례에 맞춘 설계 판단입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - W3C, `PROV-Overview`. provenance framework가 identifying an object, derivation, reproducibility를 지원해야 한다고 정리하므로, 입력 창과 정렬 기준이 어떤 규칙으로 만들어졌는지 재현 가능하게 남겨야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 reference period라는 일반 개념을 제공하므로, 절대 시간 기준과 진행률 기준 가운데 무엇을 비교 기준으로 삼을지 질문이 먼저 결정한다는 이 절의 판단을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

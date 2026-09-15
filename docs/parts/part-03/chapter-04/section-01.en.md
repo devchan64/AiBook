@@ -68,7 +68,7 @@ So in practice, `which unit should be chosen first as the sample?` can be decide
 
 So what should count as one sample is not decided from the shape of the table alone. It has to be decided first according to whether the current question is `time-point comparison`, `action comparison`, or `segment comparison`. In the example of this section, the question is `comparing the pattern of the whole action`, so one full action becomes the most natural sample unit.
 
-## A Small Diagram
+## Defining Sample Boundaries for the Question {#a-small-diagram}
 
 Compressed into one line, the earlier judgment says that we must choose `the question to answer now` first and then choose the unit that matches that question as the sample. In this section, the question is `was this action unusual?`, so `one full action` leads most naturally to the comparable sample.
 

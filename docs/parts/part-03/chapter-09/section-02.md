@@ -49,7 +49,7 @@
 | B | -0.08 | low | 0 | 없음 |
 | C | -0.31 | high | 1 | 없음 |
 
-## 작은 도식으로 보기
+## 비교 근거에 맞는 산출물 선택하기 {#_1}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-2-mermaid-01-ko.mmd"

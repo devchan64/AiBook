@@ -232,7 +232,7 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 
 这个例子的关键在于：即使看的是同一个源事件，`first_event`、`worst_event`、`event_count`、`event_sequence`、`any_failure` 也可能被生成成不同的结果列。S01 的第一个后续事件是 `review`，但最严重的事件是 `failure`；S02 的第一个事件是 `review`，但最严重的事件是 `warning`。像 S30 这样没有后续事件的样本，也仍然在样本名册里，所以会被折叠成 `none` 和 0，并保留在最终表中。这里可以操作的值是 `selected_failure_severity_cutoff` 和 `failure_severity_cutoffs`。阈值为 4 时，只有带有 `failure` 的 S01、S07、S13、S19、S25 成为失败候选；如果阈值降到 3，最严重事件为 `warning` 的样本也会进入失败候选；如果降到 2，最严重事件为 `review` 或 `inspection` 的样本也会被包括进来。也就是说，如果不写清折叠规则和阈值，同一份后续事件日志在不同表里就会被读成不同[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)含义。
 
-## 用一个小图来看
+## 将多个后续事件汇总为样本级结果 {#_1}
 
 这一节压缩的是一点：`多个后续事件` 并不会自动变成同一个结果列。同一组事件，按 `any`、`first`、`worst`、`count` 里的不同规则折叠后，会得到不同的代表结果列。
 

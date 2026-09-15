@@ -37,13 +37,19 @@ Assume fictional events A, B, and C all start at 10:00 on September 1 and the ta
 
 Once a failure within the period is confirmed, C can be assigned 1 without waiting the full seven days. A has not been observed long enough to conclude that no failure occurred. B is 0 only with evidence of complete follow-up, not simply because the date has passed. Record the failure's occurrence date and the date of system confirmation separately.
 
-## A Small Diagram
+## Checking Outcome Confirmation and Observation Completion Separately {#a-small-diagram}
 
 If the tables still leave `not yet confirmed` and `0 after sufficient follow-up` feeling too settle together, read the flow below once more.
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-10-mermaid-01-en.mmd"
 ```
+
+</div>
+</div>
 
 So what matters here is not `a technique for splitting 0 and 1 more finely`, but a distinction in observation completeness that keeps not-yet-confirmed labels from being mixed with sufficiently observed negatives under the same value. This section treats `delay in result confirmation`, `incomplete observation period`, and `state note` separately, so that whether a label is confirmed becomes a data-modeling condition in itself.
 

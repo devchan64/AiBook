@@ -55,7 +55,7 @@ _副标题: 解读句子如何变成 warning 列和 review queue 标准？_
 
 所以，句子负责整理强度，但在变成真正的运营列和策略之前，还需要再做一次结构化。
 
-## 先看比较表
+## 比较解释句与运行列的作用 {#_4}
 
 | window_id | diff | event_count | repeatability | conservative_sentence |
 | --- | ---: | ---: | --- | --- |
@@ -73,7 +73,7 @@ _副标题: 解读句子如何变成 warning 列和 review queue 标准？_
 
 之所以这两张表都需要，是因为第一张表留下了`为什么做出这个判断`，而第二张表留下了`运营里可以再次使用的格式`。
 
-## 用一个小图来看
+## 从解释句到警告列与复核队列 {#_5}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-4-mermaid-01-zh.mmd"

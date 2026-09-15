@@ -176,7 +176,7 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 这个例子的目的，并不主要是计算窗口数，而是确认 `窗口数会把真实事件数膨胀成什么样子`。这里可以操作的值是 `stride_to_try`。如果把 `10` 改成 `20`，窗口数和扩展比例会下降；如果改成更小的值，同一批源事件会产生更多输入片段。但 `source_event` 数仍然是 36 个。因此，重叠输入窗口可能只是同一个事件被切着看了很多次，不能把窗口数直接当作事件数来读。像第 4 步那样按线路和运行模式重新分组后也可以看到：每个条件下的源事件数都是 6 个，但派生出的 window 数会随着长度和窗口设置而不同程度地膨胀。
 
-## 用一个小图来看
+## 区分输入窗口数与源事件数 {#_1}
 
 这一节的核心，是把 `窗口数变大了` 和 `源事件数增加了` 分开来看。即使从同样 2 个事件里切出很多重叠窗口，输入片段数会变大，但事件数本身并不会跟着变。
 
@@ -189,7 +189,7 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 预设的是特征和标签附着的单位，所以它支持这一节的判断：即使生成了很多输入窗口，也不意味着源事件数本身自动增加了。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 将重叠窗口数与源事件数分开统计，是本节案例展示的区别。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - W3C, `PROV-Overview`. provenance framework 说明应能追踪某个实体是通过什么派生过程生成的，因此它提供了一个更高层的框架：每个输入窗口都应与它来自哪个源事件分开保留，才能避免把窗口数和事件数混淆。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - Google for Developers, `Datasets: Dividing the original dataset`. 它提供了一般视角：训练样本应与源数据及其生成规则区分开来。因此，它也有助于推广这一节的说明：即使窗口大量重叠，也应把源事件单位和输入片段单位分开写明。 [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`. 该文档说明，同一源过程产生的依赖样本可能破坏独立同分布假设；在 grouped data 中，也应避免同一组的样本同时出现在训练 fold 和验证 fold 中。因此，它强化了这一节的提醒：重叠输入窗口可能只是来自同一事件的依赖片段，而不是新的真实事件。 [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

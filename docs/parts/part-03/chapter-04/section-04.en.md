@@ -57,7 +57,7 @@ When the sample unit is misaligned, the reporting sentence also becomes strange.
 
 In other words, if the sentence we keep trying to write is talking about an object larger than `one row`, then the sample unit should be suspected again.
 
-## Small Code Example
+## When Row-Level Aggregation Inflates Warning Counts {#small-code-example}
 
 Problem situation: when the same label repeats in a time-point table and action-level features appear only after regrouping, check how to read those as warning signs of a wrongly chosen sample unit.
 
@@ -202,7 +202,7 @@ In practice, the direction becomes much clearer simply by writing down the follo
 
 If any of these four questions reveals a mismatch with the current analysis purpose, revisit the sample unit before constructing more features.
 
-## A Small Diagram
+## Tracing Repeated Labels and Comparison Errors Back to Sample Units {#a-small-diagram}
 
 The warning signs in this section are not independent checklist items. Repeated labels, features that cannot be explained on one row, awkward comparison sentences, and bad splits all converge on the same direction: recheck the sample unit.
 

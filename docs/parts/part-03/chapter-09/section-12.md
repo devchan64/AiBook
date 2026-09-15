@@ -88,7 +88,7 @@ for threshold in thresholds:
 
 threshold가 낮으면 검토 큐는 커지지만 위험 사례를 놓치지 않습니다. threshold가 높으면 검토 큐는 작아지지만 놓침이 늘어 총비용이 커집니다. 이 예제에서 바꿔 볼 값은 `miss_cost`, `false_alarm_cost`, `thresholds`입니다. 과검출 비용을 크게 두면 다른 threshold가 더 자연스러워질 수 있습니다. 따라서 target 이름이 같아도 오류 비용을 먼저 적어야 score와 threshold를 같은 방향으로 해석할 수 있습니다.
 
-## 작은 도식으로 보기
+## 오류 비용을 판단 규칙에 반영하기 {#_1}
 
 같은 점수라도 어떤 오류를 더 줄이려는지에 따라 검토 큐가 어떻게 갈리는지 아래 순서로 다시 읽을 수 있습니다.
 

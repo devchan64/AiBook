@@ -50,7 +50,7 @@
 
 所以，样本单位并不是只在 Part 3 某一节里才需要做的决定。它是 feature engineering、[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较、[review queue](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)，甚至后续预测输入结构解释都一起依赖的底层结构。
 
-## 用一个小图来看
+## 样本单位对特征、标签与评估的影响 {#_1}
 
 前面那几段的核心其实只有一个。样本单位一旦摇摆，feature、label、split、evaluation 和运营解释并不是各自单独跑偏，而是会一起失去同一个基准点。
 
@@ -265,7 +265,7 @@ event split predictions: [('E', 0, 1), ('E', 0, 1), ('E', 0, 1), ('F', 0, 0), ('
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 要求 features 和 label 对齐在同一个单位上，所以它为这个判断提供依据：样本单位一旦摇摆，feature 和 label 的含义也会一起摇摆。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 为样本变化时检查特征与标签的对应关系提供术语依据。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明 feature 成为 label proxy 的设计缺陷，因此强化了这个警告：如果在错误单位上混用行级 feature 和动作级 label，就会产生结构性错误。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`。它说明在 grouped data 中，同一组里的相互依赖样本不应同时出现在训练 fold 和验证 fold，因此直接强化了本节关于分割/评估的警告：如果把时点行当作样本，同一动作中的相邻行可能会混进训练和评估。 [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - W3C, `PROV-Overview`. provenance framework 说明它应支持 reproducibility 和 derivation，因此强化了这个上位框架：只有可复现地记录“特征和标签是在什么单位上做出来的”，split 和 evaluation 才可能维持同一套标准。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

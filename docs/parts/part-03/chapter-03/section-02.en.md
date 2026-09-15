@@ -68,7 +68,7 @@ Even with the same source time series, once the question changes, the draft tabl
 
 The key point is not that the source data changes three times, but that depending on which question is used to read the same records, `what one row means`, `which columns remain`, and `what output is needed immediately` all change. To compare one action, we first need a table grouped by `event_id`. To compare recent segments, a structure that places the `recent bundle` and the `baseline bundle` side by side is needed earlier than an action-level table. By contrast, once later learning candidates are being considered, a table that separates input columns from result candidates matters more than a comparison-report sentence.
 
-## A Small Diagram
+## How Questions Change Samples and Tables {#a-small-diagram}
 
 The fact that a changed question also changes the first table to build can be compressed into the redesign flow below.
 

@@ -58,7 +58,7 @@ In the previous section, conservative sentences were written in the order `compa
 
 So a priority candidate does not discard the explanation. It is the result of compressing the sentence again into `judgment axes`.
 
-## Looking at the Comparison Table First
+## Comparing Priority by Differences, Repetition, and Cost {#looking-at-the-comparison-table-first}
 
 | event_id | diff_mean | repeatability_score | recent_count | safety_related |
 | --- | ---: | ---: | ---: | --- |
@@ -78,7 +78,7 @@ The high, medium, and low entries in this table are illustrative judgments. Repr
 
 Only at that point does it become explainable why A comes first and why B can move one level down even though its difference value is large.
 
-## A Small Diagram
+## Connecting Comparison Evidence to Review Priority {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-5-mermaid-01-en.mmd"

@@ -64,7 +64,7 @@ The key point of this table is not `do the numbers look similar?` but `are the c
 
 It is possible to compare the latest 20 actions with 200 past actions. Matching sample definitions and calculation methods matters more than equal counts; record both counts separately. Choosing a past period because its mean resembles the recent mean can erase the very difference being investigated. Do not select candidate conditions opportunistically after seeing outcomes. If the question concerns maintenance effects, compare before and after maintenance, while also checking for other changes in operating conditions.
 
-## Looking Through a Small Diagram
+## Narrowing Baseline Candidates by Conditions {#looking-through-a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-07/p3-7-4-mermaid-01-en.mmd"

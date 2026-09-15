@@ -38,11 +38,17 @@
 
 이 절은 기준선의 사전적 정의보다, `변화를 읽기 위해 어떤 참조 측정을 둘 것인가(reference measurement for change)`의 문제로 다시 볼 수 있습니다. 따라서 기준선은 모델 평가 용어와 구분되는 `상태 비교용 참조 측정`으로 읽어야 합니다.
 
-## 작은 도식으로 보기
+## 데이터 기준선과 기준 모델의 역할 구분 {#_3}
 
 이 절의 핵심은 `평소 구조`와 `현재 상태`를 그냥 따로 보지 않고, 둘을 이어 주는 `기준선`을 두어야 차이가 읽힌다는 점입니다. 기준선은 절대값을 대신하는 것이 아니라, 상태 차이를 읽기 위한 참조선입니다.
 
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="도식: 좌우로 스크롤하여 확인" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
+
 --8<-- "assets/part-03/chapter-07/p3-7-3-mermaid-01-ko.mmd"
+
+</div>
+</div>
 
 ## 체크리스트
 

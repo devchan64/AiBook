@@ -84,7 +84,7 @@ Suppose an action contains 300 time-point records.
 
 So the correct order is not `a raw time series exists -> it is immediately a learning input`, but `a raw time series exists -> decide what input structure to convert it into`.
 
-## A Small Diagram
+## From Sample Boundaries and Learning Objectives to Input Structure {#a-small-diagram}
 
 The sequence of decisions in this section does not stop at `we have a raw time series`. Choosing an `input structure` also requires sample boundaries, segment/length rules, and a learning objective.
 
@@ -99,7 +99,7 @@ What this section should hold onto is not the model type, but the order that say
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`, `labeled example`. A supervised-learning labeled example defines features together with a label, supporting the need to define sample boundaries and outcome columns before treating raw time series as inputs. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Used for sample and learning-objective terminology; it does not require every input to have an answer label. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`, `label leakage`. Its explanation of features becoming proxies for labels supports the risk of passing inappropriate time-series information into a model when input and target structures are undefined. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20
 - W3C, `PROV-Overview`. The provenance framework covers identifying objects, derivation, and reproducibility, providing a framework for reproducibly documenting how input lengths and segment rules form a structure. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){ target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20
 

@@ -39,13 +39,19 @@ The small table below immediately shows how the same source data is read differe
 | Storage structure | `timestamp`, `sensor_name`, `value` | one time-point record |
 | Problem-representation structure | `event_id`, `mid_flow_mean`, `late_drop_rate` | a summary of one action |
 
-## A Small Diagram
+## From Preserving Records to Restructuring for a Question {#a-small-diagram}
 
 The possible need to reorganize stored records for a question becomes clearer when we separate `preserving records` from `regrouping them for the question`, as below.
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-02/p3-2-1-mermaid-01-en.mmd"
 ```
+
+</div>
+</div>
 
 Problem situation: confirm that the same source record remains as time-point rows in storage structure, but is regrouped into an action-level summary table in the dataset candidate.
 

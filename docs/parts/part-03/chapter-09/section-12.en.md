@@ -88,7 +88,7 @@ Expected output:
 
 A lower threshold makes the review queue larger, but it does not miss risky cases. A higher threshold makes the review queue smaller, but missed cases increase and total cost rises. The values to change in this example are `miss_cost`, `false_alarm_cost`, and `thresholds`. If the false-alarm cost is set higher, another threshold may become more natural. So even with the same target name, the error cost has to be written first so that score and threshold are interpreted in the same direction.
 
-## A Small Diagram
+## Reflecting Error Costs in Decision Rules {#a-small-diagram}
 
 Even with the same score, the review-queue flow changes depending on which kind of error you are trying harder to reduce.
 

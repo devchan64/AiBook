@@ -47,7 +47,7 @@ In Part 3, what matters more than formal sampling theory at this stage is to wri
 
 These notes are not for proving generalization later. They are for first making visible what the current table does represent and what it still does not represent.
 
-## A Small Diagram
+## Comparing Collection Coverage with Operational Coverage {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-04/p3-4-5-mermaid-01-en.mmd"
@@ -66,7 +66,7 @@ So the order is as follows.
 
 Only after these notes are left behind can we later read results together with `from what condition range was this sample bundle obtained?`, and avoid missing `what operating conditions were barely seen?` In that sense, the problem of representativeness is similar to the problem of first writing down what the current sample bundle covers and what it misses.
 
-## Small Code Example
+## Checking Collection Imbalance and Errors by Group {#small-code-example}
 
 Problem situation: even if all sample units are correctly aligned as `one full action`, check which conditions the actual sample bundle is tilted toward.
 

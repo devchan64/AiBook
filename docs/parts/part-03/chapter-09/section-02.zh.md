@@ -49,7 +49,7 @@
 | B | -0.08 | low | 0 | 无 |
 | C | -0.31 | high | 1 | 无 |
 
-## 用一个小图来看
+## 选择与比较依据相符的输出 {#_1}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-2-mermaid-01-zh.mmd"

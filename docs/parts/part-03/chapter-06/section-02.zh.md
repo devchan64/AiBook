@@ -247,7 +247,7 @@ event_id           token_sequence  token_similarity
 
 这一节与其说是在介绍某一种 token 规则，不如说更接近于：在 `原始结构和汇总特征之间，应该放入什么中间表示(intermediate representation between raw structure and summarized features)`。
 
-## 用一个小图来看
+## 将区间数值摘要转为词元序列 {#_1}
 
 这一节的核心，是既不把原始曲线立刻丢掉，也不太快把它压成几个数字。把曲线切成区段，再经过数值摘要改写成 token 序列之后，就会多出一层 `中间表示`。
 

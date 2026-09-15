@@ -24,7 +24,7 @@ One predicted value needs to be written together with the unit of action it conn
 
 Even with the same score, the action can change when the policy changes. Also, some problems use the score only for [ranking](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-ranking), while others want to read the number itself almost like a [probability estimate](/AiBook/en/reference/concept-glossary-alpha/p/#probability-estimate). That difference also needs to be written down first. The meaning of one prediction is therefore not just `producing one number`. It includes the decision structure by which that number goes through a rule and leads to an action. More broadly, this section separates `model output`, `decision rule`, and `real action` as different levels, so that one predicted value is read inside an operational decision structure.
 
-## A Small Diagram
+## From Scores to Thresholds and Operational Policies {#a-small-diagram}
 
 One prediction does not end with a score. It must be read all the way through the policy rule into the resulting action.
 

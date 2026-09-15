@@ -44,7 +44,7 @@ Suppose the result you truly want to know is `final state confirmation`, but the
 
 In this table, the prediction problem you can build right now may be `review_needed`. But that is not the same thing as directly predicting `final state confirmation`. The problem defined here is `does this need review`, not `what will the final state be`. Keeping the proxy-target label makes it explicit whether the current problem type is `actual-target prediction` or `proxy-column prediction`.
 
-## A Small Diagram
+## Connecting Observable Proxies to the Actual Target {#a-small-diagram}
 
 The moment a proxy target is used, it becomes clearer to reread where `what can be observed now` diverges from `what is truly wanted`.
 

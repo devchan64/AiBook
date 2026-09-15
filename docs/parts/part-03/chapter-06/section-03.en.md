@@ -79,11 +79,17 @@ Suppose we have the raw log for one full action.
 
 Looking at this order makes it clear that feature design is not an outdated preparation step from before deep learning. It is the input-definition stage that is needed first no matter what learning method is used. So the conclusion of this section is not the opposition of `human-made features vs deep learning`, but the question of where [input specification](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) and [representation learning](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representation-learning) separate. Feature design should be read not as obsolete manual labor but as the act of first specifying the input structure on which the later learning stage depends.
 
-## A Small Diagram
+## The Relationship Between Handcrafted Features and Learned Representations {#a-small-diagram}
 
 The boundary in this section is simple. Humans first design the `input` through features and intermediate representations, and only after receiving that input does the model learn internal representations. They are not competing choices, but consecutive stages.
 
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
+
 --8<-- "assets/part-03/chapter-06/p3-6-3-mermaid-01-en.mmd"
+
+</div>
+</div>
 
 ## Checklist
 

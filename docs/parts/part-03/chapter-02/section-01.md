@@ -39,13 +39,19 @@
 | 저장 구조 | `timestamp`, `sensor_name`, `value` | 한 시점 기록 |
 | 문제 표현 구조 | `event_id`, `mid_flow_mean`, `late_drop_rate` | 동작 1회 요약 |
 
-## 작은 도식으로 보기
+## 기록 보존에서 질문에 맞는 재구성으로 {#_1}
 
 저장된 기록에 질문에 맞는 재구성이 필요할 수 있다는 점은, 아래처럼 `기록 보존`과 `질문에 맞는 재묶음`이 어디서 갈리는지로 읽으면 더 분명해집니다.
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="도식: 좌우로 스크롤하여 확인" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-02/p3-2-1-mermaid-01-ko.mmd"
 ```
+
+</div>
+</div>
 
 문제 상황: 같은 원천 기록이 저장 구조에서는 시점별 행으로 남고, 데이터셋 후보에서는 동작 1회 요약 표로 다시 묶인다는 점을 확인합니다.
 

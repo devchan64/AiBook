@@ -59,7 +59,7 @@
 
 哪怕只写到这个程度，也已经能勾勒出这个问题到底要求什么样的表结构。
 
-## 用一个小图来看
+## 把问题转为标识、描述与结果列 {#_3}
 
 问题情境：确认问题一变，第一张表草案里的列分组也会跟着改变。
 
@@ -84,6 +84,6 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 预设了 feature 和 label 结构，所以它为这点提供依据：即使在第一张表草案里，也应该先把识别、说明和结果的角色分开。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 用于区分表格草稿中的输入列与结果列。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明 feature 会变成 label proxy 的设计缺陷，因此强化了这一点：结果列和说明列的角色，应该从草案阶段起就先分开。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时段是拿来和其他时段比较的 reference，因此为“草案里应单独放 baseline diff 这类比较角色列”提供了一般依据。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

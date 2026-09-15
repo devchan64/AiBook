@@ -87,7 +87,7 @@ Not every review note becomes an equally good target candidate.
 
 So what becomes easier to structure first is usually columns such as `whether review is needed`, `whether a repeated warning exists`, and `simple state categories`. Detailed cause classification tends to stabilize later. In many cases, the target is not something that was originally inside the dataset, but the result of turning judgments accumulated through comparison reports and review queues back into columns. What matters here is deciding whether something should still remain a free-form note, whether it can be raised into a shared judgment column, and whether it repeats enough to become a target candidate.
 
-## A Small Diagram
+## Organizing Review Notes Around Shared Label Criteria {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-4-mermaid-01-en.mmd"

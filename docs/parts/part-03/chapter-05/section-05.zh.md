@@ -58,11 +58,17 @@
 
 所以，这里真正关心的，与其说是 `怎么补`，不如说更接近 `这条样本现在应该被归到什么状态`。常见的判断顺序通常是 `是否保留样本 -> 哪些特征不能做 -> 缺失本身要不要作为标记列保留`。
 
-## 用一个小图来看
+## 按缺失位置选择样本处理方式 {#_5}
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-zh.mmd"
 ```
+
+</div>
+</div>
 
 这张图说明：我们并不把 `为空` 看成单一状态。判断会随着缺失发生的位置和样本边界状态而分叉。也就是说，这一节的例子重点，与其说是在展示数值本身，不如说是在先展示一个判断结构：它会分成 `保留`、`排除特征`、`结构坍塌` 三条路。
 
@@ -82,7 +88,7 @@
 
 只要先做了这个判断，就不会把 `可以补的值` 和 `已经破坏样本结构的缺失` 混在一起。关键不在于某种处理技术的名字，而在于更早地分清：这条样本是否仍然是同一种比较单位，以及缺失本身是否应作为结构信息留下。
 
-## 小型代码示例
+## 按缺失位置判断是否保留样本 {#_7}
 
 问题情境：确认带有缺失值的样本并不都处于同一种状态；有些只是需要避开特定特征，有些则是样本结构本身已经坏掉了。
 
@@ -216,7 +222,7 @@ avoid=none: 12
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 预设的是特征和标签附着在同一个单位上，所以它支持这一点：当缺失已经动摇样本边界时，应该先判断这条样本是否仍然是同一种比较单位，而不是先急着补值。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 按缺失位置决定是否保留样本，是本节案例采用的设计标准。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为把原始数据变成更适合学习和比较的形式，因此强化了这一节的判断：那些因为区间缺失而失去意义的特征，不应该继续生成。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - W3C, `PROV-Overview`. provenance framework 说明派生关系和处理步骤应当可解释，因此它提供了一个更高层的框架：缺失发生的位置，以及样本结构是否已经坍塌，都应作为独立信息保留下来，后面才能再次判断质量和可复现性。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - scikit-learn developers, `Imputation of missing values`. 它说明删除含缺失值的行或列可能造成有价值数据的损失，`MissingIndicator` 可以保留哪些值曾经缺失的信息，因此支持这一节的说明：应先判断缺失本身是否需要作为标记列留下来。 [https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

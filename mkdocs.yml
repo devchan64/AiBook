@@ -1744,8 +1744,6 @@ extra_javascript:
   - javascripts/image-expand.js
   - javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
-  - https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js
-  - javascripts/mermaid.js
 
 hooks:
   - hooks/build_only_locale_markdown.py

@@ -77,7 +77,7 @@ One thing often missed when building a target-candidate table is the `basis`. If
 
 So even before a target-candidate table becomes a completely `clean learning table`, it is safer for it to temporarily keep a structure where minimum evidence can still be traced.
 
-## A Small Diagram
+## Tracking Events Across Outputs with Shared Identifiers {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-5-mermaid-01-en.mmd"

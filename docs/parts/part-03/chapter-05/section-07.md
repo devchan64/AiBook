@@ -234,7 +234,7 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 
 이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 서로 다른 결과 열로 만들어질 수 있다는 점입니다. S01은 첫 후속 사건이 `review`이지만 가장 심한 사건은 `failure`이고, S02는 첫 사건이 `review`이지만 가장 심한 사건은 `warning`입니다. S30처럼 후속 사건이 없는 샘플도 샘플 명단에는 있으므로 `none`과 0으로 접혀 최종 표에 남습니다. 여기서 조작할 값은 `selected_failure_severity_cutoff`와 `failure_severity_cutoffs`입니다. 기준을 4로 두면 `failure`가 있는 S01, S07, S13, S19, S25만 실패 후보가 되지만, 3으로 낮추면 `warning`이 가장 심한 샘플들도 실패 후보에 들어갑니다. 2로 낮추면 `review`나 `inspection`이 가장 심한 샘플까지 포함됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 후속 사건 로그도 표마다 다른 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label) 뜻으로 읽히게 됩니다.
 
-## 작은 도식으로 보기
+## 여러 후속 사건을 샘플별 결과로 묶기 {#_1}
 
 이 절은 `여러 후속 사건`이 자동으로 하나의 결과 열이 되지 않는다는 점을 압축합니다. 같은 사건 목록도 `any`, `first`, `worst`, `count` 가운데 어떤 규칙으로 접느냐에 따라 다른 대표 결과 열로 바뀝니다.
 

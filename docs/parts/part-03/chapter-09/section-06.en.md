@@ -32,7 +32,7 @@ The reasons label candidates wobble usually gather into the following few catego
 
 So the problem with a label candidate is not only `wrong/right`, but also `is the same rule repeating`.
 
-## Looking at the Comparison Table First
+## Causes of Label Disagreement and What to Recheck {#looking-at-the-comparison-table-first}
 
 | event_id | diff | repeatability | reviewer | review_label |
 | --- | ---: | --- | --- | --- |
@@ -74,13 +74,13 @@ So instead of forcing unstable cause classification straight into a prediction p
 
 Leaving these notes makes it possible to check not only `is there a column`, but also `does that column repeat with the same meaning`. At the current stage, therefore, the more important judgment is not raising the problem type more heavily, but not leaving a label candidate whose meaning still wobbles as it is.
 
-## A Small Diagram
+## From Label Disagreement to Reviewing Decision Criteria {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-6-mermaid-01-en.mmd"
 ```
 
-## A Small Python Example
+## Checking Label Differences by Event, Reviewer, and Period {#a-small-python-example}
 
 Problem situation: when different reviewers label the same event differently, having a label-candidate column still does not immediately make it easy to read as a stable target label.
 

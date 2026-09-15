@@ -88,7 +88,7 @@ for threshold in thresholds:
 
 threshold 较低时，复核队列会变大，但不会漏掉风险案例。threshold 较高时，复核队列会变小，但漏判增加，总成本也会上升。这个例子里可以改的值是 `miss_cost`、`false_alarm_cost` 和 `thresholds`。如果把误报成本设得更高，另一个 threshold 可能会更自然。因此，即使 target 名称相同，也必须先写清错误成本，才能沿着同一个方向解释 score 和 threshold。
 
-## 用一个小图来看
+## 把错误成本纳入判断规则 {#_1}
 
 即使分数相同，只要当前更想减少的错误不同，复核队列的流向也会跟着改变。
 

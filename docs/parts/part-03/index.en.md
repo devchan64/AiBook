@@ -43,7 +43,7 @@ Part 3 begins by establishing what data modeling should achieve and in what orde
 
 ## Why It Is Needed
 
-- Because you first have to learn that raw logs are not immediately a dataset.
+- Because raw logs can be a dataset while still requiring sample and column definitions suited to the analysis purpose.
 - Because without a fixed sample unit and comparison reference, explanations of feature and label become unstable.
 - Because warning candidates and confirmed diagnosis, and baseline comparison and absolute-value judgment, are often confused.
 - Because even when the average is the same, segment pattern and variability can differ, and it is easy to conclude too quickly from one representative value.
@@ -87,7 +87,7 @@ The reason for this scope limit is simple. The responsibility of Part 3 is to cl
 
 ## Understanding That Should Remain After Part 3
 
-What should remain is the sense that a dataset is not a given table but a designed comparison structure, and that machine learning is only read properly on top of that structure. Sample structure, features, target candidates, and time boundaries must be organized first, so that later learning explanations can also be read with `what is being predicted` and `what input is being used` kept clear.
+Even when a dataset is already available, check whether its comparison and learning structure fits the current question. Sample structure, features, target candidates, and time boundaries must be organized first, so that later learning explanations can also be read with `what is being predicted` and `what input is being used` kept clear.
 
 ## Sources and Further Reading
 

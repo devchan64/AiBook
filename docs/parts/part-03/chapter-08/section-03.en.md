@@ -61,7 +61,7 @@ If the previous section's levels of `record`, `review candidate`, and `strong wa
 
 This table does not mean `every state always gets this label`. Its role is to keep the sentence from sliding into excessively strong confirmatory wording by fixing default endings in advance.
 
-## A Small Diagram
+## Connecting Observations, Comparisons, and Limits in an Interpretation {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-3-mermaid-01-en.mmd"

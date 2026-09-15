@@ -247,7 +247,7 @@ So numerical features and intermediate representations are not in competition. T
 
 This section can be read not as an introduction to one particular token rule, but as the problem of `what intermediate representation should be placed between raw structure and summarized features`.
 
-## A Small Diagram
+## Converting Segment Summaries into Token Sequences {#a-small-diagram}
 
 The core of this section is that we do not immediately discard the raw curve or close it too quickly into a few numbers. Once the curve is segmented and turned through numerical summaries into a token sequence, one more layer appears: the `intermediate representation`.
 

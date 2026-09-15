@@ -24,7 +24,7 @@
 
 即使分数一样，只要策略不同，行动也可能不同。而且有些问题只把分数拿来[排序(ranking)](/AiBook/zh/reference/concept-glossary-pinyin/p/#glossary-ranking)，有些问题则希望把这个数字近似当成[概率估计(probability estimate)](/AiBook/zh/reference/concept-glossary-pinyin/g/#probability-estimate)来读。这种差别也要先写清楚。因此，一次预测的意义并不只是`吐出一个数字`，而是这个数字会经过什么规则，再导向什么行动的整套决策结构。从更大的角度看，这一节是在把`模型输出`、`判定规则`、`真实行动`拆成不同层级，让一次预测值被放进运营决策结构里来读。
 
-## 用一个小图来看
+## 从分数到阈值与运行策略 {#_1}
 
 一次预测并不会停在分数上，而要继续看这个分数经过什么策略规则，最终变成什么行动。
 

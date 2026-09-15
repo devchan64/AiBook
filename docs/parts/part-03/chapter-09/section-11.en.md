@@ -37,7 +37,7 @@ For example, if `review_needed` is taken as the representative target, the quest
 
 Both `A` and `B` have `review_needed = 1`, but their `final_status` and `status_type` differ. If the primary target is `review_needed`, A and B share the same outcome. If the primary target is `final_status`, however, A's `pending` means its answer is not confirmed yet; only B's `normal` is confirmed. Do not train on `pending` as a final-state label alongside normal and abnormal. Choosing the primary target column therefore changes whether events are treated as having the same answer or different answers.
 
-## A Small Diagram
+## Organizing Target Candidates and Criteria Versions {#a-small-diagram}
 
 When several candidates coexist, the table alone can make it feel like `we can choose one later`. The actual order is to stabilize the representative target first.
 

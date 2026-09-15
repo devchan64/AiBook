@@ -55,7 +55,7 @@ One thing to be careful about here is that you should not misunderstand the sent
 
 The sentence organizes the strength, but another step of structuring is still needed before it becomes actual operational columns and policy.
 
-## Looking at the Comparison Table First
+## Comparing the Roles of Interpretation Statements and Operational Columns {#looking-at-the-comparison-table-first}
 
 | window_id | diff | event_count | repeatability | conservative_sentence |
 | --- | ---: | ---: | --- | --- |
@@ -73,7 +73,7 @@ The `priority_score` values 0.82 and 0.41 are fictional values illustrating the 
 
 These two tables are both needed because the first table records `why that judgment was made`, while the second records `a format that can be reused in operations`.
 
-## A Small Diagram
+## From Interpretation Statements to Warning Columns and Review Queues {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-4-mermaid-01-en.mmd"
