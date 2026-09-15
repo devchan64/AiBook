@@ -7,7 +7,7 @@
 - When updating a Mermaid diagram set, revise the English original first. Sync the Korean derivative, and add or refresh a Simplified Chinese derivative only when the diagram itself needs localized labels.
 - Current language sets:
   - `gradient-descent-loop-flow-en.mmd` / `gradient-descent-loop-flow-ko.mmd`
-  - `loss-objective-flow-en.mmd` / `loss-objective-flow-ko.mmd`
+  - `loss-objective-flow-en.mmd` / `loss-objective-flow-ko.mmd` / `loss-objective-flow-zh.mmd`
 
 ## P2-6.1 candidate comparison
 
@@ -15,3 +15,8 @@
 - The four stages use a vertical layout. The diagram does not claim a global optimum or introduce a third candidate or a constraint absent from the example.
 - All language variants share the same values and layout.
 - Manuscripts include the Mermaid sources through `pymdownx.snippets`; no pre-rendered SVG copies are maintained.
+
+## P2-6.2 objective composition
+
+- `loss-objective-flow-{ko,en,zh}.mmd` combines the four students’ mean squared error (12.5) and the slope penalty (λ = 0.2, a = 10, penalty = 20) into the objective value 32.5.
+- The two inputs to the objective are separate terms; regularization is not an extra observation or a hard constraint.

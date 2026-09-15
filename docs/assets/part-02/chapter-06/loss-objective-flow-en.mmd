@@ -1,12 +1,8 @@
 flowchart TD
-  X["input x"]
-  M["model"]
-  P["prediction<br/>y-hat = 8"]
-  Y["target<br/>y = 10"]
-  L["loss function<br/>example: squared error<br/>(10 - 8)^2 = 4"]
-  O["training objective<br/>combine losses from many examples<br/>then minimize total or average loss"]
-
-  X --> M --> P
-  P --> L
-  Y --> L
-  L --> O
+  L["Individual squared errors<br/>0, 0, 25, 25"]
+  M["Mean loss<br/>50 / 4 = 12.5"]
+  R["Regularization penalty<br/>λ = 0.2, a = 10<br/>λa² = 20"]
+  O["Objective<br/>12.5 + 20 = 32.5<br/>Value to minimize"]
+  L --> M
+  M --> O
+  R --> O
