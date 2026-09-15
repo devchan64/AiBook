@@ -38,20 +38,25 @@
   <rect x="484" y="104" width="402" height="176" rx="14" class="box"/>
   <text x="508" y="136" class="panel-title">Question: compare records</text>
   <text x="508" y="162" class="small">View as a table of rows and columns.</text>
-  <g transform="translate(526 190)">
-    <rect x="0" y="0" width="292" height="88" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
-    <line x1="0" y1="28" x2="292" y2="28" class="line"/>
-    <line x1="88" y1="0" x2="88" y2="88" class="line"/>
-    <line x1="176" y1="0" x2="176" y2="88" class="line"/>
-    <text x="18" y="19" class="label">name</text>
-    <text x="110" y="19" class="label">score</text>
-    <text x="198" y="19" class="label">label</text>
-    <text x="18" y="51" class="small">Kim</text>
-    <text x="112" y="51" class="small">82</text>
-    <text x="198" y="51" class="small">pass</text>
-    <text x="18" y="76" class="small">Park</text>
-    <text x="112" y="76" class="small">45</text>
-    <text x="198" y="76" class="small">fail</text>
+  <g transform="translate(526 174)">
+    <rect width="292" height="100" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="88" y1="0" x2="88" y2="100" class="line"/>
+    <line x1="176" y1="0" x2="176" y2="100" class="line"/>
+    <line x1="0" y1="25" x2="292" y2="25" class="line"/>
+    <line x1="0" y1="50" x2="292" y2="50" class="line"/>
+    <line x1="0" y1="75" x2="292" y2="75" class="line"/>
+    <text x="18" y="18" class="small">name</text>
+    <text x="110" y="18" class="small">score</text>
+    <text x="198" y="18" class="small">label</text>
+    <text x="18" y="43" class="small">Kim</text>
+    <text x="110" y="43" class="small">82</text>
+    <text x="198" y="43" class="small">pass</text>
+    <text x="18" y="68" class="small">Lee</text>
+    <text x="110" y="68" class="small">75</text>
+    <text x="198" y="68" class="small">pass</text>
+    <text x="18" y="93" class="small">Park</text>
+    <text x="110" y="93" class="small">45</text>
+    <text x="198" y="93" class="small">fail</text>
   </g>
 
   <rect x="34" y="318" width="402" height="250" rx="14" class="box"/>
@@ -80,7 +85,6 @@
   <g transform="translate(584 410)">
     <line x1="40" y1="0" x2="150" y2="0" class="line"/>
     <line x1="150" y1="0" x2="240" y2="70" class="line"/>
-    <line x1="40" y1="0" x2="240" y2="70" class="line"/>
     <circle cx="40" cy="0" r="24" class="node"/>
     <circle cx="150" cy="0" r="24" class="node"/>
     <circle cx="240" cy="70" r="24" class="node"/>

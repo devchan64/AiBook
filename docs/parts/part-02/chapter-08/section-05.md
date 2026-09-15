@@ -1,15 +1,13 @@
 # P2-8.5 함수(function)와 작은 재사용
 
 > Section ID: `P2-8.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 함수 정의와 호출
 
 일반적으로 함수(function)는 입력을 받아 어떤 처리를 하고 결과를 돌려주는 단위입니다. 수학에서는 입력과 출력의 관계를 강조하고, 프로그래밍에서는 그 관계를 실제 실행 가능한 코드로 표현합니다.
 
 Python에서는 `def`로 함수에 이름을 붙이고, 필요한 입력 이름을 매개변수(parameter)로 적습니다.
-
-다음 코드는 점수를 기준으로 통과 여부를 판단합니다.
 
 점수 `82`가 기준 `60` 이상인지 판단하면 `pass`가 출력됩니다. 아래 코드는 함수 없이 조건문으로 판정합니다.
 
@@ -25,8 +23,6 @@ print(result)
 ```
 
 이 판단을 한 번만 쓴다면 그대로 둘 수 있습니다. 하지만 점수 여러 개에 대해 계속 같은 판단을 해야 한다면 코드가 반복됩니다.
-
-함수를 쓰면 이 처리에 이름을 붙일 수 있습니다.
 
 통과 판정에 `pass_or_fail`이라는 이름을 붙이면 점수만 바꿔 호출할 수 있습니다. 아래 출력은 `pass`, `fail`입니다.
 
@@ -50,8 +46,6 @@ $$
 f(x) = x + 1
 $$
 
-Python으로 쓰면 다음처럼 볼 수 있습니다.
-
 수학의 함수 \(f(x)=x+1\)를 Python으로 표현하면 다음과 같습니다. 인자 `3`을 전달하면 `4`가 출력됩니다.
 
 ```python
@@ -60,10 +54,6 @@ def f(x):
 
 print(f(3))
 ```
-
-이 둘은 닮았습니다. 입력 `x`가 있고, 결과가 있습니다.
-
-하지만 완전히 같지는 않습니다.
 
 | 관점 | 수학의 함수 | Python 함수 |
 | --- | --- | --- |
@@ -92,10 +82,6 @@ result = add_bonus(80, 5)
 
 print(result)
 ```
-
-이 코드에서 `score`와 `bonus`는 매개변수(parameter)입니다. 함수가 받을 값을 함수 정의 안에서 부르는 이름입니다.
-
-`80`과 `5`는 인자(argument)입니다. 함수를 호출할 때 실제로 넘긴 값입니다.
 
 | 구분 | 위치 | 예시 |
 | --- | --- | --- |
@@ -153,8 +139,6 @@ for score in scores:
 
 print(normalized_scores)
 ```
-
-함수 이름은 100점 만점 점수를 비율로 바꾸는 작업을 나타냅니다.
 
 계산식이 간단할 때는 굳이 함수로 나누지 않아도 됩니다. 하지만 같은 계산을 여러 곳에서 쓰거나, 이름을 붙이면 의도가 더 분명해질 때 함수가 유용합니다.
 
@@ -229,8 +213,6 @@ AI 도구와 라이브러리에서도 이런 형태를 자주 봅니다.
 
 Python 함수도 객체(object)이며, 함수 이름은 그 객체를 가리킵니다.
 
-예를 들어 함수를 다른 이름에 담을 수 있습니다.
-
 `normalize = normalize_score`는 함수 객체에 이름을 하나 더 붙입니다. `normalize(82)`의 출력도 `0.82`입니다.
 
 ```python
@@ -243,8 +225,6 @@ print(normalize(82))
 ```
 
 `normalize`는 새 계산을 만든 것이 아니라 `normalize_score` 함수 객체를 다른 이름으로 가리킨 것입니다. `normalize_score`는 함수 객체이고, `normalize_score(82)`는 함수를 실행한 결과라는 차이가 있습니다.
-
-함수를 다른 함수에 인자로 넘길 수도 있습니다.
 
 점수 `[82, 75, 91]`과 처리 함수 `normalize_score`를 함께 전달합니다. `apply_to_scores()`는 각 점수에 전달받은 함수를 적용하여 `[0.82, 0.75, 0.91]`을 반환하고, 바깥 `print()`가 이를 출력합니다.
 
@@ -314,8 +294,6 @@ print(text.lower())
 
 ## 사례: 공백 정리 후 빈 텍스트 제외
 
-다음 예시는 텍스트 샘플을 간단히 정리하고, 비어 있지 않은 샘플만 남깁니다.
-
 입력 `[" AI is Useful ", "", " Models can FAIL "]`에서 텍스트를 정리한 뒤 빈 문자열을 제외합니다. 출력은 `['ai is useful', 'models can fail']`입니다.
 
 ```python
@@ -354,6 +332,43 @@ print(score_ratio(40, 50))
 
 두 번째 호출의 만점을 `100`으로 바꾸면 결과는 `0.4`입니다. 함수로 묶으면 계산식을 한곳에서 관리할 수 있지만, 호출하는 쪽도 해당 시험의 만점을 정확히 전달해야 합니다. 이 함수는 만점이 양수이고 점수가 0부터 만점 사이인 입력을 전제로 합니다.
 
+## 입력 객체 변경과 이름 재할당
+
+함수에 리스트를 넘기면 매개변수는 전달받은 리스트를 가리킵니다. 함수 안에서 `append()`를 호출하면 호출한 쪽에서도 변경이 보입니다. 반면 매개변수 이름에 새 리스트를 할당하는 것만으로 바깥 이름이 바뀌지는 않습니다.
+
+```python
+def add_score(scores):
+    scores.append(91)
+
+def replace_scores(scores):
+    scores = [100]
+
+original = [82, 75]
+add_score(original)
+print(original)
+replace_scores(original)
+print(original)
+```
+
+두 출력 모두 `[82, 75, 91]`입니다. 첫 함수는 공유된 리스트를 수정했고, 두 번째 함수는 함수 안의 이름만 새 리스트에 연결했습니다. 원본을 바꾸는지, 새 결과를 반환하는지는 함수를 사용하는 쪽이 알아야 할 동작입니다.
+
+## 리스트 기본값의 공유
+
+`def collect(score, results=[]):`처럼 변경 가능한 기본값을 두면 호출마다 빈 리스트를 만드는 것이 아닙니다. 기본값은 함수 정의 시 한 번 평가되므로 이전 호출에서 추가한 값이 다음 호출에도 남을 수 있습니다. 호출마다 새 결과가 필요하면 `None`을 기본값으로 두고 함수 안에서 리스트를 만듭니다.
+
+```python
+def collect(score, results=None):
+    if results is None:
+        results = []
+    results.append(score)
+    return results
+
+print(collect(82))
+print(collect(75))
+```
+
+출력은 `[82]`, `[75]`입니다. `results` 인자를 생략한 두 호출은 서로 다른 리스트를 만듭니다. 반대로 같은 리스트를 인자로 직접 넘기면 그 리스트에 계속 추가됩니다.
+
 ## 체크리스트
 
 - `def`로 시작하는 함수 정의를 읽을 수 있다.
@@ -366,10 +381,12 @@ print(score_ratio(40, 50))
 - 함수 이름이 코드 의도를 드러내야 함을 설명할 수 있다.
 - 함수가 반복되는 처리를 이름 붙은 재사용 단위로 바꾸는 이유를 설명할 수 있다.
 
+- 입력 리스트의 변경과 매개변수 재할당을 구분하고, 호출마다 새 리스트가 필요할 때 `None` 기본값을 사용할 수 있다.
+
 ## 출처와 참고 자료
 
-- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `def`, 매개변수, `return`, 함수 호출 예시의 공식 근거로 사용했다.
-- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 기본값 매개변수 예시와 mutable default 주의 설명 확인에 사용했다.
-- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 함수 정의 문법, 매개변수 목록, 함수 객체 생성 설명 확인에 사용했다.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python에서 함수가 객체로 다뤄질 수 있다는 설명의 배경 근거로 사용했다.
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 함수 호출과 메서드 호출 모양을 입문 수준에서 구분하는 근거로 사용했다.
+- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. `def`, 매개변수, `return`, 함수 호출 예시의 공식 근거로 사용했다.
+- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. 기본값 매개변수 예시와 mutable default 주의 설명 확인에 사용했다.
+- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 함수 정의 문법, 매개변수 목록, 함수 객체 생성 설명 확인에 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python에서 함수가 객체로 다뤄질 수 있다는 설명의 배경 근거로 사용했다.
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. 함수 호출과 메서드 호출 모양을 입문 수준에서 구분하는 근거로 사용했다.

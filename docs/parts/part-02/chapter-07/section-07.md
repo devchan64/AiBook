@@ -1,7 +1,7 @@
 # P2-7.7 보충학습: Python 설치는 언제 필요한가
 
 > Section ID: `P2-7.7`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Colab의 호스팅 런타임에서 실행할 때는 내 컴퓨터에 Python이 없어도 됩니다. 내 컴퓨터에서 `.py` 파일을 실행하거나 로컬 파일을 Python으로 처리하려면 로컬 인터프리터가 필요합니다. 이미 설치되어 있을 수 있으므로 먼저 실행 명령과 버전을 확인합니다.
 
@@ -17,14 +17,6 @@ Colab의 호스팅 런타임에서 실행할 때는 내 컴퓨터에 Python이 �
 - macOS 설치와 실행: Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }.
 - Linux/Unix 계열 사용: Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }.
 - 가상환경: Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }.
-
-## 실행 위치와 설치 여부
-
-| 기준 | 왜 중요한가 |
-| --- | --- |
-| 처음부터 로컬 설치가 꼭 필요한 것은 아니다 | 작은 실습은 Colab만으로도 시작할 수 있기 때문이다 |
-| 로컬 설치는 내 컴퓨터에서 Python 인터프리터를 실행할 기반을 만드는 일이다 | 설치와 가상환경, 패키지 준비를 한 덩어리로 보면 판단이 흐려진다 |
-| 설치 뒤 가장 먼저 확인할 것은 버전과 실행 명령이다 | 설치 성공과 명령 연결 성공은 같은 일이 아니다 |
 
 ## Colab 호스팅 런타임
 
@@ -196,6 +188,20 @@ Python 3.12.3
 
 반대로 사용할 Python 명령이 모두 없고 로컬 실행이 필요하다면 운영체제에 맞는 설치 절차를 진행합니다. 명령 하나의 실패와 인터프리터 자체의 부재를 구분하면 불필요한 재설치를 줄일 수 있습니다.
 
+## 버전 출력 뒤 확인할 구성요소
+
+버전 출력은 인터프리터를 실행할 수 있다는 확인입니다. 프로젝트가 사용할 Python 버전 범위와 패키지 지원 여부를 먼저 확인하며, 최신 버전이라는 이유만으로 선택하지 않습니다. 사용할 Python을 골랐다면 같은 명령으로 pip를 확인합니다.
+
+```bash
+python3 -m pip --version
+```
+
+```powershell
+py -m pip --version
+```
+
+위 명령은 각각 `python3`, `py`가 동작하는 환경의 예입니다. `No module named pip`이면 Python이 없는 것이 아니라 선택한 Python에 pip가 없는 것입니다. Linux에서 `venv` 생성 중 `ensurepip` 관련 오류가 나면 배포판에 따라 가상환경 지원 패키지가 별도로 필요할 수 있습니다. 해당 운영체제·배포판 공식 설치 안내에서 빠진 구성요소를 확인한 뒤 P2-7.4의 가상환경 생성부터 다시 진행합니다.
+
 ## 체크리스트
 
 - Colab으로 충분한 학습 단계와 로컬 설치가 필요한 단계를 구분할 수 있다.
@@ -208,9 +214,9 @@ Python 3.12.3
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 플랫폼별 Python 환경 설정, 인터프리터 호출, 설치 관련 문서 구조 확인에 사용했다.
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 플랫폼별 Python 환경 설정, 인터프리터 호출, 설치 관련 문서 구조 확인에 사용했다.
 - Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org, 확인 날짜: 2026-07-20. 최신 Python 다운로드와 운영체제별 다운로드 진입점 확인에 사용했다.
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Windows에서 Python 설치와 실행 방식이 별도 안내된다는 점을 확인하는 근거로 사용했다.
-- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. macOS에서 python.org 배포판과 설치 뒤 패키지 사용 안내를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Linux/Unix 계열에서 배포판 패키지와 소스 빌드 등 설치 경로가 운영체제별로 다를 수 있음을 확인하는 근거로 사용했다.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 설치와 별개로 프로젝트별 가상환경을 만드는 단계가 필요할 수 있음을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Windows에서 Python 설치와 실행 방식이 별도 안내된다는 점을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. macOS에서 python.org 배포판과 설치 뒤 패키지 사용 안내를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Linux/Unix 계열에서 배포판 패키지와 소스 빌드 등 설치 경로가 운영체제별로 다를 수 있음을 확인하는 근거로 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python 설치와 별개로 프로젝트별 가상환경을 만드는 단계가 필요할 수 있음을 확인하는 근거로 사용했다.

@@ -1,7 +1,7 @@
 # P2-10.2 Jupyter, Colab, 로컬 실행의 차이
 
 > Section ID: `P2-10.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 도구와 실행 위치
 
@@ -28,7 +28,8 @@ Jupyter는 도구와 생태계, Colab은 서비스, 로컬 실행은 실행 위�
 | 구분 | 무엇인가 | 예 |
 | --- | --- | --- |
 | 노트북 파일 | 코드, 설명, 일부 출력이 저장된 문서 | `practice.ipynb` |
-| 런타임(runtime) | 코드를 실제로 실행하는 Python 환경 | Colab VM, Jupyter kernel |
+| 커널(kernel) | 코드를 실행하고 변수를 유지하는 프로세스 | 노트북에 연결된 Python 커널 |
+| 실행 환경(runtime) | 커널이 사용하는 Python·패키지·컴퓨팅 자원 | Colab VM 안의 환경, 로컬 가상환경 |
 | 파일 시스템 | 코드가 읽고 쓰는 파일 위치 | 내 PC 폴더, Colab VM, Google Drive |
 
 이 구분이 중요한 이유는 간단합니다. 노트북 파일은 남아 있어도 런타임은 사라질 수 있고, 코드 셀은 남아 있어도 그 셀에서 설치한 패키지나 만든 임시 파일은 사라질 수 있습니다.
@@ -89,6 +90,25 @@ Colab이 유용한 상황은 다음과 같습니다.
 
 브라우저로 노트북을 보고 있어도 실제 Python이 로컬 PC에서 실행되는지 서버에서 실행되는지에 따라 사용할 파일과 패키지가 달라집니다.
 
+## 설치한 패키지를 못 찾을 때
+
+터미널에서 NumPy 설치가 성공했어도 노트북의 `import numpy`는 실패할 수 있습니다. 터미널의 Python과 노트북 커널의 Python이 다른 환경이면 설치된 패키지도 다르기 때문입니다. 다음 셀은 현재 커널이 사용하는 실행 파일과 Python 버전을 보여 줍니다.
+
+```python
+import sys
+
+print("Python executable:", sys.executable)
+print("Python version:", sys.version.split()[0])
+```
+
+실행 파일의 경로는 컴퓨터마다 다릅니다. 로컬에서 예상한 프로젝트 가상환경과 다르면 노트북의 커널 선택을 확인합니다. 현재 커널에 NumPy를 설치하려면 노트북 코드 셀에서 다음 명령을 실행합니다.
+
+```text title="IPython · 노트북 코드 셀"
+%pip install numpy
+```
+
+설치가 끝나도 `import numpy as np`는 별도로 실행해야 합니다. 이미 불러온 패키지를 업그레이드했다면 커널을 재시작하고 준비 셀부터 다시 실행해야 할 수 있습니다. 설치 문제는 실행 환경으로, 파일을 찾지 못하는 문제는 작업 폴더와 경로로 나누어 확인합니다.
+
 ## 함수를 모듈로 분리하기
 
 노트북은 학습 기록에 좋지만, 모든 코드를 노트북에만 남기면 나중에 재사용이 어려울 수 있습니다.
@@ -110,7 +130,7 @@ from stats_utils import mean
 print(mean([82, 75, 45]))
 ```
 
-노트북은 입력과 해석을 남기고, 모듈은 여러 문서에서 같은 계산을 재사용하게 합니다.
+노트북은 입력과 해석을 남기고, 모듈은 여러 문서에서 같은 계산을 재사용하게 합니다. 한 번 가져온 모듈은 메모리에 남으므로 `.py` 파일만 수정하고 같은 `import`를 반복해도 변경이 바로 반영되지 않을 수 있습니다. 이 예제에서는 커널을 재시작하고 import 셀부터 다시 실행해 수정된 함수를 확인합니다.
 
 ## 공유되는 문서와 준비할 환경
 
@@ -125,7 +145,7 @@ Colab FAQ는 노트북을 공유하면 텍스트, 코드, 출력, 댓글 같은 
 
 그래서 공유할 노트북에는 필요한 준비 과정을 문서 안에 남겨야 합니다.
 
-NumPy가 없는 환경에서는 코드 셀에서 `%pip install numpy`를 실행할 수 있습니다. `%pip`는 Python 노트북의 현재 커널 환경에 패키지를 설치하는 명령이며, 일반 `.py` 문법은 아닙니다. 설치 뒤에는 `import`가 필요합니다.
+앞에서 설명한 설치 셀 다음에는 패키지를 불러오고 버전을 기록하는 셀을 둡니다.
 
 다음 셀은 NumPy 버전과 평균 `67.33333333333333`을 출력합니다. 버전은 실행 환경에 따라 달라집니다.
 
@@ -186,6 +206,9 @@ print("file exists:", path.is_file())
 
 ## 출처와 참고 자료
 
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-09-08. Colab에서 공유되는 노트북 내용과 공유되지 않는 런타임·VM·파일·설치 상태를 구분하는 근거로 사용했다.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-20. Jupyter의 문서, 인터페이스, 커널 구성 요소를 실행 위치와 런타임 구분의 배경으로 사용했다.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-09-15. Colab에서 공유되는 노트북 내용과 공유되지 않는 런타임·VM·파일·설치 상태를 구분하는 근거로 사용했다.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation, 확인 날짜: 2026-09-15. Jupyter의 문서, 인터페이스, 커널 구성 요소를 실행 위치와 런타임 구분의 배경으로 사용했다.
 - Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Notebook documentation, 확인 날짜: 2026-07-20. 로컬 노트북 서버와 브라우저 기반 노트북 사용 흐름을 설명하는 근거로 사용했다.
+- Python Software Foundation, [sys.executable](https://docs.python.org/3/library/sys.html#sys.executable){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 현재 커널의 Python 실행 파일 확인 근거.
+- Python Software Foundation, [Modules](https://docs.python.org/3/tutorial/modules.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 모듈 import와 한 세션 안의 재사용·캐시 동작 근거.
+- IPython, [%pip](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 현재 커널 환경에 패키지를 설치하는 명령의 근거.

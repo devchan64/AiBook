@@ -1,69 +1,17 @@
-# P2-11.2 Indexing, Slicing, and Axis
+# P2-11.2 Indexing, Slicing, and Axes
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In P2-11.1, we created NumPy arrays and checked `shape`, `ndim`, and `dtype`. Now we move on to which value to read from an array, which range to cut out, and which direction to calculate along.
+## Selecting a Position
 
-Three terms appear often when reading NumPy arrays.
+NumPy arrays use the standard Python indexing syntax `x[obj]`. Indices start at zero, as in Python.
 
-Indexing, slicing, and axis.
+Start with a one-dimensional array.
 
-These three can look similar, but their roles are different. Indexing chooses a position. Slicing chooses a range. Axis decides the direction of a calculation.
-
-This Section explains the basic distinctions among `indexing`, `slicing`, and `axis`. You can revisit `NumPy` and the basic properties of arrays in P2-11.1 and P2-11.2. Here the focus is on what to choose from an array and in which direction to read it.
-
-## Core Criteria: Indexing, Slicing, and Axis
-
-- You can explain indexing such as `x[0]` and `x[1, 2]` as position selection.
-- You can explain slicing such as `x[1:3]`, `x[:, 0]`, and `x[0:2, 1:3]` as range selection.
-- In a two-dimensional array, you can read the first axis (`axis 0`) as the row direction and the second axis (`axis 1`) as the column direction.
-- You can explain why the result shapes of `sum(axis=0)` and `sum(axis=1)` are different.
-- You can explain the viewpoint that, in datasets, rows are often read as samples and columns as features.
-
-## One Scene to Hold First
-
-The first scene to hold in this Section is the following.
-
-| Array expression | The first question to ask when reading it like a dataset |
-| --- | --- |
-| `shape = (4, 3)` | Are there 4 samples and 3 features? |
-| `x[1, :]` | Does it choose only the second sample? |
-| `x[:, 2]` | Does it choose the entire third feature column? |
-| `sum(axis=0)` | Does it leave a summary by feature? |
-| `sum(axis=1)` | Does it leave a summary by sample? |
-
-In other words, `indexing`, `slicing`, and `axis` are not separate syntaxes to memorize. They are ways to write clearly on top of an array whether you are looking at one sample, looking at one whole feature, or summarizing in a certain direction.
-
-## Three Criteria
-
-| Criterion | Why it matters | Level of understanding needed in this Section |
-| --- | --- | --- |
-| What indexing is | It keeps you from mixing up position selection and range selection in array reading. | Understand it as choosing one exact position. |
-| What slicing is | It helps you distinguish a single value from a partial array. | Understand it as leaving a range, not a point. |
-| Why axis matters | It becomes the standard for reading the direction of later aggregation and broadcasting. | Understand it as the standard that decides the direction of array calculation. |
-
-| Term | Meaning to capture first in this Section |
-| --- | --- |
-| indexing | A way of reading that chooses one exact position. |
-| slicing | A way of reading that leaves a range by specifying a start and an end. |
-| axis | The standard that decides the direction in which array calculation proceeds. |
-| row | One horizontal line in a two-dimensional array. |
-| column | One vertical line in a two-dimensional array. |
-
-## Indexing Means Choosing a Position
-
-The official NumPy documentation explains that an `ndarray` can be indexed with the standard Python form `x[obj]`. It also explains that, as in Python, indices start from 0.
-
-First, look at a one-dimensional array.
-
-Problem situation: We check the basic indexing that chooses which value in a one-dimensional array to read.
-Input: A one-dimensional array `scores` containing four scores.
-Expected output: The first value `82` and the third value `45` are printed.
-Concept to check: See that indexing chooses one exact position and that position numbering starts from 0.
+Indices `0` and `2` in `[82, 75, 45, 90]` select the first value `82` and third value `45`.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 import numpy as np
 
 scores = np.array([82, 75, 45, 90])
@@ -72,37 +20,31 @@ print(scores[0])
 print(scores[2])
 ```
 
-The output is as follows.
+Output:
 
 ```text
 82
 45
 ```
 
-`scores[0]` is the first value. `scores[2]` is the third value. In Python and NumPy, the first position is usually counted as 0 rather than 1.
+`scores[0]` is the first value and `scores[2]` the third. Python and NumPy count the first position as 0, not 1.
 
-This point is often confusing.
-
-| Expression | How to read it | Result |
+| Expression | Reading | Result |
 | --- | --- | --- |
-| `scores[0]` | position 0 | `82` |
-| `scores[1]` | position 1 | `75` |
-| `scores[2]` | position 2 | `45` |
-| `scores[-1]` | last position | `90` |
+| `scores[0]` | Position 0 | `82` |
+| `scores[1]` | Position 1 | `75` |
+| `scores[2]` | Position 2 | `45` |
+| `scores[-1]` | Last position | `90` |
 
-Indexing is the act of asking, `Which value is at this position?`
+Indexing asks which position to select.
 
-## in a Two-Dimensional Array, Choose Rows and Columns Together
+## Row and Column Positions
 
-In a two-dimensional array, you usually specify a row and a column together.
+In a two-dimensional array, specify row and column together.
 
-Problem situation: We choose one value in a two-dimensional array by specifying both row and column positions.
-Input: The array `data` with 3 rows and 4 columns, and the position `[1, 2]`.
-Expected output: The full `shape` and the selected value `22` are printed.
-Concept to check: Confirm that the notation `data[row, column]` is the basic syntax for choosing one value.
+In a three-row, four-column array, `[1, 2]` selects the second row’s third value. This code prints shape `(3, 4)` and value `22`.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 data = np.array([
     [10, 11, 12, 13],
     [20, 21, 22, 23],
@@ -113,75 +55,69 @@ print(data.shape)
 print(data[1, 2])
 ```
 
-The output is as follows.
+Output:
 
 ```text
 (3, 4)
 22
 ```
 
-`data[1, 2]` chooses the value at row 1, column 2.
+`data[1, 2]` selects row index 1 and column index 2.
 
-Here as well, indexing starts from 0.
+These indices also start at zero.
 
-| Expression | How to read it | Result |
+| Expression | Reading | Result |
 | --- | --- | --- |
-| `data[0, 0]` | row 0, column 0 | `10` |
-| `data[0, 3]` | row 0, column 3 | `13` |
-| `data[1, 2]` | row 1, column 2 | `22` |
-| `data[2, 1]` | row 2, column 1 | `31` |
+| `data[0, 0]` | Row 0, column 0 | `10` |
+| `data[0, 3]` | Row 0, column 3 | `13` |
+| `data[1, 2]` | Row 1, column 2 | `22` |
+| `data[2, 1]` | Row 2, column 1 | `31` |
 
-In a two-dimensional array, the comma can be read as a separator between dimensions. So you can read it as `data[row, column]`.
+The comma separates dimensions. Read a two-dimensional selection as `data[row, column]`.
 
-## Slicing Means Leaving a Range
+## Ranges and Steps
 
-Slicing chooses a range instead of one position.
+Slicing selects a range rather than one position.
 
-Problem situation: We want to keep only a middle range from a one-dimensional array.
-Input: An array containing four scores and the slice `1:3`.
-Expected output: An array containing only the second and third values is printed.
-Concept to check: See that slicing leaves the range from the start position up to, but not including, the stop position.
+Selecting `1:3` from four scores keeps positions 1 and 2, producing `[75 45]`.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 scores = np.array([82, 75, 45, 90])
 
 print(scores[1:3])
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [75 45]
 ```
 
-`1:3` means from position 1 up to the position before 3. So positions 1 and 2 are selected.
+`1:3` starts at position 1 and stops before position 3, selecting positions 1 and 2.
 
-Remember it here like this.
+Range notation:
 
 | Expression | Meaning |
 | --- | --- |
-| `start:stop` | from start up to before stop |
-| `:` | the whole range |
-| `:3` | from the beginning up to before 3 |
-| `1:` | from 1 to the end |
-| `::2` | skip every other position |
+| `start:stop` | From start to before stop |
+| `:` | All positions |
+| `:3` | From the beginning to before 3 |
+| `1:` | From 1 to the end |
+| `::2` | Step by two positions |
 
-Slicing is the act of asking, `Which range should remain?`
+Slicing asks which range to retain.
 
-The diagram below shows how the notation `start:stop:step` is read on a one-line array.
+The diagram shows how `start:stop:step` selects from a one-dimensional array.
 
-![Slice notation selects a range from start to stop before the stop position](/AiBook/assets/part-02/chapter-11/slice-start-stop-step-en.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/slice-start-stop-step-en.mmd"
+```
 
-The important point here is that the value at the `stop` position is not selected. `scores[1:5:2]` starts from position 1, looks up to before position 5, and moves by two steps at a time.
+The value at `stop` is excluded. `scores[1:5:2]` starts at 1, moves two positions at a time, and stops before 5.
 
-Problem situation: We compare at once how different `start:stop:step` combinations produce different results.
-Input: An array containing six scores and several slice expressions.
-Expected output: A continuous range, a range with two-step gaps, a front part, and a back part are printed.
-Concept to check: See that slicing lets you control the start, stop, and interval of a range together.
+For six scores, select a continuous interval, every second position, the first three, and the last two. Outputs are `[75 45 90 61]`, `[75 90]`, `[82 75 45]`, and `[61 70]`.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 scores = np.array([82, 75, 45, 90, 61, 70])
 
 print(scores[1:5])
@@ -190,7 +126,7 @@ print(scores[:3])
 print(scores[-2:])
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [75 45 90 61]
@@ -199,17 +135,13 @@ The output is as follows.
 [61 70]
 ```
 
-## How to Slice Rows and Columns
+## Whole Rows and Columns
 
-In a two-dimensional array, `:` lets you choose a whole row or a whole column.
+Use `:` to select a whole row or column in a two-dimensional array.
 
-Problem situation: In the same two-dimensional array, we choose one full row and one full column separately.
-Input: The 3-row, 4-column array `data`, and the selections `data[2, :]` and `data[:, 3]`.
-Expected output: The entire third row and the entire fourth column are printed.
-Concept to check: See that `:` means the full range of that axis, and that row selection and column selection should be read separately.
+Select the third row and fourth column of the same `(3, 4)` array. The results are `[30 31 32 33]` and `[13 23 33]`.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 data = np.array([
     [10, 11, 12, 13],
     [20, 21, 22, 23],
@@ -220,121 +152,120 @@ print(data[2, :])
 print(data[:, 3])
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [30 31 32 33]
 [13 23 33]
 ```
 
-`data[2, :]` chooses all columns of row 2.
+`data[2, :]` selects every column in row 2.
 
-`data[:, 3]` chooses column 3 from all rows.
+`data[:, 3]` selects column 3 from every row.
 
-The diagram below shows the same array being read differently through indexing, row slicing, and column slicing.
+This diagram contrasts selecting a value, a row, and a column from the same array.
 
-![Indexing, slicing, and axis read different parts of the same array](/AiBook/assets/part-02/chapter-11/index-slice-axis-map-en.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/index-slice-axis-map-en.mmd"
+```
 
-In this diagram, blue highlights one value, green highlights one row, and orange highlights one column. All of them are selections from the same array.
+These selections produce different result shapes, even though all use the same original array.
 
-## You Can Also Cut Out a Small Region
+## Integer Selection and Retained Axes
 
-When you specify both a row range and a column range, you can make a small sub-array.
-
-Problem situation: In a two-dimensional array, we specify a row range and a column range together so that only a small rectangular area remains.
-Input: The array `data` and the slice `data[0:2, 1:3]`.
-Expected output: A 2-by-2 sub-array is printed.
-Concept to check: See that slicing can choose ranges across several axes at once.
+`data[1, :]` selects one row and removes the row axis. `data[1:2, :]` keeps a one-row interval, retaining a row axis of length 1. The values can look the same while later operations receive different shapes.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
+print(data[1, :].shape)
+print(data[1:2, :].shape)
+print(data[:, 2].shape)
+print(data[:, 2:3].shape)
+```
+
+Outputs are `(4,)`, `(1, 4)`, `(3,)`, and `(3, 1)`. Use a length-one slice instead of an integer selection when later calculations need both axes.
+
+`data[99, :]` raises `IndexError` because that row does not exist. `data[99:, :]` instead returns an empty array of shape `(0, 4)`. Slice bounds are clipped to available positions, so successful execution does not guarantee that any data remains.
+
+## Subarrays
+
+Specify row and column intervals together to obtain a smaller subarray.
+
+Selecting rows `0:2` and columns `1:3` from `data` produces the two-by-two array `[[11, 12], [21, 22]]`.
+
+```python
 print(data[0:2, 1:3])
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [[11 12]
  [21 22]]
 ```
 
-`data[0:2, 1:3]` is read as `from row 0 up to before row 2`, and `from column 1 up to before column 3`.
+Read `data[0:2, 1:3]` as rows from 0 to before 2, and columns from 1 to before 3.
 
-So rows 0 and 1 remain, and columns 1 and 2 remain.
+Rows 0 and 1, and columns 1 and 2 remain.
 
-At first, it is enough to understand slicing not as changing the entire original array, but as a way of reading the range you need. How a slicing result stays connected to the original is revisited in the supplementary learning of P2-11.4.
+Basic slicing returns a view sharing data with the original. Editing this subarray also edits the original. Append `.copy()` when an independent array is required.
 
-## Axis Decides the Direction of Calculation
+## Sums Along Axes
 
-The NumPy glossary explains axis as a term that refers to a dimension of an array. Axes are numbered from left to right, and `axis 0` is the first element in the shape tuple. In a two-dimensional array, `axis 0` is explained as the row direction and `axis 1` as the column direction.
+NumPy uses axis to mean an array dimension. Axes are numbered by position in the shape tuple, so axis 0 corresponds to its first entry. In two dimensions, axis 0 runs across rows and axis 1 across columns.
 
-Understand it here like this.
-
-Problem situation: We look at the `shape` of a two-dimensional array and check what the axis numbers mean.
-Input: The `shape` of the 3-row, 4-column array `data`.
-Expected output: `(3, 4)` is printed.
-Concept to check: See that interpreting `axis=0` as the first dimension and `axis=1` as the second dimension is connected to `shape`.
+The earlier `data` has shape `(3, 4)`. Each shape entry gives an axis length.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
-data.shape
+print(data.shape)
 ```
 
-If the result is `(3, 4)`, read it like this.
+Interpret `(3, 4)` as follows:
 
-| Axis | Position in shape | Meaning in this example |
+| Axis | Position in shape | Meaning here |
 | --- | --- | --- |
-| `axis=0` | first number `3` | 3 rows |
-| `axis=1` | second number `4` | 4 columns |
+| `axis=0` | First number, `3` | Three rows |
+| `axis=1` | Second number, `4` | Four columns |
 
-Axis becomes especially important in summary calculations such as `sum` and `mean`.
+Axes matter especially for reductions such as `sum` and `mean`.
 
-Problem situation: We compare how the result changes depending on which axis of the same array we sum along.
-Input: The 3-row, 4-column array `data`, plus `sum(axis=0)` and `sum(axis=1)`.
-Expected output: An array of sums by column and an array of sums by row are printed.
-Concept to check: See that axis is not a position number but a calculation direction, and that the result `shape` also changes.
+Summing with `axis=0` gives column totals `[60 63 66 69]`; `axis=1` gives row totals `[46 86 126]`.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 print(data.sum(axis=0))
 print(data.sum(axis=1))
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [60 63 66 69]
 [ 46  86 126]
 ```
 
-`sum(axis=0)` adds while moving down along the row direction. So one sum remains for each column.
+`sum(axis=0)` combines values down the rows, leaving one sum per column.
 
-`sum(axis=1)` adds horizontally along the column direction. So one sum remains for each row.
+`sum(axis=1)` combines values across columns, leaving one sum per row.
 
-The diagram below shows which direction gets folded and what kind of result remains depending on the axis.
+The diagram shows which axis is reduced and which result shape remains.
 
-![Axis controls the direction of reduction](/AiBook/assets/part-02/chapter-11/axis-reduction-en.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/axis-reduction-en.mmd"
+```
 
-The important point is that `axis=0` does not mean `choose row 0`. In indexing, `0` is a number that chooses a position. But `axis=0` specifies the dimension along which calculation proceeds.
+`axis=0` does not select row 0. An index identifies a position; an axis argument identifies the dimension over which a calculation proceeds.
 
-## Rows Are Often Read as Samples and Columns as Features
+## Samples and Features
 
-In AI practice, a two-dimensional array is often read in the following way.
+AI examples often interpret two-dimensional arrays as follows:
 
 | Direction | Common interpretation |
 | --- | --- |
-| row | sample, one data case |
-| column | feature, variable |
+| Rows | Samples, individual records |
+| Columns | Features, variables |
 
-For example, look at the following array.
-
-Problem situation: In an array that can be read like a dataset, we pull out one sample and one feature column separately.
-Input: The `features` array that can be read as 3 samples and 2 features.
-Expected output: There is no printed output, but the example of a sample-feature structure is prepared.
-Concept to check: See that a two-dimensional array is often read with rows as samples and columns as features.
+For example, put three samples with two features each into a matrix. Each row is a sample; this preparation code displays no output.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 features = np.array([
     [1.0, 0.2],
     [0.8, 0.4],
@@ -342,49 +273,39 @@ features = np.array([
 ])
 ```
 
-This array can be read as 3 samples and 2 features.
+This array represents three samples and two features.
 
-Problem situation: In the dataset-like array we prepared, we immediately pull out one sample and one feature column.
-Input: The 3-row, 2-column `features` array and the selections `features[0, :]` and `features[:, 1]`.
-Expected output: The full first sample and the full second feature column are printed.
-Concept to check: See that, even in the same array, row selection and column selection correspond to different questions.
+The first sample is `[1.0, 0.2]`; the second feature across samples is `[0.2, 0.4, 0.9]`. The code prints both arrays.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 print(features[0, :])
 print(features[:, 1])
 ```
 
-The first line pulls out the first sample.
+The first line selects the first sample.
 
-The second line pulls out the second feature from all samples.
+The second selects the second feature across all samples.
 
-This intuition matters later when you handle datasets. Before sending data into a model, you first need to decide, `Which row is one case?` and `Which column is one feature?`
+Define which case each row and which feature each column represents. Shape alone cannot supply these meanings.
 
-To tie it up one more time briefly, it becomes the following.
-
-| What you see in a NumPy array | When you read it again in dataset language |
+| NumPy view | Dataset interpretation |
 | --- | --- |
-| one row | one sample |
-| one column | one full feature |
-| `shape[0]` | number of samples |
-| `shape[1]` | number of features |
+| One row | One sample |
+| One column | One feature across samples |
+| `shape[0]` | Sample count |
+| `shape[1]` | Feature count |
 
-If you hold this table first, expressions such as `X.shape`, `sample`, and `feature matrix` will feel much less unfamiliar in later Pandas and machine-learning documents.
+The diagram applies this view to a dataset-shaped array.
 
-The diagram below shows the same viewpoint in a slightly more dataset-like way.
+```mermaid
+--8<-- "assets/part-02/chapter-11/dataset-row-column-selection-en.mmd"
+```
 
-![Rows often represent samples and columns often represent features](/AiBook/assets/part-02/chapter-11/dataset-row-column-selection-en.svg)
+`features[1, :]` retrieves every feature of one sample. `features[:, 1]` retrieves one feature across all samples.
 
-Here, `features[1, :]` is code that pulls out all features of one sample. By contrast, `features[:, 1]` pulls out one same feature across all samples.
-
-Problem situation: In a more realistic dataset shape, we check one sample, one feature column, and its mean in sequence.
-Input: The 4-row, 3-column `features` array, plus `features[1, :]`, `features[:, 1]`, and `mean()`.
-Expected output: The second sample, the full second feature column, and its mean value are printed.
-Concept to check: See that choosing a row means one case, choosing a column means one whole feature, and this can lead to later statistical calculations.
+From four samples with three features each, select the second sample and second feature column. The final output is that feature’s mean, `0.4`.
 
 ```python
-# This example selects and summarizes NumPy array values by position, slice, and axis.
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],
@@ -397,7 +318,7 @@ print(features[:, 1])
 print(features[:, 1].mean())
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [0.8 0.4 6.5]
@@ -405,52 +326,60 @@ The output is as follows.
 0.4
 ```
 
-In this example, the last line calculates the mean of the second feature. In other words, `choosing one column` can lead directly to later work such as mean, variance, normalization, and feature comparison.
+The final line computes the second feature’s mean. Selecting a column can lead to means, variances, normalization, or feature comparisons.
 
 ## Example Code File
 
-You can also check the example code from this Section in the following file.
+The examples are also available in this file:
 
 - [p2_11_2_index_slice_axis.py](/AiBook/assets/part-02/chapter-11/p2_11_2_index_slice_axis.py)
 
-On a local PC, you can run it from the project root like this.
+Locally, run from the project root:
 
 ```bash
 python docs/assets/part-02/chapter-11/p2_11_2_index_slice_axis.py
 ```
 
-In Colab, you can paste the file content into a code cell and run it.
+In Colab, paste the file contents into a code cell.
 
-The output also includes examples of one-dimensional slicing with `start:stop:step` and examples of row and column selection in dataset-shaped arrays.
+Outputs also cover one-dimensional `start:stop:step` slicing and dataset-style row/column selection.
 
-## Reading It as a Case
+## Case: Student Totals and Subject Totals
 
-### Case 1. Do you want to look at only one student's scores, the whole subject column, or a summary along an axis?
+Two students score `[80, 70, 90]` and `[60, 90, 75]` in Korean, mathematics, and English. Print the second student, mathematics column, subject totals, and student totals.
 
-Suppose that, looking at a score matrix, the reading changes depending on whether you want to look only at the second student's scores, the whole math-score column, or a summary along an axis like a regional average. People do this naturally when scanning a table with their eyes, but in array computation you must state indexing, slicing, and axis explicitly.
+```python
+import numpy as np
 
-`data[1, :]` chooses one row for the second student, and `data[:, 2]` chooses the entire third column. `sum(axis=0)` moves down along the row direction and leaves sums by column, while `sum(axis=1)` adds inside each row and leaves sums by student.
+marks = np.array([[80, 70, 90], [60, 90, 75]])
+print("second student:", marks[1, :])
+print("math:", marks[:, 1])
+print("subject totals:", marks.sum(axis=0))
+print("student totals:", marks.sum(axis=1))
+```
 
-This case shows that axis is not a simple number, but a standard for deciding `in which direction to read and calculate`. Even with the same array, the code changes depending on whether the question is `do you want to look at one case`, `do you want to look at one whole variable`, or `do you want a summary by each direction`.
+```text
+second student: [60 90 75]
+math: [70 90]
+subject totals: [140 160 165]
+student totals: [240 225]
+```
 
-So read indexing and slicing not as simple syntax, but as ways of placing the question on top of the array. You need this intuition before Pandas row or column selection and NumPy axis calculations connect cleanly.
-
-Especially before moving on to Part 3, you should be able to say the following sentence immediately.
-
-- `A row usually means a sample, a column usually means a feature, and shape shows the number of samples and features together.`
+Subject totals combine the student axis into shape `(3,)`; student totals combine the subject axis into `(2,)`. Raising the second student’s mathematics score from 90 to 100 changes the totals to `[140, 170, 165]` and `[240, 235]`. Only the mathematics total and second student’s total increase by 10.
 
 ## Checklist
 
-- You can explain that NumPy indices start from 0.
-- You can read `data[1, 2]` using rows and columns.
-- You can explain the difference between `data[2, :]` and `data[:, 3]`.
-- You can explain what sub-array `data[0:2, 1:3]` chooses.
-- You can explain why the results of `sum(axis=0)` and `sum(axis=1)` are different.
-- You can explain the dataset viewpoint that rows are samples and columns are features.
-- When you see `shape = (4, 3)`, you can read it as something like `4 samples, 3 features`.
-- You can explain that indexing chooses a position, slicing leaves a range, and axis decides the direction of calculation.
+- Explain zero-based NumPy indexing.
+- Read `data[1, 2]` by row and column.
+- Distinguish `data[2, :]` from `data[:, 3]`.
+- Identify the subarray selected by `data[0:2, 1:3]`.
+- Explain why `sum(axis=0)` and `sum(axis=1)` differ.
+- Interpret rows as samples and columns as features when defined that way.
+- Read shape `(4, 3)` as four samples and three features in that layout.
+- Distinguish selecting a position, retaining a range, and choosing a reduction axis.
+- Can you predict the shape difference between an integer index and a length-one slice?
 
 ## Sources and References
 
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm basic indexing, slicing, multidimensional indices, advanced indexing, and copy/view cautions.
-- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to align terms such as axis, broadcasting, copy, and view with the terminology in this section.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used to confirm basic indexing, slicing, multidimensional indices, advanced indexing, and copy/view cautions.
+- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used to align terms such as axis, broadcasting, copy, and view with the terminology in this section.

@@ -1,7 +1,8 @@
 flowchart TD
-  A["writing branch<br/>general drafting and editing"]
-  B["review<br/>build and check"]
-  C["deployment branch<br/>public source of truth"]
-  D["static site deploy<br/>the book visible to readers"]
+  A["Write and commit on dev"]
+  B["Review text, code, and charts"]
+  C["Integrate reviewed changes into main"]
+  D["Push to origin/main"]
+  E["Verify deployment and page"]
 
-  A --> B --> C --> D
+  A --> B --> C --> D --> E

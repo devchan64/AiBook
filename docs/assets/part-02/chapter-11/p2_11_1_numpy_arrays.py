@@ -21,7 +21,8 @@ matrix = np.array(
     [
         [82, 75, 45],
         [90, 61, 70],
-    ]
+    ],
+    dtype=np.int64
 )
 
 features = np.array(
@@ -60,3 +61,19 @@ print(numpy_scores + numpy_scores)
 print("\nElement-wise NumPy operations")
 print("numpy_scores * 2:", numpy_scores * 2)
 print("numpy_scores.mean():", numpy_scores.mean())
+
+integer_scores = np.array([82, 75, 45], dtype=np.int64)
+float_scores = integer_scores.astype(np.float64)
+integer_scores[1] = 75.5
+float_scores[1] = 75.5
+show("integer assignment loses the fraction", integer_scores)
+show("float assignment preserves the fraction", float_scores)
+
+weighted = features * weights
+show("elementwise products", weighted)
+show("sum of products per sample", weighted.sum(axis=1))
+show("reversed feature weights", features @ np.array([0.4, 0.6]))
+try:
+    features @ np.array([0.6, 0.3, 0.1])
+except ValueError as error:
+    print("Expected shape mismatch:", error)

@@ -1,7 +1,7 @@
 # P2-7.1 本地环境(local environment)与运行时(runtime)
 
 > Section ID: `P2-7.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Python 代码由解释器(interpreter)读取并执行。本地环境(local environment)包括电脑上的 Python、包、文件与设置；运行时(runtime)指实际运行代码的程序与资源。即使在浏览器中输入代码，也可能由另一台电脑执行。
 
@@ -166,6 +166,12 @@ print(sys.executable)
 | 安装后无法导入包 | [虚拟环境与包安装](section-04.zh.md) |
 | 换电脑后结果不同 | [依赖与可复现性](section-05.zh.md) |
 
+## 代码输入位置与执行位置
+
+浏览器或编辑器是输入代码的位置，运行 Python 进程的计算机才会读取文件并导入包。要在 Colab 托管运行时读取本地文件，需要上传文件或连接存储，使运行时能够访问它。文件名相同不代表文件相同。
+
+例如，只修改本地 scores.csv 后，用 Colab 中原有的文件重新计算，结果可能不变。需要先把修改后的文件传入运行时。检查执行环境时，除了 Python 路径，还应比较输入文件的位置和内容。
+
 ## 检查清单
 
 - 能把 `本地环境(local environment)` 解释成代码在我电脑上运行的条件。
@@ -179,9 +185,11 @@ print(sys.executable)
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于支撑如何调用 Python 解释器，以及如何区分交互式输入与脚本执行。
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于确认 Python 是解释型、交互式编程语言，并可在多种操作系统上使用的基础说明。
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于确认虚拟环境会在隔离目录中拥有自己的 Python 安装与包状态。
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 确认日期: 2026-07-20。用于支撑如何调用 Python 解释器，以及如何区分交互式输入与脚本执行。
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 确认日期: 2026-07-20。用于确认 Python 是解释型、交互式编程语言，并可在多种操作系统上使用的基础说明。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 确认日期: 2026-07-20。用于确认虚拟环境会在隔离目录中拥有自己的 Python 安装与包状态。
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 确认日期: 2026-07-20。用于确认按项目创建虚拟环境、激活虚拟环境并安装包的流程。
 
 - Python Software Foundation, [sys.executable](https://docs.python.org/3/library/sys.html#sys.executable){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-09-08。用于确认当前 Python 解释器的可执行文件路径。
+
+- [Colaboratory FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。

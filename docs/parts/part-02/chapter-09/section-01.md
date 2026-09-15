@@ -1,7 +1,7 @@
-# P2-9.1 자료구조 선택(data structure)는 왜 필요한가
+# P2-9.1 자료구조(data structure) 선택은 왜 필요한가
 
 > Section ID: `P2-9.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 데이터 조직과 연산
 
@@ -170,6 +170,22 @@ print(score_by_id)
 
 두 번째 학생의 ID를 `"s001"`로 바꾸면 다시 하나의 키만 남습니다. 조회가 짧아지는 것뿐 아니라 키가 실제로 학생을 구별하는지도 확인해야 합니다. 이름별로 여러 점수를 모으려는 목적이라면 딕셔너리 값에 점수 리스트를 둘 수 있습니다.
 
+## 구조를 바꿀 때 잃는 정보
+
+중복 제거가 목적이라면 집합이 적합하지만, 출현 횟수까지 보존하지는 않습니다. 이름 목록에 Kim이 두 번, Lee가 한 번 등장할 때 목록 길이는 3이고 고유 이름 수는 2입니다.
+
+```python
+names = ["Kim", "Kim", "Lee"]
+unique_names = set(names)
+print(len(names))
+print(len(unique_names))
+print("Kim" in unique_names)
+```
+
+출력은 `3`, `2`, `True`입니다. 집합만 남기면 Kim이 몇 번 등장했는지, 원래 어떤 순서였는지 복원할 수 없습니다. 이름의 등장 횟수는 이름별 개수 딕셔너리로, 원래 기록은 리스트로 보존할 수 있습니다. 집합의 출력 순서를 입력 순서로 가정하지 않습니다.
+
+조회용 딕셔너리도 원본을 한 번 읽어 만들어야 하며 추가 메모리가 필요합니다. 같은 ID를 반복 조회한다면 이 준비가 도움이 되지만, 전체 평균만 한 번 구한다면 점수들을 순회하는 것으로 충분합니다. 원본 점수를 바꾼 뒤 조회용 딕셔너리를 그대로 두면 두 값이 어긋날 수 있으므로, 어느 자료를 기준으로 갱신할지도 정해야 합니다.
+
 ## 체크리스트
 
 - 자료구조(data structure)를 데이터를 조직하는 방식으로 설명할 수 있다.
@@ -180,9 +196,10 @@ print(score_by_id)
 - 추상 자료형(ADT)과 구현(implementation)을 입문 수준에서 구분할 수 있다.
 - AI 실습에서 리스트, 딕셔너리, 집합, 표, 그래프가 서로 다른 질문에 답하기 위한 구조임을 설명할 수 있다.
 - 데이터를 그냥 모아 두는 것이 아니라 어떤 질문에 답하게 만들 것인지와 자료구조 선택을 연결할 수 있다.
+- 집합 변환으로 잃는 순서·중복 정보와 조회용 사본의 갱신 문제를 설명할 수 있다.
 
 ## 출처와 참고 자료
 
 - Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 자료구조를 데이터를 조직하는 방식으로 설명하는 정의 확인에 사용했다.
 - Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 추상 자료형을 구현보다 동작 관점의 틀로 구분하는 근거로 사용했다.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 리스트와 딕셔너리 예시를 자료구조 선택 설명에 연결하는 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python 리스트와 딕셔너리 예시를 자료구조 선택 설명에 연결하는 근거로 사용했다.

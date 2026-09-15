@@ -1,7 +1,7 @@
 # P2-7.6 补充学习：不同操作系统中的终端入口
 
 > Section ID: `P2-7.6`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Windows PowerShell 用 `Get-Location`，macOS/Linux 的 shell 用 `pwd` 检查当前位置。打开终端的方法与路径写法虽然不同，但检查位置、查看文件列表、切换文件夹的任务相同。
 
@@ -12,14 +12,6 @@ Windows PowerShell 用 `Get-Location`，macOS/Linux 的 shell 用 `pwd` 检查�
 | `pwd`, `ls`, `cd` | 用来确认当前位置、查看列表、移动文件夹的基本命令。 |
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | 在 PowerShell 中完成相同目的的命令。 |
 | 路径（path）差异 | 像 Windows 的 `C:\\...` 与 macOS/Linux 的 `/...` 这样的操作系统路径表示差异。 |
-
-## 操作系统、路径与快捷键
-
-| 标准 | 为什么重要 |
-| --- | --- |
-| 操作系统不同，终端应用、默认 shell、路径表示也会稍有不同 | 如果直接照搬别的操作系统示例，路径和命令可能会对不上 |
-| 即便如此，共通地首先要看的仍然是当前位置和文件列表 | 即使操作系统不同，实践前的检查顺序也不会差太多 |
-| 终端快捷键可能与普通应用不同 | 如果把复制粘贴和中断执行混淆，工作会被打断 |
 
 ## 各操作系统的终端与 shell
 
@@ -305,6 +297,20 @@ pwd
 
 确认各结果是以 `ai practice` 结尾的项目位置。不加引号时，shell 可能把含空格的路径拆成多个参数，导致切换失败。即使命令目的相同，实际路径与参数边界也必须正确。
 
+## 调用带引号的可执行文件路径
+
+应区分给目录参数加引号与调用程序。PowerShell 中直接运行包含空格且带引号的 Python 路径时，需要在前面加调用运算符 &。请把下面的路径替换为已创建虚拟环境的实际位置。
+
+```powershell
+& "C:\Users\someone\ws\ai practice\.venv\Scripts\python.exe" --version
+```
+
+```bash
+"/home/someone/ws/ai practice/.venv/bin/python" --version
+```
+
+两条命令都会输出指定可执行文件的版本。Bash 示例使用 Linux 路径，macOS 应改成实际 /Users/... 路径。PowerShell 把单独的带引号内容视为字符串值，因此不能直接照搬 Bash 的调用语法。
+
 ## 检查清单
 
 - 能说明 Windows Terminal 是可运行多种命令行 shell 的宿主应用。
@@ -327,3 +333,5 @@ pwd
 - Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-20。用于确认 PowerShell 中查看当前工作位置的命令及其 `pwd` 别名。
 - Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-20。用于确认 PowerShell 中改变当前工作位置的命令及其 `cd` 别名。
 - Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-20。用于确认 PowerShell 中列出文件和文件夹的命令及其 `ls` 别名。
+
+- [PowerShell call operator &](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_operators){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。

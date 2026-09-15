@@ -1,7 +1,7 @@
 # P2-7.4 가상환경(virtual environment)과 패키지(package)
 
 > Section ID: `P2-7.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 가상환경(virtual environment)은 프로젝트마다 별도의 Python 패키지 집합을 갖게 합니다. 패키지를 설치한 Python과 코드를 실행하는 Python이 다르면 설치가 성공해도 `import`가 실패할 수 있습니다.
 
@@ -12,14 +12,6 @@
 | `pip` | 패키지를 설치하는 도구입니다. |
 | `import` | 이미 준비된 패키지를 Python 코드 안에서 불러오는 문장입니다. |
 | `.venv` | 프로젝트 폴더 안에 두는 대표적인 로컬 가상환경 디렉터리 이름입니다. |
-
-## 프로젝트 분리와 설치 위치
-
-| 기준 | 왜 중요한가 |
-| --- | --- |
-| 가상환경은 프로젝트별 Python 실행 공간이다 | 프로젝트마다 필요한 도구 버전이 다를 수 있기 때문이다 |
-| 설치와 `import`는 서로 다른 단계다 | 설치는 준비이고 `import`는 코드 안에서 실제로 불러오는 일이다 |
-| 가장 흔한 실수는 설치한 환경과 실행한 환경이 다른 경우다 | 같은 컴퓨터 안에도 여러 Python 공간이 있을 수 있다 |
 
 ## venv가 도입된 배경
 
@@ -146,7 +138,7 @@ Colab은 브라우저에서 코드를 편집하고 런타임에서 실행하는 
 
 Colab 코드 셀의 `%pip`는 현재 노트북 커널에 패키지를 설치합니다. 다음 셀을 실행하면 해당 환경에 NumPy가 준비됩니다.
 
-```python
+```text title="IPython · 노트북 코드 셀"
 # Colab/Jupyter 코드 셀에서 현재 런타임에 NumPy를 설치하는 명령입니다.
 %pip install numpy
 ```
@@ -171,6 +163,26 @@ project-b/.venv/
 
 폴더 이름이 모두 `.venv`여도 전체 경로가 다르면 별개의 환경입니다. `sys.executable`로 출력한 Python 경로와 설치 명령에 사용한 경로를 비교하면 어느 프로젝트 환경에 설치했는지 확인할 수 있습니다.
 
+## 활성화가 바꾸는 것
+
+활성화는 현재 셸이 `.venv` 안의 Python을 먼저 찾도록 PATH를 바꿉니다. 별도 컴퓨터를 켜거나 이미 실행 중인 노트북 커널을 바꾸는 명령은 아닙니다. 앞에서 `.venv`를 만든 프로젝트 폴더에서 실행합니다.
+
+```bash title="macOS/Linux · Bash or zsh"
+source .venv/bin/activate
+python -c "import sys; print(sys.executable)"
+deactivate
+```
+
+```powershell title="Windows · PowerShell"
+.\.venv\Scripts\Activate.ps1
+python -c "import sys; print(sys.executable)"
+deactivate
+```
+
+출력 경로가 프로젝트의 `.venv` 안을 가리키면 해당 환경이 선택된 것입니다. `deactivate`는 현재 셸의 선택을 되돌릴 뿐 패키지나 폴더를 삭제하지 않습니다. PowerShell에서 활성화 스크립트 실행이 차단되면 앞 절차처럼 `.venv`의 `python.exe` 경로를 직접 지정해 실행할 수 있습니다.
+
+가상환경은 Python 패키지를 분리하지만 사용자 파일 접근 권한이나 운영체제를 격리하지는 않습니다. 다른 컴퓨터로 옮길 때는 `.venv`를 복사하기보다 코드·데이터·설치 목록으로 새 환경을 만듭니다.
+
 ## 체크리스트
 
 - 가상환경(virtual environment)을 프로젝트별 Python 실행 공간으로 설명할 수 있다.
@@ -187,4 +199,6 @@ project-b/.venv/
 - Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 확인 날짜: 2026-07-20. 가상환경이 독립된 패키지 집합과 자체 Python 실행 파일을 갖고 시스템 site-packages와 격리될 수 있다는 설계 근거로 사용했다.
 - Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-08. `venv`로 가상환경을 만들고 활성화하며, 환경 안에 Python과 패키지 상태가 분리된다는 설명 확인에 사용했다.
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-20. 프로젝트별 가상환경 생성과 `python -m pip install`을 통한 패키지 설치 흐름 확인에 사용했다.
-- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `pip`, `venv`, PyPI, `python -m pip install`의 기본 역할과 시스템 설치 대신 가상환경을 우선 고려해야 하는 맥락 확인에 사용했다.
+- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. `pip`, `venv`, PyPI, `python -m pip install`의 기본 역할과 시스템 설치 대신 가상환경을 우선 고려해야 하는 맥락 확인에 사용했다.
+
+- [IPython magic commands: %pip](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.

@@ -1,7 +1,7 @@
 # P2-7.4 Virtual Environments and Packages
 
 > Section ID: `P2-7.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 A virtual environment gives each project a separate set of Python packages. If packages are installed with a different Python from the one running the code, installation can succeed while `import` fails.
 
@@ -12,14 +12,6 @@ A virtual environment gives each project a separate set of Python packages. If p
 | `pip` | A tool that installs packages. |
 | `import` | A statement that loads an already prepared package into Python code. |
 | `.venv` | A representative local virtual-environment directory name placed inside a project folder. |
-
-## Project Separation and Installation Location
-
-| Criterion | Why it matters |
-| --- | --- |
-| A virtual environment is a project-specific Python execution space | Because each project may need different tool versions |
-| Installation and `import` are different stages | Installation is preparation, and `import` is the act of actually loading something inside code |
-| The most common mistake is that the environment where you installed something and the environment where you ran it are different | There can be multiple Python spaces even on one computer |
 
 ## Background of venv
 
@@ -149,7 +141,7 @@ But even in Colab, package installation and execution-environment issues do not 
 
 In Colab code cells, `%pip` installs packages into the current notebook kernel. Running the following cell prepares NumPy in that environment.
 
-```python
+```text title="IPython · notebook code cell"
 # This installs NumPy into the current Colab/Jupyter runtime from a code cell.
 %pip install numpy
 ```
@@ -174,6 +166,26 @@ Installing NumPy into the Python in `project-a/.venv` does not automatically ins
 
 The same folder name `.venv` denotes separate environments when the full paths differ. Compare the Python path printed by `sys.executable` with the path used in the installation command to identify the project environment where installation occurred.
 
+## What Activation Changes
+
+Activation changes PATH so the current shell finds the Python inside .venv first. It does not start a separate computer or switch an already running notebook kernel. Run these commands from the project directory where .venv was created.
+
+```bash title="macOS/Linux · Bash or zsh"
+source .venv/bin/activate
+python -c "import sys; print(sys.executable)"
+deactivate
+```
+
+```powershell title="Windows · PowerShell"
+.\.venv\Scripts\Activate.ps1
+python -c "import sys; print(sys.executable)"
+deactivate
+```
+
+A printed path inside the project’s .venv confirms the selected environment. deactivate restores the shell’s selection without deleting packages or directories. If PowerShell blocks the activation script, use the explicit path to .venv’s python.exe as shown earlier.
+
+A virtual environment separates Python packages, not user-file permissions or the operating system. On another computer, recreate it from the code, data, and installation list rather than copying .venv.
+
 ## Checklist
 
 - You can explain a virtual environment as a project-specific Python execution space.
@@ -190,4 +202,6 @@ The same folder name `.venv` denotes separate environments when the full paths d
 - Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, checked 2026-07-20. Used as design support for virtual environments having their own package set and Python executable while being isolated from system site-packages.
 - Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-09-08. Used to confirm creating and activating virtual environments with `venv`, and the separation of Python and package state inside an environment.
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-20. Used to confirm the project-level flow of creating a virtual environment and installing packages with `python -m pip install`.
-- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm the basic roles of `pip`, `venv`, PyPI, and `python -m pip install`, and the context for preferring virtual environments over system-wide installation.
+- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm the basic roles of `pip`, `venv`, PyPI, and `python -m pip install`, and the context for preferring virtual environments over system-wide installation.
+
+- [IPython magic commands: %pip](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.

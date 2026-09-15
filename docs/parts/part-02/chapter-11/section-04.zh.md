@@ -1,74 +1,13 @@
-# P2-11.4 补充学习：在 NumPy 中一起读取 shape 与原数组共享
+# P2-11.4 补充学习：同时理解 NumPy 的形状与数据共享
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.20`
+> Version: `v2026.09.15`
 
-在 P2-11.2 中，我们看了 indexing、slicing、axis；在 P2-11.3 中，我们看了 broadcasting 和 vectorization。但在真正读 NumPy 代码时，后面常常还会卡在几个问题上。
+## 切片与数据共享
 
-`这个选择还在看原数组吗？`
-`还是说它新建了一个数组？`
-`为什么 shape 会突然从 (3,) 变成 (3, 1)？`
-
-这篇补充学习就是把这些问题绑在一起处理。
-
-这里提供一个基础说明，把 `boolean mask`、`fancy indexing`、`np.newaxis`、`shared view` 放在同一条线上来看。即使前面几节里的 indexing、slicing、broadcasting 大体已经能读懂，这里仍然要重新接上：选择方式和 shape 变化是怎样连到原数组共享问题上的。
-
-## 阅读标准：在 NumPy 中一起读取 shape 与原数组共享
-
-- 能说明 basic slicing 常常可以读成“在看原数组的一部分”。
-- 能说明 fancy indexing 与 boolean mask 常常可以读成“创建了一个新数组”。
-- 能说明即使 shape 看起来相似，是否共享原数组也可能不同。
-- 能把 `np.newaxis` 解释成“增加一个长度为 1 的轴”的写法。
-- 能说明在读 broadcasting 代码时，要把 `值`、`shape`、`是否共享原数组` 一起检查。
-
-## 先抓住的一个画面
-
-这篇补充学习里最先要抓住的画面是：`怎样选择` 与 `怎样改变 shape`，会一起改变“是否共享原数组”和“计算沿哪个方向对齐”。
-
-| 代码场景 | 先读什么问题 | 现在要抓住的关键 |
-| --- | --- | --- |
-| `x[1:4]` | 是不是还在原样看这一段区间？ | 很可能仍共享原数组 |
-| `x[[1, 3, 4]]` | 是不是把分散的位置单独收集起来？ | 更安全地把它读成新数组 |
-| `x[x >= 80]` | 是不是只筛出满足条件的值？ | 更安全地把它读成新数组 |
-| `x[:, np.newaxis]` | 是不是又加了一个轴？ | `shape` 会变化，broadcasting 的读取也会变化 |
-
-也就是说，在 NumPy 里，只说“选了一部分”是不够的。必须先区分 `看区间`、`收集位置`、`按条件筛选`、`添加轴`，这样才能把 view/copy、shape、broadcasting 一起读懂。
-
-## 背景
-
-在 P2-8.7 的补充学习里，我们通过 Python list 与复制先看过一个问题：`原对象会不会一起变？` NumPy 里同样会回到这个问题。但在 NumPy 中，只问“有没有复制”还不够，还要一起问 `shape 是怎么变的？`
-
-例如，`x[1:4]` 与 `x[[1, 3, 4]]` 看起来都像“只选出部分值”，但前者可能还在看原数组，后者则可能已经创建了一个新数组。而 `x[:, np.newaxis]` 即使值没有变化，也会改变整个 broadcasting 的方式。
-
-当 P2-11.2 里的 slicing 与 axis 已经大体能读懂，但你仍会卡在“这个选择会不会把原数组一起改掉”；或者当 P2-11.3 里的 broadcasting 已经能读懂，但碰到 `(3, 1)` 和 `(1, 3)` 突然出现就停住时，就来看这一节。抓住这个标准后，你就能把 slicing、axis、broadcasting 连同 `shape` 与 `是否共享原数组` 一起读。
-
-## 三个标准
-
-| 标准 | 为什么重要 | 本节需要达到的理解程度 |
-| --- | --- | --- |
-| 选了什么 | 它能避免把 slicing、fancy indexing、mask 混成同一种选择 | 先分清是切区间，还是单独收集某些位置 |
-| `shape` 怎么变了 | 它揭示了为什么值看起来相同，计算方式却会变 | 理解 `(3,)`、`(3, 1)`、`(1, 3)` 的差异会改变计算方向 |
-| 是否仍共享原数组 | 它能避免后面改值时意外改变实验结果 | 如果可能修改值，就先检查是否需要 copy |
-
-| 术语 | 本节先抓住的含义 |
-| --- | --- |
-| boolean mask | 只保留条件为真的值的选择方式 |
-| fancy indexing | 用一个位置列表指定多个位置，再把值单独收集起来的选择方式 |
-| `np.newaxis` | 通过增加长度为 1 的轴来改变数组 shape 的写法 |
-| shared view | 选择结果仍和原数组相连，可能一起变化的状态 |
-| copy | 创建一个和原数组分离的新数组的方式 |
-
-## Basic Slicing 常常可以读成在看原数组的一部分
-
-在 P2-11.2 中，slicing 被介绍为“保留一个区间”的写法。在 NumPy 里，这种 basic slicing 常常会表现成“仍在看原数组的一部分”。
-
-问题场景：确认当我们修改 slicing 选出的部分时，原数组会不会一起变化。
-输入(input)：一维数组 `scores` 与切片 `scores[1:4]`。
-期待输出(output)：通过切片改掉的值，会反映回原数组。
-要确认的概念：看到 basic slicing 看起来像新数组，但仍可能与原数组相连。
+基本切片创建与原数组共享数据的视图。把 `scores[1:4]` 的第一个值改为 999，原数组的位置 1 也会变成 999。
 
 ```python
-# 这个补充例子同时检查 NumPy 数组的 shape 变化以及是否与原数组共享数据。
 import numpy as np
 
 scores = np.array([82, 75, 45, 90, 61])
@@ -80,32 +19,18 @@ print(scores)
 print(middle)
 ```
 
-输出如下。
+输出：
 
 ```text
 [ 82 999  45  90  61]
 [999  45  90]
 ```
 
-这里可以这样读。
+## 位置、条件选择与复制
 
-- 只把 `scores[1:4]` 看成“复制出来的三个值”是有风险的。
-- basic slicing 常常可以读成仍在看原数组的一部分。
-- 所以后面改值时，原数组也可能跟着变。
-
-这种直觉直接连到 P2-8.7 里那个问题：`原对象和复制结果什么时候会一起变化？`
-
-## Fancy Indexing 和 Boolean Mask 会把选中的值重新收集成新结果
-
-现在看一些虽然也像“选一部分”，但工作方式不同的例子。
-
-问题场景：比较“单独挑出几个位置”的 fancy indexing，和“按条件筛选”的 boolean mask，它们与原数组有什么不同。
-输入(input)：数组 `scores`、位置列表 `[1, 3, 4]`、条件 `scores >= 80`。
-期待输出(output)：即使修改 fancy indexing 和 boolean mask 的结果，原数组 `scores` 也保持不变。
-要确认的概念：看到按位置收集或按条件筛选出来的结果，更安全地应读成新数组。
+用位置列表进行花式索引、用布尔掩码按条件读取时，都会复制数据。把 `picked` 第一个值改为 500、`high_scores` 第一个值改为 700，原数组仍是 `[82, 75, 45, 90, 61]`。
 
 ```python
-# 这个补充例子同时检查 NumPy 数组的 shape 变化以及是否与原数组共享数据。
 scores = np.array([82, 75, 45, 90, 61])
 
 picked = scores[[1, 3, 4]]
@@ -119,7 +44,7 @@ print(picked)
 print(high_scores)
 ```
 
-输出如下。
+输出：
 
 ```text
 [82 75 45 90 61]
@@ -127,40 +52,15 @@ print(high_scores)
 [700  90]
 ```
 
-这里，`scores[[1, 3, 4]]` 是把位置 1、3、4 的值单独收集起来。这种方式叫 fancy indexing。
+`scores[[1, 3, 4]]` 收集位置 1、3、4 的值，称为花式索引。
 
-`scores[scores >= 80]` 是只保留条件为真的值。这种方式叫 boolean mask。
+`scores[scores >= 80]` 使用布尔掩码，选择条件为真的值。
 
-这里两者都可以这样理解。
+## 添加长度为一的轴
 
-- basic slicing 更接近 `原样查看一段区间`。
-- fancy indexing 与 boolean mask 更接近 `把选中的值重新收集起来`。
-
-因此，改值时是否会连动原数组，也会不同。
-
-## 即使都叫“选一部分”，问题本身也不同
-
-slicing、fancy indexing、boolean mask 虽然都像是在“只选一部分值”，但它们实际上回答的是不同问题。
-
-| 表达式 | 先读什么问题 | 入门阶段更安全的解释 |
-| --- | --- | --- |
-| `x[1:4]` | 要保留哪一段区间？ | 查看区间 |
-| `x[[1, 3, 4]]` | 要把哪些位置单独取出来？ | 收集位置 |
-| `x[x >= 80]` | 要保留哪些满足条件的值？ | 按条件筛选 |
-
-先把这个区别分开，NumPy 代码就会少很多混乱。
-
-## `np.newaxis` 会增加一个长度为 1 的轴
-
-现在看的是：不是选值，而是改变 `shape` 的写法。
-
-问题场景：仅通过改变 shape，区分同一个一维数组该被看成更像一行还是更像一列。
-输入(input)：一维数组 `scores`，以及 `scores[:, np.newaxis]`、`scores[np.newaxis, :]`。
-期待输出(output)：打印 `(3,)`、`(3, 1)`、`(1, 3)` 三种 shape。
-要确认的概念：看到 `np.newaxis` 不会改变值本身，而是通过增加一个长度为 1 的轴来改变计算方向。
+`np.newaxis` 在指定位置添加长度为一的轴。形状为 `(3,)` 的分数数组可以视为 `(3, 1)` 或 `(1, 3)`，结果也与原数组共享数据。
 
 ```python
-# 这个补充例子同时检查 NumPy 数组的 shape 变化以及是否与原数组共享数据。
 scores = np.array([82, 75, 45])
 
 print(scores.shape)
@@ -168,7 +68,7 @@ print(scores[:, np.newaxis].shape)
 print(scores[np.newaxis, :].shape)
 ```
 
-输出如下。
+输出：
 
 ```text
 (3,)
@@ -176,27 +76,21 @@ print(scores[np.newaxis, :].shape)
 (1, 3)
 ```
 
-这三个数组看上去装的数字相似，但读取方式不同。
+数值相同，但维数与形状不同。
 
-| 表达式 | shape | 读取方式 |
+| 表达式 | 形状 | 读法 |
 | --- | --- | --- |
-| `scores` | `(3,)` | 长度为 3 的一维数组 |
-| `scores[:, np.newaxis]` | `(3, 1)` | 像 3 行 1 列的列向量一样去读 |
-| `scores[np.newaxis, :]` | `(1, 3)` | 像 1 行 3 列的行向量一样去读 |
+| `scores` | `(3,)` | 长度为三的一维数组 |
+| `scores[:, np.newaxis]` | `(3, 1)` | 三行一列，类似列向量 |
+| `scores[np.newaxis, :]` | `(1, 3)` | 一行三列，类似行向量 |
 
-所以 `np.newaxis` 不是在创造新数字，而是在整理数组该沿哪个方向去适配计算。
+`np.newaxis` 不生成新的数值，而是组织数组在计算中的对齐方式。
 
-## `np.newaxis` 常用来有意制造 Broadcasting
+## 计算所有组合的差
 
-在 P2-11.3 中，我们看过像 `(4, 3)` 与 `(3,)` 这种本来就兼容的 shape。但有些计算，必须故意多加一个轴，才更容易读。
-
-问题场景：把列方向和行方向分开，一次性计算两个集合之间的差。
-输入(input)：长度为 3 的数组 `a` 和长度为 2 的数组 `b`。
-期待输出(output)：形状 `(3, 1)` 与 `(1, 2)` 相遇后，产生 `(3, 2)` 的结果。
-要确认的概念：看到 `np.newaxis` 是用于 broadcasting 的 shape 对齐工具。
+要从 `[10, 20, 30]` 的每个值分别减去 1 和 2，需要三行二列的结果。把输入形状改成 `(3, 1)` 和 `(1, 2)`，即可通过广播计算全部六种组合。
 
 ```python
-# 这个补充例子同时检查 NumPy 数组的 shape 变化以及是否与原数组共享数据。
 a = np.array([10, 20, 30])
 b = np.array([1, 2])
 
@@ -207,7 +101,7 @@ print(b[np.newaxis, :].shape)
 print(diff)
 ```
 
-输出如下。
+输出：
 
 ```text
 (3, 1)
@@ -217,66 +111,91 @@ print(diff)
  [29 28]]
 ```
 
-这个例子的关键不在值，而在 `shape`。
+第一行 `[9, 8]` 是 10 减去 1 和 2，最后一行 `[29, 28]` 是 30 减去两值。把 `b` 改成 `[1, 5]`，只会把第二列改为 `[5, 15, 25]`。不添加轴而直接计算 `a - b`，会因 `(3,)` 与 `(2,)` 不兼容而失败。
 
-- `a[:, np.newaxis]` 是 `(3, 1)`。
-- `b[np.newaxis, :]` 是 `(1, 2)`。
-- 两者通过 broadcasting 产生 `(3, 2)` 的结果。
+## reshape 与转置
 
-这里可以把 `np.newaxis` 理解成：为了 broadcasting，让行和列角色更明确的写法。
+`reshape` 把元素重新组织成新形状；二维数组的 `.T` 交换行轴与列轴。两者都能得到 `(3, 2)`，但数值排列不同。
 
-## 在实务代码里，要一起看 Shape 与原数组共享
+```python
+matrix = np.array([[10, 11, 12], [20, 21, 22]])
+print(matrix.reshape(3, 2))
+print(matrix.T)
+```
 
-NumPy 代码之所以容易让人混乱，是因为 `选了什么`、`shape 怎样变化`、`原数组会不会一起变`，常常同时出现在同一行。
+```text
+[[10 11]
+ [12 20]
+ [21 22]]
+[[10 20]
+ [11 21]
+ [12 22]]
+```
 
-因此，更安全的读取习惯如下。
+如果原来的行代表学生，转置后就是列代表学生。`reshape(3, 2)` 不会自动保留这一含义。一维 `(3,)` 数组经 `.T` 后仍为 `(3,)`；需要列向量形状时，应使用 `[:, np.newaxis]`。
 
-1. 这段代码是在切区间、收集位置，还是按条件筛选？
-2. 结果的 `shape` 是什么？
-3. 后面会不会修改这个值？
-4. 如果必须保留原数组，是否需要 `.copy()`？
+`reshape` 尽可能返回视图，但内存布局可能要求复制。下面的小例子检查实际数据共享情况。
 
-这个判断在数据预处理中尤其重要。因为“只是从部分 sample 创建了新数据集”，还是“直接改了原数组的一部分”，会影响你怎样解释实验结果。
+```python
+matrix = np.array([[10, 11, 12], [20, 21, 22]])
+reshaped = matrix.reshape(3, 2)
+transposed_flat = matrix.T.reshape(-1)
 
-把这个流程一次性绑起来，可以得到下面的图。
+print(np.shares_memory(matrix, reshaped))
+print(np.shares_memory(matrix, transposed_flat))
+```
+
+输出为 `True`、`False`。`-1` 表示根据元素数量推断该轴长度。按默认顺序展平这个转置数组需要复制。不能认定所有 reshape 都是视图或都是副本；需要保留原数组再修改时，应显式使用 `.copy()`。
+
+## 案例：只调整选中的分数
+
+从 `[82, 75, 45, 90, 61]` 中选择位置 1 到 3，各加 10。直接修改切片也会改变原数组。需要独立比较调整前后的值时，用 `.copy()` 复制选中区间。
+
+```python
+scores = np.array([82, 75, 45, 90, 61])
+adjusted = scores[1:4].copy()
+adjusted += 10
+
+print(scores)
+print(adjusted)
+```
+
+```text
+[82 75 45 90 61]
+[ 85  55 100]
+```
+
+去掉 `.copy()` 并重跑整个示例，原数组也会变成 `[82, 85, 55, 100, 61]`。如果作为“调整前”基准的数据也改变了，前后比较就不再使用原始基准。
+
+条件选择返回副本，是指**读取并存入新变量**时。`scores[scores < 60] = 60` 这类直接赋值会修改原数组相应位置；先读取 `low = scores[scores < 60]`，再执行 `low[:] = 60`，则不会改变原数组。
 
 ```mermaid
 --8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow-zh.mmd"
 ```
 
-读者在这里至少要留下这句话。
+## 示例代码文件
 
-- `怎样选择，会改变是否共享原数组；怎样改变 shape，会改变 broadcasting 的方向。`
+依次运行示例，比较不同选择方式对原数组和形状的影响。
 
-## 应该回到哪里去读
+- [p2_11_4_views_shapes.py](/AiBook/assets/part-02/chapter-11/p2_11_4_views_shapes.py)
 
-读完这一节后，应重新接回下面这些正文。
-
-| 现在重新要读的问题 | 优先回去看的正文 |
-| --- | --- |
-| 选中的到底是哪一个值或区间？ | P2-11.2 Indexing, Slicing, and Axis |
-| 为什么整数组计算会随着 shape 变化？ | P2-11.3 Broadcasting and Vectorization |
-| 如果“共享原数组”的直觉本身还陌生 | P2-8.7 references, shallow copy, deep copy |
-
-## 简短复归表
-
-| 卡住的场景 | 先回哪里 |
-| --- | --- |
-| indexing、slicing、axis 本身还混乱 | `P2-11.2` |
-| broadcasting 方向为什么变了仍然模糊 | `P2-11.3` |
-| 为什么原数组和复制结果会一起变化仍然陌生 | `P2-8.7` |
+```bash
+python docs/assets/part-02/chapter-11/p2_11_4_views_shapes.py
+```
 
 ## 检查清单
 
-- 能说明 `x[1:4]` 与 `x[[1, 3, 4]]` 的差别吗？
-- 能说明 boolean mask 选的是什么吗？
-- 能说明 `(3,)`、`(3, 1)`、`(1, 3)` 的差别吗？
-- 能说明为什么 `np.newaxis` 和 broadcasting 连在一起吗？
-- 还记得在“保留原数组”很重要时，要先检查 `.copy()` 吗？
-- 能说明读 NumPy 代码时，不要只看值，还要一起看 `shape` 和是否共享原数组吗？
+- 能否区分 `x[1:4]` 与 `x[[1, 3, 4]]`？
+- 能否解释布尔掩码选择什么？
+- 能否区分 `(3,)`、`(3, 1)` 和 `(1, 3)`？
+- 能否解释 `np.newaxis` 与广播的关系？
+- 保留原数据时，是否检查需要复制？
+- 阅读 NumPy 代码时，能否同时检查形状与数据共享？
+- 能否区分 reshape 与转置的值排列，并用 `np.shares_memory` 检查内存共享？
 
 ## 来源与参考资料
 
-- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。作为区分 view 与 copy、basic indexing views、advanced indexing copies 和 `.base` 检查的依据。
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 selection method 会影响 shape 以及是否共享原始数据。
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。作为把 `np.newaxis` 和 shape adjustment 连接到 broadcasting 的依据。
+- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual，确认日期：2026-07-20。作为区分 view 与 copy、basic indexing views、advanced indexing copies 和 `.base` 检查的依据。
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual，确认日期：2026-07-20。用于确认 selection method 会影响 shape 以及是否共享原始数据。
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual，确认日期：2026-07-20。作为把 `np.newaxis` 和 shape adjustment 连接到 broadcasting 的依据。
+- NumPy Developers, [numpy.shares_memory](https://numpy.org/doc/stable/reference/generated/numpy.shares_memory.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 查阅日期: 2026-09-15. 小数组示例中的内存共享检查.

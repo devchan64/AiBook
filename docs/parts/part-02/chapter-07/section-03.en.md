@@ -1,26 +1,9 @@
 # P2-7.3 Python Interpreter and Script
 
 > Section ID: `P2-7.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `python` is a terminal command that opens interactive Python; `python hello.py` runs code saved in a file. `print("hello")` is Python code read by the interpreter. The execution method determines where to enter code and how results are recorded.
-
-## Background of Interactive and Script Execution
-
-Python is difficult to understand as only `a language that runs programs saved in files from the beginning`. The official Python FAQ explains Python as an interpreted, interactive, object-oriented programming language. It also explains that Guido van Rossum started Python from the experience of implementing the ABC language and working on the Amoeba distributed operating system, and that there was a need for a more extensible scripting language in a situation where it was difficult to handle system-administration work only with C programs or Bourne shell scripts.
-
-If we reduce that background from a beginner's point of view, it becomes the following.
-
-- shell scripts: good for automating by chaining operating-system commands
-- compiled languages such as C: fast and powerful, but can feel heavy for small automation and experiments
-- Python: provides readable high-level syntax together with interactive execution and script execution
-
-So in Python, two usage styles naturally appear together.
-
-- interactive execution: directly test a small expression
-- script execution: save several lines of work in a file and run them repeatedly
-
-This also helps explain Python’s use in AI learning: small code can immediately check formulas, while longer experiments can be saved in files or notebooks.
 
 ## The Python Interpreter
 
@@ -64,8 +47,6 @@ But what you type in interactive mode usually does not remain in a file. To run 
 ## Scripts Saved in Files
 
 A `script` is code saved in a file for execution. Python files usually use the `.py` extension.
-
-For example, suppose the following contents were saved in a file called `hello.py`.
 
 Save these two lines in `hello.py` and run it to print `hello` and `3` in order.
 
@@ -176,6 +157,22 @@ print(name)
 
 Saving both lines lets the script print `Mina` too. When moving notebook code into a file, include the variable definitions and imports used by the output cell.
 
+## Computed Values and Displayed Output
+
+Interactive Python displays 3 for 1 + 2, but a script containing only that expression computes the value without displaying it. Save the following as display.py and run it: the final print statement displays 3 once.
+
+```python
+1 + 2
+result = 1 + 2
+print(result)
+```
+
+```bash
+python display.py
+```
+
+Remove print(result) and rerun: there is no output. Silence alone does not mean execution failed. Saved notebook output also does not establish the current kernel state; before sharing, restart the kernel and run the cells from top to bottom to verify the result.
+
 ## Checklist
 
 - You can explain the Python interpreter as the program that reads and executes Python code.
@@ -188,6 +185,8 @@ Saving both lines lets the script print `Mina` too. When moving notebook code in
 
 ## Sources and References
 
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to support the description of Python as an interpreted, interactive programming language and to confirm Guido van Rossum's early development context.
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm interpreter invocation, interactive mode, and script-file execution.
-- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm command-line execution forms such as `python script.py`, `python -c`, and `python -m module-name`.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to support the description of Python as an interpreted, interactive programming language and to confirm Guido van Rossum's early development context.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm interpreter invocation, interactive mode, and script-file execution.
+- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm command-line execution forms such as `python script.py`, `python -c`, and `python -m module-name`.
+
+- [Python tutorial: Modules](https://docs.python.org/3/tutorial/modules.html){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.

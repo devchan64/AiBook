@@ -1,7 +1,7 @@
 # P2-7.8 Supplementary Learning: Reading Shell Execution Flow
 
 > Section ID: `P2-7.8`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 In a shell, `|` connects one command’s output to the next command’s input. `>` and `<` connect output and input to files, while environment variables pass configuration values to programs. The shell commands below use Bash and assume Python is available as `python`.
 
@@ -129,6 +129,21 @@ With the same input, change `>` to `>>` and run again; the file now contains two
 | Environment variables containing secrets | Whether values remain in command history, logs, or the repository |
 
 PowerShell pipelines can also pass objects between commands, and their syntax is not identical to Bash. In particular, do not copy the `<` input redirection above directly into PowerShell.
+
+## Checking Error Output and Exit Status
+
+A nonnumeric line causes failure before a sum is produced. The following Bash commands create a separate input file and send results and errors to different files.
+
+```bash
+printf '10\noops\n' > invalid-numbers.txt
+python read_numbers.py < invalid-numbers.txt > invalid-total.txt 2> errors.log
+printf 'exit=%s\n' "$?"
+cat errors.log
+```
+
+Immediately after Python runs, $? holds the preceding command’s exit status: 1 in this example. errors.log contains a traceback with ValueError, and invalid-total.txt is empty. An empty result file is not a sum of zero. Another command changes $?, so check it immediately after the command being diagnosed.
+
+The > redirection empties the output file before the program runs. Using the same file for input and output can therefore destroy the input; keep those paths separate. A Bash pipeline’s status normally comes from its final command, so success of that command does not establish success of earlier commands.
 
 ## Checklist
 

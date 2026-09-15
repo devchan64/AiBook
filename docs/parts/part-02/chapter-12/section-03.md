@@ -1,7 +1,7 @@
 # P2-12.3 학습용 데이터셋(dataset) 준비의 직관
 
 > Section ID: `P2-12.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 예측 시점과 입력 열
 
@@ -60,7 +60,7 @@ print(X.shape, y.shape)
 
 서로 다른 학생의 독립적인 기록을 무작위로 나누는 예에서는 `train_test_split`을 사용할 수 있습니다. 한 학생의 반복 기록이나 시간 순서가 있는 데이터라면 학생별 묶음이나 시간 순서를 고려해야 합니다. 행을 무작위로 나누는 것만으로 모든 누수가 차단되지는 않습니다.
 
-## 사례 1. 학생 36명을 27명과 9명으로 나누기
+## 사례: 학생 36명을 27명과 9명으로 나누기
 
 [`student-progress-samples.csv`](../../../assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }의 학생 36명으로 시험 전 합격 예측용 데이터를 준비합니다. 여기서는 공부 시간·결석 수·퀴즈 수가 모두 예측 시점까지 얻은 기록이라고 가정합니다. 최종 점수 `score`와 정답 `passed`는 입력에서 제외합니다.
 
@@ -78,7 +78,7 @@ X = df[feature_columns]
 y = df["passed"]
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.25, random_state=42
+    X, y, test_size=0.25, random_state=42, stratify=y
 )
 
 print("X shape:", X.shape)
@@ -94,7 +94,55 @@ train/test shapes: (27, 3) (9, 3) (27,) (9,)
 
 `test_size`를 `0.5`로 바꾸면 학습과 테스트가 각각 18명으로 나뉩니다. `random_state`를 바꾸면 선택한 학생이 달라질 수 있지만, 같은 비율에서는 행 수가 같습니다. 위 코드는 학습·테스트 분할 예시이며 검증 집합을 따로 만들지는 않습니다. 모델 설정을 비교하려면 학습 쪽에서 검증용 데이터를 추가로 나누거나 교차 검증을 사용합니다.
 
-같은 분할 점검은 [`p2_12_3_dataset_split_preview.py`](../../../assets/part-02/chapter-12/p2_12_3_dataset_split_preview.py)로 실행할 수 있습니다.
+`stratify=y`는 합격·불합격 비율이 두 집합에 가능한 한 비슷하게 남도록 나눕니다. 정수 명수로 나누므로 비율이 완전히 같지는 않을 수 있습니다. 각 클래스의 기록이 너무 적거나 나눌 집합이 너무 작으면 층화 분할이 불가능합니다. 고정된 `random_state`는 같은 입력과 실행 조건에서 분할을 재현하기 위한 값이며, 한 번의 분할이 대표성을 보장하지는 않습니다.
+
+## 입력·정답과 학생 중복 확인
+
+분할 전부터 `X`와 `y`의 학생 순서는 같아야 합니다. `train_test_split`은 학생 ID를 찾아 잘못된 짝을 고쳐 주지 않으며, 함께 전달된 배열의 현재 행 대응을 유지해 나눕니다. 반환된 인덱스로 대응과 집합 간 중복을 확인할 수 있습니다.
+
+```python
+print(X_train.index.equals(y_train.index))
+print(X_test.index.equals(y_test.index))
+print(set(X_train.index).isdisjoint(X_test.index))
+
+train_ids = set(df.loc[X_train.index, "student_id"])
+test_ids = set(df.loc[X_test.index, "student_id"])
+print(train_ids.isdisjoint(test_ids))
+```
+
+```text
+True
+True
+True
+True
+```
+
+앞 두 값은 입력과 정답의 라벨 순서가 같다는 뜻이고, 셋째는 행이 겹치지 않는다는 뜻입니다. 넷째는 학생 ID도 겹치지 않음을 확인합니다. 이 CSV에는 학생마다 한 행만 있지만, 한 학생의 반복 기록에서는 행이 달라도 학생이 겹칠 수 있습니다. 이때 새로운 학생에 대한 예측을 평가하려면 학생 단위로 분리해야 합니다.
+
+## 검증용 학생 9명 남기기
+
+27명의 학습 후보에서 9명을 다시 검증용으로 떼면 학습 18명·검증 9명·테스트 9명이 됩니다. 테스트 집합은 이 두 번째 분할에 사용하지 않습니다.
+
+```python
+X_fit, X_val, y_fit, y_val = train_test_split(
+    X_train, y_train, test_size=9, random_state=42, stratify=y_train
+)
+print(len(X_fit), len(X_val), len(X_test))
+```
+
+```text
+18 9 9
+```
+
+`test_size=9`는 9행, `test_size=0.25`는 전체의 25%를 뜻합니다. 이 세 집합으로 모델을 비교한다면 전처리 기준과 모델 학습에는 `X_fit`을 사용하고, 검증 결과로 설정을 고른 뒤 테스트를 마지막 평가에 사용합니다. 36명은 분할 절차를 확인하는 작은 예제이므로 안정적인 성능 추정 자료로 보지는 않습니다.
+
+같은 분할과 중복 확인을 파일로 실행할 수 있습니다.
+
+[p2_12_3_dataset_split_preview.py](../../../assets/part-02/chapter-12/p2_12_3_dataset_split_preview.py)
+
+```bash
+python docs/assets/part-02/chapter-12/p2_12_3_dataset_split_preview.py
+```
 
 ## 학습 데이터에서 전처리 기준 계산
 
@@ -152,6 +200,22 @@ print(df.isna().sum())
 print(df.dtypes)
 ```
 
+문자열 `"unknown"`이 들어 있는 숫자 열은 `isna()`만으로 미입력을 찾을 수 없습니다. 다음 코드는 숫자로 해석할 수 없는 값을 결측치로 바꿉니다.
+
+```python
+hours_text = pd.Series(["8.0", "unknown", "6.5"])
+hours = pd.to_numeric(hours_text, errors="coerce")
+print(hours.isna().tolist())
+print(hours.dropna().tolist())
+```
+
+```text
+[False, True, False]
+[8.0, 6.5]
+```
+
+`errors="coerce"`는 잘못된 문자열의 의미를 판단하지 않고 결측치로 바꿉니다. 변환 후 결측치 수가 늘었다면 원래 표기와 입력 오류를 확인하고 처리 기준을 정합니다. 숫자로 읽힌 값도 음수 공부 시간처럼 허용 범위 밖일 수 있습니다.
+
 ## 체크리스트
 
 - 예측 시점과 정답을 한 문장으로 정할 수 있는가?
@@ -160,10 +224,12 @@ print(df.dtypes)
 - 학습·검증·테스트 데이터의 역할을 구분할 수 있는가?
 - 테스트 값을 바꿔도 학습에서 구한 전처리 기준은 유지되어야 하는 이유를 설명할 수 있는가?
 - 범주 인코딩에서 학습과 테스트의 열 구성을 맞춰야 하는 이유를 설명할 수 있는가?
+- 분할 후 행 중복과 학생 중복을 구분하고, 검증 데이터를 학습 후보에서 따로 나눌 수 있는가?
 
 ## 출처와 참고 자료
 
-- pandas Developers, [pandas.get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. 범주형 변수를 dummy/indicator 변수로 바꾸는 예시 확인에 사용했다.
-- scikit-learn Developers, [Glossary](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-20. 1d/2d array, array-like, estimator 입력 관례와 `X`, `y` 용어 배경 확인에 사용했다.
-- scikit-learn Developers, [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-20. 배열과 행렬을 train/test subset으로 나누는 API와 `test_size`, `random_state` 예시 확인에 사용했다.
-- scikit-learn Developers, [Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-20. train/test 분리 전후의 전처리 순서와 data leakage 주의 설명 확인에 사용했다.
+- pandas Developers, [pandas.get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-07-20. 범주형 변수를 dummy/indicator 변수로 바꾸는 예시 확인에 사용했다.
+- scikit-learn Developers, [Glossary](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn documentation, 확인 날짜: 2026-07-20. 1d/2d array, array-like, estimator 입력 관례와 `X`, `y` 용어 배경 확인에 사용했다.
+- scikit-learn Developers, [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn documentation, 확인 날짜: 2026-09-15. 배열과 행렬을 train/test subset으로 나누는 API와 `test_size`, `random_state` 예시 확인에 사용했다.
+- scikit-learn Developers, [Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn documentation, 확인 날짜: 2026-09-15. train/test 분리 전후의 전처리 순서와 data leakage 주의 설명 확인에 사용했다.
+- pandas Developers, [pandas.to_numeric](https://pandas.pydata.org/docs/reference/api/pandas.to_numeric.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-09-15. errors="coerce"의 수치 변환 실패 처리.

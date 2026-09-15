@@ -1,7 +1,9 @@
-flowchart TD
-  A["Notebook exploration<br/>try small ideas"]
-  B["Function<br/>name repeated logic"]
-  C["Script file<br/>run the same steps"]
-  D["Module<br/>reuse from notebooks"]
-
-  A --> B --> C --> D
+flowchart TB
+  A["노트북 탐색"]
+  B["반복 계산을 함수로 묶기"]
+  C["모듈 파일<br/>공통 함수 저장"]
+  D["노트북에서 import<br/>결과 비교와 해석"]
+  E["스크립트에서 import<br/>정해진 작업 실행"]
+  A --> B --> C
+  C --> D
+  C --> E

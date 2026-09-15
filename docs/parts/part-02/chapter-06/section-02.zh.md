@@ -1,7 +1,7 @@
 # P2-6.2 损失函数与目标函数
 
 > Section ID: `P2-6.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 损失函数(loss function)将预测与真实值的差距转换成用于学习的数字。目标函数(objective function)是训练要最小化或最大化的整体标准，也可以在平均损失上加入表示额外条件的惩罚项。
 
@@ -19,18 +19,6 @@
 候选直线为 \(\hat{y} = 10x + 45\) 时，预测值为 `55, 65, 75, 85`。损失函数在这里把这条直线有多不贴合数据转换成数字。
 
 也就是说，模型先做预测，再拿它和真实值比较，把错了多少变成数字，然后朝着让这个数字变小的方向去学习。
-
-```mermaid
---8<-- "assets/part-02/chapter-06/loss-objective-flow-zh.mmd"
-```
-
-## 损失、平均损失与评价指标
-
-| 标准 | 为什么重要 |
-| --- | --- |
-| 损失是把模型错得多严重变成数字的值 | 它说明学习不是靠感觉判断在动，而是在可计算标准上动。 |
-| 要把多个样本的损失合起来看整体趋势 | 因为我们不能只看一次偶然预测，而要看整批数据的表现。 |
-| 损失函数和评价指标可能相同也可能不同 | 如果把学习标准和真实运营判断标准混在一起，解释就会偏掉。 |
 
 ## 误差与平方误差
 
@@ -76,9 +64,21 @@ loss = (10 - 8)^2 = 4
 
 | 方式 | 计算 | 直觉 |
 | --- | --- | --- |
-| 绝对误差(absolute error) | \(|y - \hat{y}|\) | 看它离得有多远 |
+| 绝对误差(absolute error) | \(\lvert y - \hat{y}\rvert\) | 看它离得有多远 |
 | 平方误差(squared error) | \((y - \hat{y})^2\) | 对大误差惩罚更重 |
-| 对数损失(log loss) | 对概率预测应用对数 | 对“很自信但预测错”的情况强力惩罚 |
+| 对数损失(log loss) | 正确类别概率的负对数 | 对“很自信但预测错”的情况强力惩罚 |
+
+## 分配给正确类别的概率与对数损失
+
+分类模型预测各类别的概率。对于正确类别为“垃圾邮件”的邮件，比较模型赋予垃圾邮件概率 0.9 与 0.1 的情况。在只有一个正确类别的分类中，单个样本的对数损失为 `−ln(正确类别的预测概率)`。`ln` 表示自然对数；严格介于 0 与 1 之间的概率，其对数为负，因此前面加负号。
+
+| 分配给正确类别“垃圾邮件”的概率 | 单个样本的对数损失 | 含义 |
+| --- | --- | --- |
+| 0.9 | `−ln(0.9) ≈ 0.105` | 正确类别的概率高 |
+| 0.5 | `−ln(0.5) ≈ 0.693` | 两个类别的概率相同 |
+| 0.1 | `−ln(0.1) ≈ 2.303` | 正确类别的概率低 |
+
+分配给正确类别的概率趋近 1 时，损失趋近 0；概率趋近 0 时，损失变得很大。准确率只统计判断是否正确，而对数损失还反映给正确类别分配了多高的概率。例如，以 0.5 为垃圾邮件判定阈值时，0.6 和 0.9 都能判断正确，但对数损失不同。
 
 ## 均方误差
 
@@ -104,7 +104,7 @@ loss = (10 - 8)^2 = 4
 (y_i - \hat{y}_i)^2
 \]
 
-sigma 压缩了将各样本平方误差相加的计算。损失函数与 sigma 结合后，得到描述整个数据集错误程度的数字。
+sigma 压缩了将各样本平方误差相加的计算。这里 n 是样本数，i 是样本编号。将平方误差相加后除以 n，得到每个样本的平均损失。MSE 本身也称为损失函数，因此应根据公式与语境区分单个损失和平均损失。
 
 ## 平均损失与正则化惩罚
 
@@ -130,6 +130,22 @@ objective = average loss + regularization penalty
 | a = 12, b = 40 | 7.5 | 28.8 | 36.3 |
 
 只比较平均损失，第二个候选更好；但加入惩罚后，第一个候选的目标函数值更好。要理解训练在最小化什么，除了损失，还需检查正则化(regularization)项。
+
+将惩罚强度记为 `λ`（lambda），目标函数就是 `平均损失 + λa²`。设置值 `λ≥0` 控制两项的相对权重。`λ=0` 时只比较平均损失；λ 越大，大斜率对应的代价越高。本例中的 λ 单独设定，与学习得到的参数 `a, b` 区分。
+
+| λ | 候选 1：a=10, b=45 | 候选 2：a=12, b=40 | 两者中目标函数值较小者 |
+| --- | --- | --- | --- |
+| 0 | 12.5 | 7.5 | 候选 2 |
+| 0.1 | 22.5 | 21.9 | 候选 2 |
+| 0.2 | 32.5 | 36.3 | 候选 1 |
+
+惩罚不同于禁止 a 超出某个上限的约束。它只是给较大的 a 增加代价进行比较，并不禁止这种取值。λ 越大，也不保证新数据上的表现越好。惩罚过强可能使模型无法充分跟随数据的变化，因此需要在验证数据上检查效果。
+
+图中的平均损失与惩罚是不同的项，两者相加才是本例要最小化的目标函数。
+
+```mermaid
+--8<-- "assets/part-02/chapter-06/loss-objective-flow-zh.mmd"
+```
 
 ## 训练损失与新数据性能
 
@@ -164,6 +180,14 @@ objective = average loss + regularization penalty
 
 B 的 MSE 更低，但 A 在偏差最大的订单上误差更小。如果服务另外统计 `预测偏差超过 6 分钟的订单数`，A 为 0 单，B 为 1 单。训练损失改善，并不代表运营中的其他指标也会同时改善。
 
+## 改变惩罚与评价标准后重新计算
+
+1. 当 `λ=0.05` 时，计算两条候选直线的目标函数值，选出较小者。
+2. 给正确类别为垃圾邮件的邮件赋予垃圾邮件概率 0.6，对数损失是多少？与概率 0.9 相比，即使准确率判定相同，损失有何不同？垃圾邮件判定阈值设为 0.5。
+3. 配送例子中，A 与 B 各有多少订单的绝对误差超过 4 分钟？与 6 分钟标准相比，选择是否改变？
+
+**解答：** ① 候选 1 为 `12.5+0.05×100=17.5`，候选 2 为 `7.5+0.05×144=14.7`，候选 2 较小。② `−ln(0.6)≈0.511`。两个概率都判断为垃圾邮件且判断正确，但概率 0.9 的损失约为 0.105，更小。③ A 为 3 单，B 为 1 单，最小化该数量时 B 更好。6 分钟标准下，A 为 0 单，B 为 1 单，因此 A 更好。评价标准不仅名称重要，阈值也影响选择。
+
 ## 检查清单
 
 - 能把 `损失函数(loss function)` 解释成把预测错误变成数字的函数。
@@ -181,4 +205,4 @@ B 的 MSE 更低，但 A 在偏差最大的订单上误差更小。如果服务�
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-20。用于确认深度学习训练会最小化训练数据中逐样本损失平均而成的成本函数(cost function)。
 - scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-20。用于确认评价预测质量时 scoring/metric 的选择，以及损失函数与评价指标可能相同也可能不同这一说明。
 - scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-20。用于确认均方误差是实际值 `y_true` 与预测值 `y_pred` 之间的回归损失，且最佳值为 0。
-- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-20。用于确认 log loss 也称 logistic loss 或 cross-entropy loss，并应用于预测概率。
+- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-09-15。用于确认 log loss 也称 logistic loss 或 cross-entropy loss，并应用于预测概率。

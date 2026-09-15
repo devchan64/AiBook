@@ -1,13 +1,13 @@
 # P2-9.2 배열(array), 표(table), 트리(tree), 그래프(graph) 직관
 
 > Section ID: `P2-9.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 위치·행과 열·계층·연결
 
 배열은 위치와 축(axis), 표는 행(row)과 열(column), 트리는 계층(hierarchy), 그래프는 연결 관계를 중심으로 데이터를 표현합니다.
 
-![Array, table, tree, and graph compare different data questions](../../../assets/part-02/chapter-09/data-structure-four-views-ko.svg)
+![배열·표·트리·그래프가 각각 강조하는 위치, 행과 열, 계층, 연결](../../../assets/part-02/chapter-09/data-structure-four-views-ko.svg)
 
 | 구조 | 핵심 질문 | 기본 단위 | AI 실습에서 만나는 예 |
 | --- | --- | --- | --- |
@@ -20,7 +20,7 @@
 
 평균 계산, 학생별 속성 비교, 소속 확인, 친구 찾기는 각각 필요한 정보가 다릅니다.
 
-![Choose array, table, tree, or graph by the question](../../../assets/part-02/chapter-09/question-to-structure-map-ko.svg)
+![계산·비교·계층·관계 질문과 자료구조의 대응](../../../assets/part-02/chapter-09/question-to-structure-map-ko.svg)
 
 ## 배열: 위치와 축
 
@@ -80,6 +80,23 @@ print(average)
 ```
 
 평균 계산에는 이름이나 라벨이 필요하지 않습니다. 점수의 순서를 바꿔도 평균은 같지만, 특정 학생의 점수를 찾으려면 학생과 배열 위치의 대응을 유지해야 합니다.
+
+## 배열의 모양과 축별 계산
+
+2행 3열 배열의 `shape`는 `(2, 3)`입니다. 축 0은 행 방향, 축 1은 열 방향이며, 평균을 구할 때 지정한 축을 따라 값을 모읍니다.
+
+```python
+import numpy as np
+
+patch = np.array([[0, 20, 40], [10, 30, 50]])
+print(patch.shape)
+print(patch.mean(axis=0).tolist())
+print(patch.mean(axis=1).tolist())
+```
+
+출력은 `(2, 3)`, `[5.0, 25.0, 45.0]`, `[20.0, 30.0]`입니다. `axis=0`은 두 행을 모아 열별 평균 세 개를 만들고, `axis=1`은 각 행의 세 값을 모아 행별 평균 두 개를 만듭니다. 축 번호만 외우기보다 어떤 값들이 함께 계산되는지 확인합니다.
+
+`patch.reshape(3, 2)`는 원소 수 6을 유지하면서 3행 2열로 묶습니다. 데이터의 의미를 이해해 픽셀 위치나 학생별 속성을 맞춰 주는 동작은 아닙니다. `reshape(2, 2)`는 필요한 원소 수가 4여서 `ValueError`가 납니다. 모양이 맞는지와 그 모양이 원래 의미를 보존하는지는 별개의 확인입니다.
 
 ## 표: 행과 열
 
@@ -231,13 +248,13 @@ AI 실습과 서비스에서는 그래프 감각이 다음 장면에서 등장�
 - 검색 시스템에서 문서, 키워드, 출처의 연결을 볼 때
 - RAG에서 문서 조각과 메타데이터의 관계를 다룰 때
 
-## 사례: 전학 전후의 데이터
+## 사례: 반 변경 전후의 데이터
 
 같은 학생 데이터를 네 가지 관점으로 다시 보겠습니다.
 
 아래 도식은 같은 학생 데이터를 점수 배열, 레코드 표, 학교 계층, 친구 관계로 바꾸어 읽는 방식을 보여 줍니다.
 
-![The same student data can become an array, table, tree, or graph](../../../assets/part-02/chapter-09/same-data-four-structures-ko.svg)
+![같은 학생 데이터의 점수 배열, 기록 표, 반 소속 트리와 친구 관계 그래프](../../../assets/part-02/chapter-09/same-data-four-structures-ko.svg)
 
 Kim과 Lee는 A반, Park은 B반입니다. 점수는 각각 82, 75, 45이며 Kim과 Lee, Lee와 Park이 친구입니다. 다음 코드는 이 레코드에서 점수 배열, 통과한 학생 이름, 반별 소속, 친구 관계를 만듭니다.
 
@@ -288,10 +305,13 @@ Park의 `"class"`를 `"A"`로 바꿔 전체 코드를 다시 실행하면 반별
 - 같은 데이터를 질문에 따라 배열, 표, 트리, 그래프 중 다른 구조로 볼 수 있음을 설명할 수 있다.
 - AI 실습에서 토큰, 임베딩, 데이터셋, 문서 구조, 지식 그래프가 어떤 구조 감각과 연결되는지 설명할 수 있다.
 - 지금 배열 질문인지, 표 질문인지, 계층 질문인지, 관계 질문인지 먼저 구분할 수 있다.
+- shape와 axis에 따라 평균이 어떤 값들을 묶고 어떤 모양으로 나오는지 계산할 수 있다.
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. `ndarray`의 차원, shape, dtype, 인덱싱과 슬라이싱 설명을 배열 직관의 근거로 사용했다.
-- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. DataFrame을 행과 열을 가진 2차원 구조로 설명하는 근거로 사용했다.
+- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. `ndarray`의 차원, shape, dtype, 인덱싱과 슬라이싱 설명을 배열 직관의 근거로 사용했다.
+- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-07-20. DataFrame을 행과 열을 가진 2차원 구조로 설명하는 근거로 사용했다.
 - Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 트리를 루트와 부모-자식 관계를 가진 계층 구조로 설명하는 근거로 사용했다.
 - Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 그래프를 노드와 엣지로 관계를 표현하는 구조로 설명하는 근거로 사용했다.
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 축별 평균의 의미와 결과 모양을 확인했다.
+- NumPy Developers, [numpy.reshape](https://numpy.org/doc/stable/reference/generated/numpy.reshape.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 원소 수를 유지하는 모양 변경 조건을 확인했다.

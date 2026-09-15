@@ -1,15 +1,10 @@
 # P2-8.1 Values, Variables, and Types
 
 > Section ID: `P2-8.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `82` and `"82"` look similar on screen but behave differently in calculations. `82 + 3` is `85`, while `"82" + 3` raises an error because numbers and strings have different types.
 
-| Criterion | Why it matters |
-| --- | --- |
-| A value is data used in computation | Numbers, text, and truth values serve as inputs to operations. |
-| A variable is a name referring to a value | A name lets you reuse a value and refer to another value later. |
-| A type is the kind of a value | It distinguishes the operations that can be applied. |
 
 ## Values and Operations
 
@@ -182,6 +177,21 @@ print(score >= threshold)
 
 `score_text` refers to the original string and `score` to the converted number. Changing `threshold` in the last code block to `90.0` makes the result `False`. Matching types enables the comparison; changing the criterion changes its result.
 
+## Truth Conversion and String Contents
+
+`bool()` does not interpret the meaning of words in a string. An empty string is false; a nonempty one is true. Applying `bool()` to the configuration string `"False"` therefore returns `True`.
+
+```python
+print(bool(""))
+print(bool("False"))
+print(bool("0"))
+print(bool(0))
+```
+
+The outputs are `False`, `True`, `True`, and `False`. Numeric zero and the string `"0"` do not have the same truth value. For string-based settings, define the accepted spellings and conversion rules.
+
+Numeric conversion also requires suitable contents. `float("82.5")` produces `82.5`, but `float("missing")` raises `ValueError`. The missing-value marker `None` differs from zero and the string `"None"`. Arbitrarily turning missing scores into zero loses the distinction from a real zero score, so separate missing-data handling from numeric conversion.
+
 ## Checklist
 
 - You can distinguish values, variables, and types.
@@ -192,9 +202,11 @@ print(score >= threshold)
 - You can explain why a type error calls for checking the data’s state.
 - You can explain why actual types must be checked even when values look numeric on screen.
 
+- Explain why `bool("False")` is `True` and why replacing missing `None` values with zero loses information.
+
 ## Sources and References
 
 - Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org, checked on 2026-07-20. Used to confirm Python's dynamic semantics, dynamic typing, and high-level built-in data structures.
-- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm how prompts, numbers, strings, and lists are introduced in interactive Python examples.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm basic types such as `int`, `float`, `str`, and `bool`, and differences in operations by type.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm that Python objects have identity, type, and value.
+- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-07-20. Used to confirm how prompts, numbers, strings, and lists are introduced in interactive Python examples.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-09-15. Used to confirm basic types such as `int`, `float`, `str`, and `bool`, and differences in operations by type.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked on 2026-07-20. Used to confirm that Python objects have identity, type, and value.

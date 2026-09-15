@@ -18,7 +18,9 @@
 - When updating a Mermaid diagram set, revise the English original first. Sync the Korean derivative, and add or refresh a Simplified Chinese derivative only when the diagram itself needs localized labels.
 - Current language sets:
   - `chain-rule-composition-flow-en.mmd` / `chain-rule-composition-flow-ko.mmd`
-  - `learning-adjustment-flow-en.mmd` / `learning-adjustment-flow-ko.mmd`
+  - `learning-adjustment-flow-en.mmd` / `learning-adjustment-flow-ko.mmd` / `learning-adjustment-flow-zh.mmd`
+
+- P2-4.4 uses the learning adjustment flow to show one update for `x=1`, `y=3`, `w=2`, and learning rate `0.1`: prediction, loss, gradient calculation, parameter update, and return to prediction. Displayed numbers describe the first pass.
 
 ## P2-4.5 direction and field diagrams
 

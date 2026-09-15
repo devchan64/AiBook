@@ -1,8 +1,7 @@
 flowchart TD
-  A["working directory<br/>where you edit current files"]
-  B["staging area<br/>where you choose changes for this record"]
-  C["repository<br/>history accumulated by commit"]
+  A["Working tree<br/>Edited and saved files"]
+  B["Staging area<br/>File state for the next commit"]
+  C["Local repository<br/>Commit history"]
 
   A -->|"git add"| B
   B -->|"git commit"| C
-  C -->|"check with git log"| C

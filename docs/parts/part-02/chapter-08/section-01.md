@@ -1,15 +1,9 @@
 # P2-8.1 값(value), 변수(variable), 타입(type)
 
 > Section ID: `P2-8.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `82`와 `"82"`는 화면에서 비슷해 보이지만 계산 결과는 다릅니다. `82 + 3`은 `85`이고, `"82" + 3`은 오류가 납니다. 숫자와 문자열은 타입(type)이 다르기 때문입니다.
-
-| 기준 | 왜 중요한가 |
-| --- | --- |
-| 값(value)은 계산이 다루는 데이터다 | 숫자, 텍스트, 참거짓을 연산의 입력으로 사용한다 |
-| 변수(variable)는 값을 가리키는 이름이다 | 같은 값을 이름으로 다시 사용하고 다른 값으로 바꿀 수 있다 |
-| 타입(type)은 값의 종류다 | 값에 적용할 수 있는 연산을 구분한다 |
 
 ## 값과 연산
 
@@ -182,6 +176,21 @@ print(score >= threshold)
 
 `score_text`는 원래 문자열을, `score`는 변환한 숫자를 가리킵니다. 마지막 코드의 `threshold`를 `90.0`으로 바꾸면 통과 여부는 `False`가 됩니다. 점수의 타입을 맞춰야 비교를 실행할 수 있고, 비교 기준을 바꾸면 판단 결과가 달라집니다.
 
+## 참거짓 변환과 문자열 내용
+
+`bool()`은 문자열에 적힌 단어의 뜻을 해석하지 않습니다. 빈 문자열은 `False`이고 글자가 있으면 `True`입니다. 따라서 설정 파일의 문자열 `"False"`에 `bool()`을 적용해도 `True`가 됩니다.
+
+```python
+print(bool(""))
+print(bool("False"))
+print(bool("0"))
+print(bool(0))
+```
+
+출력은 `False`, `True`, `True`, `False`입니다. 숫자 0과 문자열 `"0"`은 같은 참거짓 값을 갖지 않습니다. 문자열로 받은 설정은 허용할 표기와 변환 규칙을 정해야 합니다.
+
+숫자 변환도 내용이 맞아야 가능합니다. `float("82.5")`는 `82.5`이지만 `float("미입력")`는 `ValueError`입니다. 값이 없음을 나타내는 `None`은 숫자 0이나 문자열 `"None"`과 다릅니다. 미입력을 임의로 0으로 바꾸면 실제 0점과 구별하지 못하므로, 누락 처리와 수치 변환을 구분합니다.
+
 ## 체크리스트
 
 - 값(value), 변수(variable), 타입(type)을 구분할 수 있다.
@@ -192,9 +201,11 @@ print(score >= threshold)
 - 타입 오류가 났을 때 데이터 상태를 먼저 확인해야 함을 설명할 수 있다.
 - 화면에는 숫자처럼 보여도 실제 타입을 먼저 확인해야 하는 이유를 설명할 수 있다.
 
+- `bool("False")`가 `True`인 이유와 누락값 `None`을 숫자 0으로 바꾸면 생기는 문제를 설명할 수 있다.
+
 ## 출처와 참고 자료
 
 - Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org, 확인 날짜: 2026-07-20. Python의 동적 의미론(dynamic semantics), 동적 타이핑(dynamic typing), 고수준 내장 자료구조 설명 확인에 사용했다.
-- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 대화형 예제에서 프롬프트, 숫자, 문자열, 리스트가 어떻게 소개되는지 확인하는 근거로 사용했다.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `int`, `float`, `str`, `bool` 등 기본 타입과 타입별 연산 차이를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python에서 객체가 정체성(identity), 타입(type), 값(value)을 가진다는 설명 확인에 사용했다.
+- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python 대화형 예제에서 프롬프트, 숫자, 문자열, 리스트가 어떻게 소개되는지 확인하는 근거로 사용했다.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. `int`, `float`, `str`, `bool` 등 기본 타입과 타입별 연산 차이를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python에서 객체가 정체성(identity), 타입(type), 값(value)을 가진다는 설명 확인에 사용했다.

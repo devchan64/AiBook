@@ -1,7 +1,7 @@
 # P2-7.6 보충학습: 운영체제별 터미널 진입
 
 > Section ID: `P2-7.6`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Windows PowerShell에서는 `Get-Location`, macOS/Linux의 셸에서는 `pwd`로 현재 위치를 확인합니다. 터미널을 여는 방법과 경로 표기는 달라도 위치 확인, 파일 목록 확인, 폴더 이동이라는 작업은 같습니다.
 
@@ -12,14 +12,6 @@ Windows PowerShell에서는 `Get-Location`, macOS/Linux의 셸에서는 `pwd`로
 | `pwd`, `ls`, `cd` | 현재 위치 확인, 목록 확인, 폴더 이동을 위한 기본 명령입니다. |
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | PowerShell에서 같은 목적을 수행하는 명령입니다. |
 | 경로(path) 차이 | Windows의 `C:\...`와 macOS/Linux의 `/...`처럼 운영체제별 위치 표기 차이입니다. |
-
-## 운영체제·경로·단축키
-
-| 기준 | 왜 중요한가 |
-| --- | --- |
-| 운영체제가 다르면 터미널 앱, 기본 셸, 경로 표기가 조금씩 다르다 | 다른 운영체제 예제를 그대로 복사하면 경로와 명령이 어긋날 수 있다 |
-| 그래도 공통으로 먼저 보는 것은 현재 위치와 파일 목록이다 | 운영체제가 달라도 실습 전 점검 순서는 크게 다르지 않다 |
-| 터미널 단축키는 일반 앱과 다르게 동작할 수 있다 | 복사·붙여넣기와 실행 중단을 혼동하면 작업이 끊길 수 있다 |
 
 ## 운영체제별 터미널과 셸
 
@@ -305,6 +297,20 @@ pwd
 
 각 결과가 `ai practice`로 끝나는 프로젝트 위치인지 확인합니다. 따옴표 없이 공백이 있는 경로를 넣으면 셸이 여러 인자로 나눠 해석해 이동에 실패할 수 있습니다. 명령의 목적이 같아도 실제 경로와 인자 구분은 맞춰야 합니다.
 
+## 따옴표로 감싼 실행 파일 호출
+
+폴더 이동에 쓴 따옴표와 프로그램 실행에 쓴 따옴표는 역할을 구분해야 합니다. 공백이 있는 Python 경로를 직접 실행할 때 PowerShell에서는 앞에 호출 연산자 `&`를 붙입니다. 아래 경로는 이미 만든 가상환경의 실제 위치로 바꿉니다.
+
+```powershell
+& "C:\Users\someone\ws\ai practice\.venv\Scripts\python.exe" --version
+```
+
+```bash
+"/home/someone/ws/ai practice/.venv/bin/python" --version
+```
+
+두 명령 모두 해당 실행 파일의 버전을 출력합니다. Bash 예시는 Linux 경로이며 macOS에서는 실제 `/Users/...` 경로를 사용합니다. PowerShell에서 따옴표 문자열만 입력하면 문자열 값으로 취급되므로 Bash의 호출 문법과 그대로 같다고 보면 안 됩니다.
+
 ## 체크리스트
 
 - Windows Terminal이 여러 명령줄 셸을 실행할 수 있는 호스트 앱이라는 점을 설명할 수 있다.
@@ -327,3 +333,5 @@ pwd
 - Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-20. PowerShell에서 현재 작업 위치를 확인하는 명령과 `pwd` 별칭 확인에 사용했다.
 - Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-20. PowerShell에서 현재 작업 위치를 바꾸는 명령과 `cd` 별칭 확인에 사용했다.
 - Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-20. PowerShell에서 파일과 폴더 목록을 확인하는 명령과 `ls` 별칭 확인에 사용했다.
+
+- [PowerShell call operator &](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_operators){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.

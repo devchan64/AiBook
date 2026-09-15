@@ -11,7 +11,7 @@ The `±` value beside a mean may denote a standard deviation, a standard error, 
 | --- | --- |
 | Standard deviation | Spread of data values |
 | Covariance | Direction in which two variables’ deviations change together |
-| Correlation coefficient | Direction and strength of a relationship between two variables |
+| Pearson correlation coefficient | Direction and strength of a linear relationship between two variables |
 | Standard error | How much an estimate varies across samples |
 | Confidence interval | An interval estimate of a parameter calculated using a specified method |
 | Hypothesis testing | A procedure for deciding whether there is evidence to reject a null hypothesis |
@@ -50,6 +50,10 @@ For the preceding data, the sample standard deviations of x and y are `1` and `2
 
 A zero correlation coefficient does not rule out a curved relationship. For example, `x = −1, 0, 1` and `y = 1, 0, 1` follow `y = x²`, but their Pearson correlation is 0. A strong correlation alone also does not establish that one variable causes the other.
 
+![Scatterplots comparing correlation 1 for a line with correlation 0 for a curve](/AiBook/assets/part-02/chapter-05/linear-vs-curved-correlation-en.svg)
+
+The points are the three observed pairs in the text, and the dashed lines show the given relationships. On the left, the points lie on the increasing line `y=2x+4`, giving correlation 1. On the right, they lie on `y=x²`, but the products of deviations for negative and positive x cancel, giving correlation 0. These values summarize the three observations; a small sample’s correlation alone cannot establish the population relationship.
+
 ## Standard Deviation and Standard Error
 
 Standard error is the standard deviation of an estimate’s sampling distribution. It describes how much an estimate, such as a sample mean, can vary when samples are drawn repeatedly using the same method.
@@ -87,6 +91,8 @@ In a frequentist confidence interval, the population mean is fixed while the int
 ![95% confidence intervals from repeated simulated samples with known population mean 50 seconds. Coverage differs between intervals.](/AiBook/assets/part-02/chapter-05/repeated-confidence-intervals-en.svg)
 
 The figure simulates 20 repetitions of drawing 100 independent observations from a normal population with mean 50 seconds and standard deviation 10 seconds. Each point is a sample mean and each segment is its 95% t confidence interval. The vertical dashed line is the population mean known in the simulation. Intervals missing it are red and dashed. In this run, 18 out of 20 intervals covered the population mean. **Exactly 19 out of 20 intervals need not cover the mean.** The 95% describes a long-run proportion; in a real survey, the true value is unknown, so we usually cannot identify which individual intervals succeeded.
+
+A narrow confidence interval does not mean collection bias is small. For example, collecting records only from devices with fast responses may produce a narrow interval for that group’s mean as sample size grows, while still missing the mean for all devices. The 95% interpretation above applies when sampling reflects the target population and the calculation assumptions hold. The sample-representativeness checks from P2-5.3 remain necessary after calculating a confidence interval.
 
 ## Null Hypotheses and Hypothesis Testing
 

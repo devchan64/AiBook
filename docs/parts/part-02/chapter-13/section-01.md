@@ -1,11 +1,11 @@
 # P2-13.1 그래프(plot)는 무엇을 드러내는가
 
 > Section ID: `P2-13.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 손실값의 변화
 
-학습을 반복하며 기록한 손실값입니다. 표에서는 세 번째 값이 1.12라는 사실을 정확히 읽을 수 있고, 선 그래프에서는 감소 폭이 점차 작아지는 모양을 볼 수 있습니다.
+학습 중 손실의 변화를 설명하기 위한 가상 기록입니다. 표에서는 세 번째 값이 1.12라는 사실을 정확히 읽을 수 있고, 선 그래프에서는 감소 폭이 점차 작아지는 모양을 볼 수 있습니다.
 
 | epoch | loss |
 | ---: | ---: |
@@ -35,7 +35,13 @@ plt.show()
 
 ![에폭이 늘수록 손실이 감소하는 선 그래프](../../../assets/part-02/chapter-13/pyplot-loss-line-ko.svg)
 
-이 책의 자산 폴더에는 같은 예제를 파일로 다시 만들 수 있는 저장형 스크립트도 함께 둡니다. 화면에서 바로 확인할 때는 위처럼 `plt.show()`를 쓰고, 문서에 넣을 PNG를 다시 만들 때는 [`p2_13_1_plot_questions.py`](../../../assets/part-02/chapter-13/p2_13_1_plot_questions.py)를 실행합니다.
+세 언어의 그래프 파일은 같은 데이터로 생성합니다. 다음 스크립트는 이 절의 SVG 자산을 다시 만듭니다. 본문 코드는 화면 확인에 `plt.show()`를 사용하고, 스크립트는 파일 저장 후 그림을 닫습니다.
+
+[p2_13_1_plot_questions.py](../../../assets/part-02/chapter-13/p2_13_1_plot_questions.py)
+
+```bash
+python docs/assets/part-02/chapter-13/p2_13_1_plot_questions.py
+```
 
 ## 같은 평균, 다른 변화
 
@@ -57,6 +63,8 @@ ax.set_title("Same mean, different pattern")
 ax.legend()
 plt.show()
 ```
+
+![평균이 같아도 구간별 패턴이 다른 두 신호](../../../assets/part-02/chapter-13/same-mean-pattern-ko.svg)
 
 ## 변화·관계·분포·이상값
 
@@ -157,6 +165,30 @@ Matplotlib 공식 문서는 여러 plot type을 제공합니다. 선 그래프(`
 3. 빠진 값이나 숨겨진 범위가 있는가?
 4. 그래프가 보여 주는 것은 관찰인가, 해석인가?
 
+## 같은 값, 다른 축 범위
+
+시험 점수 `[80, 82, 81, 83]`의 최댓값과 최솟값 차이는 3점입니다. y축을 0~100으로 놓으면 변화가 작게 보이고, 79~84로 좁히면 같은 변화가 크게 보입니다.
+
+```python
+attempts = [1, 2, 3, 4]
+scores = [80, 82, 81, 83]
+fig, axes = plt.subplots(1, 2, figsize=(8, 3.6), sharex=True)
+for ax in axes:
+    ax.plot(attempts, scores, marker="o")
+    ax.set_xlabel("attempt")
+    ax.set_ylabel("score")
+axes[0].set_ylim(0, 100)
+axes[0].set_title("Full range: 0 to 100")
+axes[1].set_ylim(79, 84)
+axes[1].set_title("Zoomed range: 79 to 84")
+fig.tight_layout()
+plt.show()
+```
+
+![같은 점수를 넓은 축과 좁은 축으로 비교](../../../assets/part-02/chapter-13/axis-range-comparison-ko.svg)
+
+오른쪽 그래프는 작은 변화를 살펴보는 데 유용하지만, 선의 가파른 모양을 큰 점수 차이로 읽으면 잘못된 해석입니다. 축을 확대해도 실제 차이는 3점입니다. 두 실험의 변화량을 비교할 때는 같은 축 범위를 쓰거나 범위 차이를 명확히 표시합니다.
+
 ## 점수 분포
 
 점수 `[45, 62, 71, 73, 82, 88, 90]`을 다섯 구간으로 나누어 개수를 셉니다. 평균만으로 알 수 없는 값의 몰림과 퍼짐을 히스토그램으로 확인합니다.
@@ -180,7 +212,7 @@ plt.show()
 
 이 코드는 점수의 평균을 계산하지 않습니다. 대신 점수들이 어디에 몰려 있는지 확인합니다.
 
-## 사례 1. 손실이 튄 구간 찾기
+## 사례: 손실이 튄 구간 찾기
 
 첫 예제의 손실 `[2.40, 1.65, 1.12, 0.86, 0.79]`에서 세 번째 값만 `2.10`으로 바꿔 다시 그려 봅니다. 처음과 마지막 값은 그대로지만, 두 번째에서 세 번째 구간은 0.45만큼 올라가고 다음 구간은 1.24만큼 내려갑니다. 선 그래프에는 세 번째 지점이 봉우리로 나타납니다.
 
@@ -200,6 +232,6 @@ plt.show()
 
 ## 출처와 참고 자료
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } `Figure`, `Axes`, `plt.subplots()`를 구분해 설명하는 기준으로 확인했습니다.
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 선 그래프, 산점도, 막대 그래프, 히스토그램을 질문별 기본 차트로 분류하는 부분의 참고 자료입니다.
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } `pyplot` 기반 예제가 Matplotlib 입문 코드에서 어떻게 쓰이는지 확인하는 참고 자료입니다.
+- Matplotlib Developers, [Quick start guide](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-07-20. `Figure`, `Axes`, `plt.subplots()`를 구분해 설명하는 기준으로 확인했습니다.
+- Matplotlib Developers, [Plot types](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-07-20. 선 그래프, 산점도, 막대 그래프, 히스토그램을 질문별 기본 차트로 분류하는 부분의 참고 자료입니다.
+- Matplotlib Developers, [matplotlib.pyplot](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-07-20. `pyplot` 기반 예제가 Matplotlib 입문 코드에서 어떻게 쓰이는지 확인하는 참고 자료입니다.

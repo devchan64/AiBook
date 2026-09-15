@@ -1,33 +1,245 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
-  <title id="title">Estimate and error</title>
-  <desc id="desc">A chart showing that error is the gap between an estimate and the true value, and that estimates can change when samples change.</desc>
-  <rect width="920" height="520" fill="#ffffff"/>
-  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Estimate is useful because the true value is often unknown</text>
-  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Error is the gap between what we estimate and what we would get from the full truth.</text>
-
-  <line x1="105" y1="300" x2="815" y2="300" stroke="#94a3b8" stroke-width="2"/>
-  <line x1="460" y1="168" x2="460" y2="342" stroke="#10b981" stroke-width="4"/>
-  <text x="410" y="156" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#047857">true value</text>
-
-  <line x1="385" y1="208" x2="385" y2="342" stroke="#2563eb" stroke-width="3" stroke-dasharray="8 6"/>
-  <text x="334" y="198" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#1d4ed8">estimate A</text>
-
-  <line x1="520" y1="208" x2="520" y2="342" stroke="#2563eb" stroke-width="3" stroke-dasharray="8 6"/>
-  <text x="470" y="198" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#1d4ed8">estimate B</text>
-
-  <path d="M385 374 L460 374" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
-  <polygon points="385,374 399,366 399,382" fill="#ef4444"/>
-  <polygon points="460,374 446,366 446,382" fill="#ef4444"/>
-  <text x="388" y="410" font-family="Arial, sans-serif" font-size="16" fill="#b91c1c">error</text>
-
-  <path d="M460 430 L520 430" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
-  <polygon points="460,430 474,422 474,438" fill="#ef4444"/>
-  <polygon points="520,430 506,422 506,438" fill="#ef4444"/>
-  <text x="466" y="466" font-family="Arial, sans-serif" font-size="16" fill="#b91c1c">error</text>
-
-  <rect x="610" y="150" width="250" height="132" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-  <text x="636" y="184" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#334155">Why two estimates?</text>
-  <text x="636" y="216" font-family="Arial, sans-serif" font-size="15" fill="#475569">Different samples can produce</text>
-  <text x="636" y="240" font-family="Arial, sans-serif" font-size="15" fill="#475569">different estimates.</text>
-  <text x="636" y="264" font-family="Arial, sans-serif" font-size="15" fill="#475569">This variation is expected.</text>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="576pt" height="244.8pt" viewBox="0 0 576 244.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-15T10:41:42.213497</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.4, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 244.8
+L 576 244.8
+L 576 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 10.8 200.736
+L 565.2 200.736
+L 565.2 30.7
+L 10.8 30.7
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m5d76f198b6" d="M 0 0
+L 0 3.5
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m5d76f198b6" x="41.6" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="41.6" y="124.095608" transform="rotate(-0 41.6 124.095608)">46</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m5d76f198b6" x="103.2" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="103.2" y="124.095608" transform="rotate(-0 103.2 124.095608)">47</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m5d76f198b6" x="164.8" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="164.8" y="124.095608" transform="rotate(-0 164.8 124.095608)">48</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m5d76f198b6" x="226.4" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="226.4" y="124.095608" transform="rotate(-0 226.4 124.095608)">49</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m5d76f198b6" x="288" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="288" y="124.095608" transform="rotate(-0 288 124.095608)">50</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m5d76f198b6" x="349.6" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="349.6" y="124.095608" transform="rotate(-0 349.6 124.095608)">51</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m5d76f198b6" x="411.2" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="411.2" y="124.095608" transform="rotate(-0 411.2 124.095608)">52</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m5d76f198b6" x="472.8" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="472.8" y="124.095608" transform="rotate(-0 472.8 124.095608)">53</text>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#m5d76f198b6" x="534.4" y="109.497171" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="534.4" y="124.095608" transform="rotate(-0 534.4 124.095608)">54</text>
+     </g>
+    </g>
+    <g id="text_10">
+     <text style="font: 10px 'DejaVu Sans'; text-anchor: middle" x="288" y="218.536597" transform="rotate(-0 288 218.536597)">Mean usage time (minutes)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_10">
+    <path d="M 103.2 109.497171
+L 103.2 72.172195
+" clip-path="url(#p728192c0e2)" style="fill: none; stroke: #2563eb; stroke-width: 2; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 288 109.497171
+L 288 72.172195
+" clip-path="url(#p728192c0e2)" style="fill: none; stroke: #047857; stroke-width: 2; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 472.8 109.497171
+L 472.8 72.172195
+" clip-path="url(#p728192c0e2)" style="fill: none; stroke: #2563eb; stroke-width: 2; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 10.8 109.497171
+L 565.2 109.497171
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="mf57d7ec593" d="M 0 3.708099
+C 0.983399 3.708099 1.926654 3.317391 2.622022 2.622022
+C 3.317391 1.926654 3.708099 0.983399 3.708099 0
+C 3.708099 -0.983399 3.317391 -1.926654 2.622022 -2.622022
+C 1.926654 -3.317391 0.983399 -3.708099 0 -3.708099
+C -0.983399 -3.708099 -1.926654 -3.317391 -2.622022 -2.622022
+C -3.317391 -1.926654 -3.708099 -0.983399 -3.708099 0
+C -3.708099 0.983399 -3.317391 1.926654 -2.622022 2.622022
+C -1.926654 3.317391 -0.983399 3.708099 0 3.708099
+z
+" style="stroke: #2563eb"/>
+    </defs>
+    <g clip-path="url(#p728192c0e2)">
+     <use xlink:href="#mf57d7ec593" x="103.2" y="109.497171" style="fill: #2563eb; stroke: #2563eb"/>
+    </g>
+   </g>
+   <g id="text_11">
+    <text style="fill: #2563eb; font: 11px 'DejaVu Sans'; text-anchor: middle" x="103.2" y="64.078432" transform="rotate(-0 103.2 64.078432)">Estimate A: 47</text>
+   </g>
+   <g id="PathCollection_2">
+    <defs>
+     <path id="m06c57311b6" d="M 0 3.708099
+C 0.983399 3.708099 1.926654 3.317391 2.622022 2.622022
+C 3.317391 1.926654 3.708099 0.983399 3.708099 0
+C 3.708099 -0.983399 3.317391 -1.926654 2.622022 -2.622022
+C 1.926654 -3.317391 0.983399 -3.708099 0 -3.708099
+C -0.983399 -3.708099 -1.926654 -3.317391 -2.622022 -2.622022
+C -3.317391 -1.926654 -3.708099 -0.983399 -3.708099 0
+C -3.708099 0.983399 -3.317391 1.926654 -2.622022 2.622022
+C -1.926654 3.317391 -0.983399 3.708099 0 3.708099
+z
+" style="stroke: #047857"/>
+    </defs>
+    <g clip-path="url(#p728192c0e2)">
+     <use xlink:href="#m06c57311b6" x="288" y="109.497171" style="fill: #047857; stroke: #047857"/>
+    </g>
+   </g>
+   <g id="text_12">
+    <text style="fill: #047857; font: 11px 'DejaVu Sans'; text-anchor: middle" x="288" y="64.078432" transform="rotate(-0 288 64.078432)">True value: 50</text>
+   </g>
+   <g id="PathCollection_3">
+    <g clip-path="url(#p728192c0e2)">
+     <use xlink:href="#mf57d7ec593" x="472.8" y="109.497171" style="fill: #2563eb; stroke: #2563eb"/>
+    </g>
+   </g>
+   <g id="text_13">
+    <text style="fill: #2563eb; font: 11px 'DejaVu Sans'; text-anchor: middle" x="472.8" y="64.078432" transform="rotate(-0 472.8 64.078432)">Estimate B: 53</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 286.000745 145.163259
+Q 195.600343 145.163259 107.436009 145.163259
+" style="fill: none; stroke: #b91c1c; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 111.436009 147.163259
+L 107.436009 145.163259
+L 111.436009 143.163259
+" style="fill: none; stroke: #b91c1c; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_14">
+    <text style="fill: #b91c1c; font: 11px 'DejaVu Sans'; text-anchor: middle" x="195.6" y="138.527707" transform="rotate(-0 195.6 138.527707)">47 − 50 = −3</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 289.999255 179.170459
+Q 380.399657 179.170459 468.563991 179.170459
+" style="fill: none; stroke: #b91c1c; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 464.563991 177.170459
+L 468.563991 179.170459
+L 464.563991 181.170459
+" style="fill: none; stroke: #b91c1c; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_15">
+    <text style="fill: #b91c1c; font: 11px 'DejaVu Sans'; text-anchor: middle" x="380.4" y="172.534907" transform="rotate(-0 380.4 172.534907)">53 − 50 = +3</text>
+   </g>
+   <g id="text_16">
+    <text style="font: 13px 'DejaVu Sans'; text-anchor: middle" x="288" y="20.7" transform="rotate(-0 288 20.7)">Error = estimate − true value</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p728192c0e2">
+   <rect x="10.8" y="30.7" width="554.4" height="170.036"/>
+  </clipPath>
+ </defs>
 </svg>

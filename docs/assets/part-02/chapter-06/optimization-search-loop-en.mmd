@@ -1,0 +1,9 @@
+flowchart TD
+    accTitle: Compare two candidate lines
+    P["1. Parameter combinations<br/>Candidate 1: a = 10, b = 45<br/>Candidate 2: a = 12, b = 40"]
+    Y["2. Predictions at x = 1, 2, 3, 4<br/>Candidate 1: 55, 65, 75, 85<br/>Candidate 2: 52, 64, 76, 88"]
+    L["3. Mean squared error<br/>Candidate 1: 12.5<br/>Candidate 2: 7.5"]
+    S["4. Better of these two candidates<br/>a = 12, b = 40<br/>7.5 &lt; 12.5"]
+    P --> Y --> L --> S
+    classDef selected fill:#f0fdf4,stroke:#16a34a,color:#14532d
+    class S selected

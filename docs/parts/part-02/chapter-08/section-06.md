@@ -1,7 +1,7 @@
 # P2-8.6 보충학습: 클래스(class)와 객체(object)를 처음 만날 때
 
 > Section ID: `P2-8.6`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `text.lower()`는 문자열을 소문자로 바꾸고, `scores.append(91)`은 리스트에 값을 추가합니다. 점(`.`) 앞에는 대상 객체가, 뒤에는 호출할 메서드(method)의 이름이 있습니다. 사용할 수 있는 동작은 대상의 타입에 따라 다릅니다.
 
@@ -151,6 +151,20 @@ print(is_labeled(sample))
 
 `is_labeled(sample)`은 샘플을 함수에 전달하고, `sample.is_labeled()`는 샘플 객체에서 메서드를 찾아 호출합니다. 데이터를 키로 조회하는 작업에는 딕셔너리를, 상태와 전용 동작을 함께 정의하려는 작업에는 클래스를 사용할 수 있습니다.
 
+## 메서드를 가져오는 것과 호출하는 것
+
+`sample.is_labeled`는 메서드를 가져오고, `sample.is_labeled()`는 그 메서드를 실행해 반환값을 받습니다. 앞의 `TextSample` 정의 뒤에 다음 코드를 실행하면 `False`, `True`가 출력됩니다.
+
+```python
+sample = TextSample("new review", None)
+check = sample.is_labeled
+print(check())
+sample.label = "positive"
+print(check())
+```
+
+`check`는 대상 `sample`에 연결된 메서드입니다. 첫 호출 이후 라벨을 바꿨으므로 두 번째 호출은 현재 상태를 읽어 `True`를 반환합니다. `if sample.is_labeled:`처럼 괄호를 빠뜨리면 라벨 검사를 실행하지 않습니다. 이 예제의 메서드 객체 자체는 참으로 평가되므로 라벨이 `None`이어도 조건문을 통과합니다.
+
 ## 함수 호출과 메서드 호출
 
 문자열 `" AI "`를 정리하는 함수는 내부에서 문자열 메서드를 호출할 수 있습니다. 다음 출력은 `function: ai`, `method: AI`입니다.
@@ -188,6 +202,8 @@ class SimplePassModel:
     def fit(self, train_data):
         # fit()은 학습 데이터를 읽고 객체 안의 상태를 저장합니다.
         passed_scores = [score for score, passed in train_data if passed]
+        if not passed_scores:
+            raise ValueError("at least one passing score is required")
         self.threshold = min(passed_scores)
 
     def predict(self, test_data):
@@ -221,7 +237,7 @@ predictions: [False, True]
 
 학습 입력의 `(75, True)`를 `(68, True)`로 바꾸어 실행하면 기준은 `68`, 예측 결과는 `[True, True]`가 됩니다. 확인할 점수는 그대로인데 모델에 저장된 상태가 바뀌어 판정도 달라집니다.
 
-이 예제는 통과 점수가 하나 이상 있는 입력을 전제로 합니다. 통과 항목이 없으면 `min()`을 적용할 값이 없어 `ValueError`가 발생합니다. 또한 미통과 점수는 기준 계산에 사용하지 않으므로, 복잡한 실제 분류 문제에 그대로 적용할 수 있는 학습 규칙은 아닙니다.
+이 예제는 통과 점수가 하나 이상 있는 입력을 전제로 합니다. 통과 항목이 없으면 `fit()`이 명시적인 `ValueError`를 발생시킵니다. 예외가 발생하면 이후 예측을 진행하지 말고 입력을 확인해야 합니다. 또한 미통과 점수는 기준 계산에 사용하지 않으므로, 복잡한 실제 분류 문제에 그대로 적용할 수 있는 학습 규칙은 아닙니다.
 
 ## 체크리스트
 
@@ -235,8 +251,10 @@ predictions: [False, True]
 - 클래스가 항상 필요한 것은 아니며, 함수와 딕셔너리로 충분한 경우도 있음을 설명할 수 있다.
 - AI 라이브러리의 `model.fit()`, `model.predict()`를 객체와 메서드 관점으로 읽을 수 있다.
 
+- 메서드 조회와 호출을 구분하고 괄호를 생략한 조건문이 실제 검사를 하지 않는 이유를 설명할 수 있다.
+
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 클래스 객체, 인스턴스 객체, 속성 참조, 메서드 객체 설명을 클래스·객체·메서드 입문 설명의 공식 근거로 사용했다.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 객체가 identity, type, value를 가진다는 설명과 타입별 동작 차이의 배경 근거로 사용했다.
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `value.method()` 호출을 객체에 붙은 함수 형태로 읽는 설명 확인에 사용했다.
+- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. 클래스 객체, 인스턴스 객체, 속성 참조, 메서드 객체 설명을 클래스·객체·메서드 입문 설명의 공식 근거로 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 객체가 identity, type, value를 가진다는 설명과 타입별 동작 차이의 배경 근거로 사용했다.
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-09-15. `value.method()` 호출을 객체에 붙은 함수 형태로 읽는 설명 확인에 사용했다.

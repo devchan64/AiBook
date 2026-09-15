@@ -1,12 +1,6 @@
 flowchart TD
-  A["current parameters"]
-  B["gradient direction<br/>the way loss increases"]
-  C["learning rate<br/>step size"]
-  D["updated parameters"]
-  E["recompute loss"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> A
+  P["Current parameters a, b"]
+  L["Predictions and MSE<br/>for all four students"]
+  G["Both partial derivatives<br/>at the same current position"]
+  U["[a, b] − η × gradient"]
+  P --> L --> G --> U --> P

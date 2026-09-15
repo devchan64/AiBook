@@ -1,7 +1,7 @@
 # P2-10.1 노트북(notebook)은 왜 학습에 유용한가
 
 > Section ID: `P2-10.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 노트북(notebook)은 코드, 실행 결과, 설명을 함께 저장하는 계산 문서(computational notebook)입니다. Jupyter Notebook이나 Google Colab에서는 코드를 셀 단위로 실행하고, 바로 아래의 숫자·표·차트를 보면서 해석을 적을 수 있습니다.
 
@@ -68,6 +68,18 @@ passed
 
 세 번째 셀의 `threshold`를 `80`으로 바꾸고 그 셀만 다시 실행하면 `[82, 90]`이 표시됩니다. 점수 데이터와 평균은 그대로이며 선택 기준과 결과만 달라집니다.
 
+## 입력 변경과 다시 계산할 셀
+
+`mean_score`에는 계산 당시의 숫자가 저장됩니다. `scores`와 계속 연결된 수식이 저장되는 것은 아닙니다. 기준을 60으로 두고 앞의 세 셀을 실행한 뒤 데이터 셀의 마지막 점수 `61`을 `100`으로 바꾸어 비교합니다.
+
+| 수행한 일 | 커널의 마지막 점수 | 저장된 `mean_score` | 기준 60의 `passed` |
+| --- | --- | --- | --- |
+| 코드만 수정하고 실행하지 않음 | 61 | 70.6 | `[82, 75, 90, 61]` |
+| 데이터 셀만 다시 실행 | 100 | 70.6 | `[82, 75, 90, 61]` |
+| 데이터 → 평균 → 선택 셀을 다시 실행 | 100 | 78.4 | `[82, 75, 90, 100]` |
+
+입력을 만드는 셀을 바꾸면 그 입력을 사용한 계산 셀과 출력도 다시 실행해야 합니다. 셀 옆 실행 번호는 실제 실행 순서의 단서이지만, 현재 코드·입력·출력이 서로 맞는다는 보증은 아닙니다. 계산이 끝난 뒤 코드를 편집하거나 다른 셀에서 변수를 바꿀 수도 있기 때문입니다.
+
 ## 셀 실행 순서와 남은 상태
 
 노트북 화면의 셀 순서와 실제 실행 순서는 다를 수 있습니다. 아래 첫 셀을 실행하면 커널에 `x = 10`이 저장됩니다.
@@ -95,7 +107,7 @@ x + 5
 
 ## 사례: 평균은 같고 퍼짐은 다른 점수
 
-다음 두 점수 목록은 모두 평균이 12입니다. 평균만 비교하면 차이가 보이지 않으므로, 평균에서 얼마나 떨어져 있는지도 계산합니다. 각 편차의 제곱을 항목 수로 나눈 기술 통계용 분산을 사용합니다.
+다음 두 점수 목록은 모두 평균이 12입니다. 평균만 비교하면 차이가 보이지 않으므로, 평균에서 얼마나 떨어져 있는지도 계산합니다. 편차 제곱의 합을 항목 수로 나눈 기술 통계용 분산을 사용합니다.
 
 ```python
 sample_a = [10, 12, 13, 11, 14]
@@ -144,6 +156,7 @@ variances: 2.0 10.0
 
 ## 출처와 참고 자료
 
-- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-20. 노트북이 코드, 설명, 데이터, 시각화, 상호작용을 함께 담는 문서라는 설명 확인에 사용했다.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-20. 노트북 문서, 사용자 인터페이스, 커널 등 구성 요소를 구분하는 배경 근거로 사용했다.
+- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation, 확인 날짜: 2026-07-20. 노트북이 코드, 설명, 데이터, 시각화, 상호작용을 함께 담는 문서라는 설명 확인에 사용했다.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation, 확인 날짜: 2026-09-15. 노트북 문서, 사용자 인터페이스, 커널 등 구성 요소를 구분하는 배경 근거로 사용했다.
 - Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-07-20. 브라우저 기반 노트북 환경에서 코드와 설명을 함께 실행·기록하는 예시 확인에 사용했다.
+- IPython, [Execution semantics](https://ipython.readthedocs.io/en/stable/interactive/reference.html#execution-semantics){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 마지막 표현식 표시와 코드 실행 동작의 근거.

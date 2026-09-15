@@ -1,163 +1,126 @@
 # P2-4.4 Why Learning Needs Differentiation
 
 > Section ID: `P2-4.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.14`
 
-Loss describes how different the current prediction is from the target. Derivatives and gradients tell us how that loss changes when parameters change slightly. Gradient-based learning uses this information to adjust parameters.
+A large loss alone does not tell us whether to increase or decrease a parameter. Differentiation tells us how sensitively, and in which direction, the loss changes when we slightly change the current parameter. **Gradient-based learning repeatedly uses this rate to choose an adjustment direction and a learning rate to set its size.**
 
-## Loss and Adjustment Direction
+## From Prediction to Loss
 
-| Criterion | Why It Matters |
-| --- | --- |
-| Learning is the process of adjusting parameters | The model improves by looking at the current result and changing internal numbers a little at a time. |
-| Loss alone does not tell the direction | It shows how wrong things are, but not where to move. |
-| Derivatives and gradients give directional information | We must judge in which direction to change parameters so that loss decreases. |
-
-## Prediction, Loss Calculation, and Parameter Adjustment
-
-An AI model receives an input and makes an output. Before learning, the model may not yet produce good outputs. So we use training data to adjust the parameters inside the model.
-
-1. Input data enters.
-2. The model makes a prediction.
-3. We calculate the loss.
-4. We adjust the parameters.
-5. We predict again.
-
-Here, a parameter is not a rule that a person manually sets every time. It is a number that the model adjusts through learning. Learning can be read as the process of changing these numbers and finding the direction that reduces loss.
-
-## Loss Values and Direction Information
-
-Loss is a value that expresses numerically how different the model's prediction is from the target.
-
-For example, in a model that predicts house prices, if the real house price is 500 million won but the model predicts 400 million won, the error is 100 million won.
-
-If we score that error in some way, it becomes loss. If the loss is large, we can say the model's prediction is not good. If the loss is small, we can say the prediction is better by the current standard.
-
-But the loss value alone is not enough.
-
-If the loss is large, we know the current result is not good. But we still do not know what should be changed or how.
-
-Learning needs questions such as: which parameter makes the loss decrease, should that parameter be increased or decreased, and how sensitively does the loss change when we adjust it a little?
-
-Derivative and gradient are the language for answering these questions.
-
-## Derivative Sign and Adjustment Direction
-
-As a very simple example, suppose the loss changes with one parameter \(w\) like this.
+Consider a small model that predicts an output by multiplying its input by a fixed factor. The input is `x`, the factor to learn is parameter `w`, and the prediction is `ŷ`. The hat `^` distinguishes the prediction from the target.
 
 \[
-L(w) = (w - 3)^2
+\hat y=wx
 \]
 
-This function has loss 0 when \(w = 3\).
+Suppose one training example has `input x=1, target y=3`. If the current value is `w=2`, the prediction is `2×1=2`. The target stays fixed in the data; learning changes `w`.
 
-The derivative is:
+Subtracting the target from the prediction gives the error `2−3=−1`. Defining the loss as the squared error assigns a positive value to both overprediction and underprediction.
 
 \[
-L'(w) = 2(w - 3)
+L(w)=(\hat y-y)^2=(w\times1-3)^2=(w-3)^2
 \]
 
-Let us read the values at a few points.
+The current loss is therefore 1. This loss function is not a separate expression introduced without context: it **combines the model’s prediction rule, the target, and the rule for scoring errors**. Actual training usually averages losses over multiple examples; here we check the calculation with one example.
 
-| \(w\) | \(L(w)\) | \(L'(w)\) | How to Read It |
-| --- | --- | --- | --- |
-| 0 | 9 | -6 | We can think of increasing \(w\). |
-| 2 | 1 | -2 | Increasing \(w\) is still the direction that reduces loss. |
-| 3 | 0 | 0 | In this example, the loss is smallest here. |
-| 5 | 4 | 4 | We can think of decreasing \(w\). |
+## Same Loss, Opposite Adjustments
 
-What matters here is the sign and size of the derivative value.
+At `w=2` and `w=4`, predictions lie on opposite sides of the target 3, and both losses are 1. Loss summarizes the size of the error without distinguishing the adjustment direction. The derivative `L′(w)=2(w−3)` reveals that difference.
 
-If the derivative value is negative, increasing \(w\) a little may be the direction that reduces loss. By contrast, if the derivative value is positive, we can think of decreasing \(w\). Also, if the derivative value is large in magnitude, we can read that the loss is changing sensitively at the current position.
-
-## Gradients Across Multiple Parameters
-
-Real models rarely have only one parameter. If there are many parameters such as \(w_1\), \(w_2\), and \(w_3\), the loss changes along many directions.
-
-In other words, we ask together how the loss changes when `w_1` changes, how it changes when `w_2` changes, and how it changes when `w_3` changes.
-
-If we gather the rates of change with respect to all parameters, we get the gradient.
-
-\[
-\nabla L =
-\left[
-\frac{\partial L}{\partial w_1},
-\frac{\partial L}{\partial w_2},
-\frac{\partial L}{\partial w_3}
-\right]
-\]
-
-This vector tells us how the loss changes along each parameter direction at the current position. That is why loss functions and gradients appear together in AI learning.
-
-The loss function expresses what we want to reduce, and the gradient tells us which direction we should inspect if we want to reduce that loss.
-
-## Number of Parameter Combinations
-
-The reason differentiation is needed also connects to the question `could we not just try all possible values?`
-
-In a small problem, we can substitute several values directly. For example, we can try `w = 0, 1, 2, 3, 4, 5` and choose the value with the smallest loss.
-
-Trying these six values for each parameter gives `6² = 36` combinations for two parameters and `6¹⁰ = 60,466,176` for ten. The cost of evaluating every combination grows rapidly with the number of parameters.
-
-Instead of checking every possibility, the gradient tells us which direction from the current position may reduce loss.
-
-Of course, that does not mean the gradient always guarantees the globally best answer. A gradient gives information about change near the current position. So in real learning, the initial value, learning rate, data, model structure, and optimizer all matter together.
-
-## The Role of Backpropagation
-
-A deep-learning model is a structure in which calculations across many layers are connected. The input passes through many calculations, becomes an output, and from that output we calculate loss.
-
-We can read it as a flow such as `input -> layer 1 calculation -> layer 2 calculation -> layer 3 calculation -> output -> loss`.
-
-To learn, we must know how the loss changes with respect to the parameters of each layer. In other words, we need gradients for many parameters.
-
-Backpropagation is the procedure for computing these gradients efficiently.
-
-Training is the whole process of adjusting parameters so that loss decreases, while backpropagation is the procedure that computes and passes along the gradients needed for that adjustment.
-
-## Training State and Change Signals
-
-In practice, we may hear the following expressions more often than the word differentiation itself.
-
-| Practical Expression | How to Read It by Connecting It to Differentiation |
-| --- | --- |
-| loss does not decrease | the current adjustment direction or size may not be good |
-| the learning rate is too large | moving too far at once may make loss unstable |
-| the gradient is small | the change signal may be weak at the current position |
-| the gradient explodes | the change signal may be too large, making learning unstable |
-| backpropagation is needed | we must calculate the rates of change with respect to parameters across many layers |
-
-## Equal Loss, Opposite Adjustment Directions
-
-For the loss function `L(w) = (w − 3)²` above, both `w = 2` and `w = 4` have loss `1`. Their derivatives, however, are `−2` and `2`, respectively.
-
-| Current w | Current loss | Derivative | Small adjustment that reduces loss | New loss |
+| Current w | Prediction | Loss | Derivative | Small adjustment that reduces loss |
 | --- | --- | --- | --- | --- |
-| 2 | 1 | −2 | 2 → 2.1 | 0.81 |
-| 4 | 1 | 2 | 4 → 3.9 | 0.81 |
+| 2 | 2 | 1 | −2 | Increase w |
+| 4 | 4 | 1 | 2 | Decrease w |
+| 3 | 3 | 0 | 0 | Minimum in this example |
 
-Although the losses are equal, the adjustment directions are opposite. Increasing `w` at `w = 2` and decreasing it at `w = 4` reduces loss. Moving `0.1` in the opposite directions raises loss to `1.21` in both cases.
+Moving from `w=2` to `2.1`, or from `w=4` to `3.9`, gives loss `0.81` in either case. Moving the other way to `1.9` or `4.1` raises the loss to `1.21`. Even with the same starting loss, the derivative’s sign changes the adjustment direction.
 
-Even with the correct direction, moving too far can increase loss. Moving from `w = 2` to `w = 5` raises loss from `1` to `4`. Both direction and step size must therefore be chosen.
+## Setting the Update Size with a Learning Rate
+
+Basic gradient descent subtracts the derivative multiplied by a positive learning rate from the current value. The learning rate controls how much of the rate of change enters each update. Below it is written with the Greek letter eta, `η`.
+
+\[
+w_{\mathrm{new}}=w-\eta L'(w)
+\]
+
+With `w=2` and learning rate `η=0.1`, the update is `w_new=2−0.1×(−2)=2.2`. Subtracting a negative number increases the parameter. The new prediction is 2.2 and the new loss is `(2.2−3)²=0.64`. Starting at `w=4` instead gives `4−0.1×2=3.8`, with the same loss of 0.64.
+
+On repeated updates, **recalculate the derivative at the changed parameter**. Do not keep using the initial value `−2`. Three updates starting at `w=2` give the following results.
+
+| Updates completed | Current w = prediction | Current loss | Current derivative | Next update `−0.1×derivative` |
+| --- | --- | --- | --- | --- |
+| 0 | 2 | 1 | −2 | +0.2 |
+| 1 | 2.2 | 0.64 | −1.6 | +0.16 |
+| 2 | 2.36 | 0.4096 | −1.28 | +0.128 |
+| 3 | 2.488 | 0.262144 | −1.024 | +0.1024 |
+
+Row 0 is the state before training; the last row’s update would be used for the fourth step. The prediction approaches target 3, while the loss and the derivative’s absolute value decrease. Here `0.1` is not the travel distance itself. Its product with the derivative determines the actual parameter change.
+
+## A Large Update Can Fail Despite the Right Direction
+
+Keep the starting point `w=2` fixed and change only the learning rate.
+
+| Learning rate η | New w | New loss | Result |
+| --- | --- | --- | --- |
+| 0.01 | 2.02 | 0.9604 | Small decrease |
+| 0.1 | 2.2 | 0.64 | Decrease |
+| 0.5 | 3 | 0 | Reaches this function’s minimum in one step |
+| 1 | 4 | 1 | Crosses to the other side with unchanged loss |
+| 1.1 | 4.2 | 1.44 | Overshoots and increases loss |
+
+Differentiation gives information about changes near the current position. Even in a descent direction, moving too far can pass the minimum and increase loss. The good result with 0.5 above depends on this function’s shape; it does not make the same learning rate suitable for other models.
+
+## Computing Gradients and Updating Parameters
+
+With several parameters, use the gradient from the preceding section in place of the single derivative. The vector form of basic gradient descent is:
+
+\[
+\mathbf w_{\mathrm{new}}=\mathbf w-\eta\nabla L(\mathbf w)
+\]
+
+Each gradient component updates its corresponding parameter. In deep learning, loss is produced through computations across several layers, so we need an efficient way to obtain rates linking the loss to every parameter. **Backpropagation computes these gradients using the chain rule.** The chain rule connects rates of change through composed computations.
+
+**An optimizer uses the computed gradients to update parameters.** The equation above is the simplest method; other optimizers may also use information from previous updates. Do not confuse gradient computation by backpropagation with parameter updates by the optimizer.
+
+The diagram shows the first update of the same example. Learning repeats by predicting with the updated parameter and calculating the loss and gradient again.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-04/learning-adjustment-flow-en.mmd"
 ```
 
+## Using Rates Instead of Trying Every Value
+
+With one parameter, we could try every value in `w=0,1,2,3,4,5` and compare losses. Trying these six values for each parameter produces `6²=36` combinations for two parameters and `6¹⁰=60,466,176` for ten. Combinations grow rapidly even with just six discrete candidates per parameter.
+
+Gradients use information at the current position instead of enumerating every combination. Backpropagation reuses intermediate computation results to calculate gradients efficiently for many parameters. Information at the current position alone, however, cannot guarantee a global minimum.
+
+This discussion concerns learning methods that use differentiation. Not all AI learning requires derivatives; other methods search values or select rules without them.
+
+## Training Loss and Performance on New Data
+
+The example’s loss decreased steadily for one training case. Real training often computes gradients on a group of examples called a minibatch. Since the examples can change between updates, we should not expect the loss to decrease steadily at every step.
+
+A lower training loss also does not guarantee better predictions on unseen data. The model may have fitted only the examples used for training. We must also check performance on validation data that do not enter parameter updates. Differentiation supplies information for reducing the chosen loss; whether that loss and those data represent the real goal requires a separate judgment.
+
+## Exercise: Continue the Updates
+
+Starting at `w=4` with `η=0.1`, calculate the parameter and loss after two updates. Compare this with reusing the initial derivative 2 in the second update.
+
+??? note "Calculation and Explanation"
+    The first update is `4−0.1×2=3.8`. The derivative is now `2×(3.8−3)=1.6`, so the second update gives `3.8−0.1×1.6=3.64`, with loss `0.64²=0.4096`. Reusing the old derivative 2 gives 3.6, which differs from gradient descent evaluated at the current position.
+
 ## Checklist
 
-- You can explain training as the process of adjusting parameters to reduce loss.
-- You can explain that the loss value alone makes it hard to know what should be changed and in which direction.
-- You can explain that a derivative shows how the loss changes when one parameter is changed a little.
-- You can explain that a gradient is a vector that gathers change information for many parameters.
-- You can explain that it is hard to test every possible value, so directional information at the current position matters.
-- You can distinguish backpropagation not as learning itself, but as the procedure that computes gradients efficiently.
-- You can separately explain `how wrong is it?` and `in which direction should it be changed?`
-
-- You can explain why derivatives and gradients follow naturally from the loss function.
+- Can you construct a loss function from a prediction rule and a target?
+- Can you explain why equal losses can have derivatives of opposite signs?
+- Can you calculate a new parameter using a learning rate and derivative?
+- Can you explain why gradients are recalculated at the updated position?
+- Can you distinguish backpropagation’s computation role from the optimizer’s update role?
+- Can you distinguish lower training loss from better performance on new data?
 
 ## Sources and References
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports the relation between derivative and instantaneous rate of change. Checked: 2026-07-20.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports the relation between the gradient and the direction of maximum increase. Checked: 2026-07-20.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }. It treats deep learning training as cost-function and parameter optimization, and gives the context for gradient-based optimization in training. Checked: 2026-07-20.
+- Goodfellow, Bengio, Courville, [Deep Learning, Chapter 8](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }. Loss optimization, minibatches, and generalization.
+- PyTorch, [Optimizing Model Parameters](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html){: target="_blank" rel="noopener noreferrer" }. Gradient computation and optimizer updates.
+
+Checked: 2026-09-14. The numerical examples and diagram are original constructions.

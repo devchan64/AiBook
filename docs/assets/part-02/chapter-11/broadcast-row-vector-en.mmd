@@ -1,0 +1,6 @@
+flowchart TD
+    a["features = [[1.0, 0.2, 7.0],<br/>[0.8, 0.4, 6.5],<br/>[0.3, 0.9, 8.1],<br/>[0.5, 0.1, 5.8]]<br/>shape = (4, 3)"]
+    b["feature_offset = [0.1, 0.2, 0.3]<br/>shape = (3,)"]
+    a --> c["features + feature_offset<br/>Add to the matching column in every row"]
+    b --> c
+    c --> d["[[1.1, 0.4, 7.3],<br/>[0.9, 0.6, 6.8],<br/>[0.4, 1.1, 8.4],<br/>[0.6, 0.3, 6.1]]<br/>shape = (4, 3)"]

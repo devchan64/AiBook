@@ -1,7 +1,7 @@
 # P2-7.5 의존성(dependency)과 재현성(reproducibility)
 
 > Section ID: `P2-7.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 같은 코드를 다시 실행하려면 필요한 패키지, Python 버전, 데이터 파일과 실행 위치도 맞아야 합니다. 의존성(dependency)은 코드가 필요로 하는 외부 요소이며, 재현성(reproducibility)은 실행 조건을 다시 구성했을 때 같은 동작이나 결과를 확인할 수 있는 성질입니다.
 
@@ -12,14 +12,6 @@
 | `requirements.txt` | 필요한 패키지 목록과 버전을 기록하는 대표 파일입니다. |
 | 버전 고정(version pinning) | 특정 패키지 버전을 명시해 환경 차이를 줄이려는 방법입니다. |
 | 환경 기록(environment record) | Python 버전, 패키지 목록, 실행 위치처럼 재실행에 필요한 메모입니다. |
-
-## 코드와 실행 조건의 기록
-
-| 기준 | 왜 중요한가 |
-| --- | --- |
-| 의존성은 코드가 기대고 있는 외부 패키지와 실행 조건이다 | 코드만 보고는 실행되지 않는 이유를 설명해 준다 |
-| 재현성은 같은 코드를 나중에 다시 실행할 수 있게 조건을 남기는 일이다 | 학습과 협업은 한 번 실행되고 끝나지 않기 때문이다 |
-| requirements 파일은 필요한 패키지 목록과 버전 범위를 기록한다 | 다른 사람이 환경을 다시 만들 때 출발점이 된다 |
 
 ## 직접 의존성과 간접 의존성
 
@@ -124,7 +116,9 @@ score-summary/
 
 `summary.py`는 CSV 파일을 읽고 평균을 계산합니다.
 
-[scores.csv](../../../assets/part-02/chapter-07/scores.csv)를 내려받아 `summary.py`와 같은 폴더에 둡니다. CSV의 한 행은 학생 한 명이며 `score` 열에는 `82, 91, 77, 88`이 들어 있습니다. `score-summary` 폴더에서 실행하면 평균 `84.5`가 출력됩니다.
+[scores.csv](../../../assets/part-02/chapter-07/scores.csv){ .csv-preview }
+
+`scores.csv`를 내려받아 `summary.py`와 같은 폴더에 둡니다. CSV의 한 행은 학생 한 명이며 `score` 열에는 `82, 91, 77, 88`이 들어 있습니다. `score-summary` 폴더에서 실행하면 평균 `84.5`가 출력됩니다.
 
 ```python
 # CSV를 표 형태로 읽기 위해 pandas를 불러옵니다.
@@ -205,7 +199,7 @@ Colab 런타임은 초기화될 수 있습니다. 그때 설치했던 패키지�
 
 다음 셀은 현재 노트북 커널에 NumPy, pandas, Matplotlib을 설치합니다. 런타임을 새로 만들었다면 필요한 패키지를 다시 준비할 수 있습니다.
 
-```python
+```text title="IPython · 노트북 코드 셀"
 # 노트북 재현에 필요한 주요 패키지를 현재 코드 셀 환경에 설치합니다.
 %pip install numpy pandas matplotlib
 ```
@@ -246,6 +240,19 @@ CSV 평균 계산 프로젝트에서 하나씩 빠뜨려 보면 실패 지점이
 
 CSV의 점수 `82`를 `100`으로 바꾸면 같은 코드와 패키지에서도 평균은 `89.0`이 됩니다. 결과를 비교하려면 환경뿐 아니라 입력 데이터가 같은지도 확인해야 합니다.
 
+## 설치 목록으로 환경 다시 만들기
+
+`pip freeze`는 현재 설치 상태를 기록하며, 호환성을 검증하거나 잠금 파일을 계산하는 명령은 아닙니다. 새 가상환경에서 설치 목록을 적용한 뒤 의존성 검사와 실제 예제를 모두 실행해야 합니다. 아래 명령은 프로젝트의 Python을 선택하고 `scores.csv`와 `summary.py`가 있는 폴더에서 실행합니다.
+
+```bash
+python --version
+python -m pip install -r requirements.txt
+python -m pip check
+python summary.py
+```
+
+선언된 의존성이 맞으면 `pip check`는 `No broken requirements found.`를 출력합니다. 이는 CSV가 준비되었거나 코드가 올바르다는 보장은 아닙니다. 마지막 명령의 `84.5`까지 확인해야 입력·패키지·실행이 연결됩니다. 동일한 결과가 필요한 실험은 코드와 데이터의 버전도 기록하며, 난수를 사용한다면 시드와 관련 라이브러리 설정도 기록합니다. 시드만으로 운영체제나 하드웨어가 다른 실행까지 완전히 같아지지는 않습니다.
+
 ## 체크리스트
 
 - 의존성(dependency)을 내 코드가 실행되기 위해 필요한 외부 패키지로 설명할 수 있다.
@@ -258,6 +265,10 @@ CSV의 점수 `82`를 `100`으로 바꾸면 같은 코드와 패키지에서도 
 
 ## 출처와 참고 자료
 
-- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, 확인 날짜: 2026-07-20. `python -m pip`, 패키지 설치, requirements 파일, repeatable installs를 위한 `pip freeze` 사용 맥락 확인에 사용했다.
-- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, 확인 날짜: 2026-07-20. 현재 환경에 설치된 패키지 목록을 requirements 형식으로 출력한다는 설명 확인에 사용했다.
+- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation, 확인 날짜: 2026-07-20. `python -m pip`, 패키지 설치, requirements 파일, repeatable installs를 위한 `pip freeze` 사용 맥락 확인에 사용했다.
+- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation, 확인 날짜: 2026-07-20. 현재 환경에 설치된 패키지 목록을 requirements 형식으로 출력한다는 설명 확인에 사용했다.
 - Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-20. 프로젝트 배포용 의존성 메타데이터와 실행 환경 재현을 위한 requirements 파일의 역할 차이 확인에 사용했다.
+
+- [pip check](https://pip.pypa.io/en/stable/cli/pip_check/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.
+
+- [NumPy random compatibility policy](https://numpy.org/doc/stable/reference/random/compatibility.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.

@@ -1,7 +1,7 @@
 # P2-7.9 Supplementary Learning: Checking Local Python Environment Problems
 
 > Section ID: `P2-7.9`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 A missing `python` command and a failed `import numpy` occur at different points. The former requires checking how the shell finds commands; the latter requires checking packages in the running Python. Identical Python versions can belong to different virtual environments, so compare executable paths too.
 
@@ -103,6 +103,18 @@ Installing packages into a system location can fail due to missing write permiss
 
 Keep these environment checks with the installation list, data, and execution-location records described in [Dependencies and Reproducibility](section-05.en.md), so later runs can be compared.
 
+## Dependency Conflicts and Files with the Same Name
+
+An installed package can still conflict with the version another package requires. Select the Python used for execution and check its declared dependencies.
+
+```bash
+python -m pip check
+```
+
+Read which package requires what and which version is installed. Resolve conflicts against the project’s installation list and supported versions. No broken requirements found. means declared dependency checks passed; it does not guarantee every import or program execution will succeed.
+
+Another cause is a project file such as numpy.py. Python can search the script’s directory before installed packages and import that file instead of NumPy. If np.__file__ points to the project file, rename the example and rerun in a fresh Python process or restarted kernel. Do not treat AttributeError or circular-import errors automatically as missing packages requiring reinstallation.
+
 ## Checklist
 
 - You can distinguish missing-command errors from missing-package errors.
@@ -114,9 +126,13 @@ Keep these environment checks with the installation list, data, and execution-lo
 
 ## Sources and References
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used as background for the local environment checking order by confirming the documentation structure for platform-specific Python setup and interpreter invocation.
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm that Python execution commands and installation methods on Windows have separate official guidance.
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm that Python execution commands and installation paths on Unix/Linux can differ by environment.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to support checking virtual-environment activation together with package installation location.
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used as background for the local environment checking order by confirming the documentation structure for platform-specific Python setup and interpreter invocation.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm that Python execution commands and installation methods on Windows have separate official guidance.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm that Python execution commands and installation paths on Unix/Linux can differ by environment.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to support checking virtual-environment activation together with package installation location.
 
 - Python Software Foundation, [sys — System-specific parameters and functions](https://docs.python.org/3/library/sys.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-09-08. Source for sys.executable, sys.prefix, and sys.base_prefix when checking interpreter and virtual-environment paths.
+
+- [pip check](https://pip.pypa.io/en/stable/cli/pip_check/){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.
+
+- [Python tutorial: Module search path](https://docs.python.org/3/tutorial/modules.html#the-module-search-path){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.

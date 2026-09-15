@@ -1,7 +1,7 @@
 # P2-7.6 Supplemental Learning: Opening Terminals by Operating System
 
 > Section ID: `P2-7.6`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Use `Get-Location` in Windows PowerShell and `pwd` in macOS/Linux shells to check your current location. Opening the terminal and writing paths differ, but the tasks of checking the location, listing files, and changing folders are the same.
 
@@ -12,14 +12,6 @@ Use `Get-Location` in Windows PowerShell and `pwd` in macOS/Linux shells to chec
 | `pwd`, `ls`, `cd` | Basic commands for checking the current location, checking the file list, and moving folders. |
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | Commands in PowerShell that serve the same purposes. |
 | path difference | The difference in location notation by operating system, such as Windows `C:\\...` versus macOS/Linux `/...`. |
-
-## Operating Systems, Paths, and Shortcuts
-
-| Criterion | Why it matters |
-| --- | --- |
-| If the operating system is different, the terminal app, default shell, and path notation are also slightly different | If you copy examples from another operating system as-is, the path and command can mismatch |
-| Even so, what you look at first in common is the current location and the file list | Even across operating systems, the order of checks before practice does not differ much |
-| Terminal shortcuts can behave differently from general apps | If you confuse copy-paste with interrupting execution, your work can stop unexpectedly |
 
 ## Terminals and Shells by Operating System
 
@@ -305,6 +297,20 @@ pwd
 
 Check that each result is the project location ending in `ai practice`. Without quotes, a shell may split a path containing spaces into multiple arguments and fail to change folders. Even when commands share a purpose, the actual path and argument boundaries must match.
 
+## Calling a Quoted Executable Path
+
+Distinguish quoting a directory argument from invoking an executable. In PowerShell, put the call operator & before a quoted Python executable path containing spaces. Replace the example paths below with the actual location of an existing virtual environment.
+
+```powershell
+& "C:\Users\someone\ws\ai practice\.venv\Scripts\python.exe" --version
+```
+
+```bash
+"/home/someone/ws/ai practice/.venv/bin/python" --version
+```
+
+Both commands print the version of the specified executable. The Bash example uses a Linux path; on macOS, use the actual /Users/... path. PowerShell treats a quoted string alone as a string value, so its invocation syntax is not interchangeable with Bash.
+
 ## Checklist
 
 - Can you explain that Windows Terminal is a host app that can run multiple command-line shells?
@@ -327,3 +333,5 @@ Check that each result is the project location ending in `ai practice`. Without 
 - Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-20. Used to confirm the PowerShell command for checking the current working location and its `pwd` alias.
 - Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-20. Used to confirm the PowerShell command for changing the current working location and its `cd` alias.
 - Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-20. Used to confirm the PowerShell command for listing files and folders and its `ls` alias.
+
+- [PowerShell call operator &](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_operators){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.

@@ -1,193 +1,190 @@
 # P2-14.2 Branches, Commits, and Document Reproducibility
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In P2-14.1, we treated Git as a tool for managing change history. Now, following the writing flow of a document project, we connect branches, commits, and the reproducibility of published documents.
+## Branches and Commits
 
-This section is not for learning Git deeply. The goal is to understand why, as a learning document grows, the writing branch and the deployment branch should be separated, and why commit boundaries should be handled carefully. You need this flow now so that, even after Part 3 when model comparisons and experiment records increase, you do not mix up `judgment still under writing` with `explanation ready to publish`.
+The official Git book describes a branch as a lightweight pointer to a commit. Two branches starting at the same commit can accumulate different commits and continue along separate lines of history.
 
-This section explains the basic distinctions among `branch`, `deployment`, `workflow`, `static deployment`, and `document reproducibility`. The representative explanation of `Git` itself and commit boundaries stays in P2-14.1 and P2-14.2. Here, we focus on how to separate those records by lines of work and by public-release standards.
+Branches help with situations such as these in a document project.
 
-This section focuses on separating workflows and setting deployment criteria. If the previous section asked how changes should be recorded, the question here changes into on which line of work that record should remain, and when it should be moved into public-release standards. So a branch is not an extra feature only for developers. It is an operating standard that separates the manuscript, code, and image interpretation created in the previous chapters into `judgment in progress` and `explanation fit for publication`.
+- Distinguishing work in progress from the published manuscript.
+- Keeping experimental navigation changes out of the published version.
+- Keeping intermediate states off the published site while images, code, and document structure change together.
+- Tracing which change caused a deployment failure.
 
-| Handle That Changes Here | What to Check First Now |
-| --- | --- |
-| git history | Which reason for change should be left as one commit unit? |
-| branch workflow | Should this change stay on the writing branch or the deployment branch? |
-| deployment criteria | When is it ready to move into publicly visible explanation? |
+A branch name alone does not determine whether its contents are public. Deployment configuration determines which branch’s changes reach the site.
 
-## Core Criteria: Branches, Commits, and Document Reproducibility
+## A Branch Points to a Commit
 
-- You can explain a branch as "a named history that separates workflows."
-- You can explain the role difference between a writing branch and a deployment branch in a document project.
-- You can divide commit units from the perspective of document reproducibility.
-- You can explain which file relationships should be checked before deployment.
-- You can explain what it means when a deployment branch update is reflected in a static deployment flow such as GitHub Pages.
+Suppose both `main` and `dev` point to commit A. Creating commit B on `dev` moves `dev` to B, while `main` stays at A. The branches have not copied the entire project into separate folders. They share history through A but now point to different commits.
 
-## First Standard to Hold
+```mermaid
+--8<-- "assets/part-02/chapter-14/branch-commit-pointers-en.mmd"
+```
 
-The first standard to hold in this section is separating `judgment still under writing` from `explanation fit for publication`.
+The solid arrow shows that B was created after A; dotted arrows show what the branches and `HEAD` refer to. A and B are explanatory labels, not hashes to use in Git commands.
 
-| What You Are Looking at Now | First Question to Ask |
-| --- | --- |
-| branch | Is this change part of the writing line or the deployment line? |
-| commit | Can it be grouped under one reason for change? |
-| deployment | Has it passed the checks required for a public document? |
-| document reproducibility | Do the manuscript, code, image, and settings all fit together? |
+Inspect the current branch and commit connections with these commands.
 
-In other words, Git should be read not as simple storage but as an operating tool that decides `what judgment is left, when, and under what publication standard`.
+```bash
+git branch --show-current
+git log --oneline --graph --decorate --all -5
+```
 
-## Three Criteria
+The first prints the current branch name. The second shows the connections and branch names for the five most recent commits. `--all` queries history reachable from multiple references; it does not download the remote server’s latest state.
 
-| Criterion | Why It Matters | Required Understanding in This Section |
-| --- | --- | --- |
-| Why is a branch needed? | It keeps in-progress judgment from mixing with public standards. | Understand that it is needed to separate writing work from published work. |
-| How are the writing branch and deployment branch different? | It gives you an actual operating standard for workflow separation. | Understand that one handles writing and checking, while the other handles applying public-release standards. |
-| What should be checked before deployment? | It keeps you from missing the scope of final public checks. | Understand that links, table of contents, build status, and branch direction should be checked together. |
+After creating all three commits in the previous section’s `git-record-practice` repository, create a separate working branch.
 
-| Term | Meaning to Hold First in This Section |
-| --- | --- |
-| branch | A named line of history that separates workflows inside the same repository. |
-| deployment | The act of updating the static site or document result visible to readers into its actual public state. |
-| workflow | An operating method that defines in what order and by what standards writing, checking, and deployment are separated. |
-| static deployment | A method that publishes already generated document files as a site. |
-| document reproducibility | The property that lets the same document result be created again by re-matching manuscript, code, image, and settings. |
+```bash
+git status --short
+git switch -c revise-chart
+git branch --show-current
+git switch practice
+```
 
-The flow after this section is also simple.
+Starting with a clean working tree, this creates and switches to `revise-chart` at the current commit, then returns to `practice`. Without any new commit, both branches point to the same commit. In contrast, `git branch revise-chart` creates the branch without switching to it.
 
-- Right after this, Chapter 15 connects document-project automation and deployment flow to more practical operating scenes.
-- Once experiment records and comparison tables grow after Part 3, the standards for branches, commits, and reproducibility established here are needed again as they are.
+Switching branches updates the working tree and staging area to the target branch’s file state. Uncommitted changes may follow you when compatible; Git refuses a switch that would overwrite them. Switching branches therefore does not automatically store pending edits in a separate compartment.
 
-## A Branch Separates Workflows
+## Writing and Deployment Branches
 
-The official Git book explains a branch as a lightweight pointer to a commit. Rather than memorizing all of that internal description, it is more important to understand a branch as `a named history used to separate workflows inside the same project`.
-
-In a document project, you need branches in situations such as the following.
-
-- You need to distinguish a manuscript still being written from a manuscript already being deployed.
-- Experimental changes to the table of contents should not be reflected immediately in the published version.
-- While images, code, and document structure are changing together, intermediate states should not be exposed publicly.
-- If a deployment failure occurs, you need to trace which change caused it.
-
-A branch is not merely a convenience feature for developers. It is a device that protects the stability of the document that readers actually see.
-
-## in a Document Project, You Can Separate the Writing Branch and the Deployment Branch
-
-In a document project, the branch for writing and the branch for deployment standards can be operated separately. Branch names differ by team, but you can separate roles, for example, into a writing branch and a deployment branch.
+This book uses `dev` for writing and editing, and `main` as the deployment source. These are repository conventions, not functions that Git assigns to those names. Other projects may use one branch or different names.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-14/branch-review-deploy-flow-en.mmd"
 ```
 
-The writing branch is one example of a branch used for ordinary writing and editing. You can understand that work such as adding manuscript text, writing example code, editing charts, and organizing research notes happens on this kind of writing branch.
+The writing branch records changes to text, example code, and charts. The deployment branch can be maintained to point to the state selected for publication.
 
-The deployment branch is one example of a branch that reflects public-release standards. In static-site deployment, reflecting changes into this branch may itself lead straight to deployment. Therefore, moving work into the deployment branch should be read not as simple saving but as an act of updating the public document.
+A deployment branch is one way to identify the publication source. Updating it can trigger deployment in a static-site setup. Moving changes into that branch can therefore lead to an update of the public document.
 
-This distinction is needed so that, in Part 3, intermediate judgments such as trying another baseline, redoing preprocessing, or refining the explanation of evaluation tables do not harden immediately into public standards. In short, the core of branch operation is separating `comparison still under writing` from `explanation ready for publication`.
+## Commit, Push, and Deploy
 
-## A Commit Should Be a Unit of Publishable Explanation
+A remote repository is a Git repository at another location. `origin` is a conventional alias for its address, not the name of the GitHub service itself.
 
-In a document project, a good commit is closer to "one unit of explanation was completed" than to "some files changed."
-
-For example, when writing P2-13.3, the following files may change together.
-
-| File Type | Example | Why They Should Be Seen Together |
+| Action | What Changes | What Is Not Yet Guaranteed |
 | --- | --- | --- |
-| manuscript | `section-03.md` | the main text read by readers |
-| image-generation code | `p2_13_3_compare_and_save.py` | the source that can recreate the output image |
-| image | `subplot-loss-accuracy.png` | the result inserted into the text |
-| research note | `section-evidence-analysis.md` | the grounds and scope judgment behind the explanation |
-| site navigation setting | navigation config file | the path exposed in the published document |
+| Commit locally | Local history and the current branch | Remote update |
+| Push to a remote | The remote branch and required Git objects | Successful site deployment |
+| Run deployment | The process of building and publishing the site | Correct numbers and explanations |
 
-If these files are connected, grouping them in one commit is natural. By contrast, if CSS layout was also changed at the same time, it is easier to read the history later if that change is separated into another commit.
+With a remote address configured and write permission available, this command uploads local `dev` to `dev` at `origin`. The practice repository above has no remote configured, so it is not ready to run this command as written.
 
-## Document Reproducibility Is Broader Than Code Reproducibility
+```bash
+git push origin dev
+```
 
-In software, reproducibility is often explained as the ability to obtain the same result again with the same code and environment. In this book, we take document reproducibility a little more broadly.
+A normal push can be rejected if the remote has commits absent from the local history. Inspect the remote history and integrate the changes before pushing again. Merely switching to local `main` does not incorporate changes from `dev`. Combining changes from the two histories is called merging; edits to the same area may require a person to resolve a conflict.
 
-Document reproducibility should be able to answer the following questions.
+## Grouping Related Files
 
-- On what grounds was this explanation written?
-- By what code was the chart in the main text created?
-- What package versions does the example code assume?
-- At what point did it enter the deployment table of contents?
-- If an error is found later, in which commit should it be fixed?
+Commits can record work in progress. When choosing a commit to publish, check that the manuscript and its linked assets agree.
 
-So document reproducibility is not a problem of the manuscript alone. The manuscript, code, image, research note, and deployment setting must all fit together. This standard also connects directly to experiment reproducibility in Part 3, because when you change the baseline, change the features, or reread an evaluation metric, it must stay clear `which version of the code and explanation is being compared`.
+For example, writing P2-13.3 may involve these files.
 
-## Check the Connection Relationships Before Deployment
-
-Before deployment, check at least the following connections.
-
-| Item to Check | Checking Question |
-| --- | --- |
-| Markdown main text | Do the images and internal links point to actual files? |
-| site table-of-contents settings | Is the new document connected into nav? |
-| example code | Are the code shown in the main text and the generation script consistent with each other? |
-| image | Is there any cropping, overlap, or misunderstanding risk? |
-| research note | Are the claims in the main text actually connected to the sources? |
-| build | Does `mkdocs build` pass? |
-
-If you do not check these, then after reflecting to the deployment branch, the public page may have broken links, missing images, or explanations and examples that no longer match.
-
-If you rewrite this into a shorter checklist:
-
-| Pre-Deployment Check | Why It Is Needed |
-| --- | --- |
-| main text and links | to make sure the path the reader will actually follow is correct |
-| images and code | to make sure the explanation and result do not diverge |
-| nav and files | to make sure the document is actually exposed in the public document set |
-| build | to make sure the whole site does not break |
-| current branch | to avoid deploying in-progress changes by mistake |
-
-## Reflecting to the Deployment Branch Requires a Separate Judgment
-
-In a document project, it is safer not to reflect ordinary in-progress writing directly into the deployment branch, because reflecting to the deployment branch may lead directly to updating the public document.
-
-So you can have an operating standard that moves work into the deployment branch only when the judgment "this change should now be reflected by public-document standards" is clear.
-
-By contrast, in-progress manuscript edits and mid-experiment notes are safer when kept by default on the writing branch.
-
-## Case Study
-
-### Case 1. Problems That Appear If a Manuscript Still Under Check Reaches the Deployment Page
-
-Suppose a writer is organizing a new chapter on the writing branch and is editing the main text, images, and site table-of-contents settings together. The build has not yet been fully checked, and even the internal links are still under review.
-
-If this state is reflected immediately into the deployment branch, the public deployment page may expose that intermediate state as it is. The document may appear in the table of contents while its link is broken. The image file may already have been replaced while the explanation paragraph still stays at an earlier version. In other words, an in-progress draft becomes a public document as-is.
-
-That is why separating the writing branch from the deployment branch is not just a habit. It is a device for protecting publication stability. On the writing branch, the manuscript and experiments proceed. Before moving to the deployment branch, the build, links, images, table of contents, and source connections should all be checked one more time.
-
-This case shows why document reproducibility touches both commit boundaries and branch operation. A deployed book is not correct merely because the manuscript is correct. The code, assets, and settings around that manuscript must also fit together before the same result can be shown again.
-
-This section is not about memorizing more Git commands. It is about deciding by what standards the calculations and interpretations built in the previous sections should be left behind.
-
-| What the Previous Chapters Built | What This Section Decides | What It Still Does Not Do Here |
+| File Type | Example | Why to Check Them Together |
 | --- | --- | --- |
-| array calculation, table inspection, graph interpretation | decide which changes belong in one commit unit and on which branch they should remain | complex merge strategies, conflict resolution, advanced collaboration workflows |
+| Manuscript | `section-03.md` | Text the reader sees |
+| Image-generation code | `p2_13_3_compare_and_save.py` | Source for regenerating the images |
+| Images | `subplot-loss-accuracy-en.svg` and language variants | Results inserted into the manuscript |
+| Source records | References in the text and necessary evidence notes | Support for claims and scope decisions |
+| Site navigation settings | Navigation configuration file | Paths exposed in the published document |
 
-## Short Return Table
+When these files are connected, grouping them in one commit is natural. An unrelated CSS layout change made at the same time is easier to trace in a separate commit.
 
-| If You Get Stuck Here | Return First To |
+## Document Reproducibility
+
+In software, reproducibility often means obtaining the same result again from the same code and environment. This book uses document reproducibility somewhat more broadly.
+
+Document reproducibility should let us answer these questions.
+
+- What evidence supports this explanation?
+- Which code produced the chart in the manuscript?
+- Which package versions does the example code assume?
+- When did the section enter the published navigation?
+- Which commit introduced an error, and which corrective commit fixed it?
+
+Reproducibility therefore involves more than the manuscript. Text, code, images, research notes, and deployment settings must agree. Using text and code from the same commit, together with the required data, package versions, and settings, helps trace the conditions needed to reproduce an earlier document result.
+
+A commit fixes the recorded files, but it does not automatically preserve virtual environments, installed fonts, or external data files. The same plot code can produce different text widths and layouts with different Matplotlib or font versions. Record seeds when randomness is involved, while recognizing that one seed does not guarantee identical files across all environments.
+
+| Target to Reproduce | Conditions to Record Together | Result to Compare |
+| --- | --- | --- |
+| Calculated values | Code, input data, package versions, settings | Values, array shapes, tolerance |
+| Plot appearance | Calculation conditions, fonts, axis ranges, size | Curves, labels, legend, clipping |
+| File bytes | Fixed renderer versions and metadata | File hash |
+
+The P2-13.3 script can generate charts in a separate folder without overwriting manuscript assets. Run it from the repository root in a Python environment with Matplotlib, NumPy, and the default font `Noto Sans CJK JP` installed. Choosing another font with `--font-family` can change the appearance.
+
+[Chart-generation code](/AiBook/assets/part-02/chapter-13/p2_13_3_compare_and_save.py)
+
+```bash
+python docs/assets/part-02/chapter-13/p2_13_3_compare_and_save.py --language all --output-dir .tmp/p2-14-reproduce
+```
+
+This creates six SVG files across the three languages. When comparing `subplot-loss-accuracy-en.svg` with the manuscript image, check the final accuracy, axis ranges, and legend as well as the file’s existence. In the same environment, file hashes can also be compared. If they differ, first distinguish a numerical change from a formatting change.
+
+## Checking Connections Before Publication
+
+Before deployment, check at least these relationships.
+
+| Target | Question |
 | --- | --- |
-| If it becomes blurry why Git is needed | `P2-14.1` |
-| If the connection between reproducibility and dependencies becomes blurry | `P2-7.5`, `P2-10.3` |
-| If it becomes blurry why notebooks, graphs, and manuscript records move together | Chapter 10, Chapter 13 |
+| Markdown text | Do images and internal links point to existing files? |
+| Site navigation | Is the new document connected to nav? |
+| Example code | Does the manuscript code agree with the generation script? |
+| Images | Is there clipping, overlap, or a misleading presentation? |
+| Source records | Do the sources support the claims? |
+| Build | Does `mkdocs build` pass? |
+
+Otherwise, publishing the deployment branch may expose broken links, missing images, or disagreements between explanations and examples.
+
+## Case 1. The Text Says 0.86 but the Chart Shows 0.88
+
+Suppose the published document contains a chart whose final accuracy is 0.88. On the writing branch, you change the final accuracy to 0.86 and update the text to say “accuracy remains at 0.86 for the last three epochs.” If you edit the generation code without regenerating the image, the text and chart describe different results.
+
+| State | Manuscript | Generation Code | Image |
+| --- | --- | --- | --- |
+| Previous published version | Final accuracy 0.88 | Final value 0.88 | Final point 0.88 |
+| Work in progress | Final accuracy 0.86 | Final value 0.86 | Final point 0.88 |
+| Checked version | Final accuracy 0.86 | Final value 0.86 | Final point 0.86 |
+
+Intermediate commits on the writing branch preserve the editing process. Before publication, run the generation code and check that the text references the updated image. A successful site build does not automatically verify numerical consistency.
+
+If deployment is triggered by a push to a specific branch, integrating the checked state into that branch and uploading it starts the deployment job. A local commit alone does not change the public site. Check the job’s success and the actual page to determine what is published.
+
+## Selecting the Modified Files
+
+Suppose the manuscript and code now use a final accuracy of 0.86, the chart has not yet been regenerated, and a separate edit changes a CSS color. Choose what belongs in a “correct accuracy explanation” commit.
+
+1. Decide whether the existing chart still agrees with the explanation.
+2. Regenerate it, then select the manuscript, code, and corresponding image together.
+3. Decide whether the CSS change is independent of the accuracy explanation.
+
+Here the chart needs updating, while the independent CSS change belongs in a separate commit. Even after pushing the first commit to `dev`, the public site remains unchanged if deployment is connected only to `main`.
 
 ## Checklist
 
-- Can you explain a branch as a named history that separates workflows?
-- Can you explain the role difference between the writing branch and the deployment branch?
-- Can you explain that a commit should be a meaningful bundle of change rather than just a bundle of files?
-- Can you choose which files should go into one commit by the purpose of the change?
-- Can you explain that document reproducibility is not only about the manuscript, but requires code, images, research notes, and deployment navigation to fit together?
-- Can you explain that reflecting into the deployment branch may lead to public deployment and therefore requires a separate judgment?
-- When you need to manage in-progress changes separately from publishable changes, can you recall the perspective of branches and commit units first?
-- Can you explain why site navigation settings, images, research notes, and the build should all be checked before deployment?
+- Can you describe a branch as a named line of history that separates work?
+- Can you explain the roles of writing and deployment branches?
+- Can you explain why a commit should group changes by purpose?
+- Can you select the files for a commit based on that purpose?
+- Can you explain why reproducibility depends on agreement among text, code, images, research notes, and navigation?
+- Can you explain why updating a deployment branch requires a publication decision?
+- Can you explain why an intermediate commit and a publication commit need different checks?
+- Can you explain why two branches can point to the same commit immediately after branch creation?
+- Can you distinguish commit, push, and deployment, and switching from merging?
+- Can you explain why a code commit alone does not guarantee the environment or chart reproduction?
+- Can you explain why navigation, images, research notes, and the build need checking before deployment?
 
 ## Sources and References
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, checked on 2026-07-20. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } Basis for describing a branch as a lightweight movable pointer to a commit.
-- Git project, `git-branch Documentation`, checked on 2026-07-20. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git branch` lists, creates, or deletes branches.
-- GitHub Docs, `What is GitHub Pages?`, checked on 2026-07-20. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } Used to verify that GitHub Pages can publish HTML, CSS, and JavaScript from a repository, optionally through a build process.
+- [Pro Git, Branches in a Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Relationships among branches, commits, and HEAD.
+- [Git project, git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Creating and inspecting branches.
+- [Git project, git-switch](https://git-scm.com/docs/git-switch){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Switching branches and protecting uncommitted changes.
+- [Git project, git-log](https://git-scm.com/docs/git-log){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Inspecting history with graphs, names, and multiple references.
+- [Git project, git-push](https://git-scm.com/docs/git-push){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Updating remote references and reasons for push rejection.
+- [Git project, git-merge](https://git-scm.com/docs/git-merge){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Integrating histories and handling conflicts.
+- [GitHub Docs, Configuring a publishing source for your GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Branch-based and Actions-based publishing settings.

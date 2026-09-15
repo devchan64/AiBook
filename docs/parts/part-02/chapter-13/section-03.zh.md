@@ -1,51 +1,13 @@
-# P2-13.3 比较多个图表并保存
+# P2-13.3 比较并保存多个图形
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-在 P2-13.2，我们看过折线图（line plot）、散点图（scatter plot）、直方图（histogram）这些基础图表分别适合回答什么问题。现在再往前走一步，整理“把多个图表放在一起看，并把结果保存成文件”的流程。
+## 并排查看损失与准确率
 
-在 AI 学习里，往往不会只看一张图就结束。你可能要同时看损失（loss）和准确率（accuracy），或者把训练数据（train data）和验证数据（validation data）的走势并排比较。这时最好更有意识地理解 Matplotlib 的 `Figure` 与 `Axes` 结构。
-
-本节说明比较与保存流程中的基本区分，包括 `savefig`、图例（legend）、准确率（accuracy）。`plot`、`Figure`、`Axes` 的代表性说明放在 P2-13.1，基础图表选择标准放在 P2-13.2 和 P2-13.2；这里重点讲“怎样把多个图表一起比较，并把结果留成文件”。
-
-## 核心判断标准：比较多个图表并保存
-
-- 能说明一个 `Figure` 内可以包含多个 `Axes`。
-- 能做出并排比较损失（loss）与准确率（accuracy）的图表。
-- 能在同一个坐标轴上比较训练损失（train loss）与验证损失（validation loss）。
-- 能用 `savefig()` 保存图表，并在文档或学习记录里再次使用。
-- 能说明：想让保存下来的图表成为可复现记录，还必须同时保留代码和数据条件。
-
-## 三个判断标准
-
-| 标准 | 为什么重要 | 本节需要达到的理解程度 |
-| --- | --- | --- |
-| 为什么要一起画多个图？ | 它明确告诉你，重点不是图多，而是比较问题。 | 理解这样做是为了让比较问题更清楚。 |
-| 什么情况下要分开坐标轴，什么情况下不用？ | 它帮助你区分哪些值能直接比较，哪些值应该拆开。 | 理解直接比较重要时放在一起，解释会混淆时就分开。 |
-| 为什么保存很重要？ | 它帮助你区分屏幕输出与可复用记录。 | 理解保存不是只为了看结果，而是为了留下以后还能再次说明的记录。 |
-
-| 术语 | 本节先抓住的含义 |
-| --- | --- |
-| `savefig` | 把当前图表保存为图像文件的函数调用。 |
-| 图例（legend） | 用来区分各条线或各组点分别表示什么的标识。 |
-| 准确率（accuracy） | 表示全部预测中有多少比例是预测正确的基础性能指标。 |
-| 比较图（comparison plot） | 为了并排比较两个或以上流程或数值而制作的图表。 |
-| 可复现记录（reproducible record） | 以同样代码和条件还能重新做出来的图表结果。 |
-
-## 多个图表会制造比较问题
-
-把多个图表排在一起，并不是为了把画面填满，而是为了把相关问题并排放置。
-
-例如，在学习过程中，你可能想看损失（loss）是否下降、准确率（accuracy）是否上升。因为这两个值的单位不同，与其硬塞在同一个 y 轴上，不如拆成两个小图，通常会更容易读。
-
-问题情境：你想在同一画面里比较学习进行时，损失和准确率分别如何变化。
-输入（input）：epoch 编号、损失值列表、准确率值列表。
-期望输出（output）：左边是损失曲线、右边是准确率曲线的 1 行 2 列图表。
-要确认的概念：当一个 `Figure` 里有多个 `Axes` 时，就能把相关问题并排比较。
+在这组虚构训练记录中，损失从 2.02 降到 0.60，准确率从 0.55 升到 0.88。准确率是预测正确的比例。两者含义和数值范围不同，因此用各自具有 y 轴的两个图形比较。
 
 ```python
-# 这个例子在同一个 Figure 中比较多个图表，并保存结果图像。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -53,7 +15,7 @@ epochs = np.arange(1, 13)
 loss = [2.02, 1.68, 1.42, 1.18, 1.03, 0.91, 0.82, 0.75, 0.70, 0.66, 0.63, 0.60]
 accuracy = [0.55, 0.61, 0.66, 0.70, 0.74, 0.78, 0.81, 0.83, 0.85, 0.86, 0.87, 0.88]
 
-fig, axes = plt.subplots(1, 2)
+fig, axes = plt.subplots(1, 2, figsize=(8, 3.8), sharex=True)
 
 axes[0].plot(epochs, loss, marker="o")
 axes[0].set_title("Loss over epochs")
@@ -64,66 +26,27 @@ axes[1].plot(epochs, accuracy, marker="o")
 axes[1].set_title("Accuracy over epochs")
 axes[1].set_xlabel("epoch")
 axes[1].set_ylabel("accuracy")
+axes[1].set_ylim(0, 1)
 
 fig.tight_layout()
 plt.show()
 ```
 
-输出结果会像下面这样，在一个 `Figure` 里分开显示两个相关问题。
+输出在一个 Figure 中将两个相关问题分开显示。
 
-![并排比较损失与准确率的两个子图](/AiBook/assets/part-02/chapter-13/subplot-loss-accuracy.png)
+![分开展示损失与准确率](/AiBook/assets/part-02/chapter-13/subplot-loss-accuracy-zh.svg)
 
-这张图会同时提出两个问题。
+`plt.subplots(1, 2)` 创建一个整体图形和两个坐标区域。`axes[0]` 是左侧损失图，`axes[1]` 是右侧准确率图。两图的 x 轴都表示相同的 12 次迭代。
 
-- 随着重复学习进行，损失是否大体下降？
-- 在同一时期内，准确率是否大体上升？
+最后三次迭代中，损失为 `0.66 → 0.63 → 0.60`，准确率为 `0.86 → 0.87 → 0.88`。使用独立坐标轴，可以根据各自刻度读取变化幅度。
 
-把两张图并排后，你还可以继续提出“一个在变好，另一个是否停滞了？”这类问题。
+## 叠加训练与验证损失
 
-这种比较方式不只用于学习曲线。比如，一边的 `Axes` 可以画两条动作记录的原始曲线，另一边的 `Axes` 可以画把这些动作按区段平均值或最终值总结后的比较小图。这样左边看的是`形状本身的差异`，右边看的是`总结值里留下来的差异`。
+并非总要分开画图。比较相同单位的值时，把两条线放在同一个 Axes 上往往更直接。
 
-也就是说，把多个图表放在一起，不是为了增加图的数量，而是为了更明确地表达：`用什么问题把原始形状和总结结果一起读`。
-
-## 重新读取 Figure 与 Axes
-
-在 P2-13.1，我们把 `Figure` 看成整张图，把 `Axes` 看成绘制数据的坐标区域。画多个图时，这个区分会更重要。
-
-问题情境：制作分成多个面板的图表时，你需要先抓住 `fig` 和 `axes` 分别指向什么。
-输入（input）：一行 `plt.subplots(1, 2)` 调用。
-期望输出（output）：一个指向整张图和其中两个图面板的变量结构。
-要确认的概念：`Figure` 是整张图，`Axes` 是实际绘制数据的各个坐标区域。
+训练与验证损失若采用相同损失函数和聚合标准计算，就可以共用 y 轴。这组虚构记录中，训练损失持续下降，验证损失则在第 8 次迭代达到 0.88 后上升。
 
 ```python
-# 这个例子在同一个 Figure 中比较多个图表，并保存结果图像。
-fig, axes = plt.subplots(1, 2)
-```
-
-这段代码会在一个 `Figure` 里左右创建两个 `Axes`。
-
-这里可以这样理解。
-
-| 代码 | 直观理解 |
-| --- | --- |
-| `fig` | 整张图 |
-| `axes[0]` | 左侧图面板 |
-| `axes[1]` | 右侧图面板 |
-| `plt.subplots(1, 2)` | 创建 1 行 2 列的图面板 |
-
-一旦有了多个 `Axes`，写法就会从单个 `ax.plot(...)` 变成 `axes[0].plot(...)`、`axes[1].plot(...)` 这种“指定画在哪一格”的方式。
-
-## 有时也应该在同一个坐标轴上比较
-
-并不是所有情况都应该把图拆开。当你比较单位相同的值时，把两条线放到同一个 `Axes` 上会更直接。
-
-典型例子就是比较训练损失（train loss）和验证损失（validation loss）。这两个值本来都是损失（loss），因此可以放在同一个 y 轴上比较。
-
-问题情境：训练损失和验证损失单位相同，所以你想在一个坐标轴上直接比较。
-输入（input）：epoch 编号，以及 `train_loss`、`validation_loss` 列表。
-期望输出（output）：两条损失曲线画在同一坐标轴上的折线图。
-要确认的概念：单位相同的值应该放在同一个 `Axes` 上，这样两个流程之间的分离和交叉更容易直接读出来。
-
-```python
-# 这个例子在同一个 Figure 中比较多个图表，并保存结果图像。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -135,7 +58,7 @@ fig, ax = plt.subplots()
 ax.plot(epochs, train_loss, marker="o", label="train loss")
 ax.plot(epochs, validation_loss, marker="o", label="validation loss")
 ax.axvline(8, color="gray", linestyle="--")
-ax.text(8.25, 1.38, "validation starts rising")
+ax.text(8.25, 1.38, "minimum validation loss at epoch 8")
 ax.set_xlabel("epoch")
 ax.set_ylabel("loss")
 ax.set_title("Training and validation loss can diverge")
@@ -143,93 +66,96 @@ ax.legend()
 plt.show()
 ```
 
-输出结果会像下面这样，让你在同一坐标轴上比较两条损失曲线。
+输出在同一坐标区域中比较两条损失曲线。
 
-![展示训练损失与验证损失分离的比较图](/AiBook/assets/part-02/chapter-13/train-validation-loss-diverge.png)
+![训练与验证损失逐渐分离](/AiBook/assets/part-02/chapter-13/train-validation-loss-diverge-zh.svg)
 
-这个例子会连接到 Part 3 里还会再见到的过拟合（overfitting）直觉。如果训练损失持续下降，而验证损失又重新上升，就可以怀疑：模型对训练数据拟合得更好，却对新数据拟合得更差。
+这种模式可能提示过拟合。如果训练损失持续下降而验证损失回升，模型可能更贴合训练数据，却更不适合新数据。
 
-不过，这里不应把结论说死。这张图的意思不是“已经确认过拟合”，而是“需要更仔细检查验证数据上的性能走势”。
+从第 8 次到第 15 次迭代，训练损失从 0.62 降到 0.39，验证损失从 0.88 升到 1.25。同一期间两者方向相反。判断原因还需要检查数据划分与训练条件。
 
-## 保存图表，意味着留下记录
+## 保存图像文件
 
-在 Colab 或 Jupyter Notebook 里，可以用 `plt.show()` 直接看到图表。但如果你想把它放进书、报告或实验记录，就需要把它保存成图像文件。
+在 Colab 或 Jupyter Notebook 中，可以用 `plt.show()` 直接查看图形。用于书籍、报告或实验记录时，还需要保存成图像文件。
 
-在 Matplotlib 里，用的是 `savefig()`。
-
-问题情境：你需要把屏幕上看到的图表保存成文件，以便在文档和记录里再次使用。
-输入（input）：已经创建好的 `fig` 对象，以及要保存的文件名。
-期望输出（output）：当前图表被保存成 PNG 等图像文件。
-要确认的概念：`plt.show()` 是屏幕显示，`savefig()` 是保存可复用的结果文件。
+Matplotlib 使用 `savefig()` 保存。
 
 ```python
-# 这个例子在同一个 Figure 中比较多个图表，并保存结果图像。
-fig.savefig("train-validation-loss-diverge.png")
-```
+from pathlib import Path
 
-这里可以这样理解。
+output_dir = Path(".tmp") / "chapter-13-plots"
+output_dir.mkdir(parents=True, exist_ok=True)
+fig.savefig(output_dir / "train-validation-loss-diverge.png", dpi=160)
+fig.savefig(output_dir / "train-validation-loss-diverge.svg")
+```
 
 | 代码 | 含义 |
 | --- | --- |
-| `plt.show()` | 在当前执行画面中查看图表 |
-| `fig.savefig(...)` | 把图表保存成图像文件 |
-| `fig.tight_layout()` | 调整留白，避免标题、坐标轴标签和绘图区彼此重叠 |
+| `plt.show()` | 在当前环境显示图形 |
+| `fig.savefig(...)` | 将图形保存成文件 |
+| `fig.tight_layout()` | 调整间距，减少标题、标签与图形区域重叠 |
 
-在文档项目中，经常就是这样生成输出图像：运行代码生成图片，再把图片链接进 Markdown 文档。
+相对路径会在当前工作目录下的 `.tmp/chapter-13-plots/` 中生成文件。此保存代码使用刚刚创建的训练与验证损失 Figure。若要保存最初的并排图，应把保存调用放在它的 `plt.show()` 之前。创建多个图形时，变量 `fig` 可能已指向后来的图形，因此要先确认保存对象。
 
-## 只有保存的图像还不够可复现
+PNG 是像素图像。图形为 8×3.8 英寸且 `dpi=160` 时，默认画布为 1280×608 像素。SVG 将线条与文字保存为矢量，放大后仍保持轮廓。指定 `bbox_inches="tight"` 会裁剪保存范围，像素尺寸可能随之改变。
 
-图表文件能展示结果，但它本身还不是可复现记录。想再次做出同一张图，还需要下面这些信息。
+通常顺序是创建图形、调整标签和布局、调用 `fig.savefig`，再调用 `plt.show()`。阻塞式 `show()` 结束后，当前图形可能已关闭，此时 `plt.savefig()` 可能保存一张新的空图。上例通过保留的 Figure 对象调用 `fig.savefig()`，但先保存再 show 可以减少执行环境带来的混淆。批量生成文件时，保存后用 `plt.close(fig)` 关闭每张图。
 
-- 生成图表的代码
-- 使用的数据，或生成数据的条件
-- 使用的库与版本
-- 如果包含随机值，还需要随机种子（random seed）
-- 图表想回答的问题
+## 复现所需的记录
 
-因此，在文档项目里，不应只留下图像文件。只要可能，也应保留生成这张图的 Python 脚本。比如一张图需要多次修改时，把生成脚本放在离图片较近的位置，会更容易重新生成结果。
+图像能展示结果，但它本身并不是可复现记录。重新生成相同图形需要：
 
-本节的两张示例图片可以通过 [`p2_13_3_compare_and_save.py`](/AiBook/assets/part-02/chapter-13/p2_13_3_compare_and_save.py) 重新生成。这个文件会把 `MPLCONFIGDIR` 固定到项目的 `.tmp` 下面，并用 `fig.savefig(...)` 把输出图片保存到同一个资产文件夹中。
+- 绘图代码
+- 数据或数据生成条件
+- 库及其版本
+- 使用随机值时的随机种子
+- 图形所回答的问题
 
-这种方式更接近“这张图还能再做出来”，而不只是“这张图被贴上去了”。
+因此，文档项目在可能时应同时保存图像和生成脚本。若一张图需要反复修改，把脚本放在图像附近会更容易复现。
 
-## 制作比较图时的注意点
+以下脚本将三个语言版本的示例 SVG 保存到资源目录。Matplotlib 默认将缓存放在仓库的 `.tmp` 下。
 
-比较多个图表时，要注意下面这些点。
+[p2_13_3_compare_and_save.py](/AiBook/assets/part-02/chapter-13/p2_13_3_compare_and_save.py)
 
-| 注意点 | 原因 |
+```bash
+python docs/assets/part-02/chapter-13/p2_13_3_compare_and_save.py
+```
+
+## 比较条件
+
+比较多个图形时，应检查以下事项：
+
+| 检查项 | 原因 |
 | --- | --- |
-| 不要把不同单位的值硬塞到同一个坐标轴上 | 变化看起来可能会被扭曲 |
-| 单位相同的值可以放在同一个坐标轴上比较 | 像 train loss 和 validation loss 这样可以直接比较 |
-| 加上图例（legend） | 需要知道每条线代表什么 |
-| 检查坐标轴范围 | 小差异可能被夸大，大差异也可能被隐藏 |
-| 保存时用说明性的文件名 | 以后需要知道这到底是哪张图 |
+| 不把不同单位强放在同一轴上 | 可能扭曲变化印象 |
+| 相同单位可在同一轴上比较 | 例如训练与验证损失可直接比较 |
+| 添加图例 | 必须明确每条线的含义 |
+| 检查坐标范围 | 小差异可能被放大，大差异可能被隐藏 |
+| 使用有说明性的文件名 | 以后仍能辨认图形内容 |
 
-图表不会代替结论，但好的图表会帮助你把下一个问题问得更准确。
+## 案例：记录准确率停滞
 
-## 用案例来看
+把第一个例子中最后三个准确率值改为 `[0.86, 0.86, 0.86]` 后重新运行。损失继续下降，准确率却从第 10 次迭代开始变平。即使损失降低，预测正确的比例也不再提高。
 
-### 案例 1. 当你必须把损失和准确率留在同一张图里时
+修改第一个准确率列表后，在 `plt.show()` 前加入 `fig.savefig(output_dir / "loss-accuracy-plateau.png", dpi=160)`。`output_dir` 是前面保存示例创建的文件夹。应在创建修改后的图形后立即保存，避免误存后来另一个 `fig`。
 
-假设一位学习者想整理模型训练结果，并把它放进团队文档里。只看损失图可以知道学习是否稳定，但如果和准确率一起看，就更容易提出“损失在下降，但准确率是否停滞？”这样的比较问题。
+准确率只统计最终判断是否正确，损失则可以更细致地反映预测值与目标的接近程度。例如目标为正类、分类阈值为 0.5 时，预测概率从 0.6 变到 0.8 都会判对，但二元交叉熵损失约从 0.511 降到 0.223。因此，准确率停滞与损失下降并不矛盾。
 
-人一开始可能会想，“一张图还不够吗？” 但在实际实验记录中，如果把相关值并排放置，或者把同类单位的值放在同一坐标轴上比较，解释会更容易。因此，多 `Axes` 的结构、图例和坐标轴标签就会变得重要。
-
-另外，如果只是在屏幕上看一次就结束，之后会很难再次说明。你应当用 `savefig()` 把图表保存下来，并把生成这张图的代码和数据条件一起保留，这样同样的结果才能再次做出来。
-
-可检查的结果会体现在“保存下来的文件”和“能否重新运行生成”上。如果比较 `train loss`、`validation loss`、`accuracy` 的图已经作为文件留下，并且还能用同一脚本重新生成，那么这张图就不只是简单截图，而是在充当实验记录。
+比较此文件与原结果时，应同时保留原始和修改后的准确率列表。文件名不同并不能说明输入改了什么。将“最后三个准确率固定为 0.86，损失列表不变”的修改记录与生成代码一同保存，才能解释两图差异。
 
 ## 检查清单
 
-- 能说明 `plt.subplots(1, 2)` 会在一个 Figure 里创建两个 Axes 吗？
-- 能说明为什么应该把损失和准确率并排比较吗？
-- 能说明为什么 train loss 和 validation loss 可以在同一个坐标轴上比较吗？
-- 能说明 `plt.show()` 和 `fig.savefig()` 的区别吗？
-- 能说明为什么只有图表文件还不足以支撑可复现性吗？
-- 当你需要把多个图表并排放在一个画面上做比较时，能先想到 Figure 和 Axes 的排布吗？
+- 能否解释多个区域为何有助于比较相关问题？
+- 能否说明 `plt.subplots(1, 2)` 在一个 Figure 中创建两个 Axes？
+- 能否解释损失与准确率为何分开显示？
+- 能否区分何时共用坐标轴、何时按不同单位分开？
+- 能否区分 `plt.show()` 与 `fig.savefig()`？
+- 能否说明哪些代码和数据记录能让已保存图像可复现？
 
 ## 来源与参考资料
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是确认一个 `Figure` 可以包含多个 `Axes`，以及 `plt.subplots()` 示例的资料。
-- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } 这是把 `Axes` 说明为数据坐标、标签、标题和图例设置中心对象的依据。
-- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 确认日期：2026-07-20. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } 这是说明 `Figure.savefig()` 会把图保存为图像或矢量图文件的直接参考资料。
+- Matplotlib Developers, [Quick start guide](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 查阅日期：2026-07-20. 在一个 Figure 中放置多个 Axes。
+- Matplotlib Developers, [Introduction to Axes (or Subplots)](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 查阅日期：2026-07-20. Axes 作为设置标签、标题与图例的坐标区域。
+- Matplotlib Developers, [matplotlib.figure.Figure.savefig](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 查阅日期：2026-09-15. 用 Figure.savefig 保存图像与矢量图。
+- Matplotlib Developers, [pyplot.show](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15. show 与保存顺序，以及保留 Figure 引用.
+- scikit-learn Developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15. 正类样本的二元交叉熵计算.

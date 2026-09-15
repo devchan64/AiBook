@@ -1,7 +1,7 @@
 # P7-5.11 Mira 얼굴·헤어 LoRA 학습 준비하기
 
 > Section ID: `P7-5.11`
-> Version: `v2026.09.14`
+> Version: `v2026.09.15`
 
 **Qwen-Image-Edit-2511에 적용해 새 장면에서도 Mira의 얼굴과 헤어를 유지하는 LoRA**를 학습한다. [P7-5.2](section-02.md)의 얼굴·각도 이미지와 [P7-5.9](section-09.md)의 표정 이미지에서 학습 후보를 검토하고, 이미지 생성·검수·학습·평가를 거쳐 정체성이 유지되는지 확인한다.
 
@@ -52,6 +52,75 @@ LoRA는 기반 모델의 가중치를 고정하고 작은 추가 행렬을 학�
 
 각 항목은 고정 참조에서 독립적으로 1024×1024·20스텝·CFG 4.0으로 생성한다. 이전 생성 결과를 다음 참조로 이어 쓰지 않는다. 프롬프트는 외형을 다시 정의하지 않고 `Replace only the background of Picture 1 with a simple cafe with wooden furniture. Keep the woman unchanged.`처럼 변경 대상과 보존 범위를 지정한다. 결과에서는 요청한 장면 변화와 기준 얼굴·홍채·피부색·헤어의 유지를 따로 확인한다. 생성 완료는 학습 적합성이나 LoRA 품질의 승인이 아니다.
 
+## 후보를 넉넉히 만들고 학습 목록을 별도로 고른다
+
+추가 실험에서는 생성 수량과 학습 수량을 분리한다. 생성 코드는 PNG·생성 기록과 함께 `candidate-catalog.json`을 갱신하며, 완료 항목은 해시를 확인하고 건너뛴다. 카탈로그의 `pending`은 미검수 상태다. 검수 결과는 별도 파일에 적으므로 생성을 재개해도 채택 판단이 덮어써지지 않는다.
+
+학습용 이미지 후보는 이 절의 `sec-11/` 아래에 통합한다. `input-images/`에는 5.12에서 사용할 폐기 후 남은 참조 입력 후보 193장과 생성 기록을, `target-images/`에는 추가 Mira 목표 후보를 둔다. `target-images/`는 추가 생성하는 목표 후보의 보관 위치다. 입력 220장에 대응하는 기존 Mira 목표 44장은 카탈로그의 `target` 경로로 연결하며 중복 복사하지 않는다. 기존 채택 이미지의 `training-images/`와 구분하고, 후보 카탈로그에서 검수한 항목을 별도 학습 목록으로 선택한다.
+
+참조 입력 후보 생성에도 위의 공용 순차 생성 Python을 사용한다. 생성 코드·조건 JSON·검수 및 선택 코드는 모두 `sec-11/`의 자산이며, 5.12에서는 이 자료를 연결해 사용한다.
+
+[참조 입력 후보 220개 생성 조건 JSON](../../../assets/part-07/chapter-05/sec-11/p7-5-11-bfs-input-pool-v2.json)
+
+원래 220개 생성 조건은 보존한다. 얼굴 방향 3건·배경 손실 및 변경 5건·표정 불일치 19건을 합한 폐기 확정 27건은 아래 명령에서 제외되어 실행 대상은 193개다. `--dry-run`으로 제외 ID를 확인할 수 있다.
+
+[재생성 제외 목록 JSON](../../../assets/part-07/chapter-05/sec-11/p7-5-11-input-generation-exclusions.json)
+
+[폐기 목록을 적용하는 입력 생성 Python](../../../assets/part-07/chapter-05/sec-11/p7_5_11_generate_reviewed_inputs.py)
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/sec-11/p7_5_11_generate_reviewed_inputs.py \
+  --spec docs/assets/part-07/chapter-05/sec-11/p7-5-11-bfs-input-pool-v2.json \
+  --output-dir docs/assets/part-07/chapter-05/sec-11/input-images \
+  --dry-run
+```
+
+`--dry-run`은 220개 조건과 참조 해시를 확인한다. 새 후보를 실제로 생성할 때는 이 옵션을 빼고 `--wait-for-gpu`를 사용한다. 생성 조건을 수정했다면 출력 폴더도 새로 지정한다.
+
+[참조 입력 후보 193장 카탈로그 JSON](../../../assets/part-07/chapter-05/sec-11/input-images/candidate-catalog.json)
+
+[입력 후보 193개 비교표 Markdown](../../../assets/part-07/chapter-05/sec-11/input-candidate-comparison.md)
+
+비교표에는 각 입력과 Mira 목표를 나란히 배치하고, 원래 생성 순번에 고정한 `P711-IN-NNN` 관리번호를 부여했다. 현재 남은 기록은 실험용 채택 2개와 확대 검수 보류 191개다. 입력 표정은 보존하며, 표정 불일치 19개는 폐기 확정했다. 보관 수 193개를 학습 사용 가능 수로 해석하지 않으며, 검수 의견은 관리번호로 추적한다.
+
+전체 후보를 원고에 펼치지 않고, 같은 Mira 목표에서 생성한 입력 변형 3장만 예로 든다. 생성 방향은 **Mira 목표 → 다른 인물·화풍의 입력 후보**, 학습 방향은 그 반대다. 아래는 데이터 구성 설명용 샘플이며 학습 채택을 승인한 쌍은 아니다.
+
+| 공통 Mira 목표 | 사진풍 입력 후보 | 수채화 입력 후보 | 컬러 펜화 입력 후보 |
+| --- | --- | --- | --- |
+| ![공통 Mira 목표](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png){ width="240" } | ![사진풍 입력 후보](../../../assets/part-07/chapter-05/sec-11/input-images/bfs-input-01-soft-photo.png){ width="240" } | ![수채화 입력 후보](../../../assets/part-07/chapter-05/sec-11/input-images/bfs-input-01-watercolor.png){ width="240" } | ![컬러 펜화 입력 후보](../../../assets/part-07/chapter-05/sec-11/input-images/bfs-input-01-ink-illustration.png){ width="240" } |
+
+얼굴·헤어·화풍의 변화와 구도·표정·의상 보존은 별도로 살핀다. 후보가 생성되었다는 이유만으로 대응 관계가 맞다고 간주하지 않으며, 전체 후보의 경로와 해시는 위 카탈로그에서 확인한다.
+
+[추가 Mira 목표 후보 128개 생성 목록 JSON](../../../assets/part-07/chapter-05/sec-11/p7-5-11-mira-target-pool-v3.json)
+
+이 목록은 기존 의상·배경·조명·표정 조건 32개를 방향별 고정 참조 4개에 적용한다. 얼굴·홍채·피부색·헤어를 다시 묘사하지 않고 변경 대상만 지시한다. 128장은 생성 예정 후보 수이며 학습에 채택한 수가 아니다. 이번 실행 순서는 [5.12의 참조 입력 후보](section-12.md)를 먼저 생성하고 Mira 목표 후보를 늘리는 순서다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/sec-11/p7_5_11_generate_supplements.py \
+  --spec docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-target-pool-v3.json \
+  --output-dir docs/assets/part-07/chapter-05/sec-11/target-images \
+  --wait-for-gpu
+```
+
+`--limit 8`은 미완료 후보 중 8장만 생성한 뒤 멈춘다. 같은 명령을 다시 실행하면 나머지를 이어 만든다. `--wait-for-gpu`는 다른 CUDA 작업의 종료를 기다린다. 생성 조건이나 코드를 바꾸면 새 출력 폴더를 사용한다.
+
+[후보 검수 목록·데이터셋 선택 Python](../../../assets/part-07/chapter-05/sec-11/p7_5_11_select_candidates.py)
+
+생성 후 다음 명령으로 검수할 항목을 나열한다. 각 이미지와 참조를 비교하여 `status`를 `accepted` 또는 `rejected`로 바꾸고, 채택 항목에 `split`, 실제 이미지에 맞는 `caption`, 판단 이유인 `review_note`를 적는다. 캡션에는 `mira_person`을 포함한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/sec-11/p7_5_11_select_candidates.py review-template \
+  --catalog docs/assets/part-07/chapter-05/sec-11/target-images/candidate-catalog.json \
+  --output .tmp/p7-5-11/target-review-v3.json
+
+.venv/bin/python docs/assets/part-07/chapter-05/sec-11/p7_5_11_select_candidates.py export \
+  --catalog docs/assets/part-07/chapter-05/sec-11/target-images/candidate-catalog.json \
+  --review .tmp/p7-5-11/target-review-v3.json \
+  --output .tmp/p7-5-11/selected-targets-v3.json
+```
+
+출력은 채택 이미지의 경로·해시·캡션·분할을 담은 별도 JSON이다. 원본 이미지는 복사하지 않으며 기존 학습 40장의 목록도 갱신하지 않는다. 같은 조건의 방향 변형은 같은 `group`으로 묶어 학습과 검증 사이에 나누지 않는다. 다만 여러 조건이 같은 기준 얼굴에서 파생되었으므로 이 분할만으로 외부 장면에 대한 독립 검증이 되지는 않는다. 검수 목록과 출력 이름을 달리하면 같은 후보 모음에서 서로 다른 실험용 데이터셋을 구성할 수 있다.
+
 ## 생성 결과를 검수하고 학습 자료를 확정한다
 
 생성한 40장을 기준 얼굴과 대조한 뒤 28장을 학습에 채택하고, 4장은 검증용으로 분리했으며 8장은 보류했다. 채택한 생성본 28장과 앞에서 선정한 기존 12장을 합쳐 **학습 이미지 총 40장**을 구성했다. 검증 이미지 4장은 학습 목표와 참조 양쪽에서 제외한다.
@@ -60,47 +129,15 @@ LoRA는 기반 모델의 가중치를 고정하고 작은 추가 행렬을 학�
 
 [학습 이미지 40개 목록 JSON](../../../assets/part-07/chapter-05/sec-11/training-images.json)
 
-아래는 학습에 사용한 40장 전체다. 01–12는 5.2에서 선정한 기존 이미지, 13–40은 추가 생성 후 채택한 이미지다. 방향 표기는 화면을 보는 독자 기준이다. 각도·표정·배경·조명·의상이 달라질 때 얼굴과 헤어가 어떻게 보이는지 함께 비교한다.
+아래는 기존 A/B 실험에 사용한 40장 중 **방향·배경·표정·조명·의상을 보여 주는 샘플 8장**이다. 전체 파일을 본문에 나열하지 않고 위의 학습 목록 JSON으로 확인한다. 본문의 샘플 수는 실제 학습 수와 다르며, 추가 생성 후보의 채택 여부도 뜻하지 않는다. 방향 표기는 화면을 보는 독자 기준이다.
 
-| 01 · 정면 얼굴 | 02 · 정면 상반신 | 03 · 위에서 본 우측 사선 | 04 · 위에서 본 좌측 사선 |
+| 정면 얼굴 | 눈높이 우측 사선 | 눈높이 좌측 측면 | 아래에서 본 우측 사선 |
 | --- | --- | --- | --- |
-| ![학습 이미지 01 · 정면 얼굴](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png){ width="240" } | ![학습 이미지 02 · 정면 상반신](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png){ width="240" } | ![학습 이미지 03 · 위에서 본 우측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 04 · 위에서 본 좌측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png){ width="240" } |
+| ![학습 샘플 · 정면 얼굴](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png){ width="240" } | ![학습 샘플 · 눈높이 우측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 샘플 · 눈높이 좌측 측면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 샘플 · 아래에서 본 우측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } |
 
-| 05 · 위에서 본 정면 | 06 · 눈높이 우측 사선 | 07 · 눈높이 우측 측면 | 08 · 눈높이 좌측 사선 |
+| 배경 01 | 표정 01 | 조명 01 | 의상 01 |
 | --- | --- | --- | --- |
-| ![학습 이미지 05 · 위에서 본 정면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 06 · 눈높이 우측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 07 · 눈높이 우측 측면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 08 · 눈높이 좌측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png){ width="240" } |
-
-| 09 · 눈높이 좌측 측면 | 10 · 아래에서 본 우측 사선 | 11 · 아래에서 본 좌측 사선 | 12 · 아래에서 본 정면 |
-| --- | --- | --- | --- |
-| ![학습 이미지 09 · 눈높이 좌측 측면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 10 · 아래에서 본 우측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 11 · 아래에서 본 좌측 사선](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png){ width="240" } | ![학습 이미지 12 · 아래에서 본 정면](../../../assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png){ width="240" } |
-
-| 13 · 배경 01 | 14 · 배경 02 | 15 · 배경 03 | 16 · 배경 04 |
-| --- | --- | --- | --- |
-| ![학습 이미지 13 · 배경 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png){ width="240" } | ![학습 이미지 14 · 배경 02](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-02.png){ width="240" } | ![학습 이미지 15 · 배경 03](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-03.png){ width="240" } | ![학습 이미지 16 · 배경 04](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-04.png){ width="240" } |
-
-| 17 · 배경 07 | 18 · 배경 08 | 19 · 표정 01 | 20 · 표정 02 |
-| --- | --- | --- | --- |
-| ![학습 이미지 17 · 배경 07](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-07.png){ width="240" } | ![학습 이미지 18 · 배경 08](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-08.png){ width="240" } | ![학습 이미지 19 · 표정 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-01.png){ width="240" } | ![학습 이미지 20 · 표정 02](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-02.png){ width="240" } |
-
-| 21 · 표정 03 | 22 · 표정 04 | 23 · 표정 05 | 24 · 표정 06 |
-| --- | --- | --- | --- |
-| ![학습 이미지 21 · 표정 03](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-03.png){ width="240" } | ![학습 이미지 22 · 표정 04](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-04.png){ width="240" } | ![학습 이미지 23 · 표정 05](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-05.png){ width="240" } | ![학습 이미지 24 · 표정 06](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-06.png){ width="240" } |
-
-| 25 · 표정 07 | 26 · 조명 01 | 27 · 조명 02 | 28 · 조명 03 |
-| --- | --- | --- | --- |
-| ![학습 이미지 25 · 표정 07](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-07.png){ width="240" } | ![학습 이미지 26 · 조명 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-01.png){ width="240" } | ![학습 이미지 27 · 조명 02](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-02.png){ width="240" } | ![학습 이미지 28 · 조명 03](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-03.png){ width="240" } |
-
-| 29 · 조명 04 | 30 · 조명 06 | 31 · 조명 07 | 32 · 조명 08 |
-| --- | --- | --- | --- |
-| ![학습 이미지 29 · 조명 04](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-04.png){ width="240" } | ![학습 이미지 30 · 조명 06](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-06.png){ width="240" } | ![학습 이미지 31 · 조명 07](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-07.png){ width="240" } | ![학습 이미지 32 · 조명 08](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-08.png){ width="240" } |
-
-| 33 · 의상 01 | 34 · 의상 02 | 35 · 의상 03 | 36 · 의상 04 |
-| --- | --- | --- | --- |
-| ![학습 이미지 33 · 의상 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-01.png){ width="240" } | ![학습 이미지 34 · 의상 02](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-02.png){ width="240" } | ![학습 이미지 35 · 의상 03](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-03.png){ width="240" } | ![학습 이미지 36 · 의상 04](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-04.png){ width="240" } |
-
-| 37 · 의상 05 | 38 · 의상 06 | 39 · 의상 07 | 40 · 의상 08 |
-| --- | --- | --- | --- |
-| ![학습 이미지 37 · 의상 05](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-05.png){ width="240" } | ![학습 이미지 38 · 의상 06](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-06.png){ width="240" } | ![학습 이미지 39 · 의상 07](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-07.png){ width="240" } | ![학습 이미지 40 · 의상 08](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-08.png){ width="240" } |
+| ![학습 샘플 · 배경 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png){ width="240" } | ![학습 샘플 · 표정 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-expression-01.png){ width="240" } | ![학습 샘플 · 조명 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-lighting-01.png){ width="240" } | ![학습 샘플 · 의상 01](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-01.png){ width="240" } |
 
 5.2 공유 원본은 `sec-02/`, 새로 만든 학습 이미지는 `sec-11/training-images/`, 검증 이미지는 `sec-11/validation/images/`에 있다. 설정·목록과 생성 기록은 `docs/assets/part-07/chapter-05/sec-11/`에서 관리한다.
 
@@ -111,21 +148,37 @@ LoRA는 기반 모델의 가중치를 고정하고 작은 추가 행렬을 학�
 예를 들어 실제로 다문 입의 미소가 보이는 결과에는 `mira_person, front view, closed-mouth smile, white background`처럼 쓸 수 있다. 하품 결과에는 감긴 눈과 세로 입 벌림을 적는다. 의도는 삐짐이었지만 출력이 약한 미소라면 원래 프롬프트의 이름을 그대로 정답으로 옮기지 않는다. 이 문장들은 축약 예다. 검수 목록에는 참조 인물을 유지하고 목표 구도·표정을 만들라는 완전한 편집 지시를 기록했다.
 
 후보 목록의 `split`은 처음에 모두 `pending`이다. 이미지를 검수한 뒤 `train`, `validation`, `exclude`로 지정한다. `group`은 유사 표정·같은 방향·크롭의 묶음이며, 같은 그룹을 학습과 검증 양쪽에 둘 수 없다. 자동으로 제안한 그룹도 검수한다. 선정한 이미지에는 `mira_person`과 목표 표정·방향을 포함한 **완전한 영어 편집 지시**를 `caption`에 적고, 실제 관찰과 선정 이유를 `review_note`에 남긴다. 생성 당시 감정 라벨을 자동 캡션으로 복사하지 않는다.
-## 편집 모델에는 입력 이미지의 역할도 정한다
+## 같은 목표 이미지를 두고 학습 참조를 바꾼다
 
-이미지와 설명만 모은 캐릭터 데이터와, 편집 전 이미지·지시·목표 이미지를 묶은 데이터는 구분해야 한다. 검토한 [Musubi Tuner 데이터 안내](https://github.com/kohya-ss/musubi-tuner/blob/main/docs/dataset_config.md){: target="_blank" rel="noopener noreferrer" }는 Qwen-Image-Edit 계열에서 제어 이미지가 있는 데이터 구성을 사용한다. 따라서 캐릭터 이미지 폴더를 편집 학습 설정에 넣는 것만으로 데이터 준비가 끝나지는 않는다.
+이번 편집 모델의 학습 자료는 **참조 이미지·학습 지시·목표 이미지**를 한 묶음으로 만든다. 참조는 모델에 조건으로 주는 이미지이고, 지시는 만들 장면을 설명하는 캡션이다. 목표는 학습 중 맞추도록 제시하는 정답 이미지다. 앞의 40장 목록은 이 목표 이미지에 해당한다. 참조와 목표가 모두 이미지이므로, 어느 역할로 쓰였는지 구분해서 읽어야 한다.
 
-A는 **다른 Mira 참조를 보고 목표 Mira 이미지를 생성하도록 학습한 구성**이다. 학습용으로 선정한 이미지 안에서 참조와 목표를 다르게 고르고, 목표의 표정·방향을 지시한다. 동일 파일을 입력과 정답에 반복 배치하는 구성은 피한다. 검증용 이미지는 목표뿐 아니라 학습 참조에서도 제외한다.
+A와 B는 **같은 Mira 목표 40장과 같은 캡션을 사용하고, 조건으로 주는 참조 이미지를 바꾼 두 학습 구성**이다. A에서는 목표와 다른 Mira 이미지를 참조로 고른다. B에서는 모든 목표에 같은 단색 이미지를 참조로 준다.
 
-| 구성 요소 | 역할 | 예시 |
+| 학습에서 비교할 항목 | A · Mira 이미지 참조 | B · 단색 이미지 참조 |
 | --- | --- | --- |
-| 참조 이미지 | Mira의 외형을 전달 | 학습용 정면 또는 다른 각도 참조 |
-| 학습 지시 | 유지할 인물과 만들 표정·방향 지정 | 참조 인물을 `mira_person`으로 유지하며 다문 입의 미소를 짓는 정면 머리 생성 |
-| 목표 이미지 | 해당 지시에서 맞추려는 출력 | 선정된 미소 결과 |
+| 조건으로 주는 이미지 | 목표와 다른 Mira 이미지. 목표 40장에 대응하는 고유 참조도 40장 | 모든 목표에 동일한 밝은 회색 이미지 1장 |
+| 참조에 담긴 정보 | 얼굴·헤어뿐 아니라 표정·방향·의상·배경도 포함 | 인물·얼굴·헤어·장면 정보 없음 |
+| 맞추려는 목표 | 선정한 Mira 이미지 40장 | A와 같은 Mira 이미지 40장 |
+| 만들 장면을 설명하는 캡션 | 목표별 `mira_person`과 방향·표정·장면 지시 | A와 같은 캡션 |
+| 비교에서 고정한 조건 | 목표 순서·학습/검증 분할·기반 모델·학습률·rank·시드 | A와 동일 |
 
-A의 참조에는 Mira의 외형 정보가 있다. B는 같은 목표·캡션을 유지하면서 학습 참조를 단색으로 바꾼 구성이다. 두 구성의 학습 목표와 실제 사용 목표가 맞는지는 얼굴 없는 동일 평가 입력으로 비교한다. 얼굴 참조를 넣은 평가 결과는 이 절의 정체성 학습 성공 근거로 채택하지 않는다.
+**B도 Mira 이미지 40장을 학습한다.** 단색으로 바꾼 것은 참조이며, 목표를 단색으로 바꾼 것이 아니다. 또한 B의 참조가 한 장이라는 것은 정면 한 장만 반복 학습한 암기 시험과 다르다. A의 참조는 학습 묶음 안에서 고르되 같은 행의 목표와 다른 파일을 사용한다. 검증용 4장은 두 구성 모두 학습 목표와 학습 참조에서 제외한다.
 
-이 절의 목표는 얼굴 참조 없이도 새 장면에서 Mira의 얼굴·헤어를 유지하는 것이다. 장면·의상 지시의 준수와 동일 인물 여부를 함께 살핀다. 장면의 기존 배경·전신·착장을 보존하는 편집 능력까지 이번 결과로 검증했다고 보지는 않는다.
+첫 학습 행을 보면 차이가 구체적으로 드러난다. 두 구성 모두 **도서관 배경의 정면 Mira**를 목표로 삼는다. A는 공원 배경의 사선 Mira를 참조로 받고, B는 단색 이미지를 받는다. 두 조건의 캡션은 동일하다.
+
+`Illustrate mira_person, front view, wearing a gray cropped top, with a quiet library with bookshelves in the background.`
+
+| 공통 학습 목표 · 첫 행 | A의 실제 학습 참조 | B의 실제 학습 참조 |
+| --- | --- | --- |
+| ![공통 도서관 목표](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png) | ![A 공원 Mira 참조](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-02.png) | ![B 단색 참조](../../../assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png) |
+
+A는 목표를 만들 때 입력에서 Mira의 외형 정보를 이용할 수 있다. B의 입력에는 그 외형 정보가 없지만, 학습 목표에는 Mira가 반복해서 등장한다. 이 차이를 두고 **외형이 있는 참조로 학습한 LoRA와 외형이 없는 참조로 학습한 LoRA가, 나중에 얼굴 참조 없이 생성할 때 어떻게 달라지는가**를 비교한다.
+
+[전체 목표·A/B 참조 대응 JSON](../../../assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/training-pair-comparison.json)
+
+평가에서는 A와 B 모두 같은 단색 입력과 같은 장면 지시를 받는다. 따라서 A는 학습 때의 Mira 참조를 평가 때 받지 못하고, B는 학습 때와 같은 종류의 단색 참조를 받는다. 이 평가는 얼굴 참조 없이 Mira의 특징이 나타나는지를 확인하는 조건이며, 모든 편집 작업에서 어느 학습법이 더 좋은지를 판정하는 비교는 아니다.
+
+참조가 있으면 정체성 학습을 덜 하게 되는지, 평가 때 참조 조건이 달라져 특징이 약해지는지는 추가로 구분해야 할 가설이다. B에서 특징이 먼저 보였다는 관찰만으로 A의 참조가 학습을 방해했다고 확정하지 않는다. 실제 장면의 배경·구도·착장을 유지하면서 Mira를 표현하는 편집 능력도 별도로 평가한다.
 
 ## 학습 설정을 정한다
 
@@ -287,21 +340,15 @@ Mira 얼굴이 포함된 참조를 주면 기본 편집 모델 자체가 얼굴�
 
 ### A/B를 100·200·400·800·1600스텝에서 비교한다
 
-**목표 40장을 고정하고 학습 참조 A/B와 학습량을 함께 비교한다.** A는 목표마다 다른 Mira 이미지를 참조하고, B는 외형 정보가 없는 단색 이미지를 참조한다. 목표·평가 분할 40/4장, 캡션·순서·참조 대응, 학습률·rank·시드·기반 모델을 유지한다. 참조 변경은 VAE와 Qwen-VL 경로에 모두 적용하며 정면 1장 암기 시험은 통합 A/B 비교에서 제외한다.
+**목표 40장을 고정하고 학습 참조 A/B와 학습량을 함께 비교한다.** A는 목표마다 다른 Mira 이미지를 참조하고, B는 외형 정보가 없는 단색 이미지를 참조한다. 학습 목표 40장·검증 4장의 분할, 목표별 캡션·순서, 학습률·rank·시드·기반 모델을 유지하고 각 A/B 구성 안에서는 참조 대응도 고정한다. 참조 변경은 VAE와 Qwen-VL 경로에 모두 적용하며 정면 1장 암기 시험은 통합 A/B 비교에서 제외한다.
 
 평가는 각 스텝의 정면·카페·정원 3개 장면으로 구성해 총 30장이다. 같은 단색 입력·프롬프트·시드·512×512·20 추론 스텝·CFG 4·LoRA 강도 1을 사용한다. 기준 얼굴은 검수용이며 모델 입력에 넣지 않는다. 배치 1에서 장당 평균 반복량은 100·200·400·800·1600스텝 순서대로 2.5·5·10·20·40회다.
 
 100·200·400은 각 A/B의 400스텝 학습에서 저장한 결과다. 800·1600은 옵티마이저 재개 상태가 없어 같은 설정으로 기반 모델에서 새로 시작한 각 1600스텝 학습에서 저장한다. **전체 다섯 지점이 하나의 연속 학습 과정에서 나온 것은 아니다.** 스텝 구간과 실행 경계를 함께 기록한다.
 
-실제로 실행한 패키지를 다시 읽어 목표 40장의 순서·캡션과 전체 학습 설정이 같은지 확인했다. 학습 명령도 실행 폴더 경로를 제외하면 동일하다. A는 학습 목표마다 다른 Mira 참조를 사용해 고유 참조 40개이며, B는 단색 참조 하나를 공통으로 사용한다. 아래는 첫 학습 행의 실제 목표와 참조다. 두 조건의 캡션은 모두 `Illustrate mira_person, front view, wearing a gray cropped top, with a quiet library with bookshelves in the background.`이다.
-
-| 공통 학습 목표 · 첫 행 | A의 실제 학습 참조 | B의 실제 학습 참조 |
-| --- | --- | --- |
-| ![공통 도서관 목표](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png) | ![A 공원 Mira 참조](../../../assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-02.png) | ![B 단색 참조](../../../assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png) |
+완료된 A/B 400스텝 실행 패키지를 대조해 목표 40장의 순서·캡션·학습 설정이 같음을 확인했다. 학습 명령도 실행 폴더 경로를 제외하면 동일했다. 앞에서 설명한 참조 차이와 실제 실행 구성이 일치하는지는 아래 기록에서 확인할 수 있다.
 
 [실행 패키지 대조 JSON](../../../assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/executed-comparison-audit.json)
-
-[전체 목표·A/B 참조 대응 JSON](../../../assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/training-pair-comparison.json)
 
 [A 실제 학습 입력 JSONL](../../../assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/A-training/train.jsonl)
 

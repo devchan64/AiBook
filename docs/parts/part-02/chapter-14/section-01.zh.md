@@ -1,131 +1,129 @@
 # P2-14.1 Git 是管理变更历史的工具
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-在 Part 2 Chapter 13，我们用 Matplotlib 制作图表，并把输出图片链接进文档。问题也就在这里立刻出现了。如果文档、代码、图片、调查笔记一起变化，过一段时间后就很难再记清“到底改了什么，为什么改”。
+## 保存文件与记录变更
 
-Git 就是用来记录这种变化的工具。它不只是保存代码的工具，更适合被理解为：在学习过程中追踪文档与示例代码如何变化的装置。你需要先建立这种感觉，这样到了 Part 3，即使在 baseline 比较、预处理修改、评价指标解释这类实验条件经常变化的场景里，也还能重新说明 `改了什么，为什么改`。
+保存文件会留下当前状态，但不会自动说明之前的状态为何改变，也不会说明哪些文件一起发生了变化。
 
-本节说明 `Git`、`版本控制（version control）`、`提交（commit）`、`暂存区（staging area）`、`仓库（repository）` 的基本区分。如果说 Chapter 11 到 13 是通过数组、表格、图表来读取和确认数据的阶段，那么这里的问题就变成：要如何把这些计算与确认过程留下来，作为一组组变更。Git 不是一个突然冒出来的工具，而应该被读成：能让你在 Part 3 再次解释 baseline 比较、预处理修改、metric 解读的记录工具。后面继续到分支与部署时，也保持这个基准。
+例如，假设完成了以下工作。
 
-## 核心判断标准：Git 是管理变更历史的工具
+- 编写一节正文。
+- 添加生成图表的脚本。
+- 生成两张输出图片。
+- 修改网站目录配置。
 
-- 能把版本控制解释为“在时间过去之后，仍然能重新找到某个过去状态的记录”。
-- 能把 Git 的提交（commit）理解为“有意义的变更组合”，而不是单纯保存文件。
-- 能直观说明工作目录（working tree）、暂存区（staging area）、仓库（repository）之间的差别。
-- 能区分 `git status`、`git add`、`git commit`、`git log` 的作用。
-- 能说明为什么学习文档和示例代码应该用 Git 来管理。
+这四项工作看起来各自独立，实际上可以组成一个有意义的变更：“把一节的图表说明和相关资源一起更新。”
 
-## 三个判断标准
+Git 用提交（commit）记录这样的变更组合。
 
-| 标准 | 为什么重要 | 本节需要达到的理解程度 |
-| --- | --- | --- |
-| Git 留下的是什么？ | 它帮助你区分“保存文件”和“记录变更历史”。 | 理解它记录的是变更历史与说明，而不只是文件本身。 |
-| 为什么 `add` 和 `commit` 要分开？ | 它明确区分“选择变更”和“确认记录”是两件不同的事。 | 理解“决定要归成一组什么变更”和“给这组变更命名”是不同动作。 |
-| 为什么连文档工作也重要？ | 它帮助你把代码之外的产物也读成同一组变更单位。 | 理解它会让你更容易回头解释什么时候、改了什么、为什么改。 |
+提交指向当时已跟踪文件状态的快照。没有修改的文件也是该状态的一部分，与上一次提交比较就能看到哪些行发生了变化。提交信息用于说明修改目的，但 Git 不会自动判断文件的含义或修改理由。
 
-| 术语 | 本节先抓住的含义 |
-| --- | --- |
-| Git | 记录变更历史与说明，而不只是文件本身的版本控制工具。 |
-| 版本控制（version control） | 一种记录方式，让你重新找回文件状态如何随时间变化、又为什么变化。 |
-| 提交（commit） | 在仓库历史中留下一个有意义变更组合的记录单位。 |
-| 暂存区（staging area） | 你为这次提交挑选变更时所经过的中间空间。 |
-| 仓库（repository） | 积累提交历史的 Git 记录空间。 |
+## 过去的状态与修改理由
 
-## 保存文件和留下变更历史并不是一回事
+版本控制（version control）让我们找回文件的过去状态并比较变更。修改理由需要作者在提交信息等位置记录。阅读历史可以帮助回答以下问题。
 
-保存文件后，当前状态会被留下。但它不会自动说明：前一个状态为什么变了，哪些文件是一起变的。
+- 哪些文件变了？
+- 为什么改变？
+- 哪些文件一起变了？
+- 某段说明是什么时候加入的？
+- 问题出现在哪次修改之后？
 
-例如，假设你做了下面这些工作。
+Git 官方书将版本控制解释为随时间记录文件变化、以后可以找回特定版本的系统。正文和示例代码也可以用这种方式检查过去的状态。
 
-- 写了一节正文草稿。
-- 添加了一个生成图表的脚本。
-- 生成了两张输出图片。
-- 修改了网站目录配置。
+## 工作区、暂存区与仓库
 
-这四件事看起来像是分散的任务，但实际上它们可能构成同一个有意义的变更组合：`把某一节中的图表说明及其关联资源一起反映进去`。
-
-Git 会把这样的组合记录为一个提交（commit）。
-
-## 版本控制与其说是“回退”，不如说是“解释”
-
-刚开始学 Git 时，人很容易把它理解成“犯错时可以退回去的工具”。这种说法也没错。但在这里，我们把它看得更宽一些。
-
-版本控制（version control）是为了在时间过去之后回答下面这些问题的装置。
-
-- 哪些文件改了？
-- 为什么改？
-- 哪些文件是一起改的？
-- 某个说明是什么时候进入项目的？
-- 如果出现问题，是从哪一次变更之后开始出现的？
-
-Git 官方书把版本控制解释为：一种能随着时间记录文件变化，并允许你以后再找回特定版本的系统。在这里，我们把这个视角应用到文档写作与学习记录上。
-
-## Git 的基本流程
-
-这里把 Git 的流程分成下面三个空间来看。
+工作区（working tree）存放正在编辑的文件，暂存区（staging area）保存选入下次提交的文件内容。提交会将暂存的状态记录到仓库（repository）的历史中。
 
 ```mermaid
 --8<-- "assets/part-02/chapter-14/git-three-areas-flow-zh.mmd"
 ```
 
-这个流程里最重要的一点是：`保存`和`提交`并不相同。
+这条流程中需要区分“保存”和“提交”。
 
-保存文件，是在编辑器里把当前文件内容写入磁盘。提交，则是把这些已保存的变更中“有意义的一组”记录进仓库历史。
+保存是在编辑器中把当前内容写入磁盘。提交是把选出的、有意义的一组变更记入仓库历史。
 
-## `git status` 是询问当前状态的命令
+这些操作可以在本地计算机上离线完成。Git 是版本控制程序，GitHub 是在线托管 Git 仓库并支持协作的服务。只创建本地提交，不会自动上传到 GitHub。
 
-做 Git 工作时，通常最先看的命令是 `git status`。
+## 查看状态：git status
+
+使用 Git 时，通常首先用 `git status` 查看状态。
+
+下面命令中的 `docs/...` 路径以本书仓库根目录为执行位置。尚未建立 Git 仓库的文件夹无法显示仓库状态；后面的“75 → 80 → 85 记录练习”会创建新仓库。
 
 ```bash
 git status
 ```
 
-这个命令回答的是下面这些问题。
+这个命令回答以下问题。
 
 - 哪些文件被修改了？
-- 是否出现了新文件？
-- 有没有已经被选入这次提交的文件？
-- 当前分支（branch）是什么？
+- 有没有新文件？
+- 哪些文件已选入这次提交？
+- 当前分支是什么？
 
-这里可以把 `git status` 理解成“询问现在这个工作现场是什么状态的命令”。
-
-## `git add` 是挑选文件的动作
-
-`git add` 并不表示文件会立刻被永久保存。它表示：把应该纳入这次提交的变更放进暂存区（staging area）。
+文件名前的两个位置可以帮助区分暂存状态。
 
 ```bash
-git add docs/chapter-14/section-01.md
+git status --short
 ```
 
-这里的关键是“挑选要进入这次记录的变更”。即使有很多文件变了，也不一定要全部放进一个提交里。如果它们的目的不同，分开提交会让以后更容易读。
+在没有冲突的普通编辑状态下，第一列表示上次提交与暂存区之间的差异，第二列表示暂存区与工作区之间的差异。表中的 `·` 用来显示空格，实际输出中是空白。
 
-例如，下面两类工作最好尽量分开记录。
+| 标记 | 文件状态 | 普通提交包含的内容 |
+| --- | --- | --- |
+| `??` | 尚未跟踪的新文件 | 不包含 |
+| `·M` | 已跟踪文件被修改，但未暂存 | 不包含新修改 |
+| `M·` | 已暂存修改 | 已暂存的修改 |
+| `MM` | 暂存后又修改同一文件 | 只包含先前暂存的修改 |
+| `A·` | 新文件已暂存 | 暂存的新文件内容 |
 
-| 变更 | 为什么应该分开提交 |
+即使 `git diff` 输出为空，也可能存在 `??` 文件。普通的 `git diff` 不显示未跟踪文件的内容，因此还要检查 `status`。
+
+## 选择变更：git add
+
+`git add` 并不意味着立刻把文件永久记录到历史中。它将选入本次提交的变更放进暂存区。
+
+```bash
+git add docs/parts/part-02/chapter-14/section-01.md
+```
+
+`git add` 暂存的是执行时的文件内容。之后再修改同一文件，新修改不会自动暂存。即使多个文件发生变化，也不必放进同一个提交。不同目的的变更分开提交，以后更容易阅读。
+
+例如，以下两类工作通常适合分开记录。
+
+| 变更 | 分开提交的理由 |
 | --- | --- |
-| 编写 Chapter 14 正文 | 目的在于补充书的内容 |
-| 修改 CSS 布局 | 目的在于改善界面显示 |
+| 编写 Chapter 14 正文 | 目的是增加书的内容 |
+| 修改 CSS 布局 | 目的是改善页面显示 |
 
-如果把这两类变化放进同一个提交，之后就更难追踪“为什么这个 CSS 被改了”。
+将它们混在一起，会增加以后追踪“为什么修改 CSS”的难度。
 
-## `git commit` 是给一组变更起名字
+如果误选了文件，可以在已经有提交的仓库中执行以下命令，只取消暂存，将它移出下一次提交。
 
-`git commit` 会把暂存的变更留进仓库历史中。
+```bash
+git restore --staged -- docs/parts/part-02/chapter-14/section-01.md
+```
+
+`--staged` 保留工作区中的修改，只撤回下次提交的选择。不带这个选项的 `git restore` 可能还原文件内容本身，不能把两种操作视为相同。
+
+## 记录历史：git commit
+
+`git commit` 将暂存的变更写入仓库历史。
 
 ```bash
 git commit -m "docs(part2): add git version control introduction"
 ```
 
-提交信息（commit message）不只是备忘。它是一个标题，用来告诉之后阅读历史的人“这次变更到底是什么”。
+提交信息为以后阅读历史的人提供一个说明“这次改了什么”的标题。
 
-好的提交信息通常满足下面这些条件。
+有用的提交信息通常符合以下条件。
 
-- 能看出改了什么。
-- 避免过于宽泛的表达。
-- 比起只写文件名，更能表现变更目的。
-- 之后在 `git log` 中再读时，依然有意义。
+- 能看出修改内容。
+- 避免过于宽泛的表述。
+- 表达修改目的，而不只是文件名。
+- 以后在 `git log` 中阅读时仍有意义。
 
 下面是一个不好的例子。
 
@@ -133,76 +131,130 @@ git commit -m "docs(part2): add git version control introduction"
 git commit -m "update"
 ```
 
-这个信息没有说明到底更新了什么。
+它没有说明更新了什么。
 
-## `git log` 是读取变更历史的命令
+## 阅读历史：git log
 
-当提交积累起来后，可以用 `git log` 来查看历史。
+提交积累起来后，可以用 `git log` 查看历史。
 
 ```bash
 git log --oneline
 ```
 
-这个命令会简短显示提交列表。这里可以把它理解成“查看这个项目是按什么顺序变化过来的列表”。
+这个简短列表的每一行包含用于识别提交的短哈希和提交信息标题。
 
-在学习文档项目里，`git log` 能帮助回答下面这些问题。
+`HEAD` 指向当前检出的提交，通常通过当前分支引用该提交。要查看最近一次提交修改了哪些文件和具体文字，可以使用以下命令。
 
-- 这一节是什么时候加进去的？
-- 目录是在第几个提交里改动的？
-- 某张图片文件是和哪篇正文一起加入的？
-- 部署之前都进来了哪些变更？
+```bash
+git show --stat HEAD
+git show HEAD -- docs/parts/part-02/chapter-14/section-01.md
+```
 
-## 为什么 Git 在文档项目中也重要
+第一个命令按文件汇总修改，第二个显示指定文件的变更。哈希是寻找特定记录的标识，不是修改数量或质量分数。
 
-文档项目不只是“完成后的文档”，而是学习过程的结果。正文、调查笔记、示例代码、图片、部署配置都会一起变化。尤其到了 Part 3，即使面对同样的数据，预处理、baseline、threshold、评价表也会开始一起变化。从这个意义上说，Git 更像是`实验比较记录`，而不是`最终答案存放柜`。
+在学习文档项目中，`git log` 有助于回答以下问题。
 
-Git 能让你留下下面这些关系。
+- 这一节是什么时候添加的？
+- 哪次提交修改了目录？
+- 某张图片与哪篇正文一起添加？
+- 部署之前加入了哪些变更？
 
-| 产物 | 用 Git 可以留下的问题 |
+## 连接正文、代码与图片
+
+文档项目记录学习过程的结果。正文、调查笔记、示例代码、图片和部署配置都会一起变化。例如，把分数阈值从 75 改为 80 时，可以将实现条件的代码和新结果说明放进同一个提交进行比较。
+
+Git 可以保留以下关系。
+
+| 产物 | 记录有助于回答的问题 |
 | --- | --- |
-| 正文 Markdown | 某个说明是什么时候加进去的？ |
+| 正文 Markdown | 某段说明何时加入？ |
 | 调查笔记 | 依据了哪些资料？ |
-| 示例代码 | 它生成了哪张输出图片？ |
-| 图片文件 | 它和哪段代码或哪一节相关？ |
-| 网站导航设置 | 哪个文档进入了公开目录？ |
+| 示例代码 | 生成了哪张输出图片？ |
+| 图片文件 | 与哪些代码或章节相关？ |
+| 网站导航配置 | 哪篇文档进入了发布目录？ |
 
-从这个视角看，Git 并不只是开发者的工具。随着文档变多、依据变多、练习代码变多，Git 就会成为管理`学习变更历史`的工具。
+可以在 `.gitignore` 中写入模式，排除不需要跟踪的临时缓存或虚拟环境，例如本书的 `.tmp/`、`.venv/` 文件夹。但添加忽略规则不会让已跟踪的文件从历史中消失。另外，代码和图片位于同一提交，并不证明这张图片确实由该代码生成。还需要记录执行命令和输入条件。
 
-## 使用 Git 时的最小习惯
+## 案例 1. add 后再次修改正文
 
-一开始并不需要知道所有 Git 命令。在同时处理文档和练习示例的项目里，哪怕只有下面这些习惯，也会有很大帮助。
+假设把正文中的分数阈值从 75 改为 80，然后执行 `git add`。之后再改成 85，但只保存文件。此时工作区中是 85，暂存区中是 80。执行普通的 `git commit -m ...`，记录的是 80。
 
-1. 在工作前后都用 `git status` 查看状态。
-2. 一个提交只放一个目的明确的变更。
-3. 在提交信息里写出变更目的。
-4. 一起确认生成文件和源文件之间的关系。
-5. 把修改部署设置的工作和写正文的工作分开。
+```bash
+git diff -- docs/parts/part-02/chapter-14/section-01.md
+git diff --cached -- docs/parts/part-02/chapter-14/section-01.md
+```
 
-这些习惯会在 P2-14.2 学习分支（branch）、写作分支与部署分支流程时再次用到。
+第一个命令比较暂存的 80 与当前文件中的 85。第二个比较上次提交中的 75 与暂存的 80。要记录 85，需要再次对该文件执行 `git add`，然后提交。
 
-## 用案例来看
+如果正文与图表生成代码描述同一个阈值，就需要一起选择。正文写 85 而代码仍使用 75，即使留下历史，说明与运行结果也不一致。提交前用 `git diff --cached` 确认本次记录的内容是否属于同一个修改目的。
 
-### 案例 1. 当正文和图片在同一天一起变动时，该怎么解释？
+## 75 → 80 → 85 记录练习
 
-假设一位文档作者修改了一节正文，同时也一起改了示例代码，还把由这段代码重新生成的图表图片也换掉了。人在脑中会知道这还是`同一项工作`，但几天之后就可能逐渐模糊：这些文件为什么会一起改？
+在已安装 Git 的环境中使用 Bash 执行。在现有项目之外创建尚不存在的 `git-record-practice` 文件夹。下面的姓名和邮箱只作为这个练习仓库的提交作者信息，不是在线登录信息。
 
-这时，Git 发挥的作用就不是简单存储，而是`把变更理由打包成记录`。如果正文 Markdown、图片生成代码、输出图片、目录修改都属于同一个目的，也就是`加强图表说明`，那么这个目的就可以连同提交信息一起留下。
+```bash
+mkdir git-record-practice
+cd git-record-practice
+git init -b practice
+git config user.name "Book Learner"
+git config user.email "learner@example.com"
+printf 'threshold=75\n' > lesson.txt
+git add -- lesson.txt
+git commit -m "Record threshold 75"
+printf 'threshold=80\n' > lesson.txt
+git add -- lesson.txt
+printf 'threshold=85\n' > lesson.txt
+git status --short
+git diff -- lesson.txt
+git diff --cached -- lesson.txt
+git commit -m "Raise threshold to 80"
+git show HEAD:lesson.txt
+cat lesson.txt
+```
 
-这个案例也说明了为什么 `git add` 和 `git commit` 要分开。你得先挑出哪些变更属于这次记录，再给这组变更起名字并留进历史里。只有这样，之后才能解释 `到底改了什么，为什么改`。
+`printf` 写入指定内容，`\n` 表示换行。`>` 将这个练习文件的内容替换为新内容。第一次提交之后暂存 80，再保存 85，状态就是 `MM lesson.txt`。第二次提交后，`git show HEAD:lesson.txt` 显示已记录文件中的 `threshold=80`，而 `cat lesson.txt` 显示工作文件中的 `threshold=85`。
 
-也就是说，Git 入门里真正重要的，不是死记很多命令，而是培养“把变更归成有意义说明单位”的感觉。只有有了这种感觉，在文档、代码、图片一起移动的项目里，历史才会是可读的。
+| 时点 | 上次提交 | 暂存区 | 工作区 |
+| --- | --- | --- | --- |
+| 第一次提交之后 | 75 | 75 | 75 |
+| 暂存 80 后保存 85 | 75 | 80 | 85 |
+| 第二次提交之后 | 80 | 80 | 85 |
+
+接着暂存 85，用 `git diff --cached` 确认 `80 → 85`，然后记录。
+
+```bash
+git add -- lesson.txt
+git diff --cached -- lesson.txt
+git commit -m "Raise threshold to 85"
+git status --short
+git log --oneline
+```
+
+没有其他修改时，最后的状态输出为空，日志中有三个提交。请根据三个区域中的值，说明保存 85 后省略 `git add` 时为什么不能直接提交 85。
 
 ## 检查清单
 
-- 能说明“保存文件”和“做一次 Git 提交”之间的区别吗？
-- 能区分工作目录、暂存区和仓库吗？
-- 能说出 `git status`、`git add`、`git commit`、`git log` 的作用吗？
-- 能说明为什么一个提交应该只承载一个目的吗？
-- 能说明为什么在文档项目里，Git 需要被当作学习记录管理工具吗？
-- 能说明 Git 是管理变更历史的工具，而提交能帮助追踪正文、代码、图片和调查笔记之间的连接。
+- 能说明 Git 如何记录文件状态和变更历史吗？
+- 能区分保存文件与 Git 提交吗？
+- 能区分工作区、暂存区和仓库吗？
+- 能将提交描述为一组有意义的变更吗？
+- 能说明 `git status`、`git add`、`git commit`、`git log` 的作用吗？
+- 能说明为什么一个提交应围绕一个目的吗？
+- 能说明 `git add` 之后的新修改为什么不会自动进入提交吗？
+- 能区分 `MM` 与 `??`，并说出 `git diff` 和 `git diff --cached` 的比较对象吗？
+- 能区分取消暂存与恢复工作文件内容吗？
+- 能说明 Git 如何帮助追踪正文、代码、图片和调查笔记之间的关系吗？
 
 ## 来源与参考资料
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 确认日期：2026-07-20. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } 这是把版本控制说明为随时间记录文件变化并可恢复特定版本的依据。
-- Git project, `git-status Documentation`, 确认日期：2026-07-20. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } 这是说明 `git status` 会显示工作树、索引和未跟踪文件状态的直接参考资料。
-- Git project, `git-commit Documentation`, 确认日期：2026-07-20. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } 这是说明 `git commit` 会把索引中的当前内容连同日志消息记录为新提交的直接参考资料。
+- [Pro Git, About Version Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 版本记录与过去状态的查询。
+- [Pro Git, What is Git?](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 快照与本地操作。
+- [GitHub Docs, What is GitHub?](https://docs.github.com/en/get-started/start-your-journey/what-is-github){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 区分 Git 与在线托管服务。
+- [Git project, git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 文件状态与两列简短输出格式。
+- [Git project, git-add](https://git-scm.com/docs/git-add){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 暂存执行时的文件内容。
+- [Git project, git-diff](https://git-scm.com/docs/git-diff){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 工作区、索引与提交的比较对象。
+- [Git project, git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 将索引状态记录为新提交。
+- [Git project, git-restore](https://git-scm.com/docs/git-restore){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 区分取消暂存与恢复工作区。
+- [Git project, git-show](https://git-scm.com/docs/git-show){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 查询提交变更及特定版本的文件。
+- [Git project, gitignore](https://git-scm.com/docs/gitignore){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 忽略规则及其对已跟踪文件的限制。
+- [Git project, git-init](https://git-scm.com/docs/git-init){: target="_blank" rel="noopener noreferrer" } 确认日期: 2026-09-15. 创建练习仓库与初始分支。

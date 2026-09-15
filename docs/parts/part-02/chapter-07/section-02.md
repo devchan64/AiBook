@@ -1,7 +1,7 @@
 # P2-7.2 터미널(terminal), 셸(shell), 작업 폴더(working directory)
 
 > Section ID: `P2-7.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `python example.py`를 실행할 때는 명령을 해석하는 셸과 파일을 찾는 기준 폴더가 관여합니다. 파일이 존재해도 다른 폴더에서 같은 명령을 실행하면 찾지 못할 수 있습니다.
 
@@ -12,14 +12,6 @@
 | 작업 폴더(working directory) | 현재 명령이 기준으로 삼는 폴더입니다. |
 | 경로(path) | 파일이나 폴더가 어디에 있는지 가리키는 문자열입니다. |
 | 명령(command) | 셸에게 지금 수행하라고 요청하는 실행 문장입니다. |
-
-## 명령의 해석과 기준 위치
-
-| 기준 | 왜 중요한가 |
-| --- | --- |
-| 터미널은 화면이고 셸은 그 안에서 명령을 해석하는 프로그램이다 | 입력하는 자리와 해석하는 주체를 분리해야 혼동이 줄어든다 |
-| 작업 폴더가 명령의 기준 위치를 정한다 | 같은 명령도 현재 위치에 따라 다른 파일을 가리킬 수 있다 |
-| 가장 먼저 확인할 것은 현재 위치와 파일 목록이다 | 많은 실패가 문법이 아니라 위치 문제에서 시작된다 |
 
 ## 터미널과 셸의 유래
 
@@ -181,7 +173,7 @@ Colab 코드 셀에서 다음처럼 `!`를 붙이면 셸 명령을 실행할 수
 
 호스팅 런타임에 연결된 Colab 셀에서 `!pwd`를 실행하면 그 런타임의 현재 폴더 경로가 출력됩니다.
 
-```python
+```text title="IPython · 노트북 코드 셀"
 # Colab 코드 셀에서 현재 작업 폴더를 확인하는 셸 명령입니다.
 !pwd
 ```
@@ -233,6 +225,18 @@ python project/example.py
 
 둘 다 같은 스크립트를 실행하지만 현재 작업 폴더는 다릅니다. 스크립트가 `data.csv`처럼 상대 경로로 데이터를 읽는다면, 첫 방법에서는 `project/data.csv`, 두 번째 방법에서는 `workspace/data.csv`를 찾습니다. 실행 파일을 찾는 문제와 그 파일 안에서 데이터를 찾는 문제를 구분해야 합니다.
 
+## 노트북에서 폴더 이동을 유지하기
+
+IPython의 `!cd`는 별도 셸에서 실행되므로 그 셸이 끝나면 노트북 커널의 작업 폴더는 바뀌지 않습니다. 커널의 폴더를 바꾸려면 `%cd`를 사용합니다. 존재하는 작업 폴더에서 아래 셀을 실행하면 한 단계 위 폴더로 이동합니다.
+
+```text title="IPython · 노트북 코드 셀"
+%pwd
+%cd ..
+%pwd
+```
+
+출력한 두 경로를 비교해 이동을 확인합니다. 원래 폴더로 돌아가려면 `%cd -`를 실행합니다. `%cd`와 `!pwd`는 IPython 구문이며 일반 `.py` 파일에는 사용할 수 없습니다.
+
 ## 체크리스트
 
 - 터미널(terminal)을 명령 입력과 결과 확인을 위한 화면으로 설명할 수 있다.
@@ -251,4 +255,6 @@ python project/example.py
 - Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 확인 날짜: 2026-07-20. 셸이 명령 인터프리터이자 프로그래밍 언어라는 설명과 Bash 명령 처리 맥락 확인에 사용했다.
 - Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-20. PowerShell에서 현재 작업 위치를 확인하는 공식 명령과 `pwd` 별칭 맥락 확인에 사용했다.
 - Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-20. PowerShell에서 현재 작업 위치를 바꾸는 공식 명령과 `cd` 별칭 맥락 확인에 사용했다.
-- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 코드 안에서 현재 작업 폴더를 문자열로 확인할 수 있다는 설명의 근거로 사용했다.
+- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python 코드 안에서 현재 작업 폴더를 문자열로 확인할 수 있다는 설명의 근거로 사용했다.
+
+- [IPython magic commands: %cd](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-cd){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.

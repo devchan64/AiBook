@@ -1,0 +1,6 @@
+flowchart TD
+    a["features · Samples × features<br/>[[1.0, 0.2], [0.8, 0.4], [0.3, 0.9]]<br/>shape = (3, 2)"]
+    b["weights · Weight per feature<br/>[0.6, 0.4]<br/>shape = (2,)"]
+    a --> c["features @ weights<br/>(3, 2) @ (2,) → (3,)"]
+    b --> c
+    c --> d["Score per sample<br/>[0.68, 0.64, 0.54]"]

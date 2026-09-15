@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 660" role="img" aria-라벨ledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 660" role="img" aria-labelledby="title desc">
   <title id="title">자료구조를 보는 네 가지 관점</title>
-  <desc id="desc">Array asks about position, table asks about rows and columns, tree asks about hierarchy, and graph asks about relationships.</desc>
+  <desc id="desc">배열·표·트리·그래프가 각각 강조하는 위치, 행과 열, 계층, 연결</desc>
   <defs>
     <style>
       .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }

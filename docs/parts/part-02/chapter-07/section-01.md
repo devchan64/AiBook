@@ -1,7 +1,7 @@
 # P2-7.1 로컬 환경(local environment)과 실행 환경(runtime)
 
 > Section ID: `P2-7.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Python 코드는 인터프리터(interpreter)가 읽고 실행합니다. 로컬 환경(local environment)은 내 컴퓨터의 Python, 패키지, 파일, 설정을 가리키고, 실행 환경(runtime)은 코드가 실제로 동작하는 프로그램과 자원을 가리킵니다. 브라우저에서 코드를 입력해도 실행은 다른 컴퓨터에서 이루어질 수 있습니다.
 
@@ -166,6 +166,12 @@ print(sys.executable)
 | 설치했는데 패키지를 불러오지 못함 | [가상환경과 패키지 설치](section-04.md) |
 | 다른 컴퓨터에서 결과가 달라짐 | [의존성과 재현성](section-05.md) |
 
+## 코드를 입력한 곳과 실행한 곳
+
+브라우저나 편집기는 코드를 입력하는 자리입니다. Python 프로세스가 있는 컴퓨터가 실제 파일을 읽고 패키지를 불러옵니다. 따라서 내 PC의 파일을 Colab 호스팅 런타임에서 읽으려면 업로드나 저장소 연결 등으로 그 런타임에서도 접근할 수 있게 해야 합니다. 파일 이름만 같다고 같은 파일이 아닙니다.
+
+예를 들어 로컬 `scores.csv`만 수정한 뒤 Colab의 기존 파일로 다시 계산하면 결과가 그대로일 수 있습니다. 바꾼 파일을 런타임에 다시 전달한 뒤 실행해야 변경 내용이 반영됩니다. 실행 환경을 확인할 때는 Python 경로뿐 아니라 사용한 파일의 위치와 내용도 함께 비교합니다.
+
 ## 체크리스트
 
 - 로컬 환경(local environment)을 내 컴퓨터에서 코드가 실행되는 조건으로 설명할 수 있다.
@@ -179,9 +185,11 @@ print(sys.executable)
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 인터프리터를 호출하고, 대화형 입력과 스크립트 실행을 구분하는 근거로 사용했다.
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python이 인터프리터형·대화형 프로그래밍 언어이며 여러 운영체제에서 사용할 수 있다는 기본 설명 확인에 사용했다.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 가상환경이 독립된 디렉터리 안에 Python 설치와 패키지 상태를 갖는다는 설명 확인에 사용했다.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python 인터프리터를 호출하고, 대화형 입력과 스크립트 실행을 구분하는 근거로 사용했다.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python이 인터프리터형·대화형 프로그래밍 언어이며 여러 운영체제에서 사용할 수 있다는 기본 설명 확인에 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 가상환경이 독립된 디렉터리 안에 Python 설치와 패키지 상태를 갖는다는 설명 확인에 사용했다.
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-20. 프로젝트별 가상환경 생성, 활성화, 패키지 설치 흐름을 확인하는 근거로 사용했다.
 
 - Python Software Foundation, [sys.executable](https://docs.python.org/3/library/sys.html#sys.executable){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-08. 현재 Python 인터프리터의 실행 파일 경로를 확인하는 근거.
+
+- [Colaboratory FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.

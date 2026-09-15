@@ -1,8 +1,4 @@
 flowchart TD
-    frame["DataFrame<br/>full table"]
-    select["select columns<br/>what variables matter?"]
-    filter["filter rows<br/>which cases stay?"]
-    agg["aggregate<br/>what summary is enough?"]
-    group["groupby<br/>summary by category"]
-
-    frame --> select --> filter --> agg --> group
+    a["Full df · 36 students"]
+    a --> b["Filter by score and region"] --> c["selected · student list"]
+    a --> d["Group the full df by region"] --> e["Aggregate<br/>Student count and mean<br/>Count above threshold"]

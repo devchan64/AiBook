@@ -22,7 +22,7 @@ HIGH_VARIANCE = [0, 2, 6, 10, 12]
 
 LANG_TEXT = {
     "ko": {
-        "font_candidates": ["Noto Sans CJK KR", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK KR", "Noto Sans CJK JP", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
         "value_label": "값",
         "count_label": "개수",
         "mean_label": "평균",
@@ -50,11 +50,11 @@ LANG_TEXT = {
         "variance_outfile": "same-mean-different-variance-en.png",
     },
     "zh": {
-        "font_candidates": ["Noto Sans CJK SC", "Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK SC", "Noto Sans CJK JP", "Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
         "value_label": "值",
         "count_label": "个数",
         "mean_label": "均值",
-        "spread_label": "扩散",
+        "spread_label": "离散程度",
         "outlier_label": "离群值",
         "group_label": "数据组",
         "low_label": "A: 低方差",
@@ -85,8 +85,6 @@ def variance(values: list[float]) -> float:
 
 def save_distribution_summary(text: dict[str, object]) -> None:
     avg = mean(SCORES)
-    low_band = avg - 10
-    high_band = avg + 10
 
     fig, ax = plt.subplots(figsize=(7.4, 3.25), dpi=160)
     fig.patch.set_facecolor("white")
@@ -94,7 +92,6 @@ def save_distribution_summary(text: dict[str, object]) -> None:
 
     bins = [35, 45, 55, 65, 75, 85, 95]
     ax.hist(SCORES, bins=bins, color="#ddf4ff", edgecolor="#0969da", linewidth=1.1)
-    ax.axvspan(low_band, high_band, color="#dafbe1", alpha=0.55, zorder=0)
     ax.axvline(avg, color="#cf222e", linestyle=(0, (5, 4)), linewidth=1.5)
 
     ax.annotate(
@@ -107,15 +104,6 @@ def save_distribution_summary(text: dict[str, object]) -> None:
         color="#cf222e",
         arrowprops={"arrowstyle": "-|>", "color": "#cf222e", "linewidth": 0.9},
         bbox={"boxstyle": "round,pad=0.2", "facecolor": "white", "edgecolor": "#cf222e", "linewidth": 0.8},
-    )
-    ax.annotate(
-        text["spread_label"],
-        xy=(avg, 0.55),
-        ha="center",
-        va="center",
-        fontsize=9.2,
-        color="#116329",
-        bbox={"boxstyle": "round,pad=0.22", "facecolor": "white", "edgecolor": "#1a7f37", "linewidth": 0.8},
     )
     ax.annotate(
         text["outlier_label"],
@@ -133,7 +121,7 @@ def save_distribution_summary(text: dict[str, object]) -> None:
     ax.set_ylabel(text["count_label"])
     ax.set_xlim(35, 95)
     ax.set_ylim(0, 4.0)
-    ax.set_xticks([40, 50, 60, 70, 80, 90])
+    ax.set_xticks(bins)
     ax.set_yticks([0, 1, 2, 3, 4])
     ax.grid(axis="y", color="#d0d7de", linewidth=0.7, alpha=0.75)
 

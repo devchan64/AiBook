@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 660" role="img" aria-labelledby="title desc">
   <!-- zh localized asset -->
-  <title id="title">Array, table, tree, and graph compare different data questions</title>
-  <desc id="desc">Array, table, tree, and graph compare different data questions</desc>
+  <title id="title">数组、表、树和图关注不同的数据问题</title>
+  <desc id="desc">数组、表、树和图关注不同的数据问题</desc>
   <defs>
     <style>
       .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
@@ -22,12 +22,12 @@
   </defs>
 
   <rect width="920" height="660" fill="#ffffff"/>
-  <text x="34" y="44" class="title">Four ways to read the same data</text>
-  <text x="34" y="72" class="subtitle">Array, table, tree, and graph emphasize different questions.</text>
+  <text x="34" y="44" class="title">理解数据的四种方式</text>
+  <text x="34" y="72" class="subtitle">数组、表、树和图关注不同的问题。</text>
 
   <rect x="34" y="104" width="402" height="180" rx="14" class="box"/>
-  <text x="58" y="136" class="panel-title">Array: position and axis</text>
-  <text x="58" y="162" class="small">Question: where is the value?</text>
+  <text x="58" y="136" class="panel-title">数组：位置与轴</text>
+  <text x="58" y="162" class="small">问题：值在哪里？</text>
   <g transform="translate(64 186)">
     <rect x="0" y="0" width="56" height="42" rx="8" class="blue"/>
     <rect x="66" y="0" width="56" height="42" rx="8" class="blue"/>
@@ -37,46 +37,46 @@
     <text x="94" y="26" text-anchor="middle" class="label">-0.03</text>
     <text x="160" y="26" text-anchor="middle" class="label">0.44</text>
     <text x="226" y="26" text-anchor="middle" class="label">0.18</text>
-    <text x="0" y="66" class="small">index 0</text>
-    <text x="198" y="66" class="small">index 3</text>
+    <text x="0" y="66" class="small">索引 0</text>
+    <text x="198" y="66" class="small">索引 3</text>
   </g>
 
   <rect x="484" y="104" width="402" height="180" rx="14" class="box"/>
-  <text x="508" y="136" class="panel-title">Table: rows and columns</text>
-  <text x="508" y="162" class="small">Question: which case and feature?</text>
+  <text x="508" y="136" class="panel-title">表：行与列</text>
+  <text x="508" y="162" class="small">问题：哪个样本的哪个特征？</text>
   <g transform="translate(516 184)">
     <rect x="0" y="0" width="300" height="84" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
     <line x1="0" y1="28" x2="300" y2="28" class="line"/>
     <line x1="88" y1="0" x2="88" y2="84" class="line"/>
     <line x1="188" y1="0" x2="188" y2="84" class="line"/>
-    <text x="18" y="19" class="label">name</text>
-    <text x="110" y="19" class="label">score</text>
-    <text x="210" y="19" class="label">label</text>
+    <text x="18" y="19" class="label">姓名</text>
+    <text x="110" y="19" class="label">分数</text>
+    <text x="210" y="19" class="label">标签</text>
     <text x="18" y="52" class="small">Kim</text>
     <text x="118" y="52" class="small">82</text>
-    <text x="210" y="52" class="small">pass</text>
+    <text x="210" y="52" class="small">通过</text>
     <text x="18" y="76" class="small">Park</text>
     <text x="118" y="76" class="small">45</text>
-    <text x="210" y="76" class="small">fail</text>
+    <text x="210" y="76" class="small">未通过</text>
   </g>
 
   <rect x="34" y="328" width="402" height="220" rx="14" class="box"/>
-  <text x="58" y="360" class="panel-title">Tree: hierarchy</text>
-  <text x="58" y="386" class="small">Question: what belongs under what?</text>
+  <text x="58" y="360" class="panel-title">树：层级</text>
+  <text x="58" y="386" class="small">问题：什么属于什么？</text>
   <g transform="translate(92 424)">
     <circle cx="120" cy="0" r="24" class="node"/>
-    <text x="120" y="5" text-anchor="middle" class="label">Book</text>
+    <text x="120" y="5" text-anchor="middle" class="label">书</text>
     <line x1="120" y1="24" x2="64" y2="58" class="line"/>
     <line x1="120" y1="24" x2="176" y2="58" class="line"/>
     <rect x="16" y="58" width="96" height="42" rx="8" class="green"/>
     <rect x="128" y="58" width="96" height="42" rx="8" class="green"/>
-    <text x="64" y="84" text-anchor="middle" class="label">Part 1</text>
-    <text x="176" y="84" text-anchor="middle" class="label">Part 2</text>
+    <text x="64" y="84" text-anchor="middle" class="label">第 1 部分</text>
+    <text x="176" y="84" text-anchor="middle" class="label">第 2 部分</text>
   </g>
 
   <rect x="484" y="328" width="402" height="220" rx="14" class="box"/>
-  <text x="508" y="360" class="panel-title">Graph: relationship</text>
-  <text x="508" y="386" class="small">Question: what is connected?</text>
+  <text x="508" y="360" class="panel-title">图：关系</text>
+  <text x="508" y="386" class="small">问题：哪些对象相连？</text>
   <g transform="translate(570 424)">
     <line x1="70" y1="0" x2="0" y2="66" class="line"/>
     <line x1="70" y1="0" x2="146" y2="60" class="line"/>
@@ -93,5 +93,5 @@
   </g>
 
   <rect x="96" y="590" width="728" height="30" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
-  <text x="460" y="610" text-anchor="middle" class="small">The structure changes what becomes easy to ask, compute, compare, or follow.</text>
+  <text x="460" y="610" text-anchor="middle" class="small">数据结构影响查询、计算、比较和沿关系查找的方式。</text>
 </svg>

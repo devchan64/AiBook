@@ -1,7 +1,7 @@
 # P2-6.2 Loss Functions and Objective Functions
 
 > Section ID: `P2-6.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 A loss function converts differences between predictions and actual values into numbers used for learning. The objective function is the overall criterion training minimizes or maximizes; it may add a penalty representing additional conditions to the mean loss.
 
@@ -19,18 +19,6 @@ Consider a line model that predicts scores from study time.
 For the candidate line \(\hat{y} = 10x + 45\), the predictions are `55, 65, 75, 85`. The loss function quantifies how poorly this line fits.
 
 That is, the model predicts, compares with the actual values, turns the degree of wrongness into a number, and then learns in the direction that reduces that number.
-
-```mermaid
---8<-- "assets/part-02/chapter-06/loss-objective-flow-en.mmd"
-```
-
-## Loss, Mean Loss, and Evaluation Metrics
-
-| Criterion | Why it matters |
-| --- | --- |
-| Loss is the value that turns how wrong the model is into a number | It shows that learning moves not by intuitive judgment but on top of a computable criterion. |
-| The losses of many samples are combined to see the whole tendency | We need to see performance across data overall, not only one accidental prediction. |
-| Loss function and metric may be the same or different | If we confuse the learning criterion and the real operational judgment criterion, interpretation goes wrong. |
 
 ## Error and Squared Error
 
@@ -76,9 +64,21 @@ There were two wrong predictions, but the total becomes 0. That does not mean th
 
 | Method | Calculation | Intuition |
 | --- | --- | --- |
-| absolute error | \(|y - \hat{y}|\) | looks at how far it is |
+| absolute error | \(\lvert y - \hat{y}\rvert\) | looks at how far it is |
 | squared error | \((y - \hat{y})^2\) | punishes large errors more strongly |
-| log loss | apply a logarithm to probability prediction | punishes confident wrong probability predictions strongly |
+| log loss | negative logarithm of the correct-class probability | punishes confident wrong probability predictions strongly |
+
+## Probability Assigned to the Correct Class and Log Loss
+
+A classifier predicts probabilities for possible classes. Compare assigning spam probability 0.9 versus 0.1 to an email whose correct class is spam. For classification with one correct class, the individual log loss is `−ln(predicted probability of the correct class)`. Here `ln` is the natural logarithm. The logarithm of a probability strictly between 0 and 1 is negative, so we place a minus sign in front.
+
+| Probability assigned to the correct class, spam | Individual log loss | Interpretation |
+| --- | --- | --- |
+| 0.9 | `−ln(0.9) ≈ 0.105` | High probability for the correct class |
+| 0.5 | `−ln(0.5) ≈ 0.693` | Equal probabilities for the two classes |
+| 0.1 | `−ln(0.1) ≈ 2.303` | Low probability for the correct class |
+
+As the probability assigned to the correct class approaches 1, loss approaches 0; as it approaches 0, loss becomes very large. Unlike accuracy, which counts correct and incorrect decisions, log loss also reflects the probability assigned to the correct class. For example, with a spam threshold of 0.5, both 0.6 and 0.9 give correct decisions, but their log losses differ.
 
 ## Mean Squared Error
 
@@ -104,7 +104,7 @@ Written a little more generally, it becomes the following.
 (y_i - \hat{y}_i)^2
 \]
 
-Sigma compresses the calculation of summing squared errors across samples. Combined with sigma, the loss function produces a number describing the error across the whole dataset.
+Sigma compresses the calculation of summing squared errors across samples. Here n is the sample count and i identifies a sample. Summing the squared errors and dividing by n gives the mean loss per sample. MSE itself is also called a loss function, so use the formula and context to distinguish individual from mean loss.
 
 ## Mean Loss and Regularization Penalties
 
@@ -130,6 +130,22 @@ Suppose we add `0.2a²` to the mean loss to discourage an excessively large slop
 | a = 12, b = 40 | 7.5 | 28.8 | 36.3 |
 
 The second candidate has lower mean loss, but the first has the better objective value when the penalty is included. To understand what training minimizes, inspect the regularization term as well as the loss.
+
+Writing the penalty strength as `λ` (lambda), the objective is `mean loss + λa²`. The setting `λ≥0` controls the relative weight of the two terms. With `λ=0`, only mean loss matters; increasing λ assigns more cost to a large slope. In this example, λ is specified separately from the learned parameters `a, b`.
+
+| λ | Candidate 1: a=10, b=45 | Candidate 2: a=12, b=40 | Smaller objective among the two |
+| --- | --- | --- | --- |
+| 0 | 12.5 | 7.5 | Candidate 2 |
+| 0.1 | 22.5 | 21.9 | Candidate 2 |
+| 0.2 | 32.5 | 36.3 | Candidate 1 |
+
+A penalty differs from a constraint that forbids a from exceeding a limit. It charges a cost for a large a rather than prohibiting it. A larger λ does not guarantee better performance on new data. An excessively strong penalty may prevent the model from following variation in the data, so its effect should be checked on validation data.
+
+The mean loss and penalty in the diagram are separate terms. Their sum is the objective minimized in this example.
+
+```mermaid
+--8<-- "assets/part-02/chapter-06/loss-objective-flow-en.mmd"
+```
 
 ## Training Loss and Performance on New Data
 
@@ -164,6 +180,14 @@ Suppose the actual delivery time for each of three orders is 60 minutes.
 
 B has lower MSE, but A has a smaller error on its worst prediction. If the service separately counts `orders with prediction errors exceeding 6 minutes`, A has none and B has one. Improving training loss does not necessarily improve other operational metrics.
 
+## Recalculating Penalties and Evaluation Criteria
+
+1. Calculate the objective for both candidate lines with `λ=0.05` and choose the smaller one.
+2. What is the log loss when a spam email is assigned spam probability 0.6? How does it compare with probability 0.9, even though both yield the same accuracy outcome? Use a spam threshold of 0.5.
+3. In the delivery example, how many orders have absolute errors exceeding 4 minutes for A and B? Does the choice change from the 6-minute criterion?
+
+**Answers:** ① Candidate 1 gives `12.5+0.05×100=17.5`; candidate 2 gives `7.5+0.05×144=14.7`, so candidate 2 is smaller. ② `−ln(0.6)≈0.511`. Both probabilities give correct spam decisions, but the loss at 0.9, approximately 0.105, is smaller. ③ A has 3 orders and B has 1, so minimizing this count favors B. At 6 minutes, A has none and B has 1, favoring A. The threshold as well as the name of an evaluation criterion affects the choice.
+
 ## Checklist
 
 - You can explain the `loss function` as a function that turns prediction wrongness into a number.
@@ -181,4 +205,4 @@ B has lower MSE, but A has a smaller error on its worst prediction. If the servi
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-20. Used to confirm that deep learning training reduces a cost function written as an average of per-example losses over training data.
 - scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, checked 2026-07-20. Used to confirm scoring/metric choices for evaluating prediction quality and the point that a loss function and evaluation metric may be the same or different.
 - scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, checked 2026-07-20. Used to confirm mean squared error as a regression loss between `y_true` and `y_pred`, where the best value is 0.
-- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, checked 2026-07-20. Used to confirm that log loss is also called logistic loss or cross-entropy loss and is applied to predicted probabilities.
+- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, checked 2026-09-15. Used to confirm that log loss is also called logistic loss or cross-entropy loss and is applied to predicted probabilities.

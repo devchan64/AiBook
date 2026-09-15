@@ -1,26 +1,9 @@
 # P2-7.3 Python 인터프리터(interpreter)와 스크립트(script)
 
 > Section ID: `P2-7.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `python`은 대화형 Python을 여는 터미널 명령이고, `python hello.py`는 파일에 저장한 코드를 실행하는 명령입니다. `print("hello")`는 인터프리터가 읽는 Python 코드입니다. 실행 방식에 따라 입력할 위치와 결과를 남기는 방법이 달라집니다.
-
-## 대화형 실행과 스크립트의 배경
-
-Python은 처음부터 “파일로 저장한 프로그램만 실행하는 언어”로만 이해하기 어렵습니다. Python 공식 FAQ는 Python을 해석형(interpreted), 대화형(interactive), 객체 지향(object-oriented) 프로그래밍 언어로 설명합니다. 또 Guido van Rossum이 ABC 언어 구현 경험과 Amoeba 분산 운영체제 작업 경험을 바탕으로 Python을 만들기 시작했고, C 프로그램이나 Bourne shell script만으로 시스템 관리 작업을 처리하기 어려웠던 상황에서 더 확장 가능한 스크립팅 언어가 필요했다고 설명합니다.
-
-이 배경을 입문자 관점으로 줄이면 다음과 같습니다.
-
-- 셸 스크립트: 운영체제 명령을 이어 붙여 자동화하기 좋습니다.
-- C 같은 컴파일 언어: 빠르고 강력하지만 작은 자동화와 실험에는 무거울 수 있습니다.
-- Python: 읽기 쉬운 고수준 문법과 대화형 실행, 스크립트 실행을 함께 제공합니다.
-
-그래서 Python에서는 두 사용 방식이 자연스럽게 함께 보입니다.
-
-- 대화형 실행: 작은 표현을 바로 시험합니다.
-- 스크립트 실행: 여러 줄의 작업을 파일로 저장해 반복 실행합니다.
-
-AI 학습에서 Python을 자주 만나는 이유도 이 지점과 연결됩니다. 수식을 작은 코드로 바로 확인하고, 조금 길어진 실험은 파일이나 노트북으로 남기기 쉽기 때문입니다.
 
 ## Python 인터프리터
 
@@ -64,8 +47,6 @@ hello
 ## 파일에 저장한 스크립트
 
 스크립트(script)는 실행할 코드를 파일에 저장해 둔 것입니다. Python 파일은 보통 `.py` 확장자를 사용합니다.
-
-예를 들어 `hello.py`라는 파일에 다음 내용을 저장했다고 생각해 봅니다.
 
 아래 두 줄을 `hello.py`에 저장해 실행하면 `hello`와 `3`이 차례로 출력됩니다.
 
@@ -176,6 +157,22 @@ print(name)
 
 두 줄을 함께 저장하면 스크립트에서도 `Mina`가 출력됩니다. 노트북 코드를 파일로 옮길 때는 출력 셀뿐 아니라 그 셀이 사용하는 변수 정의와 import도 포함해야 합니다.
 
+## 계산 결과와 화면 출력
+
+대화형 Python에서 `1 + 2`를 입력하면 3이 표시되지만, 그 식만 저장한 스크립트는 값을 계산하고도 화면에는 표시하지 않습니다. 아래 내용을 `display.py`에 저장해 실행하면 마지막 줄의 `print` 때문에 3이 한 번 출력됩니다.
+
+```python
+1 + 2
+result = 1 + 2
+print(result)
+```
+
+```bash
+python display.py
+```
+
+`print(result)`를 지우고 다시 실행하면 출력이 없습니다. 출력이 없다는 사실만으로 실행 실패라고 판단하면 안 됩니다. 노트북에 저장된 과거 출력도 현재 커널 상태를 보장하지 않으므로, 공유 전에는 커널을 재시작하고 셀을 위에서부터 다시 실행해 결과를 확인합니다.
+
 ## 체크리스트
 
 - Python 인터프리터(Python interpreter)를 Python 코드를 읽고 실행하는 프로그램으로 설명할 수 있다.
@@ -188,6 +185,8 @@ print(name)
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python을 해석형·대화형 프로그래밍 언어로 설명하고, Guido van Rossum의 초기 개발 배경을 확인하는 근거로 사용했다.
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 인터프리터 호출, 대화형 모드, 스크립트 파일 실행의 차이를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `python script.py`, `python -c`, `python -m module-name` 같은 명령줄 실행 방식 확인에 사용했다.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python을 해석형·대화형 프로그래밍 언어로 설명하고, Guido van Rossum의 초기 개발 배경을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Python 인터프리터 호출, 대화형 모드, 스크립트 파일 실행의 차이를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. `python script.py`, `python -c`, `python -m module-name` 같은 명령줄 실행 방식 확인에 사용했다.
+
+- [Python tutorial: Modules](https://docs.python.org/3/tutorial/modules.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.

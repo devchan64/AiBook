@@ -1,82 +1,56 @@
 # P2-14.1 Git as a Tool for Managing Change History
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In Part 2 Chapter 13, we created plots with Matplotlib and linked the output images into documents. A problem appears immediately at that point. If documents, code, images, and research notes all change together, it becomes hard later to remember "what changed, and why."
+## File Saving and Change Records
 
-Git is a tool for recording that kind of change. It is not just a tool for saving code. It is better read as a device for tracking how documents and example code change across a learning process. You need this sense early so that, in Part 3, even in scenes where experiment conditions change often, such as baseline comparisons, preprocessing edits, and metric interpretation, you can still explain again `what was changed, and why`.
+Saving a file preserves its current state. It does not automatically explain why the previous state changed or which files changed together.
 
-This section explains the basic distinctions among `Git`, `version control`, `commit`, `staging area`, and `repository`. If Chapters 11 through 13 were the stage of reading and checking data through arrays, tables, and plots, then the question here changes into how to leave those calculations and checks behind as bundles of changes. Git should not be read as a tool that suddenly appeared out of nowhere. It should be read as the record tool that lets you explain again the baseline comparisons, preprocessing edits, and metric interpretations in Part 3. When the later section continues into branches and deployment, keep this standard in place.
+For example, suppose you have done the following work.
 
-## Core Criteria: Git as a Tool for Managing Change History
-
-- You can explain version control as "a record that lets you find a specific past state again after time has passed."
-- You can understand a Git commit not as file saving but as a meaningful bundle of changes.
-- You can explain intuitively the difference among the working tree, staging area, and repository.
-- You can distinguish the roles of `git status`, `git add`, `git commit`, and `git log`.
-- You can explain why learning documents and example code should be managed with Git.
-
-## Three Criteria
-
-| Criterion | Why It Matters | Required Understanding in This Section |
-| --- | --- | --- |
-| What does Git leave behind? | It helps you distinguish file saving from recording change history. | Understand it as a tool that records change history and explanation, not just files themselves. |
-| Why are `add` and `commit` separated? | It clarifies the difference between selecting changes and finalizing a record. | Understand that choosing what to group and naming that group are different acts. |
-| Why does it matter even for document work? | It helps you read outputs other than code as part of the same change unit. | Understand that it becomes easier to look back and explain when, what, and why something changed. |
-
-| Term | Meaning to Hold First in This Section |
-| --- | --- |
-| Git | A version-control tool that records change history and explanation rather than just files. |
-| version control | A recording method that lets you find again which file states changed over time and why. |
-| commit | A record unit that leaves a meaningful bundle of changes in repository history. |
-| staging area | The intermediate space where you choose which changes go into this commit. |
-| repository | The Git record space where commit history accumulates. |
-
-## Saving a File and Leaving Change History Are Different
-
-If you save a file, the current state remains. But it does not automatically explain why the previous state changed, or which files changed together.
-
-For example, suppose you did the following work.
-
-- Wrote the draft of one section.
+- Written a section of the manuscript.
 - Added a script that generates plots.
 - Created two output images.
-- Edited the site table-of-contents settings.
+- Modified the site navigation settings.
 
-These four things may look like separate tasks, but in practice they can form one meaningful bundle of change: "reflect the plot explanation of one section together with its linked assets."
+These four tasks may seem separate, but they can form one meaningful change: “update a section’s plot explanation together with its linked assets.”
 
-Git records this kind of bundle as a commit.
+Git records this bundle as a commit.
 
-## Version Control Is Closer to Explaining Than to Going Back
+A commit points to a snapshot of the tracked file state at that moment. Unchanged files also belong to that state, and comparing it with the previous commit reveals which lines changed. The commit message describes the purpose, but Git does not automatically judge the meaning of the files or the reasons for editing them.
 
-When people first learn Git, they often understand it as "a tool that lets me go back if I make a mistake." That explanation is also correct. But here we take a slightly wider view.
+## Previous States and Reasons for Changes
 
-Version control is a device for answering the following questions after time has passed.
+Version control lets you retrieve previous file states and compare changes. The author must record the reasons in places such as commit messages. Reading the history helps answer these questions.
 
 - Which files changed?
 - Why did they change?
 - Which files changed together?
-- When did a certain explanation enter the project?
-- If a problem appeared, after which change did it appear?
+- When was a particular explanation introduced?
+- After which change did a problem appear?
 
-The official Git book explains version control as a system that records file changes over time and lets you bring back specific versions later. Here, we apply that view to document writing and learning records.
+The official Git book describes version control as a system that records file changes over time so that particular versions can be recalled later. Documents and example code can be examined this way as well.
 
-## Basic Flow of Git
+## Working Tree, Staging Area, and Repository
 
-Here, we divide the Git flow into the following three spaces.
+The working tree contains the files being edited. The staging area holds the file contents selected for the next commit. Committing records the staged state in the repository’s history.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-14/git-three-areas-flow-en.mmd"
 ```
 
-The important point in this flow is that `saving` and `committing` are different.
+The distinction between saving and committing matters in this flow.
 
-Saving a file means writing the current file contents to disk in the editor. Committing means recording, in repository history, a meaningful bundle chosen from those saved changes.
+Saving writes the current file contents from the editor to disk. Committing records a meaningful selection of changes in repository history.
 
-## `git status` Asks about the Current State
+This work can happen locally without an internet connection. Git is the version-control program; GitHub is a service for hosting Git repositories online and collaborating on them. Creating a local commit does not automatically upload it to GitHub.
 
-The command you usually check first when doing Git work is `git status`.
+## Checking State: git status
+
+The first command to check when working with Git is usually `git status`.
+
+The `docs/...` paths below assume execution from this book’s repository root. Git cannot report repository status in a folder that is not yet a repository. The “Recording 75 → 80 → 85” exercise below creates a new one.
 
 ```bash
 git status
@@ -85,124 +59,202 @@ git status
 This command answers the following questions.
 
 - Which files were modified?
-- Is there any new file?
-- Is there any file already chosen for this commit?
+- Are there any new files?
+- Which files have been selected for this commit?
 - What is the current branch?
 
-Here, understand `git status` as "the command that asks what state the current workspace is in."
-
-## `git add` Is the Act of Choosing Files
-
-`git add` does not mean that the file is immediately and permanently saved. It means placing the changes that should be included in this commit into the staging area.
+The two positions before a file name distinguish its staging state.
 
 ```bash
-git add docs/chapter-14/section-01.md
+git status --short
 ```
 
-The key point is, "choose which changes go into this record." Even if many files changed, you do not need to put them all into one commit. If the purposes differ, it is easier to read later if you commit them separately.
+For ordinary edits without conflicts, the first position describes differences between the previous commit and the staging area. The second describes differences between the staging area and the working tree. In the table, `·` makes a blank visible; actual output uses a space.
 
-For example, the following two tasks should be recorded separately whenever possible.
+| Marker | File State | What a Normal Commit Includes |
+| --- | --- | --- |
+| `??` | New, untracked file | Nothing |
+| `·M` | Tracked file modified but not staged | The new edit is excluded |
+| `M·` | Modification staged | The staged modification |
+| `MM` | File edited again after staging | Only the modification staged earlier |
+| `A·` | New file staged | The staged contents of the new file |
 
-| Change | Why the Commit Should Be Separate |
+An empty `git diff` does not rule out `??` files. Ordinary `git diff` does not display the contents of untracked files, so also check `status`.
+
+## Selecting Changes: git add
+
+`git add` does not immediately save a file permanently in history. It places the changes selected for this commit in the staging area.
+
+```bash
+git add docs/parts/part-02/chapter-14/section-01.md
+```
+
+`git add` stages the file contents at the moment it runs. Further edits to that file are not staged automatically. Even if several files changed, they do not all need to enter one commit. Changes with different purposes are easier to read later if committed separately.
+
+For example, these two tasks should generally be recorded separately.
+
+| Change | Reason to Separate the Commits |
 | --- | --- |
-| Writing Chapter 14 manuscript | The purpose is adding book content |
-| Editing CSS layout | The purpose is improving screen presentation |
+| Writing Chapter 14 | Adding book content |
+| Modifying the CSS layout | Improving page presentation |
 
-If both changes go into one commit, it becomes harder later to trace "why was this CSS changed?"
+Combining them makes it harder to trace why the CSS changed.
 
-## `git commit` Means Naming a Bundle of Changes
+To remove a mistakenly selected file from the next commit, unstage it as follows in a repository that already has a commit.
 
-`git commit` leaves the staged changes in repository history.
+```bash
+git restore --staged -- docs/parts/part-02/chapter-14/section-01.md
+```
+
+`--staged` changes the selection for the next commit while preserving edits in the working tree. Running `git restore` without this option can restore the file contents themselves, so the commands must not be treated as equivalent.
+
+## Recording History: git commit
+
+`git commit` records staged changes in repository history.
 
 ```bash
 git commit -m "docs(part2): add git version control introduction"
 ```
 
-A commit message is not just a memo. It is the title that tells a later reader of the history "what this change is."
+A commit message gives future readers a title explaining what changed.
 
-A good commit message usually satisfies the following conditions.
+A useful message usually meets these conditions.
 
-- It lets you tell what changed.
-- It avoids expressions that are too broad.
-- It shows the purpose of the change rather than just listing a file name.
-- It still makes sense later when read in `git log`.
+- It identifies what changed.
+- It avoids overly broad wording.
+- It conveys the purpose rather than just the file name.
+- It remains meaningful when read later in `git log`.
 
-A bad example is the following.
+The following is a poor example.
 
 ```bash
 git commit -m "update"
 ```
 
-This message does not tell you what was updated.
+It does not explain what was updated.
 
-## `git log` Is the Command That Reads Change History
+## Reading History: git log
 
-Once commits accumulate, you can check the history with `git log`.
+As commits accumulate, inspect the history with `git log`.
 
 ```bash
 git log --oneline
 ```
 
-This command shows the commit list briefly. Here, understand it as "the list that shows in what order this project changed."
+Each line of this compact list contains a short hash identifying a commit and its message title.
 
-In a learning-document project, `git log` helps with the following questions.
+`HEAD` refers to the currently checked-out commit, usually through the current branch. These commands show the files and actual text changed in the latest commit.
+
+```bash
+git show --stat HEAD
+git show HEAD -- docs/parts/part-02/chapter-14/section-01.md
+```
+
+The first command summarizes changes by file; the second shows changes to the specified file. A hash identifies a record. It is not a measure of change size or quality.
+
+In a learning-document project, `git log` helps answer these questions.
 
 - When was this section added?
-- In which commit was the table of contents changed?
-- With which manuscript was a certain image file added?
-- What changes entered before deployment?
+- Which commit changed the navigation?
+- Which manuscript accompanied the addition of a particular image?
+- Which changes entered before deployment?
 
-## Why Git Matters in a Document Project
+## Connecting Manuscripts, Code, and Images
 
-A document project is not just a finished document. It is the result of a learning process. The manuscript, research notes, example code, images, and deployment settings all change together. In particular, from Part 3 onward, even with the same data, preprocessing, baselines, thresholds, and evaluation tables begin to change together. In that sense, Git is closer to an `experiment comparison record` than to a `cabinet for storing final answers`.
+A document project records the results of learning. Manuscripts, research notes, example code, images, and deployment settings change together. If a score threshold changes from 75 to 80, for example, the code implementing the condition and the explanation of its new result can be compared in the same commit.
 
-Git lets you leave behind the following relationships.
+Git can preserve these relationships.
 
-| Output | Question You Can Leave with Git |
+| Output | Question the Record Can Help Answer |
 | --- | --- |
-| manuscript Markdown | When was a certain explanation added? |
-| research notes | What sources were used as grounds? |
-| example code | Which output image did it create? |
-| image file | Which code or section is it connected to? |
-| site navigation settings | Which document entered the published table of contents? |
+| Manuscript Markdown | When was an explanation added? |
+| Research notes | Which sources supported it? |
+| Example code | Which output image did it generate? |
+| Image file | Which code or section is it associated with? |
+| Site navigation settings | Which document entered the published navigation? |
 
-From this perspective, Git is not a tool only for developers. As documents grow, evidence increases, and practice code accumulates, Git becomes the tool that manages `the history of learning changes`.
+Patterns in `.gitignore` can exclude files such as temporary caches and virtual environments from tracking. This book’s `.tmp/` and `.venv/` folders are examples. Adding a pattern does not remove files already tracked from history. Also, putting code and an image in the same commit does not verify that the code generated that image. Record the execution command and input conditions as well.
 
-## Minimum Habits to Use with Git
+## Case 1. Editing the Manuscript After add
 
-You do not need to know every Git command from the beginning. In a project that handles documents and practice examples together, even the following habits help a lot.
+Suppose you change a score threshold from 75 to 80 and run `git add`. You then change it to 85 and only save the file. The working tree now contains 85, while the staging area contains 80. A normal `git commit -m ...` records 80.
 
-1. Check the state with `git status` before and after work.
-2. Put into one commit only changes that share one purpose.
-3. Write the purpose of the change in the commit message.
-4. Check the relationship between generated files and source files together.
-5. Separate work that changes deployment settings from work that writes the manuscript.
+```bash
+git diff -- docs/parts/part-02/chapter-14/section-01.md
+git diff --cached -- docs/parts/part-02/chapter-14/section-01.md
+```
 
-These habits are needed again in P2-14.2 when you study the flow of branches, authoring branches, and deployment branches.
+The first command compares the staged 80 with the current file’s 85. The second compares the previous commit’s 75 with the staged 80. To record 85, run `git add` for the file again before committing.
 
-## Case Study
+If the manuscript and plot-generation code describe the same threshold, select them together. A manuscript using 85 and code using 75 leave a history but disagree about the result. Before committing, use `git diff --cached` to check that the selected contents serve the same purpose.
 
-### Case 1. How Should You Explain the Day When the Manuscript and Images Changed Together?
+## Recording 75 → 80 → 85
 
-Suppose a document writer edited the manuscript of one section, changed the example code together with it, and also changed the plot images recreated from that code. In the person's head, this is still `the same task`, but after several days it can become blurry why those files changed together.
+Run this in Bash with Git installed. Create a previously nonexistent `git-record-practice` folder outside existing projects. The name and email below identify the commit author only in this practice repository; they are not online login credentials.
 
-At that point, Git works not as a simple storage box but as `a record that groups reasons for change`. If the manuscript Markdown, image-generation code, output images, and table-of-contents edits all belong to one purpose, `strengthening the plot explanation`, then that purpose can be left behind together with a commit message.
+```bash
+mkdir git-record-practice
+cd git-record-practice
+git init -b practice
+git config user.name "Book Learner"
+git config user.email "learner@example.com"
+printf 'threshold=75\n' > lesson.txt
+git add -- lesson.txt
+git commit -m "Record threshold 75"
+printf 'threshold=80\n' > lesson.txt
+git add -- lesson.txt
+printf 'threshold=85\n' > lesson.txt
+git status --short
+git diff -- lesson.txt
+git diff --cached -- lesson.txt
+git commit -m "Raise threshold to 80"
+git show HEAD:lesson.txt
+cat lesson.txt
+```
 
-This case also shows why `git add` and `git commit` are separated. First you choose the changes that belong in this record. Then you give that bundle a name and leave it in history. Only then can you explain later `what changed, and why`.
+`printf` writes the specified text, and `\n` represents a newline. `>` replaces the practice file’s contents. After the first commit, staging 80 and saving 85 produces `MM lesson.txt`. After the second commit, `git show HEAD:lesson.txt` displays the recorded file’s `threshold=80`, while `cat lesson.txt` displays the working file’s `threshold=85`.
 
-In other words, what matters in Git basics is not memorizing many commands. It is developing the sense of grouping changes into meaningful units of explanation. Only with that sense does the history stay readable in a project where documents, code, and images move together.
+| Moment | Previous Commit | Staging Area | Working Tree |
+| --- | --- | --- | --- |
+| Just after the first commit | 75 | 75 | 75 |
+| After staging 80 and saving 85 | 75 | 80 | 85 |
+| Just after the second commit | 80 | 80 | 85 |
+
+Now stage 85, check the `80 → 85` change with `git diff --cached`, and record it.
+
+```bash
+git add -- lesson.txt
+git diff --cached -- lesson.txt
+git commit -m "Raise threshold to 85"
+git status --short
+git log --oneline
+```
+
+With no other changes, the final status output is empty and the log contains three commits. Use the values in the three areas to explain why 85 would not be committed immediately if `git add` had been omitted after saving 85.
 
 ## Checklist
 
-- Can you explain the difference between saving a file and making a Git commit?
+- Can you explain how Git records file states and change history?
+- Can you distinguish saving a file from making a Git commit?
 - Can you distinguish the working tree, staging area, and repository?
-- Can you state the roles of `git status`, `git add`, `git commit`, and `git log`?
-- Can you explain why one commit should carry one purpose?
-- Can you explain why Git is needed as a learning-record management tool in a document project?
-- Can you explain that Git is a change-history management tool, and that commits let you track the connection among manuscripts, code, images, and research notes.
+- Can you describe a commit as a meaningful bundle of changes?
+- Can you explain the roles of `git status`, `git add`, `git commit`, and `git log`?
+- Can you explain why a commit should have one purpose?
+- Can you explain why edits made after `git add` are not committed automatically?
+- Can you distinguish `MM` from `??` and identify the comparisons made by `git diff` and `git diff --cached`?
+- Can you distinguish unstaging from restoring working-file contents?
+- Can you explain how Git helps track relationships among manuscripts, code, images, and research notes?
 
 ## Sources and References
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, checked on 2026-07-20. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } Basis for describing version control as a record of file changes over time and a way to recover specific versions.
-- Git project, `git-status Documentation`, checked on 2026-07-20. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git status` reports working tree, index, and untracked-file state.
-- Git project, `git-commit Documentation`, checked on 2026-07-20. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git commit` records the current index contents with a log message as a new commit.
+- [Pro Git, About Version Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Version records and retrieval of earlier states.
+- [Pro Git, What is Git?](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Snapshots and local operations.
+- [GitHub Docs, What is GitHub?](https://docs.github.com/en/get-started/start-your-journey/what-is-github){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Distinguishing Git from online hosting.
+- [Git project, git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. File state and the two-column short format.
+- [Git project, git-add](https://git-scm.com/docs/git-add){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Staging file contents at execution time.
+- [Git project, git-diff](https://git-scm.com/docs/git-diff){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Comparison of working tree, index, and commit.
+- [Git project, git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Recording index state in a new commit.
+- [Git project, git-restore](https://git-scm.com/docs/git-restore){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Unstaging versus restoring the working tree.
+- [Git project, git-show](https://git-scm.com/docs/git-show){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Inspecting commit changes and files at a given revision.
+- [Git project, gitignore](https://git-scm.com/docs/gitignore){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Ignore rules and their limits for tracked files.
+- [Git project, git-init](https://git-scm.com/docs/git-init){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Creating the practice repository and initial branch.

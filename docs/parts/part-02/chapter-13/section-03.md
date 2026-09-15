@@ -1,7 +1,7 @@
 # P2-13.3 여러 그래프를 비교하고 저장하기
 
 > Section ID: `P2-13.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 손실과 정확도 나란히 보기
 
@@ -15,7 +15,7 @@ epochs = np.arange(1, 13)
 loss = [2.02, 1.68, 1.42, 1.18, 1.03, 0.91, 0.82, 0.75, 0.70, 0.66, 0.63, 0.60]
 accuracy = [0.55, 0.61, 0.66, 0.70, 0.74, 0.78, 0.81, 0.83, 0.85, 0.86, 0.87, 0.88]
 
-fig, axes = plt.subplots(1, 2)
+fig, axes = plt.subplots(1, 2, figsize=(8, 3.8), sharex=True)
 
 axes[0].plot(epochs, loss, marker="o")
 axes[0].set_title("Loss over epochs")
@@ -26,6 +26,7 @@ axes[1].plot(epochs, accuracy, marker="o")
 axes[1].set_title("Accuracy over epochs")
 axes[1].set_xlabel("epoch")
 axes[1].set_ylabel("accuracy")
+axes[1].set_ylim(0, 1)
 
 fig.tight_layout()
 plt.show()
@@ -57,7 +58,7 @@ fig, ax = plt.subplots()
 ax.plot(epochs, train_loss, marker="o", label="train loss")
 ax.plot(epochs, validation_loss, marker="o", label="validation loss")
 ax.axvline(8, color="gray", linestyle="--")
-ax.text(8.25, 1.38, "validation starts rising")
+ax.text(8.25, 1.38, "minimum validation loss at epoch 8")
 ax.set_xlabel("epoch")
 ax.set_ylabel("loss")
 ax.set_title("Training and validation loss can diverge")
@@ -80,7 +81,12 @@ Colab이나 Jupyter Notebook에서는 `plt.show()`로 그래프를 바로 볼 �
 Matplotlib에서는 `savefig()`를 사용합니다.
 
 ```python
-fig.savefig("train-validation-loss-diverge.png")
+from pathlib import Path
+
+output_dir = Path(".tmp") / "chapter-13-plots"
+output_dir.mkdir(parents=True, exist_ok=True)
+fig.savefig(output_dir / "train-validation-loss-diverge.png", dpi=160)
+fig.savefig(output_dir / "train-validation-loss-diverge.svg")
 ```
 
 | 코드 | 의미 |
@@ -89,7 +95,11 @@ fig.savefig("train-validation-loss-diverge.png")
 | `fig.savefig(...)` | 그래프를 이미지 파일로 저장한다 |
 | `fig.tight_layout()` | 제목, 축 라벨, 그래프 영역이 겹치지 않게 여백을 조정한다 |
 
-상대 경로로 저장했으므로 파일은 현재 작업 디렉터리에 생성됩니다. 위 저장 코드는 바로 앞에서 만든 학습·검증 손실의 `fig`를 사용합니다. 두 그래프가 나란히 있는 첫 그림을 저장하려면 첫 코드의 `plt.show()` 앞에 저장 호출을 넣습니다.
+상대 경로이므로 현재 작업 디렉터리 아래 `.tmp/chapter-13-plots/`에 파일이 생성됩니다. 위 저장 코드는 바로 앞에서 만든 학습·검증 손실의 `fig`를 사용합니다. 두 그래프가 나란히 있는 첫 그림을 저장하려면 첫 코드의 `plt.show()` 앞에 저장 호출을 넣습니다. 여러 그림을 만들면 변수 `fig`가 나중 그림으로 바뀔 수 있으므로 저장할 객체를 먼저 확인합니다.
+
+PNG는 픽셀 이미지이며 그림 크기가 8×3.8인치이고 `dpi=160`이면 기본 캔버스는 1280×608픽셀입니다. SVG는 선과 글자를 벡터로 저장하므로 확대해도 윤곽을 유지합니다. `bbox_inches="tight"`를 지정하면 실제 저장 범위가 잘려 픽셀 크기가 달라질 수 있습니다.
+
+일반적인 저장 순서는 그림 생성, 라벨·여백 조정, `fig.savefig`, `plt.show()`입니다. 블로킹 `show()`가 끝난 뒤 `plt.savefig()`를 호출하면 현재 그림이 닫혀 빈 새 그림을 저장할 수 있습니다. 위 코드는 보관한 Figure 객체의 `fig.savefig()`를 사용하지만, 저장을 `show()` 전에 두면 실행 환경에 따른 혼동을 줄일 수 있습니다. 파일만 만드는 반복 작업에서는 저장 뒤 `plt.close(fig)`로 그림을 닫습니다.
 
 ## 재현에 필요한 기록
 
@@ -103,7 +113,13 @@ fig.savefig("train-validation-loss-diverge.png")
 
 그래서 문서 프로젝트에서는 이미지 파일만 만들지 않고, 가능하면 이미지를 생성한 Python 스크립트도 함께 둡니다. 예를 들어 한 장의 그래프를 여러 번 수정해야 한다면, 이미지와 가까운 위치에 생성 스크립트를 두는 편이 결과를 다시 만들기 쉽습니다.
 
-이 절의 두 예시 이미지는 [`p2_13_3_compare_and_save.py`](../../../assets/part-02/chapter-13/p2_13_3_compare_and_save.py)로 다시 만들 수 있습니다. 이 파일은 `MPLCONFIGDIR`를 프로젝트의 `.tmp` 아래로 고정하고, `fig.savefig(...)`로 산출 이미지를 같은 자산 폴더에 저장합니다.
+다음 스크립트는 세 언어의 예시 SVG를 자산 폴더에 저장합니다. Matplotlib 캐시는 저장소의 `.tmp` 아래를 기본값으로 사용합니다.
+
+[p2_13_3_compare_and_save.py](../../../assets/part-02/chapter-13/p2_13_3_compare_and_save.py)
+
+```bash
+python docs/assets/part-02/chapter-13/p2_13_3_compare_and_save.py
+```
 
 ## 비교 조건
 
@@ -117,15 +133,13 @@ fig.savefig("train-validation-loss-diverge.png")
 | 축 범위를 확인한다 | 작은 차이가 과장되거나 큰 차이가 숨겨질 수 있다 |
 | 저장 파일 이름을 설명적으로 짓는다 | 나중에 어떤 그래프인지 다시 알 수 있어야 한다 |
 
-## 사례 1. 정확도 정체를 기록하기
+## 사례: 정확도 정체를 기록하기
 
 첫 예제의 정확도 목록에서 마지막 세 값을 `[0.86, 0.86, 0.86]`으로 바꾸고 다시 실행해 봅니다. 손실 곡선은 그대로 내려가지만 정확도 곡선은 10번째 반복부터 수평이 됩니다. 손실이 줄어도 맞춘 비율은 늘지 않는 기록입니다.
 
-저장 호출을 첫 코드의 `plt.show()` 앞에 추가합니다.
+첫 코드의 정확도 목록을 바꾼 뒤 `plt.show()` 앞에 `fig.savefig(output_dir / "loss-accuracy-plateau.png", dpi=160)`을 넣습니다. `output_dir`는 앞의 저장 예제에서 만든 폴더입니다. 수정한 그림을 만든 직후 저장해야 뒤에서 만든 다른 `fig`를 잘못 저장하지 않습니다.
 
-```python
-fig.savefig("loss-accuracy-plateau.png")
-```
+정확도는 최종 정답 여부만 세지만 손실은 예측값이 정답에 얼마나 가까운지 더 세밀하게 반영할 수 있습니다. 예를 들어 정답이 양성이고 분류 기준이 0.5일 때 예측 확률이 0.6에서 0.8로 바뀌어도 둘 다 정답이지만, 이진 교차엔트로피 손실은 약 0.511에서 0.223으로 줄어듭니다. 따라서 정확도 정체와 손실 감소는 모순이 아닙니다.
 
 이 파일을 기존 결과와 비교하려면 원래 정확도 목록과 수정한 목록을 각각 남겨야 합니다. 파일 이름이 다르다는 사실만으로 어떤 입력을 바꿨는지는 알 수 없습니다. `마지막 세 정확도를 0.86으로 고정, 손실 목록은 동일`이라는 변경 내용과 생성 코드를 함께 기록하면 두 그림의 차이를 설명할 수 있습니다.
 
@@ -140,6 +154,8 @@ fig.savefig("loss-accuracy-plateau.png")
 
 ## 출처와 참고 자료
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 하나의 `Figure` 안에 여러 `Axes`를 둘 수 있다는 설명과 `plt.subplots()` 예제를 확인했습니다.
-- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } `Axes`가 데이터 좌표계와 라벨·제목·범례 설정의 중심 객체라는 설명의 근거입니다.
-- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } `Figure.savefig()`가 이미지나 벡터 그래픽 파일로 저장한다는 설명의 직접 참고 자료입니다.
+- Matplotlib Developers, [Quick start guide](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-07-20. 하나의 `Figure` 안에 여러 `Axes`를 둘 수 있다는 설명과 `plt.subplots()` 예제를 확인했습니다.
+- Matplotlib Developers, [Introduction to Axes (or Subplots)](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-07-20. `Axes`가 데이터 좌표계와 라벨·제목·범례 설정의 중심 객체라는 설명의 근거입니다.
+- Matplotlib Developers, [matplotlib.figure.Figure.savefig](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-09-15. `Figure.savefig()`가 이미지나 벡터 그래픽 파일로 저장한다는 설명의 직접 참고 자료입니다.
+- Matplotlib Developers, [pyplot.show](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. show와 저장 순서, Figure 참조 유지.
+- scikit-learn Developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 양성 표본의 이진 교차엔트로피 계산.

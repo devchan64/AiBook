@@ -1,15 +1,9 @@
 flowchart TD
-  A["数学记号<br/>读公式"]
-  B["Python<br/>小计算"]
-  C["NumPy<br/>数组计算"]
-  D["Pandas<br/>表格数据"]
-  E["Matplotlib<br/>可视化"]
-  F["Git<br/>可复现记录"]
-  G["机器学习<br/>Part 3"]
+  A["公式<br/>计算规则"]
+  B["Python 与 NumPy<br/>执行与数组计算"]
+  C["Pandas<br/>检查样本与列"]
+  D["Matplotlib<br/>检查数值与误差"]
+  E["Git<br/>记录条件与变更"]
+  F["机器学习<br/>输入、学习、评价"]
 
-  A --> B --> C
-  C --> D
-  D --> E
-  B --> F
-  E --> F
-  F --> G
+  A --> B --> C --> D --> E --> F

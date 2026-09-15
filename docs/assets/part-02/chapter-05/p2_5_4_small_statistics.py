@@ -1,50 +1,72 @@
-"""Small examples for P2-5.4.
-
-Run:
-    python docs/assets/part-02/chapter-05/p2_5_4_small_statistics.py
-"""
-
-import numpy as np
+"""P2-5.4: run the manuscript examples in order (NumPy required)."""
 
 
 def main() -> None:
-    # data is the small score dataset used for center and spread checks.
+    # This example imports NumPy to prepare mean, median, and variance calculations for small data.
+    import numpy as np
+
+    # data is the small score dataset used to check mean, median, and variance.
     data = np.array([42, 55, 48, 63, 52, 50, 47, 70])
 
-    print("data:", data)
-    print("count:", data.size)
-    print("mean:", round(float(np.mean(data)), 3))
-    print("median:", round(float(np.median(data)), 3))
-    print("population variance:", round(float(np.var(data)), 3))
-    print("sample variance:", round(float(np.var(data, ddof=1)), 3))
+    print(data)
 
-    # skewed_data includes one extreme value to contrast mean and median.
+    # size shows how many values the dataset contains.
+    print(data.size)
+
+    at_least_60 = data >= 60
+    count_at_least_60 = np.count_nonzero(at_least_60)
+    observed_ratio = count_at_least_60 / data.size
+    print(at_least_60)
+    print(count_at_least_60)
+    print(observed_ratio)
+
+    # mean_value is the mean that summarizes all values in data as one center value.
+    mean_value = np.mean(data)
+    print(mean_value)
+
+    print(np.sort(data))
+    print(np.median(data))
+
+    # skewed_data includes the extreme value 100 to compare how mean and median react.
     skewed_data = np.array([10, 12, 13, 15, 100])
-    print("\nskewed data:", skewed_data)
-    print("skewed mean:", round(float(np.mean(skewed_data)), 3))
-    print("skewed median:", round(float(np.median(skewed_data)), 3))
 
-    # centered and squared deviations show how variance starts from distance to the mean.
+    print(np.mean(skewed_data))
+    print(np.median(skewed_data))
+
+    # centered shows how far each value is from the mean.
     centered = data - np.mean(data)
-    print("centered values:", np.round(centered, 3))
-    print("squared deviations:", np.round(centered**2, 3))
+    print(np.round(centered, 3))
 
-    # population_like is the reference group; samples are partial views of it.
+    # squared_deviations squares the deviations so both negative and positive gaps count as spread.
+    squared_deviations = centered ** 2
+    print(np.round(squared_deviations, 3))
+
+    # np.var(data) summarizes the spread of data as one variance value.
+    print(np.var(data))
+
+    print(np.var(data))
+    print(np.var(data, ddof=1))
+
+    # The 12 values in population_like are the small population in this example.
     population_like = np.array([42, 45, 47, 48, 50, 52, 55, 58, 61, 63, 66, 70])
-    samples = np.array(
-        [
-            [42, 47, 50, 55],
-            [48, 52, 63, 70],
-            [45, 55, 58, 66],
-        ]
-    )
 
-    print("\npopulation-like values:", population_like)
-    print("population-like mean:", round(float(np.mean(population_like)), 3))
+    # samples are smaller groups used as if we observed only part of population_like.
+    samples = np.array([
+        [42, 47, 50, 55],
+        [48, 52, 63, 70],
+        [45, 55, 58, 66],
+    ])
 
-    # Each sample mean can move even though the reference group is fixed.
-    for index, sample in enumerate(samples, start=1):
-        print(f"sample {index}:", sample, "mean:", round(float(np.mean(sample)), 3))
+    print(np.mean(population_like))
+
+    # Check each sample in order to see whether its mean changes.
+    for sample in samples:
+        print(sample, np.mean(sample))
+
+    for last_value in [1000, 14]:
+        changed_data = skewed_data.copy()
+        changed_data[-1] = last_value
+        print(last_value, np.mean(changed_data), np.median(changed_data))
 
 
 if __name__ == "__main__":

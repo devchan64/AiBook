@@ -1,7 +1,7 @@
 # P2-7.2 Terminal, Shell, and Working Directory
 
 > Section ID: `P2-7.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Running `python example.py` involves a shell that interprets the command and a base folder used to locate the file. The same command run from a different folder can fail even when the file exists.
 
@@ -12,14 +12,6 @@ Running `python example.py` involves a shell that interprets the command and a b
 | working directory | the folder used as the current base by the command |
 | path | the string that points to where a file or folder is located |
 | command | the execution sentence asking the shell to do something now |
-
-## Command Interpretation and Base Location
-
-| Criterion | Why it matters |
-| --- | --- |
-| The terminal is the screen, and the shell is the program inside it that interprets commands | Confusion decreases only when the place of input and the interpreting agent are separated. |
-| The working directory determines the base location of commands | The same command can point to different files depending on the current location. |
-| The first thing to check is the current location and the file list | Many failures begin from location problems rather than syntax. |
 
 ## Origins of Terminals and Shells
 
@@ -181,7 +173,7 @@ If you put `!` like the following inside a Colab code cell, you can execute a sh
 
 Running `!pwd` in a Colab cell connected to a hosted runtime prints that runtime’s current folder path.
 
-```python
+```text title="IPython · notebook code cell"
 # This shell command checks the current working folder from a Colab code cell.
 !pwd
 ```
@@ -233,6 +225,18 @@ python project/example.py
 
 Both run the same script, but the working directory differs. If the script reads data using a relative path such as `data.csv`, the first method looks for `project/data.csv`, while the second looks for `workspace/data.csv`. Distinguish locating the script from locating data inside the script.
 
+## Keeping a Directory Change in a Notebook
+
+IPython runs !cd in a separate shell, so it does not change the notebook kernel’s working directory after that shell exits. Use %cd to change the kernel’s directory. Running the following cell from an existing working directory moves to its parent.
+
+```text title="IPython · notebook code cell"
+%pwd
+%cd ..
+%pwd
+```
+
+Compare the two printed paths to confirm the change. Run %cd - to return to the previous directory. Both %cd and !pwd are IPython syntax and cannot be used in an ordinary .py file.
+
 ## Checklist
 
 - You can explain the terminal as the screen for command input and result checking.
@@ -251,4 +255,6 @@ Both run the same script, but the working directory differs. If the script reads
 - Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, checked 2026-07-20. Used to confirm that a shell is both a command interpreter and a programming language, and to support the Bash command-processing context.
 - Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-20. Used to confirm the official PowerShell command for checking the current working location and its `pwd` alias context.
 - Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-20. Used to confirm the official PowerShell command for changing the current working location and its `cd` alias context.
-- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to support the point that Python code can read the current working directory as a string.
+- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to support the point that Python code can read the current working directory as a string.
+
+- [IPython magic commands: %cd](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-cd){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.

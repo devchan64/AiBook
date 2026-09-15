@@ -1,168 +1,64 @@
-# P2-11.1 用 NumPy 数组构建向量与矩阵
+# P2-11.1 用 NumPy 数组创建向量与矩阵
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-在 Part 2 Chapter 3 中，我们用数学符号和小段代码确认了 scalar、vector、matrix。Part 2 Chapter 8 看过 Python 的 list 与 dictionary，Part 2 Chapter 9 从不同数据结构视角区分了 array、table、tree、graph，Part 2 Chapter 10 又说明了如何把 notebook 整理成可重新执行的学习记录。
+## 列表连接与数组加法
 
-现在我们重新回到 NumPy。NumPy 这个名字来自 "Numerical Python"。它是 Python 里广泛使用的开源库，用来创建数值数组，并以快速且一致的语法执行向量与矩阵计算。
+NumPy 是提供多维 `ndarray` 和数组运算的 Python 库。列表与数组可以保存相同数字，但运算规则不同。
 
-本节说明 `NumPy`、`shape`、`ndim`、`dtype` 的基本区分。这一章的重点不是背很多 NumPy 语法，而是学会在 AI 实践里把 vector、matrix、数据成组的形状读出来。以后再次遇到 array、axis、broadcasting 时，也回到本章的基准来连接。
-
-学习 AI 时，数据很快就会变成数值数组。句子会变成 token ID 的数组，图像会变成 pixel 数组，表格数据会变成 feature matrix，embedding 会变成 vector。你当然也可以只用 Python list 处理这些数值集合，但当你需要对许多值按同一种方式加、乘、求平均、做矩阵乘法时，NumPy 数组会自然得多。
-
-如果前面的 Python 语法与数据结构章节更关注“把什么值用什么句式写出来”，这一章则转向“怎样把这些值读成真正可用于计算的向量与矩阵形状”。接下来的章节会把问题继续推进到：把这些数字形状读成表、用图看它们、最后再把结果留下成记录。
-
-| 现在这节要先抓住什么 | 紧接着会连到什么问题 | 之后会再次出现在哪里 |
-| --- | --- | --- |
-| NumPy 是制造“可计算数值形状”的工具 | 它会连到 Part 2 Chapter 12：这些数组该怎样被读成有行有列的表 | 之后所有机器学习输入矩阵、embedding、预测计算都会反复出现 |
-| `shape`、`ndim`、`dtype` 必须先看 | 它会连到 P2-11.2 和 Part 2 Chapter 12：避免把 axis 和表结构混淆 | 之后在预处理、模型输入检查、错误诊断里都持续重要 |
-| NumPy 是 `计算 -> 表 -> 图 -> 记录` 流程的第一步 | 它会连到 Part 2 Chapter 13 和 14：该看什么、该留下什么记录 | Part 3 之后的实验解读与结果复现都会从这里出发 |
-
-| 术语 | 本节先抓住的含义 |
-| --- | --- |
-| NumPy | Python 中处理数值数组与向量、矩阵计算的代表性库 |
-| `shape` | 显示数组有几个维度、每个 axis 多长的形状信息 |
-| `ndim` | 数组的维度数 |
-| `dtype` | 数组里数字的数据类型 |
-| `ndarray` | NumPy 默认使用的多维数组数据结构 |
-
-## 核心判断标准：用 NumPy 数组构建向量与矩阵
-
-- 能把 NumPy array 与 Python list 区分开来说明。
-- 能把一维数组读成 vector，把二维数组读成 matrix。
-- 能通过 `.shape`、`.ndim`、`.dtype` 说明数组的形状与性质。
-- 能说明即使是同一组数字，list 与 array 在计算里的用法也不同。
-- 能读懂“输入矩阵乘以权重向量，生成一个小预测分数”的流程。
-
-## 三个标准
-
-| 标准 | 为什么重要 | 本节需要达到的理解程度 |
-| --- | --- | --- |
-| NumPy array 到底是什么 | 它能让你把 NumPy 读成“可计算数值形状的结构”，而不只是新语法 | 理解为把数字按固定形状放好以便计算的结构 |
-| 为什么要和 list 分开看 | 它能清楚区分“存储结构”与“计算结构” | 理解两者都能装值，但 array 更直接面向数值计算 |
-| 应该先检查什么 | 它为后面理解 indexing 与 broadcasting 建立起点 | 理解在看值之前，应先看 `shape` 与维度 |
-
-## NumPy 是为数值数组计算准备的工具
-
-NumPy 官方文档把 NumPy 介绍为科学与工程领域广泛使用的开源 Python 库，也说明它提供了多维数组数据结构 `ndarray`，以及能在该数组上高效运行的函数。
-
-这里先把 NumPy 数组理解成 `把数字放在固定 shape 中用于计算的集合`。
-
-Python list 当然也可以把值放在一起。
-
-问题场景：在使用 NumPy 之前，先确认数值集合本来也能保存在 Python list 中。
-输入(input)：一个包含三个分数的 Python list。
-期待输出(output)：没有打印输出，但它展示了数字集合最简单的形态。
-要确认的概念：看到 list 是通用的值容器，还不是面向计算的数组。
+把 `[82, 75, 45]` 分别准备为 Python 列表和 NumPy 数组。这些赋值只保存数值，不产生输出。
 
 ```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
-scores = [82, 75, 45]
-```
-
-但 list 是通用的值集合。它可以只放数字，也可以混合字符串和对象。NumPy 文档同样把 Python list 视为优秀的通用容器，同时说明：当数据类型一致、数量较大、且要执行共同计算时，NumPy 更合适。
-
-相比之下，NumPy 数组更接近一种“把同类数字放进固定形状里并用来计算”的结构。
-
-问题场景：把同一组数字转成 NumPy array，确认它作为计算结构时是什么样子。
-输入(input)：一个包含三个分数的一维数组。
-期待输出(output)：没有打印输出，但准备好了通过 `np.array(...)` 创建的计算型数组。
-要确认的概念：看到 NumPy array 是为了用一致形状处理同类数字的结构。
-
-```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 import numpy as np
 
-scores = np.array([82, 75, 45])
-```
-
-这个差别在 AI 实践里很重要。model input、feature、weight、embedding、image pixel，通常都是作为数值数组来计算的。
-
-## 为什么在 AI 学习里先遇到 NumPy
-
-你并不需要从一开始就手写实现 AI 模型的所有内部计算。真实的深度学习工作流可能会用到 PyTorch、TensorFlow、JAX 等工具。但这些工具同样建立在“数值数组、shape、axis、矩阵乘法、按位置运算”的直觉之上。
-
-我们先看 NumPy，原因如下。
-
-| 原因 | 学习中得到什么 |
-| --- | --- |
-| 可以直接看到 array 的 shape | 可以用 `shape` 检查输入与输出结构 |
-| 可以小规模重现 vector 和 matrix 计算 | 能看到公式如何在代码中运行 |
-| 可以比较 Python list 与面向计算的 array | 能区分数据结构与计算结构 |
-| 机器学习例子经常使用 NumPy array | 读官方示例和教程会更轻松 |
-| 能和 pandas、scikit-learn、可视化工具连接 | 更容易过渡到后续数据处理工具 |
-
-因此 NumPy 不是“AI 本身”，但它很像一门用来读取 AI 计算的基础语言。本节不是深入教 NumPy，而是先建立这种最小直觉。
-
-如果把 Part 2 Chapter 11 到 14 放在一条流程里，NumPy负责 `创建可计算的数字形状`，Pandas负责 `把这些形状读成案例与变量的表`，Matplotlib负责 `把表里不易直接看到的变化与关系读成图形`，Git负责 `把这些计算与解释连同变更原因留下成记录`。Chapter 11 正是这条流程最前面的位置，用来建立 vector、matrix、`shape` 这些可计算数字形状。
-
-## List 与 Array 看起来相似，但目的不同
-
-Python list 和 NumPy array 在外观上可能很像。
-
-问题场景：我们想把同一组数字同时准备成 list 和 array，以便并排比较。
-输入(input)：由同一份分数数据构成的两个变量，一个是 Python list，一个是 NumPy array。
-期待输出(output)：没有打印输出，但已经准备好后面比较同一运算。
-要确认的概念：看到即使外形相似，list 与 array 在计算里的含义也可能不同。
-
-```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 python_scores = [82, 75, 45]
 numpy_scores = np.array([82, 75, 45])
 ```
 
-但一旦执行相同运算，差别就会显现出来。
+执行相同运算就能看出差异。
 
-问题场景：直接比较同一个 `+` 运算符在 list 和 array 中是怎样被读取的。
-输入(input)：前面创建的 `python_scores` 与 `numpy_scores`。
-期待输出(output)：list 会被拼接，array 会输出按位置相加的结果。
-要确认的概念：确认 NumPy array 同时是存储结构与计算结构。
+将每个集合与自身相加。列表连接成六项，数组则把对应位置相加，得到 `[164 150 90]`。
 
 ```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 print(python_scores + python_scores)
 print(numpy_scores + numpy_scores)
 ```
 
-在 list 中，`+` 表示把两个列表接在一起。
+列表中的 `+` 连接两个序列。
 
 ```text
 [82, 75, 45, 82, 75, 45]
 ```
 
-在 NumPy array 中，`+` 表示把相同位置的数字相加。
+NumPy 数组中的 `+` 把相同位置的数字相加。
 
 ```text
 [164 150  90]
 ```
 
-这个差别必须记住。
-
-| 结构 | 主要目的 | `+` 的代表性含义 |
+| 结构 | 主要用途 | `+` 的典型含义 |
 | --- | --- | --- |
-| Python list | 按顺序存放多个值的通用容器 | 列表拼接 |
-| NumPy array | 让一组数字以同样形状参与计算 | 按位置加法 |
+| Python 列表 | 按顺序存放多个值的通用容器 | 列表连接 |
+| NumPy 数组 | 按一定形状计算一组数值 | 对应元素相加 |
 
-NumPy array 既是 `存放资料的结构`，也是 `执行计算的结构`。
+NumPy 数组既组织数据存储，也组织计算。
 
-下面的图示展示了同一个 `+` 符号在 list 与 NumPy array 中被不同地读取。
+下图比较同一个 `+` 在列表和 NumPy 数组中的含义。
 
-![Python list and NumPy array use the plus sign differently](/AiBook/assets/part-02/chapter-11/list-vs-numpy-array-zh.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/list-vs-numpy-array-zh.mmd"
+```
 
-这个差别看起来可能不大，但在 AI 代码里很重要。你到底是想保存一组数字，还是想把同样的计算施加到整组数字上，问题是不同的。
+这种区别在 AI 代码中很重要：存放一组数值，与对整组数值执行同一计算，是不同的任务。
 
-## 构建向量
+## 创建向量
 
-vector 可以读成“数字排成一行”的结构。
+向量可以看作排成一行的数字。
 
-问题场景：创建一个看起来像 embedding 的一维 NumPy 数组，并检查它的基本属性。
-输入(input)：包含四个实数的数组 `embedding`。
-期待输出(output)：依次打印数组值、`shape`、`ndim`、`dtype`。
-要确认的概念：看到把一维数组读成 vector，并把形状与维度一起检查的习惯。
+用四个浮点数创建一维数组。输出包括数值、形状 `(4,)`、维数 `1` 和数据类型 `float64`。
 
 ```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 import numpy as np
 
 embedding = np.array([0.12, -0.03, 0.44, 0.18])
@@ -173,7 +69,7 @@ print(embedding.ndim)
 print(embedding.dtype)
 ```
 
-输出大致如下。
+预期输出：
 
 ```text
 [ 0.12 -0.03  0.44  0.18]
@@ -182,37 +78,33 @@ print(embedding.dtype)
 float64
 ```
 
-这里每一项信息表示如下。
+这些属性表示：
 
-| 表达 | 含义 | 在本例中的意思 |
+| 属性 | 含义 | 本例含义 |
 | --- | --- | --- |
-| `shape` | 数组的形状 | 有 4 个值的一维数组 |
-| `ndim` | 维度数 | 一维 |
-| `dtype` | 值的数据类型 | 实数 |
+| `shape` | 数组形状 | 包含四个值的一维数组 |
+| `ndim` | 维数 | 一维 |
+| `dtype` | 元素数据类型 | 浮点数 |
 
-在数学上，你也可以把它与下面这个向量对应起来看。
+在数学上，可以对应以下向量：
 
 \[
 \mathbf{x} = [0.12,\ -0.03,\ 0.44,\ 0.18]
 \]
 
-这里把 vector 读成 `有顺序的数字集合`。但在 NumPy 里，更重要的是这组数字是“可计算的数组”。
+`(4,)` 中的逗号表示单元素元组。数组有一个轴，该轴上有四个值。
 
-## 构建矩阵
+## 创建矩阵
 
-matrix 可以读成带有行(row)与列(column)的二维数组。
+矩阵可以看作具有行和列的二维数组。
 
-问题场景：创建一个看起来像多名学生分数表的二维数组，并检查它的属性。
-输入(input)：2 行 3 列的整数数组 `scores`。
-期待输出(output)：依次打印矩阵值、`shape`、`ndim`、`dtype`。
-要确认的概念：看到怎样把二维数组读成 matrix，并通过 `shape` 确认行数与列数。
+把两名学生的三科分数存成二维数组。输出包括数值、形状 `(2, 3)`、维数 `2` 和整数类型。显式指定 `dtype=np.int64` 后，类型为 `int64`。
 
 ```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 scores = np.array([
     [82, 75, 45],
     [90, 61, 70],
-])
+], dtype=np.int64)
 
 print(scores)
 print(scores.shape)
@@ -220,7 +112,7 @@ print(scores.ndim)
 print(scores.dtype)
 ```
 
-输出大致如下。
+预期输出：
 
 ```text
 [[82 75 45]
@@ -230,7 +122,7 @@ print(scores.dtype)
 int64
 ```
 
-`(2, 3)` 的意思是 2 行 3 列。
+`(2, 3)` 表示两行三列。
 
 \[
 S =
@@ -240,30 +132,40 @@ S =
 \end{bmatrix}
 \]
 
-这里“2 行 3 列”不只是形状说明。你还必须决定每个 axis 代表什么。
+形状本身不规定轴的含义，需要明确各轴代表什么。
 
-例如，可以这样来读这个 matrix。
+例如，可以这样解释矩阵：
 
-| axis | 解读 |
+| 轴 | 解释 |
 | --- | --- |
-| row | student 或 sample |
-| column | subject 或 feature |
+| 行 | 学生或样本 |
+| 列 | 科目或特征 |
 
-在 AI 实践里，row 常常被读成 sample，column 常常被读成 feature。但并不总是如此。所以一旦创建数组，应该先检查 `shape`，再写下每个 axis 代表什么。
+AI 示例常把样本放在行、特征放在列，但并非总是如此。创建数组后，应检查 `shape` 并记录各轴的含义。
 
-## Shape 是计算的语法
+## dtype 与小数保留
 
-在 NumPy 代码里，`shape` 不是附带信息，而是判断什么计算可行的基础语法。
-
-看下面这些数组。
-
-问题场景：先检查 feature matrix 和 weight vector 是否具备可计算的匹配形状。
-输入(input)：形状为 `(3, 2)` 的矩阵 `features`，以及长度为 2 的向量 `weights`。
-期待输出(output)：打印两个数组的 `shape`。
-要确认的概念：看到在计算前，应先确认形状是否匹配，而不是先看值本身。
+数组的 `dtype` 决定各元素的存储方式。把小数赋给整数数组，不会自动把整个数组变成浮点类型。
 
 ```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
+integer_scores = np.array([82, 75, 45], dtype=np.int64)
+float_scores = integer_scores.astype(np.float64)
+integer_scores[1] = 75.5
+float_scores[1] = 75.5
+
+print(integer_scores.tolist())
+print(float_scores.tolist())
+```
+
+输出是 `[82, 75, 45]` 和 `[82.0, 75.5, 45.0]`。向整数数组赋值 75.5 会丢失小数部分，先转成浮点类型则能保留。已经存成 75 后再转浮点，不能恢复丢失的 0.5。创建数组时就应决定是否需要保留小数。
+
+## 矩阵乘法的形状
+
+`shape` 是 NumPy 计算规则的一部分，决定哪些运算可以进行。
+
+有三个样本，每个样本两个特征。特征矩阵和权重向量的形状是 `(3, 2)` 与 `(2,)`。
+
+```python
 features = np.array([
     [1.0, 0.2],
     [0.8, 0.4],
@@ -276,42 +178,38 @@ print(features.shape)
 print(weights.shape)
 ```
 
-输出如下。
+输出：
 
 ```text
 (3, 2)
 (2,)
 ```
 
-这些形状可以这样读。
+可以这样理解这些形状：
 
-| 数组 | shape | 含义 |
+| 数组 | 形状 | 含义 |
 | --- | --- | --- |
-| `features` | `(3, 2)` | 3 个 sample，2 个 feature |
-| `weights` | `(2,)` | 对应 2 个 feature 的权重 |
+| `features` | `(3, 2)` | 三个样本、两个特征 |
+| `weights` | `(2,)` | 对应两个特征的权重 |
 
-现在就可以使用矩阵乘法运算符 `@` 来为每个 sample 计算一个分数。
+矩阵乘法运算符 `@` 可以计算每个样本的分数。
 
-问题场景：把每个 sample 的两个 feature 与权重相乘，算出按 sample 生成的分数。
-输入(input)：前面的 `features` 矩阵与 `weights` 向量。
-期待输出(output)：打印每个 sample 的分数数组以及结果 `shape`。
-要确认的概念：确认只要内侧维度匹配，feature matrix 与 weight vector 就能生成按 sample 的分数。
+将 `features` 与 `weights` 相乘，得到 `[0.68 0.64 0.54]`，结果形状为 `(3,)`。
 
 ```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 scores = features @ weights
 print(scores)
 print(scores.shape)
 ```
 
-输出大致如下。
+输出如下：
 
 ```text
 [0.68 0.64 0.54]
 (3,)
 ```
 
-这个计算就是把每个 sample 的两个 feature 与权重相乘，再汇成一个分数。
+每个样本的两个特征分别乘以权重，再合成一个分数。
 
 \[
 \begin{bmatrix}
@@ -331,88 +229,100 @@ print(scores.shape)
 \end{bmatrix}
 \]
 
-这里重要的不是背公式，而是理解：`features` 的列数必须和 `weights` 的长度匹配，这个计算才能成立。
+第一个分数是 1.0 × 0.6 + 0.2 × 0.4 = 0.68。`features` 的列数和 `weights` 的长度都必须为 2，才能让每个特征对应一个权重。
 
-下面的图示从 shape 视角重新整理了同一个计算。
+下图从形状角度整理这一计算。
 
-![Feature matrix times weight vector produces one score per sample](/AiBook/assets/part-02/chapter-11/feature-weight-shape-flow-zh.svg)
-
-左边的 `features` 是一个有 3 个 sample、2 个 feature 的矩阵。中间的 `weights` 是对应这 2 个 feature 的权重向量。因为两个数组的内侧大小 2 一致，所以每个 sample 都会得到一个 score。
-
-## 数组展示了小型模型计算的形状
-
-上面的例子可以读成一个非常小的 model calculation。
-
-真实的机器学习模型要复杂得多，但基础直觉相似：把多个 sample 的 feature 放进数值数组，准备一个 weight 数组，再把输出读成数组计算产生的结果。
-
-这种结构会在 Part 3 的机器学习与 Part 4 的深度学习里不断重复。因此学习 NumPy array 的目的，不只是“会用一个库”，而是建立阅读模型计算的眼睛。
-
-## 创建数组时先检查三件事
-
-创建 NumPy array 后，先检查三件事。
-
-问题场景：检查遇到一个新数组时，最先应该打印什么。
-输入(input)：任意 NumPy 数组变量 `array`。
-期待输出(output)：依次打印 `shape`、`ndim`、`dtype`。
-要确认的概念：看到在逐个看值之前，先看数组形状、维度、类型的习惯。
-
-```python
-# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
-print(array.shape)
-print(array.ndim)
-print(array.dtype)
+```mermaid
+--8<-- "assets/part-02/chapter-11/feature-weight-shape-flow-zh.mmd"
 ```
 
-每一项都连到下面的问题。
+`features` 有三个样本、两个特征，`weights` 为每个特征提供一个权重。内部大小 2 相匹配，因此每个样本得到一个分数。
 
-| 检查项 | 问题 | 为什么重要 |
+## 逐元素乘法与矩阵乘法
+
+`features * weights` 保留各特征乘权重后的值；`features @ weights` 则把同一样本的乘积相加。输入相同，结果形状也可能不同。
+
+```python
+weighted = features * weights
+print(weighted)
+print(weighted.sum(axis=1))
+```
+
+```text
+[[0.6  0.08]
+ [0.48 0.16]
+ [0.18 0.36]]
+[0.68 0.64 0.54]
+```
+
+逐元素乘积的形状为 `(3, 2)`，沿特征轴求和后为 `(3,)`。本例中，`weighted.sum(axis=1)` 与 `features @ weights` 计算相同的加权和。`*` 本身不会自动把乘积合成样本分数。
+
+## 检查数组属性
+
+创建 NumPy 数组时，检查三个属性。
+
+特征矩阵的 `shape`、`ndim` 和 `dtype` 分别为 `(3, 2)`、`2` 和 `float64`。
+
+```python
+print(features.shape)
+print(features.ndim)
+print(features.dtype)
+```
+
+各属性回答不同的问题：
+
+| 属性 | 问题 | 为什么重要 |
 | --- | --- | --- |
-| `shape` | 它是什么形状？ | 检查这个形状是否适合计算 |
-| `ndim` | 它有几个维度？ | 区分 vector、matrix 和更高维结构 |
-| `dtype` | 它是什么类型？ | 减少把整数、实数、字符串混在一起的误读 |
+| `shape` | 什么形状？ | 检查运算是否兼容 |
+| `ndim` | 多少维？ | 区分向量、矩阵和更高维数组 |
+| `dtype` | 什么类型？ | 减少整数、浮点数和字符串混淆 |
 
-在入门阶段，如果出现错误，通常先检查 `shape` 会比逐个查看值更有效。在 AI 代码里，很多错误不是因为值太大或太小，而是因为数组形状不匹配。
+数组运算失败时，检查形状通常比逐个查看数值更有帮助。形状不匹配时，无论数值大小如何，都可能无法计算。
 
 ## 示例代码文件
 
-本节示例代码也可以在下面这个文件中查看。
+这些示例也可以通过下面的文件查看：
 
 - [p2_11_1_numpy_arrays.py](/AiBook/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py)
 
-在 Colab 里，可以把代码内容贴到 cell 中运行。在本地 PC 上，可以在项目根目录这样执行。
+在 Colab 中，可把代码粘贴到单元中；在本地，从项目根目录执行：
 
 ```bash
 python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py
 ```
 
-这个命令会打印 vector、matrix、feature matrix、weight vector 的 `shape`、`ndim`、`dtype`，并展示一个小型 weighted-sum 计算。
+脚本输出向量、矩阵、特征矩阵和权重向量的 `shape`、`ndim`、`dtype`，并演示小型加权和计算。
 
-输出里也包含 Python list 的 `+` 与 NumPy array 的 `+` 有何不同。这个例子就是为了让你亲自确认：即使是同一个符号，只要数据结构变了，含义也会跟着变化。
+它也比较 Python 列表的 `+` 与 NumPy 数组的 `+`，展示相同符号如何随数据结构改变含义。
 
-## 结合案例来看
+## 案例：调换权重顺序
 
-### 案例 1. 为什么学生分数表突然开始像数字矩阵
+前面两个特征列的权重原本为 0.6 和 0.4。改成 `[0.4, 0.6]` 后，结果为 `[0.52, 0.56, 0.66]`。最高分从第一个样本变成第三个样本。
 
-当学习者先看学生分数表，再遇到 NumPy 数组例子时，很自然会觉得：“为什么这突然变成矩阵了？” 人在看表时通常先读姓名和科目，但到了计算阶段，每个学生的一组分数会被读成一行，每个科目会被读成一列。
+形状仍为 `(3, 2) @ (2,)`，所以计算成功。仅检查形状，不能确认列与权重的含义是否对应。若改为 `[0.6, 0.3, 0.1]`，长度变为 3，矩阵乘法会产生 `ValueError`。
 
-例如，一个包含 4 名学生、每人 3 门成绩的表，在 NumPy 中可以表现为形状 `(4, 3)` 的数组。重要的不是去背很多数字，而是先抓住 `4 行代表 4 名学生`、`3 列代表 3 门科目` 这种对应。只有这样，后面的平均值、weighted sum、matrix multiplication 才能被解释清楚。
-
-这个案例也说明了为什么要先看 `shape` 再看值。即使是同一组数字，你把它读成 `(4, 3)` 还是 `(3, 4)`，每个 axis 的意义都会改变，后面计算的解释也会跟着变。
-
-换句话说，NumPy 入门与其说是在背新语法，不如说是在 `练习把现实数据读成可计算形状`。有了这种直觉，Part 3 之后的 feature matrix 与 weight calculation 才不会那么陌生。
+| 修改 | 结果 | 检查要点 |
+| --- | --- | --- |
+| 权重 `[0.6, 0.4]` | `[0.68, 0.64, 0.54]` | 特征与权重的对应 |
+| 权重 `[0.4, 0.6]` | `[0.52, 0.56, 0.66]` | 形状相同也会改变分数与排序 |
+| 权重 `[0.6, 0.3, 0.1]` | 形状不匹配错误 | 特征数与权重数不同 |
 
 ## 检查清单
 
-- 能说明 Python list 与 NumPy array 在目的上的差别。
-- 能用 `np.array()` 构建 vector 与 matrix。
-- 能说明 `.shape`、`.ndim`、`.dtype` 会告诉你什么。
-- 能区分一维数组与二维数组。
-- 能读懂 `(样本数, 特征数)` 形式的矩阵。
-- 能说明像 `features @ weights` 这样的小计算里，输入与输出的 shape。
-- 能说明 NumPy array 是把数字放进固定 shape 中进行计算的结构，而 `shape` 就像数组计算的语法。
+- 能解释 Python 列表与 NumPy 数组的用途差异。
+- 能用 `np.array()` 创建向量与矩阵。
+- 能解释 `.shape`、`.ndim` 和 `.dtype`。
+- 能区分一维与二维数组。
+- 能理解 `(样本数, 特征数)` 形式的矩阵。
+- 能解释 `features @ weights` 的输入输出形状。
+- 能把 NumPy 数组理解为按形状组织数字并计算的结构。
+- 能否解释向整数数组赋小数值时的信息丢失，以及 `*` 与 `@` 的结果差异？
 
 ## 来源与参考资料
 
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 NumPy array 的 homogeneous N-dimensional `ndarray`、shape、dtype，以及与 Python list 的差异。
-- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。作为 vector 与 matrix 示例中 `ndarray` 属性和 array object 结构的依据。
-- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 `np.array`、`zeros`、`ones`、`arange`、`linspace` 等基本 array creation 方式。
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual，确认日期：2026-07-20。用于确认 NumPy array 的 homogeneous N-dimensional `ndarray`、shape、dtype，以及与 Python list 的差异。
+- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual，确认日期：2026-07-20。作为 vector 与 matrix 示例中 `ndarray` 属性和 array object 结构的依据。
+- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual，确认日期：2026-07-20。用于确认 `np.array`、`zeros`、`ones`、`arange`、`linspace` 等基本 array creation 方式。
+- NumPy Developers, [numpy.ndarray.astype](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.astype.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 查阅日期: 2026-09-15. 数据类型转换与复制.
+- NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 查阅日期: 2026-09-15. 矩阵向量乘法的维度及其与逐元素乘法的区别.

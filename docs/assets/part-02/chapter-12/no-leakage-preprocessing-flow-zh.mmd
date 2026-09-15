@@ -1,10 +1,8 @@
 flowchart TD
-    full["完整表格"]
-    choose["选择 X 和 y"]
-    split["先划分<br/>训练 / 验证 / 测试"]
-    fit_train["学习转换规则<br/>只在训练集上拟合"]
-    apply_other["应用相同转换<br/>只应用到验证集和测试集"]
-    bad["错误顺序<br/>先从完整表格学习规则"]
-
-    full --> choose --> split --> fit_train --> apply_other
-    full -. 避免 .-> bad
+    a["选择 X/y 后划分"]
+    a --> b["训练数据"]
+    a --> c["验证与测试数据"]
+    b --> d["只在训练集上 fit<br/>学习平均值和转换规则"]
+    d --> e["对训练数据执行 transform"]
+    d --> f["对验证与测试执行 transform<br/>沿用训练集确定的规则"]
+    c --> f

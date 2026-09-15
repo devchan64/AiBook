@@ -14,12 +14,23 @@ def main() -> None:
     X = df[feature_columns]
     y = df["passed"]
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.25, random_state=42
+        X, y, test_size=0.25, random_state=42, stratify=y
     )
 
     print("X shape:", X.shape)
     print("y shape:", y.shape)
     print("train/test shapes:", X_train.shape, X_test.shape, y_train.shape, y_test.shape)
+    print("train labels aligned:", X_train.index.equals(y_train.index))
+    print("test labels aligned:", X_test.index.equals(y_test.index))
+    print("row sets disjoint:", set(X_train.index).isdisjoint(X_test.index))
+    train_ids = set(df.loc[X_train.index, "student_id"])
+    test_ids = set(df.loc[X_test.index, "student_id"])
+    print("student sets disjoint:", train_ids.isdisjoint(test_ids))
+
+    X_fit, X_val, y_fit, y_val = train_test_split(
+        X_train, y_train, test_size=9, random_state=42, stratify=y_train
+    )
+    print("fit/validation/test sizes:", len(X_fit), len(X_val), len(X_test))
     print("\ny_train value counts")
     print(y_train.value_counts())
     print("\ny_test value counts")

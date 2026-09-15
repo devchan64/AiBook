@@ -1,7 +1,7 @@
 # P2-7.2 终端(terminal)、shell、工作目录(working directory)
 
 > Section ID: `P2-7.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 运行 `python example.py` 时，shell 负责解释命令，并按基准文件夹查找文件。即使文件存在，从其他文件夹执行相同命令也可能找不到它。
 
@@ -12,14 +12,6 @@
 | 工作文件夹(working directory) | 当前命令拿来作为基准的文件夹。 |
 | 路径(path) | 指向文件或文件夹位置的字符串。 |
 | 命令(command) | 向 shell 发出的“现在请执行这件事”的语句。 |
-
-## 命令解释与基准位置
-
-| 标准 | 为什么重要 |
-| --- | --- |
-| 终端是画面，而 shell 是在里面解释命令的程序 | 只有把输入位置和解释主体分开，混乱才会减少。 |
-| 工作文件夹决定命令的基准位置 | 同一个命令会因为当前位置不同而指向不同文件。 |
-| 最先要检查的是当前位置和文件列表 | 很多失败不是语法问题，而是位置问题。 |
 
 ## 终端与 shell 的由来
 
@@ -181,7 +173,7 @@ Colab 也能执行命令。但如果把它理解成和本地 PC 终端完全一�
 
 在连接到托管运行时的 Colab 代码单元执行 `!pwd`，会打印该运行时的当前文件夹路径。
 
-```python
+```text title="IPython · 笔记本代码单元"
 # 这条 shell 命令是在 Colab 代码单元中确认当前工作文件夹。
 !pwd
 ```
@@ -233,6 +225,18 @@ python project/example.py
 
 两者执行的是同一个脚本，但当前工作文件夹不同。如果脚本以 `data.csv` 这样的相对路径读取数据，第一种方式查找 `project/data.csv`，第二种方式查找 `workspace/data.csv`。需要区分寻找脚本文件与脚本内部寻找数据的问题。
 
+## 在笔记本中保持目录切换
+
+IPython 的 !cd 在独立 shell 中运行，因此该 shell 结束后，笔记本内核的工作目录不会改变。要改变内核目录，应使用 %cd。在已有工作目录中执行以下单元，会移动到上一级目录。
+
+```text title="IPython · 笔记本代码单元"
+%pwd
+%cd ..
+%pwd
+```
+
+比较两次输出的路径以确认切换。执行 %cd - 可返回原目录。%cd 和 !pwd 都是 IPython 语法，不能用于普通 .py 文件。
+
 ## 检查清单
 
 - 能把终端(terminal)解释成输入命令和查看结果的画面。
@@ -251,4 +255,6 @@ python project/example.py
 - Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 确认日期: 2026-07-20。用于确认 shell 既是命令解释器也是编程语言，并支撑 Bash 命令处理语境。
 - Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-07-20。用于确认 PowerShell 中查看当前工作位置的正式命令及其 `pwd` 别名语境。
 - Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-07-20。用于确认 PowerShell 中改变当前工作位置的正式命令及其 `cd` 别名语境。
-- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于支撑 Python 代码可以把当前工作目录读取为字符串这一说明。
+- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 确认日期: 2026-07-20。用于支撑 Python 代码可以把当前工作目录读取为字符串这一说明。
+
+- [IPython magic commands: %cd](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-cd){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。

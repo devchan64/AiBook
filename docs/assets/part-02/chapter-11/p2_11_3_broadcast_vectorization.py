@@ -53,5 +53,17 @@ centered = features - column_mean
 show("column_mean", column_mean)
 show("centered features", centered)
 centered_mean = centered.mean(axis=0)
-centered_mean = np.where(np.abs(centered_mean) < 1e-10, 0.0, centered_mean)
 show("centered mean by column", centered_mean)
+
+print("Column means close to zero:", np.allclose(centered_mean, 0))
+
+marks = np.array([[80, 70, 90], [60, 90, 75]])
+row_mean = marks.mean(axis=1, keepdims=True)
+row_centered = marks - row_mean
+show("row_mean shape", row_mean.shape)
+show("row-centered marks", row_centered)
+show("centered mean per row", row_centered.mean(axis=1))
+subject_bonus = np.array([5, 10, 0])
+student_bonus = np.array([[5], [10]])
+show("bonus per subject", marks + subject_bonus)
+show("bonus per student", marks + student_bonus)

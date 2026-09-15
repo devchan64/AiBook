@@ -1,168 +1,64 @@
 # P2-11.1 Building Vectors and Matrices with NumPy Arrays
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-Part 2 Chapter 3 introduced scalars, vectors, and matrices through mathematical notation and small code examples. Part 2 Chapter 8 looked at Python lists and dictionaries, Part 2 Chapter 9 distinguished arrays, tables, trees, and graphs as different data-structure viewpoints, and Part 2 Chapter 10 organized notebooks as rerunnable learning records.
+## List Concatenation and Array Addition
 
-Now we return to NumPy. NumPy comes from "Numerical Python." It is a widely used open-source library for creating numeric arrays in Python and carrying out vector and matrix calculations with fast, consistent syntax.
+NumPy provides multidimensional `ndarray` objects and array operations for Python. Lists and arrays can store the same numbers while following different operation rules.
 
-This Section explains the basic distinctions among `NumPy`, `shape`, `ndim`, and `dtype`. The point of this chapter is not to memorize a large amount of NumPy syntax. It is to learn how vectors, matrices, and bundles of data appear in code in AI practice. When you meet arrays, axes, and broadcasting again later, reconnect them to the standard set in this chapter.
-
-When you study AI, data quickly turns into numeric arrays. Sentences become arrays of token IDs, images become arrays of pixels, tabular data becomes feature matrices, and embeddings become vectors. You can handle those bundles of numbers with Python lists alone, but NumPy arrays are much more natural when you need to add, multiply, average, or multiply matrices across many values in the same way.
-
-If the previous Python-syntax and data-structure chapters focused on what values are written and in what kinds of sentences, this chapter focuses on how those values are handled in vector and matrix shapes that can actually be used for computation. The next chapters move the question toward reading those numeric shapes as tables, checking them with plots, and finally leaving them as records.
-
-| What to capture in this Section now | The question that follows immediately next | Where it appears again later |
-| --- | --- | --- |
-| The point that NumPy is a tool for making computable numeric shapes | It leads to how those arrays should be read as tables with rows and columns in Part 2 Chapter 12. | It repeats later in every machine-learning input matrix, embedding, and prediction calculation. |
-| The point that `shape`, `ndim`, and `dtype` must be checked first | It leads to the standard for not confusing axes and table structure in P2-11.2 and Part 2 Chapter 12. | It stays important later in preprocessing, model-input checks, and error diagnosis. |
-| The point that NumPy is the first stage of the `calculation -> table -> plot -> record` flow | It leads to what to inspect and what to leave as a record in Part 2 Chapters 13 and 14. | It becomes the starting point for experiment interpretation and result reproduction after Part 3. |
-
-| Term | Meaning to capture first in this Section |
-| --- | --- |
-| NumPy | The representative Python library for numeric arrays and vector or matrix calculation. |
-| `shape` | Shape information showing how many dimensions an array has and how long each axis is. |
-| `ndim` | The number of dimensions in an array. |
-| `dtype` | The data type of the numbers inside an array. |
-| `ndarray` | The multidimensional array data structure NumPy uses by default. |
-
-## Core Criteria: Building Vectors and Matrices with NumPy Arrays
-
-- You can explain a NumPy array in contrast with a Python list.
-- You can read a one-dimensional array as a vector and a two-dimensional array as a matrix.
-- You can explain an array's shape and character by checking `.shape`, `.ndim`, and `.dtype`.
-- You can explain that even the same bundle of numbers is used differently in computation when it is a list versus an array.
-- You can read the flow that produces a small prediction score by multiplying an input matrix and a weight vector.
-
-## Three Criteria
-
-| Criterion | Why it matters | Level of understanding needed in this Section |
-| --- | --- | --- |
-| What a NumPy array is | It helps you read NumPy not as new syntax, but as a structure of computable numeric shapes. | Understand it as a structure for holding numbers in a fixed shape for calculation. |
-| Why it should be viewed differently from a list | It makes the difference between a storage structure and a computation structure clear. | Understand that both hold values, but an array is aimed more directly at numeric computation. |
-| What should be checked first | It creates the starting point for later reading indexing and broadcasting. | Understand that `shape` and dimension should be checked before values. |
-
-## NumPy Is a Tool for Numeric Array Computation
-
-The official NumPy documentation introduces NumPy as an open-source Python library widely used in science and engineering. It also explains that NumPy provides the `ndarray`, a multidimensional array data structure, and functions that operate efficiently on that array.
-
-Here, understand a NumPy array as `a computation-oriented bundle in which numbers are placed in a fixed shape`.
-
-Python lists can also group values.
-
-Problem situation: Before using NumPy, we first confirm that a bundle of numbers can already be stored in a Python list.
-Input: A Python list containing three scores.
-Expected output: There is no printed output, but it shows the simplest form of a bundle of numbers.
-Concept to check: See that a list is a general-purpose container for holding values, not yet a computation-oriented array.
+Prepare `[82, 75, 45]` as a Python list and a NumPy array. These assignments store values without displaying output.
 
 ```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
-scores = [82, 75, 45]
-```
-
-But a list is a general-purpose bundle of values. It can contain only numbers, or mix strings and objects. The NumPy documentation also describes Python lists as excellent general-purpose containers, while explaining that NumPy is a better fit when the data has the same type, the amount is large, and common calculations must be performed.
-
-By contrast, a NumPy array is closer to a structure for arranging the same kind of numbers in a fixed shape and calculating with them.
-
-Problem situation: We check how the same bundle of numbers looks when turned into a NumPy array for computation.
-Input: A one-dimensional array containing three scores.
-Expected output: There is no printed output, but a computation-oriented array created with `np.array(...)` is prepared.
-Concept to check: See that a NumPy array is a structure for handling the same kind of numbers in a consistent shape.
-
-```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 import numpy as np
 
-scores = np.array([82, 75, 45])
-```
-
-This difference matters in AI practice. Model inputs, features, weights, embeddings, and image pixels are usually calculated as numeric arrays.
-
-## Why We Meet NumPy Early in AI Learning
-
-You do not need to implement every internal AI-model calculation by hand from the start. Real deep-learning workflows may use tools such as PyTorch, TensorFlow, or JAX. But those tools also stand on intuitions about numeric arrays, shape, axes, matrix multiplication, and position-wise operations.
-
-We look at NumPy first for the following reasons.
-
-| Reason | What it gives in learning |
-| --- | --- |
-| You can inspect array shape directly | You check input and output structure through `shape` |
-| You can reproduce vector and matrix calculations on a small scale | You see how formulas run in code |
-| You can compare Python lists with computation-oriented arrays | You distinguish data structure from computation structure |
-| Machine-learning examples often use NumPy arrays | Official examples and tutorials become easier to read |
-| It connects with pandas, scikit-learn, and visualization tools | It becomes easier to move on to later data-processing tools |
-
-So NumPy is not "AI itself." But it is close to a basic language for reading AI computation. This Section builds that minimum intuition rather than teaching NumPy in depth.
-
-If you place Part 2 Chapters 11 through 14 in one flow, NumPy handles `making computable numeric shapes`, Pandas handles `reading those shapes as tables of cases and variables`, Matplotlib handles `checking changes and relationships that are not immediately visible in the table as shapes`, and Git handles `leaving those calculations and interpretations as records together with the reason for change`. Chapter 11 is the very front of that flow, where you build computable numeric shapes such as vectors, matrices, and `shape`.
-
-## Lists and Arrays Look Similar but Have Different Purposes
-
-Python lists and NumPy arrays can look similar on the surface.
-
-Problem situation: We want to prepare the same bundle of numbers both as a list and as an array to compare them side by side.
-Input: Two variables built from the same score data, one as a Python list and one as a NumPy array.
-Expected output: There is no printed output, but the setup is ready for comparing the same operation later.
-Concept to check: See that even if they look similar, a list and an array can have different meanings in computation.
-
-```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 python_scores = [82, 75, 45]
 numpy_scores = np.array([82, 75, 45])
 ```
 
-But the difference appears when you try the same operation.
+Applying the same operation reveals the difference.
 
-Problem situation: We directly compare how the same `+` operator is read differently for a list and for an array.
-Input: `python_scores` and `numpy_scores` from above.
-Expected output: The list is concatenated, while the array prints the result of position-wise addition.
-Concept to check: Confirm that a NumPy array is both a storage structure and a computation structure.
+Add each collection to itself. The list concatenates into six items; the array adds matching positions to produce `[164 150 90]`.
 
 ```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 print(python_scores + python_scores)
 print(numpy_scores + numpy_scores)
 ```
 
-For a list, `+` joins two lists together.
+For lists, `+` joins the two sequences.
 
 ```text
 [82, 75, 45, 82, 75, 45]
 ```
 
-For a NumPy array, `+` adds numbers at the same positions.
+For NumPy arrays, `+` adds numbers at matching positions.
 
 ```text
 [164 150  90]
 ```
 
-This difference needs to be remembered.
-
-| Structure | Main purpose | Representative meaning of `+` |
+| Structure | Main purpose | Typical meaning of `+` |
 | --- | --- | --- |
-| Python list | General-purpose container that stores several values in order | List concatenation |
-| NumPy array | Calculating with bundles of numbers in the same shape | Position-wise addition |
+| Python list | General container for ordered values | Concatenation |
+| NumPy array | Computation over shaped collections | Element-wise addition |
 
-A NumPy array is both `a structure that holds data` and `a structure that performs computation`.
+A NumPy array organizes both data storage and calculation.
 
-The diagram below shows how the same `+` symbol is read differently in lists and NumPy arrays.
+This diagram compares the meaning of `+` for a list and a NumPy array.
 
-![Python list and NumPy array use the plus sign differently](/AiBook/assets/part-02/chapter-11/list-vs-numpy-array-en.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/list-vs-numpy-array-en.mmd"
+```
 
-This difference may look small, but it matters in AI code. The question changes depending on whether you want to store a bundle of numbers or apply the same computation to the whole bundle.
+This distinction matters in AI code: storing a collection and applying one calculation across it are different tasks.
 
 ## Building a Vector
 
-A vector can be read as a structure in which numbers are arranged in one line.
+A vector can be viewed as numbers arranged in one line.
 
-Problem situation: We create a one-dimensional NumPy array that looks like an embedding and inspect its basic properties.
-Input: An array `embedding` containing four real numbers.
-Expected output: The array value, `shape`, `ndim`, and `dtype` are printed in order.
-Concept to check: See the habit of reading a one-dimensional array as a vector and checking its shape and number of dimensions together.
+Create a one-dimensional array of four floating-point values. The output includes its values, shape `(4,)`, dimension count `1`, and dtype `float64`.
 
 ```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 import numpy as np
 
 embedding = np.array([0.12, -0.03, 0.44, 0.18])
@@ -173,7 +69,7 @@ print(embedding.ndim)
 print(embedding.dtype)
 ```
 
-The output will look roughly like this.
+Expected output:
 
 ```text
 [ 0.12 -0.03  0.44  0.18]
@@ -182,37 +78,33 @@ The output will look roughly like this.
 float64
 ```
 
-Each piece of information here means the following.
+These attributes mean:
 
-| Expression | Meaning | Meaning in this example |
+| Attribute | Meaning | In this example |
 | --- | --- | --- |
-| `shape` | The shape of the array | A one-dimensional array with four values |
+| `shape` | Array shape | One-dimensional array with four values |
 | `ndim` | Number of dimensions | One dimension |
-| `dtype` | Data type of the values | Real-valued numbers |
+| `dtype` | Stored element type | Floating-point numbers |
 
-Mathematically, you can connect it to the following vector.
+Mathematically, it corresponds to this vector:
 
 \[
 \mathbf{x} = [0.12,\ -0.03,\ 0.44,\ 0.18]
 \]
 
-Here, read a vector as `an ordered bundle of numbers`. In NumPy, what matters is that this bundle of numbers is a computable array.
+The comma in `(4,)` denotes a one-item tuple. There is one axis, containing four values.
 
 ## Building a Matrix
 
-A matrix can be read as a two-dimensional array with rows and columns.
+A matrix can be viewed as a two-dimensional array with rows and columns.
 
-Problem situation: We create a two-dimensional array that looks like a score table for several students and inspect its properties.
-Input: The integer array `scores` with 2 rows and 3 columns.
-Expected output: The matrix value, `shape`, `ndim`, and `dtype` are printed in order.
-Concept to check: See how a two-dimensional array is read as a matrix and how the number of rows and columns is checked through `shape`.
+Store two students' scores in three subjects as a two-dimensional array. The output shows values, shape `(2, 3)`, dimension count `2`, and an integer type. Explicit `dtype=np.int64` makes the type `int64`.
 
 ```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 scores = np.array([
     [82, 75, 45],
     [90, 61, 70],
-])
+], dtype=np.int64)
 
 print(scores)
 print(scores.shape)
@@ -220,7 +112,7 @@ print(scores.ndim)
 print(scores.dtype)
 ```
 
-The output will look roughly like this.
+Expected output:
 
 ```text
 [[82 75 45]
@@ -230,7 +122,7 @@ The output will look roughly like this.
 int64
 ```
 
-`(2, 3)` means 2 rows and 3 columns.
+`(2, 3)` means two rows and three columns.
 
 \[
 S =
@@ -240,30 +132,40 @@ S =
 \end{bmatrix}
 \]
 
-Here, the phrase "2 rows and 3 columns" is not only a shape description. You also need to decide what each axis means.
+The shape does not define what the axes mean; you must assign those meanings.
 
-For example, you can read this matrix in the following way.
+For example, interpret the matrix as follows:
 
 | Axis | Interpretation |
 | --- | --- |
-| row | student or sample |
-| column | subject or feature |
+| Rows | Students or samples |
+| Columns | Subjects or features |
 
-In AI practice, rows are often read as samples and columns as features. But that is not always the case. So once you create an array, you should first check `shape` and then write down what each axis means.
+AI examples often put samples in rows and features in columns, but this is not universal. Check `shape` and record each axis's meaning when creating an array.
 
-## Shape Is the Grammar of Computation
+## dtype and Fractional Values
 
-In NumPy code, `shape` is not simple extra information. It is the basic grammar for deciding what computation is possible.
-
-Look at the following arrays.
-
-Problem situation: We first check whether a feature matrix and a weight vector have compatible shapes for computation.
-Input: `features`, a matrix of shape `(3, 2)`, and `weights`, a vector of length 2.
-Expected output: The `shape` of both arrays is printed.
-Concept to check: See that before computation, you should check whether the shapes fit before looking at the values.
+An array's `dtype` determines how each element is stored. Assigning a fractional value to an integer array does not automatically turn the whole array into floating point.
 
 ```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
+integer_scores = np.array([82, 75, 45], dtype=np.int64)
+float_scores = integer_scores.astype(np.float64)
+integer_scores[1] = 75.5
+float_scores[1] = 75.5
+
+print(integer_scores.tolist())
+print(float_scores.tolist())
+```
+
+The outputs are `[82, 75, 45]` and `[82.0, 75.5, 45.0]`. Assigning 75.5 to the integer array loses the fraction; converting to floating point first preserves it. Converting an already stored 75 to floating point cannot recover the lost 0.5. Decide whether fractions are needed when creating the array.
+
+## Matrix Multiplication Shapes
+
+`shape` is part of the grammar of NumPy calculation: it determines which operations are possible.
+
+There are three samples with two features each. The feature matrix and weight vector have shapes `(3, 2)` and `(2,)`.
+
+```python
 features = np.array([
     [1.0, 0.2],
     [0.8, 0.4],
@@ -276,42 +178,38 @@ print(features.shape)
 print(weights.shape)
 ```
 
-The output is as follows.
+Output:
 
 ```text
 (3, 2)
 (2,)
 ```
 
-These shapes can be read like this.
+Read these shapes as follows:
 
-| Array | shape | Meaning |
+| Array | Shape | Meaning |
 | --- | --- | --- |
-| `features` | `(3, 2)` | 3 samples, 2 features |
-| `weights` | `(2,)` | Weights to multiply the 2 features |
+| `features` | `(3, 2)` | Three samples, two features |
+| `weights` | `(2,)` | Weights for two features |
 
-Now you can use the matrix-multiplication operator `@` to calculate one score for each sample.
+The matrix multiplication operator `@` computes one score per sample.
 
-Problem situation: We multiply the two features of each sample by weights to compute a score per sample.
-Input: The `features` matrix and `weights` vector above.
-Expected output: A score array for each sample and the result `shape` are printed.
-Concept to check: Confirm that when the inner dimensions match, a feature matrix and weight vector can produce a score for each sample.
+Multiplying `features` by `weights` gives `[0.68 0.64 0.54]` with output shape `(3,)`.
 
 ```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 scores = features @ weights
 print(scores)
 print(scores.shape)
 ```
 
-The output will look roughly like this.
+The output is approximately:
 
 ```text
 [0.68 0.64 0.54]
 (3,)
 ```
 
-This computation multiplies the two features of each sample by weights and turns them into one score.
+Each sample's two features are weighted and combined into one score.
 
 \[
 \begin{bmatrix}
@@ -331,88 +229,100 @@ This computation multiplies the two features of each sample by weights and turns
 \end{bmatrix}
 \]
 
-What matters here is not memorizing the formula. The key point is that the number of columns in `features` must match the length of `weights` for the computation to work.
+The first score is 1.0 × 0.6 + 0.2 × 0.4 = 0.68. The column count in `features` and length of `weights` must both be 2 to pair each feature with a weight.
 
-The diagram below reorganizes the same computation from the viewpoint of shape.
+The diagram summarizes this calculation through its shapes.
 
-![Feature matrix times weight vector produces one score per sample](/AiBook/assets/part-02/chapter-11/feature-weight-shape-flow-en.svg)
-
-On the left, `features` is a matrix with 3 samples and 2 features. In the middle, `weights` is a weight vector corresponding to those 2 features. Because the inner size 2 matches between the arrays, one score is produced for each sample.
-
-## Arrays Show the Shape of Small Model Calculations
-
-The example above can be read like a very small model calculation.
-
-Real machine-learning models are much more complex, but the basic intuition is similar. You place features for several samples into a numeric array, prepare a weight array, and read the output as something produced by array computation.
-
-This structure repeats throughout Part 3 on machine learning and Part 4 on deep learning. So the purpose of learning NumPy arrays goes beyond "how to use a library." It is about building the eye needed to read model computation.
-
-## Three Things to Check When You Create an Array
-
-When you create a NumPy array, check three things first.
-
-Problem situation: We inspect what should be printed first when we meet a newly created array.
-Input: Any NumPy array variable `array`.
-Expected output: `shape`, `ndim`, and `dtype` are printed in order.
-Concept to check: See the habit of checking an array's shape, dimension, and type before looking at its values one by one.
-
-```python
-# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
-print(array.shape)
-print(array.ndim)
-print(array.dtype)
+```mermaid
+--8<-- "assets/part-02/chapter-11/feature-weight-shape-flow-en.mmd"
 ```
 
-Each one connects to the following question.
+`features` has three samples and two features. `weights` supplies one weight for each feature. Their matching inner size of 2 produces one score per sample.
 
-| Check | Question | Why it matters |
+## Element-Wise and Matrix Products
+
+`features * weights` retains each weighted feature; `features @ weights` sums those products within each sample. Their result shapes differ even with the same inputs.
+
+```python
+weighted = features * weights
+print(weighted)
+print(weighted.sum(axis=1))
+```
+
+```text
+[[0.6  0.08]
+ [0.48 0.16]
+ [0.18 0.36]]
+[0.68 0.64 0.54]
+```
+
+The element-wise product has shape `(3, 2)`; summing the feature axis gives `(3,)`. Here `weighted.sum(axis=1)` computes the same weighted sums as `features @ weights`. The `*` operation alone does not sum the products into sample scores.
+
+## Inspecting Array Attributes
+
+Check three attributes when creating a NumPy array.
+
+For the feature matrix, `shape`, `ndim`, and `dtype` are `(3, 2)`, `2`, and `float64`.
+
+```python
+print(features.shape)
+print(features.ndim)
+print(features.dtype)
+```
+
+Each attribute answers a different question:
+
+| Attribute | Question | Why it matters |
 | --- | --- | --- |
-| `shape` | What shape is it? | It checks whether the shape is computable |
-| `ndim` | How many dimensions does it have? | It distinguishes a vector, a matrix, and higher dimensions |
-| `dtype` | What type is it? | It reduces confusion among integers, real numbers, and strings |
+| `shape` | What is the shape? | Check operation compatibility |
+| `ndim` | How many dimensions? | Distinguish vectors, matrices, and higher dimensions |
+| `dtype` | What is the type? | Avoid confusing integers, floats, and strings |
 
-At the beginner stage, when an error occurs, it is usually better to check `shape` first rather than trying to inspect values one by one. In AI code, many errors happen because array shapes do not fit, not because individual values are too large or too small.
+When an array operation fails, checking shapes is often more useful than inspecting every value. A shape mismatch can prevent calculation regardless of the values' magnitudes.
 
 ## Example Code File
 
-You can also inspect the example code from this Section in the following file.
+The examples are also available in this file:
 
 - [p2_11_1_numpy_arrays.py](/AiBook/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py)
 
-In Colab, you can paste the code into a cell and run it. On a local PC, you can run it from the project root like this.
+In Colab, paste the code into a cell. Locally, run this command from the project root:
 
 ```bash
 python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py
 ```
 
-This command prints the `shape`, `ndim`, and `dtype` of a vector, a matrix, a feature matrix, and a weight vector, and shows a small weighted-sum calculation.
+The script prints `shape`, `ndim`, and `dtype` for vectors, matrices, features, and weights, and demonstrates a small weighted sum.
 
-The output also includes how `+` works differently for a Python list and a NumPy array. It is an example meant to let you check directly that the same symbol can change meaning when the data structure changes.
+It also compares Python list `+` with NumPy array `+`, showing how the same symbol changes meaning with the data structure.
 
-## Reading It as a Case
+## Case: Reordering Weights
 
-### Case 1. Why does a student score table suddenly start looking like a numeric matrix?
+The first and second feature columns initially use weights 0.6 and 0.4. Changing them to `[0.4, 0.6]` produces `[0.52, 0.56, 0.66]`. The third sample now ranks highest instead of the first.
 
-When a learner looks at a score table by student and then meets a NumPy array example, it is natural to think, "Why did this suddenly become a matrix?" People usually read names and subjects first in a table, but in the computation stage, each student's bundle of scores is read as one row, and each subject is read as one column.
+The shapes remain `(3, 2) @ (2,)`, so calculation succeeds. Shape alone cannot verify the semantic pairing of columns and weights. Changing the weights to `[0.6, 0.3, 0.1]` instead gives length 3 and raises `ValueError` during multiplication.
 
-For example, a table of four students with scores in three subjects can appear in NumPy as an array of shape `(4, 3)`. The important point is not memorizing many numbers. It is first capturing the correspondence that `4 rows means four students` and `3 columns means three subjects`. Only then can you interpret what later calculations such as averages, weighted sums, and matrix multiplication mean.
-
-This case also shows why `shape` must be checked before values. Even with the same numbers, the meaning of each axis changes depending on whether you read them as `(4, 3)` or `(3, 4)`, and the interpretation of later calculations changes as well.
-
-In other words, an introduction to NumPy is less about memorizing new syntax than about `practicing how to read real data in computable shapes`. You need this intuition so that feature matrices and weight calculations after Part 3 feel less unfamiliar.
+| Change | Result | What to check |
+| --- | --- | --- |
+| Weights `[0.6, 0.4]` | `[0.68, 0.64, 0.54]` | Feature–weight correspondence |
+| Weights `[0.4, 0.6]` | `[0.52, 0.56, 0.66]` | Same shapes can produce different scores and rankings |
+| Weights `[0.6, 0.3, 0.1]` | Shape mismatch error | Different feature and weight counts |
 
 ## Checklist
 
-- You can explain the difference in purpose between a Python list and a NumPy array.
-- You can build vectors and matrices with `np.array()`.
-- You can explain what `.shape`, `.ndim`, and `.dtype` tell you.
-- You can distinguish a one-dimensional array from a two-dimensional array.
-- You can read a matrix in the form `(number of samples, number of features)`.
-- You can explain the input and output shapes in a small calculation such as `features @ weights`.
-- You can explain that NumPy arrays arrange numbers in fixed shapes for calculation, and that `shape` works like the grammar of array computation.
+- Explain how Python lists and NumPy arrays differ in purpose.
+- Create vectors and matrices with `np.array()`.
+- Explain `.shape`, `.ndim`, and `.dtype`.
+- Distinguish one- and two-dimensional arrays.
+- Read matrices organized as `(samples, features)`.
+- Explain input and output shapes for `features @ weights`.
+- Explain NumPy arrays as numbers organized into shapes for calculation.
+- Can you explain fractional loss on assignment to an integer array and the difference between `*` and `@`?
 
 ## Sources and References
 
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm homogeneous N-dimensional `ndarray`, shape, dtype, and differences from Python lists.
-- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the basis for `ndarray` attributes and array-object structure in vector and matrix examples.
-- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm basic array creation methods such as `np.array`, `zeros`, `ones`, `arange`, and `linspace`.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used to confirm homogeneous N-dimensional `ndarray`, shape, dtype, and differences from Python lists.
+- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used as the basis for `ndarray` attributes and array-object structure in vector and matrix examples.
+- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used to confirm basic array creation methods such as `np.array`, `zeros`, `ones`, `arange`, and `linspace`.
+- NumPy Developers, [numpy.ndarray.astype](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.astype.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, accessed: 2026-09-15. dtype conversion and copying.
+- NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, accessed: 2026-09-15. matrix–vector dimensions and the distinction from elementwise multiplication.

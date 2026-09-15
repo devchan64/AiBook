@@ -1,7 +1,7 @@
 # P2-12.2 선택, 필터링, 집계
 
 > Section ID: `P2-12.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 학생 점수표
 
@@ -107,6 +107,30 @@ print(named.iloc[2])
 - `named.loc["Lee"]`는 `Lee`라는 라벨을 찾습니다.
 - `named.iloc[2]`는 세 번째 위치의 행을 찾습니다.
 
+## 슬라이스의 끝과 행 순서
+
+`.loc`의 라벨 슬라이스는 끝 라벨을 포함하고, `.iloc`의 위치 슬라이스는 끝 위치를 제외합니다. 현재 기본 인덱스에서 두 선택을 비교하면 차이가 드러납니다.
+
+```python
+print(df.loc[1:2, "name"].tolist())
+print(df.iloc[1:2]["name"].tolist())
+
+ranked = df.sort_values("score", ascending=False)
+print(ranked.index.tolist())
+print(ranked.loc[0, "name"])
+print(ranked.iloc[0]["name"])
+```
+
+```text
+['Park', 'Lee']
+['Park']
+[2, 0, 3, 1]
+Kim
+Lee
+```
+
+정렬은 행 위치를 바꾸지만 기존 라벨은 유지합니다. 따라서 첫 위치는 Lee이고 라벨 0은 여전히 Kim입니다. `reset_index(drop=True)`는 새 위치 번호를 라벨로 붙이므로, 학생 식별자가 필요하면 별도 열로 보존해야 합니다.
+
 ## 조건에 맞는 행 선택
 
 점수가 80 이상인 학생을 고르면 Kim과 Lee의 행이 남습니다. 원본 점수는 바뀌지 않습니다.
@@ -151,7 +175,26 @@ Name: score, dtype: bool
 print(df[(df["score"] >= 70) & (df["region"] == "Busan")])
 ```
 
-이 코드는 점수가 70 이상이면서 지역이 Busan인 행만 남깁니다.
+이 코드는 점수가 70 이상이면서 지역이 Busan인 행만 남깁니다. 각 행의 조건을 결합할 때는 `&`(그리고), `|`(또는)를 씁니다. Python의 `and`, `or`는 Series 전체를 하나의 참·거짓 값으로 판단하려 하므로 이 용도로 사용할 수 없습니다.
+
+## 조건에 맞는 값 수정
+
+필터링은 행을 고르고, 대입은 선택한 위치의 값을 바꿉니다. 원본을 보존하면서 60점 미만 학생에게 5점을 더하려면 복사한 표에 `.loc[행 조건, 열]`로 대입합니다.
+
+```python
+adjusted = df.copy()
+low = adjusted["score"] < 60
+adjusted.loc[low, "score"] = adjusted.loc[low, "score"] + 5
+print(df["score"].tolist())
+print(adjusted["score"].tolist())
+```
+
+```text
+[82, 45, 90, 73]
+[82, 50, 90, 73]
+```
+
+`df[조건]["score"] = ...`처럼 선택을 연달아 한 뒤 대입하면 원본을 수정하는 표현으로 사용할 수 없습니다. 특히 pandas 3의 Copy-on-Write에서는 이런 연쇄 대입으로 원본이 바뀌지 않습니다. 수정할 표와 위치를 하나의 `.loc` 대입으로 지정합니다. 읽기만 하는 앞의 `df.iloc[1:2]["name"]`과 대입은 구분해야 합니다.
 
 ## 평균·최댓값·개수
 
@@ -205,11 +248,31 @@ Name: score, dtype: float64
 2. 각 묶음에서 `score` 열만 본다.
 3. 각 묶음의 평균을 계산한다.
 
+## 결측치와 집계의 분모
+
+Park의 점수가 아직 입력되지 않았다면 Busan에는 학생 두 명이 있지만 관측된 점수는 Choi의 73점 하나입니다. `size`는 행 수, `count`는 결측치를 제외한 값 수를 셉니다. 평균도 기본적으로 결측치를 제외합니다. `Float64`는 결측치 `pd.NA`를 담을 수 있는 Pandas의 실수 타입입니다. 숫자와 미입력을 같은 열에서 구분하기 위해 변환합니다.
+
+```python
+missing = df.copy()
+missing["score"] = missing["score"].astype("Float64")
+missing.loc[1, "score"] = pd.NA
+print(missing.groupby("region")["score"].agg(["size", "count", "mean"]))
+```
+
+```text
+        size  count  mean
+region
+Busan      2      1  73.0
+Seoul      2      2  86.0
+```
+
+Busan의 평균 73은 두 학생 모두를 관측한 평균이 아닙니다. 결측치를 0으로 채우면 평균이 `(0 + 73) / 2 = 36.5`로 바뀌며, 이는 미입력을 0점으로 해석한 결과입니다. 집계값 옆에 전체 행 수와 관측값 수를 함께 두면 어떤 자료로 요약했는지 확인할 수 있습니다.
+
 ## 동작별 센서 기록 요약
 
 동작 A-01과 B-02를 각각 세 시점에 측정한 기록입니다. 동작별로 묶으면 기록 마지막 시각, 평균 신호, 마지막으로 측정한 신호를 한 행에 담을 수 있습니다.
 
-| event_id | elapsed_seconds | progress_fraction | signal_a |
+| action_id | elapsed_seconds | progress_fraction | signal_a |
 | --- | ---: | ---: | ---: |
 | A-01 | 0.0 | 0.00 | 0.8 |
 | A-01 | 1.0 | 0.20 | 1.4 |
@@ -218,7 +281,7 @@ Name: score, dtype: float64
 | B-02 | 1.0 | 0.25 | 1.3 |
 | B-02 | 2.0 | 0.50 | 1.5 |
 
-| event_id | last_recorded_seconds | signal_a_mean | last_recorded_signal_a |
+| action_id | last_recorded_seconds | signal_a_mean | last_recorded_signal_a |
 | --- | ---: | ---: | ---: |
 | A-01 | 2.0 | 1.37 | 1.9 |
 | B-02 | 2.0 | 1.17 | 1.5 |
@@ -226,7 +289,7 @@ Name: score, dtype: float64
 ```python
 log_df = pd.DataFrame(
     {
-        "event_id": ["A-01", "A-01", "A-01", "B-02", "B-02", "B-02"],
+        "action_id": ["A-01", "A-01", "A-01", "B-02", "B-02", "B-02"],
         "elapsed_seconds": [0.0, 1.0, 2.0, 0.0, 1.0, 2.0],
         "progress_fraction": [0.00, 0.20, 0.40, 0.00, 0.25, 0.50],
         "signal_a": [0.8, 1.4, 1.9, 0.7, 1.3, 1.5],
@@ -234,7 +297,7 @@ log_df = pd.DataFrame(
 )
 
 summary = (
-    log_df.sort_values(["event_id", "elapsed_seconds"]).groupby("event_id")
+    log_df.sort_values(["action_id", "elapsed_seconds"]).groupby("action_id")
     .agg(
         last_recorded_seconds=("elapsed_seconds", "max"),
         signal_a_mean=("signal_a", "mean"),
@@ -249,14 +312,14 @@ print(summary.round(2).to_string(index=False))
 출력은 다음과 같습니다.
 
 ```text
-event_id  last_recorded_seconds  signal_a_mean  last_recorded_signal_a
+action_id  last_recorded_seconds  signal_a_mean  last_recorded_signal_a
     A-01                    2.0           1.37                     1.9
     B-02                    2.0           1.17                     1.5
 ```
 
-경과 시간으로 정렬했으므로 `last`는 이 예제에서 가장 늦게 기록한 신호를 반환합니다. 정렬하지 않으면 현재 행 순서의 마지막 값이 선택됩니다. 두 동작 모두 마지막 기록은 2초이지만 진행 비율은 각각 0.40과 0.50입니다. 따라서 이 값은 전체 동작의 완료 시간이 아니라 관측된 마지막 시각입니다.
+경과 시간으로 정렬했으므로 `last`는 이 예제에서 가장 늦게 기록한 신호를 반환합니다. `last`는 기본적으로 결측치를 건너뛰므로 마지막 시점의 신호가 결측치라면 그보다 앞선 값이 나올 수 있습니다. 정렬하지 않으면 시간순 마지막이 아니라 현재 행 순서에서 마지막으로 관측된 값을 고릅니다. 두 동작 모두 마지막 기록은 2초이지만 진행 비율은 각각 0.40과 0.50입니다. 따라서 이 값은 전체 동작의 완료 시간이 아니라 관측된 마지막 시각입니다.
 
-## 사례 1. 임계값과 지역 변경
+## 사례: 임계값과 지역 변경
 
 입력 파일은 [`student-progress-samples.csv`](../../../assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }입니다. 한 행은 학생 한 명의 학습 기록이고, 핵심 열은 `region`, `study_hours`, `absences`, `practice_quizzes`, `score`, `passed`입니다. 점수 기준 75와 Busan 조건을 적용하면 S010, S013, S016, S018 네 학생이 선택됩니다.
 
@@ -291,7 +354,15 @@ print(selected)
 print(summary)
 ```
 
-같은 계산은 [`p2_12_2_filter_aggregate_threshold.py`](../../../assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py)로도 실행할 수 있습니다. `pass_threshold`를 `70`, `75`, `80`으로 바꾸면 임계값 이상 학생 수가 바뀌고, `focus_region`을 다른 지역으로 바꾸면 선택된 행 목록이 달라집니다.
+같은 계산을 파일로 실행할 수 있습니다.
+
+[p2_12_2_filter_aggregate_threshold.py](../../../assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py)
+
+```bash
+python docs/assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py
+```
+
+ `pass_threshold`를 `70`, `75`, `80`으로 바꾸면 임계값 이상 학생 수가 바뀌고, `focus_region`을 다른 지역으로 바꾸면 선택된 행 목록이 달라집니다.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-12/table-processing-flow-ko.mmd"
@@ -309,9 +380,12 @@ CSV의 `passed`는 저장된 합격 여부입니다. `pass_threshold`를 바꿔�
 - 평균, 개수, 최댓값 같은 집계가 왜 필요한지 설명할 수 있는가?
 - `groupby`를 `묶고 나서 요약한다`는 흐름으로 설명할 수 있는가?
 - 임계값과 지역 조건을 바꿀 때 선택 결과와 전체 지역별 집계 중 무엇이 달라지는지 설명할 수 있는가?
+- 라벨 슬라이스와 위치 슬라이스의 끝, size와 count의 차이를 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. 열 선택, `loc`/`iloc`, 불리언 인덱싱과 행 필터링 설명 확인에 사용했다.
-- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. `groupby`를 split-apply-combine 흐름으로 설명하는 근거로 사용했다.
-- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. DataFrame 생성, 선택, 요약 통계, 기본 표 조작 예시 확인에 사용했다.
+- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-09-15. 열 선택, `loc`/`iloc`, 불리언 인덱싱과 행 필터링 설명 확인에 사용했다.
+- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-09-15. `groupby`를 split-apply-combine 흐름으로 설명하는 근거로 사용했다.
+- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-07-20. DataFrame 생성, 선택, 요약 통계, 기본 표 조작 예시 확인에 사용했다.
+- pandas Developers, [Copy-on-Write (CoW)](https://pandas.pydata.org/docs/user_guide/copy_on_write.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-09-15. 연쇄 대입과 단일 loc 대입의 차이.
+- pandas Developers, [DataFrameGroupBy.last](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.api.typing.DataFrameGroupBy.last.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-09-15. last가 기본적으로 결측치를 건너뛰는 동작.

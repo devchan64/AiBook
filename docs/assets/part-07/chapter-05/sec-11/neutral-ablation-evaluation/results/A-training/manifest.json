@@ -1099,7 +1099,7 @@
     {
       "id": "p7-5-11-mira-v2-evaluation-02",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-evaluation-02.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-02.png",
       "sha256": "ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-evaluation-02-result.json",
       "record_sha256": "265f865d0cbfc88b9c4b8892653efb5c46c59e3266daab0b3ab4c5df218783fc",
@@ -1112,7 +1112,7 @@
     {
       "id": "p7-5-11-mira-v2-evaluation-04",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-evaluation-04.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-04.png",
       "sha256": "f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-evaluation-04-result.json",
       "record_sha256": "9b8a1c70e3106c1e525db956bd715a95bb7fbc7c5fdf4b7a970bf42188aac376",
@@ -1125,7 +1125,7 @@
     {
       "id": "p7-5-11-mira-v2-evaluation-05",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-evaluation-05.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-05.png",
       "sha256": "68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-evaluation-05-result.json",
       "record_sha256": "62df221047b6bb43b73ab5b189bee3d8a36d240acb08509adced9bde5e57703d",
@@ -1138,7 +1138,7 @@
     {
       "id": "p7-5-11-mira-v2-evaluation-06",
       "source_section": "P7-5.11",
-      "image": "docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-evaluation-06.png",
+      "image": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-06.png",
       "sha256": "7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb",
       "record": "docs/assets/part-07/chapter-05/p7-5-11/datasets/results/p7-5-11-mira-v2-evaluation-06-result.json",
       "record_sha256": "eafe403eb1a0065752f3e51b1f4dae4144d3f88fb04b4a0a0352691f85bbb013",

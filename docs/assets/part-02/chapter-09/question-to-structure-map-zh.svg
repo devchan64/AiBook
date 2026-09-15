@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" role="img" aria-labelledby="title desc">
   <!-- zh localized asset -->
-  <title id="title">Choose array, table, tree, or graph by the question</title>
-  <desc id="desc">Choose array, table, tree, or graph by the question</desc>
+  <title id="title">按问题选择数组、表、树或图</title>
+  <desc id="desc">按问题选择数组、表、树或图</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
@@ -23,52 +23,52 @@
   </defs>
 
   <rect width="920" height="620" fill="#ffffff"/>
-  <text x="34" y="44" class="title">Choose the structure by the question</text>
-  <text x="34" y="72" class="subtitle">The same raw data can be reorganized when the question changes.</text>
+  <text x="34" y="44" class="title">根据问题选择结构</text>
+  <text x="34" y="72" class="subtitle">问题变化时，同一组原始数据可以重新组织。</text>
 
   <rect x="34" y="112" width="852" height="394" rx="14" class="box"/>
-  <text x="58" y="146" class="panel-title">Start with a question, then choose a reading shape</text>
+  <text x="58" y="146" class="panel-title">先确定问题，再选择表示方式</text>
 
   <g transform="translate(78 184)">
     <rect x="0" y="0" width="300" height="54" rx="10" class="question"/>
-    <text x="18" y="24" class="label">Question: calculate values</text>
-    <text x="18" y="44" class="small">Example: average score or vector length</text>
+    <text x="18" y="24" class="label">问题：计算数值</text>
+    <text x="18" y="44" class="small">示例：平均分或向量长度</text>
     <line x1="312" y1="27" x2="402" y2="27" class="arrow"/>
     <rect x="420" y="0" width="300" height="54" rx="10" class="array"/>
-    <text x="438" y="24" class="label">Array</text>
-    <text x="438" y="44" class="small">position, axis, numeric operation</text>
+    <text x="438" y="24" class="label">数组</text>
+    <text x="438" y="44" class="small">位置、轴、数值运算</text>
   </g>
 
   <g transform="translate(78 260)">
     <rect x="0" y="0" width="300" height="54" rx="10" class="question"/>
-    <text x="18" y="24" class="label">Question: compare cases</text>
-    <text x="18" y="44" class="small">Example: student rows and feature columns</text>
+    <text x="18" y="24" class="label">问题：比较样本</text>
+    <text x="18" y="44" class="small">示例：学生行与特征列</text>
     <line x1="312" y1="27" x2="402" y2="27" class="arrow"/>
     <rect x="420" y="0" width="300" height="54" rx="10" class="table"/>
-    <text x="438" y="24" class="label">Table</text>
-    <text x="438" y="44" class="small">row, column, cell, dataset</text>
+    <text x="438" y="24" class="label">表</text>
+    <text x="438" y="44" class="small">行、列、单元格、数据集</text>
   </g>
 
   <g transform="translate(78 336)">
     <rect x="0" y="0" width="300" height="54" rx="10" class="question"/>
-    <text x="18" y="24" class="label">Question: find a place in a hierarchy</text>
-    <text x="18" y="44" class="small">Example: folder, chapter, category</text>
+    <text x="18" y="24" class="label">问题：查找层级中的位置</text>
+    <text x="18" y="44" class="small">示例：文件夹、章节、类别</text>
     <line x1="312" y1="27" x2="402" y2="27" class="arrow"/>
     <rect x="420" y="0" width="300" height="54" rx="10" class="tree"/>
-    <text x="438" y="24" class="label">Tree</text>
-    <text x="438" y="44" class="small">root, parent, child, path</text>
+    <text x="438" y="24" class="label">树</text>
+    <text x="438" y="44" class="small">根、父节点、子节点、路径</text>
   </g>
 
   <g transform="translate(78 412)">
     <rect x="0" y="0" width="300" height="54" rx="10" class="question"/>
-    <text x="18" y="24" class="label">Question: follow relationships</text>
-    <text x="18" y="44" class="small">Example: link, recommendation, citation</text>
+    <text x="18" y="24" class="label">问题：沿关系查找</text>
+    <text x="18" y="44" class="small">示例：链接、推荐、引用</text>
     <line x1="312" y1="27" x2="402" y2="27" class="arrow"/>
     <rect x="420" y="0" width="300" height="54" rx="10" class="graph"/>
-    <text x="438" y="24" class="label">Graph</text>
-    <text x="438" y="44" class="small">node, edge, neighbor, path</text>
+    <text x="438" y="24" class="label">图</text>
+    <text x="438" y="44" class="small">节点、边、邻居、路径</text>
   </g>
 
   <rect x="118" y="550" width="684" height="34" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
-  <text x="460" y="572" text-anchor="middle" class="small">A data structure is not only a container. It is a way to make one kind of question easier.</text>
+  <text x="460" y="572" text-anchor="middle" class="small">数据结构通过组织数据，让某类问题更容易处理。</text>
 </svg>

@@ -1,19 +1,11 @@
 # P2-5.4 用小数据确认概率与统计
 
 > Section ID: `P2-5.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
-用八个分数计算均值和方差，在包含极端值的数据中比较均值与中位数，再计算不同样本的均值，观察样本构成带来的差异。
+计算不低于 60 分的观测比例，再检查八个分数的均值、中位数和方差。改变极端值并比较不同样本的均值，区分计算值与对总体的估计。
 
-![在小数据上区分原始数据、中心、扩散与样本估计的流程](/AiBook/assets/part-02/chapter-05/small-data-statistics-check-zh.svg)
-
-## 中心与离散程度的计算
-
-| 标准 | 为什么重要 |
-| --- | --- |
-| 代码会通过数字和输出把概念显示出来 | 只有看到均值、方差、样本均值在实际计算里怎样出现，概念和输出才会真正连起来。 |
-| 均值和中位数要一起看 | 它们都在谈中心，但碰到极端值时反应不同。 |
-| 方差会补上扩散信息 | 只看中心，无法把数据的性格讲完整。 |
+![在小数据上区分原始数据、中心、离散程度与样本估计的流程](/AiBook/assets/part-02/chapter-05/small-data-statistics-check-zh.svg)
 
 ## 执行环境
 
@@ -22,8 +14,6 @@
 笔记本代码单元与终端的区别参见[命令的执行位置](../chapter-03/section-05.zh.md#_2)。按从上到下的顺序运行代码块。
 
 如果使用 Google Colab，可以先在代码单元里像下面这样准备 NumPy。
-
-在 Colab 代码单元运行 `%pip install numpy`，会把 NumPy 安装到当前内核中。
 
 ```python
 # 这条命令是在 Colab/Jupyter 代码单元里安装 NumPy。
@@ -78,6 +68,27 @@ print(data.size)
 
 代码会帮你计算，但数据究竟意味着什么，仍然要由人来决定。
 
+## 不低于 60 分的比例
+
+`data >= 60` 检查每个分数是否不低于 60。`True` 表示满足条件，`False` 表示不满足条件。用 `np.count_nonzero` 统计为真的元素，可以得到 2，对应分数 63 和 70。
+
+```python
+at_least_60 = data >= 60
+count_at_least_60 = np.count_nonzero(at_least_60)
+observed_ratio = count_at_least_60 / data.size
+print(at_least_60)
+print(count_at_least_60)
+print(observed_ratio)
+```
+
+```text
+[False False False  True False False False  True]
+2
+0.25
+```
+
+观测到的 8 个分数中，不低于 60 分的比例为 `2 / 8 = 0.25`，即 25%。如果等概率地从这 8 个分数中选一个，不低于 60 分的概率就恰好是 0.25。对于更大的总体，这个比例只是相应概率的估计值，还要检查样本收集方式与代表性。
+
 ## 计算均值
 
 `均值(mean)` 会把数据的中心总结成一个数字。
@@ -106,6 +117,18 @@ print(mean_value)
 
 `中位数(median)` 是数值按大小排序后的中间值。数值个数为偶数时，取中间两个值的平均。
 
+将原来的 8 个分数排序后，中间两个值是 50 和 52。中位数为 `(50 + 52) / 2 = 51`，与开头图示中的中位数一致。
+
+```python
+print(np.sort(data))
+print(np.median(data))
+```
+
+```text
+[42 47 48 50 52 55 63 70]
+51.0
+```
+
 下面这组数据里，有一个值特别大。
 
 在 `skewed_data` 中放入大值 `100`，比较均值与中位数。预期结果分别为 `30.0` 和 `13.0`。
@@ -128,7 +151,7 @@ print(np.median(skewed_data))
 
 ## 偏差、平方偏差与方差
 
-`方差(variance)` 是用来观察数值在均值周围扩散了多少的数字。
+`方差(variance)` 是用来观察数值在均值周围离散程度了多少的数字。
 
 先从每个值里减去均值。
 
@@ -177,28 +200,28 @@ print(np.var(data))
 
 ## 方差分母与 ddof
 
-NumPy 的 `np.var(data)` 默认会把整组数据当作一个总体来计算方差。这时，它是用 \(N\) 这个值的个数去做除法。
+`np.var(data)` 将观测值的平方偏差之和除以个数 `N`。即使数据来自样本，在描述这组数据本身的离散程度时，也可以使用这个计算。
 
-但在统计里，当我们用样本去估计总体方差时，经常会使用除以 \(N - 1\) 的 `样本方差(sample variance)`。在 NumPy 里，可以通过指定 `ddof=1` 来检查。
-
-对同一个 `data` 使用默认设置和 `ddof=1`，分别得到 `72.984375` 和 `83.41071428571429`，可比较分母变化的影响。
+用来估计总体方差的常见样本方差，则将同一个和除以 `N − 1`。在 NumPy 中指定 `ddof=1` 即可。对于从同一分布独立抽取的样本，这项修正可减小使用样本均值计算平方偏差时造成的方差低估偏差。
 
 ```python
-# ddof=1 是计算样本方差时使用的设置。
 print(np.var(data))
 print(np.var(data, ddof=1))
 ```
 
-输出是 `72.984375`、`83.41071428571429`。
+```text
+72.984375
+83.41071428571429
+```
 
-两个值会不同。这并不表示代码错了，而是说明：`我们把这组数据看成整体，还是看成样本`，会影响计算设置。
+两种计算使用相同的数据与平方偏差之和 `583.875`。第一个值是 `583.875 / 8`，第二个值是 `583.875 / 7`。数据没有改变，只是根据计算目的选择了不同分母。
 
-| 计算 | 代码 | 工作性解释 |
+| 计算目的 | 代码 | 分母 |
 | --- | --- | --- |
-| 总体方差 | `np.var(data)` | 把这组数据当作整体来计算扩散。 |
-| 样本方差 | `np.var(data, ddof=1)` | 把这组数据当作样本，用来估计总体的扩散。 |
+| 描述观测数据本身的离散程度 | `np.var(data)` | `N = 8` |
+| 用样本估计总体方差 | `np.var(data, ddof=1)` | `N − 1 = 7` |
 
-`np.var` 的分母是 `N − ddof`。应根据计算的是数据本身的离散程度，还是从样本估计总体方差，选择设置。
+`np.var` 的分母是 `N − ddof`。`ddof=1` 无法解决某些群体被遗漏或过度收集的问题。分母修正与检查样本收集方式是两回事。
 
 ## 比较样本均值
 
@@ -241,7 +264,7 @@ for sample in samples:
 
 例如，看到均值是 `53.375`，如果马上下结论说“这个服务全部用户的平均值就是 53.375”“这组数据完美代表整体”“方差大，所以数据不好”，就会很危险。
 
-更谨慎的说法会更接近：“在这组数据里，均值是 53.375”“这些值在均值周围有一定程度的扩散”“这组数据能否代表整体，还要结合收集方式和样本构成一起看”。
+更谨慎的说法会更接近：“在这组数据里，均值是 53.375”“这些值在均值周围有一定程度的离散程度”“这组数据能否代表整体，还要结合收集方式和样本构成一起看”。
 
 AI 数据也需要同样的态度。训练数据的均值，是在训练数据集内部算出来的摘要值；测试数据的分数，是从测试样本上得到的评估值；而现实表现，则要通过另外的样本、部署后的观察、持续评估来确认。
 
@@ -251,8 +274,23 @@ AI 数据也需要同样的态度。训练数据的均值，是在训练数据�
 
 再把最后一个值改为 `14`。排序后为 `10, 12, 13, 14, 15`，均值为 `12.8`，中位数为 `13`。比较这两次输出，可看出一个大值把均值拉高了多少。
 
+用 `copy()` 复制数组以保留原始数据，再只修改最后一个元素 `[-1]`。每行输出依次为修改后的值、均值和中位数。
+
+```python
+for last_value in [1000, 14]:
+    changed_data = skewed_data.copy()
+    changed_data[-1] = last_value
+    print(last_value, np.mean(changed_data), np.median(changed_data))
+```
+
+```text
+1000 210.0 13.0
+14 12.8 13.0
+```
+
 ## 检查清单
 
+- 能区分观测比例与总体概率的估计值。
 - 能把一组小数据做成 NumPy `array`。
 - 能用 `np.mean` 计算 `均值(mean)`。
 - 能用 `np.median` 计算 `中位数(median)`。
@@ -272,3 +310,5 @@ AI 数据也需要同样的态度。训练数据的均值，是在训练数据�
 - NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-20。用于确认中位数是排序副本的中间值，或在偶数个值时取中间两个值的平均。
 - NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-20。用于确认方差、`ddof`、总体方差与样本方差计算设置的差异。
 - Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认样本应代表总体，以及抽样方式可能带来波动这一统计背景。
+
+- NumPy Developers, [numpy.count_nonzero](https://numpy.org/doc/stable/reference/generated/numpy.count_nonzero.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference，确认日期：2026-09-15。用于核对布尔数组中满足条件的元素计数。

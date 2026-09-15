@@ -1,7 +1,9 @@
-flowchart TD
-  A["notebook exploration<br/>try small ideas"]
-  B["function<br/>name repeated logic"]
-  C["script file<br/>run the same steps"]
-  D["module<br/>reuse from notebooks"]
-
-  A --> B --> C --> D
+flowchart TB
+  A["Notebook exploration"]
+  B["Extract repeated calculations into functions"]
+  C["Module file<br/>store shared functions"]
+  D["Import in notebooks<br/>compare and interpret"]
+  E["Import in scripts<br/>run defined tasks"]
+  A --> B --> C
+  C --> D
+  C --> E
