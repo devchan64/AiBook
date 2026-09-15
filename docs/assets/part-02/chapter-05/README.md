@@ -28,3 +28,10 @@
 - `p2_5_3_estimation_error.py` generates `estimate-error-gap-{ko,en,zh}.svg` on a shared numerical scale in minutes.
 - The true mean is 50; estimates 47 and 53 produce signed errors −3 and +3. Arrows run from the true value to each estimate.
 - Review PNGs are saved under `.tmp/p2-5-3-review/`.
+
+## P2-5.5 linear and curved correlation
+
+- `p2_5_5_correlation_diagram.py` generates `linear-vs-curved-correlation-{ko,en,zh}.svg` using NumPy and Matplotlib.
+- Each panel shows three observations at x = −1, 0, 1. Pearson correlation is 1 for y = 2x + 4 and 0 for y = x².
+- Dashed lines show the given analytic relationships, not additional observations or fitted population relationships.
+- Review PNGs and the plotting cache are saved under `.tmp/p2-5-5-correlation/`.
