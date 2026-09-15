@@ -1,7 +1,7 @@
 # P2-5.3 Sample, Estimation, and Error
 
 > Section ID: `P2-5.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 If we cannot examine records for every user, we estimate the overall mean from some users’ records. The observed subset is the sample, and the whole we want to understand is the population. Changing the sample or using a biased collection method can change the estimate.
 
@@ -11,14 +11,6 @@ If we cannot examine records for every user, we estimate the overall mean from s
 | sample | sample | What is the part we actually observed? |
 | estimation | estimation | How do we guess a value about the whole from the part? |
 | error | error | How far might that guess be from reality? |
-
-## Distinguishing the Whole from the Part
-
-| Criterion | Why it matters |
-| --- | --- |
-| Distinguish population and sample | If you do not separate the whole from the part, it becomes unclear what the data represents. |
-| Estimation means speaking about the whole from the part | Guessing the property of the whole from the sample is the basic action of statistics and evaluation. |
-| See that a dataset is also a sample | Machine learning learns on collected partial data, not on the whole of reality. |
 
 ## The Population of Interest
 
@@ -49,10 +41,6 @@ The diagram below first shows the containment relationship between population an
 --8<-- "assets/part-02/chapter-05/population-sample-dataset-flow-en.mmd"
 ```
 
-The chart below shows the flow of drawing a sample from the whole population and then producing an estimate from that sample.
-
-![Flow of drawing a sample from a population and producing an estimate from the sample](/AiBook/assets/part-02/chapter-05/population-sample-estimate-en.svg)
-
 The most important question when looking at a sample is, "Does this sample represent the whole well?" So you should also examine whether the sample is too small, whether a specific group is included too heavily, whether any group is missing, and whether the collection method caused certain values to drop out.
 
 If the sample does not represent the whole well, the estimate calculated from that sample can become unstable or skewed to one side.
@@ -75,7 +63,7 @@ Model parameters in AI use the same English word. A statistical `parameter` desc
 
 ## Estimation Error
 
-Error is the difference between an estimate and the true value. For example, if the true overall mean is 50 and the mean estimated from the sample is 47, then the error is `-3`.
+Here, estimation error is calculated as `estimate − true value`. If the true population mean is 50 minutes and the sample mean is 47 minutes, the error is `47 − 50 = −3 minutes`. A negative value means underestimation; a positive value means overestimation.
 
 In the real world, we often do not know the true overall value. So we cannot always know the error exactly. But we still have to acknowledge that error may exist.
 
@@ -89,23 +77,27 @@ The prediction error of an AI model can be viewed from a similar perspective. If
 
 ## Sampling Variation
 
-If we draw samples from the same population multiple times, we may not get the same sample every time. Then the sample mean can also change a little each time.
+Consider a small population of five users whose usage times are `40, 44, 50, 56, 60 minutes`. The population mean is `(40 + 44 + 50 + 56 + 60) / 5 = 50 minutes`.
 
-For example, even if the true average usage time of all users is 50 minutes, one sample may give 48 minutes, another may give 52, and another may give 49.
+Each time, select two distinct users from the five with equal probability and calculate their mean. Three possible samples give the following comparison.
 
-This difference is `sampling variation`. As long as we use samples, estimates contain this kind of variation.
+| Sample | Observed usage times | Sample mean | Estimation error: sample mean − 50 |
+| --- | --- | --- | --- |
+| A | 44, 50 minutes | (44 + 50) / 2 = 47 minutes | −3 minutes |
+| B | 50, 56 minutes | (50 + 56) / 2 = 53 minutes | +3 minutes |
+| C | 40, 60 minutes | (40 + 60) / 2 = 50 minutes | 0 minutes |
 
-The chart below shows that if you draw multiple samples from the same population, the estimate can fluctuate around the true value. This fluctuation is a natural issue that appears whenever you use samples.
+The population and sampling rule are unchanged, but selecting different users changes the sample mean. This is sampling variation. A's low mean alone does not establish bias in the collection method. A sample can also happen to have the same mean as the population, as C does.
 
-![Chart comparing sampling variation and sampling bias](/AiBook/assets/part-02/chapter-05/sampling-variation-vs-bias-en.svg)
+The table contains calculations for three possible samples, not the complete probability distribution of estimates. The fact that estimates can change with the sample also applies when the true population mean is unknown.
 
-What matters is the point that "if the sample changes, the estimate can also change." You need this sense to read model evaluation results carefully too. A single evaluation score may not be an absolute truth, and a different test sample may produce a different score. If you can evaluate multiple times, you should look at the mean together with the variability.
+Different test samples can likewise produce different model evaluation scores. To examine this variation, hold the model and evaluation criteria fixed and compare scores across different evaluation samples. Simply rerunning the same model deterministically on the same data does not reveal sampling variation.
 
 ## Collection Methods and Sampling Bias
 
 We need to distinguish natural fluctuation caused by a changing sample from the problem where the sample is skewed from the start.
 
-Sampling bias is a state in which the sample does not represent the population well. For example, if only younger users were heavily collected, if data from only one region was gathered, if only people who responded were included in survey data, or if only successful cases remained in the logs, then you should suspect sampling bias.
+Sampling bias occurs when a collection method systematically overincludes or omits certain groups or values, pushing estimates in one direction. A random sample whose composition happens to differ from the population does not, by itself, establish collection bias. For example, if only younger users were heavily collected, if data from only one region was gathered, if only people who responded were included in survey data, or if only successful cases remained in the logs, then you should suspect sampling bias.
 
 If you estimate the whole from such a sample, the result can become systematically distorted. Random variation is the natural fluctuation that appears when drawing samples, while sampling bias is a problem skewed in a particular direction because of the collection method.
 
@@ -117,6 +109,8 @@ Sampling variation and sampling bias both shake estimation, but their character 
 | --- | --- | --- | --- |
 | sampling variation | sampling variation | natural fluctuation that appears when drawing samples | more samples, repeated evaluation, checking variability |
 | sampling bias | sampling bias | a problem where the sample is skewed because of the collection method | inspect the collection process, check missing groups, review data composition |
+
+![Sampling variation and sampling bias](/AiBook/assets/part-02/chapter-05/sampling-variation-vs-bias-en.svg)
 
 ## Dataset Collection Conditions
 

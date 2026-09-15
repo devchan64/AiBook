@@ -22,3 +22,9 @@
 - The distribution comparison uses exact normal densities with population mean 50, population SD 10, and sample size 100. Shading denotes one SD of each distribution.
 - The interval diagram uses 20 independently simulated samples of size 100, seed `20260915`, and 95% t intervals with 99 degrees of freedom. This run covers the true mean in 18 of 20 intervals; no coverage outcome is forced.
 - PNG review previews and the plotting cache are saved under `.tmp/p2-5-5-diagrams/`.
+
+## P2-5.3 signed estimation error
+
+- `p2_5_3_estimation_error.py` generates `estimate-error-gap-{ko,en,zh}.svg` on a shared numerical scale in minutes.
+- The true mean is 50; estimates 47 and 53 produce signed errors −3 and +3. Arrows run from the true value to each estimate.
+- Review PNGs are saved under `.tmp/p2-5-3-review/`.
