@@ -1,7 +1,7 @@
 # P7-5.9 보충학습: Mira의 표정 바꾸기
 
 > Section ID: `P7-5.9`
-> Version: `v2026.09.15`
+> Version: `v2026.09.16`
 
 같은 얼굴에서 눈썹·눈·볼·입을 바꾸면 표정이 달라진다. [P7-5.2](section-02.md)의 Mira 정면 머리를 Qwen-Image-Edit-2511로 편집한 39개 결과를 비교한다. 표정 이름에 맞는 움직임이 나타났는지, 그 과정에서 얼굴과 머리 모양이 유지됐는지가 중심이다.
 
@@ -81,15 +81,15 @@
 
 | 서운함 | 억울함 | 난처함 | 의심 |
 | --- | --- | --- | --- |
-| ![Mira 서운함](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-hurt_feelings-expansion-v1-size-1024-seed-62294-steps-20.png) | ![Mira 억울함](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-aggrieved-expansion-v1-size-1024-seed-62294-steps-20.png) | ![Mira 난처함](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-perplexed-expansion-v1-size-1024-seed-62294-steps-20.png) | ![Mira 의심](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-skeptical-expansion-v1-size-1024-seed-62294-steps-20.png) |
+| ![Mira 서운함](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-hurt_feelings-expansion-v1-size-1024-seed-62294-steps-20.png) | ![Mira 억울함](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-aggrieved-revision-v2-size-1024-seed-62294-steps-20.png) | ![Mira 난처함](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-perplexed-revision-v2-size-1024-seed-62294-steps-20.png) | ![Mira 의심](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-skeptical-expansion-v1-size-1024-seed-62294-steps-20.png) |
 
-서운함은 입꼬리가 충분히 내려가지 않아 작은 미소처럼 보인다. 억울함과 난처함은 미간·입 주변 수축이 강해 분노나 불만에 가깝다. 의심은 눈썹 비대칭이 나타나지만 차이가 작다. 이 네 이름은 설계 의도이며, 출력만으로 실제 감정을 확정할 수는 없다.
+서운함은 입꼬리가 충분히 내려가지 않아 작은 미소처럼 보인다. 억울함은 눈썹 안쪽이 올라가 모이고 입술이 살짝 벌어져 상처받고 항변하려는 모습이 나타난다. 미간 주름과 눈가 붉어짐도 함께 생겼다. 난처함은 정면 얼굴을 유지하면서 시선이 옆으로 향하고, 눈썹 안쪽 상승과 다문 입으로 대답을 망설이는 모습이 나타난다. 입술을 누르는 힘은 약하다. 의심은 눈썹 비대칭이 나타나지만 차이가 작다. 이 네 이름은 설계 의도이며, 출력만으로 실제 감정을 확정할 수는 없다.
 
 [서운함 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-hurt_feelings-expansion-v1-size-1024-seed-62294-steps-20-result.json)
 
-[억울함 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-aggrieved-expansion-v1-size-1024-seed-62294-steps-20-result.json)
+[억울함 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-aggrieved-revision-v2-size-1024-seed-62294-steps-20-result.json)
 
-[난처함 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-perplexed-expansion-v1-size-1024-seed-62294-steps-20-result.json)
+[난처함 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-perplexed-revision-v2-size-1024-seed-62294-steps-20-result.json)
 
 [의심 입력·프롬프트·결과 기록](../../../assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-skeptical-expansion-v1-size-1024-seed-62294-steps-20-result.json)
 
@@ -215,7 +215,7 @@ FACS의 Action Unit(AU)은 눈썹 올리기나 입꼬리 당기기처럼 얼굴 
 
 `--expressions`를 생략하면 현재 39개 표정을 모두 생성한다. `--run-label`은 출력 파일을 구분하는 이름이며 기존 결과가 있으면 덮어쓰지 않는다. `--input`, `--seed`, `--size`, `--steps`, `--cfg`로 입력과 조건을 바꿀 수 있다. 표현 문구의 영향을 비교할 때는 같은 입력·시드·설정을 유지한다.
 
-RTX 5070 Laptop GPU 8GB·시스템 RAM 64GB 환경에서 순차 CPU 오프로딩으로 실행했다. 본문에 채택한 39컷의 추론 시간은 장당 5.8~8.3분, 합계 약 236.8분이다. 각 실행 JSON의 시간을 합산했으며 모델 로딩과 폐기 결과의 생성 시간은 제외했다. PyTorch 최대 할당 메모리는 약 4.15GiB, 최대 예약 메모리는 4.19~4.68GiB였다. 다른 프로세스를 포함한 GPU 전체 사용량은 아니다.
+RTX 5070 Laptop GPU 8GB·시스템 RAM 64GB 환경에서 순차 CPU 오프로딩으로 실행했다. 본문에 채택한 39컷의 추론 시간은 장당 5.8~8.3분, 합계 약 238.5분이다. 각 실행 JSON의 시간을 합산했으며 모델 로딩과 폐기 결과의 생성 시간은 제외했다. PyTorch 최대 할당 메모리는 약 4.15GiB, 최대 예약 메모리는 4.19~4.68GiB였다. 다른 프로세스를 포함한 GPU 전체 사용량은 아니다.
 
 ## 표정과 외형 검수
 
