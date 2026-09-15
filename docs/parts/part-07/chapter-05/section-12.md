@@ -65,7 +65,7 @@
 
 [이미지 순차 생성 Python](../../../assets/part-07/chapter-05/sec-11/p7_5_11_generate_supplements.py)
 
-원래 220개 생성 조건은 보존한다. 폐기 확정한 `01-oil-painting`, `13-soft-photo`, `40-watercolor`는 아래 명령에서 제외되어 실행 대상은 217개다. `--dry-run`으로 제외 ID를 확인할 수 있다.
+원래 220개 생성 조건은 보존한다. 얼굴 방향 3건·배경 손실 및 변경 5건·표정 불일치 19건을 합한 폐기 확정 27건은 아래 명령에서 제외되어 실행 대상은 193개다. `--dry-run`으로 제외 ID를 확인할 수 있다.
 
 [재생성 제외 목록 JSON](../../../assets/part-07/chapter-05/sec-11/p7-5-11-input-generation-exclusions.json)
 

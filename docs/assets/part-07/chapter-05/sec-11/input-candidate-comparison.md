@@ -2,42 +2,15 @@
 
 검수 기록 기준일: 2026-09-15
 
-남은 입력 후보 **217개**를 대응하는 Mira 목표와 나란히 비교한다. 생성 방향은 목표 → 입력이며 학습 방향은 입력 → 목표다. 이 표는 학습 사용 승인을 뜻하지 않는다. 현재 기록은 실험용 채택 2개, 1차 제외 의견 24개, 확대 검수 보류 191개다.
+남은 입력 후보 **193개**를 Mira 목표와 비교한다. 최초 생성 조건 220개 중 사용자 확정 폐기는 **27개(방향 3·배경 5·표정 19)**다. 기존 AI 검수 상태는 실험용 채택 2개·확대 검수 보류 191개이며, 이번 폐기가 나머지 전체에 대한 추가 검수 완료를 뜻하지 않는다.
 
-관리번호 `P711-IN-NNN`은 원래 생성 목록의 순번에 고정한다. 목표별로 묶어 표시하므로 표의 관리번호가 연속하지 않을 수 있다. 폐기 후에도 번호를 당겨 쓰지 않는다. 검수 의견은 해당 번호로 기록한다.
+현재 목표는 얼굴·헤어를 Mira 아이덴티로, 전체 화풍을 Mira 목표 화풍으로 변환하면서 **입력 표정과 구도·포즈, 배경의 사물·배치를 보존**하는 것이다.
+
+관리번호 `P711-IN-NNN`은 원래 생성 순번에 고정한다. 폐기 후에도 번호를 당겨 쓰거나 재사용하지 않는다.
 
 [검수 목록 JSON](p7-5-11-input-review-v1.json)
 
 [후보 카탈로그 JSON](input-images/candidate-catalog.json)
-
-## 1차 제외 의견 24개 빠르게 찾기
-
-표정·배경 변화에 대한 기존 AI 검수 의견이며, 아래 연결된 비교표에서 재검토한다. 사용자 폐기 확정 3건과 구분한다.
-
-- [P711-IN-017 · bfs-input-17-watercolor](#target-17): 단색 배경에 촘촘한 반복 패턴이 생겨 배경 구성 보존 조건을 벗어났다.
-- [P711-IN-023 · bfs-input-23-clay-render](#target-23): 목표의 다문 입 미소가 벌어진 입으로 바뀌었다.
-- [P711-IN-026 · bfs-input-26-soft-photo](#target-26): 하품 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-028 · bfs-input-28-clay-render](#target-28): 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-032 · bfs-input-32-watercolor](#target-32): 배경의 창틀 그림자가 사라지고 단순 배경으로 대체됐다.
-- [P711-IN-048 · bfs-input-04-oil-painting](#target-04): 목표보다 입을 크게 벌려 표정·입 벌림 보존 조건을 벗어났다.
-- [P711-IN-065 · bfs-input-21-watercolor](#target-21): 미술관 배경의 전시물·방문객이 사라지고 종이 여백으로 대체됐다.
-- [P711-IN-067 · bfs-input-23-ink-illustration](#target-23): 목표의 다문 입 미소가 벌어진 입으로 바뀌었다.
-- [P711-IN-070 · bfs-input-26-watercolor](#target-26): 하품 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-072 · bfs-input-28-ink-illustration](#target-28): 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-075 · bfs-input-31-watercolor](#target-31): 목표의 창틀과 창가 장면이 사라졌다.
-- [P711-IN-092 · bfs-input-04-soft-photo](#target-04): 목표보다 입을 크게 벌려 표정·입 벌림 보존 조건을 벗어났다.
-- [P711-IN-111 · bfs-input-23-oil-painting](#target-23): 목표의 다문 입 미소가 벌어진 입으로 바뀌었다.
-- [P711-IN-114 · bfs-input-26-clay-render](#target-26): 하품 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-116 · bfs-input-28-oil-painting](#target-28): 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-120 · bfs-input-32-ink-illustration](#target-32): 배경의 창틀 그림자가 사라지고 단순 배경으로 대체됐다.
-- [P711-IN-136 · bfs-input-04-watercolor](#target-04): 목표보다 입을 크게 벌려 표정·입 벌림 보존 조건을 벗어났다.
-- [P711-IN-155 · bfs-input-23-soft-photo](#target-23): 목표의 다문 입 미소가 벌어진 입으로 바뀌었다.
-- [P711-IN-158 · bfs-input-26-ink-illustration](#target-26): 하품 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-160 · bfs-input-28-soft-photo](#target-28): 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-180 · bfs-input-04-clay-render](#target-04): 목표보다 입을 크게 벌려 표정·입 벌림 보존 조건을 벗어났다.
-- [P711-IN-199 · bfs-input-23-watercolor](#target-23): 목표의 다문 입 미소가 벌어진 입으로 바뀌었다.
-- [P711-IN-202 · bfs-input-26-oil-painting](#target-26): 하품 목표의 감은 눈이 뜬 눈으로 바뀌었다.
-- [P711-IN-204 · bfs-input-28-watercolor](#target-28): 목표의 감은 눈이 뜬 눈으로 바뀌었다.
 
 ## 목표별 비교
 
@@ -77,10 +50,6 @@
 | 관리번호 · 입력 ID | Mira 목표 | 생성 입력 후보 | 현재 검수 의견 |
 | --- | --- | --- | --- |
 | **P711-IN-004**<br>bfs-input-04-ink-illustration | [![Mira 목표](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png)](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) | [![P711-IN-004 입력](input-images/bfs-input-04-ink-illustration.png)](input-images/bfs-input-04-ink-illustration.png) | **확대 검수 보류**<br>올려다보는 방향은 이어지지만 여러 입력에서 원래보다 입을 크게 벌렸다. |
-| **P711-IN-048**<br>bfs-input-04-oil-painting | [![Mira 목표](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png)](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) | [![P711-IN-048 입력](input-images/bfs-input-04-oil-painting.png)](input-images/bfs-input-04-oil-painting.png) | **1차 제외 의견 · 재검토 대상**<br>목표보다 입을 크게 벌려 표정·입 벌림 보존 조건을 벗어났다. |
-| **P711-IN-092**<br>bfs-input-04-soft-photo | [![Mira 목표](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png)](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) | [![P711-IN-092 입력](input-images/bfs-input-04-soft-photo.png)](input-images/bfs-input-04-soft-photo.png) | **1차 제외 의견 · 재검토 대상**<br>목표보다 입을 크게 벌려 표정·입 벌림 보존 조건을 벗어났다. |
-| **P711-IN-136**<br>bfs-input-04-watercolor | [![Mira 목표](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png)](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) | [![P711-IN-136 입력](input-images/bfs-input-04-watercolor.png)](input-images/bfs-input-04-watercolor.png) | **1차 제외 의견 · 재검토 대상**<br>목표보다 입을 크게 벌려 표정·입 벌림 보존 조건을 벗어났다. |
-| **P711-IN-180**<br>bfs-input-04-clay-render | [![Mira 목표](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png)](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) | [![P711-IN-180 입력](input-images/bfs-input-04-clay-render.png)](input-images/bfs-input-04-clay-render.png) | **1차 제외 의견 · 재검토 대상**<br>목표보다 입을 크게 벌려 표정·입 벌림 보존 조건을 벗어났다. |
 
 ## target-05
 
@@ -205,7 +174,6 @@
 
 | 관리번호 · 입력 ID | Mira 목표 | 생성 입력 후보 | 현재 검수 의견 |
 | --- | --- | --- | --- |
-| **P711-IN-017**<br>bfs-input-17-watercolor | [![Mira 목표](training-images/p7-5-11-mira-v2-background-07.png)](training-images/p7-5-11-mira-v2-background-07.png) | [![P711-IN-017 입력](input-images/bfs-input-17-watercolor.png)](input-images/bfs-input-17-watercolor.png) | **1차 제외 의견 · 재검토 대상**<br>단색 배경에 촘촘한 반복 패턴이 생겨 배경 구성 보존 조건을 벗어났다. |
 | **P711-IN-061**<br>bfs-input-17-clay-render | [![Mira 목표](training-images/p7-5-11-mira-v2-background-07.png)](training-images/p7-5-11-mira-v2-background-07.png) | [![P711-IN-061 입력](input-images/bfs-input-17-clay-render.png)](input-images/bfs-input-17-clay-render.png) | **확대 검수 보류**<br>단색 배경과 정면 상반신이 기준이다. 수채화의 배경 패턴 생성과 점토의 입 벌림이 눈에 띈다. |
 | **P711-IN-105**<br>bfs-input-17-ink-illustration | [![Mira 목표](training-images/p7-5-11-mira-v2-background-07.png)](training-images/p7-5-11-mira-v2-background-07.png) | [![P711-IN-105 입력](input-images/bfs-input-17-ink-illustration.png)](input-images/bfs-input-17-ink-illustration.png) | **확대 검수 보류**<br>단색 배경과 정면 상반신이 기준이다. 수채화의 배경 패턴 생성과 점토의 입 벌림이 눈에 띈다. |
 | **P711-IN-149**<br>bfs-input-17-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-background-07.png)](training-images/p7-5-11-mira-v2-background-07.png) | [![P711-IN-149 입력](input-images/bfs-input-17-oil-painting.png)](input-images/bfs-input-17-oil-painting.png) | **확대 검수 보류**<br>단색 배경과 정면 상반신이 기준이다. 수채화의 배경 패턴 생성과 점토의 입 벌림이 눈에 띈다. |
@@ -246,7 +214,6 @@
 | 관리번호 · 입력 ID | Mira 목표 | 생성 입력 후보 | 현재 검수 의견 |
 | --- | --- | --- | --- |
 | **P711-IN-021**<br>bfs-input-21-soft-photo | [![Mira 목표](validation/images/p7-5-11-mira-v2-evaluation-05.png)](validation/images/p7-5-11-mira-v2-evaluation-05.png) | [![P711-IN-021 입력](input-images/bfs-input-21-soft-photo.png)](input-images/bfs-input-21-soft-photo.png) | **확대 검수 보류**<br>미술관·초록 셔츠의 방향은 대체로 이어진다. 수채화에서 장면이 사라졌고 다른 입력은 배경 화풍과 몸 굴곡을 확인해야 한다. |
-| **P711-IN-065**<br>bfs-input-21-watercolor | [![Mira 목표](validation/images/p7-5-11-mira-v2-evaluation-05.png)](validation/images/p7-5-11-mira-v2-evaluation-05.png) | [![P711-IN-065 입력](input-images/bfs-input-21-watercolor.png)](input-images/bfs-input-21-watercolor.png) | **1차 제외 의견 · 재검토 대상**<br>미술관 배경의 전시물·방문객이 사라지고 종이 여백으로 대체됐다. |
 | **P711-IN-109**<br>bfs-input-21-clay-render | [![Mira 목표](validation/images/p7-5-11-mira-v2-evaluation-05.png)](validation/images/p7-5-11-mira-v2-evaluation-05.png) | [![P711-IN-109 입력](input-images/bfs-input-21-clay-render.png)](input-images/bfs-input-21-clay-render.png) | **확대 검수 보류**<br>미술관·초록 셔츠의 방향은 대체로 이어진다. 수채화에서 장면이 사라졌고 다른 입력은 배경 화풍과 몸 굴곡을 확인해야 한다. |
 | **P711-IN-153**<br>bfs-input-21-ink-illustration | [![Mira 목표](validation/images/p7-5-11-mira-v2-evaluation-05.png)](validation/images/p7-5-11-mira-v2-evaluation-05.png) | [![P711-IN-153 입력](input-images/bfs-input-21-ink-illustration.png)](input-images/bfs-input-21-ink-illustration.png) | **확대 검수 보류**<br>미술관·초록 셔츠의 방향은 대체로 이어진다. 수채화에서 장면이 사라졌고 다른 입력은 배경 화풍과 몸 굴곡을 확인해야 한다. |
 | **P711-IN-197**<br>bfs-input-21-oil-painting | [![Mira 목표](validation/images/p7-5-11-mira-v2-evaluation-05.png)](validation/images/p7-5-11-mira-v2-evaluation-05.png) | [![P711-IN-197 입력](input-images/bfs-input-21-oil-painting.png)](input-images/bfs-input-21-oil-painting.png) | **확대 검수 보류**<br>미술관·초록 셔츠의 방향은 대체로 이어진다. 수채화에서 장면이 사라졌고 다른 입력은 배경 화풍과 몸 굴곡을 확인해야 한다. |
@@ -261,15 +228,6 @@
 | **P711-IN-154**<br>bfs-input-22-oil-painting | [![Mira 목표](validation/images/p7-5-11-mira-v2-evaluation-06.png)](validation/images/p7-5-11-mira-v2-evaluation-06.png) | [![P711-IN-154 입력](input-images/bfs-input-22-oil-painting.png)](input-images/bfs-input-22-oil-painting.png) | **확대 검수 보류**<br>컵을 양손으로 잡은 동작과 창틀은 이어진다. 손가락·컵 테두리·표정 및 배경 화풍 전환을 확대 검수한다. |
 | **P711-IN-198**<br>bfs-input-22-soft-photo | [![Mira 목표](validation/images/p7-5-11-mira-v2-evaluation-06.png)](validation/images/p7-5-11-mira-v2-evaluation-06.png) | [![P711-IN-198 입력](input-images/bfs-input-22-soft-photo.png)](input-images/bfs-input-22-soft-photo.png) | **확대 검수 보류**<br>컵을 양손으로 잡은 동작과 창틀은 이어진다. 손가락·컵 테두리·표정 및 배경 화풍 전환을 확대 검수한다. |
 
-## target-23
-
-| 관리번호 · 입력 ID | Mira 목표 | 생성 입력 후보 | 현재 검수 의견 |
-| --- | --- | --- | --- |
-| **P711-IN-023**<br>bfs-input-23-clay-render | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-01.png)](training-images/p7-5-11-mira-v2-expression-01.png) | [![P711-IN-023 입력](input-images/bfs-input-23-clay-render.png)](input-images/bfs-input-23-clay-render.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 다문 입 미소가 벌어진 입으로 바뀌었다. |
-| **P711-IN-067**<br>bfs-input-23-ink-illustration | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-01.png)](training-images/p7-5-11-mira-v2-expression-01.png) | [![P711-IN-067 입력](input-images/bfs-input-23-ink-illustration.png)](input-images/bfs-input-23-ink-illustration.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 다문 입 미소가 벌어진 입으로 바뀌었다. |
-| **P711-IN-111**<br>bfs-input-23-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-01.png)](training-images/p7-5-11-mira-v2-expression-01.png) | [![P711-IN-111 입력](input-images/bfs-input-23-oil-painting.png)](input-images/bfs-input-23-oil-painting.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 다문 입 미소가 벌어진 입으로 바뀌었다. |
-| **P711-IN-155**<br>bfs-input-23-soft-photo | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-01.png)](training-images/p7-5-11-mira-v2-expression-01.png) | [![P711-IN-155 입력](input-images/bfs-input-23-soft-photo.png)](input-images/bfs-input-23-soft-photo.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 다문 입 미소가 벌어진 입으로 바뀌었다. |
-| **P711-IN-199**<br>bfs-input-23-watercolor | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-01.png)](training-images/p7-5-11-mira-v2-expression-01.png) | [![P711-IN-199 입력](input-images/bfs-input-23-watercolor.png)](input-images/bfs-input-23-watercolor.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 다문 입 미소가 벌어진 입으로 바뀌었다. |
 
 ## target-24
 
@@ -291,15 +249,6 @@
 | **P711-IN-157**<br>bfs-input-25-clay-render | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-03.png)](training-images/p7-5-11-mira-v2-expression-03.png) | [![P711-IN-157 입력](input-images/bfs-input-25-clay-render.png)](input-images/bfs-input-25-clay-render.png) | **확대 검수 보류**<br>치아가 보이는 미소는 이어지나 목표보다 눈을 더 크게 뜨고 입 벌림도 달라져 표정 보존을 추가 확인한다. |
 | **P711-IN-201**<br>bfs-input-25-ink-illustration | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-03.png)](training-images/p7-5-11-mira-v2-expression-03.png) | [![P711-IN-201 입력](input-images/bfs-input-25-ink-illustration.png)](input-images/bfs-input-25-ink-illustration.png) | **확대 검수 보류**<br>치아가 보이는 미소는 이어지나 목표보다 눈을 더 크게 뜨고 입 벌림도 달라져 표정 보존을 추가 확인한다. |
 
-## target-26
-
-| 관리번호 · 입력 ID | Mira 목표 | 생성 입력 후보 | 현재 검수 의견 |
-| --- | --- | --- | --- |
-| **P711-IN-026**<br>bfs-input-26-soft-photo | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-04.png)](training-images/p7-5-11-mira-v2-expression-04.png) | [![P711-IN-026 입력](input-images/bfs-input-26-soft-photo.png)](input-images/bfs-input-26-soft-photo.png) | **1차 제외 의견 · 재검토 대상**<br>하품 목표의 감은 눈이 뜬 눈으로 바뀌었다. |
-| **P711-IN-070**<br>bfs-input-26-watercolor | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-04.png)](training-images/p7-5-11-mira-v2-expression-04.png) | [![P711-IN-070 입력](input-images/bfs-input-26-watercolor.png)](input-images/bfs-input-26-watercolor.png) | **1차 제외 의견 · 재검토 대상**<br>하품 목표의 감은 눈이 뜬 눈으로 바뀌었다. |
-| **P711-IN-114**<br>bfs-input-26-clay-render | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-04.png)](training-images/p7-5-11-mira-v2-expression-04.png) | [![P711-IN-114 입력](input-images/bfs-input-26-clay-render.png)](input-images/bfs-input-26-clay-render.png) | **1차 제외 의견 · 재검토 대상**<br>하품 목표의 감은 눈이 뜬 눈으로 바뀌었다. |
-| **P711-IN-158**<br>bfs-input-26-ink-illustration | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-04.png)](training-images/p7-5-11-mira-v2-expression-04.png) | [![P711-IN-158 입력](input-images/bfs-input-26-ink-illustration.png)](input-images/bfs-input-26-ink-illustration.png) | **1차 제외 의견 · 재검토 대상**<br>하품 목표의 감은 눈이 뜬 눈으로 바뀌었다. |
-| **P711-IN-202**<br>bfs-input-26-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-04.png)](training-images/p7-5-11-mira-v2-expression-04.png) | [![P711-IN-202 입력](input-images/bfs-input-26-oil-painting.png)](input-images/bfs-input-26-oil-painting.png) | **1차 제외 의견 · 재검토 대상**<br>하품 목표의 감은 눈이 뜬 눈으로 바뀌었다. |
 
 ## target-27
 
@@ -311,15 +260,6 @@
 | **P711-IN-159**<br>bfs-input-27-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-05.png)](training-images/p7-5-11-mira-v2-expression-05.png) | [![P711-IN-159 입력](input-images/bfs-input-27-oil-painting.png)](input-images/bfs-input-27-oil-painting.png) | **확대 검수 보류**<br>목표의 올라간 안쪽 눈썹과 처진 입꼬리가 입력에서 약해지거나 다른 표정으로 보인다. |
 | **P711-IN-203**<br>bfs-input-27-soft-photo | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-05.png)](training-images/p7-5-11-mira-v2-expression-05.png) | [![P711-IN-203 입력](input-images/bfs-input-27-soft-photo.png)](input-images/bfs-input-27-soft-photo.png) | **확대 검수 보류**<br>목표의 올라간 안쪽 눈썹과 처진 입꼬리가 입력에서 약해지거나 다른 표정으로 보인다. |
 
-## target-28
-
-| 관리번호 · 입력 ID | Mira 목표 | 생성 입력 후보 | 현재 검수 의견 |
-| --- | --- | --- | --- |
-| **P711-IN-028**<br>bfs-input-28-clay-render | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-06.png)](training-images/p7-5-11-mira-v2-expression-06.png) | [![P711-IN-028 입력](input-images/bfs-input-28-clay-render.png)](input-images/bfs-input-28-clay-render.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 감은 눈이 뜬 눈으로 바뀌었다. |
-| **P711-IN-072**<br>bfs-input-28-ink-illustration | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-06.png)](training-images/p7-5-11-mira-v2-expression-06.png) | [![P711-IN-072 입력](input-images/bfs-input-28-ink-illustration.png)](input-images/bfs-input-28-ink-illustration.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 감은 눈이 뜬 눈으로 바뀌었다. |
-| **P711-IN-116**<br>bfs-input-28-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-06.png)](training-images/p7-5-11-mira-v2-expression-06.png) | [![P711-IN-116 입력](input-images/bfs-input-28-oil-painting.png)](input-images/bfs-input-28-oil-painting.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 감은 눈이 뜬 눈으로 바뀌었다. |
-| **P711-IN-160**<br>bfs-input-28-soft-photo | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-06.png)](training-images/p7-5-11-mira-v2-expression-06.png) | [![P711-IN-160 입력](input-images/bfs-input-28-soft-photo.png)](input-images/bfs-input-28-soft-photo.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 감은 눈이 뜬 눈으로 바뀌었다. |
-| **P711-IN-204**<br>bfs-input-28-watercolor | [![Mira 목표](training-images/p7-5-11-mira-v2-expression-06.png)](training-images/p7-5-11-mira-v2-expression-06.png) | [![P711-IN-204 입력](input-images/bfs-input-28-watercolor.png)](input-images/bfs-input-28-watercolor.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 감은 눈이 뜬 눈으로 바뀌었다. |
 
 ## target-29
 
@@ -346,7 +286,6 @@
 | 관리번호 · 입력 ID | Mira 목표 | 생성 입력 후보 | 현재 검수 의견 |
 | --- | --- | --- | --- |
 | **P711-IN-031**<br>bfs-input-31-soft-photo | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-02.png)](training-images/p7-5-11-mira-v2-lighting-02.png) | [![P711-IN-031 입력](input-images/bfs-input-31-soft-photo.png)](input-images/bfs-input-31-soft-photo.png) | **확대 검수 보류**<br>창가 사선 인물과 창틀이 기준이다. 수채화는 창 배경이 사라졌고 다른 입력은 표정과 그림자 대응을 확인한다. |
-| **P711-IN-075**<br>bfs-input-31-watercolor | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-02.png)](training-images/p7-5-11-mira-v2-lighting-02.png) | [![P711-IN-075 입력](input-images/bfs-input-31-watercolor.png)](input-images/bfs-input-31-watercolor.png) | **1차 제외 의견 · 재검토 대상**<br>목표의 창틀과 창가 장면이 사라졌다. |
 | **P711-IN-119**<br>bfs-input-31-clay-render | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-02.png)](training-images/p7-5-11-mira-v2-lighting-02.png) | [![P711-IN-119 입력](input-images/bfs-input-31-clay-render.png)](input-images/bfs-input-31-clay-render.png) | **확대 검수 보류**<br>창가 사선 인물과 창틀이 기준이다. 수채화는 창 배경이 사라졌고 다른 입력은 표정과 그림자 대응을 확인한다. |
 | **P711-IN-163**<br>bfs-input-31-ink-illustration | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-02.png)](training-images/p7-5-11-mira-v2-lighting-02.png) | [![P711-IN-163 입력](input-images/bfs-input-31-ink-illustration.png)](input-images/bfs-input-31-ink-illustration.png) | **확대 검수 보류**<br>창가 사선 인물과 창틀이 기준이다. 수채화는 창 배경이 사라졌고 다른 입력은 표정과 그림자 대응을 확인한다. |
 | **P711-IN-207**<br>bfs-input-31-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-02.png)](training-images/p7-5-11-mira-v2-lighting-02.png) | [![P711-IN-207 입력](input-images/bfs-input-31-oil-painting.png)](input-images/bfs-input-31-oil-painting.png) | **확대 검수 보류**<br>창가 사선 인물과 창틀이 기준이다. 수채화는 창 배경이 사라졌고 다른 입력은 표정과 그림자 대응을 확인한다. |
@@ -355,9 +294,7 @@
 
 | 관리번호 · 입력 ID | Mira 목표 | 생성 입력 후보 | 현재 검수 의견 |
 | --- | --- | --- | --- |
-| **P711-IN-032**<br>bfs-input-32-watercolor | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-03.png)](training-images/p7-5-11-mira-v2-lighting-03.png) | [![P711-IN-032 입력](input-images/bfs-input-32-watercolor.png)](input-images/bfs-input-32-watercolor.png) | **1차 제외 의견 · 재검토 대상**<br>배경의 창틀 그림자가 사라지고 단순 배경으로 대체됐다. |
 | **P711-IN-076**<br>bfs-input-32-clay-render | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-03.png)](training-images/p7-5-11-mira-v2-lighting-03.png) | [![P711-IN-076 입력](input-images/bfs-input-32-clay-render.png)](input-images/bfs-input-32-clay-render.png) | **확대 검수 보류**<br>창틀 그림자가 있는 역광 장면이다. 수채화·펜화는 배경의 창 그림자가 사라졌다. |
-| **P711-IN-120**<br>bfs-input-32-ink-illustration | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-03.png)](training-images/p7-5-11-mira-v2-lighting-03.png) | [![P711-IN-120 입력](input-images/bfs-input-32-ink-illustration.png)](input-images/bfs-input-32-ink-illustration.png) | **1차 제외 의견 · 재검토 대상**<br>배경의 창틀 그림자가 사라지고 단순 배경으로 대체됐다. |
 | **P711-IN-164**<br>bfs-input-32-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-03.png)](training-images/p7-5-11-mira-v2-lighting-03.png) | [![P711-IN-164 입력](input-images/bfs-input-32-oil-painting.png)](input-images/bfs-input-32-oil-painting.png) | **확대 검수 보류**<br>창틀 그림자가 있는 역광 장면이다. 수채화·펜화는 배경의 창 그림자가 사라졌다. |
 | **P711-IN-208**<br>bfs-input-32-soft-photo | [![Mira 목표](training-images/p7-5-11-mira-v2-lighting-03.png)](training-images/p7-5-11-mira-v2-lighting-03.png) | [![P711-IN-208 입력](input-images/bfs-input-32-soft-photo.png)](input-images/bfs-input-32-soft-photo.png) | **확대 검수 보류**<br>창틀 그림자가 있는 역광 장면이다. 수채화·펜화는 배경의 창 그림자가 사라졌다. |
 
@@ -448,7 +385,7 @@
 | **P711-IN-085**<br>bfs-input-41-watercolor | [![Mira 목표](training-images/p7-5-11-mira-v2-outfit-05.png)](training-images/p7-5-11-mira-v2-outfit-05.png) | [![P711-IN-085 입력](input-images/bfs-input-41-watercolor.png)](input-images/bfs-input-41-watercolor.png) | **확대 검수 보류**<br>초록 터틀넥과 사선 방향은 이어진다. 몸 굴곡과 시선·입 벌림을 추가 확인한다. |
 | **P711-IN-129**<br>bfs-input-41-clay-render | [![Mira 목표](training-images/p7-5-11-mira-v2-outfit-05.png)](training-images/p7-5-11-mira-v2-outfit-05.png) | [![P711-IN-129 입력](input-images/bfs-input-41-clay-render.png)](input-images/bfs-input-41-clay-render.png) | **확대 검수 보류**<br>초록 터틀넥과 사선 방향은 이어진다. 몸 굴곡과 시선·입 벌림을 추가 확인한다. |
 | **P711-IN-173**<br>bfs-input-41-ink-illustration | [![Mira 목표](training-images/p7-5-11-mira-v2-outfit-05.png)](training-images/p7-5-11-mira-v2-outfit-05.png) | [![P711-IN-173 입력](input-images/bfs-input-41-ink-illustration.png)](input-images/bfs-input-41-ink-illustration.png) | **확대 검수 보류**<br>초록 터틀넥과 사선 방향은 이어진다. 몸 굴곡과 시선·입 벌림을 추가 확인한다. |
-| **P711-IN-217**<br>bfs-input-41-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-outfit-05.png)](training-images/p7-5-11-mira-v2-outfit-05.png) | [![P711-IN-217 입력](input-images/bfs-input-41-oil-painting.png)](input-images/bfs-input-41-oil-painting.png) | **확대 검수 보류**<br>초록 터틀넥과 사선 방향은 이어진다. 몸 굴곡과 시선·입 벌림을 추가 확인한다. |
+| **P711-IN-212**<br>bfs-input-41-oil-painting | [![Mira 목표](training-images/p7-5-11-mira-v2-outfit-05.png)](training-images/p7-5-11-mira-v2-outfit-05.png) | [![P711-IN-212 입력](input-images/bfs-input-41-oil-painting.png)](input-images/bfs-input-41-oil-painting.png) | **확대 검수 보류**<br>초록 터틀넥과 사선 방향은 이어진다. 몸 굴곡과 시선·입 벌림을 추가 확인한다. |
 
 ## target-42
 
@@ -482,10 +419,34 @@
 
 ## 폐기 확정 번호
 
-아래 번호는 재사용하지 않는다. 이미지와 생성 기록은 삭제되었으며 재생성 제외 목록에 등록되어 있다.
+입력 이미지와 생성 기록은 삭제되었으며 아래 번호는 재생성하지 않는다. Mira 목표 이미지와 원래 생성 항목·코드는 보존한다.
 
-- **P711-IN-128** · IPR-003 · `bfs-input-40-watercolor`: 사용자 폐기 확정.
-- **P711-IN-145** · IPR-002 · `bfs-input-13-soft-photo`: 사용자 폐기 확정.
-- **P711-IN-177** · IPR-001 · `bfs-input-01-oil-painting`: 사용자 폐기 확정.
+- **P711-IN-017** · `bfs-input-17-watercolor`: 사용자 폐기 확정.
+- **P711-IN-023** · `bfs-input-23-clay-render`: 사용자 폐기 확정.
+- **P711-IN-026** · `bfs-input-26-soft-photo`: 사용자 폐기 확정.
+- **P711-IN-028** · `bfs-input-28-clay-render`: 사용자 폐기 확정.
+- **P711-IN-032** · `bfs-input-32-watercolor`: 사용자 폐기 확정.
+- **P711-IN-048** · `bfs-input-04-oil-painting`: 사용자 폐기 확정.
+- **P711-IN-065** · `bfs-input-21-watercolor`: 사용자 폐기 확정.
+- **P711-IN-067** · `bfs-input-23-ink-illustration`: 사용자 폐기 확정.
+- **P711-IN-070** · `bfs-input-26-watercolor`: 사용자 폐기 확정.
+- **P711-IN-072** · `bfs-input-28-ink-illustration`: 사용자 폐기 확정.
+- **P711-IN-075** · `bfs-input-31-watercolor`: 사용자 폐기 확정.
+- **P711-IN-092** · `bfs-input-04-soft-photo`: 사용자 폐기 확정.
+- **P711-IN-111** · `bfs-input-23-oil-painting`: 사용자 폐기 확정.
+- **P711-IN-114** · `bfs-input-26-clay-render`: 사용자 폐기 확정.
+- **P711-IN-116** · `bfs-input-28-oil-painting`: 사용자 폐기 확정.
+- **P711-IN-120** · `bfs-input-32-ink-illustration`: 사용자 폐기 확정.
+- **P711-IN-128** · `bfs-input-40-watercolor`: 사용자 폐기 확정.
+- **P711-IN-136** · `bfs-input-04-watercolor`: 사용자 폐기 확정.
+- **P711-IN-145** · `bfs-input-13-soft-photo`: 사용자 폐기 확정.
+- **P711-IN-155** · `bfs-input-23-soft-photo`: 사용자 폐기 확정.
+- **P711-IN-158** · `bfs-input-26-ink-illustration`: 사용자 폐기 확정.
+- **P711-IN-160** · `bfs-input-28-soft-photo`: 사용자 폐기 확정.
+- **P711-IN-177** · `bfs-input-01-oil-painting`: 사용자 폐기 확정.
+- **P711-IN-180** · `bfs-input-04-clay-render`: 사용자 폐기 확정.
+- **P711-IN-199** · `bfs-input-23-watercolor`: 사용자 폐기 확정.
+- **P711-IN-202** · `bfs-input-26-oil-painting`: 사용자 폐기 확정.
+- **P711-IN-204** · `bfs-input-28-watercolor`: 사용자 폐기 확정.
 
 [재생성 제외 목록 JSON](p7-5-11-input-generation-exclusions.json)
