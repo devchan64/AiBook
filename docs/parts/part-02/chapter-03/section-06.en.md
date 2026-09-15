@@ -1,365 +1,196 @@
 # P2-3.6 Checking Linear Algebra with NumPy
 
 > Section ID: `P2-3.6`
-> Version: `v2026.09.08`
+> Version: `v2026.09.14`
 
-NumPy is a Python library for creating and calculating with arrays. An array’s `shape` gives the length of each axis; `*` computes element-wise multiplication and `@` computes matrix multiplication.
+NumPy is a Python library for creating and calculating with arrays. We can calculate the vector comparisons from the preceding section and change input and weight shapes to see how the outputs change. An array's `shape` gives the length of each axis.
 
-## Runtime Environment
+## Execution Environment
 
-The code in this section can run in any Python environment where NumPy is installed.
+Follow the installation locations explained in [P2-3.5](/AiBook/en/parts/part-02/chapter-03/section-05/#_2). In Colab/Jupyter, enter this command in a code cell.
 
-First check the execution environment according to P2-3.5 [Where Commands Run](section-05.en.md#_2). If Python is not installed yet, you can run the examples in a Google Colab code cell. If you use a local PC, you can run them from your own terminal.
-
-In a Colab code cell, NumPy can be prepared like this.
-
-```python
-# This command installs NumPy inside a Colab/Jupyter code cell.
+```text title="IPython · Notebook code cell"
 %pip install numpy
 ```
 
-In a local PC terminal, use the following command.
+On a local PC, enter this command in a terminal.
 
 ```bash
 python -m pip install numpy
 ```
 
-Then, inside Python code, import NumPy like this.
+Run the Python blocks below in order in the same session. Later blocks use variables and `np` defined earlier. To run all the code at once, use the following file.
 
-```python
-# This imports installed NumPy into Python code under the short name np.
-import numpy as np
-```
+[p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 
-Here, `np` is the conventional alias used to call NumPy briefly.
-
-The complete example code of this section can also be downloaded as the following file.
-
-- [p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
-
-If you run it from the project root, you can use the following command in your personal-PC terminal.
+This command runs from the repository root. If you downloaded only the file, run `python p2_3_6_numpy_linear_algebra.py` from the folder where you saved it.
 
 ```bash
 python docs/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py
 ```
 
-This file prints vector addition, scalar multiplication, element-wise multiplication, matrix multiplication, and batch calculation together.
+## Array Shapes and Outputs
 
-## Creating Vectors and Matrices
-
-A vector can be created as a list of values.
+`import numpy as np` imports NumPy under the short name `np`. Passing a list of values to `np.array` creates a one-dimensional array; passing lists of rows creates a two-dimensional array.
 
 ```python
 import numpy as np
 
-# x is an input vector with two components.
 x = np.array([2, 3])
-
-print(x)
-
-# shape confirms that this vector is a one-dimensional array with two components.
+W = np.array([[4, 1], [5, 2]])
 print(x.shape)
-```
-
-The output can be read like this.
-
-```text
-[2 3]
-(2,)
-```
-
-`(2,)` means a one-dimensional array with 2 values. In formula form, it corresponds to:
-
-\[
-\mathbf{x} = [2,\ 3]
-\]
-
-A matrix can be created as a two-dimensional array with rows and columns.
-
-```python
-# W is a 2x2 weight matrix that transforms the input vector into another output.
-W = np.array([
-    [4, 1],
-    [5, 2],
-])
-
-print(W)
-
-# W's shape is the check point for whether matrix multiplication dimensions match.
 print(W.shape)
+print(x @ W)
 ```
 
-The output can be read like this.
-
-```text
-[[4 1]
- [5 2]]
-(2, 2)
-```
-
-`(2, 2)` means 2 rows and 2 columns.
-
-\[
-W =
-\begin{bmatrix}
-4 & 1 \\
-5 & 2
-\end{bmatrix}
-\]
-
-## Shape and Multiplication Requirements
-
-When an AI calculation does not work in code, it is often necessary to check shape before values.
-
-In `x @ W`, the length of vector `x` must equal the number of rows in matrix `W`.
-
-```python
-# x is the input vector, and W is the weight matrix to multiply it by.
-x = np.array([2, 3])
-W = np.array([
-    [4, 1],
-    [5, 2],
-])
-
-# Reading both shapes side by side helps decide whether x @ W is possible.
-print("x shape:", x.shape)
-print("W shape:", W.shape)
-```
-
-The output is: `x shape: (2,)`, `W shape: (2, 2)`.
-
-This information lets us answer the questions `how many values does x have`, `how many inputs and outputs does W connect`, and `do these two have shapes that can be multiplied`.
-
-`x` is a vector with 2 input values, and `W` is a weight matrix that receives 2 inputs and makes 2 outputs.
-
-## Vector Addition and Scalar Multiplication
-
-Vector addition adds values at the same positions.
-
-```python
-# a and b are two vectors with the same shape.
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
-
-# This checks that components in the same positions are added.
-print(a + b)
-```
-
-The output is:
-
-```text
-[5 7 9]
-```
-
-In formula form:
-
-\[
-[1,\ 2,\ 3] + [4,\ 5,\ 6] = [5,\ 7,\ 9]
-\]
-
-Scalar multiplication multiplies the same number into each value of the array.
-
-```python
-# This multiplies every component of the earlier vector a by the same scalar 2.
-print(2 * a)
-```
-
-The output is:
-
-```text
-[2 4 6]
-```
-
-In formula form:
-
-\[
-2[1,\ 2,\ 3] = [2,\ 4,\ 6]
-\]
-
-## `*`: Element-Wise Multiplication
-
-In NumPy, using `*` between arrays usually becomes element-wise multiplication.
-
-```python
-# a and b are the two vectors used to compare element-wise multiplication.
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
-
-# * multiplies components in the same positions.
-print(a * b)
-```
-
-The output is:
-
-```text
-[ 4 10 18]
-```
-
-In formula form:
-
-\[
-[1,\ 2,\ 3] \odot [4,\ 5,\ 6] = [4,\ 10,\ 18]
-\]
-
-The important point here is that `*` is not matrix multiplication. It is the calculation that multiplies matching positions. In short, `*` is element-wise multiplication and `@` is matrix multiplication.
-
-## `@`: Matrix Multiplication
-
-In NumPy, `@` is used for matrix multiplication.
-
-```python
-# x is the input vector, and W is the weight matrix that creates output components.
-x = np.array([2, 3])
-W = np.array([
-    [4, 1],
-    [5, 2],
-])
-
-# y is the output vector produced by matrix multiplication between x and W.
-y = x @ W
-
-print(y)
-print(y.shape)
-```
-
-The output is:
-
-```text
-[23  8]
+```text title="Text · Output"
 (2,)
+(2, 2)
+[23  8]
 ```
 
-This calculation is the same weighted-sum structure seen in `P2-3.3`.
+The `(2,)` in `x.shape` denotes a one-dimensional array with two components. It differs from a two-dimensional array with one row, such as `(1, 2)`. The `(2, 2)` in `W.shape` means two rows and two columns. `x @ W` multiplies and sums `x` with each column of `W`, producing `[2×4+3×5, 2×1+3×2] = [23, 8]`.
 
-\[
-[2,\ 3]
-\begin{bmatrix}
-4 & 1 \\
-5 & 2
-\end{bmatrix}
-=
-[23,\ 8]
-\]
+## The Difference Between `*` and `@`
 
-The first output is:
-
-\[
-2 \times 4 + 3 \times 5 = 23
-\]
-
-The second output is:
-
-\[
-2 \times 1 + 3 \times 2 = 8
-\]
-
-So `@` is `a calculation that multiplies and adds to make a new vector`.
-
-## Batch Matrix Calculation
-
-If several input samples are grouped into a matrix, the same weight matrix can be applied all at once.
+For arrays of the same shape, `+` and `*` operate on corresponding components. Multiplying by a single number multiplies every component by that number. Applying `@` to two one-dimensional vectors sums their component products, giving a single dot-product value.
 
 ```python
-# X is an input matrix with two samples as rows.
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+print(a + b)
+print(2 * a)
+print(a * b)
+print(a @ b)
+```
+
+```text title="Text · Output"
+[5 7 9]
+[2 4 6]
+[ 4 10 18]
+32
+```
+
+`a * b` leaves the products as `[4, 10, 18]`, whereas `a @ b` sums them to `4+10+18=32`. The earlier `x @ W` returns a vector; `a @ b` here returns a single number. The output shape of `@` depends on the dimensions of its inputs. Broadcasting rules also apply to `*` between differently shaped arrays, so element-wise multiplication does not require identical shapes in every case.
+
+## Comparing Purchase Vectors
+
+Use the same `[coffee quantity, tea quantity]` vectors as in P2-3.4. `np.linalg.norm(v)` calculates the 2-norm of this one-dimensional vector. `v-q` is the difference in purchase quantities, and its norm is the Euclidean distance.
+
+```python
+q = np.array([1, 1])
+candidates = {
+    "a": np.array([2, 2]),
+    "b": np.array([1, 0]),
+    "c": np.array([10, 10]),
+}
+for name, v in candidates.items():
+    dot = q @ v
+    norm = np.linalg.norm(v)
+    distance = np.linalg.norm(v - q)
+    cosine = dot / (np.linalg.norm(q) * norm)
+    print(f"{name}: dot={dot}, norm={norm:.3f}, "
+          f"distance={distance:.3f}, cosine={cosine:.3f}")
+```
+
+```text title="Text · Output"
+a: dot=4, norm=2.828, distance=1.414, cosine=1.000
+b: dot=1, norm=1.000, distance=1.000, cosine=0.707
+c: dot=20, norm=14.142, distance=12.728, cosine=1.000
+```
+
+`dot`, `norm`, `distance`, and `cosine` denote the dot product, length, distance, and cosine similarity. The `:.3f` format displays three decimal places without limiting the calculation itself to that precision. By distance, `b` is closest; by cosine similarity, `a` and `c` tie. The dot product is largest for `c`, with its larger quantities. This cosine calculation requires both vectors to have nonzero length.
+
+Change `a` in `candidates` to `[4, 4]` and run it again. The dot product becomes `8`, the norm approximately `5.657`, and the distance approximately `4.243`, but cosine similarity stays at `1.000`. The purchase quantities increased while the ratio stayed the same.
+
+## Samples, Input Components, and Output Components
+
+Group three inputs as rows and transform each input's two components into four output components. The weights below are chosen manually to demonstrate the calculation; they were not learned from data.
+
+```python
 X = np.array([
     [2, 3],
     [1, 4],
+    [0, 1],
 ])
-
-# W is the weight matrix that turns each input sample into an output vector.
 W = np.array([
-    [4, 1],
-    [5, 2],
+    [4, 1, 1, 0],
+    [5, 2, 0, 1],
 ])
-
-# Y is the output matrix after applying W to the whole input batch X.
 Y = X @ W
-
-print(X.shape)
-print(W.shape)
+print(X.shape, W.shape, Y.shape)
 print(Y)
-print(Y.shape)
 ```
 
-The output is:
-
-```text
-(2, 2)
-(2, 2)
-[[23  8]
- [24  9]]
-(2, 2)
+```text title="Text · Output"
+(3, 2) (2, 4) (3, 4)
+[[23  8  2  3]
+ [24  9  1  4]
+ [ 5  2  0  1]]
 ```
 
-In formula form:
+| Array | Shape | Meaning of rows and columns |
+| --- | --- | --- |
+| `X` | `(3, 2)` | Three samples, two input components per sample |
+| `W` | `(2, 4)` | Weights for two input components and four output components |
+| `Y` | `(3, 4)` | Three samples, four output components per sample |
 
-\[
-X =
-\begin{bmatrix}
-2 & 3 \\
-1 & 4
-\end{bmatrix}
-\]
+In `(3, 2) @ (2, 4) → (3, 4)`, the two inner dimensions, both `2`, must match. The result retains the sample count `3` and output component count `4`. The first two columns of `W` preserve the earlier `[23, 8]` calculation; the last two pass through the first and second input components, respectively. Applying the same `W` to each sample makes each output row correspond to one input row.
 
-\[
-W =
-\begin{bmatrix}
-4 & 1 \\
-5 & 2
-\end{bmatrix}
-\]
+## Dimension Errors and Adding a Weight Row
 
-\[
-XW =
-\begin{bmatrix}
-23 & 8 \\
-24 & 9
-\end{bmatrix}
-\]
-
-Here, the first row is the output of the first sample, and the second row is the output of the second sample. In other words, there are 2 input samples, each sample has 2 values, the same `W` is applied, and then we obtain 2 output samples, each of which also has 2 values.
-
-This is the smallest example of batch calculation.
-
-## Mismatched Input Length
-
-The following calculation does not match immediately.
+Multiplying an input with three components by the current two-row `W` raises an error. The following code catches the error and prints the input component count and weight row count. The full error message can differ between NumPy versions.
 
 ```python
-# bad_x has three components, so its dimension does not match the two-row W.
 bad_x = np.array([2, 3, 4])
-W = np.array([
-    [4, 1],
-    [5, 2],
-])
-
-bad_y = bad_x @ W
+try:
+    bad_x @ W
+except ValueError:
+    print("ValueError: input components = 3, weight rows = 2")
 ```
 
-The shape of `bad_x` is `(3,)`, and the shape of `W` is `(2, 2)`. The input has 3 values, but the weight matrix is shaped to receive 2 input values. In other words: `bad_x shape: (3,)`, `W shape: (2, 2)`.
+```text title="Text · Output"
+ValueError: input components = 3, weight rows = 2
+```
 
-So it does not align which input values should be multiplied with which weights. In a real NumPy run, an error appears saying that the shapes do not match.
+Using a third input component requires a corresponding row of weights. Arbitrarily deleting input components just to match shapes changes the meaning of the data. Add `[1, 0, 0, 1]` as a new row so that the third input contributes once to the first and fourth outputs. `np.vstack` stacks arrays vertically, along the row direction.
 
-To use the third input in the calculation, `W` needs a corresponding row of weights. To retain two outputs, `W` must have shape `(3, 2)`. Deleting an input arbitrarily just to match shapes changes the meaning of the data supplied to the model.
+```python
+W_fixed = np.vstack([W, [1, 0, 0, 1]])
+print(W_fixed.shape)
+print(bad_x @ W_fixed)
+```
+
+```text title="Text · Output"
+(3, 4)
+[27  8  2  7]
+```
+
+The third input, `4`, adds `[4, 0, 0, 4]` to the original output `[23, 8, 2, 3]` for `[2, 3]`, giving `[27, 8, 2, 7]`. Matching shapes and deciding the role of the new input must go together.
+
+## Exercise: Adding One More Sample
+
+Add `[2, 0]` as the last row of the batch input `X`, leaving `W` unchanged. Predict the shapes of `X` and `Y` and the new output row before running the calculation.
+
+??? note "Calculation and explanation"
+    `X.shape` becomes `(4, 2)` and `Y.shape` becomes `(4, 4)`. The new output row is `[8, 2, 2, 0]`. Each sample still has two input components, so adding samples does not require changing `W`. The first three output rows also remain unchanged.
 
 ## Checklist
 
-- Can you create vectors and matrices as NumPy arrays?
-- Can you check vector and matrix shape with `.shape`?
-- Can you connect vector addition and scalar multiplication in code and in formulas?
-- Can you explain that NumPy’s `*` is element-wise multiplication?
-- Can you explain that NumPy’s `@` is matrix multiplication?
-- Can you read input shape, weight shape, and output shape in `x @ W`?
-- Can you explain batch calculation that groups several samples into a matrix and applies the same weight matrix?
-- Can you explain the habit of checking formula, shape, and output together in NumPy rather than looking at syntax alone?
-- Can you distinguish `*` and `@` and apply the standard of checking shape before values?
+- Can you explain why `(2,)` and `(1, 2)` are different array shapes?
+- Can you explain why applying `*` and `@` to vectors gives an array and a single number, respectively?
+- Can you connect the dot product, norm, distance, and cosine calculations to the purchase comparison in the preceding section?
+- Can you predict the output shape of `(3, 2) @ (2, 4)` before running it?
+- Can you explain how adding samples and adding input components affect the weights differently?
 
 ## Sources and References
 
-- Example code of this section: [p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 - NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, checked 2026-07-19.
 - NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-07-19.
 - NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }. It provides the array-creation API and examples. Checked: 2026-07-19.
 - NumPy Developers, [`numpy.ndarray.shape`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }. It documents the `shape` attribute as the tuple of array dimensions. Checked: 2026-07-19.
 - NumPy Developers, [`numpy.matmul`](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }. It documents matrix multiplication and the shape-mismatch error condition. Checked: 2026-07-19.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-07-19.
+- [numpy.linalg.norm](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-14.
+- [cosine_similarity](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-14.
+- [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-14.

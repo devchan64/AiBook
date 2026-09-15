@@ -1,365 +1,196 @@
 # P2-3.6 用 NumPy 确认线性代数
 
 > Section ID: `P2-3.6`
-> Version: `v2026.09.08`
+> Version: `v2026.09.14`
 
-NumPy 是 Python 中用于创建数组和进行数组计算的库。数组的 `shape` 表示每个轴的长度，`*` 计算逐位置乘法，`@` 计算矩阵乘法。
+NumPy 是用于创建数组和进行数组计算的 Python 库。我们可以用代码计算上一节的向量比较，并改变输入与权重的形状，观察输出如何变化。数组的 `shape` 表示每个轴的长度。
 
 ## 运行环境
 
-这一节的代码可以在任何安装了 NumPy 的 Python 环境里运行。
+安装位置遵循 [P2-3.5 的说明](/AiBook/zh/parts/part-02/chapter-03/section-05/#_2)。在 Colab/Jupyter 中，将以下命令输入代码单元。
 
-先按照 P2-3.5 的 [命令的执行位置](section-05.zh.md#_2) 来确认执行位置。如果还没有安装 Python，可以在 Google Colab 代码单元里运行；如果使用本地 PC，也可以在自己的终端里运行。
-
-在 Colab 代码单元里，可以这样准备 NumPy。
-
-```python
-# 这条命令是在 Colab/Jupyter 代码单元里安装 NumPy。
+```text title="IPython · 笔记本代码单元"
 %pip install numpy
 ```
 
-在本地 PC 终端里，则使用下面的命令。
+在本地 PC 上，将以下命令输入终端。
 
 ```bash
 python -m pip install numpy
 ```
 
-然后，在 Python 代码里，用下面这种方式导入 NumPy。
+在同一会话中从上到下执行以下 Python 代码块。后面的代码块使用前面定义的变量和 `np`。要一次运行全部代码，请使用以下文件。
 
-```python
-# 这一行把已安装的 NumPy 用 np 这个短名字导入 Python 代码。
-import numpy as np
-```
+[p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 
-这里的 `np` 是对 NumPy 的惯例性简写别名(alias)。
-
-本节完整的示例代码也可以通过下面这个文件获得。
-
-- [p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
-
-如果从项目根目录运行，可以在个人电脑终端里使用下面的命令。
+以下命令在仓库根目录运行。如果只下载了文件，则在保存文件的目录中运行 `python p2_3_6_numpy_linear_algebra.py`。
 
 ```bash
 python docs/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py
 ```
 
-这个文件会把向量加法、标量乘法、逐位置乘法、矩阵乘法、batch 计算一起打印出来。
+## 数组的 shape 与输出
 
-## 创建向量与矩阵
-
-向量(vector)可以作为值的列表来创建。
+`import numpy as np` 将 NumPy 导入为简短名称 `np`。向 `np.array` 传入数值列表会创建一维数组，传入按行组织的列表则会创建二维数组。
 
 ```python
 import numpy as np
 
-# x 是一个有两个成分的输入向量。
 x = np.array([2, 3])
-
-print(x)
-
-# shape 用来确认这个向量是包含两个成分的一维数组。
+W = np.array([[4, 1], [5, 2]])
 print(x.shape)
-```
-
-输出可以读成：
-
-```text
-[2 3]
-(2,)
-```
-
-`(2,)` 表示“一个含有 2 个值的一维数组”。对应到公式里就是：
-
-\[
-\mathbf{x} = [2,\ 3]
-\]
-
-矩阵(matrix)则可以创建成带有行(row)和列(column)的二维数组。
-
-```python
-# W 是把输入向量变成另一个输出的 2x2 权重矩阵。
-W = np.array([
-    [4, 1],
-    [5, 2],
-])
-
-print(W)
-
-# W 的 shape 是判断矩阵乘法维度是否匹配的依据。
 print(W.shape)
+print(x @ W)
 ```
 
-输出可以读成：
-
-```text
-[[4 1]
- [5 2]]
-(2, 2)
-```
-
-`(2, 2)` 表示 2 行 2 列。
-
-\[
-W =
-\begin{bmatrix}
-4 & 1 \\
-5 & 2
-\end{bmatrix}
-\]
-
-## shape 与乘法条件
-
-当 AI 代码里的计算不工作时，往往应该先看 shape，再看数值。
-
-在 `x @ W` 中，向量 `x` 的长度必须等于矩阵 `W` 的行数。
-
-```python
-# x 是输入向量，W 是要与它相乘的权重矩阵。
-x = np.array([2, 3])
-W = np.array([
-    [4, 1],
-    [5, 2],
-])
-
-# 把两个 shape 并排输出，可以先判断 x @ W 是否可行。
-print("x shape:", x.shape)
-print("W shape:", W.shape)
-```
-
-输出会是：`x shape: (2,)`，`W shape: (2, 2)`。
-
-这些信息能帮助我们回答：`x 有多少个值`、`W 接收多少输入并产生多少输出`、`它们两者能不能相乘`。
-
-`x` 是一个含有 2 个输入值的向量，而 `W` 是一个接收 2 个输入并产生 2 个输出的权重矩阵(weight matrix)。
-
-## 向量加法与标量乘法
-
-向量加法(vector addition)会把相同位置上的值相加。
-
-```python
-# a 和 b 是两个 shape 相同的向量。
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
-
-# 这里确认相同位置的成分会相加。
-print(a + b)
-```
-
-输出是：
-
-```text
-[5 7 9]
-```
-
-对应到公式里：
-
-\[
-[1,\ 2,\ 3] + [4,\ 5,\ 6] = [5,\ 7,\ 9]
-\]
-
-标量乘法(scalar multiplication)则是把同一个数字乘到数组的每个位置上。
-
-```python
-# 这里把前面创建的向量 a 的每个成分都乘以同一个标量 2。
-print(2 * a)
-```
-
-输出是：
-
-```text
-[2 4 6]
-```
-
-对应到公式里：
-
-\[
-2[1,\ 2,\ 3] = [2,\ 4,\ 6]
-\]
-
-## `*`：逐位置乘法
-
-在 NumPy 里，数组之间的 `*` 通常表示逐位置乘法(element-wise multiplication)。
-
-```python
-# a 和 b 是用来比较逐元素乘法的两个向量。
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
-
-# * 会把相同位置的成分相乘。
-print(a * b)
-```
-
-输出是：
-
-```text
-[ 4 10 18]
-```
-
-对应到公式里：
-
-\[
-[1,\ 2,\ 3] \odot [4,\ 5,\ 6] = [4,\ 10,\ 18]
-\]
-
-这里最重要的是：`*` 不是矩阵乘法。它只是把相同位置的值相乘。换句话说，`*` 是逐位置乘法，`@` 才是矩阵乘法。
-
-## `@`：矩阵乘法
-
-在 NumPy 里，`@` 用来做矩阵乘法(matrix multiplication)。
-
-```python
-# x 是输入向量，W 是生成输出成分的权重矩阵。
-x = np.array([2, 3])
-W = np.array([
-    [4, 1],
-    [5, 2],
-])
-
-# y 是 x 和 W 做矩阵乘法后得到的输出向量。
-y = x @ W
-
-print(y)
-print(y.shape)
-```
-
-输出是：
-
-```text
-[23  8]
+```text title="文本 · 运行结果"
 (2,)
+(2, 2)
+[23  8]
 ```
 
-这个计算正是 `P2-3.3` 里看过的加权求和结构。
+`x.shape` 中的 `(2,)` 表示有两个分量的一维数组。它与 `(1, 2)` 这样只有一行的二维数组不同。`W.shape` 中的 `(2, 2)` 表示两行两列。`x @ W` 将 `x` 与 `W` 的每一列相乘并求和，输出为 `[2×4+3×5, 2×1+3×2] = [23, 8]`。
 
-\[
-[2,\ 3]
-\begin{bmatrix}
-4 & 1 \\
-5 & 2
-\end{bmatrix}
-=
-[23,\ 8]
-\]
+## `*` 与 `@` 的区别
 
-第一个输出是：
-
-\[
-2 \times 4 + 3 \times 5 = 23
-\]
-
-第二个输出是：
-
-\[
-2 \times 1 + 3 \times 2 = 8
-\]
-
-所以，`@` 就是 `乘并相加、做出新向量的计算`。
-
-## 批量矩阵计算
-
-如果把多个输入样本(sample)收集成一个矩阵，就可以把同一个权重矩阵一次性应用上去。
+对于 shape 相同的数组，`+` 和 `*` 分别对对应位置的分量进行计算。乘以一个数时，每个分量都乘以这个数。对两个一维向量使用 `@`，会将分量的乘积相加，得到一个内积数值。
 
 ```python
-# X 是把两个样本放在行里的输入矩阵。
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+print(a + b)
+print(2 * a)
+print(a * b)
+print(a @ b)
+```
+
+```text title="文本 · 运行结果"
+[5 7 9]
+[2 4 6]
+[ 4 10 18]
+32
+```
+
+`a * b` 保留各乘积，得到 `[4, 10, 18]`；`a @ b` 则把它们加起来，得到 `4+10+18=32`。前面的 `x @ W` 返回向量，这里的 `a @ b` 返回一个数。`@` 的输出形状取决于输入数组的维数。对于 shape 不同的数组，`*` 还会应用广播规则，因此逐元素乘法并不总是要求形状完全相同。
+
+## 比较购买量向量
+
+沿用 P2-3.4 的 `[咖啡购买量, 茶购买量]` 向量。`np.linalg.norm(v)` 计算这个一维向量的 2-范数。`v-q` 是两组购买量之差，其范数就是欧氏距离。
+
+```python
+q = np.array([1, 1])
+candidates = {
+    "a": np.array([2, 2]),
+    "b": np.array([1, 0]),
+    "c": np.array([10, 10]),
+}
+for name, v in candidates.items():
+    dot = q @ v
+    norm = np.linalg.norm(v)
+    distance = np.linalg.norm(v - q)
+    cosine = dot / (np.linalg.norm(q) * norm)
+    print(f"{name}: dot={dot}, norm={norm:.3f}, "
+          f"distance={distance:.3f}, cosine={cosine:.3f}")
+```
+
+```text title="文本 · 运行结果"
+a: dot=4, norm=2.828, distance=1.414, cosine=1.000
+b: dot=1, norm=1.000, distance=1.000, cosine=0.707
+c: dot=20, norm=14.142, distance=12.728, cosine=1.000
+```
+
+`dot`、`norm`、`distance`、`cosine` 分别表示内积、长度、距离和余弦相似度。输出格式 `:.3f` 表示显示小数点后三位，并不把计算本身限制在这一精度。按距离比较，`b` 最近；按余弦相似度比较，`a` 和 `c` 并列。购买量更大的 `c` 得到最大的内积。这一余弦计算要求两个向量的长度都非零。
+
+将 `candidates` 中的 `a` 改为 `[4, 4]` 后再次运行。内积变为 `8`，长度约为 `5.657`，距离约为 `4.243`，余弦相似度仍为 `1.000`。这是购买量增加而购买比例不变的结果。
+
+## 样本数、输入分量数与输出分量数
+
+将三个输入按行组合，把每个输入的两个分量变为四个输出分量。下面的权重是为演示计算而手动指定的，并非通过训练得到。
+
+```python
 X = np.array([
     [2, 3],
     [1, 4],
+    [0, 1],
 ])
-
-# W 是把每个输入样本变成输出向量的权重矩阵。
 W = np.array([
-    [4, 1],
-    [5, 2],
+    [4, 1, 1, 0],
+    [5, 2, 0, 1],
 ])
-
-# Y 是把 W 应用于整个输入批次 X 后得到的输出矩阵。
 Y = X @ W
-
-print(X.shape)
-print(W.shape)
+print(X.shape, W.shape, Y.shape)
 print(Y)
-print(Y.shape)
 ```
 
-输出是：
-
-```text
-(2, 2)
-(2, 2)
-[[23  8]
- [24  9]]
-(2, 2)
+```text title="文本 · 运行结果"
+(3, 2) (2, 4) (3, 4)
+[[23  8  2  3]
+ [24  9  1  4]
+ [ 5  2  0  1]]
 ```
 
-对应到公式里：
+| 数组 | shape | 行与列的含义 |
+| --- | --- | --- |
+| `X` | `(3, 2)` | 三个样本，每个样本有两个输入分量 |
+| `W` | `(2, 4)` | 对应两个输入分量、四个输出分量的权重 |
+| `Y` | `(3, 4)` | 三个样本，每个样本有四个输出分量 |
 
-\[
-X =
-\begin{bmatrix}
-2 & 3 \\
-1 & 4
-\end{bmatrix}
-\]
+在 `(3, 2) @ (2, 4) → (3, 4)` 中，中间的两个 `2` 必须相等才能计算。结果保留样本数 `3` 和输出分量数 `4`。`W` 的前两列保留前面的 `[23, 8]` 计算，后两列分别原样输出第一个和第二个输入分量。每个样本都应用同一个 `W`，因此一行输出对应一行输入。
 
-\[
-W =
-\begin{bmatrix}
-4 & 1 \\
-5 & 2
-\end{bmatrix}
-\]
+## 维度错误与增加权重行
 
-\[
-XW =
-\begin{bmatrix}
-23 & 8 \\
-24 & 9
-\end{bmatrix}
-\]
-
-这里，第一行是第一个样本的输出，第二行是第二个样本的输出。也就是说：有 2 个输入样本，每个样本有 2 个值，应用同一个 `W` 之后，得到 2 个输出样本，而每个输出也有 2 个值。
-
-这就是 batch 计算最小的例子。
-
-## 输入长度不匹配
-
-下面这个计算就不能直接对上。
+将具有三个分量的输入乘以当前只有两行的 `W` 会出错。下面的代码捕获错误，并输出输入分量数和权重行数。完整错误消息可能因 NumPy 版本而不同。
 
 ```python
-# bad_x 有 3 个成分，因此和只有 2 行的 W 做矩阵乘法时维度不匹配。
 bad_x = np.array([2, 3, 4])
-W = np.array([
-    [4, 1],
-    [5, 2],
-])
-
-bad_y = bad_x @ W
+try:
+    bad_x @ W
+except ValueError:
+    print("ValueError: input components = 3, weight rows = 2")
 ```
 
-`bad_x` 的 shape 是 `(3,)`，而 `W` 的 shape 是 `(2, 2)`。输入有 3 个值，但权重矩阵只接收 2 个输入。也就是：`bad_x shape: (3,)`，`W shape: (2, 2)`。
+```text title="文本 · 运行结果"
+ValueError: input components = 3, weight rows = 2
+```
 
-因此，它无法对齐到底哪些输入值该与哪些权重相乘。在真实的 NumPy 运行中，就会报出 shape 不匹配的错误。
+要使用第三个输入分量，就需要对应的一行权重。为了匹配形状而随意删除输入分量，会改变数据的含义。新增一行 `[1, 0, 0, 1]`，让第三个输入以系数 1 分别加到第一个和第四个输出中。`np.vstack` 沿行方向纵向堆叠数组。
 
-要让第三个输入也参与计算，`W` 需要增加与它对应的一行权重。如果保持两个输出，`W` 的 shape 应为 `(3, 2)`。为了匹配 shape 而任意删除输入值，会改变提供给模型的数据含义。
+```python
+W_fixed = np.vstack([W, [1, 0, 0, 1]])
+print(W_fixed.shape)
+print(bad_x @ W_fixed)
+```
+
+```text title="文本 · 运行结果"
+(3, 4)
+[27  8  2  7]
+```
+
+第三个输入 `4` 在 `[2, 3]` 原有的输出 `[23, 8, 2, 3]` 上加上 `[4, 0, 0, 4]`，得到 `[27, 8, 2, 7]`。匹配 shape 与确定新输入的作用必须同时进行。
+
+## 练习：再增加一个样本
+
+在批量输入 `X` 的最后添加一行 `[2, 0]`，保持 `W` 不变。运行前，先预测 `X`、`Y` 的 shape 和新增的输出行。
+
+??? note "计算与解析"
+    `X.shape` 变为 `(4, 2)`，`Y.shape` 变为 `(4, 4)`。新增输出行为 `[8, 2, 2, 0]`。每个样本仍然只有两个输入分量，因此增加样本不需要改变 `W`。前面三个输出行也保持不变。
 
 ## 检查清单
 
-- 能用 NumPy 数组(array)创建向量和矩阵吗？
-- 能用 `.shape` 检查向量与矩阵的形状吗？
-- 能把向量加法和标量乘法连回代码与公式吗？
-- 能说明 NumPy 的 `*` 是逐位置乘法(element-wise multiplication)吗？
-- 能说明 NumPy 的 `@` 是矩阵乘法(matrix multiplication)吗？
-- 能读懂 `x @ W` 里的输入 shape、权重 shape、输出 shape 吗？
-- 能说明“把多个样本收集成矩阵，再应用同一个权重矩阵”的 batch 计算吗？
-- 能说明在 NumPy 里，比起单独记语法，更重要的是把公式、shape、输出一起阅读的习惯吗？
-- 能区分 `*` 和 `@`，并应用“先看 shape、再看值”的标准吗？
+- 能否解释 `(2,)` 与 `(1, 2)` 为什么是不同的数组形状？
+- 能否解释对向量应用 `*` 和 `@` 为什么分别得到数组和一个数？
+- 能否将内积、范数、距离和余弦相似度的计算与上一节的购买量比较联系起来？
+- 能否在运行前预测 `(3, 2) @ (2, 4)` 的结果 shape？
+- 能否解释增加样本与增加输入分量对权重的影响有何不同？
 
 ## 来源与参考资料
 
-- 本节示例代码：[p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 - NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
 - NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
 - NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }。可以确认数组创建 API 的参数和示例。确认日期: 2026-07-19.
 - NumPy Developers, [`numpy.ndarray.shape`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }。可以确认把数组维度作为元组读取的 `shape` 属性。确认日期: 2026-07-19.
 - NumPy Developers, [`numpy.matmul`](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }。可以确认矩阵乘法以及 shape 不匹配时的错误条件。确认日期: 2026-07-19.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-07-19.
+- [numpy.linalg.norm](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期: 2026-09-14.
+- [cosine_similarity](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期: 2026-09-14.
+- [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期: 2026-09-14.

@@ -1,7 +1,7 @@
 # P2-3.5 파이썬 실행 환경: Colab과 로컬 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.14`
 
 Python 코드는 Colab 노트북의 코드 셀이나 로컬 PC의 Python 실행기에서 실행할 수 있습니다. 패키지 설치 명령은 실행 환경에 맞게 쓰고, 설치한 패키지는 Python 코드에서 `import`로 불러옵니다.
 
@@ -54,13 +54,13 @@ Google Colab은 브라우저에서 Jupyter Notebook 형태로 파이썬 코드�
 
 예를 들어 로컬 PC 터미널에서는 다음처럼 NumPy를 설치할 수 있습니다.
 
-```bash
+```bash title="Bash · 로컬 터미널"
 python -m pip install numpy
 ```
 
 그리고 파이썬 파일 안에서는 다음처럼 NumPy를 불러옵니다.
 
-```python
+```python title="Python"
 # NumPy를 Python 코드 안에서 불러오는 문장입니다.
 import numpy as np
 ```
@@ -71,14 +71,14 @@ Colab 노트북에는 글을 쓰는 셀과 코드를 실행하는 셀이 있습�
 
 예를 들어 다음 코드를 코드 셀에 넣고 실행할 수 있습니다.
 
-```python
+```python title="Python"
 # Colab 코드 셀이 실제로 실행되는지 확인하는 가장 작은 출력 예시입니다.
 print("hello, colab")
 ```
 
 실행 결과는 다음처럼 나옵니다.
 
-```text
+```text title="텍스트 · 실행 결과"
 hello, colab
 ```
 
@@ -88,7 +88,7 @@ hello, colab
 
 Colab 환경에는 NumPy가 이미 준비되어 있는 경우가 많습니다. 하지만 환경이 달라질 수 있으므로 필요하면 코드 셀에서 다음 명령을 실행합니다.
 
-```python
+```text title="IPython · 노트북 코드 셀"
 # %pip는 Colab/Jupyter 코드 셀 안에서 쓰는 설치 명령입니다.
 %pip install numpy
 ```
@@ -97,7 +97,7 @@ Colab 환경에는 NumPy가 이미 준비되어 있는 경우가 많습니다. �
 
 Colab이나 Jupyter 문서에서는 셸 명령을 실행할 때 다음처럼 느낌표(`!`)를 붙인 예제도 볼 수 있습니다.
 
-```python
+```text title="IPython · 노트북 코드 셀"
 # 느낌표 명령은 코드 셀에서 터미널 명령을 호출하는 방식입니다.
 !pip install numpy
 ```

@@ -1,5 +1,5 @@
 {
-  "status": "partial_complete_18_of_30",
+  "status": "generated_pending_visual_review",
   "items": [
     {
       "id": "A-200-portrait",
@@ -260,11 +260,13 @@
       "case": "portrait",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-a-run1600/checkpoints/mira_identity-step00000800.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "b23dd49c4dd6e75ddb9190a3dc5ec8cbd8394ada74e470fd247ee25b72269e28",
+      "image": "images/A-800-portrait.png",
+      "output_sha256": "dc39ef943a496d0763597f20226aa0fe27bbfe91f8e9729d983273b957a4dc6d",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/A-800",
+      "origin": "generated"
     },
     {
       "id": "A-800-cafe",
@@ -273,11 +275,13 @@
       "case": "cafe",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-a-run1600/checkpoints/mira_identity-step00000800.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "b23dd49c4dd6e75ddb9190a3dc5ec8cbd8394ada74e470fd247ee25b72269e28",
+      "image": "images/A-800-cafe.png",
+      "output_sha256": "6013ec678a4fdcd96b3b7ffbcab171c0ae2b8124750ea930dfade7b8d75c1a9c",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/A-800",
+      "origin": "generated"
     },
     {
       "id": "A-800-garden",
@@ -286,11 +290,13 @@
       "case": "garden",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-a-run1600/checkpoints/mira_identity-step00000800.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "b23dd49c4dd6e75ddb9190a3dc5ec8cbd8394ada74e470fd247ee25b72269e28",
+      "image": "images/A-800-garden.png",
+      "output_sha256": "7c257e5a1697a5851cb260dee5d933bd2373d414ba7ce4c36e820c324691341d",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/A-800",
+      "origin": "generated"
     },
     {
       "id": "B-800-portrait",
@@ -299,11 +305,13 @@
       "case": "portrait",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-b-run1600/checkpoints/mira_identity-step00000800.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "eda8fab5a1196cabe23590a5974ccfa05f29ee68b21c74692670c1ff80bb7765",
+      "image": "images/B-800-portrait.png",
+      "output_sha256": "d14a271d7eb8b7032290d17954460f06f392b7110da444f58677e398f11093c4",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/B-800",
+      "origin": "generated"
     },
     {
       "id": "B-800-cafe",
@@ -312,11 +320,13 @@
       "case": "cafe",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-b-run1600/checkpoints/mira_identity-step00000800.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "eda8fab5a1196cabe23590a5974ccfa05f29ee68b21c74692670c1ff80bb7765",
+      "image": "images/B-800-cafe.png",
+      "output_sha256": "b6d3411d6ba36fefd547743f3274edc28c23dff8415f93203d350458ae6a729b",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/B-800",
+      "origin": "generated"
     },
     {
       "id": "B-800-garden",
@@ -325,11 +335,13 @@
       "case": "garden",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-b-run1600/checkpoints/mira_identity-step00000800.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "eda8fab5a1196cabe23590a5974ccfa05f29ee68b21c74692670c1ff80bb7765",
+      "image": "images/B-800-garden.png",
+      "output_sha256": "35c9734caccccc4d2dfe36a4d3e13eefebe21a43eea430dfc082d6ed6a176f82",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/B-800",
+      "origin": "generated"
     },
     {
       "id": "A-1600-portrait",
@@ -338,11 +350,13 @@
       "case": "portrait",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-a-run1600/checkpoints/mira_identity-step00001600.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "031a709673f065c0ee885246a18f6cfcfa1667b30cc9d34237e51330d067aa44",
+      "image": "images/A-1600-portrait.png",
+      "output_sha256": "4f7542dda13484ef00686b774ed5f04907684acc20df2cd8038dc77989ce4547",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/A-1600",
+      "origin": "generated"
     },
     {
       "id": "A-1600-cafe",
@@ -351,11 +365,13 @@
       "case": "cafe",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-a-run1600/checkpoints/mira_identity-step00001600.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "031a709673f065c0ee885246a18f6cfcfa1667b30cc9d34237e51330d067aa44",
+      "image": "images/A-1600-cafe.png",
+      "output_sha256": "f647f7cb4f623b6a31f533c483d89c27d496ce1114fbe150d6cc8c5be1bcba02",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/A-1600",
+      "origin": "generated"
     },
     {
       "id": "A-1600-garden",
@@ -364,11 +380,13 @@
       "case": "garden",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-a-run1600/checkpoints/mira_identity-step00001600.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "031a709673f065c0ee885246a18f6cfcfa1667b30cc9d34237e51330d067aa44",
+      "image": "images/A-1600-garden.png",
+      "output_sha256": "7f1da777635a829f6a2035b24d70b87b93556cf495a3ca4ca0e1f921f4739ccb",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/A-1600",
+      "origin": "generated"
     },
     {
       "id": "B-1600-portrait",
@@ -377,11 +395,13 @@
       "case": "portrait",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-b-run1600/checkpoints/mira_identity-step00001600.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "d14922bfa76abeef765f644bb8b12571e82b51fe63db662cd370814fda008fcb",
+      "image": "images/B-1600-portrait.png",
+      "output_sha256": "69d48ac8d7754159605a2596cd46e73a88458bc4052240db4722c78d1682664c",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/B-1600",
+      "origin": "generated"
     },
     {
       "id": "B-1600-cafe",
@@ -390,11 +410,13 @@
       "case": "cafe",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-b-run1600/checkpoints/mira_identity-step00001600.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "d14922bfa76abeef765f644bb8b12571e82b51fe63db662cd370814fda008fcb",
+      "image": "images/B-1600-cafe.png",
+      "output_sha256": "562a9d205e59396aa6f12eb3acecd0cd6b80fadc4a768b4907f6421717c2e3b5",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/B-1600",
+      "origin": "generated"
     },
     {
       "id": "B-1600-garden",
@@ -403,11 +425,13 @@
       "case": "garden",
       "training_run_group": "run1600",
       "checkpoint": ".tmp/p7-5-11/lora-b-run1600/checkpoints/mira_identity-step00001600.safetensors",
-      "checkpoint_sha256": null,
-      "image": null,
-      "output_sha256": null,
-      "generation_status": "pending_checkpoint",
-      "review": "pending"
+      "checkpoint_sha256": "d14922bfa76abeef765f644bb8b12571e82b51fe63db662cd370814fda008fcb",
+      "image": "images/B-1600-garden.png",
+      "output_sha256": "3685ebd41d7c88553c15eecac3393f8e80a5bfd48a0c58808f1b87abae456f1f",
+      "generation_status": "completed",
+      "review": "pending_visual_review",
+      "source_directory": "/home/cbsim/ws/AiBook/.tmp/p7-5-11/long-ab-evaluation/B-1600",
+      "origin": "generated"
     }
   ],
   "review_file": "results/review.json",

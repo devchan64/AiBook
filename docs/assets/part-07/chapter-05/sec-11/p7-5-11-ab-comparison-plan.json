@@ -92,6 +92,6 @@
     "skin appearance",
     "scene/instruction compliance"
   ],
-  "decision": "Record first appearance of Mira features separately from sufficient identity fidelity. Current 100/200/400 review: goal not met. 800/1600 pending.",
+  "decision": "Record first appearance of Mira features separately from sufficient identity fidelity. Current 100/200/400 review: goal not met. 800/1600 images generated and hashes verified; visual review pending.",
   "execution_note": "This is the unified comparison specification. The existing compare_checkpoints.py runner and its original plan cover only the completed 100/200/400 subset. Evaluate additional checkpoints with evaluate_lora.py using explicit checkpoint and SHA-256."
 }

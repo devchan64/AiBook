@@ -1,211 +1,107 @@
 # P2-4.5 Gradient Supplement: from School Differentiation to Multivariable Differentiation
 
 > Section ID: `P2-4.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
-In a one-variable function, we find the slope with respect to one input. With several inputs, the rate of change depends on which input changes or in what proportions inputs change together. Partial derivatives describe rates along coordinate axes; a directional derivative describes the rate along a chosen direction.
+For a function of one variable, differentiation measures change along a single input axis. For several variables, the rate depends on the proportions in which the inputs change together. Traveling the same distance may increase or decrease the function value, and the effects of two inputs may cancel.
 
-## The Slope of a One-Variable Function
+## Rates Along Axes and Diagonals
 
-When we think of school-level differentiation, we usually remember `y = f(x)`, the slope of a tangent line, instantaneous rate of change, derivative at a point, derivative function, and speed and acceleration.
-
-Most of this flow starts from a function with one input.
+The following function calculates one number from two inputs.
 
 \[
-y = f(x)
+F(x,y)=3x+4y,\qquad \nabla F=[3,4]
 \]
 
-Then the question is relatively simple. It asks `if x changes a little, how much does y change?`
+Changing `x` with `y` fixed gives rate 3; changing `y` with `x` fixed gives rate 4. These partial derivatives refer to the positive coordinate-axis directions. When both inputs change, we combine these components according to the direction of travel.
 
-So the rate of change is also easy to understand as one direction. It is like seeing how much the height changes when we move a little forward on a line.
+At the current position `[1,1]`, the function value is 7. Normalize direction vector `u=[u₁,u₂]` to length 1. Traveling distance `h` then changes the inputs by `[hu₁,hu₂]`. A unit vector prevents the distance from changing while we compare directions.
 
-In other words, one input \(x\) corresponds to one output \(y\), and the intuition of reading the slope at one point of that relationship was the starting point of school-level differentiation.
-
-The chart below shows the flow by which one-direction differentiation expands into partial derivatives in many directions and then into a gradient.
-
-![Flow that expands one-variable differentiation into partial derivatives and a gradient in many directions](/AiBook/assets/part-02/chapter-04/gradient-single-to-multiple-directions-en.svg)
-
-## Multiple Inputs and a Vector of Rates
-
-A multivariable function takes several inputs.
+For a differentiable function, the instantaneous rate in direction `u` is the dot product of the gradient and `u`, called the **directional derivative**.
 
 \[
-z = f(x, y)
+D_{\mathbf u}F=\nabla F\cdot\mathbf u=3u_1+4u_2
 \]
 
-Now the questions increase to more than one, such as `if x changes a little, how does z change?` and `if y changes a little, how does z change?`
+| Unit direction u | Position after traveling 0.1 | New value | Change | Directional derivative |
+| --- | --- | --- | --- | --- |
+| `[1,0]` | `[1.1,1]` | 7.3 | +0.3 | 3 |
+| `[0,1]` | `[1,1.1]` | 7.4 | +0.4 | 4 |
+| `[0.6,0.8]` | `[1.06,1.08]` | 7.5 | +0.5 | 5 |
+| `[-0.6,-0.8]` | `[0.94,0.92]` | 6.5 | −0.5 | −5 |
+| `[0.8,-0.6]` | `[1.08,0.94]` | 7 | 0 | 0 |
 
-If we look together at the rate of change in the \(x\)-direction and the rate of change in the \(y\)-direction, it becomes a vector that bundles the two values.
+Because this function is linear, `change = directional derivative × distance` holds exactly even for a finite displacement. For a general curved function, it is an approximation for small displacements.
 
-## Partial Derivatives Along Coordinate Axes
+## When Two Input Changes Cancel
 
-Let us look at one multivariable function.
+Direction `[0.8,-0.6]` has length `√(0.8²+(-0.6)²)=1`. In this direction, increasing `x` contributes `3×0.8=2.4`, while decreasing `y` contributes `4×(-0.6)=−2.4`, canceling each other. Neither partial derivative is zero, but the rate in this direction is zero.
+
+![Contours of F=3x+4y with directions of increase, decrease, and no change at the current position.](/AiBook/assets/part-02/chapter-04/partial-vs-directional-derivative-en.svg)
+
+A contour connects points with the same function value. Here, the straight line `3x+4y=7` passes through the current point. The green zero-rate direction follows this line, while the gradient direction crosses contours perpendicularly toward larger values.
+
+Gradient `[3,4]` has length 5, so its unit direction is `[0.6,0.8]`. Among unit directions, this one has the largest instantaneous rate, 5. This comparison measures coordinate distance as `√(Δx²+Δy²)`.
+
+## A Vector at One Point and a Vector Field
+
+The gradient of `F=3x+4y` is `[3,4]` everywhere. For another function, however, it may vary by position. The following function lets us calculate this directly.
 
 \[
-L(w_1, w_2)
+L(x,y)=x^2+2y^2,\qquad \nabla L(x,y)=[2x,4y]
 \]
 
-In the AI context, we may think of \(L\) as loss and of \(w_1\) and \(w_2\) as parameters.
+| Position | Function value L | Gradient |
+| --- | --- | --- |
+| `[1,0]` | 1 | `[2,0]` |
+| `[0,1]` | 2 | `[0,4]` |
+| `[1,1]` | 3 | `[2,4]` |
+| `[-1,1]` | 3 | `[-2,4]` |
+| `[0,0]` | 0 | `[0,0]` |
 
-Looking at how \(L\) changes when only \(w_1\) is changed a little is the partial derivative with respect to \(w_1\).
+A function assigning one number to each position in space is a **scalar field**. Placing the gradient of this scalar field `L` at each position produces a **vector field**. One gradient describes one position; a gradient vector field shows information at many positions together.
+
+![Contours of L=x²+2y² and gradients at different positions. All arrows use the same scale factor.](/AiBook/assets/part-02/chapter-04/vector-calculus-context-en.svg)
+
+Each arrow points in the direction of increasing function value at its point. All are shortened by the same factor, preserving lengths proportional to gradient magnitude; these are not the unit vectors used to compare directions. At the origin, the gradient is zero and has no direction arrow. The origin is this function’s minimum, but a zero gradient does not always mean a minimum in other functions.
+
+## Zero Rate Versus Constant Value
+
+At `[1,1]` in this function, the gradient is `[2,4]`. Direction `[2/√5,-1/√5]` has length 1 and dot product zero with the gradient. Its instantaneous rate is zero, but traveling straight in this direction does not preserve the function value exactly.
 
 \[
-\frac{\partial L}{\partial w_1}
+L\left(1+\frac{2h}{\sqrt5},1-\frac{h}{\sqrt5}\right)
+=3+\frac65h^2
 \]
 
-Looking at how \(L\) changes when only \(w_2\) is changed a little is the partial derivative with respect to \(w_2\).
+Traveling distance `h=0.1` raises the function value from 3 to 3.012. The quadratic term vanishes in the instantaneous rate but remains in a finite displacement. For the earlier linear function, contours were straight, so continuing straight in the canceling direction preserved the value. Here the contours are curved, so maintaining the same value requires following them while changing direction.
 
-\[
-\frac{\partial L}{\partial w_2}
-\]
+## Parameter Displacement and Loss Change
 
-When calculating a partial derivative, hold the other inputs fixed. For the partial derivative with respect to `w_1`, keep `w_2` unchanged, and vice versa.
+In a learning update, `−η∇L` is a **displacement in parameter space**. Reading it as the same thing as a diagonal arrow on a loss graph can confuse the axes. The one-variable loss `Q(w)=(w−3)²` makes the distinction clear.
 
-## Rate of Change Along a Chosen Direction
+At `w=4`, the derivative is 2. With learning rate 0.1, the update is `Δw=−0.1×2=−0.2`, giving new parameter 3.8. Loss falls from 1 to 0.64, so loss change `ΔQ=−0.36` differs from parameter change `Δw=−0.2`.
 
-Partial derivatives usually look at axis directions one by one. The reference directions are fixed, such as the \(w_1\)-direction and the \(w_2\)-direction.
+![Parameter w moves from 4 to 3.8 along its axis, while loss decreases from 1 to 0.64.](/AiBook/assets/part-02/chapter-04/gradient-descent-update-intuition-en.svg)
 
-A directional derivative asks a slightly more general question.
+The horizontal arrow below shows the actual parameter displacement; the two points on the curve show loss before and after the update. The slope changes at the new position, so it must be recalculated before the next move. Repeated updates and learning-rate choices connect to the preceding section’s calculations.
 
-It asks how much the function value changes per unit distance along any chosen direction, including a coordinate-axis direction.
+## Exercise: Calculate Directions and Displacements
 
-Partial derivatives and directional derivatives both deal with rates of change, but they look in different directions. In the chart below, the partial derivative is distinguished as the rate of change that looks at axis directions one by one, while the directional derivative is the rate of change that follows an arbitrary direction.
+First, find the rate in direction `[-0.8,0.6]` for `F=3x+4y`. Second, start at `[-1,1]` in `L=x²+2y²` and calculate the position and loss after one update with learning rate 0.1. Third, check whether both parameters decreased in the second calculation.
 
-![Chart comparing the directions observed by partial derivatives and directional derivatives](/AiBook/assets/part-02/chapter-04/partial-vs-directional-derivative-en.svg)
-
-For `F(x, y) = 3x + 4y`, the partial derivatives are `3` and `4`. The direction `[0.6, 0.8]`, which changes both coordinates, has length `√(0.6² + 0.8²) = 1`. Moving distance `h` in this direction increases x by `0.6h` and y by `0.8h`.
-
-The function increases by `3 × 0.6h + 4 × 0.8h = 5h`, so the directional derivative is `5`. Use unit direction vectors to compare directions at the same travel distance.
-
-## Gradients and Vector Fields
-
-Gradient is a vector that gathers several partial derivatives in order.
-
-\[
-\nabla L =
-\left[
-\frac{\partial L}{\partial w_1},
-\frac{\partial L}{\partial w_2}
-\right]
-\]
-
-This expression contains in one bundle the answers to the two questions: `if we change w_1, how does the loss change?` and `if we change w_2, how does the loss change?`
-
-If there is only one control knob, one slope is enough. But if there are many knobs, we must look at the rate of change for each knob together. That bundle of rates of change is the gradient.
-
-The point that a gradient is a vector also becomes natural here. A vector is an expression that gathers several numbers in order. Among such vectors, a gradient is the vector that gathers `the rate of change of each direction`.
-
-A function assigning one number to each position can be viewed as a scalar field—for example, assigning a height to each point on a plane. Placing the gradient vector at each point of a differentiable scalar field gives a vector field. Vector calculus studies such functions and rates of change in space.
-
-![Chart showing where scalar fields, gradients, and vector fields connect in vector calculus](/AiBook/assets/part-02/chapter-04/vector-calculus-context-en.svg)
-
-## Ascent and Descent Directions
-
-A gradient connects to the direction in which the value increases most rapidly in a multivariable function. In AI learning, we usually want to reduce loss. So, rather than the gradient itself, the direction opposite the gradient often becomes more important.
-
-For a differentiable function with a nonzero gradient, the instantaneous rate of increase is greatest in the gradient direction. A sufficiently small step in the opposite direction decreases the function value.
-
-The chart below shows how, at one point of a loss function, the gradient direction and the direction that reduces loss become opposites.
-
-![Chart comparing the gradient direction and the descending direction on contours of a loss function](/AiBook/assets/part-02/chapter-04/gradient-direction-loss-contour-en.svg)
-
-What matters here is that a gradient does not tell us the whole map. It tells us direction information near the current position. It tells us which side from the current position is likely to increase the value and which side is likely to decrease it.
-
-## Repeating Gradient Descent
-
-Gradient descent is an optimization method that moves opposite to the gradient.
-
-| Expression | Introductory Meaning |
-| --- | --- |
-| gradient | the direction in which the value increases most rapidly at the current position |
-| descent | going down, moving toward the lower side |
-| gradient descent | a repeated method that uses the gradient as a clue and moves toward the side where the value becomes lower |
-
-Written in a definition-like way, gradient descent is an optimization method that repeatedly calculates the gradient of the loss function at the current parameter position and moves the parameters a little in the direction in which the loss decreases.
-
-That is why gradient descent is often explained with the analogy of coming down from a mountain. From the current position, we look at the surrounding slope and move a little in the direction that becomes lower. We do not teleport to the correct place at once. We move a little and then check the slope again, repeating this process.
-
-Like the chart below, gradient descent is not a method that moves to the center in one jump. It moves a little in the direction where loss decreases from the current position, then reads the direction again from the new position.
-
-![Chart showing gradient descent as repeated small movement toward lower loss](/AiBook/assets/part-02/chapter-04/gradient-descent-steps-en.svg)
-
-## Learning Rate and Movement
-
-Gradient descent is usually explained with an update expression like the following.
-
-\[
-w_{\text{next}} = w - \eta \nabla L
-\]
-
-The symbols mean the following.
-
-| Symbol | Introductory Meaning |
-| --- | --- |
-| \(w\) | the current parameter value |
-| \(w_{\text{next}}\) | the next parameter value |
-| \(\nabla L\) | the directional information about how loss changes at the current position |
-| \(\eta\) | the learning rate that decides how far to move at one time |
-| \(-\eta \nabla L\) | the small amount of movement toward the side where loss decreases |
-
-The phrase `a little` matters: too large a step can overshoot a lower point, while too small a step can take a long time.
-
-![Chart showing that the gradient-descent update means moving a little from the current value in the direction opposite the gradient](/AiBook/assets/part-02/chapter-04/gradient-descent-update-intuition-en.svg)
-
-Gradient descent uses the slope at the current position and does not always reach a global minimum. Results can depend on initialization, the loss function’s shape, step size, and iteration count.
-
-## Backpropagation and Parameter Adjustment
-
-Backpropagation is connected to gradient descent, but it is not the same thing.
-
-Gradient descent is an optimization method that uses the gradient to adjust values, while backpropagation is the procedure that efficiently computes the gradients of many parameters inside a deep-learning model.
-
-We can read it as a structure such as `input -> layer 1 calculation -> layer 2 calculation -> output -> loss`.
-
-To learn, we must know how the loss changes with respect to the parameters of each layer. Backpropagation is the procedure that computes this information efficiently by passing it from the back toward the front.
-
-As in the chart below, the forward pass calculates values from input to output and loss, while the backward pass calculates from the loss backward how much each layer's parameters affect the loss.
-
-![Chart comparing the direction of computation in the forward pass and the direction in which gradients are sent back in backpropagation](/AiBook/assets/part-02/chapter-04/backpropagation-gradient-flow-en.svg)
-
-## The Scope of High School AI Mathematics
-
-In the 2022 revised Korean high school curriculum, `AI Mathematics` includes loss functions and gradient descent. So it may be inaccurate to say that `there is nothing in the high school curriculum that connects to gradient at all`.
-
-However, `AI Mathematics` may be an unfamiliar course title to readers who learned school mathematics long ago. It is natural for these readers not to associate loss functions or gradient descent with high school mathematics.
-
-The reviewed Korean high school curriculum text did not contain the terms `그래디언트`, `gradient`, `편미분`, or `방향도함수`. Gradient descent in `AI Mathematics` is closer to an intuitive treatment of a loss function defined using one variable and its derivative at a point.
-
-Even after learning loss functions and gradient descent in high school, readers may encounter partial and directional derivatives of multivariable functions separately.
-
-## Axis-Aligned and Simultaneous Movement
-
-For `F(x, y) = 3x + 4y`, the value at `[1, 1]` is `7`. Move the same distance, `0.1`, in each direction.
-
-| Direction | New position | New function value | Increase |
-| --- | --- | --- | --- |
-| x-axis `[1, 0]` | `[1.1, 1]` | 7.3 | 0.3 |
-| y-axis `[0, 1]` | `[1, 1.1]` | 7.4 | 0.4 |
-| `[0.6, 0.8]` | `[1.06, 1.08]` | 7.5 | 0.5 |
-
-The gradient `[3, 4]` has length `5`; dividing by that length gives `[0.6, 0.8]`. Changing both inputs along this direction increases the function more than moving the same distance along either axis. Moving `0.1` in direction `[-0.6, -0.8]` instead gives position `[0.94, 0.92]` and function value `6.5`.
-
-Term definition: [gradient in the glossary](/AiBook/en/reference/concept-glossary-alpha/g/#gradient).
+??? note "Calculation and Explanation"
+    The first rate is `3×(-0.8)+4×0.6=0`. In the second calculation the gradient is `[-2,4]`, giving `[-1,1]−0.1×[-2,4]=[-0.8,0.6]`. Loss falls from 3 to `0.8²+2×0.6²=1.36`. Since x increases and y decreases, descent does not mean making every coordinate numerically smaller.
 
 ## Checklist
 
-- You can explain that school-level differentiation memory mainly starts from the rate of change of a one-variable function.
-- You can explain that the gradient naturally appears in a function with several inputs.
-- You can explain a partial derivative as `the rate of change viewed one input at a time among several inputs`.
-- You can explain a directional derivative as `the rate of change viewed in a chosen direction`.
-- You can explain a gradient as `a vector that gathers partial derivatives`.
-- You can explain gradient descent as `the repeated method that reduces loss using the gradient`.
-- You can explain backpropagation as `the procedure that efficiently computes the gradients of many parameters`.
-- You can explain that, even in the high school `AI Mathematics` curriculum, gradient descent appears, but the systems of gradient and partial derivatives may still need separate supplementary explanation.
-- You can distinguish what partial derivative, directional derivative, and gradient each inspect differently.
-- You can explain why a gap arises between memories of school differentiation and AI learning documents.
+- Can you connect coordinate-axis partial derivatives to a directional derivative in an arbitrary direction?
+- Can you compare directions using equal travel distances?
+- Can you use a dot product to identify a direction where input effects cancel?
+- Can you distinguish a gradient at one point from a vector field across positions?
+- Can you explain why zero instantaneous rate need not preserve a value over a finite displacement?
+- Can you distinguish parameter change from loss change?
 
 ## Sources and References
 
-- Ministry of Education, `[Ministry of Education Notice No. 2022-33] General and Subject-Specific Elementary and Secondary School Curriculum Notice`. It provides the official notice and appendix-material location for the 2022 revised Korean high school curriculum. [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports partial derivatives, directional derivatives, gradient vectors, and the relation between the gradient and direction of maximum increase. Checked: 2026-09-08.
-- KOCW, `Calculus 2 - Hanyang University`. It confirms that this open course covers multivariable functions, partial derivatives, vector functions, and related calculus topics. [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. Partial derivatives, directional derivatives, gradients, and contours. Checked: 2026-09-15. Function examples and coordinate-based diagrams are original constructions.

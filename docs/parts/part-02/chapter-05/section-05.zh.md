@@ -1,7 +1,7 @@
 # P2-5.5 补充学习：初读标准差、相关与置信区间
 
 > Section ID: `P2-5.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 均值旁的 `±` 数值可能表示标准差、标准误，或置信区间的半宽。标准差描述数据的离散程度，标准误与置信区间描述估计的不确定性。相关系数描述两个变量的关系，假设检验则考察特定假设与观测结果是否相符。
 
@@ -54,9 +54,17 @@ x 的均值为 0，y 的均值为 4。样本协方差为 `2`，即偏差乘积�
 
 标准误是估计量抽样分布的标准差，表示以相同方式重新抽取样本时，样本均值等估计值可能变化多少。
 
+一次抽取的样本包含多个单次响应时间。如果反复抽取相同大小的样本，每次计算均值，就会得到多个均值。**标准差描述单个数值的离散程度，均值的标准误描述重复抽样所得均值的离散程度。** 并不需要实际开展多次调查才能计算标准误；下面的公式利用一个样本的信息估计这种离散程度。
+
 用从同一总体独立抽取的样本估计均值时，可根据样本标准差 `s` 和样本量 `n`，用 `s / √n` 估计均值的标准误。
 
 如果样本量为 100、样本标准差为 10 秒，均值标准误的估计值就是 `10 / √100 = 1 秒`。样本量增至 400 且样本标准差仍为 10 秒时，则为 `10 / √400 = 0.5 秒`。即使数据的离散程度不变，增加样本量也能更精确地估计均值。
+
+下图是一个理论比较，假定总体服从均值50秒、标准差10秒的正态分布。上图表示单次响应时间的分布，下图表示每次独立抽取100个观测值后计算的样本均值分布。这里已知总体标准差，因此均值的标准误恰为 `10/√100=1秒`。
+
+![在相同横轴尺度下比较标准差为10秒的单次响应时间与标准误为1秒的样本均值。](/AiBook/assets/part-02/chapter-05/sd-se-comparison-zh.svg)
+
+两幅图的横轴单位都是秒，纵轴表示各自分布的概率密度。阴影表示从各自均值向两侧各延伸一个该分布标准差的范围。均值分布变窄，并不意味着单次响应时间变得更加相似，而是100个观测值的平均比单次观测更稳定。这个假想总体的均值50秒，应与下文置信区间计算中的观测均值53.4秒区分。
 
 ## 均值的置信区间
 
@@ -66,17 +74,31 @@ x 的均值为 0，y 的均值为 4。样本协方差为 `2`，即偏差乘积�
 
 此时自由度为 `n − 1 = 99`，双侧 95% 区间的 t 系数约为 `1.984`。自由度在此用于确定 t 分布的形状及相应系数。
 
+因为总体标准差未知，要用样本标准差 `s` 代替，所以使用t分布。t分布比正态分布的尾部更厚，反映了估计标准差的不确定性。先根据样本算出均值后，各个值与均值之差的总和为0。因此，99个偏差确定后，最后一个不能再自由选择，这里的自由度就是99。
+
+双侧95%区间保留中间的95%，把外侧5%分到两端，每个尾部占2.5%。自由度99的t分布，中间95%的边界约为 `−1.984` 和 `+1.984`。t系数来自累积概率表或统计工具，并不是只看观测均值就能确定的数字。
+
 `53.4 ± 1.984 × 1 ≈ [51.42, 55.38] 秒`
 
 95% 描述的是构造区间的方法。如果在相同条件下反复抽样并计算区间，长期来看，约 95% 的区间会包含总体均值。这并不表示 95% 的单次响应时间落在已经计算出的这个区间内。
+
+在频率学派的置信区间中，总体均值固定，而区间随样本改变。因此，不能把已经算出的 `[51.42,55.38]` 解释为“总体均值有95%的概率位于其中”。95%描述的是重复应用相同方法时的覆盖率。
+
+![从已知总体均值50秒的分布中重复模拟抽样，得到95%置信区间，各区间的覆盖情况不同。](/AiBook/assets/part-02/chapter-05/repeated-confidence-intervals-zh.svg)
+
+上图从均值50秒、标准差10秒的正态总体中，每次独立抽取100个观测值，模拟重复20次。点表示样本均值，线段表示该样本的95% t置信区间。竖直虚线是模拟中已知的总体均值，未包含它的区间用红色虚线表示。本次模拟中，20个区间有18个包含总体均值。**20个区间不必恰好有19个包含总体均值。** 95%是长期重复中的比例；实际调查中不知道真值，通常也无法判定某个区间是否成功包含了它。
 
 ## 原假设与假设检验
 
 假设检验利用样本数据判断是否有依据拒绝原假设(null hypothesis)。在响应时间的例子中，可以把原假设设为 `总体均值为 50 秒`，备择假设设为 `总体均值不同于 50 秒`。
 
+显著性水平5%是在根据数据作出结论之前选择的错误标准。当原假设及检验假设成立时，这个边界使长期重复检验中错误拒绝真实原假设的比例为5%。它并不意味着“本次结论出错的概率为5%”，也不是“原假设为真的概率为5%”。
+
 观测均值 53.4 秒与假设均值 50 秒相差 `3.4 秒`。除以标准误 1 秒，得到检验统计量 `t = 3.4`。在上述假设下，显著性水平为 5% 的双侧 t 检验临界值约为 `±1.984`，因此拒绝原假设。
 
 该结果表明观测资料与假定的总体均值 50 秒不太相符。差异在实际应用中是否足够大，需要另行判断。反过来，未能拒绝原假设也不等于证明两者相等。
+
+使用相同的双侧t方法时，95%置信区间与显著性水平5%的检验相互对应。假设均值50秒位于 `[51.42,55.38]` 之外，因此检验也拒绝它。反过来，用相同样本检验54秒，它位于区间内，且 `t=(53.4−54)/1=−0.6` 位于临界边界内，因此不拒绝。这不意味着区间中的所有值同样可能，也不证明54秒就是真实均值。
 
 ## 同一均值旁的不同数字
 
@@ -89,6 +111,13 @@ x 的均值为 0，y 的均值为 4。样本协方差为 `2`，即偏差乘积�
 | 均值 53.4 秒，95% 置信区间 [51.42, 55.38] 秒 | 按指定方法估计的总体均值区间 |
 
 只写 `53.4 ± 10`，无法知道所指的统计量。在表格或图中看到 `±` 时，应同时确认图例中的统计量名称、样本量和测量单位。
+
+## 练习：区分离散程度与估计
+
+第一，样本量400、样本标准差10秒时，计算均值标准误。第二，说明仅凭 `均值53.4秒 ± 0.5秒` 能否判断这是95%置信区间。第三，对于 `x=−1,0,1`、`y=1,0,1`，能否因相关系数为0就断定没有关系？
+
+??? note "计算与解释"
+    均值标准误的估计值为 `10/√400=0.5秒`，并不是标准差从10秒缩小到了0.5秒。没有统计量名称，无法确定 `±0.5秒` 的含义；95% t置信区间的半宽需要用标准误乘以t系数。最后一组数据满足曲线关系 `y=x²`，因此皮尔逊相关系数为0不等于没有关系。
 
 ## 检查清单
 
@@ -103,9 +132,9 @@ x 的均值为 0，y 的均值为 4。样本协方差为 `2`，即偏差乘积�
 ## 来源与参考资料
 
 - Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于说明标准差是方差的平方根，并使用原始数据单位。
-- NIST/SEMATECH, [Dataplot Reference: CORRELATION](https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/correlat.htm){: target="_blank" rel="noopener noreferrer" }, NIST, 确认日期: 2026-09-08。通过偏差乘积 \(S_{xy}\) 与相关系数公式，支持共同变化及相关系数的解释。
+- NIST/SEMATECH, [Dataplot Reference: CORRELATION](https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/correlat.htm){: target="_blank" rel="noopener noreferrer" }, NIST, 确认日期: 2026-09-15。通过偏差乘积 \(S_{xy}\) 与相关系数公式，支持共同变化及相关系数的解释。
 - Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于说明样本均值的抽样分布，以及重复抽样中的标准误。
 - Barbara Illowsky, Susan Dean, [Introductory Statistics, 8 Introduction](https://openstax.org/books/introductory-statistics/pages/8-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于说明点估计、区间估计、置信区间与误差界限。
 - Barbara Illowsky, Susan Dean, [Introductory Statistics, 9 Introduction](https://openstax.org/books/introductory-statistics/pages/9-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于说明根据样本证据判断是否拒绝原假设的程序。
 - Barbara Illowsky, Susan Dean, [Introductory Statistics 2e, 12.4 Testing the Significance of the Correlation Coefficient](https://openstax.org/books/introductory-statistics-2e/pages/12-4-testing-the-significance-of-the-correlation-coefficient){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于说明相关系数所表达的线性关系强度与方向，以及结合样本量判断可靠性的必要性。
-- NIST/SEMATECH, [Confidence Limits for the Mean](https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-09-08。均值的 t 置信区间、重复抽样解释与单样本 t 检验公式的依据。文中数值为解释而自行构造。
+- NIST/SEMATECH, [Confidence Limits for the Mean](https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-09-15。均值的 t 置信区间、重复抽样解释与单样本 t 检验公式的依据。文中数值为解释而自行构造。

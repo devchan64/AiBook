@@ -1,184 +1,95 @@
 # P2-4.3 Derivative and Gradient
 
 > Section ID: `P2-4.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.14`
 
-The derivative function of one variable gives the instantaneous rate of change with respect to its input. For a function of several variables, we take partial derivatives with respect to one variable while holding the others fixed, then gather them into the gradient.
+Increasing one parameter may raise the loss while increasing another may lower it. With several adjustable values, one slope is not enough to decide how to change them. **A partial derivative measures the rate of change in one variable with the others fixed; the gradient collects these rates into a vector in parameter order.**
 
-## Derivatives, Partial Derivatives, and Gradients
+## From One Point to Several Variables
 
-| Criterion | Why It Matters |
-| --- | --- |
-| A derivative is the instantaneous rate of change of one input | It is the starting point for reading slope and instantaneous rate of change in a one-variable problem. |
-| A partial derivative looks at several inputs one by one | In a multivariable function, we must inspect separately how each input changes the result. |
-| A gradient is a vector that gathers several partial derivatives | In learning, we must read changes across many parameter directions at once. |
+For `f(x)=x²` in the preceding section, the derivative function `f′(x)=2x` gives the instantaneous rate at each position, while `f′(2)=4` is its value at one position. The number 4 is not an output change itself: it is the limit of the ratio of output change to input change. Increasing the input by `0.01` at `x=2` therefore raises the output by approximately `4×0.01=0.04`. The actual increase, `2.01²−2²=0.0401`, differs slightly from the approximation.
 
-## Derivative of a One-Variable Function
-
-Suppose a function receives one input.
+With two inputs, we can calculate a rate along each axis separately. The following simple loss function is constructed to have its smallest value when both parameters are zero.
 
 \[
-y = f(x)
+L(w_1,w_2)=w_1^2+w_2^2
 \]
 
-Then the derivative shows how much \(y\) changes when \(x\) changes by a very small amount. It is the instantaneous rate of change at a specific point.
+At the current position `[w₁,w₂]=[3,4]`, the loss is `3²+4²=25`. Although there is one loss value, 25, the rates with respect to the two parameters differ.
 
-For example, consider the following function.
+## Partial Derivatives: Change One Variable, Fix the Others
+
+To examine `w₁`, hold `w₂=4` fixed. The function becomes `L(w₁,4)=w₁²+16`. The term 16 stays constant as `w₁` changes, so its derivative is zero, leaving only `2w₁`, the derivative of `w₁²`. At the current value `w₁=3`, this is 6.
+
+Conversely, fixing `w₁=3` gives `L(3,w₂)=9+w₂²`. The constant 9 has derivative zero, so the rate with respect to `w₂` is `2w₂`, which is 8 at the current value `w₂=4`.
 
 \[
-f(x) = x^2
+\frac{\partial L}{\partial w_1}=2w_1,\qquad
+\frac{\partial L}{\partial w_2}=2w_2
 \]
 
-The derivative function of this function is the following.
+The symbol `∂` is used for partial derivatives. `∂L/∂w₁` denotes the instantaneous rate as `w₁` changes with the other variables fixed. We can check its meaning by increasing each parameter separately by `0.01` at the current position.
+
+| Changed parameter | New position | Actual loss increase | Increase approximated using the partial derivative |
+| --- | --- | --- | --- |
+| Increase only `w₁` | `[3.01,4]` | `0.0601` | `6×0.01=0.06` |
+| Increase only `w₂` | `[3,4.01]` | `0.0801` | `8×0.01=0.08` |
+
+For the same small increment, the loss responds more strongly to `w₂`. Dividing the actual increases by `0.01` gives `6.01` and `8.01`. As the increment approaches zero, these ratios approach the partial derivative values 6 and 8.
+
+## The Gradient: Collecting Rates into a Vector
+
+The gradient collects the partial derivatives of a scalar-valued function into a vector. The symbol `∇` is read as nabla and denotes the gradient in the following expression.
 
 \[
-f'(x) = 2x
+\nabla L(w_1,w_2)=
+\left[\frac{\partial L}{\partial w_1},\frac{\partial L}{\partial w_2}\right]
+=[2w_1,2w_2],\qquad \nabla L(3,4)=[6,8]
 \]
 
-This expression tells the slope at each position.
+`∇L(w₁,w₂)` is a function assigning a vector to each position; `∇L(3,4)` is the vector at the current position. Its components follow the parameter order. `[6,8]` is neither a new parameter setting nor an actual displacement.
 
-| \(x\) | \(f(x) = x^2\) | \(f'(x) = 2x\) |
+When both parameters change slightly, we can approximate the loss change by adding their separate contributions. At the current position, the calculation is:
+
+\[
+\Delta L\approx 6\Delta w_1+8\Delta w_2
+=\nabla L(3,4)\cdot[\Delta w_1,\Delta w_2]
+\]
+
+The centered dot `·` is the dot product introduced earlier: multiply matching components and add. Increasing both parameters by `0.01` predicts a loss increase of `0.06+0.08=0.14`; the actual increase is `3.01²+4.01²−25=0.1402`. For a differentiable function, the gradient thus approximates the effect of small simultaneous changes.
+
+## Comparing Directions at Equal Distance
+
+To compare directions, first make the travel distances equal. The length of `[6,8]` is `√(6²+8²)=10`, so dividing by 10 gives `[0.6,0.8]`, a vector of length 1 pointing in the same direction. Such a vector is called a unit vector. Every direction below has length 1.
+
+| Direction `u` | Dot product `∇L·u` | Meaning at the current position |
 | --- | --- | --- |
-| 0 | 0 | 0 |
-| 1 | 1 | 2 |
-| 2 | 4 | 4 |
-| 3 | 9 | 6 |
+| `[1,0]` | `6` | Instantaneous rate in the direction of increasing `w₁` |
+| `[0,1]` | `8` | Instantaneous rate in the direction of increasing `w₂` |
+| `[0.6,0.8]` | `6×0.6+8×0.8=10` | Instantaneous rate in the gradient direction |
+| `[-0.6,-0.8]` | `−10` | Instantaneous rate opposite the gradient |
 
-At \(x = 1\), the slope is 2, and at \(x = 3\), the slope is 6. Even in the same function, the rate of change differs by position.
+`∇L·u` is the **instantaneous rate of change in the function value per unit distance traveled** in direction `u`, called the directional derivative. For example, traveling a distance of `0.01` in direction `[0.6,0.8]` changes the parameters by `[0.006,0.008]` and raises the loss by approximately `10×0.01=0.1`.
 
-```text
-f(x) = x^2      -> a function that turns input into output
-f'(x) = 2x      -> a function that tells how quickly the output changes at each position
-```
+The dot product is largest when the vectors point in the same direction. Thus, for a differentiable function with a nonzero gradient, the gradient direction has the largest instantaneous rate among all unit directions. Here, distance between parameter settings is measured by `√(Δw₁²+Δw₂²)`. Changing parameter units or scales can change the comparison of distances and directions.
 
-## Derivative Values and Derivative Functions
+## Reading Increase and Decrease on Contours
 
-When learning differentiation in Korean, we meet the expressions for `derivative at a point` and `derivative function`.
+A contour joins positions with the same function value. For `L=w₁²+w₂²`, points equally far from the origin have the same loss, so the contours are circles. The numbers on the circles below are loss values.
 
-| Expression | Introductory Meaning |
-| --- | --- |
-| derivative at a point | the instantaneous rate of change at a specific point |
-| derivative function | the function that tells the instantaneous rate of change at each point |
+![Loss contours and the current position [3,4], comparing unit axis directions with the gradient direction and its opposite.](/AiBook/assets/part-02/chapter-04/gradient-directions-en.svg)
 
-For example, in \(f(x) = x^2\), the derivative at a point at \(x = 2\) is the following.
+Moving outward from the current point across the blue circles raises the loss; moving inward lowers it. The red arrow shows the gradient direction `[0.6,0.8]`, and the green arrow shows its opposite. The arrows have length 1 to compare directions and do not specify an actual training displacement.
 
-\[
-f'(2) = 4
-\]
+A direction tangent to the circle at the current point is perpendicular to the gradient and has instantaneous rate zero. This does not mean that traveling straight along that tangent preserves the loss. To keep the loss constant, we must continually change direction to follow the circle.
 
-By contrast, the derivative function is this whole function.
+## Descent Direction and Step Size
 
-\[
-f'(x) = 2x
-\]
+Moving opposite the current gradient `[6,8]` by `0.01×[6,8]` gives the new position `[2.94,3.92]`. The loss falls from `25` to `24.01`. Here, `0.01` is the coefficient multiplying the gradient; the actual distance traveled is `0.01×10=0.1`.
 
-1. A derivative at a point is the value at one point.
-2. A derivative function is the function that tells the derivative at a point at each point.
+Pointing opposite the gradient does not make every large step safe. Starting from the same position with coefficient `1.1` gives `[-3.6,-4.8]`, where the loss increases to `36`. **Direction information and step size must be distinguished.** The next section connects the choice of this coefficient to learning.
 
-## Multiple Variables and Partial Derivatives
-
-In AI models, it is rare that there is only one input or one parameter. Usually several values exist together.
-
-For example, suppose a loss function depends on two parameters \(w_1\) and \(w_2\).
-
-\[
-L(w_1, w_2)
-\]
-
-Then there is not only one question.
-
-1. If we change `w_1` a little, how does the loss `L` change?
-2. If we change `w_2` a little, how does the loss `L` change?
-
-Calculating the rate of change while looking at each input one by one is the partial derivative.
-
-\[
-\frac{\partial L}{\partial w_1}
-\]
-
-\[
-\frac{\partial L}{\partial w_2}
-\]
-
-The symbol \(\partial\) is used when finding the rate of change with respect to one variable while keeping the other variables fixed.
-
-1. An ordinary derivative is the rate of change when there is one input.
-2. A partial derivative is the rate of change viewed one input at a time when there are several inputs.
-
-## Partial-Derivative Vectors and Nabla
-
-Gradient is a vector that gathers several partial derivatives.
-
-If the loss function depends on \(w_1\) and \(w_2\), the gradient can be written as follows.
-
-\[
-\nabla L =
-\left[
-\frac{\partial L}{\partial w_1},
-\frac{\partial L}{\partial w_2}
-\right]
-\]
-
-The symbol \(\nabla\) is read as nabla.
-
-1. We inspect how the loss changes when each parameter is changed a little.
-2. We gather those rates of change into one bundle.
-3. That bundle is the gradient.
-
-The order of gradient components matches the parameter order. In the expression above, the first component is the rate of change with respect to `w_1`, and the second is with respect to `w_2`.
-
-## Gradients and the Direction of Increase
-
-The reason gradient matters is that it has meaning beyond being a bundle of numbers. In a function made of several variables, the gradient connects to the direction in which the value increases most rapidly.
-
-For a differentiable function with a nonzero gradient, comparing directions over the same small distance gives the following.
-
-1. The gradient direction is the direction in which the function value increases most rapidly.
-2. Moving a sufficiently small distance opposite the gradient reduces the function value.
-
-In AI learning, we usually want to reduce loss. So, rather than the gradient itself, the direction opposite the gradient often becomes important.
-
-## Sum of Two Squares and Its Gradient
-
-Let us think about the following loss function.
-
-\[
-L(w_1, w_2) = w_1^2 + w_2^2
-\]
-
-This function grows as \(w_1\) and \(w_2\) move farther from 0.
-
-The partial derivatives with respect to each parameter are the following.
-
-\[
-\frac{\partial L}{\partial w_1} = 2w_1
-\]
-
-\[
-\frac{\partial L}{\partial w_2} = 2w_2
-\]
-
-So the gradient becomes:
-
-\[
-\nabla L = [2w_1,\ 2w_2]
-\]
-
-If the current values are \(w_1 = 3\), \(w_2 = 4\), then the gradient is:
-
-\[
-\nabla L = [6,\ 8]
-\]
-
-This means that, at the current position, the loss increases in the \(w_1\) direction and also in the \(w_2\) direction. If we want to reduce the loss, we naturally think of the opposite side.
-
-```text
-current position: [3, 4]
-gradient: [6, 8]
-intuitive direction for reducing loss: toward [-6, -8]
-```
-
-The current loss is `3² + 4² = 25`. Moving by `0.01 × [6, 8]` opposite the gradient gives the new position `[2.94, 3.92]`, where the loss decreases to `2.94² + 3.92² = 24.01`.
+A zero gradient means that the first-order rate is zero in every direction, but this alone does not guarantee a minimum. The origin in this example is a minimum; in other functions, a zero gradient can occur at a maximum or a saddle point. At a saddle point, values rise in some directions and fall in others.
 
 ## Two Weights in a Recommendation Score
 
@@ -199,21 +110,25 @@ This expression is linear in each weight, so these rates equal the partial deriv
 
 This calculation describes the score change for one item. To determine changes in ranking, we must also compare other items’ scores. A higher score does not guarantee a higher click-through rate or greater user satisfaction.
 
+## Exercise: Adjusting a Negative Parameter
+
+Change the current position to `[-3,4]` for the same loss function. First, find the gradient and the unit direction of maximum increase. Second, subtract `0.01` times the gradient from the current position and calculate the new loss. Third, explain how this differs from always decreasing both parameters.
+
+??? note "Calculation and Explanation"
+    The gradient is `[-6,8]`, with length 10, so the direction of maximum increase is `[-0.6,0.8]`. Moving in the opposite direction gives `[-3,4]−0.01×[-6,8]=[-2.94,3.92]`, with loss `24.01`. We must increase `w₁` and decrease `w₂`. A descent direction reduces the loss rather than necessarily making every parameter numerically smaller.
+
 ## Checklist
 
-- You can explain a derivative as the instantaneous rate of change with respect to one input.
-- You can distinguish a derivative at a point from a derivative function.
-- You can explain a partial derivative as the rate of change viewed separately for one among several inputs.
-- You can explain a gradient as a vector that gathers several partial derivatives.
-- You can explain that a gradient connects to the direction in which the function value increases rapidly.
-- You can explain a gradient in practice as `the information used to see in which direction to change one among several control values`.
-- You can connect the partial derivative with respect to each recommendation-score weight to the score increase.
-- You can explain the broad flow in which, in AI learning, a gradient is used to find the direction that reduces loss.
-- You can distinguish what `derivative`, `partial derivative`, and `gradient` each point to.
-
-- You can read a gradient as a vector of rates of change along different directions, beyond a bundle of numbers.
+- Can you distinguish the variable being changed from those held fixed in a partial derivative?
+- Can you match gradient components to the parameter order?
+- Can you distinguish a partial derivative value from an actual loss change?
+- Can you use a dot product to approximate the effect of small simultaneous changes?
+- Can you explain why direction comparisons require vectors of equal length?
+- Can you distinguish descent direction from displacement and adjust a negative parameter?
 
 ## Sources and References
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports the relation between derivative and instantaneous rate of change. Checked: 2026-07-20.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports partial derivatives, the gradient vector, nabla notation, and the relation between the gradient and the direction of maximum increase. Checked: 2026-07-20.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports the relation between derivative and instantaneous rate of change. Checked: 2026-09-14.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports partial derivatives, the gradient vector, nabla notation, and the relation between the gradient and the direction of maximum increase. Checked: 2026-09-14.
+
+The numerical examples and contour diagram are original constructions.

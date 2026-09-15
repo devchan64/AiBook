@@ -14,3 +14,10 @@
   - `belief-update-flow-en.mmd` / `belief-update-flow-ko.mmd`
   - `dataset-train-test-flow-en.mmd` / `dataset-train-test-flow-ko.mmd`
   - `population-sample-dataset-flow-en.mmd` / `population-sample-dataset-flow-ko.mmd`
+
+## P2-5.5 uncertainty diagrams
+
+- `p2_5_5_uncertainty_diagrams.py` uses NumPy, SciPy and Matplotlib to generate `sd-se-comparison-{ko,en,zh}.svg` and `repeated-confidence-intervals-{ko,en,zh}.svg`.
+- The distribution comparison uses exact normal densities with population mean 50, population SD 10, and sample size 100. Shading denotes one SD of each distribution.
+- The interval diagram uses 20 independently simulated samples of size 100, seed `20260915`, and 95% t intervals with 99 degrees of freedom. This run covers the true mean in 18 of 20 intervals; no coverage outcome is forced.
+- PNG review previews and the plotting cache are saved under `.tmp/p2-5-5-diagrams/`.

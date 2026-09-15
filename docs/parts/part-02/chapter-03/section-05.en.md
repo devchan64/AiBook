@@ -1,7 +1,7 @@
 # P2-3.5 Python Runtime Environments: Colab and Local PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.14`
 
 Python code can run in a Colab notebook code cell or in a Python interpreter on a local PC. Use installation commands appropriate to the environment, then load installed packages in Python code with `import`.
 
@@ -54,13 +54,13 @@ Running on a local PC means using the Python installed on your own computer and 
 
 For example, in a local PC terminal, NumPy can be installed like this.
 
-```bash
+```bash title="Bash · Local terminal"
 python -m pip install numpy
 ```
 
 And inside a Python file, NumPy is imported like this.
 
-```python
+```python title="Python"
 # This line imports NumPy inside Python code.
 import numpy as np
 ```
@@ -71,14 +71,14 @@ A Colab notebook has cells for writing text and cells for running code. Python c
 
 For example, the following code can be put into a code cell and run.
 
-```python
+```python title="Python"
 # This is the smallest output check that confirms a Colab code cell is running.
 print("hello, colab")
 ```
 
 The result appears like this.
 
-```text
+```text title="Text · Output"
 hello, colab
 ```
 
@@ -88,7 +88,7 @@ Here, `print(...)` is Python code. By contrast, a package-installation command i
 
 In many cases, NumPy is already available in the Colab environment. But because the environment can change, if needed we run the following command in a code cell.
 
-```python
+```text title="IPython · Notebook code cell"
 # %pip is an install command used inside a Colab/Jupyter code cell.
 %pip install numpy
 ```
@@ -97,7 +97,7 @@ Here, `%pip` is not ordinary Python syntax. It is a magic command used in Jupyte
 
 In Colab or Jupyter documentation, you may also see examples that use an exclamation mark (`!`) to run shell commands, like this:
 
-```python
+```text title="IPython · Notebook code cell"
 # exclamation-mark form calls a terminal command from a code cell.
 !pip install numpy
 ```

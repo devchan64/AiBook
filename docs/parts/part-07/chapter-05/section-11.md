@@ -1,7 +1,7 @@
 # P7-5.11 Mira 얼굴·헤어 LoRA 학습 준비하기
 
 > Section ID: `P7-5.11`
-> Version: `v2026.09.13`
+> Version: `v2026.09.14`
 
 **Qwen-Image-Edit-2511에 적용해 새 장면에서도 Mira의 얼굴과 헤어를 유지하는 LoRA**를 학습한다. [P7-5.2](section-02.md)의 얼굴·각도 이미지와 [P7-5.9](section-09.md)의 표정 이미지에서 학습 후보를 검토하고, 이미지 생성·검수·학습·평가를 거쳐 정체성이 유지되는지 확인한다.
 
@@ -311,11 +311,11 @@ Mira 얼굴이 포함된 참조를 주면 기본 편집 모델 자체가 얼굴�
 
 [B 400스텝 학습 실행 기록 JSON](../../../assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/B-training/run-result.json)
 
-100·200·400의 18장 생성·해시 대조·AI 시각 검수는 완료했다. 800·1600의 12장은 체크포인트와 평가 생성 대기다. 장기 학습은 A 다음 B 순서이며, 패키지는 `.tmp/p7-5-11/lora-a-run1600/`와 `.tmp/p7-5-11/lora-b-run1600/`, 실행 상태는 `.tmp/p7-5-11/long-training-state.json`에서 확인한다.
+A/B 각각 1600스텝 학습과 800·1600 체크포인트 저장을 완료했다. 평가 이미지도 **전체 30장 생성과 해시 대조를 완료**했다. 이 중 100·200·400의 18장은 기존 AI 시각 검수 결과가 있고, 새로 생성한 800·1600의 12장은 **시각 검수 대기**다. 아래 이미지는 관찰할 자료이며 생성 완료가 정체성 품질의 승인을 뜻하지 않는다.
 
 [통합 A/B 비교 계획 JSON](../../../assets/part-07/chapter-05/sec-11/p7-5-11-ab-comparison-plan.json)
 
-[전체 30장 결과·대기 목록 JSON](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/index.json)
+[전체 30장 생성 결과 목록 JSON](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/index.json)
 
 [완료된 100·200·400 검수 JSON](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/review.json)
 
@@ -327,7 +327,7 @@ Mira 얼굴이 포함된 참조를 주면 기본 편집 모델 자체가 얼굴�
 
 [지정 체크포인트 평가 코드](../../../assets/part-07/chapter-05/sec-11/p7_5_11_evaluate_lora.py)
 
-800·1600스텝은 가중치 저장 완료와 SHA-256을 확인한 뒤 위 코드의 `--checkpoint`, `--checkpoint-sha256`, `--scales 1`로 같은 세 장면을 생성한다. 각 출력과 원본 생성 기록은 `checkpoint-matrix-evaluation/`에 모아 동일 결과 목록에서 추적한다. 아직 없는 결과는 대기로 표시하고 품질을 판정하지 않는다.
+800·1600스텝은 가중치 저장 완료와 SHA-256을 확인한 뒤 위 코드의 `--checkpoint`, `--checkpoint-sha256`, `--scales 1`로 같은 세 장면을 생성한다. 각 출력과 원본 생성 기록은 `checkpoint-matrix-evaluation/`에 모아 동일 결과 목록에서 추적한다. 생성 결과와 시각 검수 상태를 구분해 기록하며, 미검수 결과의 품질은 아직 판정하지 않는다.
 
 ### 장면별로 같은 스텝의 A와 B를 대조한다
 
@@ -338,8 +338,8 @@ Mira 얼굴이 포함된 참조를 주면 기본 편집 모델 자체가 얼굴�
 | 100 | ![A 100스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-100-portrait.png) | ![B 100스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-100-portrait.png) |
 | 200 | ![A 200스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-200-portrait.png) | ![B 200스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-200-portrait.png) |
 | 400 | ![A 400스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-400-portrait.png) | ![B 400스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-400-portrait.png) |
-| 800 | 체크포인트·평가 생성 대기 | 체크포인트·평가 생성 대기 |
-| 1600 | 체크포인트·평가 생성 대기 | 체크포인트·평가 생성 대기 |
+| 800 | ![A 800스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-800-portrait.png) | ![B 800스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-800-portrait.png) |
+| 1600 | ![A 1600스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-1600-portrait.png) | ![B 1600스텝 정면](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-1600-portrait.png) |
 
 **카페**
 
@@ -348,8 +348,8 @@ Mira 얼굴이 포함된 참조를 주면 기본 편집 모델 자체가 얼굴�
 | 100 | ![A 100스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-100-cafe.png) | ![B 100스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-100-cafe.png) |
 | 200 | ![A 200스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-200-cafe.png) | ![B 200스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-200-cafe.png) |
 | 400 | ![A 400스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-400-cafe.png) | ![B 400스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-400-cafe.png) |
-| 800 | 체크포인트·평가 생성 대기 | 체크포인트·평가 생성 대기 |
-| 1600 | 체크포인트·평가 생성 대기 | 체크포인트·평가 생성 대기 |
+| 800 | ![A 800스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-800-cafe.png) | ![B 800스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-800-cafe.png) |
+| 1600 | ![A 1600스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-1600-cafe.png) | ![B 1600스텝 카페](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-1600-cafe.png) |
 
 **정원**
 
@@ -358,8 +358,8 @@ Mira 얼굴이 포함된 참조를 주면 기본 편집 모델 자체가 얼굴�
 | 100 | ![A 100스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-100-garden.png) | ![B 100스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-100-garden.png) |
 | 200 | ![A 200스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-200-garden.png) | ![B 200스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-200-garden.png) |
 | 400 | ![A 400스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-400-garden.png) | ![B 400스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-400-garden.png) |
-| 800 | 체크포인트·평가 생성 대기 | 체크포인트·평가 생성 대기 |
-| 1600 | 체크포인트·평가 생성 대기 | 체크포인트·평가 생성 대기 |
+| 800 | ![A 800스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-800-garden.png) | ![B 800스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-800-garden.png) |
+| 1600 | ![A 1600스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-1600-garden.png) | ![B 1600스텝 정원](../../../assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-1600-garden.png) |
 
 100·200·400에서 A는 갈색 머리가 남았다. B100은 짙은 갈색~검은 단발이며, B200부터 세 장면에 청록색 단발이 나타난다. B200과 B400의 얼굴·헤어·피부 표현은 대체로 비슷하고 차이는 세부적이다. **B의 일부 특징 개선을 관찰했지만, 검수한 18장 모두 동일 인물 재현 목표에는 미달한다.** 보이는 홍채·눈매·입술·얼굴 비례와 헤어 세부가 기준과 다르다.
 
