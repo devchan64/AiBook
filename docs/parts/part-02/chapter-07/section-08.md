@@ -1,7 +1,7 @@
 # P2-7.8 보충학습: 셸 실행 흐름 읽기
 
 > Section ID: `P2-7.8`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 셸의 `|`는 한 명령의 출력을 다음 명령의 입력으로 연결합니다. `>`와 `<`는 출력과 입력을 파일에 연결하고, 환경 변수(environment variable)는 프로그램에 설정값을 전달합니다. 아래 셸 명령은 Bash 기준이며 `python`으로 Python을 실행할 수 있다고 가정합니다.
 
@@ -129,6 +129,21 @@ python read_numbers.py < numbers.txt > total.txt
 | 비밀값이 든 환경 변수 | 명령 기록·로그·저장소에 값이 남는지 여부 |
 
 PowerShell의 파이프는 명령 간 객체도 전달하며, Bash와 모든 문법이 같지는 않습니다. 특히 위의 `<` 입력 리다이렉션을 PowerShell 명령으로 그대로 옮기지 않습니다.
+
+## 오류 출력과 종료 상태 확인하기
+
+숫자가 아닌 줄이 들어오면 합계를 만들기 전에 실패합니다. 아래 Bash 명령은 별도 입력 파일을 만들고, 결과와 오류를 서로 다른 파일로 보냅니다.
+
+```bash
+printf '10\noops\n' > invalid-numbers.txt
+python read_numbers.py < invalid-numbers.txt > invalid-total.txt 2> errors.log
+printf 'exit=%s\n' "$?"
+cat errors.log
+```
+
+Python 실행 직후의 `$?`는 직전 명령의 종료 상태이며 이 예에서는 1입니다. `errors.log`에는 `ValueError`를 포함한 traceback이 남고, `invalid-total.txt`는 비어 있습니다. 빈 결과 파일을 합계 0으로 읽으면 안 됩니다. 다른 명령을 먼저 실행하면 `$?`도 바뀌므로 실패한 명령 바로 다음에 확인합니다.
+
+`>`는 프로그램이 실행되기 전에 출력 파일을 비웁니다. 따라서 같은 파일을 입력과 출력 양쪽에 지정하면 원래 입력을 잃을 수 있습니다. 입력 파일과 결과 파일의 경로를 분리합니다. 또한 Bash 파이프라인의 종료 상태는 기본적으로 마지막 명령 기준이므로 마지막 명령의 성공만으로 앞 명령의 성공까지 판단하지 않습니다.
 
 ## 체크리스트
 

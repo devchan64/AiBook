@@ -1,7 +1,7 @@
 # P2-7.7 Supplemental Learning: When Is Python Installation Needed?
 
 > Section ID: `P2-7.7`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 A hosted Colab runtime does not require Python on your computer. Running `.py` files or processing local files on your own computer requires a local interpreter. Python may already be installed, so first check execution commands and versions.
 
@@ -17,14 +17,6 @@ Installation screens and recommended methods can change over time. When actually
 - Installation and execution on macOS: Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }.
 - Usage on Linux/Unix platforms: Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }.
 - Virtual environments: Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }.
-
-## Execution Location and Installation
-
-| Criterion | Why it matters |
-| --- | --- |
-| Local installation is not absolutely necessary from the very beginning | Because small practice can start with Colab alone |
-| Local installation is the act of building the base for running the Python interpreter on my computer | If you see installation, virtual environments, and package preparation as one lump, judgment becomes blurry |
-| After installation, the first thing to check is the version and the execution command | Installation success and command-connection success are not the same thing |
 
 ## Hosted Colab Runtimes
 
@@ -196,6 +188,20 @@ This environment has no command named `python`, but it has an interpreter run by
 
 If none of the relevant Python commands is available and local execution is needed, follow the installation procedure for the operating system. Distinguishing one failed command from an absent interpreter avoids unnecessary reinstallation.
 
+## Components to Check After the Version
+
+Version output confirms that the interpreter can run. Check the project’s supported Python range and package compatibility before choosing a version, rather than selecting solely because it is newest. Once the Python command is chosen, check pip through that same command.
+
+```bash
+python3 -m pip --version
+```
+
+```powershell
+py -m pip --version
+```
+
+These are alternatives for environments where python3 or py works. No module named pip means pip is absent from the selected Python, not that Python itself is missing. An ensurepip-related error during venv creation on Linux may indicate a separately packaged virtual-environment component. Check the operating system or distribution’s official instructions for that component, then resume virtual-environment creation in P2-7.4.
+
 ## Checklist
 
 - You can explain the difference in roles between Colab and local Python installation.
@@ -208,9 +214,9 @@ If none of the relevant Python commands is available and local execution is need
 
 ## Sources and References
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm the documentation structure for platform-specific Python environment setup, interpreter invocation, and installation guidance.
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm the documentation structure for platform-specific Python environment setup, interpreter invocation, and installation guidance.
 - Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org, checked 2026-07-20. Used to confirm the latest Python download and operating-system-specific download entry points.
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm that Python installation and execution on Windows has separate official guidance.
-- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm the python.org distribution and post-installation package-use guidance on macOS.
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm that Linux/Unix installation paths can differ by operating system, such as distribution packages or source builds.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm that project-specific virtual environments may be created as a separate step from installing Python itself.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm that Python installation and execution on Windows has separate official guidance.
+- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm the python.org distribution and post-installation package-use guidance on macOS.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm that Linux/Unix installation paths can differ by operating system, such as distribution packages or source builds.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm that project-specific virtual environments may be created as a separate step from installing Python itself.

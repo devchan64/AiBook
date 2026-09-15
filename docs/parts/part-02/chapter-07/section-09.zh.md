@@ -1,7 +1,7 @@
 # P2-7.9 补充学习：检查本地 Python 环境问题
 
 > Section ID: `P2-7.9`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 找不到 `python` 命令与 `import numpy` 失败，发生在不同位置。前者应检查 shell 的命令连接，后者应检查正在运行的 Python 的包状态。即使 Python 版本相同，也可能属于不同虚拟环境，因此还要比较可执行文件路径。
 
@@ -103,6 +103,18 @@ print("文件:", np.__file__)
 
 将环境检查结果与[依赖与可复现性](section-05.zh.md)中所述的安装列表、数据和执行位置一同记录，便于重新运行时比较。
 
+## 依赖冲突与同名文件
+
+包已安装，也可能不满足其他包要求的版本。请选择实际运行的 Python，再检查声明的依赖。
+
+```bash
+python -m pip check
+```
+
+阅读输出，确认哪个包要求什么版本、当前安装了什么版本。存在冲突时，应先对齐项目安装列表与支持版本。No broken requirements found. 表示声明的依赖检查通过，并不保证所有 import 或实际程序都能成功。
+
+另一种原因是项目中的 numpy.py 等文件。Python 可能先搜索脚本目录，导入该文件而非已安装的 NumPy。如果 np.__file__ 指向项目文件，应重命名示例，再启动新的 Python 进程或重启内核运行。不要把 AttributeError 或循环导入错误一概当成包缺失而重新安装。
+
 ## 检查清单
 
 - 能区分找不到命令与找不到包的错误。
@@ -114,9 +126,13 @@ print("文件:", np.__file__)
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认按平台设置 Python 与调用解释器的文档结构，作为本地环境检查顺序的背景依据。
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Windows 中 Python 执行命令和安装方式有单独的官方说明。
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Unix/Linux 中 Python 执行命令和安装路径可能因环境而异。
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于支撑需要把虚拟环境是否激活与包安装位置一起检查这一说明。
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认按平台设置 Python 与调用解释器的文档结构，作为本地环境检查顺序的背景依据。
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认 Windows 中 Python 执行命令和安装方式有单独的官方说明。
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认 Unix/Linux 中 Python 执行命令和安装路径可能因环境而异。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于支撑需要把虚拟环境是否激活与包安装位置一起检查这一说明。
 
 - Python Software Foundation, [sys — System-specific parameters and functions](https://docs.python.org/3/library/sys.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-09-08。用于确认解释器与虚拟环境路径的 sys.executable、sys.prefix、sys.base_prefix 依据。
+
+- [pip check](https://pip.pypa.io/en/stable/cli/pip_check/){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。
+
+- [Python tutorial: Module search path](https://docs.python.org/3/tutorial/modules.html#the-module-search-path){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。

@@ -1,7 +1,7 @@
 # P2-7.1 Local Environment and Runtime
 
 > Section ID: `P2-7.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Python code is read and executed by an interpreter. The local environment consists of Python, packages, files, and settings on your computer; the runtime consists of the programs and resources where code actually runs. Code entered in a browser may run on another computer.
 
@@ -166,6 +166,12 @@ If installation succeeds but the same error remains, compare the Python paths us
 | An installed package cannot be imported | [Virtual Environments and Package Installation](section-04.en.md) |
 | Results differ on another computer | [Dependencies and Reproducibility](section-05.en.md) |
 
+## Where Code Is Entered and Where It Runs
+
+A browser or editor is where code is entered. The computer running the Python process reads files and imports packages. To read a local file in a hosted Colab runtime, make it accessible there by uploading it or connecting storage. Identical filenames do not imply identical files.
+
+For example, changing only the local scores.csv may leave Colab results unchanged because the runtime still holds the old file. Transfer the revised file to the runtime before rerunning. Compare the input file’s location and contents as well as the Python executable.
+
 ## Checklist
 
 - You can explain `local environment` as the conditions under which code runs on my computer.
@@ -179,9 +185,11 @@ If installation succeeds but the same error remains, compare the Python paths us
 
 ## Sources and References
 
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to support invoking the Python interpreter and distinguishing interactive input from script execution.
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm the basic description of Python as an interpreted, interactive programming language available on multiple operating systems.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm that a virtual environment has its own Python installation and package state inside an isolated directory.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to support invoking the Python interpreter and distinguishing interactive input from script execution.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm the basic description of Python as an interpreted, interactive programming language available on multiple operating systems.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, checked 2026-07-20. Used to confirm that a virtual environment has its own Python installation and package state inside an isolated directory.
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-20. Used to confirm the project-level flow of creating a virtual environment, activating it, and installing packages.
 
 - Python Software Foundation, [sys.executable](https://docs.python.org/3/library/sys.html#sys.executable){: target="_blank" rel="noopener noreferrer" }, checked 2026-09-08. Used to identify the executable path of the current Python interpreter.
+
+- [Colaboratory FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.

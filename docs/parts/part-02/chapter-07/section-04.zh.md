@@ -1,7 +1,7 @@
 # P2-7.4 虚拟环境（virtual environment）与包（package）
 
 > Section ID: `P2-7.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 虚拟环境(virtual environment)让每个项目拥有独立的 Python 包集合。如果安装包的 Python 与执行代码的 Python 不同，即使安装成功，`import` 也可能失败。
 
@@ -12,14 +12,6 @@
 | `pip` | 安装包的工具。 |
 | `import` | 在 Python 代码里载入已经准备好的包的语句。 |
 | `.venv` | 放在项目文件夹中的典型本地虚拟环境目录名。 |
-
-## 项目隔离与安装位置
-
-| 标准 | 为什么重要 |
-| --- | --- |
-| 虚拟环境是按项目划分的 Python 执行空间 | 因为不同项目可能需要不同版本的工具 |
-| 安装和 `import` 是不同阶段 | 安装是准备，`import` 是在代码里真正载入使用 |
-| 最常见的失误是安装的环境和运行的环境不同 | 同一台电脑里也可能存在多个 Python 空间 |
 
 ## venv 的引入背景
 
@@ -149,7 +141,7 @@ Colab 是在浏览器中编辑代码、在运行时执行代码的笔记本环�
 
 Colab 代码单元中的 `%pip` 将包安装到当前笔记本内核。运行下面的单元，即可在该环境中准备 NumPy。
 
-```python
+```text title="IPython · 笔记本代码单元"
 # 这条命令是在 Colab/Jupyter 代码单元中把 NumPy 安装到当前运行时。
 %pip install numpy
 ```
@@ -174,6 +166,26 @@ project-b/.venv/
 
 即使文件夹都叫 `.venv`，完整路径不同就是独立的环境。比较 `sys.executable` 打印的 Python 路径与安装命令所用的路径，即可确认安装到了哪个项目环境。
 
+## 激活改变了什么
+
+激活会改变 PATH，使当前 shell 优先找到 .venv 中的 Python。它不会启动另一台计算机，也不会切换已经运行的笔记本内核。请在前面创建 .venv 的项目目录中执行。
+
+```bash title="macOS/Linux · Bash or zsh"
+source .venv/bin/activate
+python -c "import sys; print(sys.executable)"
+deactivate
+```
+
+```powershell title="Windows · PowerShell"
+.\.venv\Scripts\Activate.ps1
+python -c "import sys; print(sys.executable)"
+deactivate
+```
+
+输出路径指向项目的 .venv 内部时，表示已选中该环境。deactivate 只恢复当前 shell 的选择，不删除包或目录。如果 PowerShell 阻止激活脚本运行，可像前面的步骤一样直接指定 .venv 中 python.exe 的路径。
+
+虚拟环境隔离的是 Python 包，并不隔离用户文件权限或操作系统。迁移到其他计算机时，应根据代码、数据和安装列表重新创建环境，而不是复制 .venv。
+
 ## 检查清单
 
 - 能把虚拟环境解释为按项目划分的 Python 执行空间。
@@ -190,4 +202,6 @@ project-b/.venv/
 - Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals，确认日期：2026-07-20。作为虚拟环境拥有自己的包集合和 Python 可执行文件，并可与系统 site-packages 隔离这一设计说明的依据。
 - Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-09-08。用于确认用 `venv` 创建和激活虚拟环境，以及环境内部 Python 与包状态相互分离的说明。
 - Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide，确认日期：2026-07-20。用于确认按项目创建虚拟环境，并通过 `python -m pip install` 安装包的流程。
-- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 `pip`、`venv`、PyPI、`python -m pip install` 的基本角色，以及优先考虑虚拟环境而不是系统级安装的语境。
+- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认 `pip`、`venv`、PyPI、`python -m pip install` 的基本角色，以及优先考虑虚拟环境而不是系统级安装的语境。
+
+- [IPython magic commands: %pip](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。

@@ -1,7 +1,7 @@
 # P2-7.7 补充学习：什么时候需要安装 Python
 
 > Section ID: `P2-7.7`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 使用 Colab 托管运行时，不需要在自己的电脑上安装 Python。在本机执行 `.py` 文件或处理本地文件，则需要本地解释器。Python 可能已经安装，因此先检查执行命令与版本。
 
@@ -17,14 +17,6 @@
 - macOS 中的安装与运行：Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }.
 - Linux/Unix 平台中的使用：Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }.
 - 虚拟环境：Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }.
-
-## 执行位置与安装需求
-
-| 标准 | 为什么重要 |
-| --- | --- |
-| 一开始并不一定非要本地安装 | 因为小型实践可以只靠 Colab 开始 |
-| 本地安装是在自己的电脑上建立运行 Python 解释器的基础 | 如果把安装、虚拟环境、包准备看成一整团，判断就会变模糊 |
-| 安装之后第一步要确认的是版本和执行命令 | 安装成功与命令连接成功不是同一回事 |
 
 ## Colab 托管运行时
 
@@ -196,6 +188,20 @@ Python 3.12.3
 
 反过来，如果相关 Python 命令都不可用，又需要本地执行，则按操作系统的安装流程进行。区分一个命令失败与解释器本身缺失，可以减少不必要的重装。
 
+## 显示版本后还需检查的组件
+
+显示版本只能确认解释器可以运行。选择版本之前，应核对项目要求的 Python 版本范围及包支持情况，而不是只选最新版本。选定 Python 命令后，使用同一个命令检查 pip。
+
+```bash
+python3 -m pip --version
+```
+
+```powershell
+py -m pip --version
+```
+
+以上分别适用于 python3 或 py 可用的环境。No module named pip 表示所选 Python 缺少 pip，不是缺少 Python。Linux 创建 venv 时出现 ensurepip 相关错误，可能需要发行版单独提供的虚拟环境支持包。按操作系统或发行版官方说明补齐组件，再从 P2-7.4 的虚拟环境创建步骤继续。
+
 ## 检查清单
 
 - 能说明 Colab 与本地 Python 安装的角色差异。
@@ -208,9 +214,9 @@ Python 3.12.3
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认按平台设置 Python 环境、调用解释器与安装相关文档结构。
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认按平台设置 Python 环境、调用解释器与安装相关文档结构。
 - Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org，确认日期：2026-07-20。用于确认最新 Python 下载入口与按操作系统区分的下载入口。
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Windows 中 Python 安装与运行有单独的官方说明。
-- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 macOS 中 python.org 发行版和安装后包使用说明。
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Linux/Unix 系统中安装路径会因操作系统而异，例如发行版包或源码构建。
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认项目专用虚拟环境可能是不同于安装 Python 本身的单独步骤。
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认 Windows 中 Python 安装与运行有单独的官方说明。
+- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认 macOS 中 python.org 发行版和安装后包使用说明。
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认 Linux/Unix 系统中安装路径会因操作系统而异，例如发行版包或源码构建。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation，确认日期：2026-07-20。用于确认项目专用虚拟环境可能是不同于安装 Python 本身的单独步骤。

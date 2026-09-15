@@ -1,7 +1,7 @@
 # P2-7.5 Dependency and Reproducibility
 
 > Section ID: `P2-7.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 Rerunning the same code also requires matching packages, Python version, data files, and execution location. Dependencies are external elements the code requires; reproducibility means being able to verify the same behavior or results after recreating the execution conditions.
 
@@ -13,14 +13,6 @@ Rerunning the same code also requires matching packages, Python version, data fi
 | version pinning | A method of reducing environment differences by specifying particular package versions. |
 | environment record | Notes needed for rerunning, such as the Python version, package list, and execution location. |
 
-## Recording Code and Execution Conditions
-
-| Criterion | Why it matters |
-| --- | --- |
-| Dependency is the external packages and execution conditions that the code relies on | It explains why looking at the code alone is not enough for execution |
-| Reproducibility is the act of leaving conditions so that the same code can be run again later | Learning and collaboration do not end after running something once |
-| A requirements file records the needed package list and version range | It becomes the starting point when someone else rebuilds the environment |
-
 ## Direct and Indirect Dependencies
 
 Dependency is an external condition that my code needs in order to run. In Python practice, package dependencies are usually the first kind you encounter.
@@ -30,7 +22,7 @@ For example, the following code needs NumPy.
 Calculating the mean of the NumPy array `[1, 2, 3]` prints `2.0`. Because the code imports NumPy, that package must be available in the execution environment.
 
 ```python
-# This example imports the packages needed to run NumPy and Pandas examples in a reproducible environment.
+# Import pandas to read the CSV as a table.
 import numpy as np
 
 # values is a small array used to check both NumPy installation and mean calculation.
@@ -124,10 +116,12 @@ score-summary/
 
 `summary.py` reads a CSV file and calculates the mean.
 
-Download [scores.csv](/AiBook/assets/part-02/chapter-07/scores.csv) and place it beside `summary.py`. Each CSV row represents a student; the `score` column contains `82, 91, 77, 88`. Running from the `score-summary` folder prints the mean `84.5`.
+[scores.csv](/AiBook/assets/part-02/chapter-07/scores.csv){ .csv-preview }
+
+Download `scores.csv` and place it beside `summary.py`. Each CSV row represents a student; the `score` column contains `82, 91, 77, 88`. Running from the `score-summary` folder prints the mean `84.5`.
 
 ```python
-# This example imports the packages needed to run NumPy and Pandas examples in a reproducible environment.
+# Import pandas to read the CSV as a table.
 import pandas as pd
 
 # Read scores.csv and calculate the mean of the score column in the table data.
@@ -205,7 +199,7 @@ That is why it is useful to leave the required installation commands at the top 
 
 The following cell installs NumPy, pandas, and Matplotlib in the current notebook kernel. It can prepare the required packages after creating a new runtime.
 
-```python
+```text title="IPython · notebook code cell"
 # Install the main packages needed to reproduce the notebook in the current code-cell environment.
 %pip install numpy pandas matplotlib
 ```
@@ -246,6 +240,19 @@ Omitting different requirements from the CSV mean project leads to different fai
 
 Changing the CSV score `82` to `100` changes the mean to `89.0`, even with identical code and packages. To compare results, check that the input data matches as well as the environment.
 
+## Recreating an Environment from Its Installation List
+
+pip freeze records installed packages; it does not validate compatibility or compute a lockfile. After installing the list in a fresh virtual environment, run both a dependency check and the actual example. Use the project’s Python and run the following in the directory containing scores.csv and summary.py.
+
+```bash
+python --version
+python -m pip install -r requirements.txt
+python -m pip check
+python summary.py
+```
+
+When declared dependencies are consistent, pip check prints No broken requirements found. That does not guarantee the CSV exists or the code is correct. Confirming 84.5 from the final command connects the input, packages, and execution. Experiments requiring matching results should also record code and data versions and, when randomness is used, seeds and relevant library settings. A seed alone does not make runs identical across operating systems or hardware.
+
 ## Checklist
 
 - You can explain dependency as the external packages needed for my code to run.
@@ -258,6 +265,10 @@ Changing the CSV score `82` to `100` changes the mean to `89.0`, even with ident
 
 ## Sources and References
 
-- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, checked 2026-07-20. Used to confirm `python -m pip`, package installation, requirements files, and the use of `pip freeze` for repeatable installs.
-- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, checked 2026-07-20. Used to confirm that it outputs installed packages in requirements format for the current environment.
+- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation, checked 2026-07-20. Used to confirm `python -m pip`, package installation, requirements files, and the use of `pip freeze` for repeatable installs.
+- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation, checked 2026-07-20. Used to confirm that it outputs installed packages in requirements format for the current environment.
 - Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-20. Used to confirm the distinction between dependency metadata for project distribution and requirements files for reproducing an execution environment.
+
+- [pip check](https://pip.pypa.io/en/stable/cli/pip_check/){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.
+
+- [NumPy random compatibility policy](https://numpy.org/doc/stable/reference/random/compatibility.html){: target="_blank" rel="noopener noreferrer" }, Accessed: 2026-09-15.

@@ -1,7 +1,7 @@
 # P2-7.5 依赖（dependency）与可复现性（reproducibility）
 
 > Section ID: `P2-7.5`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 要重新运行相同代码，还需要匹配所需的包、Python 版本、数据文件与执行位置。依赖(dependency)是代码需要的外部要素；可复现性(reproducibility)是重新构建执行条件后，能够确认相同运行行为或结果的性质。
 
@@ -13,14 +13,6 @@
 | 版本固定（version pinning） | 通过明确写出特定包版本来减少环境差异的方法。 |
 | 环境记录（environment record） | 重新执行所需的备注，例如 Python 版本、包列表、运行位置等。 |
 
-## 代码与执行条件的记录
-
-| 标准 | 为什么重要 |
-| --- | --- |
-| 依赖是代码所依靠的外部包和执行条件 | 它能解释为什么只看代码也无法运行 |
-| 可复现性是把条件留下来，使同一份代码以后还能再次运行 | 学习和协作不是只运行一次就结束 |
-| requirements 文件记录所需包列表和版本范围 | 它会成为别人重新搭环境的起点 |
-
 ## 直接依赖与间接依赖
 
 依赖（dependency）是我的代码为了运行而需要的外部条件。在 Python 实践里，最先遇到的通常是包依赖。
@@ -30,7 +22,7 @@
 计算 NumPy 数组 `[1, 2, 3]` 的均值，会打印 `2.0`。代码使用 `import numpy`，因此运行环境需要 NumPy。
 
 ```python
-# 这个例子导入在可复现执行环境中运行 NumPy 和 Pandas 示例所需的包。
+# 导入 pandas，将 CSV 读取为表格。
 import numpy as np
 
 # values 是用来确认 NumPy 安装和平均值计算是否都正常的小数组。
@@ -124,10 +116,12 @@ score-summary/
 
 `summary.py` 会读取 CSV 文件并计算平均值。
 
-下载 [scores.csv](/AiBook/assets/part-02/chapter-07/scores.csv)，放到 `summary.py` 所在文件夹。CSV 每行对应一名学生，`score` 列为 `82, 91, 77, 88`。在 `score-summary` 文件夹执行，会打印均值 `84.5`。
+[scores.csv](/AiBook/assets/part-02/chapter-07/scores.csv){ .csv-preview }
+
+下载 `scores.csv`，放到 `summary.py` 所在文件夹。CSV 每行对应一名学生，`score` 列为 `82, 91, 77, 88`。在 `score-summary` 文件夹执行，会打印均值 `84.5`。
 
 ```python
-# 这个例子导入在可复现执行环境中运行 NumPy 和 Pandas 示例所需的包。
+# 导入 pandas，将 CSV 读取为表格。
 import pandas as pd
 
 # 读取 scores.csv，并计算表格数据中 score 列的平均值。
@@ -205,7 +199,7 @@ Colab runtime 可能被重置。那时之前安装过的包也可能消失。并
 
 下面的单元在当前笔记本内核安装 NumPy、pandas 和 Matplotlib。创建新运行时后，可用它重新准备所需的包。
 
-```python
+```text title="IPython · 笔记本代码单元"
 # 在当前代码单元环境中安装复现笔记本所需的主要包。
 %pip install numpy pandas matplotlib
 ```
@@ -246,6 +240,19 @@ Colab runtime 可能被重置。那时之前安装过的包也可能消失。并
 
 把 CSV 中的分数 `82` 改为 `100`，即使代码与包相同，均值也会变为 `89.0`。要比较结果，除了环境，还需确认输入数据相同。
 
+## 根据安装列表重建环境
+
+pip freeze 记录当前已安装的包，不负责验证兼容性或计算锁文件。在新虚拟环境中安装列表后，还需要执行依赖检查和实际示例。请选择项目的 Python，并在包含 scores.csv 与 summary.py 的目录中执行。
+
+```bash
+python --version
+python -m pip install -r requirements.txt
+python -m pip check
+python summary.py
+```
+
+声明的依赖一致时，pip check 输出 No broken requirements found. 这不保证 CSV 已准备好或代码正确。还要确认最后一条命令输出 84.5，才能验证输入、包与执行连接起来。需要相同结果的实验还应记录代码和数据版本；使用随机数时，记录种子及相关库设置。仅靠种子不能保证不同操作系统或硬件上的运行完全一致。
+
 ## 检查清单
 
 - 能把依赖（dependency）解释为我的代码运行所需的外部包。
@@ -258,6 +265,10 @@ Colab runtime 可能被重置。那时之前安装过的包也可能消失。并
 
 ## 来源与参考资料
 
-- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2，确认日期：2026-07-20。用于确认 `python -m pip`、包安装、requirements 文件，以及为了 repeatable installs 使用 `pip freeze` 的语境。
-- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2，确认日期：2026-07-20。用于确认它会以 requirements 格式输出当前环境中已安装的包。
+- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation，确认日期：2026-07-20。用于确认 `python -m pip`、包安装、requirements 文件，以及为了 repeatable installs 使用 `pip freeze` 的语境。
+- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation，确认日期：2026-07-20。用于确认它会以 requirements 格式输出当前环境中已安装的包。
 - Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide，确认日期：2026-07-20。用于确认项目分发用依赖元数据与复现执行环境用 requirements 文件之间的角色差异。
+
+- [pip check](https://pip.pypa.io/en/stable/cli/pip_check/){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。
+
+- [NumPy random compatibility policy](https://numpy.org/doc/stable/reference/random/compatibility.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。

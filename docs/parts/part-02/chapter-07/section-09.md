@@ -1,7 +1,7 @@
 # P2-7.9 보충학습: 로컬 Python 환경 문제 점검
 
 > Section ID: `P2-7.9`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `python` 명령을 찾지 못하는 오류와 `import numpy`가 실패하는 오류는 발생 위치가 다릅니다. 전자는 셸의 명령 연결을, 후자는 실행 중인 Python의 패키지 상태를 확인해야 합니다. Python 버전이 같아도 서로 다른 가상환경일 수 있으므로 실행 파일 경로까지 비교합니다.
 
@@ -103,6 +103,18 @@ print("파일:", np.__file__)
 
 실행 환경을 확인한 기록은 [의존성과 재현성](section-05.md)의 설치 목록·데이터·실행 위치 기록과 함께 남기면 재실행 때 비교할 수 있습니다.
 
+## 설치 충돌과 같은 이름의 파일
+
+패키지가 설치되어 있어도 다른 패키지가 요구하는 버전과 맞지 않을 수 있습니다. 실행 중인 Python을 선택한 뒤 선언된 의존성을 확인합니다.
+
+```bash
+python -m pip check
+```
+
+출력에서 어떤 패키지가 무엇을 요구하고 현재 무엇이 설치되어 있는지 읽습니다. 충돌이 있다면 프로젝트의 설치 목록과 지원 버전을 먼저 맞춥니다. `No broken requirements found.`는 선언된 의존성 검사를 통과했다는 뜻이며 모든 import나 실제 실행의 성공을 보장하지 않습니다.
+
+또 다른 원인은 프로젝트 안의 `numpy.py` 같은 파일입니다. Python은 실행 스크립트의 폴더에서 모듈을 먼저 찾을 수 있으므로 설치된 NumPy 대신 이 파일을 불러올 수 있습니다. `np.__file__`이 프로젝트의 파일을 가리킨다면 예제 파일 이름을 바꾸고 새 Python 프로세스나 재시작한 커널에서 다시 실행합니다. `AttributeError`나 순환 import 오류를 패키지 누락으로 보고 무조건 재설치하지 않습니다.
+
 ## 체크리스트
 
 - 명령을 찾지 못하는 오류와 패키지를 찾지 못하는 오류를 구분할 수 있다.
@@ -114,9 +126,13 @@ print("파일:", np.__file__)
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 플랫폼별 Python 설정과 인터프리터 호출 문서 구조를 로컬 환경 점검 순서의 배경으로 사용했다.
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Windows에서 Python 실행 명령과 설치 방식이 별도 안내된다는 점을 확인하는 근거로 사용했다.
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Unix/Linux 계열에서 Python 실행 명령과 설치 경로가 환경별로 달라질 수 있음을 확인하는 근거로 사용했다.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 가상환경 활성화 여부와 패키지 설치 위치를 함께 점검해야 한다는 설명의 근거로 사용했다.
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 플랫폼별 Python 설정과 인터프리터 호출 문서 구조를 로컬 환경 점검 순서의 배경으로 사용했다.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Windows에서 Python 실행 명령과 설치 방식이 별도 안내된다는 점을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. Unix/Linux 계열에서 Python 실행 명령과 설치 경로가 환경별로 달라질 수 있음을 확인하는 근거로 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 확인 날짜: 2026-07-20. 가상환경 활성화 여부와 패키지 설치 위치를 함께 점검해야 한다는 설명의 근거로 사용했다.
 
 - Python Software Foundation, [sys — System-specific parameters and functions](https://docs.python.org/3/library/sys.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-08. 인터프리터 실행 파일과 가상환경 경로를 확인하는 sys.executable, sys.prefix, sys.base_prefix의 근거.
+
+- [pip check](https://pip.pypa.io/en/stable/cli/pip_check/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.
+
+- [Python tutorial: Module search path](https://docs.python.org/3/tutorial/modules.html#the-module-search-path){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15.

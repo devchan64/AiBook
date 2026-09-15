@@ -1,7 +1,7 @@
 # P2-7.8 补充学习：阅读 shell 执行流程
 
 > Section ID: `P2-7.8`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 shell 中的 `|` 将一个命令的输出连接到下一个命令的输入。`>` 与 `<` 将输出和输入连接到文件，环境变量(environment variable)向程序传递设置值。下面的 shell 命令以 Bash 为准，并假设可用 `python` 执行 Python。
 
@@ -129,6 +129,21 @@ python read_numbers.py < numbers.txt > total.txt
 | 含秘密值的环境变量 | 值是否留在命令历史、日志或仓库中 |
 
 PowerShell 管道还可以在命令间传递对象，并非所有语法都与 Bash 相同。尤其不要把上面的 `<` 输入重定向直接照搬到 PowerShell。
+
+## 检查错误输出与退出状态
+
+输入中包含非数字行时，程序会在生成合计前失败。以下 Bash 命令创建单独的输入文件，并把结果与错误输出到不同文件。
+
+```bash
+printf '10\noops\n' > invalid-numbers.txt
+python read_numbers.py < invalid-numbers.txt > invalid-total.txt 2> errors.log
+printf 'exit=%s\n' "$?"
+cat errors.log
+```
+
+Python 执行后，$? 保存上一条命令的退出状态，本例为 1。errors.log 包含带 ValueError 的 traceback，而 invalid-total.txt 为空。不能把空结果文件理解为合计为 0。其他命令会改变 $?，因此应紧接被检查的命令读取它。
+
+> 会在程序运行之前清空输出文件。因此，把同一个文件同时用作输入和输出可能丢失原始输入，应分开指定路径。Bash 管道的退出状态默认取自最后一条命令，所以最后一条命令成功不能证明前面的命令都成功。
 
 ## 检查清单
 

@@ -1,26 +1,9 @@
 # P2-7.3 Python 解释器(interpreter)与脚本(script)
 
 > Section ID: `P2-7.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 `python` 是打开交互式 Python 的终端命令，`python hello.py` 则执行保存在文件中的代码。`print("hello")` 是解释器读取的 Python 代码。执行方式决定输入位置与保存结果的方法。
-
-## 交互执行与脚本的背景
-
-如果只把 Python 理解成“只能运行保存在文件里的程序的语言”，其实很难真正理解它。Python 官方 FAQ 把 Python 解释为一种 interpreted、interactive、object-oriented 的编程语言。它也说明，Guido van Rossum 是在实现 ABC 语言以及参与 Amoeba 分布式操作系统工作时，开始构想 Python 的；而在只靠 C 程序或 Bourne shell script 很难处理系统管理工作的背景下，需要一种更可扩展的脚本语言。
-
-如果把这段背景压缩成入门者能抓住的程度，就是下面这样。
-
-- shell script：适合把操作系统命令串起来做自动化。
-- 像 C 这样的编译型语言：又快又强，但对小型自动化和小实验来说可能太重。
-- Python：同时提供可读的高级语法、交互执行和脚本执行。
-
-所以，在 Python 里自然会同时看到两种使用方式。
-
-- 交互执行：立刻测试一个小表达式。
-- 脚本执行：把多行工作保存成文件，然后反复执行。
-
-AI 学习中经常使用 Python，也与此有关：可以用小段代码立即验证公式，较长的实验则容易保存为文件或笔记本。
 
 ## Python 解释器
 
@@ -64,8 +47,6 @@ hello
 ## 保存在文件中的脚本
 
 `脚本(script)` 是把要执行的代码保存在文件里的形式。Python 文件通常使用 `.py` 扩展名。
-
-例如，假设我们把下面这些内容保存到一个叫 `hello.py` 的文件中。
 
 把下面两行保存到 `hello.py` 并执行，会依次打印 `hello` 和 `3`。
 
@@ -176,6 +157,22 @@ print(name)
 
 把两行一起保存后，脚本也会打印 `Mina`。将笔记本代码移到文件时，除了输出单元，还应包含该单元使用的变量定义和 import。
 
+## 计算值与屏幕输出
+
+交互式 Python 会为 1 + 2 显示 3，但只含这个表达式的脚本虽然会计算，却不会显示结果。把以下内容保存为 display.py 并运行，最后的 print 会使 3 输出一次。
+
+```python
+1 + 2
+result = 1 + 2
+print(result)
+```
+
+```bash
+python display.py
+```
+
+删除 print(result) 后重新运行，将没有输出。不能只凭没有输出就判定运行失败。笔记本保存的旧输出也不能证明当前内核状态；共享之前，应重启内核，从上到下重新执行单元并核对结果。
+
 ## 检查清单
 
 - 能把 Python 解释器(interpreter)解释成读取并执行 Python 代码的程序。
@@ -188,6 +185,8 @@ print(name)
 
 ## 来源与参考资料
 
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于支撑 Python 是解释型、交互式编程语言这一说明，并确认 Guido van Rossum 的早期开发背景。
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于确认解释器调用、交互模式与脚本文件执行之间的区别。
-- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于确认 `python script.py`、`python -c`、`python -m module-name` 等命令行执行方式。
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 确认日期: 2026-07-20。用于支撑 Python 是解释型、交互式编程语言这一说明，并确认 Guido van Rossum 的早期开发背景。
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 确认日期: 2026-07-20。用于确认解释器调用、交互模式与脚本文件执行之间的区别。
+- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3 documentation, 确认日期: 2026-07-20。用于确认 `python script.py`、`python -c`、`python -m module-name` 等命令行执行方式。
+
+- [Python tutorial: Modules](https://docs.python.org/3/tutorial/modules.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15。
