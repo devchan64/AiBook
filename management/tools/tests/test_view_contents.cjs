@@ -7,6 +7,7 @@ const path = require('node:path');
 const script = fs.readFileSync(path.resolve(__dirname, '../../../docs/javascripts/view-contents.js'), 'utf8');
 class Element {
   constructor(tag) { this.tagName = tag; this.children = []; this.dataset = {}; this.attrs = {}; this.listeners = {}; this.classList = {contains: () => false}; }
+  querySelector(selector) { return this.children.find(child => selector === "." + child.className) || null; }
   get firstChild() { return this.children[0]; }
   removeChild(child) { this.children.splice(this.children.indexOf(child),1); }
   insertBefore(child, before) { this.children.splice(this.children.indexOf(before),0,child); }

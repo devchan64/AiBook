@@ -178,7 +178,7 @@
     const bodyRows = rows.slice(1, PREVIEW_ROWS + 1);
     const columnCount = rows.reduce((count, row) => Math.max(count, row.length), 0);
 
-    const meta = document.createElement("p");
+    const meta = document.createElement("span");
     meta.className = "aibook-view-contents__meta";
     meta.textContent = `앞 ${bodyRows.length}개 데이터 행을 표시합니다. 다운로드와 복사는 전체 CSV 원본을 사용합니다.`;
     wrapper.appendChild(meta);
@@ -321,6 +321,11 @@
           header = document.createElement("span");
           header.className = "aibook-code-language";
           header.textContent = "CSV";
+          const meta = content.querySelector(".aibook-view-contents__meta");
+          if (meta) {
+            content.removeChild(meta);
+            header.appendChild(meta);
+          }
           content.insertBefore(header, content.firstChild);
         }
         header.appendChild(actions);
