@@ -28,7 +28,6 @@ def main() -> None:
             mean_absences=("absences", "mean"),
         )
         .round(2)
-        .sort_values("mean_score", ascending=False)
     )
 
     print("selected rows")

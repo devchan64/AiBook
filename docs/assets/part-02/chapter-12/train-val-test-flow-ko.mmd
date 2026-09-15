@@ -1,9 +1,7 @@
 flowchart TD
-    full["전체 데이터셋"]
-    train["train set<br/>학습에 사용하는 데이터"]
-    val["validation set<br/>설정 비교에 쓰는 데이터"]
-    test["test set<br/>마지막 확인에 쓰는 데이터"]
-
-    full --> train
-    full --> val
-    full --> test
+    a["전체 36명"]
+    a --> b["학습 후보 27명"]
+    a --> c["테스트 9명"]
+    b --> d["검증용 9명 분리"]
+    d --> e["학습 18명"]
+    d --> f["검증 9명"]

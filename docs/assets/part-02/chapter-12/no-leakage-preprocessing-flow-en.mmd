@@ -1,10 +1,8 @@
 flowchart TD
-    full["full table"]
-    choose["choose X and y"]
-    split["split first<br/>train / validation / test"]
-    fit_train["learn transform rule<br/>fit on train only"]
-    apply_other["apply same transform<br/>only apply to validation and test"]
-    bad["wrong order<br/>learn the rule from the full table first"]
-
-    full --> choose --> split --> fit_train --> apply_other
-    full -. avoid .-> bad
+    a["Choose X/y, then split"]
+    a --> b["Training data"]
+    a --> c["Validation and test data"]
+    b --> d["Fit on training only<br/>Learn means and transform criteria"]
+    d --> e["Transform training data"]
+    d --> f["Transform validation and test<br/>Keep training-derived criteria"]
+    c --> f

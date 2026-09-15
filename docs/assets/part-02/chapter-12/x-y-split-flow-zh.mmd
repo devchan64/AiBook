@@ -1,10 +1,6 @@
 flowchart TD
-    raw["原始 DataFrame<br/>student_id, region, absences, score, passed"]
-    choose["选择目标<br/>你想预测什么？"]
-    split["拆分列<br/>分开 X 和 y"]
-    x["X<br/>region, absences, score"]
-    y["y<br/>passed"]
-
-    raw --> choose --> split
-    split --> x
-    split --> y
+    a["原始表<br/>student_id, region, absences, score, passed"]
+    a --> b["区分考前输入与目标"]
+    b --> x["X<br/>region, absences"]
+    b --> y["y<br/>passed"]
+    b --> z["从输入中排除<br/>student_id：标识<br/>score：考后结果"]

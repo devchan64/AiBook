@@ -1,10 +1,8 @@
 flowchart TD
-    full["전체 표"]
-    choose["X와 y 선택"]
-    split["먼저 분리<br/>train / validation / test"]
-    fit_train["변환 기준 학습<br/>train에서만 fit"]
-    apply_other["같은 변환 적용<br/>validation, test에는 apply만"]
-    bad["잘못된 순서<br/>전체 표에서 먼저 기준 학습"]
-
-    full --> choose --> split --> fit_train --> apply_other
-    full -.피해야 함.-> bad
+    a["X·y를 고른 뒤 분할"]
+    a --> b["학습 데이터"]
+    a --> c["검증·테스트 데이터"]
+    b --> d["학습에서만 fit<br/>평균·변환 기준 계산"]
+    d --> e["학습 데이터에 transform"]
+    d --> f["검증·테스트에 transform<br/>학습에서 정한 기준 유지"]
+    c --> f

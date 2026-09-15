@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
 > Section ID: `P2-12.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 행과 열이 있는 표
 
@@ -78,6 +78,27 @@ Lee      90    yes
 
 이 표의 데이터 열은 `score`, `passed` 두 개입니다. 이름은 인덱스에 있으므로 `named.shape`는 `(3, 2)`입니다. 앞서 만든 `df`는 이름도 데이터 열에 들어 있어 `(3, 3)`입니다. 인덱스가 숫자라고 해서 항상 현재 행 위치와 같지는 않으며, 라벨이 중복될 수도 있습니다.
 
+## 라벨에 맞춘 값 연결
+
+Pandas는 Series를 열에 대입할 때 값의 나열 순서보다 인덱스 라벨을 기준으로 맞춥니다. 이름을 인덱스로 둔 점수표에 학생별 보너스를 추가한다고 합시다. 보너스는 Lee, Kim, Park 순서로 들어 있지만 점수표는 Kim, Park, Lee 순서입니다.
+
+```python
+bonus = pd.Series([5, 10, 0], index=["Lee", "Kim", "Park"])
+adjusted = named.copy()
+adjusted["bonus"] = bonus
+adjusted["adjusted_score"] = adjusted["score"] + adjusted["bonus"]
+print(adjusted[["score", "bonus", "adjusted_score"]])
+```
+
+```text
+      score  bonus  adjusted_score
+Kim      82     10              92
+Park     45      0              45
+Lee      90      5              95
+```
+
+첫 값 5가 Kim에게 붙지 않고 Lee에게 붙습니다. 라벨이 데이터의 연결 기준이기 때문입니다. `bonus`의 Lee 라벨을 Choi로 바꾸면 점수표의 Lee에 대응하는 값이 없어 결측치가 생깁니다. 같은 길이라고 해서 같은 학생끼리 연결된다는 뜻은 아닙니다. 이름이 중복될 수 있는 실제 자료에서는 학생 ID처럼 기록을 구분할 기준을 먼저 정합니다.
+
 ## 열별 타입과 표 구조
 
 앞서 만든 `df`의 크기, 열 이름, 인덱스, 열별 타입, 앞 두 행을 출력합니다. `score`가 수치 타입인지 확인하면 점수 평균 같은 계산에 바로 쓸 수 있는지 판단할 수 있습니다.
@@ -143,7 +164,7 @@ A-01의 측정 행을 하나 더 추가하면 전체 기록은 7개, A-01의 기
 
 고객 목록에서는 한 행이 고객 한 명일 수 있고, 주문 목록에서는 같은 고객의 주문이 여러 행에 걸쳐 있을 수 있습니다. 따라서 행 수를 고객 수로 사용할 수 있는지는 표의 기록 단위에 달려 있습니다.
 
-## 사례 1. 학생 CSV의 행과 열 확인
+## 사례: 학생 CSV의 행과 열 확인
 
 [`student-progress-samples.csv`](../../../assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }에는 학생 36명의 학습 기록이 있습니다. 첫 학생 S001은 Seoul 지역이며 공부 시간 8.0, 결석 1회, 연습 퀴즈 9회, 점수 86, 합격 여부 `yes`로 기록되어 있습니다.
 
@@ -169,7 +190,17 @@ print(df.head(3))
 
 CSV에서 S001의 점수만 86에서 96으로 바꾸면 `shape`와 열 이름은 그대로이고 `head(3)`의 점수만 달라집니다. 학생 행 하나를 추가하면 행 수가 37로 늘어납니다. 구조 확인과 값 확인은 서로 다른 변화를 잡아냅니다.
 
-같은 파일 점검은 [`p2_12_1_dataframe_first_check.py`](../../../assets/part-02/chapter-12/p2_12_1_dataframe_first_check.py)로도 실행할 수 있습니다.
+같은 CSV 점검을 파일로 실행하려면 저장소 루트에서 다음 명령을 사용합니다.
+
+[p2_12_1_dataframe_first_check.py](../../../assets/part-02/chapter-12/p2_12_1_dataframe_first_check.py)
+
+```bash
+python docs/assets/part-02/chapter-12/p2_12_1_dataframe_first_check.py
+```
+
+## 타입과 값의 의미
+
+점수가 수치 타입이라는 확인은 계산 가능성을 알려 줄 뿐, 점수가 올바르게 기록되었다는 보장은 아닙니다. 100점 만점 시험의 점수가 900으로 들어가도 숫자 타입 자체는 정상입니다. 공부 시간 열의 8이 시간인지 분인지도 `dtype`만으로는 알 수 없습니다. 표 구조를 읽은 뒤에는 열의 단위·허용 범위·기록 시점을 함께 확인해야 합니다.
 
 ## 체크리스트
 
@@ -178,9 +209,11 @@ CSV에서 S001의 점수만 86에서 96으로 바꾸면 `shape`와 열 이름은
 - 이름을 데이터 열에 둘 때와 인덱스에 둘 때 `shape`가 어떻게 다른지 설명할 수 있는가?
 - 측정 행 수와 동작 수가 다른 이유를 설명할 수 있는가?
 - `shape`, `columns`, `index`, `dtypes`, `head()`가 각각 어떤 변화를 보여 주는지 설명할 수 있는가?
+- Series의 값 순서를 바꿔도 라벨이 같은 학생에게 값이 연결되는 이유를 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.5 documentation, 확인 날짜: 2026-09-08. DataFrame을 labeled axes를 가진 2차원 tabular data structure로 설명하는 근거로 사용했다.
-- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. pandas가 tabular, time series, matrix data를 다루는 도구라는 설명을 DataFrame 입문 배경으로 사용했다.
-- pandas Developers, [Migration guide for the new string data type](https://pandas.pydata.org/docs/user_guide/migration-3-strings.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.5 documentation, 확인 날짜: 2026-09-08. 버전과 설정에 따른 문자열 열의 타입 표시 차이를 확인했다.
+- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-09-08. DataFrame을 labeled axes를 가진 2차원 tabular data structure로 설명하는 근거로 사용했다.
+- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-07-20. pandas가 tabular, time series, matrix data를 다루는 도구라는 설명을 DataFrame 입문 배경으로 사용했다.
+- pandas Developers, [Migration guide for the new string data type](https://pandas.pydata.org/docs/user_guide/migration-3-strings.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-09-08. 버전과 설정에 따른 문자열 열의 타입 표시 차이를 확인했다.
+- pandas Developers, [Intro to data structures](https://pandas.pydata.org/docs/user_guide/dsintro.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-09-15. Series 대입 시 라벨 정렬과 누락 라벨의 결측치 처리.

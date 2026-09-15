@@ -1,62 +1,13 @@
 # P2-12.2 Selection, Filtering, and Aggregation
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In P2-12.1, we treated a Pandas `DataFrame` as a table-shaped data structure with rows, columns, and an index. That immediately raises one more question.
+## A Student Score Table
 
-Receiving a table does not mean the needed information is already visible. In practice, you keep doing things like these.
-
-- Choose only certain columns.
-- Look at only certain rows.
-- Keep only rows that satisfy a condition.
-- Check the mean or count of a numeric column.
-- Split the table by category and summarize it.
-
-In Pandas, selection, filtering, and aggregation describe exactly that flow.
-
-This Section explains the basic distinction among `Series`, filtering, aggregation, `groupby`, `loc`, and `iloc`. The representative explanation of the `DataFrame` itself stays in P2-12.1. Here, the focus is on what to read from that table, what to keep, and what to summarize.
-
-## Core Criteria: Selection, Filtering, and Aggregation
-
-- You can explain how the result of selecting one column differs from the result of selecting multiple columns.
-- You can explain that `loc` reads by label and `iloc` reads by position.
-- You can explain that Boolean conditions filter rows.
-- You can explain that aggregation turns the original table into smaller summary values.
-- You can explain `groupby` as a method that first groups the same category together and then summarizes each group.
-
-## Three Criteria
-
-| Criterion | Why It Matters | Level of Understanding Needed in This Section |
-| --- | --- | --- |
-| The difference between column selection and row filtering | It prevents you from mixing up what you want to read with what you want to keep. | Understand that one chooses what to read, and the other chooses what to keep. |
-| Why `loc` and `iloc` are separated | It prevents confusion between label-based reading and position-based reading. | Understand that `loc` uses labels and `iloc` uses positions. |
-| What `groupby` does | It makes the flow of turning a full table into category-wise summaries explicit. | Understand it as grouping the same category together and then calculating summary values. |
-
-| Term | Meaning to Fix First in This Section |
-| --- | --- |
-| Series | A one-dimensional column of values with an index attached. |
-| filtering | A way of selecting by keeping only rows that satisfy a condition. |
-| aggregation | The process of turning many values into smaller summaries such as a mean, sum, or count. |
-| `groupby` | A method that first groups the same category together and then computes summaries for each group. |
-| `loc` / `iloc` | Tools that choose rows and columns by label and by position, respectively. |
-
-The flow after this Section is also simple.
-
-- In `P2-12.3`, we will see how the tables we selected and summarized here connect to actual dataset preparation and leakage prevention.
-- In later Pandas practice and model-input preparation sections, the same question returns as `which columns should remain, and what summaries should we make?`
-
-## Fix a Small Example Table First
-
-This Section keeps using the following small table.
-
-Problem situation: to connect examples of selection, filtering, and aggregation within one table, we first need a small reference `DataFrame`.
-Input: four columns containing names, scores, pass status, and region.
-Expected output: an example table containing four students.
-Concept to check: all later selection and filtering will change the question while keeping the same table as the base.
+Create a table of four students with names, scores, pass status, and regions. Each student occupies one row; scores and regions can be used to select rows or calculate averages.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -71,7 +22,7 @@ df = pd.DataFrame(
 print(df)
 ```
 
-You can read the output like this.
+The output is:
 
 ```text
    name  score passed region
@@ -81,29 +32,19 @@ You can read the output like this.
 3  Choi     73    yes  Busan
 ```
 
-We begin by looking at the whole table, but quickly move to questions such as `which column?`, `which row?`, and `which condition?`
-
-Seen as a diagram, the flow of this Section is as follows.
-
 ```mermaid
 --8<-- "assets/part-02/chapter-12/table-reading-flow-en.mmd"
 ```
 
-## Choosing One Column Returns a Series
+## Series and DataFrame
 
-In Pandas, you can choose a single column.
-
-Problem situation: you want to check what form the result takes when you pull out only the score column rather than a whole table.
-Input: `df["score"]`.
-Expected output: a one-dimensional `Series` containing only scores.
-Concept to check: selecting one column usually returns a `Series`, not a `DataFrame`.
+`df["score"]` returns the score column as a `Series`, a one-dimensional collection of values with an index.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df["score"])
 ```
 
-The output looks roughly like this.
+The output looks like this:
 
 ```text
 0    82
@@ -113,26 +54,13 @@ The output looks roughly like this.
 Name: score, dtype: int64
 ```
 
-The important point here is that the result is a `Series`, not a `DataFrame`. A `Series` is not a one-row table. It is better read as a one-dimensional column of values with an attached index.
-
-At this stage, it is enough to remember the following difference.
-
-- `df["score"]`: take out one column. The result is usually a `Series`.
-- `df[["name", "score"]]`: choose multiple columns. The result is a `DataFrame`.
-
-For example:
-
-Problem situation: you want to compare how the result shape changes when you keep both the name and score columns together.
-Input: `df[["name", "score"]]`.
-Expected output: a small `DataFrame` that keeps two columns.
-Concept to check: choosing multiple columns preserves part of the original table structure.
+The result is a `Series`, rather than a `DataFrame`. Read a Series as a one-dimensional column of indexed values, not as a table containing one row.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df[["name", "score"]])
 ```
 
-The output is still table-shaped.
+The result is a four-row, two-column DataFrame containing names and scores. Passing a list with one column name, as in `df[["score"]]`, preserves a four-row, one-column DataFrame.
 
 ```text
    name  score
@@ -142,105 +70,76 @@ The output is still table-shaped.
 3  Choi     73
 ```
 
-In other words, when you choose one column, it feels more like reading a single value column, while choosing multiple columns still feels like looking at a sliced piece of the original table.
-
-The same difference becomes even clearer in a table.
-
-| Code | Result Type | Reading Question |
-| --- | --- | --- |
-| `df["score"]` | `Series` | Do I want to see only the values in the score column? |
-| `df[["name", "score"]]` | `DataFrame` | Do I want to compare names and scores together? |
-
-A small check is also useful.
-
-Problem situation: you want to verify directly that selecting one column and selecting multiple columns return different object types.
-Input: `df["score"]` and `df[["name", "score"]]`.
-Expected output: two type names, `Series` and `DataFrame`.
-Concept to check: even selections that look similar can return different objects.
-
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(type(df["score"]).__name__)
 print(type(df[["name", "score"]]).__name__)
 ```
 
-The output reads roughly as follows.
+The output is:
 
 ```text
 Series
 DataFrame
 ```
 
-## `loc` Reads by Label, `iloc` Reads by Position
+## Labels and Positions
 
-The Pandas official documentation describes `.loc` as label-based selection and `.iloc` as integer position-based selection.
-
-Here, we separate them in this way.
-
-- `loc`: choose by looking at the label.
-- `iloc`: choose by looking at which position it is.
-
-For example, when the current default index is `0, 1, 2, 3`:
-
-Problem situation: with a default numeric index, `loc` and `iloc` can look similar enough that you miss the difference.
-Input: `df.loc[1]`, `df.iloc[1]`.
-Expected output: both seem to point to the second student's row.
-Concept to check: even if the current results look the same, the standards are still label versus position.
+The Pandas documentation describes `.loc` as label-based selection and `.iloc` as integer-position-based selection.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df.loc[1])
 print(df.iloc[1])
 ```
 
-Both may appear to point to the second row. That is only because the index labels are numbers and the positions are also numbered.
+Both statements print Park's row because label 1 and the second position currently identify the same row.
 
-But if you change the index to names, the difference becomes clearer.
-
-Problem situation: you want to see the distinction between label-based and position-based selection more clearly.
-Input: `named`, which sets `name` as the index, and the corresponding `loc`/`iloc` calls.
-Expected output: the row with the `Lee` label and the row at the third position.
-Concept to check: `loc` follows the label, and `iloc` follows the order.
+Changing the index to names makes the distinction clearer.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 named = df.set_index("name")
 
 print(named.loc["Lee"])
 print(named.iloc[2])
 ```
 
-At that point:
+Here:
 
-- `named.loc["Lee"]` looks for the label `Lee`.
-- `named.iloc[2]` looks for the row at the third position.
+- `named.loc["Lee"]` looks up the label `Lee`.
+- `named.iloc[2]` selects the third row by position.
 
-This distinction is very important, because reading a table by name and reading it by order are different actions.
+## Slice Endpoints and Row Order
 
-Summarized in a small table:
-
-| Code | Standard | Meaning |
-| --- | --- | --- |
-| `df.loc[1]` | label | the row whose index label is 1 |
-| `df.iloc[1]` | position | the row in the second position |
-| `named.loc["Lee"]` | label | the row whose name is `Lee` |
-| `named.iloc[2]` | position | the row in the third position |
-
-## Condition Filters Keep or Drop Rows
-
-One of the most common things you do while reading a table is to keep only the rows that satisfy a condition.
-
-Problem situation: you want to keep only students whose score is at least 80.
-Input: a table filtered with the condition `df["score"] >= 80`.
-Expected output: a partial table where only Kim and Lee remain.
-Concept to check: a condition filter does not change row values. It chooses which rows remain.
+Label slices with `.loc` include the end label, whereas position slices with `.iloc` exclude the end position. Comparing the two on the current default index reveals the difference.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
+print(df.loc[1:2, "name"].tolist())
+print(df.iloc[1:2]["name"].tolist())
+
+ranked = df.sort_values("score", ascending=False)
+print(ranked.index.tolist())
+print(ranked.loc[0, "name"])
+print(ranked.iloc[0]["name"])
+```
+
+```text
+['Park', 'Lee']
+['Park']
+[2, 0, 3, 1]
+Kim
+Lee
+```
+
+Sorting changes row positions while preserving existing labels. The first position is therefore Lee, while label 0 still identifies Kim. `reset_index(drop=True)` replaces labels with new position numbers; preserve student identifiers in a separate column when they are needed.
+
+## Selecting Rows by Condition
+
+Selecting students with scores of at least 80 leaves Kim and Lee. The original scores do not change.
+
+```python
 print(df[df["score"] >= 80])
 ```
 
-The output looks roughly like this.
+The output looks like this:
 
 ```text
   name  score passed region
@@ -248,20 +147,14 @@ The output looks roughly like this.
 2  Lee     90    yes  Seoul
 ```
 
-You can read this code in two steps.
+Read the expression in two steps:
 
-1. `df["score"] >= 80` creates `True` or `False` for each row.
-2. Keep only the rows where the result is `True`.
+1. `df["score"] >= 80` produces `True` or `False` for each row.
+2. Only rows marked `True` remain.
 
-If you look at the intermediate result directly, it becomes clearer.
-
-Problem situation: you want to see first what list of `True`/`False` values the filter creates internally.
-Input: the `mask` made by `df["score"] >= 80`.
-Expected output: a Boolean `Series` showing whether each row satisfies the condition.
-Concept to check: filtering first builds row-by-row judgments, then keeps only the `True` rows.
+Inspect the intermediate result directly:
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 mask = df["score"] >= 80
 print(mask)
 ```
@@ -274,170 +167,73 @@ print(mask)
 Name: score, dtype: bool
 ```
 
-This Boolean result is often called a `mask`. It helps to read filtering as `ask each row a question, and keep only the rows that answer yes (True)`.
+Such a Boolean result is often called a mask. Filtering asks a question of each row and keeps those that answer True.
 
-You can also combine multiple conditions.
-
-Problem situation: you want to keep only rows that satisfy both a score condition and a region condition.
-Input: a compound condition where the score is at least 70 and `region == "Busan"`.
-Expected output: a table where only Choi remains because only that row satisfies both conditions.
-Concept to check: Boolean conditions can be combined with operators such as `&`.
+Combining a score of at least 70 with region Busan using `&` leaves only Choi. Enclose each condition in parentheses.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df[(df["score"] >= 70) & (df["region"] == "Busan")])
 ```
 
-This code keeps only rows whose score is at least 70 and whose region is Busan.
+This selects rows whose scores are at least 70 and whose region is Busan. Use `&` (and) or `|` (or) to combine conditions row by row. Python's `and` and `or` try to evaluate a whole Series as one Boolean value and cannot be used for this purpose.
 
-If you compare before and after filtering, you can read it as follows.
+## Updating Values by Condition
 
-| Step | Remaining Rows |
-| --- | --- |
-| original table | Kim, Park, Lee, Choi |
-| `df["score"] >= 80` | Kim, Lee |
-| `(df["score"] >= 70) & (df["region"] == "Busan")` | Choi |
-
-So filtering is closer to `choosing which rows to keep` than to changing values.
-
-## Selection and Filtering Ask Different Questions
-
-At first, selection and filtering may look similar. But the questions are different.
-
-| Action | Question |
-| --- | --- |
-| column selection | Which variables do I want to see? |
-| row selection | Which case at which position or label do I want to see? |
-| condition filter | Which cases that satisfy the condition should remain? |
-
-For example:
-
-Problem situation: you want to compare at once how column selection, single-row selection, and condition filtering each narrow a table differently.
-Input: `df[["name", "score"]]`, `df.loc[2]`, `df[df["passed"] == "yes"]`.
-Expected output: a table with fewer columns, one row, and multiple rows that satisfy a condition.
-Concept to check: even when all of them narrow the table, the result shape changes depending on the question.
+Filtering selects rows; assignment changes values at selected positions. To preserve the original table and add five points to students below 60, copy the table and assign through `.loc[row condition, column]`.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
-print(df[["name", "score"]])
-print(df.loc[2])
-print(df[df["passed"] == "yes"])
+adjusted = df.copy()
+low = adjusted["score"] < 60
+adjusted.loc[low, "score"] = adjusted.loc[low, "score"] + 5
+print(df["score"].tolist())
+print(adjusted["score"].tolist())
 ```
 
-All three pieces of code narrow the table, but they narrow it by different standards.
-
-- The first reduces columns.
-- The second points at one row.
-- The third keeps multiple rows that satisfy a condition.
-
-You need to separate these differences so that, later, even if the code grows longer, you still know what it is doing.
-
-It becomes clearer if you read one question in three ways.
-
-Problem situation: you want to see how column selection, row selection, and filtering followed by column selection connect even on the same data.
-Input: three different Pandas selection expressions.
-Expected output: results narrowed to different ranges depending on the purpose.
-Concept to check: Pandas code often narrows the table by breaking a question into smaller steps.
-
-```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
-print(df[["name", "score"]])
-print(df.loc[2])
-print(df[df["passed"] == "yes"][["name", "score"]])
+```text
+[82, 45, 90, 73]
+[82, 50, 90, 73]
 ```
 
-These three lines show the following.
+Do not use chained assignment such as `df[condition]["score"] = ...` to update the original. In particular, pandas 3 Copy-on-Write prevents this from changing the original table. Specify the table and positions in one `.loc` assignment. Distinguish assignment from the earlier read-only expression `df.iloc[1:2]["name"]`.
 
-- a table viewed by reducing columns
-- one row viewed as a single case
-- a table viewed by keeping only rows that satisfy a condition and then taking only the needed columns
+## Mean, Maximum, and Count
 
-## Aggregation Turns a Table into Smaller Summaries
-
-Aggregation is the process of converting the original table into summary values.
-
-For example:
-
-Problem situation: you want to summarize the entire score column into a few numbers.
-Input: mean, maximum, and count aggregations for the `score` column.
-Expected output: three numbers that summarize the score distribution.
-Concept to check: aggregation compresses many rows into a smaller summary result.
+Aggregation reduces multiple values to summaries. The scores `[82, 45, 90, 73]` have mean 72.5, maximum 90, and count 4.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df["score"].mean())
 print(df["score"].max())
 print(df["score"].count())
 ```
 
-Each output answers a different question.
-
-- mean: where is the center of the scores?
-- max: what is the largest value?
-- count: how many values are there?
-
-The core of aggregation is that, instead of looking at the full table as it is, you summarize it with a few numbers.
-
-In this Section, we use a wider meaning than simply `compute a statistic`. It is enough to understand aggregation as `compress many rows into a smaller number of results`.
-
-A very small example makes that easier to see.
-
-Problem situation: if you print only one mean value, it becomes easier to see how aggregation simplifies a whole table.
-Input: `df["score"].mean()`.
-Expected output: a single average score.
-Concept to check: an aggregation result does not replace the whole table, but it quickly shows the center.
+Pass a list of aggregation names to `agg` to collect all three results. `count` excludes missing values.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
-print(df["score"].mean())
-```
-
-```text
-72.5
-```
-
-This one number cannot replace the entire table. But it is useful when you want to see the central value quickly.
-
-If you bundle aggregations together, you can also read them like this.
-
-Problem situation: you want to inspect mean, maximum, and count at once.
-Input: `df["score"].agg(["mean", "max", "count"])`.
-Expected output: a small summary output that bundles multiple aggregation results.
-Concept to check: one column can be read by multiple aggregation criteria at the same time.
-
-```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df["score"].agg(["mean", "max", "count"]))
 ```
 
-The output may look roughly like this.
+The output looks like this:
 
 ```text
 mean     72.5
 max      90.0
 count     4.0
-dtype: float64
+Name: score, dtype: float64
 ```
 
-You can read that result as a small table that summarizes the single `score` column in several ways.
+Read this result as a small summary of the single `score` column in several ways.
 
-## `groupby` Groups the Same Category First and Then Summarizes
+## Mean Scores by Region
 
-The Pandas official documentation explains `groupby` as a flow that splits data according to some criterion, applies a function to each group, and combines the results. Here, it is enough to read `groupby` as a method that first groups rows with the same value together and then aggregates each group.
+The Pandas documentation describes `groupby` as splitting data by a criterion, applying a function to each group, and combining the results. For regional mean scores, rows with the same `region` value belong together.
 
-For example, suppose you want average scores by region.
-
-Problem situation: you want to change the unit of the question from individual student scores to average scores by region.
-Input: `groupby` code that groups by `region` and computes the mean of `score`.
-Expected output: a summary result where the average score of Busan and Seoul appears separately.
-Concept to check: `groupby` turns individual rows into category-wise groups and then aggregates each group.
+Busan has mean 59 from Park's 45 and Choi's 73. Seoul has mean 86 from Kim's 82 and Lee's 90.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df.groupby("region")["score"].mean())
 ```
 
-The output may look roughly like this.
+The output looks like this:
 
 ```text
 region
@@ -446,27 +242,37 @@ Seoul    86.0
 Name: score, dtype: float64
 ```
 
-Read this code in the following way.
+Read the calculation as follows:
 
-1. Group together rows that have the same `region` value.
-2. Look only at the `score` column inside each group.
-3. Compute the mean for each group.
+1. Group rows sharing the same `region` value.
+2. Select `score` within each group.
+3. Calculate each group's mean.
 
-So `groupby` is a tool that makes explicit not just an average, but `an average divided according to what criterion?`
+## Missing Values and Aggregation Denominators
 
-The change becomes clearer if you place the original table and the `groupby` result side by side.
+If Park's score has not been entered, Busan still has two students but only one observed score: Choi's 73. `size` counts rows, while `count` counts nonmissing values. The mean also excludes missing values by default. `Float64` is a Pandas floating-point type that can hold the missing value `pd.NA`. The conversion distinguishes numbers from unentered values in one column.
 
-| Question in the Original Table | Question After `groupby` |
-| --- | --- |
-| What is each student's score? | What is the average score by region? |
-| How many rows are there? | How many categories are there? |
-| Look at individual cases | Look at category summaries |
+```python
+missing = df.copy()
+missing["score"] = missing["score"].astype("Float64")
+missing.loc[1, "score"] = pd.NA
+print(missing.groupby("region")["score"].agg(["size", "count", "mean"]))
+```
 
-This point matters. `groupby` is not primarily a sorting function. It is closer to a function that changes the `unit of reading` from individual rows to groups by category.
+```text
+        size  count  mean
+region
+Busan      2      1  73.0
+Seoul      2      2  86.0
+```
 
-When reading tables, one row is not always one complete case. For example, in raw logs recorded during an action, several rows together may form one action record. In that case, it is often more natural to group first by an action-identifier column and then summarize the duration, segment averages, and last values to rebuild a table at the action level.
+The Busan mean of 73 does not summarize observed scores for both students. Filling the missing value with zero changes the mean to `(0 + 73) / 2 = 36.5`, interpreting an unentered score as zero points. Reporting total rows and observed-value counts alongside summaries shows what data underlies the calculation.
 
-| event_id | elapsed_seconds | progress_fraction | signal_a |
+## Summarizing Sensor Records by Action
+
+Actions A-01 and B-02 were each measured at three times. Grouping by action can place the last recorded time, mean signal, and last observed signal in one row per action.
+
+| action_id | elapsed_seconds | progress_fraction | signal_a |
 | --- | ---: | ---: | ---: |
 | A-01 | 0.0 | 0.00 | 0.8 |
 | A-01 | 1.0 | 0.20 | 1.4 |
@@ -475,21 +281,15 @@ When reading tables, one row is not always one complete case. For example, in ra
 | B-02 | 1.0 | 0.25 | 1.3 |
 | B-02 | 2.0 | 0.50 | 1.5 |
 
-| event_id | total_duration_seconds | signal_a_mean | end_signal_a |
+| action_id | last_recorded_seconds | signal_a_mean | last_recorded_signal_a |
 | --- | ---: | ---: | ---: |
 | A-01 | 2.0 | 1.37 | 1.9 |
 | B-02 | 2.0 | 1.17 | 1.5 |
 
-Problem situation: you want to turn raw logs recorded over multiple rows into a summary table at the action level.
-Input: code that groups by `event_id` and computes time-length and sensor-value summaries.
-Expected output: a summary `DataFrame` with only one row per `event_id`.
-Concept to check: `groupby` is not only a function for grouping the same category together, but also a tool that lets you read many rows again as one case.
-
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 log_df = pd.DataFrame(
     {
-        "event_id": ["A-01", "A-01", "A-01", "B-02", "B-02", "B-02"],
+        "action_id": ["A-01", "A-01", "A-01", "B-02", "B-02", "B-02"],
         "elapsed_seconds": [0.0, 1.0, 2.0, 0.0, 1.0, 2.0],
         "progress_fraction": [0.00, 0.20, 0.40, 0.00, 0.25, 0.50],
         "signal_a": [0.8, 1.4, 1.9, 0.7, 1.3, 1.5],
@@ -497,39 +297,33 @@ log_df = pd.DataFrame(
 )
 
 summary = (
-    log_df.groupby("event_id")
+    log_df.sort_values(["action_id", "elapsed_seconds"]).groupby("action_id")
     .agg(
-        total_duration_seconds=("elapsed_seconds", "max"),
+        last_recorded_seconds=("elapsed_seconds", "max"),
         signal_a_mean=("signal_a", "mean"),
-        end_signal_a=("signal_a", "last"),
+        last_recorded_signal_a=("signal_a", "last"),
     )
     .reset_index()
 )
 
-print(summary)
+print(summary.round(2).to_string(index=False))
 ```
 
-You can read the output like this.
+The output is:
 
 ```text
-  event_id  total_duration_seconds  signal_a_mean  end_signal_a
-0     A-01                     2.0       1.366667           1.9
-1     B-02                     2.0       1.166667           1.5
+action_id  last_recorded_seconds  signal_a_mean  last_recorded_signal_a
+    A-01                    2.0           1.37                     1.9
+    B-02                    2.0           1.17                     1.5
 ```
 
-## Filters and Aggregations Move Together When the Threshold Changes
+After sorting by elapsed time, `last` returns the latest signal in this example. By default, `last` skips missing values, so a missing signal at the final time can cause an earlier value to be returned. Without sorting, it selects the last observed value in current row order, not necessarily the latest in time. Both actions have their last record at two seconds, but progress is 0.40 and 0.50 respectively. This is the last observed time, not the completion time of the whole action.
 
-The small tables above are explanation-oriented examples for reading Pandas syntax. But in a real table, you need to check whether the remaining rows and aggregations change together when the condition value changes.
+## Case: Changing Threshold and Region
 
-The input file is [`student-progress-samples.csv`](/AiBook/assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }. One row is one student's learning record, and the core columns are `region`, `study_hours`, `absences`, `practice_quizzes`, `score`, and `passed`. Here, change `pass_threshold` and `focus_region` and observe which rows remain and how the regional summary changes.
-
-Problem situation: I want to check whether filter results and regional summaries change together when the score threshold and region condition change.
-Input: a 36-row student-progress CSV, `pass_threshold`, and `focus_region`.
-Expected output: a list of rows satisfying the condition, regional mean scores, and counts over the threshold.
-Concept to check: Conditional filtering and `groupby` aggregation are not code for checking a fixed answer; they are tools for observing how remaining rows and summaries move when criteria change.
+The input is [`student-progress-samples.csv`](/AiBook/assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }. Each row is one student's learning record; key columns are `region`, `study_hours`, `absences`, `practice_quizzes`, `score`, and `passed`. Applying a threshold of 75 and region Busan selects S010, S013, S016, and S018.
 
 ```python
-# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 from pathlib import Path
 import pandas as pd
 
@@ -560,41 +354,38 @@ print(selected)
 print(summary)
 ```
 
-The same code can also be run as [`p2_12_2_filter_aggregate_threshold.py`](/AiBook/assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py). If you change `pass_threshold` to `70`, `75`, or `80`, the number of students over the threshold changes; if you change `focus_region` to another region, the selected row list changes.
+The same calculation can be run from a file.
 
-## A Diagram of the Table-Reading Flow
+[p2_12_2_filter_aggregate_threshold.py](/AiBook/assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py)
 
-Selection, filtering, and aggregation usually connect in the following flow.
+```bash
+python docs/assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py
+```
+
+Changing `pass_threshold` among `70`, `75`, and `80` changes the count meeting the threshold; changing `focus_region` changes the selected row list.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-12/table-processing-flow-en.mmd"
 ```
 
-In real work, the order is not always fixed. Even so, the flow of `rather than holding the table as it is, narrow and summarize it according to the question` remains important.
+Raising the threshold to 80 removes S016, whose score is 77, from the Busan selection, leaving three students. Regional summaries use the full `df`, not `selected`, so mean scores and student counts remain unchanged while counts meeting the threshold change. Changing only `focus_region` to Seoul changes the selected students but does not change regional summaries at all.
 
-## View It Through a Case
-
-### Case 1. A Grade Table Where You Want to Review Only the Failed Students
-
-Suppose a teacher looks at a grade table and wants to check `who failed`, `whether only the scores and regions of failed students should be reviewed again`, and `what the average score is by region`. A person can skim the table mentally and revisit only the needed part, but in data work that process has to be stated explicitly as selection, filtering, and aggregation.
-
-If you first keep only failed students through the `passed` column, you have decided which rows to look at. If you then select only `name` and `score`, you have decided what to read. Finally, if you call `groupby("region")["score"].mean()`, you compress the individual-student table into a regional summary.
-
-This case shows the difference among the three actions at once. Column selection decides `which variables to view`, row selection and filtering decide `which cases to keep`, and aggregation decides `which summary values should represent the whole`. Working with tables is closer to breaking a question into smaller steps than to memorizing code.
-
-That is why even short Pandas code should be read together with the structure of the question. Even with the same grade table, `look at one student`, `look at multiple students that satisfy a condition`, and `look at category-wise averages` are different reading actions, and you need to distinguish them so that dataset preparation and model-input construction later do not become confused.
+The CSV's `passed` column is stored pass status. Changing `pass_threshold` does not recalculate this column, so it must not be treated as equivalent to meeting the current threshold.
 
 ## Checklist
 
-- Can you explain the difference between selecting one column and selecting multiple columns?
-- Can you say what `loc` and `iloc` each use as their standard?
-- Can you explain that Boolean conditions are how rows are kept or dropped?
-- Can you explain why aggregations such as mean, count, and maximum are needed?
-- Can you explain `groupby` as a flow of `group first, then summarize`?
-- Can you explain that selecting one column often reads as a `Series`, while selecting multiple columns often reads as a `DataFrame`?
+- Can you explain the difference between selecting one column and several columns?
+- Can you explain what `loc` and `iloc` select by?
+- Can you explain how Boolean conditions keep or discard rows?
+- Can you explain why mean, count, and maximum are useful summaries?
+- Can you explain `groupby` as grouping before summarizing?
+- Can you explain which selection results and full regional summaries change when threshold or region changes?
+- Can you explain slice endpoint differences and the difference between size and count?
 
 ## Sources and References
 
-- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-20. Used to confirm column selection, `loc`/`iloc`, boolean indexing, and row filtering.
-- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-20. Used as the basis for explaining `groupby` through the split-apply-combine flow.
-- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-20. Used to confirm DataFrame creation, selection, summary statistics, and basic table-manipulation examples.
+- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, accessed: 2026-09-15. Column selection, loc/iloc, inclusive label slices, and Boolean filtering.
+- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, accessed: 2026-09-15. Split-apply-combine, group sizes, nonmissing counts, and means.
+- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, accessed: 2026-07-20. DataFrame creation, selection, summary statistics, and table operations.
+- pandas Developers, [Copy-on-Write (CoW)](https://pandas.pydata.org/docs/user_guide/copy_on_write.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, accessed: 2026-09-15. chained assignment versus a single loc assignment.
+- pandas Developers, [DataFrameGroupBy.last](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.api.typing.DataFrameGroupBy.last.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, accessed: 2026-09-15. last skipping missing values by default.

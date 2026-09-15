@@ -1,10 +1,6 @@
 flowchart TD
-    raw["원본 DataFrame<br/>student_id, region, absences, score, passed"]
-    choose["타깃 선택<br/>무엇을 맞히려는가"]
-    split["열 분리<br/>X와 y 나누기"]
-    x["X<br/>region, absences"]
-    y["y<br/>passed"]
-
-    raw --> choose --> split
-    split --> x
-    split --> y
+    a["원본 표<br/>student_id, region, absences, score, passed"]
+    a --> b["시험 전 입력과 정답 구분"]
+    b --> x["X<br/>region, absences"]
+    b --> y["y<br/>passed"]
+    b --> z["입력에서 제외<br/>student_id: 식별자<br/>score: 시험 후 결과"]

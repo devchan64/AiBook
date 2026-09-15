@@ -1,8 +1,4 @@
 flowchart TD
-    frame["DataFrame<br/>full table"]
-    select["select columns<br/>what variables matter?"]
-    filter["filter rows<br/>which cases stay?"]
-    agg["aggregate<br/>what summary is enough?"]
-    group["groupby<br/>summary by category"]
-
-    frame --> select --> filter --> agg --> group
+    a["전체 df · 학생 36명"]
+    a --> b["점수·지역 조건으로 선택"] --> c["selected · 학생 목록"]
+    a --> d["전체 df를 지역별로 묶기"] --> e["집계<br/>학생 수·평균<br/>기준 이상 인원"]
