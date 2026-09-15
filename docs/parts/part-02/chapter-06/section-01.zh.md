@@ -1,7 +1,7 @@
 # P2-6.1 最优化(optimization)到底在寻找什么
 
 > Section ID: `P2-6.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 最优化(optimization)是在指定条件下，寻找使目标函数(objective function)最小或最大的值。必须明确可调整的值、比较标准以及应遵守的约束，才能判断哪个选择更好。
 
@@ -17,6 +17,8 @@
 | D | 4 | 90 |
 
 现在的问题是：`如果输入学习时间，我们该怎样选择那条预测分数的直线 y = ax + b？` 在这里，我们并不是把 `a` 和 `b` 直接写成答案，而是要去比较几条候选直线，再找出更好的那一条，这正是最优化。
+
+这里，学习时间 `x` 和真实分数 `y` 是已经观测到的固定数据。要改变的是直线的斜率 `a` 和截距 `b`。`a` 表示学习时间增加 1 时预测分数的增量；`b` 表示学习时间为 0 时直线预测的分数。
 
 - `a = 10, b = 45` 是一个候选。
 - `a = 12, b = 40` 是另一个候选。
@@ -34,32 +36,25 @@
 
 用预测误差平方的均值比较，第一个候选为 `(0 + 0 + 25 + 25) / 4 = 12.5`，第二个为 `(9 + 1 + 16 + 4) / 4 = 7.5`。第一个候选准确预测了两个点，但按此标准综合四个点，第二个候选更好。
 
-![在评价标准与约束下比较候选值、寻找更好候选的最优化流程](/AiBook/assets/part-02/chapter-06/optimization-search-loop-zh.svg)
+![比较两组参数的预测值和平均损失后选择候选的流程](/AiBook/assets/part-02/chapter-06/optimization-search-loop-zh.svg)
 
-## 候选、目标与约束
-
-| 标准 | 为什么重要 |
-| --- | --- |
-| 最优化是在可能的候选中寻找更好的选择 | 它说明在计算之前，先要有比较标准。 |
-| 目标与约束决定什么算好 | 它说明“最优”不是绝对品质，而是带条件的判断。 |
-| AI 学习也是寻找能减少损失的更好参数的过程 | 它把最优化和学习流程入口连起来，而不是只停在抽象数学。 |
+图中将两组参数应用于相同数据，再比较损失。选择第二个候选，只表示它在所比较的两个候选中更好，并不表示它是所有可能直线中的最优解。
 
 ## 最优化问题的组成
 
-最优化问题的各要素如下。
-
-| 术语 | 先理解成什么 |
+| 要素 | 在直线预测例子中的含义 |
 | --- | --- |
-| 变量(variable) | 可以拿来改变试试的值 |
-| 约束(constraint) | 必须守住的条件 |
-| 目标函数(objective function) | 计算好坏的标准 |
-| 最小化/最大化(minimize/maximize) | 想减少或增加的方向 |
+| 变量(variable) | 可调整的参数 `a, b` |
+| 候选(candidate) | 一组变量值，例如 `a=10, b=45` |
+| 目标函数(objective function) | 四个点的预测误差平方的均值 |
+| 最小化(minimization) | 寻找平均损失更小的候选 |
+| 约束(constraint) | 此例中 `a, b` 为实数，没有额外限制 |
+
+最优化问题也可以没有约束。但如果规定了广告预算等必须遵守的上限，即使目标函数值较好，超出上限的候选也不能被选择。
 
 ## 可选值与约束
 
 在前面的直线例子中，`a` 与 `b` 的每个组合都是一个候选(candidate)。即使数据相同，评价标准(criterion)不同也可能改变候选的排名。
-
-即使候选很多，没有 `标准(criterion)` 也无法比较。
 
 | 场景 | 候选(candidate) | 标准(criterion) |
 | --- | --- | --- |
@@ -87,13 +82,18 @@
 
 ## 资源分配与线性规划
 
-`最优化(optimization)` 并不是随着 AI 出现才突然有的词。在更早的脉络里，它更接近这样的问题：`在多个选择里，有限资源该如何分配？`
+线性规划(linear programming)用变量的线性表达式表示目标函数和约束。各变量乘以固定系数后相加，不把变量相乘或平方。George Dantzig 的单纯形法(simplex method)是求解这类问题的代表方法。
 
-例如，在战争、物流、生产、排程里，关键问题往往是：用有限车辆走哪条路线、用有限人手安排哪些工作、用有限原料生产多少产品、在有限时间里按什么顺序处理事情。
+假设两种液体产品的产量为 `u, v` 升。每升利润分别为 3 千韩元和 2 千韩元，所需原料分别为 2kg 和 1kg。可用原料共 8kg，第一种产品最多可销售 3 升。产量允许为小数升。
 
-这些问题不是靠“更努力计算”就能解决的。因为候选太多，而且标准与约束会同时存在。所以数学和计算开始尝试把这些问题变成可计算的形式。
+| 要素 | 表达式 | 含义 |
+| --- | --- | --- |
+| 目标 | 最大化 `3u + 2v` | 总利润，单位为千韩元 |
+| 原料约束 | `2u + v ≤ 8` | 原料使用量不超过 8kg |
+| 销售约束 | `u ≤ 3` | 第一种产品最多 3 升 |
+| 产量条件 | `u ≥ 0, v ≥ 0` | 产量不能为负数 |
 
-`线性规划(linear programming)` 就是这种历史脉络的代表例子。先定目标(objective)，再设约束(constraint)，然后在可行选择里找更好的值。George Dantzig 的 `simplex method` 也常常和物流、排程、网络最优化这类现实问题一起被提到。
+`u=3, v=2` 使用 8kg 原料，利润为 13 千韩元。`u=0, v=8` 同样使用 8kg 原料，利润却为 16 千韩元。第一种产品每升利润虽高，但原料消耗是另一种的两倍，因此在原料上限下，第二个方案更有利。`u=3, v=3` 的利润为 15 千韩元，却需要 9kg 原料，因此被排除。
 
 ## 最小化与最大化
 
@@ -153,7 +153,7 @@ C 的预期转化数最多，但超出预算，因此排除。A 与 B 相比，A
 
 ## 来源与参考资料
 
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 确认日期: 2026-07-20。用于确认在目标函数与约束条件下最小化某个值的最优化问题形式。
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 确认日期: 2026-09-15。依据 §1.1–1.2 核对最优化问题形式、线性目标与约束及单纯形法。液体产品原料分配的数值为自行构造的例子。
 - SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, 确认日期: 2026-07-20。用于确认最优化工具会最小化或最大化目标函数，并可能包含约束的实际 API 语境。
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-20。用于确认深度学习中通过降低成本函数(cost function)来调整参数的语境。
 - Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig/){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, 确认日期: 2026-07-20。用于确认 George Dantzig 和 simplex method 与物流、排程、网络优化等实际问题相连的历史语境。

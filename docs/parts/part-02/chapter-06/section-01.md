@@ -1,7 +1,7 @@
 # P2-6.1 최적화(optimization)는 무엇을 찾는가
 
 > Section ID: `P2-6.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 최적화(optimization)는 정해진 조건 안에서 목적 함수(objective function)를 최소화하거나 최대화하는 값을 찾는 문제입니다. 바꿀 수 있는 값, 비교 기준, 지켜야 할 제약을 정해야 무엇이 더 좋은 선택인지 판단할 수 있습니다.
 
@@ -17,6 +17,8 @@
 | D | 4 | 90 |
 
 이제 질문은 `공부 시간을 넣으면 점수를 예측하는 직선 y = ax + b를 어떻게 고를까?`입니다. 여기서 `a`와 `b`를 직접 정답으로 쓰는 대신, 여러 후보 직선을 비교해 더 나은 쪽을 찾는 문제가 바로 최적화입니다.
+
+여기서 공부 시간 `x`와 실제 점수 `y`는 이미 관측한 데이터로 고정합니다. 바꾸는 값은 직선의 기울기 `a`와 절편 `b`입니다. `a`는 공부 시간이 1 늘 때 예측 점수가 얼마나 늘어나는지, `b`는 공부 시간이 0일 때 직선이 예측하는 점수를 정합니다.
 
 - `a = 10, b = 45`도 하나의 후보입니다.
 - `a = 12, b = 40`도 다른 후보입니다.
@@ -34,32 +36,25 @@
 
 예측 오차를 제곱해 평균내는 기준으로 비교하면 첫 후보는 `(0 + 0 + 25 + 25) / 4 = 12.5`, 두 번째 후보는 `(9 + 1 + 16 + 4) / 4 = 7.5`입니다. 첫 후보는 두 점을 정확히 맞히지만, 이 기준에서 네 점을 종합하면 두 번째 후보가 더 좋습니다.
 
-![후보값을 평가 기준과 제약에 따라 비교하며 더 나은 후보를 찾는 최적화 흐름](../../../assets/part-02/chapter-06/optimization-search-loop-ko.svg)
+![두 파라미터 조합의 예측값과 평균 손실을 비교해 후보를 선택하는 흐름](../../../assets/part-02/chapter-06/optimization-search-loop-ko.svg)
 
-## 후보·목적·제약
-
-| 기준 | 왜 중요한가 |
-| --- | --- |
-| 최적화는 가능한 후보들 중 더 나은 선택을 찾는 문제다 | 계산 자체보다 비교 기준이 먼저 필요하다는 점을 보여 준다 |
-| 목적과 제약이 무엇이 좋은지 정한다 | 최적이라는 말이 절대적 품질이 아니라 조건부 판단임을 분명히 한다 |
-| AI 학습도 손실을 줄이는 더 나은 파라미터를 찾는 과정이다 | 최적화가 추상 수학이 아니라 학습 절차의 입구라는 연결을 만든다 |
+도식은 같은 데이터에 두 파라미터 조합을 적용해 손실을 비교하는 흐름입니다. 두 번째 후보를 골랐다는 것은 비교한 두 후보 중 더 낫다는 뜻이며, 가능한 모든 직선 중 최선임을 뜻하지는 않습니다.
 
 ## 최적화의 구성 요소
 
-최적화 문제의 각 요소는 다음과 같습니다.
-
-| 용어 | 먼저 이해할 뜻 |
+| 요소 | 직선 예측 사례에서의 의미 |
 | --- | --- |
-| 변수(variable) | 바꿔 볼 수 있는 값 |
-| 제약(constraint) | 지켜야 하는 조건 |
-| 목적 함수(objective function) | 좋고 나쁨을 계산하는 기준 |
-| 최소화/최대화(minimize/maximize) | 줄이거나 키우고 싶은 방향 |
+| 변수(variable) | 바꾸는 파라미터 `a, b` |
+| 후보(candidate) | `a=10, b=45`처럼 변수 값의 한 조합 |
+| 목적 함수(objective function) | 네 점의 예측 오차를 제곱해 평균낸 값 |
+| 최소화(minimization) | 이 평균 손실이 작은 후보를 찾는 방향 |
+| 제약(constraint) | 이 사례에서는 `a, b`를 실수로 두고 추가 제한은 두지 않음 |
+
+제약이 없는 최적화 문제도 있습니다. 반면 광고 예산처럼 반드시 지켜야 하는 한도를 정했다면, 목적 함수값이 좋아도 그 한도를 넘는 후보는 선택할 수 없습니다.
 
 ## 선택 가능한 값과 제약
 
 앞의 직선 예에서 `a`와 `b`의 조합은 각각 하나의 후보(candidate)입니다. 같은 데이터에서도 어떤 기준(criterion)으로 평가하느냐에 따라 후보의 순위가 달라질 수 있습니다.
-
-후보가 여러 개 있어도 기준(criterion)이 없으면 비교할 수 없습니다.
 
 | 상황 | 후보(candidate) | 기준(criterion) |
 | --- | --- | --- |
@@ -87,13 +82,18 @@
 
 ## 자원 배분과 선형계획법
 
-최적화(optimization)는 AI가 등장하면서 갑자기 생긴 말이 아닙니다. 더 오래된 흐름에서는 “여러 선택지 중에서 제한된 자원을 어떻게 배분할 것인가”라는 문제와 가까웠습니다.
+선형계획법(linear programming)은 목적 함수와 제약을 변수의 선형식으로 표현하는 최적화입니다. 각 변수에 일정한 계수를 곱해 더하며, 변수끼리 곱하거나 제곱하지 않습니다. George Dantzig의 심플렉스법(simplex method)은 이런 문제를 푸는 대표적인 방법입니다.
 
-예를 들어 전쟁, 물류, 생산, 일정 계획에서는 제한된 차량으로 어떤 경로를 돌릴지, 제한된 인력으로 어떤 작업을 배정할지, 제한된 원료로 어떤 제품을 얼마나 만들지, 제한된 시간 안에 어떤 순서로 일을 처리할지가 중요한 질문이었습니다.
+예를 들어 두 액상 제품의 생산량을 `u, v`리터라고 하겠습니다. 리터당 이익은 각각 3천 원과 2천 원이고, 원료는 각각 2kg과 1kg이 필요합니다. 사용할 원료는 8kg이며, 첫 제품은 최대 3리터까지만 판매할 수 있다고 가정합니다. 생산량은 소수 리터도 허용합니다.
 
-이 질문들은 단순히 “열심히 계산한다”로 해결되지 않습니다. 후보가 너무 많고, 기준과 제약이 함께 있기 때문입니다. 그래서 수학과 컴퓨팅은 이런 문제를 계산 가능한 형태로 바꾸려 했습니다.
+| 요소 | 계산식 | 뜻 |
+| --- | --- | --- |
+| 목적 | `3u + 2v` 최대화 | 총이익, 단위는 천 원 |
+| 원료 제약 | `2u + v ≤ 8` | 원료 사용량이 8kg 이하 |
+| 판매 제약 | `u ≤ 3` | 첫 제품은 최대 3리터 |
+| 생산량 조건 | `u ≥ 0, v ≥ 0` | 음수 생산량은 불가능 |
 
-선형계획법(linear programming)은 이런 흐름을 보여 주는 대표적인 역사적 사례입니다. 목적(objective)을 정하고, 제약(constraint)을 둔 뒤, 가능한 선택 중 더 나은 값을 찾는 방식입니다. George Dantzig의 simplex method는 물류, 일정, 네트워크 최적화 같은 실제 문제와 함께 자주 언급됩니다.
+`u=3, v=2`는 원료 8kg을 사용하고 이익은 13천 원입니다. `u=0, v=8`도 원료 8kg을 사용하지만 이익은 16천 원입니다. 첫 제품의 리터당 이익이 높아도 원료를 두 배 사용하므로, 원료 한도 아래에서는 두 번째 계획이 더 유리합니다. `u=3, v=3`은 이익이 15천 원이어도 원료가 9kg 필요해 제외됩니다.
 
 ## 최소화와 최대화
 
@@ -152,7 +152,7 @@ C는 예상 전환 수가 가장 많지만 예산을 넘으므로 제외합니�
 
 ## 출처와 참고 자료
 
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-07-20. 목적 함수와 제약 조건 아래에서 값을 최소화하는 최적화 문제 형식 확인에 사용했다.
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-09-15. §1.1–1.2의 최적화 문제 형식과 선형 목적·제약, 심플렉스법 설명을 확인했다. 액상 제품의 원료 배분 수치는 자체 구성한 예시다.
 - SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, 확인 날짜: 2026-07-20. 목적 함수를 최소화하거나 최대화하고, 제약을 포함할 수 있는 최적화 도구의 실제 API 맥락 확인에 사용했다.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-20. 딥러닝 학습에서 비용 함수(cost function)를 줄이는 방향으로 파라미터를 조정한다는 설명 확인에 사용했다.
 - Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig/){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, 확인 날짜: 2026-07-20. George Dantzig와 simplex method가 물류·일정·네트워크 최적화 같은 실제 문제와 연결되어 설명되는 역사적 맥락 확인에 사용했다.
