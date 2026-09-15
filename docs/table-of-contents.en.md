@@ -668,6 +668,7 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 - **P6-1.1 Viewing Generative-AI Output as an Artifact to Review**: fixes that generated results are artifacts to review, not classification labels or numeric predictions.
 - **P6-1.2 LLMs as the Central Case for Reading Generative AI**: reviews why LLMs are used as the representative path rather than as all of generative AI.
 - **P6-1.3 Generation Is Repeated Candidate Distributions and Selection**: recovers the candidate-distribution and sampling intuition from Part 5 in the LLM generation flow.
+- **P6-1.4 Generation Does Not Follow a Single Iteration Pattern**: Compares autoregressive next-token selection with iterative diffusion restoration, including their control values and run records.
 
 ### Module 2. Input Units and Representation for Text Generation
 
@@ -796,6 +797,7 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 - **P6-21.1 What Does an Open-Weight Model Make Available?**: distinguishes weight availability, open source, and public APIs, then examines licenses, execution environments, and operational responsibility together.
 - **P6-21.2 Local Runtime Environments and Memory Placement**: separates GPU VRAM, CPU RAM, dtype, quantization, and CPU offloading when running open-weight models directly, and keeps execution feasibility separate from quality judgment.
+- **P6-21.3 Evaluating Open Diffusion Models by Changing One Condition at a Time**: Changes one diffusion setting at a time and separately records output quality, execution demands, and reproducibility.
 
 ## Part 7. Projects
 

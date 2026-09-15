@@ -1076,6 +1076,7 @@ plugins:
                         - "P6-1.1 Viewing Generative-AI Output as an Artifact to Review": parts/part-06/chapter-01/section-01.en.md
                         - "P6-1.2 LLMs as the Central Case for Reading Generative AI": parts/part-06/chapter-01/section-02.en.md
                         - "P6-1.3 Generation Is Repeated Candidate Distributions and Selection": parts/part-06/chapter-01/section-03.en.md
+                        - "P6-1.4 Generation Does Not Follow a Single Iteration Pattern": parts/part-06/chapter-01/section-04.en.md
                 - "Module 2. Input Units and Representation for Text Generation":
                     - "Chapter 2. Tokens and Tokenization":
                         - "P6-2.1 Token Units Limiting Inputs and Outputs": parts/part-06/chapter-02/section-01.en.md
@@ -1157,6 +1158,7 @@ plugins:
                     - "Chapter 21. Open-Weight Models":
                         - "P6-21.1 What Does an Open-Weight Model Make Available?": parts/part-06/chapter-21/section-01.en.md
                         - "P6-21.2 Local Runtime Environments and Memory Placement": parts/part-06/chapter-21/section-02.en.md
+                        - "P6-21.3 Evaluating Open Diffusion Models by Changing One Condition at a Time": parts/part-06/chapter-21/section-03.en.md
                 - "Summary": parts/part-06/summary.md
             - "Part 7. Projects":
                 - "Overview": parts/part-07/index.md
@@ -1605,6 +1607,7 @@ plugins:
                         - "P6-1.1 把生成式 AI 输出看成需要检查的产出物": parts/part-06/chapter-01/section-01.zh.md
                         - "P6-1.2 作为阅读生成式 AI 中心案例的 LLM": parts/part-06/chapter-01/section-02.zh.md
                         - "P6-1.3 生成是候选分布与选择的反复": parts/part-06/chapter-01/section-03.zh.md
+                        - "P6-1.4 生成并不只有一种迭代方式": parts/part-06/chapter-01/section-04.zh.md
                 - "Module 2. 文本生成的输入单位与表示":
                     - "Chapter 2. token 与分词":
                         - "P6-2.1 限制输入和输出的 token 单位": parts/part-06/chapter-02/section-01.zh.md
@@ -1686,6 +1689,7 @@ plugins:
                     - "Chapter 21. 开放权重模型":
                         - "P6-21.1 开放权重模型公开了什么？": parts/part-06/chapter-21/section-01.zh.md
                         - "P6-21.2 本地执行环境与内存放置": parts/part-06/chapter-21/section-02.zh.md
+                        - "P6-21.3 每次改变一个条件来评估公开扩散模型": parts/part-06/chapter-21/section-03.zh.md
                 - "总结": parts/part-06/summary.md
             - "Part 7. 项目":
                 - "概览": parts/part-07/index.md
