@@ -1,7 +1,7 @@
 # P2-14.2 브랜치(branch), 커밋(commit), 문서 재현성
 
 > Section ID: `P2-14.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 브랜치와 커밋
 
@@ -16,9 +16,41 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 
 브랜치 이름만으로 공개 여부가 정해지는 것은 아닙니다. 어떤 브랜치의 변경을 사이트에 반영할지는 배포 설정으로 결정합니다.
 
+## 브랜치는 커밋을 가리킨다
+
+`main`과 `dev`가 모두 커밋 A를 가리키는 상태에서 `dev`에 새 커밋 B를 만들었다고 합시다. `dev`는 B로 이동하지만 `main`은 A에 남습니다. 두 브랜치가 전체 프로젝트를 서로 별개의 폴더로 복사한 것은 아닙니다. A까지의 이력을 공유하면서 가리키는 커밋이 달라진 것입니다.
+
+```mermaid
+--8<-- "assets/part-02/chapter-14/branch-commit-pointers-ko.mmd"
+```
+
+실선은 A 다음에 B가 만들어진 순서이며, 점선은 브랜치와 `HEAD`가 무엇을 가리키는지 나타냅니다. A와 B는 설명용 이름이며 실제 Git 명령에서 쓰는 해시가 아닙니다.
+
+현재 브랜치와 커밋 연결은 다음 명령으로 확인합니다.
+
+```bash
+git branch --show-current
+git log --oneline --graph --decorate --all -5
+```
+
+첫 명령은 현재 브랜치 이름을, 둘째 명령은 최근 커밋 다섯 개의 연결과 브랜치 이름을 보여 줍니다. `--all`은 여러 참조에서 도달 가능한 이력을 함께 조회하며 원격 서버의 최신 상태를 다운로드하는 옵션은 아닙니다.
+
+앞 절의 `git-record-practice` 연습 저장소에서 세 커밋을 모두 만든 뒤, 별도 작업 브랜치를 만들 수 있습니다.
+
+```bash
+git status --short
+git switch -c revise-chart
+git branch --show-current
+git switch practice
+```
+
+작업 트리가 깨끗한 상태에서 실행하면 현재 커밋에서 `revise-chart`를 만들고 전환했다가 `practice`로 돌아옵니다. 아직 새 커밋이 없으므로 두 브랜치는 같은 커밋을 가리킵니다. `git branch revise-chart`는 생성만 하고 전환하지 않는다는 차이가 있습니다.
+
+브랜치를 바꾸면 Git은 그 브랜치의 파일 상태에 맞춰 작업 트리와 스테이징 영역을 갱신합니다. 커밋하지 않은 수정은 조건에 따라 새 브랜치로 따라갈 수 있고, 전환 때문에 수정 내용이 덮어써질 때는 Git이 전환을 거부합니다. 따라서 브랜치 전환을 “수정 내용을 자동으로 다른 상자에 보관하는 일”로 이해하면 안 됩니다.
+
 ## 작성 브랜치와 배포 브랜치
 
-문서 프로젝트에서는 작성 중인 브랜치와 배포 기준 브랜치를 나누어 운영할 수 있습니다. 브랜치 이름은 팀마다 다르지만, 예를 들어 작성 브랜치와 배포 브랜치처럼 역할을 분리해 둘 수 있습니다.
+이 책은 `dev`를 작성·편집 브랜치, `main`을 배포 기준 브랜치로 사용합니다. 이는 이 저장소의 운영 규칙이며 Git이 정한 이름별 기능은 아닙니다. 다른 프로젝트에서는 하나의 브랜치나 다른 이름으로 운영할 수도 있습니다.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-14/branch-review-deploy-flow-ko.mmd"
@@ -27,6 +59,24 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 작성 브랜치에는 원고·예제 코드·차트의 수정 이력을 남깁니다. 배포 기준 브랜치는 공개할 상태를 가리키도록 운영할 수 있습니다.
 
 배포 브랜치는 공개 기준을 반영하는 브랜치의 한 예시입니다. 정적 사이트 배포에서는 이 브랜치에 반영되는 일이 곧 배포 실행으로 이어질 수 있습니다. 따라서 배포 브랜치로 옮기는 작업은 단순 저장이 아니라 공개 문서를 갱신하는 행위로 볼 수 있습니다.
+
+## 커밋·푸시·배포의 차이
+
+원격 저장소는 다른 위치에 있는 Git 저장소입니다. `origin`은 원격 주소에 붙이는 관례적인 별칭이며 GitHub라는 서비스 이름 자체를 뜻하지 않습니다.
+
+| 작업 | 바뀌는 대상 | 아직 보장되지 않는 것 |
+| --- | --- | --- |
+| 로컬에서 commit | 로컬 이력과 현재 브랜치 | 원격 반영 |
+| 원격으로 push | 원격 브랜치와 필요한 Git 객체 | 사이트 배포 성공 |
+| 배포 작업 실행 | 사이트를 만들고 게시하는 과정 | 본문 수치와 설명의 정확성 |
+
+원격 주소가 등록되어 있고 쓰기 권한이 있는 경우, 다음 명령은 로컬 `dev`를 `origin`의 `dev`로 올리는 예입니다. 위 연습 저장소에는 원격을 등록하지 않았으므로 이 명령을 그대로 실행할 조건이 갖춰져 있지 않습니다.
+
+```bash
+git push origin dev
+```
+
+원격에 로컬이 포함하지 않은 커밋이 있으면 일반적인 push가 거절될 수 있습니다. 그때는 원격 이력을 확인하고 변경을 통합한 뒤 다시 올립니다. 로컬 `main`으로 전환하는 것만으로 `dev`의 변경이 합쳐지지는 않습니다. 두 이력의 변경을 결합하는 작업이 병합(merge)이며, 같은 부분을 다르게 고쳤다면 사람이 충돌을 해결해야 할 수 있습니다.
 
 ## 관련 파일을 같은 변경으로 묶기
 
@@ -38,8 +88,8 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 | --- | --- | --- |
 | 원고 | `section-03.md` | 독자가 읽는 본문 |
 | 이미지 생성 코드 | `p2_13_3_compare_and_save.py` | 출력 이미지를 다시 만들 수 있는 원본 |
-| 이미지 | `subplot-loss-accuracy.png` | 본문에 삽입되는 결과 |
-| 조사 메모 | `section-evidence-analysis.md` | 설명의 근거와 범위 판단 |
+| 이미지 | `subplot-loss-accuracy-ko.svg`와 언어별 SVG | 본문에 삽입되는 결과 |
+| 출처 기록 | 본문의 출처 목록, 필요한 근거 메모 | 설명의 근거와 범위 판단 |
 | 사이트 내비게이션 설정 | 내비게이션 설정 파일 | 배포 문서에 노출되는 경로 |
 
 이 파일들이 서로 연결되어 있다면 한 커밋에 묶는 것이 자연스럽습니다. 반대로 같은 시점에 CSS 레이아웃도 고쳤다면, 그것은 별도 커밋으로 나누는 편이 이력을 읽기 쉽습니다.
@@ -54,9 +104,27 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 - 본문에 들어간 차트는 어떤 코드로 만들었는가?
 - 예제 코드는 어떤 패키지 버전을 전제로 하는가?
 - 배포 목차에는 어떤 시점에 들어갔는가?
-- 나중에 오류를 발견하면 어느 커밋에서 수정해야 하는가?
+- 나중에 오류를 발견하면 어느 커밋에서 생겼고 어떤 수정 커밋으로 바로잡았는가?
 
 따라서 문서 재현성은 원고만의 문제가 아닙니다. 원고, 코드, 이미지, 조사 메모, 배포 설정이 함께 맞아야 합니다. 같은 커밋의 원고와 생성 코드를 사용하고 필요한 데이터·패키지 버전·설정을 맞추면 이전 문서 결과를 다시 만드는 데 필요한 조건을 추적할 수 있습니다.
+
+커밋은 기록한 파일을 고정하지만 가상환경, 설치된 글꼴, 외부 데이터 파일을 자동으로 보관하지 않습니다. 예를 들어 같은 그래프 코드라도 Matplotlib나 글꼴 버전이 다르면 글자 폭과 이미지 배치가 달라질 수 있습니다. 난수가 있으면 시드도 기록하되, 시드 하나가 모든 환경에서 동일한 파일을 보장하지는 않습니다.
+
+| 재현할 대상 | 함께 남길 조건 | 비교할 결과 |
+| --- | --- | --- |
+| 계산 값 | 코드·입력 데이터·패키지 버전·설정 | 값, 배열 크기, 허용 오차 |
+| 그래프 표현 | 계산 조건·글꼴·축 범위·크기 | 곡선, 라벨, 범례, 잘림 |
+| 파일 바이트 | 렌더러 버전·메타데이터까지 고정 | 파일 해시 |
+
+P2-13.3의 생성 스크립트는 본문 자산을 덮어쓰지 않고 별도 폴더에 그래프를 만들 수 있습니다. 저장소 루트에서 Matplotlib·NumPy와 기본 글꼴 `Noto Sans CJK JP`가 설치된 Python 환경을 사용합니다. 다른 글꼴을 `--font-family`로 선택하면 외형이 달라질 수 있습니다.
+
+[그래프 생성 코드](../../../assets/part-02/chapter-13/p2_13_3_compare_and_save.py)
+
+```bash
+python docs/assets/part-02/chapter-13/p2_13_3_compare_and_save.py --language all --output-dir .tmp/p2-14-reproduce
+```
+
+세 언어로 된 SVG 여섯 개가 만들어집니다. 그중 `subplot-loss-accuracy-ko.svg`를 본문 그림과 비교할 때는 파일이 존재한다는 사실뿐 아니라 마지막 정확도, 축 범위, 범례도 확인합니다. 같은 환경에서는 파일 해시까지 비교할 수 있지만, 해시가 다르면 먼저 수치가 달라졌는지 서식만 달라졌는지 구분합니다.
 
 ## 공개할 파일의 연결 확인
 
@@ -68,7 +136,7 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 | 사이트 목차 설정 | 새 문서가 nav에 연결되었는가 |
 | 예제 코드 | 본문 코드와 생성 스크립트가 서로 어긋나지 않는가 |
 | 이미지 | 잘림, 겹침, 오해가 없는가 |
-| 조사 메모 | 본문 주장과 출처가 실제로 연결되는가 |
+| 출처 기록 | 본문 주장과 출처가 실제로 연결되는가 |
 | 빌드 | `mkdocs build`가 통과하는가 |
 
 이 확인을 하지 않으면 배포 브랜치 반영 뒤 공개 페이지에서 링크가 깨지거나, 이미지가 누락되거나, 설명과 예제가 서로 달라질 수 있습니다.
@@ -87,6 +155,16 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 
 배포가 특정 브랜치의 push에 연결되어 있다면 점검한 상태를 그 브랜치에 반영하고 원격에 올릴 때 배포 작업이 시작됩니다. 로컬 커밋만으로 공개 사이트가 바뀌는 것은 아닙니다. 배포 작업이 성공했는지와 실제 페이지에 어떤 결과가 보이는지도 확인해야 공개 상태를 판단할 수 있습니다.
 
+## 수정 파일을 직접 고르기
+
+원고와 생성 코드에서 마지막 정확도를 0.86으로 바꿨고, 아직 그림을 재생성하지 않았으며, 별도로 CSS 색상도 바꿨다고 합시다. “정확도 설명 수정” 커밋에 어떤 파일을 넣을지 고릅니다.
+
+1. 현재 그림을 그대로 넣으면 설명과 맞는지 판단합니다.
+2. 그림을 재생성한 뒤 원고·코드·해당 그림을 같은 변경으로 선택합니다.
+3. CSS 변경이 정확도 설명과 독립적인지 판단합니다.
+
+이 경우에는 그림을 갱신해야 하고, 독립적인 CSS 변경은 별도 커밋으로 남깁니다. 그 커밋을 `dev`에 push했더라도 배포가 `main`에만 연결되어 있다면 공개 사이트는 아직 이전 상태입니다.
+
 ## 체크리스트
 
 - 브랜치는 작업 흐름을 분리하는 이름 붙은 이력이라고 설명할 수 있는가?
@@ -96,10 +174,17 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 - 문서 재현성은 원고만의 문제가 아니라 코드, 이미지, 조사 메모, 배포 목차가 함께 맞아야 생긴다는 점을 설명할 수 있는가?
 - 배포 브랜치 반영이 공개 배포로 이어질 수 있으므로 별도 판단이 필요하다는 점을 말할 수 있는가?
 - 작성 중 커밋과 공개할 커밋의 점검 범위가 다른 이유를 설명할 수 있는가?
+- 새 브랜치를 만든 직후 두 브랜치가 같은 커밋을 가리킬 수 있는 이유를 설명할 수 있는가?
+- 커밋·푸시·배포를 구분하고 브랜치 전환과 병합의 차이를 말할 수 있는가?
+- 코드의 커밋만으로 설치 환경과 그림 재현이 보장되지 않는 이유를 설명할 수 있는가?
 - 배포 전 사이트 목차 설정, 이미지, 조사 메모, 빌드를 함께 확인해야 하는 이유를 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 확인 날짜: 2026-07-20. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } 브랜치를 커밋을 가리키는 가벼운 이동 포인터로 설명하는 기준입니다.
-- Git project, `git-branch Documentation`, 확인 날짜: 2026-07-20. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } `git branch`가 브랜치를 나열·생성·삭제하는 명령이라는 설명의 직접 참고 자료입니다.
-- GitHub Docs, `What is GitHub Pages?`, 확인 날짜: 2026-07-20. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } GitHub Pages가 저장소의 HTML, CSS, JavaScript를 빌드 과정과 함께 정적 사이트로 게시할 수 있다는 설명을 확인했습니다.
+- [Pro Git, Branches in a Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } 확인 날짜: 2026-09-15. 브랜치·커밋·HEAD 참조 관계.
+- [Git project, git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } 확인 날짜: 2026-09-15. 브랜치 생성과 조회.
+- [Git project, git-switch](https://git-scm.com/docs/git-switch){: target="_blank" rel="noopener noreferrer" } 확인 날짜: 2026-09-15. 브랜치 전환과 미커밋 변경 보호.
+- [Git project, git-log](https://git-scm.com/docs/git-log){: target="_blank" rel="noopener noreferrer" } 확인 날짜: 2026-09-15. 그래프·브랜치 이름·여러 참조의 이력 조회.
+- [Git project, git-push](https://git-scm.com/docs/git-push){: target="_blank" rel="noopener noreferrer" } 확인 날짜: 2026-09-15. 원격 참조 갱신과 push 거절 조건.
+- [Git project, git-merge](https://git-scm.com/docs/git-merge){: target="_blank" rel="noopener noreferrer" } 확인 날짜: 2026-09-15. 이력 통합과 충돌.
+- [GitHub Docs, Configuring a publishing source for your GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site){: target="_blank" rel="noopener noreferrer" } 확인 날짜: 2026-09-15. 브랜치 또는 Actions 기반 배포 설정.
