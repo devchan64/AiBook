@@ -1,351 +1,229 @@
-# P2-10.3 Organizing Notebooks as Re-runnable Records
+# P2-10.3 Organizing Notebooks as Rerunnable Records
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. In P2-10.2, we distinguished Jupyter, Colab, and local execution from the viewpoint of execution location and file access.
+## Saved Documents and Execution State
 
-Now we go one step further. A notebook is useful as a learning record, but after cells are run many times, the order visible in the document and the actual execution state can diverge. So a notebook must be organized both as `a readable document` and as `a reproducible record`.
+Jupyter Notebook files are JSON-based documents with the `.ipynb` extension. The nbformat documentation describes lists of cells and metadata, with cells that can contain inputs and outputs. Jupyter's architecture documentation likewise describes notebooks as documents storing code, output, and Markdown notes together.
 
-This Section explains the basic distinctions among `reproducible record`, `execution order`, `hidden state`, and `runtime state`. The representative explanation of `notebook` and cell structure is in P2-10.1, execution-location differences are in P2-10.2, and the representative explanation of `reproducibility` is placed in P2-7.5 and the [reproducibility glossary entry](/AiBook/en/reference/concept-glossary-alpha/r/#reproducibility). Here the focus is on the standard for organizing that record so that it can be trusted again.
-
-Seen in the flow of Part 2, Chapter 7 treated `where execution happens`, Chapters 8 through 9 treated `what is written and in what kind of sentences`, and Chapter 10 treats `how that execution and output are left so that they can be read again`. Only when this standard stands do Chapters 11 through 14 read not as a list of new tool names, but as a preparation flow where arrays are calculated in notebooks, tables are read, graphs are checked, and records are left through Git.
-
-This Section focuses less on notebook decoration tips and more on the standard for organizing execution results into records that can be trusted again. If the previous Sections explained what a notebook is and where it runs, this Section looks at what must be left so that the notebook can be rerun and re-explained later. Read this way, the tools in Chapters 11 through 14 also become easier to read inside a record flow of rechecking computation and interpretation rather than as new features.
-
-| What to capture in this Section now | The question that follows immediately next | Where it appears again later |
-| --- | --- | --- |
-| The point that a good notebook must be both a readable document and a rerunnable record | It leads to what order should be used to leave calculations, tables, visualizations, and Git records in Chapters 11 through 14 | It repeats later in every practice notebook, Colab sharing, and project record |
-| The point that cell order and hidden state can change results | It leads to why the habit of restarting and running from top to bottom is needed | It remains important later in debugging, reproducibility checks, and collaboration sharing |
-| The point that notebook-verified code reaches a point where it should be separated into functions and `.py` files | It leads to the criterion for deciding where to separate records and reusable code | It is used again later in utility scripts, project structure, and Git record organization |
-
-| Term | Meaning to capture first in this Section |
-| --- | --- |
-| reproducible record | A notebook that can reproduce execution and interpretation later through the same flow |
-| execution order | The order in which cells were actually run |
-| hidden state | Variables, imports, and temporary results that remain inside the runtime but are not directly visible in the document |
-| runtime state | Variables, packages, and memory state that live only in the current session |
-| setup cell | A cell near the front that gathers package imports, options, and data preparation |
-
-## Core Criteria: Organizing Notebooks as Re-runnable Records
-
-- You can explain why a notebook should be organized as a learning record that can be rerun.
-- You can explain that execution order and hidden state can make notebook results confusing.
-- You can explain why environment, package, and data-preparation cells should be placed near the front of a notebook.
-- You can explain that in Colab sharing, notebook content and runtime state can be different things.
-- You can explain the point at which code verified in a notebook should be separated into functions and scripts.
-
-## Three Criteria
-
-| Criterion | Why it matters | Level of understanding needed in this Section |
-| --- | --- | --- |
-| What makes a good notebook different | It makes you see document quality and rerunnability together | The reading flow and the execution flow should be organized together |
-| Why cell order must be watched | It connects the hidden-state problem of notebooks to the structure of the document itself | Understand that even if a notebook looks like a document, it is really also an execution record |
-| What does it lead to later | It lets you see in advance the boundary between record notebooks and reusable code | A well-organized notebook becomes the starting point of scripts and project code |
-
-## A Notebook Is Both a Document and an Execution Record
-
-Jupyter Notebook files are JSON-based documents with the `.ipynb` extension. The nbformat documentation explains that a notebook contains a list of cells and metadata, and that each cell can have inputs and outputs. Jupyter architecture documentation also explains notebooks as documents that store code, output, and markdown notes together.
-
-Understand this structure here like this.
+Distinguish code, saved output, and running state.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-10/notebook-structure-flow-en.mmd"
 ```
 
-What matters here is that the content saved in the file and the state during execution are not the same thing.
+Code and some outputs can remain in the notebook file. Variables and imports live in the running kernel's memory, which a kernel restart clears. Disk files and installed packages are separate. Deleting a remote virtual machine can also remove files and installations stored only on that machine.
 
-Code and some output can remain in the notebook file. But variables, imported packages, temporary files, and memory state live in the runtime. If the runtime is restarted, that state can disappear.
+Saving a notebook is not enough: check whether the saved document can run again later.
 
-So simply saving a notebook is not enough. You also need to check whether the saved notebook can be rerun later.
+## Clearing Outputs and Restarting the Kernel
 
-## Create a Flow That Runs from Top to Bottom
+Clearing the display and resetting memory are different operations. This table assumes the notebook has been saved and the same file system remains available.
 
-A good learning notebook should be readable and runnable from top to bottom.
+| Action | Code and explanations | Displayed output | Variables and imports | Disk files |
+| --- | --- | --- | --- | --- |
+| Clear outputs only | Retained | Cleared | Retained | Retained |
+| Restart kernel only | Retained | May remain | Reset | Retained |
+| Restart kernel and run all | Retained | Updated by execution | Created in code order | Code may read or change them |
 
-The following flow can be used as a default.
+Restarting a kernel does not create a fresh installation or file system. Deleting a Colab remote VM and obtaining another resets more: files and packages that existed only on the old VM can disappear too.
+
+## From Preparation to Interpretation
+
+A useful learning notebook should read and execute from top to bottom.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-10/notebook-rerun-flow-en.mmd"
 ```
 
-This structure is not formality. It is an order of thinking.
+First write what you want to investigate. Then import packages, prepare data, and run calculations. Interpret the results after inspecting them.
 
-First write what you want to check. Then load the needed packages, prepare the data, and run the calculation. After seeing the result, write the interpretation.
+When this order breaks down, reopening the notebook can leave you unsure why a calculation was performed, which data it used, or what the result means.
 
-If this order collapses, then later when reopening the notebook it becomes easy to lose `why this calculation was done`, `what data was used`, and `what the result means`.
+## Purpose and Data Scope
 
-## Write the Purpose in the First Cell
+Put the purpose before the code at the start of the notebook.
 
-Near the beginning of the notebook, place the purpose before the code.
+For example: “This notebook calculates the mean and variance of a small score dataset to compare its center and spread.”
 
-For example, you can begin with something like `This notebook calculates the mean and variance of a small score dataset and checks how the center and spread of data differ.`
+Notebooks grow quickly as cells are added. Without a purpose, experiments scatter and the meaning of results becomes unclear.
 
-This one sentence becomes very important later. As cells are added, notebooks become long quickly. Without a purpose, experiments scatter and it becomes unclear what the result is explaining.
+Briefly record these items in the purpose cell:
 
-Write the following briefly in the purpose cell.
-
-| Item | Why it is written |
+| Item | Reason |
 | --- | --- |
-| question to check | prevents the experiment from scattering |
-| data to be used | makes the scope of the result clear |
-| expected output | defines what should be looked at |
-| what is not covered | prevents the notebook from growing too large |
+| Question to investigate | Keep experiments focused |
+| Data to use | Define the scope of results |
+| Expected output | Identify what to inspect |
+| Exclusions | Keep the notebook from expanding excessively |
 
-A notebook is similar to a Section. If possible, one notebook should also have one central question.
+If you add an experiment with a different purpose, give it a distinct title and input conditions.
 
-## Gather Packages and Settings Near the Front
+## Package Preparation
 
-If imports are scattered through the middle of a notebook, it becomes hard later to find which packages are needed when rerunning it.
+Place installation instructions and imports before calculations. In a Python notebook without NumPy, use `%pip install numpy`. `%pip` is an IPython command targeting the current kernel environment, not ordinary Python script syntax.
 
-A good habit is to keep a setup cell near the front.
-
-Problem situation: You want it to become visible at once, near the front of the notebook, which packages are being used.
-Input: Import code for `numpy`, `pandas`, and `matplotlib`.
-Expected output: There is no output, but the package names needed for later cells are prepared.
-Concept to check: See that gathering imports near the front makes notebook rerunning and dependency inspection easier.
+This setup cell imports NumPy and prints its version. Record the version actually used, since it depends on the environment.
 
 ```python
-# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+print(np.__version__)
 ```
 
-This cell shows `which tools does this notebook use?`
+## Input Data
 
-In Colab, cells that install packages are also placed near the front.
+Files require a source and preparation instructions as well as a path. Saving the string `data/scores.csv` does not save the file itself.
 
-Problem situation: You want a person who received a shared Colab notebook to install the required packages first.
-Input: A `%pip` command that installs `numpy`, `pandas`, and `matplotlib`.
-Expected output: The required packages are installed into the current kernel.
-Concept to check: See that placing package-installation cells near the front makes it easier for someone else to prepare a similar runtime.
-
-```python
-# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
-%pip install numpy pandas matplotlib
-```
-
-You also often see `!pip install ...` in Colab or Jupyter. `!` means that a shell command will be run from a notebook cell. But for Python package installation, an IPython magic command such as `%pip` often matches the currently running kernel better, so here `%pip` is introduced first whenever possible.
-
-At this point, what matters is not the installation method itself, but the fact that package installation and imports need to be near the front so that another person can understand the preparation needed for rerunning the notebook.
-
-## Keep a Clear Data-Preparation Cell
-
-One common reason notebook practice fails is the file path.
-
-On a local PC, the following path may exist.
-
-Problem situation: You want to see with the simplest string example that even the same notebook can have different file paths depending on the execution environment.
-Input: A CSV file-path string based on a local project.
-Expected output: There is no output, but it becomes visible which file location the code expects.
-Concept to check: See that a rerunnable notebook must leave the file path and data location clearly inside the code.
-
-```python
-# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
-data_path = "data/scores.csv"
-```
-
-But in Colab, the same file may not exist. The path changes depending on whether the file was uploaded, whether Google Drive was connected, or whether it was downloaded from GitHub.
-
-So in the data-preparation cell, one of the following should be clear.
-
-| Situation | What to leave in the notebook |
+| Input type | What to record |
 | --- | --- |
-| small example data | create it directly in the code |
-| local file | write the file location and folder structure |
-| Colab upload | write that upload is required |
-| Drive file | write the Drive connection and permission condition |
-| downloaded web file | write the download source and checked date |
+| Small example | Actual values and their meanings |
+| Local file | File/folder location and working directory |
+| Remote file | Download source and version or check date |
+| Private storage file | Connection method and access permissions |
 
-Here it is often better, when possible, to place small example data directly in the code.
-
-Problem situation: To focus on the concept itself without file-path problems, you place a small example dataset directly in the code.
-Input: A list containing five scores.
-Expected output: There is no output, but the data needed for later cells is prepared immediately.
-Concept to check: See that in early learning, small data inside the code is better for rerunnability and understanding than file-based setup.
+These are five students' scores out of 100. Assignment displays no output and prepares `scores` for the later calculation cell.
 
 ```python
-# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 scores = [82, 75, 45, 90, 61]
 ```
 
-This may be insufficient for a real project, but it is good for concept learning. It lets you focus on ideas such as mean, variance, sample, and error without file problems.
+## Output and Interpretation
 
-## Leave Output, but Leave Interpretation Too
-
-A notebook can store output. But if only output remains, the learning record is not sufficient.
-
-For example, suppose the following output exists.
-
-Problem situation: You want to see why a saved output that is only one number becomes hard to interpret later.
-Input: A single number `67.3` left as a cell output.
-Expected output: Only a context-free number remains, with no clue whether it is a mean or a loss.
-Concept to check: See that output should not be left as only a value, but with interpretation placed right below it.
+The scores total 353 across five students, giving a mean of 70.6. This cell prints a label alongside the value.
 
 ```python
-# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
-67.3
+print("mean score:", sum(scores) / len(scores))
 ```
 
-Looking at it later, it becomes hard to know whether this number is a mean, an accuracy, or a loss.
+The output is `mean score: 70.6`. Below it, write “The five students' mean is 70.6 and the lowest score is 45.” Update both output and interpretation if the data changes.
 
-So directly below the output, place a short interpretation such as `The mean is 67.3. But because a low value like 45 is included, the whole distribution is hard to explain through the mean alone.`
+## Configuration Cell Order
 
-This one sentence changes the quality of the learning record. A notebook should not be just a file containing code. It should be a record that interprets computed results.
-
-## Cell Execution Order Can Change the Result
-
-Cells in a notebook can be executed freely. That advantage is also a risk.
-
-Think about the following situation.
-
-Problem situation: I want to compare, through output, that the value currently remembered by the runtime changes when the same variable is assigned again.
-Input: Assignments to `learning_rate` as `0.1` and then `0.01`.
-Expected output: The first saved value and the later overwritten value.
-Concept to check: Notebook variable state is determined by the last executed cell, not only by the order visible in the document.
+When different cells assign the same name, the last executed assignment takes effect. The first cell sets a learning rate of 0.1.
 
 ```python
-# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 learning_rate = 0.1
-print("first value:", learning_rate)
-
-learning_rate = 0.01
-print("later value:", learning_rate)
 ```
 
-Two values are visible in the document from top to bottom, but in the actual runtime the value from the most recently executed cell remains. If the lower cell was executed first and the upper cell later, the result can change again.
-
-So an important notebook is checked as follows.
-
-1. Restart the runtime.
-2. Run from the first cell to the last cell in order.
-3. Check whether there is any cell that raises an error.
-4. Check whether the output matches the explanation.
-5. Clean up unnecessary temporary cells.
-
-Through this process, the notebook becomes closer not to `a record that happened to run on my computer once`, but to `a record that can be rerun again`.
-
-If this checking sequence is written more briefly again:
-
-| Check step | Why it is needed |
-| --- | --- |
-| restart runtime | to remove hidden state |
-| run top to bottom | to align document order with execution order |
-| check errors | to see whether any necessary cell is missing |
-| check output and interpretation | to see whether the result matches the explanation |
-| clean up unnecessary cells | to keep the rerunnable record from becoming blurry |
-
-## Fix Randomness or Explain It
-
-In AI and statistics practice, random elements appear often. The result can change when sampling, shuffling data, or setting a model's initial values.
-
-Here, even simply explaining that randomness exists is already a starting point.
-
-Problem situation: You want to see an example in which the seed is fixed so that the same random sampling can be checked again.
-Input: A random generator with seed `42` and code selecting three values from five.
-Expected output: A sampled list is printed in a reproducible way.
-Concept to check: See that in random practice, leaving a seed makes it easier to check the same result flow again.
+The second changes it to 0.01.
 
 ```python
-# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
+learning_rate = 0.01
+```
+
+The check cell prints the current value.
+
+```python
+print(learning_rate)
+```
+
+Running first cell → second cell → check gives `0.01`. Running second → first → check gives `0.1`. Keeping final settings in one cell reduces confusion between document order and execution order.
+
+Check important notebooks as follows:
+
+1. Remove unnecessary temporary cells while retaining required preparation.
+2. Restart the Python kernel.
+3. Run cells from first to last.
+4. Check for errors and agreement between outputs and explanations.
+5. Save the verified code, outputs, and interpretation.
+
+## Starting State for Randomness
+
+AI and statistics exercises use randomness for sampling and initialization. This code creates a generator with seed 42 and selects three of five values without replacement. The review environment produced `[50 10 40]`.
+
+```python
+import numpy as np
+
 rng = np.random.default_rng(seed=42)
 sample = rng.choice([10, 20, 30, 40, 50], size=3, replace=False)
-sample
+print(sample)
 ```
 
-Here the `seed` can be viewed as a starting value for recreating the same random flow. Not every practice notebook must fix a seed, but if you want to see the same result again, then leaving the seed is good.
+A seed can be understood as a starting value for recreating the same random sequence. Fixing it is not mandatory in every exercise, but recording it helps when you want to see the same result again.
 
-One caution is that a seed does not solve every reproducibility problem. Results can still vary depending on package version, execution environment, hardware, or parallel processing style. This Section does not go deeply into those details.
+A seed does not solve all reproducibility problems. Package versions, environment, hardware, and parallel execution can affect results. Repeating only the sampling step advances the same generator's state and may produce different values. Rerun from generator creation to return to the same starting state.
 
-## in Colab Sharing, Notebook Sharing and Runtime Sharing Are Different
+## Preparation for Sharing
 
-The Colab FAQ explains that when a notebook is shared, notebook contents such as text, code, output, and comments may be shared, but the virtual machine, runtime files, and installed libraries are not shared.
+The Colab FAQ explains that text, code, output, and comments can be shared with a notebook, while its virtual machine, runtime files, and installed libraries are not shared.
 
-So when sharing a Colab notebook, the following should be checked.
+Before sharing a Colab notebook, check:
 
-| What to check | Why |
+| Check | Reason |
 | --- | --- |
-| Is there a cell that installs the required packages? | The other person's runtime may not have them installed |
-| Is there a way to prepare the data files? | Files in my runtime may not be shared |
-| Are Drive file permissions required? | The other person may not be able to access personal Drive files |
-| Does it run from top to bottom? | This checks whether it reproduces without hidden state |
-| Is the output outdated? | Saved output may differ from the result of the current code |
+| Required package-installation cells | Recipient's runtime may lack packages |
+| Data preparation instructions | Runtime files may not be shared |
+| Drive access permissions | Recipient may lack access to private files |
+| Top-to-bottom execution | Detect hidden-state dependencies |
+| Output freshness | Saved outputs can disagree with current code |
 
-This also matters when creating example notebooks for the book. When a reader opens a link, it should not only show code, but also make clear what should be run first.
+## When to Move Code into Scripts
 
-## When to Move from Notebooks to Scripts
+Code started in notebooks often grows. Eventually a `.py` script may become a better fit.
 
-Code that began in a notebook grows over time. At some point, it becomes better to move it into a `.py` script.
+Consider separation when you see these signs:
 
-Consider separation when the following signals appear.
-
-| Signal | Meaning |
+| Sign | Meaning |
 | --- | --- |
-| The same code is repeated across several cells | It can be bundled into a function |
-| Cell order becomes tangled often | Script execution order may be safer |
-| The same preprocessing is done every time | It can move into a separate function or module |
-| The same code is used in other notebooks too | A common `.py` file may be needed |
-| Automatic execution is needed | A script is more natural than a notebook |
+| Same code repeated across cells | Extract a function |
+| Cell order often becomes confused | Script execution order may be more dependable |
+| Same preprocessing every time | Extract a function or module |
+| Code reused in other notebooks | A common `.py` file may help |
+| Automatic execution needed | A script may fit better |
 
-The flow can be taken like this.
+The organization can follow this pattern:
 
 ```mermaid
 --8<-- "assets/part-02/chapter-10/notebook-to-module-flow-en.mmd"
 ```
 
-Here it is not demanded that you create a package structure from the beginning. First understand it in a notebook, then when repeated code becomes visible, bundle it into a function, and when reuse becomes necessary, separate it into files.
+Keep common calculations in a module, with inputs and result interpretation in the notebook.
 
-## A Minimal Template for Learning Notebooks
+## Case: A Deleted Preparation Cell
 
-When making a learning notebook, the following flow can be used as a default template.
+Suppose the five-score mean displays correctly, then the cell creating `scores` is deleted. Rerunning only the mean cell in the same kernel still produces 70.6 because the variable remains.
 
-| Order | Cell role | Example |
-| --- | --- | --- |
-| 1 | purpose | the question this notebook will check |
-| 2 | environment | package installation, imports, version checks |
-| 3 | data | small example data or file path |
-| 4 | calculation | run only one concept at a time |
-| 5 | output | numbers, tables, charts, error messages |
-| 6 | interpretation | what the result means |
-| 7 | summary | what was learned and what question comes next |
+After restarting, that mean cell raises `NameError` because `scores` is absent. Restore preparation and run from top to bottom. Saved output alone cannot establish that the current code can run again.
 
-This template is not formality. It is a checklist. The longer the notebook becomes, the more you should check whether `purpose, environment, data, calculation, output, interpretation` are all present.
+## A Runnable Record
 
-Before moving to the next Chapter of Part 2, check only three things. Can the notebook be rerun from top to bottom? Are packages, data, and output interpretation left near the front cells? Is repeated code ready to be moved later into functions and `.py` files? Once this standard stands, the next Chapters 11 through 14 continue not as a zone of learning more tool names, but as a flow of calculating arrays inside organized notebooks, reading tables, checking graphs, and leaving records through Git.
+This notebook contains purpose, inputs and threshold, calculation, output, and interpretation in order. It uses only standard Python features, with no external files or package installation. Download it and open it in Jupyter, or upload it as a notebook in Colab.
 
-In other words, the goal of P2-10 is not to master notebooks completely. It is to establish a standard for leaving pre-Part-3 computation records in a form that can be rerun.
+[Score and selection-threshold notebook](/AiBook/assets/part-02/chapter-10/score-record-en.ipynb)
 
-## Case Study
+The default scores are `[82, 75, 45, 90, 61]` and the threshold is 60. Running all cells produces:
 
-### Case 1. A notebook that works today but not tomorrow
+```text
+count: 5
+mean: 70.6
+threshold: 60
+selected: [82, 75, 90, 61]
+```
 
-Suppose a learner did a data-preprocessing practice in Colab and ran cells here and there. A file-upload cell was run in the middle, a variable name was changed in another cell, and at the end a chart appeared correctly. That day, the document can look finished.
+Change the input-cell threshold to 80 and rerun through calculation and output: the mean stays 70.6 and selection becomes `[82, 90]`. Changing the final score to 100 makes the mean 78.4. An empty score list deliberately raises `ValueError` in the calculation cell. Output left from a previous run after an error is not the current run's result.
 
-But the next day, after reopening the runtime and running from top to bottom, the file may be missing, a later cell may refer to a variable not present in earlier cells, and the saved output may not match the current code. A person feels, `Why did it work yesterday but not now?` But in reality, the notebook has been left only as `a readable document`, not organized as `a rerunnable record`.
-
-To reduce this problem, purpose, package installation, imports, and data preparation should be gathered near the front, calculation and interpretation should be arranged in order, and finally the runtime should be restarted and run again from beginning to end. Only if the same result appears again does the notebook become closer to a reproducible record instead of an experiment that happened to work.
-
-This case shows the core of notebook organization. Reproducibility is not about making `a pretty document`. It is about reducing hidden state and making it possible to verify again through the same flow on another day.
+Update the interpretation for the changed conditions, restart the kernel, and run all cells. Save when execution succeeds and output agrees with interpretation. Saved output is a comparison record, not a replacement for a new run.
 
 ## Checklist
 
-- Can you explain a good notebook as `a rerunnable record`?
+- Can you explain a useful notebook as a rerunnable record?
 - Can you explain why hidden state is a problem?
-- Can you explain why a setup cell and a data-preparation cell should be near the front of the notebook?
-- Can you explain why the runtime should be restarted and rerun from top to bottom?
-- Is there a purpose and scope near the beginning of the notebook?
-- Are the necessary import and package-installation cells near the front?
-- Is it explained where the data file comes from?
-- Is there no error when the cells are rerun from top to bottom?
-- Is interpretation left below the output?
-- If randomness exists, is the seed or variability explained?
-- When sharing in Colab, is it checked whether file, package, and permission issues will arise?
-- Is there a need to separate repeated code into functions or `.py` files?
-
+- Can you explain why setup and data cells belong near the beginning?
+- Can you explain why restarting and running from top to bottom matters?
+- Does the notebook start with purpose and scope?
+- Are required imports and installation steps near the beginning?
+- Is the input data source explained?
+- Can all cells run in order without errors?
+- Is interpretation recorded below outputs?
+- Are seeds or possible variation explained when randomness is involved?
+- Have files, packages, and permissions been checked for Colab sharing?
+- Should repeated code move into functions or `.py` files?
+- Can you explain why reproducibility needs the same preparation flow, not just the same file?
 
 ## Sources and References
 
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-20. Used to confirm that notebook documents store code, output, and markdown notes together.
-- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat 5.10 documentation, checked on 2026-07-20. Used to confirm that `.ipynb` files are JSON-based documents containing a list of cells, metadata, cell inputs, and outputs.
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, checked on 2026-07-20. Used as the basis for the caution that shared Colab notebook contents and runtime state are separate.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation, checked on 2026-09-15. Used to confirm that notebook documents store code, output, and markdown notes together.
+- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat documentation, checked on 2026-09-15. Used to confirm that `.ipynb` files are JSON-based documents containing a list of cells, metadata, cell inputs, and outputs.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, checked on 2026-09-15. Used as the basis for the caution that shared Colab notebook contents and runtime state are separate.
+- NumPy Developers, [Random Generator](https://numpy.org/doc/stable/reference/random/generator.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-09-15. Reference for generators, seeds, state, and version compatibility limits.

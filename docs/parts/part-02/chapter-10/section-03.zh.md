@@ -1,351 +1,229 @@
-# P2-10.3 把笔记本整理成可重新执行的记录
+# P2-10.3 把笔记本整理成可重新运行的记录
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-在 P2-10.1 中，我们把 notebook 看成同时包含 code、explanation 和 output 的计算文档。在 P2-10.2 中，我们又从执行位置和文件访问的角度区分了 Jupyter、Colab 和本地执行。
+## 已保存文档与执行状态
 
-现在再往前走一步。Notebook 作为学习记录很有用，但当 cell 被多次执行后，文档里看到的顺序和实际执行状态可能会分离。所以 notebook 必须同时被整理成 `可读的文档` 和 `可复现的记录`。
+Jupyter Notebook 文件是扩展名为 `.ipynb` 的 JSON 文档。nbformat 文档说明，笔记本包含单元列表和元数据，单元可以有输入和输出。Jupyter 架构文档也把笔记本描述为共同保存代码、输出和 Markdown 说明的文档。
 
-这里说明 `reproducible record`、`execution order`、`hidden state`、`runtime state` 的基本区分。关于 `notebook` 与 cell 结构的代表性说明放在 P2-10.1，执行位置差异放在 P2-10.2，而 `reproducibility` 的代表性说明放在 P2-7.5 和[可复现性词条](/AiBook/zh/reference/concept-glossary-pinyin/k/#reproducibility)。这里关注的是：如何整理这些记录，让它们以后仍然值得信任。
-
-放回 Part 2 的流程里看，Chapter 7 处理的是 `在哪里执行`，Chapter 8 到 9 处理的是 `写什么、用什么句子写`，而 Chapter 10 处理的是 `怎样把这些执行和输出保留下来，并且以后还能再读`。只有这个标准立起来，紧接着的 Chapter 11 到 14 才不会读成一串新工具名称，而会读成一种准备流程：在 notebook 里计算数组、读取表格、检查图，再用 Git 留下记录。
-
-本节关注的不是 notebook 美化技巧，而是怎样把执行结果整理成以后还能继续相信的记录。如果前两节讨论的是 notebook 是什么，以及它在哪里运行，那么这里看的就是：要让 notebook 以后还能重新执行、重新解释，到底必须留下什么。这样一来，Chapter 11 到 14 里的工具也更容易被读成“重新确认计算和解释的记录流程”，而不是新的功能清单。
-
-| 本节现在要抓住的内容 | 紧接着会延伸到的问题 | 之后再次出现的位置 |
-| --- | --- | --- |
-| 好的 notebook 必须同时是可读文档和可重跑记录 | 会延伸到在 Chapter 11 到 14 里，计算、表格、可视化和 Git 记录应该按什么顺序保留 | 之后会在所有练习 notebook、Colab 共享和项目记录中反复出现 |
-| cell 顺序和 hidden state 会改变结果 | 会延伸到为什么需要“重启后从上到下运行”的习惯 | 之后在调试、可复现性检查和协作共享中都持续重要 |
-| 在 notebook 中验证过的代码，最终会到达应拆成函数和 `.py` 文件的时点 | 会延伸到如何判断记录和可复用代码的边界 | 之后会在工具脚本、项目结构和 Git 记录整理中再次使用 |
-
-| 术语 | 本节先要抓住的含义 |
-| --- | --- |
-| reproducible record | 一种 notebook，即使以后重新打开，也能用同样流程重新得到执行和解释 |
-| execution order | cell 实际被执行的顺序 |
-| hidden state | 文档里看不到，但 runtime 中还残留的变量、import 和临时结果 |
-| runtime state | 只存在于当前 session 中的变量、包和内存状态 |
-| setup cell | 放在前部、集中处理 package import、选项和数据准备的 cell |
-
-## 核心判断标准：把笔记本整理成可重新执行的记录
-
-- 能说明为什么 notebook 要整理成可重新执行的学习记录。
-- 能说明 execution order 和 hidden state 为什么会让 notebook 结果变得混乱。
-- 能说明为什么环境、package 和数据准备 cell 应该放在 notebook 前部。
-- 能说明在 Colab 共享中，notebook 内容和 runtime 状态是不同的东西。
-- 能说明在什么时点，notebook 中验证过的代码应该拆分成函数和 script。
-
-## 三个标准
-
-| 标准 | 为什么重要 | 本节需要达到的理解程度 |
-| --- | --- | --- |
-| 好的 notebook 到底哪里不同 | 它让你把文档质量和可重跑性一起看 | 阅读流程和执行流程必须一起被整理 |
-| 为什么必须关心 cell 顺序 | 它把 notebook 的 hidden state 问题和文档结构本身连接起来 | 理解 notebook 虽然看起来像文档，但实际上也是真正的执行记录 |
-| 它之后会通向什么 | 它让你提前看见“记录型 notebook”和“可复用代码”之间的边界 | 整理好的 notebook 会成为 script 和项目代码的起点 |
-
-## Notebook 既是文档，也是执行记录
-
-Jupyter Notebook 文件是带有 `.ipynb` 扩展名的 JSON 文档。nbformat 文档解释说，notebook 包含 cell 列表和 metadata，而每个 cell 可以带有 input 和 output。Jupyter 架构文档也把 notebook 解释成同时存储 code、output 和 markdown notes 的文档。
-
-这里把这种结构理解成下面这样。
+应区分代码、已保存输出和正在运行的状态。
 
 ```mermaid
 --8<-- "assets/part-02/chapter-10/notebook-structure-flow-zh.mmd"
 ```
 
-这里重要的是：保存在文件里的内容，和执行中的状态，并不是同一回事。
+代码和部分输出可以留在笔记本文件中。变量与导入状态位于运行中的内核内存里，重启内核会清除这些状态。磁盘文件与已安装包是另一回事；如果远程虚拟机本身被删除，只存在于该机器上的文件和安装状态也可能消失。
 
-Notebook 文件里可以留下 code 和一部分 output。但变量、import 过的 package、临时文件和内存状态都活在 runtime 里。一旦 runtime 被重启，这些状态就可能消失。
+因此，仅保存笔记本还不够，还要检查保存后的文档能否重新运行。
 
-所以，仅仅保存 notebook 还不够。还必须检查这个 notebook 以后是否真的还能重新执行。
+## 清除输出与重启内核
 
-## 做出一个能从上到下运行的流程
+清空画面与重置内存是不同的操作。下表以笔记本已保存、继续使用同一文件系统为前提。
 
-好的学习型 notebook，应该能从上到下被阅读，也能从上到下被执行。
+| 操作 | 代码与说明 | 画面输出 | 变量与导入状态 | 磁盘文件 |
+| --- | --- | --- | --- | --- |
+| 只清除输出 | 保留 | 清除 | 保留 | 保留 |
+| 只重启内核 | 保留 | 可能保留 | 重置 | 保留 |
+| 重启内核后运行全部 | 保留 | 按执行结果更新 | 按代码顺序生成 | 代码可能读取或修改 |
 
-下面这个流程可以作为默认标准。
+仅重启内核，并不意味着包和文件也变成全新环境。删除 Colab 远程 VM 并重新分配，是范围更大的重置；只存在于旧 VM 中的文件与安装状态也可能消失。
+
+## 从准备到解释
+
+适合学习的笔记本应能从上到下阅读和执行。
 
 ```mermaid
 --8<-- "assets/part-02/chapter-10/notebook-rerun-flow-zh.mmd"
 ```
 
-这种结构不是形式主义，而是思考顺序。
+先写下要确认的问题，再导入所需包、准备数据并执行计算，查看结果后记录解释。
 
-先写你想确认什么。然后加载需要的 package、准备数据、运行计算。看到结果后，再写解释。
+顺序混乱后，再次打开笔记本时，就容易忘记为什么做这项计算、用了什么数据、结果代表什么。
 
-如果这个顺序崩掉了，那么以后再打开 notebook 时，就很容易失去：`为什么要做这个计算？`、`用了什么数据？`、`这个结果是什么意思？`
+## 目的与数据范围
 
-## 第一格先写目的
+在笔记本开头，先说明目的，再放代码。
 
-在 notebook 前部，应先把目的写在 code 之前。
+例如：“本笔记本计算一组小型分数数据的平均值和方差，比较数据的中心与离散程度。”
 
-例如可以这样开始：`This notebook calculates the mean and variance of a small score dataset and checks how the center and spread of data differ.`
+不断增加单元会让笔记本很快变长。缺少目的时，实验容易分散，结果所说明的问题也会模糊。
 
-这一句话到后来会变得非常重要。因为 notebook 一旦不断增加 cell，就会很快变长。没有目的时，实验会散掉，结果也会变得不清楚，不知道到底在说明什么。
+在目的单元中简要记录以下内容：
 
-在目的 cell 里，简短写下下面这些内容。
-
-| 项目 | 为什么要写 |
+| 项目 | 原因 |
 | --- | --- |
-| 要检查的问题 | 防止实验散掉 |
+| 要确认的问题 | 避免实验分散 |
 | 使用的数据 | 明确结果的范围 |
-| 预期输出 | 定义到底该看什么 |
-| 不处理什么 | 防止 notebook 过度膨胀 |
+| 预期输出 | 确定观察对象 |
+| 不涉及的内容 | 避免笔记本过度膨胀 |
 
-Notebook 其实和 Section 很像。一个 notebook 最好也尽量只围绕一个中心问题。
+如果追加不同目的的实验，应分别记录标题与输入条件。
 
-## 把 package 和 setting 集中放在前面
+## 准备包
 
-如果 import 散落在 notebook 中间，之后重新运行时，就很难找到到底需要哪些 package。
+把所需包的安装方法和导入放在计算之前。缺少 NumPy 的 Python 笔记本环境可以使用 `%pip install numpy`。`%pip` 是面向当前内核环境的 IPython 命令，不是普通 Python 脚本语法。
 
-一个好的习惯，是在前面放一个 setup cell。
-
-问题场景：你想在 notebook 前部一眼看出到底用了哪些 package。
-输入(input)：`numpy`、`pandas`、`matplotlib` 的 import 代码。
-期望输出(output)：虽然没有输出，但后面 cell 需要的 package 名字已经准备好。
-要确认的概念：看到把 import 集中在前部，会让 notebook 重跑和 dependency 检查都更容易。
+下面的准备单元导入 NumPy 并输出版本。输出因环境而异，应记录实际使用的版本。
 
 ```python
-# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+print(np.__version__)
 ```
 
-这个 cell 告诉你：`这个 notebook 到底用什么工具？`
+## 输入数据
 
-在 Colab 中，安装 package 的 cell 也要放在前面。
+使用文件时，除了路径，还需要来源与准备方法。保存 `data/scores.csv` 字符串并不会同时保存文件本身。
 
-问题场景：你想让收到共享 Colab notebook 的人先安装需要的 package。
-输入(input)：一个 `%pip` 命令，用于安装 `numpy`、`pandas`、`matplotlib`。
-期望输出(output)：这些 package 会被安装到当前 kernel 里。
-要确认的概念：看到把 package 安装 cell 放在前面，会让别人更容易准备出类似 runtime。
-
-```python
-# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
-%pip install numpy pandas matplotlib
-```
-
-在 Colab 或 Jupyter 里，你也常会看到 `!pip install ...`。`!` 表示在 notebook cell 中执行 shell 命令。但对 Python package 安装来说，像 `%pip` 这样的 IPython magic command 往往和当前正在运行的 kernel 更匹配，因此这里优先介绍 `%pip`。
-
-此处重要的不是安装方法本身，而是 package 安装与 import 必须集中在前面，这样别人才能明白 notebook 重跑需要做哪些准备。
-
-## 保留清晰的数据准备 cell
-
-Notebook 练习失败的常见原因之一，是文件路径。
-
-在本地 PC 上，下面这个路径可能存在。
-
-问题场景：你想通过最简单的字符串例子，看懂为什么同一个 notebook 在不同执行环境里会有不同文件路径。
-输入(input)：一个基于本地项目的 CSV 文件路径字符串。
-期望输出(output)：虽然没有输出，但代码预期的文件位置变得明确。
-要确认的概念：看到可重跑 notebook 必须在代码里明确留下文件路径和数据位置。
-
-```python
-# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
-data_path = "data/scores.csv"
-```
-
-但在 Colab 里，同样的文件可能不存在。路径会因为你是上传文件、连接 Google Drive，还是从 GitHub 下载，而发生变化。
-
-所以在数据准备 cell 中，下面几种情况至少有一种应当明确。
-
-| 情况 | notebook 里要留下什么 |
+| 输入类型 | 记录内容 |
 | --- | --- |
-| 小型示例数据 | 直接在代码里创建 |
-| 本地文件 | 写出文件位置和文件夹结构 |
-| Colab 上传 | 写明需要上传 |
-| Drive 文件 | 写明 Drive 连接与权限条件 |
-| 从网络下载的文件 | 写明下载来源和确认日期 |
+| 小型示例 | 实际数值与含义 |
+| 本地文件 | 文件和文件夹位置、运行工作目录 |
+| 远程文件 | 下载来源、版本或核对日期 |
+| 私人存储文件 | 连接方法与访问权限 |
 
-在这里，如果可能，更推荐直接把小型示例数据写进代码。
-
-问题场景：为了不被文件路径问题打断、只专注于概念本身，你把一个小型示例数据直接写进代码里。
-输入(input)：一个包含五个分数的列表。
-期望输出(output)：虽然没有输出，但后续 cell 立即拥有要用的数据。
-要确认的概念：看到在学习初期，比起文件型设置，代码里的小数据更有利于重跑和理解。
+下面是五名学生的百分制分数。赋值语句没有输出，它为后面的计算单元准备 `scores`。
 
 ```python
-# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 scores = [82, 75, 45, 90, 61]
 ```
 
-这对真实项目可能还不够，但对概念学习很好。它能让你把注意力放在平均值、方差、样本、误差这些概念上，而不是文件问题上。
+## 输出与解释
 
-## 不只留下 output，也要留下解释
-
-Notebook 可以保存 output。但如果只留下 output，学习记录仍然不够。
-
-例如，假设 notebook 里只留下了下面这个 output。
-
-问题场景：你想看看，为什么只保存一个数字的 output，后来会很难解释。
-输入(input)：一个作为 cell output 留下来的单个数字 `67.3`。
-期望输出(output)：只剩下一个脱离上下文的数字，不知道它是平均值还是损失值。
-要确认的概念：看到 output 不能只留下数值，而要在下面配上解释。
+分数总和为 353，共五名学生，所以平均值为 70.6。下面的单元把含义标签与数值一起输出。
 
 ```python
-# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
-67.3
+print("mean score:", sum(scores) / len(scores))
 ```
 
-以后再看时，很难知道这个数字到底是 mean、accuracy 还是 loss。
+输出为 `mean score: 70.6`。下方可以写“五名学生的平均分为 70.6，最低分为 45”。数据变化时，应同时更新输出与解释。
 
-所以应该在 output 正下方附上一句短解释，例如：`The mean is 67.3. But because a low value like 45 is included, the whole distribution is hard to explain through the mean alone.`
+## 设置单元的执行顺序
 
-这一句话会改变学习记录的质量。Notebook 不应该只是堆放代码的文件，而应该是解释计算结果的记录。
-
-## cell 执行顺序会改变结果
-
-Notebook 可以自由执行 cell。这个优点同时也是风险。
-
-想象下面这种情况。
-
-问题场景：想通过输出来比较，同一个变量被再次赋值时，runtime 当前记住的值会怎样变化。
-输入(input)：先把 `learning_rate` 设为 `0.1`，再设为 `0.01`。
-期望输出(output)：第一次保存的值，以及后来被覆盖后的值。
-要确认的概念：notebook 的变量状态由最后执行的 cell 决定，而不只由文档中看到的顺序决定。
+不同单元给同一个名称赋值时，以最后执行的赋值为准。第一个单元把学习率设为 0.1。
 
 ```python
-# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 learning_rate = 0.1
-print("first value:", learning_rate)
-
-learning_rate = 0.01
-print("later value:", learning_rate)
 ```
 
-文档里从上到下能看到两个值，但在实际 runtime 中，会留下最近执行的那个值。如果你先执行下面那个 cell，再执行上面的 cell，结果又会再次变化。
-
-所以，一个重要 notebook 应按下面方式检查。
-
-1. 重启 runtime。
-2. 从第一个 cell 到最后一个 cell 按顺序执行。
-3. 检查是否有报错的 cell。
-4. 检查 output 是否和 explanation 对得上。
-5. 清理不必要的临时 cell。
-
-经历这个过程后，notebook 才更接近 `可以重新执行的记录`，而不只是 `在我的电脑上偶然跑通一次的记录`。
-
-如果把这个检查顺序再写短一点：
-
-| 检查步骤 | 为什么需要 |
-| --- | --- |
-| 重启 runtime | 为了清掉 hidden state |
-| 从上到下执行 | 为了让文档顺序和执行顺序一致 |
-| 检查错误 | 为了确认没有漏掉必要的 cell |
-| 检查 output 和 explanation | 为了确认结果和解释一致 |
-| 清理不必要的 cell | 为了不让可重跑记录变得模糊 |
-
-## 固定 randomness，或至少解释它
-
-在 AI 与统计练习里，random 元素经常出现。抽样、打乱数据、设定模型初值时，结果都可能发生变化。
-
-在这里，仅仅说明“这里存在 randomness”，就已经是一个好的开始。
-
-问题场景：你想看一个例子，通过固定 seed 来让同样的随机抽样可以再次确认。
-输入(input)：一个 seed 为 `42` 的随机生成器，以及从五个值里抽三个值的代码。
-期望输出(output)：一个以可复现方式输出的样本列表。
-要确认的概念：看到在带有随机性的练习中，留下 seed 会让同样结果流更容易再次检查。
+第二个单元把它改为 0.01。
 
 ```python
-# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
+learning_rate = 0.01
+```
+
+检查单元输出当前值。
+
+```python
+print(learning_rate)
+```
+
+按照第一单元、第二单元、检查单元执行，结果是 `0.01`；按照第二、第一、检查单元执行，结果是 `0.1`。把最终设置集中到一个单元，可以减少文档顺序与执行顺序混淆。
+
+重要的笔记本可以这样检查：
+
+1. 整理不必要的临时单元，保留必要的准备。
+2. 重启 Python 内核。
+3. 从第一个单元运行到最后一个。
+4. 检查是否有错误，以及输出是否与说明一致。
+5. 保存核对后的代码、输出和解释。
+
+## 随机数的起始状态
+
+AI 和统计练习使用随机数进行抽样或初始化。下面的代码用种子 42 创建生成器，从五个值中不放回地抽取三个。检验环境的输出是 `[50 10 40]`。
+
+```python
+import numpy as np
+
 rng = np.random.default_rng(seed=42)
 sample = rng.choice([10, 20, 30, 40, 50], size=3, replace=False)
-sample
+print(sample)
 ```
 
-这里的 `seed` 可以看成重新制造同样随机流的起点值。不是每一个 notebook 都必须固定 seed，但如果你想再次看到同样结果，留下 seed 是好的做法。
+种子可以理解为重新生成相同随机序列的起始值。并非每次练习都必须固定种子，但希望重现结果时，应记录它。
 
-一个要注意的点是：seed 并不能解决所有 reproducibility 问题。结果仍然可能因为 package 版本、执行环境、硬件或并行处理方式而不同。本节不深入展开这些细节。
+种子不能解决所有复现问题。包版本、环境、硬件和并行执行方式都可能影响结果。只重跑抽样步骤时，同一个生成器的状态已向前推进，结果可能不同。需要从创建生成器的语句重新运行，才能回到相同的起始状态。
 
-## 在 Colab 共享中，notebook 共享和 runtime 共享不是一回事
+## 分享前的准备
 
-Colab FAQ 说明，共享 notebook 时，text、code、output、comments 等 notebook 内容可以共享，但 virtual machine、runtime 文件和已安装的库状态不会一起共享。
+Colab FAQ 说明，文本、代码、输出和评论等笔记本内容可以共享，但虚拟机、运行时文件和已安装库不会随之共享。
 
-因此，共享 Colab notebook 时，应检查下面这些点。
+分享 Colab 笔记本前，应检查：
 
-| 要检查什么 | 原因 |
+| 检查事项 | 原因 |
 | --- | --- |
-| 是否有安装所需 package 的 cell | 对方的 runtime 中可能没装这些 package |
-| 是否有准备数据文件的方法 | 我 runtime 中的文件不一定会被共享 |
-| 是否需要 Drive 文件权限 | 对方可能访问不到我的私人 Drive 文件 |
-| 是否能从上到下运行 | 这是在确认它不依赖 hidden state |
-| output 是否已经过时 | 已保存 output 可能和当前代码的结果不同 |
+| 必要的包安装单元 | 接收方运行时可能缺包 |
+| 数据准备方法 | 运行时文件可能不会共享 |
+| Drive 访问权限 | 对方可能无法访问私人文件 |
+| 能否从上到下执行 | 检查隐藏状态依赖 |
+| 输出是否过时 | 已保存输出可能与当前代码不一致 |
 
-这一点对本书里的示例 notebook 也很重要。读者打开链接时，不应该只看到代码，还应该知道什么必须先运行。
+## 何时把代码移到脚本
 
-## 什么时候该从 notebook 迁移到 script
+从笔记本开始的代码往往越来越长，之后可能更适合放入 `.py` 脚本。
 
-从 notebook 开始的代码，随着时间推移会变长。到某个时点，把它迁移到 `.py` script 会更合适。
-
-当下面这些信号出现时，就应该考虑分离。
+出现以下信号时，可以考虑分离：
 
 | 信号 | 含义 |
 | --- | --- |
-| 同样的代码在多个 cell 里重复出现 | 它可以被打包成函数 |
-| cell 顺序经常打乱 | script 的执行顺序可能更安全 |
-| 每次都要做同样的预处理 | 它可以搬进单独的函数或 module |
-| 其他 notebook 里也会用到同样的代码 | 可能需要一个公共 `.py` 文件 |
-| 需要自动执行 | script 比 notebook 更自然 |
+| 多个单元重复相同代码 | 可以提取函数 |
+| 单元顺序经常混乱 | 脚本的执行顺序可能更可靠 |
+| 每次执行相同预处理 | 可以提取函数或模块 |
+| 其他笔记本也使用相同代码 | 可能需要公共 `.py` 文件 |
+| 需要自动执行 | 脚本可能更合适 |
 
-流程可以这样看。
+可以采用以下组织方式：
 
 ```mermaid
 --8<-- "assets/part-02/chapter-10/notebook-to-module-flow-zh.mmd"
 ```
 
-这里并不要求你一开始就建立 package 结构。先在 notebook 中理解，等重复代码出现后再打包成函数，等复用真正变重要时再拆分成文件。
+把公共计算放在模块中，在笔记本里管理输入与结果解释。
 
-## 学习型 notebook 的最小模板
+## 案例：被删除的准备单元
 
-制作学习型 notebook 时，可以把下面这个流程当成默认模板。
+假设五个分数的平均值已正常显示，随后删除了创建 `scores` 的准备单元。在同一个内核中只重跑平均值单元，仍会得到 70.6，因为变量还在。
 
-| 顺序 | cell 角色 | 例子 |
-| --- | --- | --- |
-| 1 | purpose | 这个 notebook 要确认的问题 |
-| 2 | environment | package 安装、import、版本检查 |
-| 3 | data | 小型示例数据或文件路径 |
-| 4 | calculation | 一次只运行一个概念 |
-| 5 | output | 数字、表、图、错误信息 |
-| 6 | interpretation | 结果意味着什么 |
-| 7 | summary | 学到了什么、下一个问题是什么 |
+重启后，平均值单元会因缺少 `scores` 而产生 `NameError`。应恢复准备单元并从上到下运行。仅有保存的输出，不能证明当前代码能重新执行。
 
-这个模板不是形式主义，而是一个检查表。随着 notebook 变长，你要不断检查 `purpose、environment、data、calculation、output、interpretation` 是否都还在。
+## 可运行的记录示例
 
-在进入 Part 2 下一章之前，只需要检查三件事。Notebook 能不能从上到下重新运行？Package、data 和 output explanation 是否都留在前部附近？重复代码是否已经准备好将来迁移到函数和 `.py` 文件？只要这个标准成立，后面的 Chapter 11 到 14 就会继续读成：在整理好的 notebook 中计算数组、读表、检查图、用 Git 留下记录，而不是在继续背新工具名称。
+下面的笔记本依次包含目的、输入与标准、计算、输出和解释。它只使用 Python 标准功能，不需要外部文件或安装包。下载后可在 Jupyter 中打开，也可通过 Colab 的上传笔记本功能打开。
 
-换句话说，P2-10 的目标并不是把 notebook 完全学透，而是建立一个标准，让 Part 3 之前的计算记录能以可重跑的形式留下来。
+[分数与选择标准实验笔记本](/AiBook/assets/part-02/chapter-10/score-record-zh.ipynb)
 
-## 通过案例来看
+默认分数是 `[82, 75, 45, 90, 61]`，标准为 60。运行全部单元会输出：
 
-### 案例 1. 今天能跑，明天却不能跑的 notebook
+```text
+count: 5
+mean: 70.6
+threshold: 60
+selected: [82, 75, 90, 61]
+```
 
-假设一个学习者在 Colab 中做数据预处理练习，cell 跑得很随意。中间执行了文件上传 cell，又在另一个 cell 里改了变量名，最后图也画出来了。那一天，文档看起来像是完成了。
+把输入单元中的标准改为 80，并重跑计算和输出，平均值仍为 70.6，选择结果变为 `[82, 90]`。把最后一个分数改为 100，平均值变为 78.4。清空分数列表时，计算单元会按设计产生 `ValueError`。发生错误后，即使旧输出单元仍在，也不能把它当作本次运行结果。
 
-但第二天重新打开 runtime，再从上到下执行时，文件可能不存在，后面的 cell 可能引用了前面并不存在的变量，而保存的 output 也可能已经和当前代码不一致。人会觉得：`昨天还能跑，为什么现在不行？` 但实际上，notebook 只是被留下成了 `可读文档`，却没有被整理成 `可重跑记录`。
-
-为了减少这个问题，应把 purpose、package 安装、import 和 data preparation 集中放在前面，把 calculation 和 interpretation 按顺序排好，最后再重启 runtime，从头到尾重新执行。只有当同样结果再次出现时，这个 notebook 才会更接近一个可复现记录，而不只是一个偶然跑通的实验。
-
-这个案例展示了整理 notebook 的核心。可复现性不是为了做出 `漂亮文档`，而是为了减少 hidden state，并且让另一天的人仍然能沿着同样流程再次确认。
+按修改后的条件更新解释，重启内核并运行全部单元。没有错误且输出与解释一致时，再保存笔记本。已保存输出是用于比较的记录，不能代替新的运行。
 
 ## 检查清单
 
-- 能不能把好的 notebook 解释成 `可重跑的记录`？
-- 能不能说明 hidden state 为什么会成为问题？
-- 能不能说明为什么 setup cell 和 data-preparation cell 应该放在 notebook 前部？
-- 能不能说明为什么需要重启 runtime 后再从上到下执行？
-- notebook 前部有没有 purpose 和 scope？
-- 所需的 import 和 package 安装 cell 是否都在前面？
-- 是否解释了 data file 从哪里来？
-- 从上到下重跑时会不会报错？
-- output 下方有没有留下解释？
-- 如果存在 randomness，是否说明了 seed 或波动可能性？
-- 在 Colab 共享时，是否检查了 file、package 和 permission 问题？
-- 是否有必要把重复代码拆成函数或 `.py` 文件？
-
+- 能否把有效的笔记本解释为可重新运行的记录？
+- 能否解释隐藏状态为何有问题？
+- 能否解释为何把设置和数据准备单元放在前面？
+- 能否说明重启后从上到下执行的重要性？
+- 笔记本开头是否有目的与范围？
+- 必要的导入和安装步骤是否在前面？
+- 是否说明输入数据来源？
+- 所有单元能否依次执行而不报错？
+- 输出下方是否记录解释？
+- 涉及随机性时，是否说明种子或可能的变化？
+- 分享 Colab 时，是否检查文件、包和权限？
+- 重复代码是否需要分离到函数或 `.py` 文件？
+- 能否解释复现需要相同的准备流程，而不只是同一个文件？
 
 ## 来源与参考资料
 
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-20。用于确认 notebook document 会把 code、output 和 markdown notes 一起保存。
-- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat 5.10 documentation，确认日期：2026-07-20。用于确认 `.ipynb` 文件是包含 cell list、metadata、cell inputs 与 outputs 的 JSON-based document。
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab，确认日期：2026-07-20。作为说明 Colab 共享时 notebook 内容与 runtime state 是分开的依据。
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation，确认日期：2026-09-15。用于确认 notebook document 会把 code、output 和 markdown notes 一起保存。
+- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat documentation，确认日期：2026-09-15。用于确认 `.ipynb` 文件是包含 cell list、metadata、cell inputs 与 outputs 的 JSON-based document。
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab，确认日期：2026-09-15。作为说明 Colab 共享时 notebook 内容与 runtime state 是分开的依据。
+- NumPy Developers, [Random Generator](https://numpy.org/doc/stable/reference/random/generator.html){: target="_blank" rel="noopener noreferrer" }, 核对日期：2026-09-15。生成器、种子、状态与跨版本复现限制的依据。

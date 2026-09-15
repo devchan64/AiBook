@@ -1,7 +1,7 @@
 # P2-10.3 노트북을 재실행 가능한 기록으로 정리하기
 
 > Section ID: `P2-10.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 저장된 문서와 실행 상태
 
@@ -13,23 +13,29 @@ Jupyter Notebook 파일은 `.ipynb` 확장자를 가진 JSON 기반 문서입니
 --8<-- "assets/part-02/chapter-10/notebook-structure-flow-ko.mmd"
 ```
 
-여기서 중요한 점은 파일에 저장된 내용과 실행 중인 상태가 같지 않다는 것입니다.
-
 노트북 파일에는 코드와 일부 출력이 남을 수 있습니다. 변수와 import 상태는 실행 중인 커널의 메모리에 있습니다. 커널 재시작은 이 상태를 초기화합니다. 디스크의 파일과 설치된 패키지는 별개이며, 원격 가상 머신 자체가 삭제되면 그 머신에만 있던 파일과 설치 상태도 사라질 수 있습니다.
 
 그래서 노트북은 저장만 해서는 충분하지 않습니다. 저장된 노트북이 나중에 다시 실행되는지도 확인해야 합니다.
+
+## 출력 지우기와 커널 재시작
+
+화면을 비우는 작업과 메모리를 초기화하는 작업은 다릅니다. 다음 표는 노트북을 저장하고 같은 파일 시스템을 계속 사용하는 경우를 기준으로 합니다.
+
+| 작업 | 코드·설명 | 화면의 출력 | 변수·import 상태 | 디스크 파일 |
+| --- | --- | --- | --- | --- |
+| 출력만 지우기 | 유지 | 지움 | 유지 | 유지 |
+| 커널만 재시작 | 유지 | 남을 수 있음 | 초기화 | 유지 |
+| 커널 재시작 후 전체 실행 | 유지 | 실행 결과로 갱신 | 코드 순서대로 생성 | 코드가 읽거나 변경할 수 있음 |
+
+커널 재시작만으로 설치된 패키지나 파일까지 새 환경이 되는 것은 아닙니다. Colab에서 원격 VM을 삭제하고 새로 할당받는 작업은 더 큰 범위의 초기화이며, 그 VM에만 있던 파일과 설치 상태도 사라질 수 있습니다.
 
 ## 준비에서 해석까지
 
 좋은 학습용 노트북은 위에서 아래로 읽고 실행할 수 있어야 합니다.
 
-다음 흐름을 기본으로 삼을 수 있습니다.
-
 ```mermaid
 --8<-- "assets/part-02/chapter-10/notebook-rerun-flow-ko.mmd"
 ```
-
-이 구조는 형식이 아니라 사고 순서입니다.
 
 먼저 무엇을 확인하려는지 적습니다. 그다음 필요한 패키지를 불러오고, 데이터를 준비하고, 계산을 실행합니다. 결과를 본 뒤에는 해석을 적습니다.
 
@@ -41,7 +47,7 @@ Jupyter Notebook 파일은 `.ipynb` 확장자를 가진 JSON 기반 문서입니
 
 예를 들어 `이 노트북은 작은 점수 데이터에서 평균(mean)과 분산(variance)을 계산해 보고, 데이터의 중심과 퍼짐이 어떻게 다른지 확인한다`처럼 시작할 수 있습니다.
 
-이 한 문장은 나중에 매우 중요합니다. 노트북은 셀을 추가하다 보면 금방 길어집니다. 목적이 없으면 실험이 흩어지고, 결과가 무엇을 설명하는지 흐려집니다.
+노트북은 셀을 추가하다 보면 금방 길어집니다. 목적이 없으면 실험이 흩어지고, 결과가 무엇을 설명하는지 흐려집니다.
 
 목적 셀에는 다음 내용을 짧게 적습니다.
 
@@ -116,11 +122,11 @@ print(learning_rate)
 
 따라서 중요한 노트북은 다음처럼 확인합니다.
 
-1. 런타임을 다시 시작한다.
-2. 첫 셀부터 마지막 셀까지 순서대로 실행한다.
-3. 오류가 나는 셀이 없는지 확인한다.
-4. 출력이 설명과 맞는지 확인한다.
-5. 불필요한 임시 셀을 정리한다.
+1. 불필요한 임시 셀을 정리하고 필요한 준비 셀을 남긴다.
+2. Python 커널을 다시 시작한다.
+3. 첫 셀부터 마지막 셀까지 순서대로 실행한다.
+4. 오류가 없는지, 출력이 설명과 맞는지 확인한다.
+5. 확인한 코드·출력·해석을 저장한다.
 
 ## 난수의 시작 상태
 
@@ -152,8 +158,6 @@ Colab FAQ는 노트북을 공유하면 텍스트, 코드, 출력, 댓글 같은 
 | 위에서 아래로 실행되는가 | 숨은 상태 없이 재현되는지 확인한다 |
 | 출력이 오래된 것은 아닌가 | 저장된 출력과 현재 코드 결과가 다를 수 있다 |
 
-
-
 ## 노트북에서 스크립트로 옮기는 기준
 
 노트북에서 시작한 코드는 시간이 지나면 길어집니다. 어느 순간에는 `.py` 스크립트로 옮기는 편이 낫습니다.
@@ -182,6 +186,25 @@ Colab FAQ는 노트북을 공유하면 텍스트, 코드, 출력, 댓글 같은 
 
 하지만 커널을 재시작한 뒤 평균 셀을 실행하면 `scores`가 없어 `NameError`가 발생합니다. 준비 셀을 복구하고 위에서 아래로 실행해야 결과를 다시 만들 수 있습니다. 저장된 출력이 남아 있다는 사실만으로 현재 코드가 재실행된다고 판단할 수 없는 이유입니다.
 
+## 실행 가능한 기록 예제
+
+다음 노트북에는 목적, 입력과 기준값, 계산, 출력, 해석을 순서대로 담았습니다. Python 표준 기능만 사용하며 외부 파일이나 패키지 설치가 필요하지 않습니다. 파일을 내려받아 Jupyter에서 열거나 Colab의 노트북 업로드 기능으로 열 수 있습니다.
+
+[점수와 선택 기준 실험 노트북](../../../assets/part-02/chapter-10/score-record-ko.ipynb)
+
+기본 점수는 `[82, 75, 45, 90, 61]`, 기준은 60입니다. 전체 실행 결과는 다음과 같습니다.
+
+```text
+count: 5
+mean: 70.6
+threshold: 60
+selected: [82, 75, 90, 61]
+```
+
+입력 셀에서 기준을 80으로 바꾸고 계산·출력 셀까지 다시 실행하면 평균은 70.6으로 유지되고 선택 결과는 `[82, 90]`이 됩니다. 마지막 점수를 100으로 바꾸면 평균은 78.4가 됩니다. 점수 목록을 비우면 계산 셀에서 `ValueError`가 발생하도록 했습니다. 오류가 난 뒤 이전 출력 셀이 남아 있더라도 이번 실행의 결과로 읽지 않습니다.
+
+변경한 조건에 맞춰 해석 셀도 수정한 뒤, 커널을 재시작하고 전체 실행합니다. 오류가 없고 출력과 해석이 일치하면 노트북을 저장합니다. 저장된 출력은 독자가 비교할 기록이며, 새 실행을 대신하지는 않습니다.
+
 ## 체크리스트
 
 - 좋은 노트북을 `다시 실행 가능한 기록`으로 설명할 수 있는가?
@@ -200,6 +223,7 @@ Colab FAQ는 노트북을 공유하면 텍스트, 코드, 출력, 댓글 같은 
 
 ## 출처와 참고 자료
 
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-20. 노트북 문서가 코드, 출력, markdown notes를 함께 저장한다는 설명 확인에 사용했다.
-- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat 5.10 documentation, 확인 날짜: 2026-07-20. `.ipynb` 파일이 셀 목록과 메타데이터, 셀 입력·출력을 담는 JSON 기반 형식이라는 설명 확인에 사용했다.
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-09-08. Colab 공유에서 노트북 내용과 런타임 상태가 분리된다는 주의점을 확인하는 근거로 사용했다.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation, 확인 날짜: 2026-09-15. 노트북 문서가 코드, 출력, markdown notes를 함께 저장한다는 설명 확인에 사용했다.
+- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat documentation, 확인 날짜: 2026-09-15. `.ipynb` 파일이 셀 목록과 메타데이터, 셀 입력·출력을 담는 JSON 기반 형식이라는 설명 확인에 사용했다.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-09-15. Colab 공유에서 노트북 내용과 런타임 상태가 분리된다는 주의점을 확인하는 근거로 사용했다.
+- NumPy Developers, [Random Generator](https://numpy.org/doc/stable/reference/random/generator.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 난수 생성기와 seed·상태 및 버전별 재현성 한계의 근거.

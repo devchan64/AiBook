@@ -1,11 +1,11 @@
 flowchart TB
-  A["notebook file<br/>.ipynb document"]
-  B["markdown cell<br/>question and explanation"]
-  C["code cell<br/>Python code"]
-  D["output<br/>values, tables, charts, errors"]
-  E["runtime state<br/>variables and imported packages"]
-
+  A["Notebook file<br/>.ipynb document"]
+  B["Markdown cell<br/>questions and explanations"]
+  C["Code cell<br/>Python code"]
+  D["Saved output<br/>values, tables, charts, errors"]
+  E["Kernel memory<br/>variables and imports"]
   A --> B
   A --> C
-  C --> D
-  C -. "created while running" .-> E
+  A --> D
+  C -. "execute" .-> E
+  E -. "produce output" .-> D
