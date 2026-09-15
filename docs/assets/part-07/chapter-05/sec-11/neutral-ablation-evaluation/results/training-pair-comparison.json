@@ -281,28 +281,28 @@
   },
   {
     "split": "validation",
-    "target": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-evaluation-02.png",
+    "target": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-02.png",
     "caption": "Illustrate mira_person talking outdoors beside a river in a cream jacket.",
     "A_control": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png",
     "B_control": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png"
   },
   {
     "split": "validation",
-    "target": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-evaluation-04.png",
+    "target": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-04.png",
     "caption": "Illustrate mira_person walking through a covered courtyard wearing a dark blue coat.",
     "A_control": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-02.png",
     "B_control": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png"
   },
   {
     "split": "validation",
-    "target": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-evaluation-05.png",
+    "target": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-05.png",
     "caption": "Illustrate mira_person standing in a museum looking over one shoulder in a green blouse.",
     "A_control": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-03.png",
     "B_control": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png"
   },
   {
     "split": "validation",
-    "target": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-11/datasets/images/p7-5-11-mira-v2-evaluation-06.png",
+    "target": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-06.png",
     "caption": "Illustrate mira_person holding a cup on a balcony in a pale pink cardigan.",
     "A_control": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-04.png",
     "B_control": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png"

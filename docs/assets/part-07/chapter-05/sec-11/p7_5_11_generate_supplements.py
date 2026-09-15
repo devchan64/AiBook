@@ -13,6 +13,7 @@ import json
 import re
 import time
 import sys
+import subprocess
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "sec-02"))
@@ -33,6 +34,54 @@ def write(path, data):
     temporary.replace(path)
 
 
+def catalog(out, spec, fingerprint):
+    """생성물 전체를 나열한다. 검수와 학습 분할은 별도 목록에서 결정한다."""
+    rows = []
+    for item in spec["items"]:
+        png = out / (item["id"] + ".png")
+        record = out / (item["id"] + "-result.json")
+        if not png.exists() or not record.exists():
+            continue
+        data = json.loads(record.read_text())
+        if data["fingerprint"] != fingerprint or data["output"]["sha256"] != sha256(png):
+            raise ValueError(f"Result mismatch: {item['id']}")
+        rows.append({
+            "id": item["id"], "image": str(png.relative_to(ROOT)),
+            "sha256": sha256(png), "record": str(record.relative_to(ROOT)),
+            "record_sha256": sha256(record), "category": item.get("category", "input"),
+            "condition": item.get("condition", ""), "reference": item["reference"],
+            "group": item.get("group", item["id"]),
+            "reference_sha256": spec["references"][item["reference"]]["sha256"],
+            "review_status": "pending", "split": "pending", "caption": "",
+            "reserved_split": item.get("reserved_split"),
+            "target": item.get("training_target"),
+            "target_sha256": item.get("training_target_sha256"),
+            "suggested_caption": item.get("training_caption", ""),
+        })
+    write(out / "candidate-catalog.json", {
+        "schema_version": 1, "model_id": MODEL_ID, "fingerprint": fingerprint,
+        "planned_count": len(spec["items"]), "generated_count": len(rows),
+        "items": rows,
+    })
+
+
+def wait_for_gpu(state, path, enabled):
+    """다른 CUDA 작업의 종료를 기다린다. 실행 중인 학습을 중단하지 않는다."""
+    while True:
+        result = subprocess.run(
+            ["nvidia-smi", "--query-compute-apps=pid", "--format=csv,noheader,nounits"],
+            capture_output=True, text=True, check=True,
+        )
+        if not result.stdout.strip():
+            return
+        if not enabled:
+            raise RuntimeError("GPU busy: rerun with --wait-for-gpu")
+        state["status"] = "waiting_for_gpu"
+        state["blocking_pids"] = result.stdout.strip().splitlines()
+        write(path, state)
+        time.sleep(30)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -48,7 +97,11 @@ def main():
         action="store_true",
         help="모델을 로드하지 않고 참조 해시와 생성 순서만 확인",
     )
+    parser.add_argument("--limit", type=int, help="이번 실행에서 생성할 미완료 후보 수")
+    parser.add_argument("--wait-for-gpu", action="store_true", help="다른 CUDA 작업 종료 후 시작")
     args = parser.parse_args()
+    if args.limit is not None and args.limit < 1:
+        parser.error("--limit must be positive")
     # 얼굴 외형을 다시 정의하지 않고 목록의 변경 대상과 방향별 참조를 사용한다.
     spec = json.loads(args.spec.read_text())
     assert spec["schema_version"] == 1 and spec["model_id"] == MODEL_ID
@@ -81,10 +134,10 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     with (out / ".lock").open("w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        run(out, args.spec, spec)
+        run(out, args.spec, spec, args.limit, args.wait_for_gpu)
 
 
-def run(out, spec_path, spec):
+def run(out, spec_path, spec, limit=None, wait_gpu=False):
     """완료 항목의 해시를 확인하고 남은 후보만 같은 순서로 생성한다."""
     # 코드·목록이 바뀌면 과거 출력과 섞지 않고 새 폴더에서 비교한다.
     fingerprint = {
@@ -123,10 +176,12 @@ def run(out, spec_path, spec):
         else:
             pending.append(item)
     write(state_path, state)
+    catalog(out, spec, fingerprint)
     try:
         if not pending:
             state["status"] = "generated_pending_review"
             return
+        wait_for_gpu(state, state_path, wait_gpu)
         import torch
         from PIL import Image
         from diffusers import QwenImageEditPlusPipeline
@@ -146,7 +201,7 @@ def run(out, spec_path, spec):
         )
         pipe.enable_sequential_cpu_offload()
         pipe.vae.enable_slicing()
-        for item in pending:
+        for item in pending[:limit]:
             state["current"] = item["id"]
             state["status"] = "generating"
             write(state_path, state)
@@ -194,8 +249,12 @@ def run(out, spec_path, spec):
             )
             state["completed"].append(item["id"])
             write(state_path, state)
+            catalog(out, spec, fingerprint)
         state["current"] = None
-        state["status"] = "generated_pending_review"
+        state["status"] = (
+            "generated_pending_review" if len(state["completed"]) == len(spec["items"])
+            else "paused_at_limit"
+        )
     except Exception as error:
         state["status"] = "failed"
         state["error"] = str(error)
