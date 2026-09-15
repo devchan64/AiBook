@@ -86,6 +86,10 @@ Only at that point does it become explainable why A comes first and why B can mo
 
 This diagram shows that the columns should not be collapsed straight into one score. They first need to be regrouped by `what judgment axis is this`. What should be seen first here is not the complexity that `there are many columns`, but the structure that `different questions are grouped into a few judgment axes`. Review priority is a candidate judgment created by grouping change magnitude, repeatability, interpretation confidence, and operational importance together, not by reading one difference value in isolation. The core of this section is therefore not `how should one implement a single-line score`, but `into what bundles of questions are multiple comparison columns compressed first`.
 
+Apply an explicit illustrative rule to this table: place `safety_related=yes` first, sort within each group by descending absolute `diff_mean`, and break remaining ties by ascending `event_id`. The order is A → C → B. C precedes B despite its smaller difference because safety relevance comes first. This is the chosen review order, not a ranking of failure probabilities.
+
+If absolute difference becomes the primary criterion, the order is A → B → C. A and B have equal difference magnitudes, so the tie rule puts A first. The same data produces a different order when the policy changes; store the rule version alongside the ranking. These are calculation examples, and an appropriate operational rule must be chosen separately.
+
 ## Checklist
 
 - Did you specify the ordering rule and tie-breaking procedure for candidates?

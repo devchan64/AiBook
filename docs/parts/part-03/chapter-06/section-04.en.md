@@ -98,6 +98,10 @@ The core point of this section is that not every column in a working table shoul
 
 --8<-- "assets/part-03/chapter-06/p3-6-4-mermaid-01-en.mmd"
 
+Turn `it depends` into a concrete choice. Suppose the task predicts failure within seven days immediately after an action ends, and both the current action's mean and a baseline made only from past actions are available then. In this case, `delta_from_baseline = mid_flow_mean − baseline_mid_flow_mean` can be an input candidate. If the baseline instead includes measurements taken after the current action, the difference column cannot be used as input even though its name is unchanged.
+
+Mark each column separately as `used for comparison`, `input candidate`, and `available at prediction time`. The first difference column can satisfy all three. Column roles are not mutually exclusive labels: using a column for comparison does not automatically exclude it from input, and being numeric does not automatically qualify it.
+
 ## Checklist
 
 - Did you distinguish identifier, context, input, and outcome columns?

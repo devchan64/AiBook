@@ -75,7 +75,13 @@ Concept to check: the first table draft is not a finished list of column names, 
 
 The key in this example is not the list of column names, but seeing `which column group changes first when the question changes`. In comparing one action, `event_id` and `review_needed` appear first. In comparing the recent 20 cases, `window_id` and `report_sentence` are more natural. By contrast, once later learning candidates are being considered, the result column changes into `target_candidate`. So the first table draft is not the process of completing the correct table all at once. It is a sketch that first reveals the sample unit and result direction required by the question.
 
-Once the question has first been moved into role-based column groups, later sections about sample units and summary tables can also be read with `what counts as one case` and `which values play the role of comparison and result` already visible. In other words, the core of this section is to convert the question sentence directly into the role units of the table structure, so that the first table draft becomes not an abstract memo, but the design starting point of a real working table. If this section is reread as the problem of how to write `first-table specification` in role units, it becomes clearer that the first table draft is not a finished column dictionary, but the stage where the role-based column groups required by the question are specified first.
+For a fictional case, suppose completed action A has a late-stage mean of 2.4 L/min and a past baseline of 2.8 L/min under the same operating conditions. Fill one row for the question `Report whether each action's late-stage mean is below its usual level`.
+
+| event_id | late_flow_mean | baseline_late_flow_mean | delta_from_baseline | report_sentence |
+| --- | ---: | ---: | ---: | --- |
+| A | 2.4 | 2.8 | -0.4 | Late-stage mean is 0.4 L/min below the baseline under matching conditions |
+
+The difference is `current − baseline = 2.4 − 2.8 = −0.4`. The identifier, measurement, comparison, and report sentence play different roles in one row. What if B has a measurement but no baseline for its conditions? Leave the baseline and difference empty and record `comparison reference needed`. Filling the baseline with zero would manufacture a comparison with a value that was never observed. This table also provides no evidence yet for a future failure label.
 
 ## Checklist
 

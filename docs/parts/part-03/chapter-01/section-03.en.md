@@ -75,7 +75,9 @@ What matters in this example is not code execution but the correspondence itself
 --8<-- "assets/part-03/chapter-01/p3-1-3-mermaid-01-en.mmd"
 ```
 
-If the question itself is vague, then `what table has to be rebuilt` also remains abstract. That is why rewriting the data question is not an extra sentence-polishing step. It is the starting point for deciding through what sample and table structure the stored data will be read again. The moment the question is written better, it also becomes much more direct why the sample and baseline are needed first. More broadly, a good data question is not just a sentence formulation. It is a problem-definition device that fixes the `target unit`, `desired outcome`, and `comparison or output structure` together at once. In other words, a good data question is not `a nicely worded sentence`, but the minimum design sentence that determines the table structure and comparison structure that follow.
+Rewrite `Is the machine abnormal?` by specifying one case, its reference, and the output. Assuming that completed actions from one machine are being compared, one answer is: `Treat each action as one case, compare its late-stage mean with past actions in the same operating mode, and flag candidates for human review.` This requires one row per action, operating mode, late-stage mean, a baseline, and a review flag. It does not ask for failure prediction, so the question alone does not supply future failure labels.
+
+What changes if the question becomes `Summarize the entire day's operating state at the end of each day`? The first table has one row per action; the second output table has one row per day. The daily table also needs an action count and an aggregation period. Checking whether the row unit and required columns change with the question distinguishes a wording change from a design change.
 
 ## Checklist
 

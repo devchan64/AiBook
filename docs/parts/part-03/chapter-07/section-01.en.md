@@ -63,7 +63,9 @@ The situations where a baseline is especially needed can be summarized more brie
 
 The key point of this table is that the baseline is not `an extra reference number`, but `the premise of comparison needed to speak about whether change exists`.
 
-So this section is more accurately read not as an introduction to the word baseline, but as the problem of [what reference window should be placed alongside the current state in order to read it](/AiBook/en/reference/concept-glossary-alpha/b/#baseline). A baseline is not an extra number. It is a reference window that turns the current structure from a standalone value into `a comparable state`.
+Check type-A in the table yourself. Defining the difference as `recent − baseline` gives `2.10 − 2.45 = −0.35`. A negative sign means the recent value is lower. Reversing the subtraction gives +0.35, so record the calculation direction as well as the column name.
+
+Comparing the same recent value, 2.10, with [a baseline of 2.00](/AiBook/en/reference/concept-glossary-alpha/b/#baseline) gives +0.10. The original comparison shows a decrease; the new one shows an increase. Before deciding which comparison to use, identify the period and conditions represented by each baseline. Do not choose a baseline to obtain a preferred sign. If both comparisons are reported, label each with its period and conditions so their different meanings remain visible.
 
 ## Checklist
 

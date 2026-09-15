@@ -34,6 +34,10 @@ One prediction does not end with a score. It must be read all the way through th
 
 If only 10 cases can be reviewed per day, selecting the top 10 scores and selecting `scores at least 0.7` can yield different results. Thirty cases above 0.7 would exceed capacity. Nor should a score be interpreted as an occurrence probability merely because it lies between 0 and 1. Record the score's meaning, action rule, and processing capacity separately.
 
+In a fictional example, A, B, and C score 0.82, 0.80, and 0.79, and today's review capacity is two cases. Both `at least 0.80` and `top two` select A and B. What happens when D arrives with 0.95? The threshold selects three cases—D, A, and B—while the top-two rule selects only D and A. B's score has not changed, but its selection status has.
+
+If only two of the three qualifying cases can be handled today, record B as `qualifies, waiting because of capacity`, rather than `below threshold`. Keep threshold eligibility and today's processing status in separate columns. This lets a later reviewer distinguish a low model score from insufficient processing capacity.
+
 ## Checklist
 
 - Did you specify a threshold or top-count rule connecting scores to actions?
