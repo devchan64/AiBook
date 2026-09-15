@@ -1,108 +1,47 @@
 # P2-11.3 Broadcasting and Vectorization
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In P2-11.1, we checked the `shape`, `ndim`, and `dtype` of NumPy arrays. In P2-11.2, we used indexing, slicing, and axis to decide which part of an array to read and in which direction to calculate.
+## Scalars and Arrays
 
-Now we go one step further. In NumPy code, you often see calculations applied across a whole array even though no loop is written directly.
+NumPy describes broadcasting as the rules for arithmetic on arrays with different shapes. A smaller array is treated as having a shape compatible with the larger one for the calculation.
 
-For example, the following code adds one number to an entire array.
+Broadcasting applies a common calculation rule across arrays of different shapes.
 
-Problem situation: We check with the smallest example whether the same value can be added across a whole array without a loop.
-Input: An array containing three scores and the scalar `10`.
-Expected output: A new array is printed with 10 added to each value.
-Concept to check: See that the first intuition of broadcasting is that a scalar is applied to each position in the array.
+Add 10 to or multiply by 2 each score in `[82, 75, 45]`. The results are `[92, 85, 55]` and `[164, 150, 90]`.
 
 ```python
-# This example applies one calculation rule across arrays using broadcasting and vectorization.
 import numpy as np
 
-scores = np.array([82, 75, 45])
-print(scores + 10)
-```
-
-The output is as follows.
-
-```text
-[92 85 55]
-```
-
-There is no `for` in the code. But from the result, we can see that 10 was added to every value. To understand this kind of calculation, we need to look at broadcasting and vectorization together.
-
-This Section explains the basic distinction between `broadcasting` and `vectorization`. The representative explanations of `NumPy`, `shape`, and `axis` remain in P2-11.1, P2-11.2, and the [broadcasting glossary entry](/AiBook/en/reference/concept-glossary-alpha/b/#broadcasting). Here the focus is on how calculation spreads across the whole array.
-
-## Core Criteria: Broadcasting and Vectorization
-
-- You can explain broadcasting as the rule by which a smaller array is calculated as if it were matched to the shape of a larger array.
-- You can read scalar-array calculation as element-wise calculation.
-- You can explain examples that add or subtract a vector of shape `(m,)` to a data matrix of shape `(n, m)`.
-- You can explain that a broadcasting error can occur when shapes do not match.
-- You can explain vectorization not as `repetition disappeared`, but as `a Python loop was expressed as one array operation`.
-
-## Three Criteria
-
-| Criterion | Why it matters | Level of understanding needed in this Section |
-| --- | --- | --- |
-| What broadcasting is | It explains why whole-array calculation can be read in one line. | Understand it as a way of naturally spreading and applying a smaller array in a larger-array calculation. |
-| What vectorization is | It makes clear that repetition did not vanish, but changed where it is expressed. | Understand it as a way of expressing what was written as a loop through one array operation. |
-| What to watch first | It lets you see convenience and the possibility of shape errors together. | Understand that even if the syntax looks convenient, `shape` must be checked first. |
-
-| Term | Meaning to capture first in this Section |
-| --- | --- |
-| broadcasting | The rule that applies a smaller array or scalar to a larger-array calculation. |
-| vectorization | A way of expressing repeated calculation through one array operation. |
-| element-wise operation | A calculation that applies the same rule to values at corresponding positions. |
-| shape compatibility | The shape condition used to judge whether two arrays can be calculated together. |
-| scalar | One number that serves as the same rule applied across a whole array. |
-
-## Broadcasting Lets Calculation Proceed by Matching Shape
-
-The official NumPy documentation introduces broadcasting as a term explaining how arithmetic operations handle arrays with different shapes. A smaller array is treated as if it had a shape compatible with the larger array during the calculation.
-
-Here, understand broadcasting as `the rule that repeatedly applies a small value or small array to fit the shape of a larger array`.
-
-The easiest example is a scalar calculated with an array.
-
-Problem situation: We compare what happens when a scalar is added to or multiplied with the whole array.
-Input: The score array `scores` and the scalars `10` and `2`.
-Expected output: The result of `+10` and the result of `*2` are each printed.
-Concept to check: Confirm that a scalar operation applies the same rule to each position in the array.
-
-```python
-# This example applies one calculation rule across arrays using broadcasting and vectorization.
 scores = np.array([82, 75, 45])
 
 print(scores + 10)
 print(scores * 2)
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [92 85 55]
 [164 150  90]
 ```
 
-Here, `10` and `2` are scalars. NumPy applies the scalar to every position in the array.
+`10` and `2` are scalars. NumPy applies each scalar at every array position.
 
-The diagram below shows a scalar being repeatedly applied across the whole array. It is safer to understand this not as physically copying the same value many times, but as applying the same calculation rule at each position.
+The diagram shows a scalar applied across an array. This is a calculation rule, not a requirement to physically copy the scalar many times.
 
-![A scalar is applied across an array by broadcasting](/AiBook/assets/part-02/chapter-11/broadcast-scalar-array-en.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/broadcast-scalar-array-en.mmd"
+```
 
-## When Arrays Are Calculated Together, Check Shape First
+## Adding Feature Offsets
 
-Broadcasting is not a feature that forcefully makes any arrays fit together. The shapes must be compatible.
+Broadcasting cannot force arbitrary arrays to fit. Their shapes must be compatible.
 
-For example, look at the following arrays.
-
-Problem situation: We check together the `shape` and the result to see whether a feature-wise offset vector can be added to a feature matrix.
-Input: `features` of shape `(4, 3)` and `feature_offset` of shape `(3,)`.
-Expected output: The `shape` of both arrays and the adjusted matrix are printed.
-Concept to check: See that a length-3 vector can be broadcast across the three features of each row.
+Put four samples with three features each into a matrix and add `[0.1, 0.2, 0.3]` by feature. The first sample changes from `[1.0, 0.2, 7.0]` to `[1.1, 0.4, 7.3]`.
 
 ```python
-# This example applies one calculation rule across arrays using broadcasting and vectorization.
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],
@@ -117,7 +56,7 @@ print(feature_offset.shape)
 print(features + feature_offset)
 ```
 
-The output is as follows.
+Output:
 
 ```text
 (4, 3)
@@ -128,27 +67,23 @@ The output is as follows.
  [0.6 0.3 6.1]]
 ```
 
-The shape of `features` is `(4, 3)`. It can be read as 4 samples and 3 features.
+Here rows are samples and columns are features, so `(4, 3)` means four samples and three features.
 
-The shape of `feature_offset` is `(3,)`. It can be read as one value to add for each of the 3 features.
+`feature_offset` has shape `(3,)`: one value to add to each feature.
 
-NumPy judges that the array of shape `(3,)` can be applied to each row. So the same offset is added to the three features of every sample.
+NumPy applies the `(3,)` array to each row, adding the same three offsets to every sample.
 
-The diagram below shows a vector of shape `(3,)` being applied row by row to a data matrix of shape `(4, 3)`.
+The diagram shows a `(3,)` vector applied row by row to a `(4, 3)` matrix.
 
-![A row-shaped vector is broadcast across each row of a feature matrix](/AiBook/assets/part-02/chapter-11/broadcast-row-vector-en.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/broadcast-row-vector-en.mmd"
+```
 
-## Incompatible Shapes Produce an Error
+## Shape Compatibility
 
-Broadcasting is convenient, but if the shapes do not fit, an error occurs.
-
-Problem situation: We check why shapes that look somewhat similar still produce an error when they do not match.
-Input: The matrix `features` of shape `(4, 3)` and the vector `bad_offset` of length 4.
-Expected output: The two shapes are printed, and then a broadcasting error occurs.
-Concept to check: See that broadcasting does not make arbitrary arrays fit, and that compatibility from the last dimension matters.
+Adding a length-four vector to this matrix raises `ValueError`. Four rows do not help: the trailing dimension has three columns.
 
 ```python
-# This example applies one calculation rule across arrays using broadcasting and vectorization.
 bad_offset = np.array([10, 20, 30, 40])
 
 print(features.shape)
@@ -156,39 +91,29 @@ print(bad_offset.shape)
 print(features + bad_offset)
 ```
 
-This code raises an error.
+This code raises an error:
 
 ```text
 ValueError: operands could not be broadcast together with shapes (4,3) (4,)
 ```
 
-Why?
+`features` has shape `(4, 3)` with three features per row. `bad_offset` has shape `(4,)`. Its length matches the row count, but not the three columns within each row.
 
-`features` is `(4, 3)`. Each row has 3 features. But `bad_offset` is `(4,)`. These 4 values may look as if they match the number of rows, but they do not match the 3 columns inside each row.
-
-Remember the following standard first.
-
-| Calculation | How to read it | Result |
+| Calculation | Reading | Result |
 | --- | --- | --- |
-| `(4, 3) + scalar` | Apply the same value to every position | possible |
-| `(4, 3) + (3,)` | Apply a length-3 vector to each row | possible |
-| `(4, 3) + (4,)` | Does not match the row length 3 | error |
+| `(4, 3) + scalar` | Apply one value everywhere | Valid |
+| `(4, 3) + (3,)` | Apply a length-three vector to every row | Valid |
+| `(4, 3) + (4,)` | Length four does not match three columns | Error |
 
-The exact rule is more complex, but at this stage the important intuition is `check whether they match from the last dimension`.
+Broadcasting compares dimensions from the end. Corresponding sizes must be equal or one must be 1; absent leading dimensions count as 1. `(4, 3)` and `(3,)` match at the end, while `(4, 3)` and `(4,)` conflict at sizes 3 and 4.
 
-## Vectorization Means Expressing Repetition as an Array Operation
+## Loops and Array Operations
 
-Vectorization is a way of expressing a calculation through array operations without writing an explicit Python loop.
+Vectorization expresses calculation through array operations instead of explicit loops in the code.
 
-For example, adding 10 to each score with a Python loop can be written like this.
-
-Problem situation: Before comparing it with an array operation, we write the same work directly with a loop.
-Input: A Python list containing three scores.
-Expected output: A list is printed with 10 added to each score.
-Concept to check: See that vectorization is a way of expressing this repeated calculation more compactly as an array operation.
+For example, a Python loop can add 10 to every score:
 
 ```python
-# This example applies one calculation rule across arrays using broadcasting and vectorization.
 scores = [82, 75, 45]
 
 adjusted = []
@@ -198,51 +123,37 @@ for score in scores:
 print(adjusted)
 ```
 
-With a NumPy array, it can be written like this.
-
-Problem situation: We rewrite the work just done with a loop as one line of NumPy array calculation.
-Input: The score array `scores` and the scalar `10`.
-Expected output: The adjusted score array is printed.
-Concept to check: Confirm that vectorization does not mean repetition vanished, but that it was expressed in array-level syntax.
+The loop prints `[92, 85, 55]`. With a NumPy array, `scores + 10` calculates the same three values.
 
 ```python
-# This example applies one calculation rule across arrays using broadcasting and vectorization.
 scores = np.array([82, 75, 45])
 adjusted = scores + 10
 
 print(adjusted)
 ```
 
-Both versions add 10 to each score. The difference is in how the idea is expressed.
+Both add 10 per score; their expressions differ.
 
-| Method | Structure visible in code | Perspective the reader should hold |
+| Method | Visible code structure | Interpretation |
 | --- | --- | --- |
-| Python loop | Pull out one value at a time and process it | The procedure is written directly |
-| NumPy vectorization | Apply the operation to the whole array | The same calculation is expressed at the array level |
+| Python loop | Retrieve and process values individually | Write the procedure explicitly |
+| NumPy vectorization | Apply an operation to the array | Express the calculation at array level |
 
-The official NumPy documentation explains that broadcasting provides a means of vectorizing array operations and helps repetition happen at the C level instead of in Python. So it would be misleading to understand vectorization as `the repetition disappeared`.
+NumPy's documentation explains that broadcasting supports vectorization with looping at the C level instead of Python. Vectorization does not mean that repetition disappears.
 
-A safer expression is to view vectorization as `a way of expressing repeated calculation not with Python's for loop, but with array operations`.
-
-The diagram below shows the same calculation expressed differently as a loop and as an array operation.
+This diagram compares the loop and array expressions for the same calculation.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-en.mmd"
 ```
 
-## An Example of Subtracting the Mean by Feature
+## Subtracting Feature Means
 
-One example that appears often in AI data processing is subtracting the mean of each feature. You can read it as the starting point of preprocessing that moves the mean closer to 0.
+Subtracting each feature's mean is common in AI data processing. It is a starting point for centering features near zero.
 
-First, create the data matrix.
-
-Problem situation: In preprocessing that subtracts the feature-wise mean, we check the mean vector and the centered result together.
-Input: The feature matrix `features` with shape `(4, 3)`.
-Expected output: The mean vector by column and the matrix after subtracting the mean are printed.
-Concept to check: See that the result of `mean(axis=0)` with shape `(3,)` is broadcast to each row and produces centering.
+The four samples have column means `[0.65, 0.4, 6.85]`. Subtracting them from each row makes the first row `[0.35, -0.2, 0.15]`.
 
 ```python
-# This example applies one calculation rule across arrays using broadcasting and vectorization.
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],
@@ -257,7 +168,7 @@ print(column_mean)
 print(centered)
 ```
 
-The output will look roughly like this.
+The output is approximately:
 
 ```text
 [0.65 0.4  6.85]
@@ -267,88 +178,99 @@ The output will look roughly like this.
  [-0.15 -0.3  -1.05]]
 ```
 
-Here, `features.mean(axis=0)` calculates the mean of each column. The result shape is `(3,)`. The shape of `features` is `(4, 3)`.
+`features.mean(axis=0)` computes one mean per column, with shape `(3,)`. The original `features` has shape `(4, 3)`.
 
-`features - column_mean` is a calculation that subtracts `(3,)` from `(4, 3)`. NumPy applies the mean vector of shape `(3,)` to each row.
+`features - column_mean` subtracts `(3,)` from `(4, 3)`, applying the mean vector to every row.
 
-This example connects directly to the explanation of axis in P2-11.2.
-
-| Code | shape | Meaning |
+| Code | Shape | Meaning |
 | --- | --- | --- |
-| `features` | `(4, 3)` | 4 samples, 3 features |
-| `features.mean(axis=0)` | `(3,)` | Mean by feature |
-| `features - column_mean` | `(4, 3)` | Result after subtracting the mean of each feature from each sample |
+| `features` | `(4, 3)` | Four samples, three features |
+| `features.mean(axis=0)` | `(3,)` | Feature means |
+| `features - column_mean` | `(4, 3)` | Feature means subtracted from every sample |
 
-What matters is not simply `one mean was calculated`. You should read together which axis the mean was taken across, what shape that result has, and how it is applied back to the original array.
+The centered column means are zero within floating-point error. Switching to `axis=1` produces four row means of shape `(4,)`, making this subtraction fail.
 
-## Broadcasting Is Convenient, but Not Always Best
+## Row Means and keepdims
 
-Broadcasting and vectorization can shorten code and often make it easier to read. But that does not mean they are always the better choice.
-
-There are three things to watch.
-
-First, if you do not check shape, you can end up with a calculation different from what you intended.
-
-Second, complex broadcasting can become hard-to-read code.
-
-Third, in some cases, a very large intermediate array can be created and use a lot of memory. The official NumPy documentation also warns that broadcasting is usually efficient, but in certain algorithms it can use memory inefficiently.
-
-So a good beginner habit is the following.
-
-Problem situation: We check which shapes should be printed first before a broadcasting calculation.
-Input: The original matrix `features` and the column-mean vector `column_mean`.
-Expected output: The shapes of the two arrays are printed.
-Concept to check: See that even if broadcasting looks convenient, it is safer to check the shapes first.
+To subtract each student's mean from that student's subjects, retain row means as `(students, 1)`. `keepdims=True` keeps reduced axes with length 1 rather than removing them.
 
 ```python
-# This example applies one calculation rule across arrays using broadcasting and vectorization.
-print(features.shape)
-print(column_mean.shape)
+marks = np.array([[80, 70, 90], [60, 90, 75]])
+row_mean = marks.mean(axis=1, keepdims=True)
+row_centered = marks - row_mean
+
+print(row_mean.shape)
+print(row_centered)
+print(row_centered.mean(axis=1))
 ```
 
-Before calculating, check the shape.
+```text
+(2, 1)
+[[  0. -10.  10.]
+ [-15.  15.   0.]]
+[0. 0.]
+```
+
+Without `keepdims`, means have shape `(2,)` and cannot be subtracted directly from `(2, 3)`. For a three-by-three square array, subtracting `(3,)` may succeed but aligns those values with columns, not rows. Successful execution does not establish the intended axis semantics. For row centering, also check that resulting row means are near zero.
+
+## Intermediate Arrays and Memory
+
+Broadcasting can avoid repeating input data, but result arrays still need memory. Adding `(10000, 1)` and `(1, 10000)` produces `(10000, 10000)`. Its 100 million `float64` elements alone require about 800 MB. Check the output shape as well as input sizes.
 
 ## Example Code File
 
-You can also inspect the example code from this Section in the following file.
+The examples are also available here:
 
 - [p2_11_3_broadcast_vectorization.py](/AiBook/assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py)
 
-On a local PC, you can run it from the project root like this.
+Locally, run from the project root:
 
 ```bash
 python docs/assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py
 ```
 
-In Colab, you can paste the file content into a code cell and run it.
+In Colab, paste the file into a code cell.
 
-The output includes scalar broadcasting, row-vector broadcasting, a shape-mismatch error example, and an example that removes the mean by feature.
+Outputs cover scalar broadcasting, row-vector broadcasting, a shape mismatch, and subtraction of feature means.
 
-## Reading It as a Case
+## Case: Subject and Student Adjustments
 
-### Case 1. Why add adjusted scores for every student at once?
+Two students score `[80, 70, 90]` and `[60, 90, 75]` in Korean, mathematics, and English. To add 5, 10, and 0 by subject, use a length-three vector. Results are `[85, 80, 90]` and `[65, 100, 75]`.
 
-When a learner wants to add an adjustment value to each student's score, it is natural to want to process them one by one with a `for` loop. This is good for understanding procedure, but as the number of features and samples grows, the same calculation has to be written again and again and the code becomes long.
+```python
+marks = np.array([[80, 70, 90], [60, 90, 75]])
+subject_bonus = np.array([5, 10, 0])
+student_bonus = np.array([[5], [10]])
 
-With NumPy arrays, the same calculation can be expressed all at once through something like `scores + 10` or by adding a vector of shape `(3,)` to a matrix of shape `(4, 3)`. The important point is not that NumPy magically calculates for you, but that the same repeated operation previously done by a person is rewritten in array-level syntax.
+print(marks + subject_bonus)
+print(marks + student_bonus)
+```
 
-For example, if you add an offset `[0.1, 0.2, 0.3]` by feature to every student with three features, the same length-3 vector is applied to each row of the `(4, 3)` matrix. By contrast, if you try to add a vector of shape `(4,)`, the shape does not match and an error occurs. So the first thing to check is always `shape`, not convenience.
+```text
+[[ 85  80  90]
+ [ 65 100  75]]
+[[ 85  75  95]
+ [ 70 100  85]]
+```
 
-This case ties broadcasting and vectorization back to an actual calculation scene. Repetition was not removed. It was expressed as array calculation, and for that expression to work safely, you must first read what question the smaller array and the larger array correspond to.
+To add 5 to the first student's subjects and 10 to the second student's, use shape `(2, 1)`. Each row's adjustment applies to all three subjects. Writing `[5, 10]` instead gives `(2,)`, incompatible with the trailing dimension 3.
+
+Changing the second `subject_bonus` from 10 to 0 restores only mathematics scores to 70 and 90 in the first output. Changing the second `student_bonus` to 0 restores every score of the second student in the second output. Placement determines what the addition affects.
 
 ## Checklist
 
-- You can explain scalar-array calculation as broadcasting.
-- You can explain why `(4, 3) + (3,)` is possible.
-- You can explain why `(4, 3) + (4,)` can fail immediately.
-- You can explain the difference between a Python loop and a NumPy vectorized expression.
-- You can explain the result shape of `features.mean(axis=0)`.
-- You can explain where broadcasting occurs in the calculation that subtracts the mean by feature.
-- You can explain that broadcasting is not always the best choice and that shape and memory use should be checked.
-- You can explain that broadcasting is the rule that lets a small value or array participate in calculation by fitting the shape of a larger array.
+- Explain scalar–array arithmetic through broadcasting.
+- Explain why `(4, 3) + (3,)` works.
+- Explain why `(4, 3) + (4,)` fails.
+- Distinguish Python loops from NumPy vectorized expressions.
+- Explain the shape of `features.mean(axis=0)`.
+- Identify broadcasting when subtracting feature means.
+- Explain why broadcasting requires attention to shapes and memory.
+- Can you explain why row centering uses `keepdims=True` and how to check the result?
 
 ## Sources and References
 
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the core basis for broadcasting rules, dimension comparison, and shape mismatch errors.
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm array arithmetic, universal functions, and basic axis-calculation examples.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the basis for the beginner-level flow of reading array-level computation instead of Python loops and checking shape first.
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used as the core basis for broadcasting rules, dimension comparison, and shape mismatch errors.
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used to confirm array arithmetic, universal functions, and basic axis-calculation examples.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used as the basis for the beginner-level flow of reading array-level computation instead of Python loops and checking shape first.
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, accessed: 2026-09-15. axis reduction and axis preservation with keepdims.

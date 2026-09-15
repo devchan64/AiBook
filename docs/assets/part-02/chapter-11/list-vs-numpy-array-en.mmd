@@ -1,0 +1,6 @@
+flowchart TD
+    a["Input: [82, 75, 45]"]
+    a --> b["List concatenation<br/>[82, 75, 45] + [82, 75, 45]"]
+    a --> c["Elementwise array sum<br/>array + array"]
+    b --> d["[82, 75, 45, 82, 75, 45]<br/>len = 6"]
+    c --> e["[164, 150, 90]<br/>shape = (3,)"]

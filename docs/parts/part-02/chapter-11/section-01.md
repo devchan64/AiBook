@@ -1,7 +1,7 @@
 # P2-11.1 NumPy 배열(array)로 벡터와 행렬 만들기
 
 > Section ID: `P2-11.1`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 리스트 연결과 배열 덧셈
 
@@ -37,8 +37,6 @@ NumPy 배열에서 `+`는 같은 위치의 숫자를 더합니다.
 [164 150  90]
 ```
 
-이 차이를 기억해야 합니다.
-
 | 구조 | 주요 목적 | `+`의 대표적 의미 |
 | --- | --- | --- |
 | Python 리스트(list) | 여러 값을 순서대로 담는 범용 컨테이너 | 리스트 연결 |
@@ -48,7 +46,9 @@ NumPy 배열은 “자료를 담는 구조”이면서 동시에 “계산을 �
 
 아래 도식은 같은 `+` 기호가 리스트와 NumPy 배열에서 다르게 읽히는 상황을 보여 줍니다.
 
-![Python list and NumPy array use the plus sign differently](../../../assets/part-02/chapter-11/list-vs-numpy-array-ko.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/list-vs-numpy-array-ko.mmd"
+```
 
 이 차이는 사소해 보일 수 있지만, AI 코드에서는 중요합니다. 숫자 묶음을 저장하고 싶은 것인지, 숫자 묶음 전체에 같은 계산을 적용하고 싶은 것인지가 달라지기 때문입니다.
 
@@ -143,11 +143,25 @@ S =
 
 AI 실습에서는 보통 행을 샘플(sample), 열을 특징(feature)으로 읽는 경우가 많습니다. 하지만 항상 그런 것은 아닙니다. 그래서 배열을 만들면 먼저 `shape`을 확인하고, 각 축이 무엇을 뜻하는지 적어야 합니다.
 
+## dtype과 소수 보존
+
+배열의 `dtype`은 각 원소를 저장하는 방식을 정합니다. 정수 배열에 소수를 대입해도 배열 전체가 자동으로 실수형으로 바뀌지는 않습니다.
+
+```python
+integer_scores = np.array([82, 75, 45], dtype=np.int64)
+float_scores = integer_scores.astype(np.float64)
+integer_scores[1] = 75.5
+float_scores[1] = 75.5
+
+print(integer_scores.tolist())
+print(float_scores.tolist())
+```
+
+출력은 `[82, 75, 45]`와 `[82.0, 75.5, 45.0]`입니다. 정수 배열에 대입한 75.5는 소수 부분을 잃지만, 먼저 실수형으로 바꾼 배열은 보존합니다. 이미 75로 저장된 값을 나중에 실수로 바꿔도 사라진 0.5는 복원되지 않습니다. 정수형을 유지해야 하는지, 소수가 필요한 계산인지를 배열 생성 시점에 정합니다.
+
 ## 행렬 곱의 모양
 
 NumPy 코드에서 `shape`은 단순한 부가 정보가 아닙니다. 어떤 계산이 가능한지 판단하는 기본 문법입니다.
-
-다음 배열을 봅니다.
 
 샘플 세 개에 특징이 두 개씩 있습니다. 특징 행렬과 가중치 벡터의 모양을 출력하면 `(3, 2)`와 `(2,)`입니다.
 
@@ -219,9 +233,30 @@ print(scores.shape)
 
 아래 도식은 같은 계산을 shape 관점으로 다시 정리한 것입니다.
 
-![Feature matrix times weight vector produces one score per sample](../../../assets/part-02/chapter-11/feature-weight-shape-flow-ko.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/feature-weight-shape-flow-ko.mmd"
+```
 
-왼쪽의 `features`는 샘플 3개와 특징 2개를 가진 행렬입니다. 가운데의 `weights`는 특징 2개에 대응하는 가중치 벡터입니다. 두 배열의 안쪽 크기 2가 맞기 때문에 각 샘플마다 하나의 점수(score)가 만들어집니다.
+`features`는 샘플 3개와 특징 2개를 가진 행렬입니다. `weights`는 특징 2개에 대응하는 가중치 벡터입니다. 두 배열의 안쪽 크기 2가 맞기 때문에 각 샘플마다 하나의 점수(score)가 만들어집니다.
+
+## 원소별 곱과 행렬 곱
+
+`features * weights`는 각 특징에 가중치를 곱한 채로 남기며, `features @ weights`는 한 샘플의 곱들을 더해 하나의 점수로 만듭니다. 같은 입력을 사용해도 결과의 모양이 다릅니다.
+
+```python
+weighted = features * weights
+print(weighted)
+print(weighted.sum(axis=1))
+```
+
+```text
+[[0.6  0.08]
+ [0.48 0.16]
+ [0.18 0.36]]
+[0.68 0.64 0.54]
+```
+
+원소별 곱의 결과는 `(3, 2)`이고, 특징 축을 더한 결과는 `(3,)`입니다. 이 예제에서는 `weighted.sum(axis=1)`이 `features @ weights`와 같은 가중합을 계산합니다. `*`가 곱셈이라고 해서 샘플별 점수까지 자동으로 합쳐 주는 것은 아닙니다.
 
 ## 배열 속성 확인
 
@@ -282,9 +317,12 @@ python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py
 - `(샘플 수, 특징 수)` 형태의 행렬을 읽을 수 있다.
 - `features @ weights` 같은 작은 계산의 입력과 출력 shape을 설명할 수 있다.
 - NumPy 배열을 숫자를 정해진 모양으로 놓고 계산하는 구조로 설명할 수 있다.
+- 정수 배열에 소수를 대입할 때의 손실과 `*`·`@`의 결과 차이를 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. NumPy 배열의 동질적 N차원 `ndarray`, shape, dtype, Python 리스트와의 차이 설명 확인에 사용했다.
-- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. `ndarray` 속성과 배열 객체 구조를 벡터·행렬 예시의 근거로 사용했다.
-- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. `np.array`, `zeros`, `ones`, `arange`, `linspace` 같은 기본 배열 생성 방식 확인에 사용했다.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. NumPy 배열의 동질적 N차원 `ndarray`, shape, dtype, Python 리스트와의 차이 설명 확인에 사용했다.
+- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. `ndarray` 속성과 배열 객체 구조를 벡터·행렬 예시의 근거로 사용했다.
+- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. `np.array`, `zeros`, `ones`, `arange`, `linspace` 같은 기본 배열 생성 방식 확인에 사용했다.
+- NumPy Developers, [numpy.ndarray.astype](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.astype.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-09-15. dtype 변환과 복사 동작.
+- NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-09-15. 행렬·벡터 곱의 크기와 원소별 곱의 구분.

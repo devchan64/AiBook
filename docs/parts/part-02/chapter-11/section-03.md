@@ -1,7 +1,7 @@
 # P2-11.3 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 
 > Section ID: `P2-11.3`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 스칼라와 배열의 계산
 
@@ -31,7 +31,9 @@ print(scores * 2)
 
 아래 도식은 스칼라가 배열 전체에 반복 적용되는 모습을 보여 줍니다. 실제로 같은 값을 물리적으로 여러 번 복사한다고 이해하기보다, 계산 규칙상 각 위치에 적용된다고 이해하는 편이 안전합니다.
 
-![A scalar is applied across an array by broadcasting](../../../assets/part-02/chapter-11/broadcast-scalar-array-ko.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/broadcast-scalar-array-ko.mmd"
+```
 
 ## 특징별 보정값 더하기
 
@@ -73,7 +75,9 @@ NumPy는 `(3,)` 배열을 각 행(row)에 적용할 수 있다고 판단합니�
 
 아래 도식은 `(4, 3)` 데이터 행렬에 `(3,)` 벡터가 행마다 적용되는 모습을 보여 줍니다.
 
-![A row-shaped vector is broadcast across each row of a feature matrix](../../../assets/part-02/chapter-11/broadcast-row-vector-ko.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/broadcast-row-vector-ko.mmd"
+```
 
 ## 모양 호환성
 
@@ -186,6 +190,29 @@ print(centered)
 
 중심화한 배열의 각 열 평균은 부동소수점 계산 오차 범위에서 0입니다. `axis=1`로 바꾸면 행별 평균 네 개가 나와 `(4,)`가 되므로, 같은 뺄셈은 실패합니다.
 
+## 행별 평균과 keepdims
+
+각 학생의 평균을 그 학생의 과목 점수에서 빼려면 행별 평균을 `(학생 수, 1)`로 유지해야 합니다. `keepdims=True`는 요약한 축을 없애지 않고 길이 1로 남깁니다.
+
+```python
+marks = np.array([[80, 70, 90], [60, 90, 75]])
+row_mean = marks.mean(axis=1, keepdims=True)
+row_centered = marks - row_mean
+
+print(row_mean.shape)
+print(row_centered)
+print(row_centered.mean(axis=1))
+```
+
+```text
+(2, 1)
+[[  0. -10.  10.]
+ [-15.  15.   0.]]
+[0. 0.]
+```
+
+`keepdims`를 생략하면 평균의 모양은 `(2,)`가 되어 `(2, 3)`에서 바로 뺄 수 없습니다. 행과 열이 모두 3인 정사각형 배열에서는 `(3,)`을 빼는 계산이 성공할 수도 있지만, 이 값은 행별이 아니라 열 위치에 맞춰 적용됩니다. 오류가 없다는 사실만으로 의도한 축에 계산했다고 판단하지 않습니다. 행별 중심화라면 결과의 행별 평균이 0에 가까운지도 확인합니다.
+
 ## 중간 배열과 메모리
 
 브로드캐스팅은 입력을 반복 복사하지 않고도 연산할 수 있지만, 연산 결과 배열에는 메모리가 필요합니다. 예를 들어 `(10000, 1)` 배열과 `(1, 10000)` 배열을 더하면 결과는 `(10000, 10000)`이 됩니다. 원소 1억 개를 `float64`로 저장하는 데만 약 800MB가 필요합니다. 입력 크기뿐 아니라 결과의 `shape`도 확인해야 합니다.
@@ -206,7 +233,7 @@ Colab에서는 파일 내용을 코드 셀에 붙여 넣어 실행할 수 있습
 
 출력에는 스칼라 broadcasting, 행 벡터 broadcasting, shape mismatch 오류 확인, 특징별 평균 제거 예제가 포함되어 있습니다.
 
-## 사례 1. 과목별 보정과 학생별 보정
+## 사례: 과목별 보정과 학생별 보정
 
 두 학생의 국어·수학·영어 점수가 각각 `[80, 70, 90]`, `[60, 90, 75]`라고 합시다. 과목별로 국어 5점, 수학 10점, 영어 0점을 더하려면 길이 3인 벡터를 사용합니다. 결과는 `[85, 80, 90]`, `[65, 100, 75]`입니다.
 
@@ -239,9 +266,11 @@ print(marks + student_bonus)
 - `features.mean(axis=0)`의 결과 shape을 설명할 수 있다.
 - 특징별 평균을 빼는 계산에서 broadcasting이 어디서 일어나는지 설명할 수 있다.
 - broadcasting이 항상 좋은 선택은 아니며, shape과 메모리 사용을 확인해야 함을 설명할 수 있다.
+- 행별 평균을 뺄 때 `keepdims=True`가 필요한 이유와 결과 확인 방법을 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-09-08. broadcasting 규칙, 차원 비교, shape mismatch 오류 설명을 현재 절의 핵심 근거로 사용했다.
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. 배열 산술, universal functions, 기본 축 계산 예시 확인에 사용했다.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. Python 반복 대신 배열 단위 계산으로 읽는 입문 설명과 shape 확인 흐름의 근거로 사용했다.
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-09-08. broadcasting 규칙, 차원 비교, shape mismatch 오류 설명을 현재 절의 핵심 근거로 사용했다.
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. 배열 산술, universal functions, 기본 축 계산 예시 확인에 사용했다.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. Python 반복 대신 배열 단위 계산으로 읽는 입문 설명과 shape 확인 흐름의 근거로 사용했다.
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-09-15. axis 축약과 keepdims의 축 유지.

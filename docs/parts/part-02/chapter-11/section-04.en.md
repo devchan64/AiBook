@@ -1,74 +1,13 @@
-# P2-11.4 Supplemental: How to Read Shape and Shared Origins Together in NumPy
+# P2-11.4 Supplemental: Shape and Shared Data in NumPy
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In P2-11.2, we looked at indexing, slicing, and axis. In P2-11.3, we looked at broadcasting and vectorization. But when reading actual NumPy code, the next questions often remain.
+## Slices and Shared Data
 
-`Is this selection still looking at the original array?`
-`Or did it create a new array?`
-`Why did the shape suddenly change from (3,) to (3, 1)?`
-
-This supplemental learning gathers those questions together.
-
-Here, we provide a basic explanation that groups together `boolean mask`, `fancy indexing`, `np.newaxis`, and `shared view`. Even if indexing, slicing, and broadcasting from the previous Sections already make sense, this is the place to reconnect how selection style and shape change relate to shared origin.
-
-## First Reading Criteria: How to Read Shape and Shared Origins Together in NumPy
-
-- You can explain that basic slicing is often read as a way of looking at part of the original array.
-- You can explain that fancy indexing and boolean masks are often read as ways of creating a new array.
-- You can explain that even if shapes look similar, shared-origin status may still differ.
-- You can explain `np.newaxis` as notation that adds a length-1 axis.
-- You can explain that when reading broadcasting code, `value`, `shape`, and `shared origin` should be checked together.
-
-## One Scene to Hold First
-
-The first scene to hold in this supplemental learning is that `how you selected` and `how you changed the shape` together change both shared origin and the direction of calculation.
-
-| Code scene | The first question to read | The key point to hold now |
-| --- | --- | --- |
-| `x[1:4]` | Are we still looking at the range as-is? | There is a high chance it shares the original |
-| `x[[1, 3, 4]]` | Are we gathering separate positions? | It is safer to read it as a new array |
-| `x[x >= 80]` | Are we filtering only values that meet a condition? | It is safer to read it as a new array |
-| `x[:, np.newaxis]` | Are we adding one more axis? | The `shape` changes and broadcasting is read differently |
-
-In other words, in NumPy it is not enough to say only `some part was selected`. You should first separate `viewing a range`, `gathering positions`, `filtering by condition`, and `adding an axis` in order to understand view or copy, shape, and broadcasting together.
-
-## Background
-
-In the supplemental learning of P2-8.7, we first looked at `does the original change together with it?` through Python lists and copying. The same question returns in NumPy. But in NumPy, it is not enough to ask only `was it copied?`; you also need to ask `how did the shape change?`
-
-For example, `x[1:4]` and `x[[1, 3, 4]]` both look as if they selected only some values, but one may still look at the original while the other may create a new array. And `x[:, np.newaxis]` changes the whole broadcasting pattern even when the values do not change.
-
-Read this Section when slicing and axis from P2-11.2 make sense but you still get confused about whether `this selection changes the original too`, or when broadcasting from P2-11.3 makes sense but you stop when `(3, 1)` and `(1, 3)` suddenly appear. Once you hold this standard, you can read slicing, axis, and broadcasting together with `shape` and `shared origin`.
-
-## Three Criteria
-
-| Criterion | Why it matters | Level of understanding needed in this Section |
-| --- | --- | --- |
-| What was selected | It keeps you from mistaking slicing, fancy indexing, and masks as the same kind of selection. | First distinguish whether it cut a range or gathered only certain positions. |
-| How the `shape` changed | It reveals why the calculation changes even if the values look the same. | Understand that the difference among `(3,)`, `(3, 1)`, and `(1, 3)` changes calculation direction. |
-| Whether the original is still shared | It prevents later value edits from changing experiment results unexpectedly. | If values may be modified, first check whether a copy is needed. |
-
-| Term | Meaning to capture first in this Section |
-| --- | --- |
-| boolean mask | A selection style that leaves only the values whose condition is true. |
-| fancy indexing | A selection style that gathers values by specifying several positions like a list. |
-| `np.newaxis` | Notation that changes array shape by adding an axis of length 1. |
-| shared view | A state where the selection result is connected to the original array and may change together with it. |
-| copy | A way of creating a new array separated from the original. |
-
-## Basic Slicing Is Often Read as Looking at Part of the Original
-
-In P2-11.2, slicing was introduced as notation that leaves a range. In NumPy, this basic slicing often works as a way of looking at part of the original array together.
-
-Problem situation: We check whether the original also changes when we modify part of an array selected through slicing.
-Input: The one-dimensional array `scores` and the slice `scores[1:4]`.
-Expected output: A value changed through the slice is reflected back in the original array.
-Concept to check: See that basic slicing may look like a new array but can still be read as connected to the original.
+Basic slicing creates a view sharing the original array's data. Setting the first value of `scores[1:4]` to 999 also changes position 1 in the original to 999.
 
 ```python
-# This supplemental example checks NumPy array shape changes together with whether data is shared with the original.
 import numpy as np
 
 scores = np.array([82, 75, 45, 90, 61])
@@ -80,32 +19,18 @@ print(scores)
 print(middle)
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [ 82 999  45  90  61]
 [999  45  90]
 ```
 
-Read it here like this.
+## Position and Condition Selection as Copies
 
-- It is risky to think of `scores[1:4]` only as `three copied values gathered separately`.
-- Basic slicing is often read as a way of looking at part of the original array.
-- So if the value is changed later, the original may change too.
-
-This intuition connects directly to the question from P2-8.7: `when do the original and the copied result change together?`
-
-## Fancy Indexing and Boolean Masks Gather Chosen Values into a New Result
-
-Now look at cases that still seem like `partial selection` but work differently.
-
-Problem situation: We compare how fancy indexing, which picks separate positions, and a boolean mask, which filters by condition, differ from the original.
-Input: The array `scores`, the position list `[1, 3, 4]`, and the condition `scores >= 80`.
-Expected output: Even if the fancy-indexing result and the boolean-mask result are modified, the original `scores` remains unchanged.
-Concept to check: See that results gathered by specific positions or by filtering are safer to read as new arrays.
+Fancy indexing with a position list and boolean indexing with a mask copy data when retrieving values. Changing the first value of `picked` to 500 and `high_scores` to 700 leaves the original `[82, 75, 45, 90, 61]` unchanged.
 
 ```python
-# This supplemental example checks NumPy array shape changes together with whether data is shared with the original.
 scores = np.array([82, 75, 45, 90, 61])
 
 picked = scores[[1, 3, 4]]
@@ -119,7 +44,7 @@ print(picked)
 print(high_scores)
 ```
 
-The output is as follows.
+Output:
 
 ```text
 [82 75 45 90 61]
@@ -127,40 +52,15 @@ The output is as follows.
 [700  90]
 ```
 
-Here, `scores[[1, 3, 4]]` gathers the values at positions 1, 3, and 4 separately. This style is called fancy indexing.
+`scores[[1, 3, 4]]` gathers values at positions 1, 3, and 4. This is fancy indexing.
 
-`scores[scores >= 80]` leaves only values whose condition is true. This style is called a boolean mask.
+`scores[scores >= 80]` selects values where the condition is true, using a boolean mask.
 
-Understand both here as follows.
+## Adding an Axis of Length One
 
-- Basic slicing is closer to `viewing the range as it is`.
-- Fancy indexing and boolean masks are closer to `gathering the chosen values separately`.
-
-So shared-origin behavior can differ when values are changed.
-
-## Even if They Both Select Part of the Array, the Question Is Different
-
-Slicing, fancy indexing, and boolean masks all look similar in the sense that they select only some values. But in practice they answer different questions.
-
-| Expression | The first question to read | Safer beginner interpretation |
-| --- | --- | --- |
-| `x[1:4]` | Which range should remain? | Viewing a range |
-| `x[[1, 3, 4]]` | Which positions should be pulled out separately? | Gathering positions |
-| `x[x >= 80]` | Which values that satisfy the condition should remain? | Filtering by condition |
-
-If you distinguish this difference first, NumPy code becomes much less confusing.
-
-## `np.newaxis` Adds an Axis of Length 1
-
-Now look at notation that changes `shape` rather than choosing values.
-
-Problem situation: We distinguish whether to view the same one-dimensional array as a row-like shape or a column-like shape only by changing its shape.
-Input: The one-dimensional array `scores`, plus `scores[:, np.newaxis]` and `scores[np.newaxis, :]`.
-Expected output: The three shapes `(3,)`, `(3, 1)`, and `(1, 3)` are printed.
-Concept to check: See that `np.newaxis` does not change the values themselves, but adds a length-1 axis and changes the calculation direction.
+`np.newaxis` adds a length-one axis at the specified position. A `(3,)` score array can be viewed as `(3, 1)` or `(1, 3)`. These results also share data with the original.
 
 ```python
-# This supplemental example checks NumPy array shape changes together with whether data is shared with the original.
 scores = np.array([82, 75, 45])
 
 print(scores.shape)
@@ -168,7 +68,7 @@ print(scores[:, np.newaxis].shape)
 print(scores[np.newaxis, :].shape)
 ```
 
-The output is as follows.
+Output:
 
 ```text
 (3,)
@@ -176,27 +76,21 @@ The output is as follows.
 (1, 3)
 ```
 
-These three arrays may look as if they hold similar numbers, but they are read differently.
+The values remain the same, but dimensionality and shape differ.
 
-| Expression | shape | How to read it |
+| Expression | Shape | Reading |
 | --- | --- | --- |
-| `scores` | `(3,)` | A one-dimensional array of length 3 |
-| `scores[:, np.newaxis]` | `(3, 1)` | Read like a 3-row, 1-column column vector |
-| `scores[np.newaxis, :]` | `(1, 3)` | Read like a 1-row, 3-column row vector |
+| `scores` | `(3,)` | One-dimensional array of length three |
+| `scores[:, np.newaxis]` | `(3, 1)` | Three-row, one-column vector-like view |
+| `scores[np.newaxis, :]` | `(1, 3)` | One-row, three-column vector-like view |
 
-So `np.newaxis` does not create new numbers. It is notation for organizing in which direction an array should fit a calculation.
+`np.newaxis` does not create new numbers; it organizes how the array aligns in a calculation.
 
-## `np.newaxis` Is Often Used to Intentionally Create Broadcasting
+## Differences for Every Pair
 
-In P2-11.3, we looked at already compatible shapes such as `(4, 3)` and `(3,)`. But some calculations become easier to read only when one more axis is added on purpose.
-
-Problem situation: We separate the column direction and the row direction so that the difference between two sets can be calculated at once.
-Input: The length-3 array `a` and the length-2 array `b`.
-Expected output: Shapes `(3, 1)` and `(1, 2)` meet and produce a `(3, 2)` result.
-Concept to check: See that `np.newaxis` is a tool for shape alignment used in broadcasting.
+Subtracting both 1 and 2 from each of `[10, 20, 30]` requires a three-by-two result. Changing the input shapes to `(3, 1)` and `(1, 2)` allows broadcasting over all six pairs.
 
 ```python
-# This supplemental example checks NumPy array shape changes together with whether data is shared with the original.
 a = np.array([10, 20, 30])
 b = np.array([1, 2])
 
@@ -207,7 +101,7 @@ print(b[np.newaxis, :].shape)
 print(diff)
 ```
 
-The output is as follows.
+Output:
 
 ```text
 (3, 1)
@@ -217,66 +111,91 @@ The output is as follows.
  [29 28]]
 ```
 
-The key point of this example is shape more than value.
+The first row `[9, 8]` subtracts 1 and 2 from 10; the last row `[29, 28]` subtracts them from 30. Changing `b` to `[1, 5]` changes only the second column to `[5, 15, 25]`. Without the added axes, `a - b` fails because `(3,)` and `(2,)` are incompatible.
 
-- `a[:, np.newaxis]` is `(3, 1)`.
-- `b[np.newaxis, :]` is `(1, 2)`.
-- Through broadcasting, the two arrays produce a `(3, 2)` result.
+## Reshape and Transpose
 
-Here, understand `np.newaxis` as notation that makes the row and column roles more explicit for broadcasting.
+`reshape` groups elements into a new shape; `.T` swaps the row and column axes of a two-dimensional array. Both can produce `(3, 2)` while arranging values differently.
 
-## in Practical Code, Check Shape and Shared Origin Together
+```python
+matrix = np.array([[10, 11, 12], [20, 21, 22]])
+print(matrix.reshape(3, 2))
+print(matrix.T)
+```
 
-NumPy code becomes confusing because `what was selected`, `how the shape changed`, and `whether the original changes too` can all appear together on one line.
+```text
+[[10 11]
+ [12 20]
+ [21 22]]
+[[10 20]
+ [11 21]
+ [12 22]]
+```
 
-For example, the following reading habit is safer.
+If original rows represent students, columns represent students after transposition. `reshape(3, 2)` does not preserve that meaning automatically. A one-dimensional `(3,)` array still has shape `(3,)` after `.T`. Use `[:, np.newaxis]` to create a column-vector shape.
 
-1. Did this code cut a range, gather positions, or filter by condition?
-2. What is the resulting `shape`?
-3. Is there any chance the values will be modified later?
-4. If the original must be preserved, is `.copy()` needed?
+`reshape` returns a view when possible, but memory layout can require a copy. This small example checks actual data sharing.
 
-This judgment matters especially in data preprocessing. Whether you created a new dataset from selected samples or directly modified part of an existing array can change how an experiment result should be interpreted.
+```python
+matrix = np.array([[10, 11, 12], [20, 21, 22]])
+reshaped = matrix.reshape(3, 2)
+transposed_flat = matrix.T.reshape(-1)
 
-If you tie this flow together at once, it becomes the following.
+print(np.shares_memory(matrix, reshaped))
+print(np.shares_memory(matrix, transposed_flat))
+```
+
+Outputs are `True` and `False`. A `-1` dimension asks NumPy to infer that length from the element count. Flattening this transposed array in the default order requires copying. Do not assume every reshape is a view or every reshape a copy. Use `.copy()` explicitly when editing must preserve the original.
+
+## Case: Adjusting Only Selected Scores
+
+Select positions 1 through 3 from `[82, 75, 45, 90, 61]` and add 10. Editing a slice directly also changes the original. Copy the selection with `.copy()` to compare original and adjusted values independently.
+
+```python
+scores = np.array([82, 75, 45, 90, 61])
+adjusted = scores[1:4].copy()
+adjusted += 10
+
+print(scores)
+print(adjusted)
+```
+
+```text
+[82 75 45 90 61]
+[ 85  55 100]
+```
+
+Remove `.copy()` and rerun the whole example: the original becomes `[82, 85, 55, 100, 61]`. If the intended “before” data changes too, a before-and-after comparison no longer uses the original baseline.
+
+Condition selection produces a copy when **reading into a new variable**. Direct assignment such as `scores[scores < 60] = 60` changes those positions in the original. Reading `low = scores[scores < 60]` and then assigning `low[:] = 60` leaves the original unchanged.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow-en.mmd"
 ```
 
-The minimum sentence the reader should keep here is the following.
+## Example Code File
 
-- `How it was selected changes shared origin, and how shape was changed changes broadcasting direction.`
+Run the examples in order to compare changes to the original array and its shape.
 
-## Where Should You Return?
+- [p2_11_4_views_shapes.py](/AiBook/assets/part-02/chapter-11/p2_11_4_views_shapes.py)
 
-After reading this Section, reconnect it to the following main text.
-
-| Question to read again now | Main text to return to first |
-| --- | --- |
-| Which value or range was selected? | P2-11.2 Indexing, Slicing, and Axis |
-| Why does whole-array calculation change according to shape? | P2-11.3 Broadcasting and Vectorization |
-| If the intuition of shared origin itself still feels unfamiliar | P2-8.7 references, shallow copy, deep copy |
-
-## Short Return Table
-
-| When you get stuck | Where to return first |
-| --- | --- |
-| Indexing, slicing, and axis themselves are still confusing | `P2-11.2` |
-| Why the broadcasting direction changes is still vague | `P2-11.3` |
-| Why the original and the copied result can change together still feels unfamiliar | `P2-8.7` |
+```bash
+python docs/assets/part-02/chapter-11/p2_11_4_views_shapes.py
+```
 
 ## Checklist
 
-- Can you explain the difference between `x[1:4]` and `x[[1, 3, 4]]`?
-- Can you explain what a boolean mask chooses?
-- Can you explain the difference among `(3,)`, `(3, 1)`, and `(1, 3)`?
-- Can you explain why `np.newaxis` is connected to broadcasting?
-- Do you remember that when preserving the original matters, `.copy()` should be checked first?
-- Can you explain that when reading NumPy code, you should check `shape` and shared-origin status together rather than only the values?
+- Can you distinguish `x[1:4]` from `x[[1, 3, 4]]`?
+- Can you explain what a boolean mask selects?
+- Can you distinguish `(3,)`, `(3, 1)`, and `(1, 3)`?
+- Can you explain how `np.newaxis` supports broadcasting?
+- Do you check whether a copy is needed to preserve original data?
+- Can you inspect both shape and data sharing when reading NumPy code?
+- Can you distinguish reshape from transpose and check shared storage with `np.shares_memory`?
 
 ## Sources and References
 
-- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the basis for the difference between views and copies, basic-indexing views, advanced-indexing copies, and `.base` checks.
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm that selection method affects shape and whether original data is shared.
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the basis for connecting `np.newaxis` and shape adjustment to broadcasting.
+- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used as the basis for the difference between views and copies, basic-indexing views, advanced-indexing copies, and `.base` checks.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used to confirm that selection method affects shape and whether original data is shared.
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, checked on 2026-07-20. Used as the basis for connecting `np.newaxis` and shape adjustment to broadcasting.
+- NumPy Developers, [numpy.shares_memory](https://numpy.org/doc/stable/reference/generated/numpy.shares_memory.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, accessed: 2026-09-15. shared-memory checks for the small array examples.

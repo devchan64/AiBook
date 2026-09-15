@@ -1,7 +1,7 @@
 # P2-11.2 인덱싱(indexing), 슬라이싱(slicing), 축(axis)
 
 > Section ID: `P2-11.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 위치 선택
 
@@ -28,8 +28,6 @@ print(scores[2])
 ```
 
 `scores[0]`은 첫 번째 값입니다. `scores[2]`는 세 번째 값입니다. Python과 NumPy에서는 보통 첫 위치를 1이 아니라 0으로 셉니다.
-
-이 점은 자주 헷갈립니다.
 
 | 표현 | 읽는 법 | 결과 |
 | --- | --- | --- |
@@ -111,7 +109,9 @@ print(scores[1:3])
 
 아래 도식은 `start:stop:step` 표기를 한 줄 배열에서 어떻게 읽는지 보여 줍니다.
 
-![Slice notation selects a range from start to stop before the stop position](../../../assets/part-02/chapter-11/slice-start-stop-step-ko.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/slice-start-stop-step-ko.mmd"
+```
 
 여기서 중요한 점은 `stop` 위치의 값은 선택되지 않는다는 것입니다. `scores[1:5:2]`는 1번 위치에서 시작해 5번 위치 전까지 보되, 두 칸씩 이동합니다.
 
@@ -165,9 +165,26 @@ print(data[:, 3])
 
 아래 도식은 같은 배열을 인덱싱, 행 슬라이싱, 열 슬라이싱으로 다르게 읽는 상황을 보여 줍니다.
 
-![Indexing, slicing, and axis read different parts of the same array](../../../assets/part-02/chapter-11/index-slice-axis-map-ko.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/index-slice-axis-map-ko.mmd"
+```
 
-이 도식에서 파란색은 하나의 값, 초록색은 한 행, 주황색은 한 열을 강조합니다. 모두 같은 배열에서 나온 선택입니다.
+하나의 값, 한 행, 한 열을 선택하는 코드는 서로 다른 결과 모양을 만듭니다. 모두 같은 배열에서 나온 선택입니다.
+
+## 정수 선택과 축 유지
+
+`data[1, :]`는 한 행을 고르며 행 축을 없앱니다. `data[1:2, :]`는 한 행짜리 구간을 남기므로 길이 1인 행 축을 유지합니다. 값이 같아 보여도 뒤 연산에 전달되는 모양은 다릅니다.
+
+```python
+print(data[1, :].shape)
+print(data[1:2, :].shape)
+print(data[:, 2].shape)
+print(data[:, 2:3].shape)
+```
+
+출력은 `(4,)`, `(1, 4)`, `(3,)`, `(3, 1)`입니다. 뒤 계산에서 행과 열을 모두 유지해야 한다면 한 위치를 정수로 고르는 대신 길이 1인 슬라이스를 사용할 수 있습니다.
+
+존재하지 않는 행을 `data[99, :]`로 고르면 `IndexError`가 발생합니다. 반면 `data[99:, :]`는 모양 `(0, 4)`인 빈 배열을 반환합니다. 슬라이스 끝이 범위를 넘으면 가능한 구간까지만 선택하므로, 오류가 없더라도 결과에 데이터가 남았는지 확인해야 합니다.
 
 ## 부분 배열
 
@@ -231,7 +248,9 @@ print(data.sum(axis=1))
 
 아래 도식은 축에 따라 어떤 방향이 접히고 어떤 결과가 남는지 보여 줍니다.
 
-![Axis controls the direction of reduction](../../../assets/part-02/chapter-11/axis-reduction-ko.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/axis-reduction-ko.mmd"
+```
 
 중요한 점은 `axis=0`이 “0번 행을 고른다”는 뜻이 아니라는 것입니다. 인덱싱에서 `0`은 위치를 고르는 숫자입니다. 하지만 `axis=0`은 계산이 진행되는 차원을 지정합니다.
 
@@ -244,9 +263,7 @@ AI 실습에서 2차원 배열은 자주 다음처럼 읽힙니다.
 | 행(row) | 샘플(sample), 데이터 한 건 |
 | 열(column) | 특징(feature), 변수(variable) |
 
-예를 들어 다음 배열을 봅니다.
-
-샘플 세 개의 특징 두 개씩을 행렬에 담습니다. 각 행이 한 샘플이며 이 준비 코드는 출력이 없습니다.
+예를 들어 샘플 세 개의 특징 두 개씩을 행렬에 담습니다. 각 행이 한 샘플이며 이 준비 코드는 출력이 없습니다.
 
 ```python
 features = np.array([
@@ -271,8 +288,6 @@ print(features[:, 1])
 
 모델 입력에서는 각 행이 어떤 사례인지, 각 열이 어떤 특징인지 데이터 정의로 정해야 합니다. 모양만으로 축의 의미까지 알 수는 없습니다.
 
-여기서 한 번 더 짧게 다시 묶으면 다음과 같습니다.
-
 | NumPy 배열에서 보는 것 | 데이터셋 언어로 다시 읽을 때 |
 | --- | --- |
 | 한 행(row) | 샘플(sample) 한 건 |
@@ -282,7 +297,9 @@ print(features[:, 1])
 
 아래 도식은 같은 관점을 조금 더 데이터셋에 가깝게 보여 줍니다.
 
-![Rows often represent samples and columns often represent features](../../../assets/part-02/chapter-11/dataset-row-column-selection-ko.svg)
+```mermaid
+--8<-- "assets/part-02/chapter-11/dataset-row-column-selection-ko.mmd"
+```
 
 여기서 `features[1, :]`는 한 샘플의 모든 특징을 꺼내는 코드입니다. 반대로 `features[:, 1]`는 모든 샘플에서 같은 특징 하나를 꺼내는 코드입니다.
 
@@ -360,8 +377,9 @@ student totals: [240 225]
 - 행을 샘플, 열을 특징으로 읽는 데이터셋 관점을 설명할 수 있다.
 - `shape = (4, 3)`을 보면 `샘플 4개, 특징 3개`처럼 읽을 수 있다.
 - 인덱싱은 위치를 고르고, 슬라이싱은 구간을 남기며, 축은 계산 방향을 정한다는 점을 설명할 수 있다.
+- 정수 인덱스와 길이 1인 슬라이스가 만드는 `shape` 차이를 예측할 수 있는가?
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. 기본 인덱싱, 슬라이싱, 다차원 인덱스, advanced indexing과 copy/view 주의점 확인에 사용했다.
-- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. axis, broadcasting, copy, view 같은 용어를 현재 절의 용어 설명과 맞추는 근거로 사용했다.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. 기본 인덱싱, 슬라이싱, 다차원 인덱스, advanced indexing과 copy/view 주의점 확인에 사용했다.
+- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy Manual, 확인 날짜: 2026-07-20. axis, broadcasting, copy, view 같은 용어를 현재 절의 용어 설명과 맞추는 근거로 사용했다.

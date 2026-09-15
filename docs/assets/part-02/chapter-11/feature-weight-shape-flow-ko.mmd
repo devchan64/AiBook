@@ -1,0 +1,6 @@
+flowchart TD
+    a["features · 샘플 × 특징<br/>[[1.0, 0.2], [0.8, 0.4], [0.3, 0.9]]<br/>shape = (3, 2)"]
+    b["weights · 특징별 가중치<br/>[0.6, 0.4]<br/>shape = (2,)"]
+    a --> c["features @ weights<br/>(3, 2) @ (2,) → (3,)"]
+    b --> c
+    c --> d["샘플별 점수<br/>[0.68, 0.64, 0.54]"]

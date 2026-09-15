@@ -66,3 +66,18 @@ print("features[:, 1].mean() =", features[:, 1].mean())
 print("features.mean(axis=0) =", features.mean(axis=0))
 print("features.mean(axis=1) =", features.mean(axis=1))
 print("axis=0 summarizes each column; axis=1 summarizes each row.")
+
+print("Integer row vs slice row:", data[1, :].shape, data[1:2, :].shape)
+print("Integer column vs slice column:", data[:, 2].shape, data[:, 2:3].shape)
+print("Out-of-range slice:", data[99:].shape)
+try:
+    print(data[99])
+except IndexError as error:
+    print("Expected index error:", error)
+
+marks = np.array([[80, 70, 90], [60, 90, 75]])
+print("Subject sums:", marks.sum(axis=0))
+print("Student sums:", marks.sum(axis=1))
+marks[1, 1] = 100
+print("Updated subject sums:", marks.sum(axis=0))
+print("Updated student sums:", marks.sum(axis=1))
