@@ -1,19 +1,11 @@
 # P2-5.4 확률과 통계를 작은 데이터로 확인하기
 
 > Section ID: `P2-5.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
-여덟 개의 점수로 평균과 분산을 계산하고, 극단값이 들어간 데이터에서 평균과 중위값을 비교합니다. 서로 다른 표본의 평균도 계산해 표본 구성에 따른 차이를 확인합니다.
+60점 이상인 관측 비율을 계산하고, 여덟 점수의 평균·중위값·분산을 확인합니다. 극단값을 바꾸고 서로 다른 표본의 평균을 비교해, 계산값과 모집단에 대한 추정을 구분합니다.
 
 ![작은 데이터에서 원자료, 중심, 퍼짐, 표본 추정을 구분해 확인하는 흐름](../../../assets/part-02/chapter-05/small-data-statistics-check-ko.svg)
-
-## 중심과 퍼짐의 계산
-
-| 기준 | 왜 중요한가 |
-| --- | --- |
-| 코드는 개념을 숫자와 출력으로 드러낸다 | 평균, 분산, 표본 평균이 실제 계산에서 어떻게 보이는지 확인해야 개념과 출력이 연결되기 때문입니다. |
-| 평균과 중위값을 함께 본다 | 둘 다 중심을 말하지만 극단값이 있을 때 다르게 반응하기 때문입니다. |
-| 분산은 퍼짐 정보를 더한다 | 중심만으로는 데이터 성격을 다 설명할 수 없기 때문입니다. |
 
 ## 실행 환경
 
@@ -22,8 +14,6 @@
 노트북 코드 셀과 터미널의 차이는 [명령의 실행 위치](../chapter-03/section-05.md#_2)를 참고합니다. 코드 블록은 위에서부터 순서대로 실행합니다.
 
 Google Colab을 사용한다면 코드 셀에서 다음처럼 NumPy를 준비할 수 있습니다.
-
-Colab 코드 셀에서 `%pip install numpy`를 실행하면 현재 커널에 NumPy가 설치됩니다.
 
 ```python
 # Colab/Jupyter 코드 셀에서 NumPy를 설치하는 명령입니다.
@@ -78,6 +68,27 @@ print(data.size)
 
 코드는 계산을 해 주지만, 데이터가 무엇을 뜻하는지는 사람이 정해야 합니다.
 
+## 60점 이상인 비율
+
+`data >= 60`은 각 점수가 60점 이상인지 확인합니다. `True`는 조건을 만족하고, `False`는 만족하지 않는다는 뜻입니다. `np.count_nonzero`로 참인 원소를 세면 해당 점수 63·70의 개수인 2를 얻습니다.
+
+```python
+at_least_60 = data >= 60
+count_at_least_60 = np.count_nonzero(at_least_60)
+observed_ratio = count_at_least_60 / data.size
+print(at_least_60)
+print(count_at_least_60)
+print(observed_ratio)
+```
+
+```text
+[False False False  True False False False  True]
+2
+0.25
+```
+
+관측한 8개 점수 중 60점 이상은 `2 / 8 = 0.25`, 즉 25%입니다. 이 8개 중 하나를 같은 확률로 고른다면 60점 이상일 확률은 정확히 0.25입니다. 더 큰 모집단에서 60점 이상일 확률을 말하려면 이 비율을 추정값으로 사용하며, 표본의 수집 방식과 대표성을 함께 확인해야 합니다.
+
 ## 평균 계산
 
 평균(mean)은 데이터의 중심을 하나의 숫자로 요약합니다.
@@ -105,6 +116,18 @@ print(mean_value)
 ## 극단값과 중위값
 
 중위값(median)은 값을 크기순으로 정렬했을 때 가운데 값입니다. 값의 개수가 짝수이면 가운데 두 값의 평균을 사용합니다.
+
+원래 점수 8개를 정렬하면 가운데 두 값은 50과 52입니다. 중위값은 `(50 + 52) / 2 = 51`이며, 도입 도식의 중위값과 같습니다.
+
+```python
+print(np.sort(data))
+print(np.median(data))
+```
+
+```text
+[42 47 48 50 52 55 63 70]
+51.0
+```
 
 다음 데이터는 값 하나가 유난히 큽니다.
 
@@ -177,28 +200,28 @@ print(np.var(data))
 
 ## 분산의 분모와 ddof
 
-NumPy의 `np.var(data)`는 기본적으로 데이터 전체를 하나의 모집단처럼 보고 분산을 계산합니다. 이때는 값의 개수 \(N\)으로 나눕니다.
+`np.var(data)`는 관측한 값들의 제곱 편차 합을 개수 `N`으로 나눕니다. 표본에서 얻은 데이터라도, 그 데이터 묶음 자체의 퍼짐을 기술할 때는 이 계산을 사용할 수 있습니다.
 
-하지만 통계에서 표본으로 모집단 분산을 추정할 때는 \(N - 1\)로 나누는 표본 분산(sample variance)을 쓰는 경우가 많습니다. NumPy에서는 `ddof=1`을 지정해 확인할 수 있습니다.
-
-같은 `data`에 기본 설정과 `ddof=1`을 적용하면 각각 `72.984375`, `83.41071428571429`가 나옵니다. 분모가 달라지는 효과를 비교합니다.
+모집단 분산을 추정할 때 흔히 사용하는 표본분산은 같은 합을 `N − 1`로 나눕니다. NumPy에서는 `ddof=1`로 지정합니다. 독립적으로 같은 분포에서 뽑은 표본에서는, 표본 평균을 써서 제곱 편차를 계산할 때 생기는 분산 추정의 하향 편향을 이 보정으로 줄입니다.
 
 ```python
-# ddof=1은 표본 분산을 계산할 때 쓰는 설정입니다.
 print(np.var(data))
 print(np.var(data, ddof=1))
 ```
 
-출력은 `72.984375`, `83.41071428571429`입니다.
+```text
+72.984375
+83.41071428571429
+```
 
-두 값이 다르게 나옵니다. 이것은 코드가 틀렸다는 뜻이 아닙니다. “이 데이터를 전체로 볼 것인가, 표본으로 볼 것인가”라는 계산 설정이 다르기 때문입니다.
+두 계산은 같은 데이터와 제곱 편차 합 `583.875`를 사용합니다. 첫 값은 `583.875 / 8`, 두 번째 값은 `583.875 / 7`입니다. 데이터가 바뀐 것이 아니라 계산 목적에 따라 분모를 다르게 선택한 것입니다.
 
-| 계산 | 코드 | 작업용 해석 |
+| 계산 목적 | 코드 | 분모 |
 | --- | --- | --- |
-| 모집단 분산 | `np.var(data)` | 이 데이터 묶음을 전체처럼 보고 퍼짐을 계산한다. |
-| 표본 분산 | `np.var(data, ddof=1)` | 이 데이터가 표본이며, 모집단의 퍼짐을 추정한다고 보고 계산한다. |
+| 관측한 데이터 묶음 자체의 퍼짐 기술 | `np.var(data)` | `N = 8` |
+| 표본으로 모집단 분산 추정 | `np.var(data, ddof=1)` | `N − 1 = 7` |
 
-`np.var`의 분모는 `N − ddof`입니다. 데이터 묶음 자체의 퍼짐을 계산하는지, 표본에서 모집단 분산을 추정하는지에 맞춰 설정합니다.
+`np.var`의 분모는 `N − ddof`입니다. `ddof=1`은 특정 집단이 빠지거나 과하게 수집된 문제를 고치지 않습니다. 분모 보정과 표본 수집 방식의 점검은 별개입니다.
 
 ## 표본별 평균 비교
 
@@ -251,8 +274,23 @@ AI 데이터에서도 같은 태도가 필요합니다. 훈련 데이터의 평�
 
 이번에는 마지막 값을 `14`로 바꿉니다. 정렬하면 `10, 12, 13, 14, 15`이고 평균은 `12.8`, 중위값은 `13`입니다. 큰 값 하나가 평균을 얼마나 끌어올렸는지 두 출력으로 비교할 수 있습니다.
 
+원래 배열을 보존하도록 `copy()`로 복사한 뒤 마지막 원소 `[-1]`만 바꿉니다. 각 행은 바꾼 값, 평균, 중위값 순서입니다.
+
+```python
+for last_value in [1000, 14]:
+    changed_data = skewed_data.copy()
+    changed_data[-1] = last_value
+    print(last_value, np.mean(changed_data), np.median(changed_data))
+```
+
+```text
+1000 210.0 13.0
+14 12.8 13.0
+```
+
 ## 체크리스트
 
+- 관측 비율과 모집단 확률의 추정값을 구분할 수 있다.
 - 작은 데이터 목록을 NumPy 배열(array)로 만들 수 있다.
 - `np.mean`으로 평균(mean)을 계산할 수 있다.
 - `np.median`으로 중위값(median)을 계산할 수 있다.
@@ -272,3 +310,5 @@ AI 데이터에서도 같은 태도가 필요합니다. 훈련 데이터의 평�
 - NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-20. 정렬된 값의 가운데 또는 가운데 두 값의 평균으로 중위값을 계산한다는 설명 확인에 사용했다.
 - NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-20. 분산, `ddof`, 모집단 분산과 표본 분산 계산 설정 차이 확인에 사용했다.
 - Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 표본이 모집단을 대표해야 하며 표본추출 방식에 따라 변동이 생긴다는 통계적 배경 확인에 사용했다.
+
+- NumPy Developers, [numpy.count_nonzero](https://numpy.org/doc/stable/reference/generated/numpy.count_nonzero.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-09-15. 불리언 배열에서 조건을 만족하는 원소의 개수를 세는 코드 확인에 사용했다.

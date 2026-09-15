@@ -1,19 +1,11 @@
 # P2-5.4 Checking Probability and Statistics with Small Data
 
 > Section ID: `P2-5.4`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
-We calculate the mean and variance of eight scores, compare the mean and median in data containing an extreme value, and compare means from different samples to examine the effect of sample composition.
+Calculate the observed proportion of scores at least 60, then check the mean, median, and variance of eight scores. Change extreme values and compare means across samples to distinguish calculated values from estimates about a population.
 
 ![Flow for checking raw data, center, spread, and sample estimation separately on small data](/AiBook/assets/part-02/chapter-05/small-data-statistics-check-en.svg)
-
-## Calculating Center and Spread
-
-| Criterion | Why it matters |
-| --- | --- |
-| Code reveals concepts through numbers and output | We need to check how mean, variance, and sample mean actually appear in calculation so the concepts connect to output. |
-| Look at mean and median together | They both talk about the center, but they respond differently when outliers exist. |
-| Variance adds information about spread | The center alone cannot fully explain the character of the data. |
 
 ## Execution Environment
 
@@ -22,8 +14,6 @@ The code in this Section uses NumPy.
 For the difference between notebook code cells and terminals, see [Where to Run Commands](../chapter-03/section-05.en.md#_2). Run the code blocks in order from top to bottom.
 
 If you use Google Colab, you can prepare NumPy in a code cell like this.
-
-Running `%pip install numpy` in a Colab code cell installs NumPy in the current kernel.
 
 ```python
 # This command installs NumPy inside a Colab/Jupyter code cell.
@@ -78,6 +68,27 @@ At this stage, the important questions are what these numbers record, how they w
 
 Code can perform the calculation, but a person has to decide what the data means.
 
+## Proportion of Scores at Least 60
+
+`data >= 60` checks whether each score is at least 60. `True` means the condition is met; `False` means it is not. Counting the true elements with `np.count_nonzero` gives 2, corresponding to the scores 63 and 70.
+
+```python
+at_least_60 = data >= 60
+count_at_least_60 = np.count_nonzero(at_least_60)
+observed_ratio = count_at_least_60 / data.size
+print(at_least_60)
+print(count_at_least_60)
+print(observed_ratio)
+```
+
+```text
+[False False False  True False False False  True]
+2
+0.25
+```
+
+Of the eight observed scores, `2 / 8 = 0.25`, or 25%, are at least 60. If one of these eight scores is selected with equal probability, the probability of a score of at least 60 is exactly 0.25. For a larger population, this proportion is an estimate of that probability; the collection method and sample representativeness must also be checked.
+
 ## Calculating the Mean
 
 The `mean` summarizes the center of the data into one number.
@@ -105,6 +116,18 @@ Also, the mean can be shaken by one extremely large or small value. One represen
 ## Extreme Values and the Median
 
 The `median` is the middle value after sorting values in order. With an even number of values, use the mean of the two middle values.
+
+Sorting the original eight scores places 50 and 52 in the middle. Their average, `(50 + 52) / 2 = 51`, is the median shown in the opening diagram.
+
+```python
+print(np.sort(data))
+print(np.median(data))
+```
+
+```text
+[42 47 48 50 52 55 63 70]
+51.0
+```
 
 In the next data, one value is unusually large.
 
@@ -177,28 +200,28 @@ The output is `72.984375`.
 
 ## Variance Denominators and ddof
 
-By default, `np.var(data)` calculates variance by treating the whole data bundle as one population. In that case, it divides by \(N\), the number of values.
+`np.var(data)` divides the sum of squared deviations of the observed values by their count, `N`. Even when data comes from a sample, this calculation can describe the spread of that dataset itself.
 
-But in statistics, when a sample is used to estimate population variance, people often use `sample variance`, which divides by \(N - 1\). In NumPy, you can check it by specifying `ddof=1`.
-
-Applying the default setting and `ddof=1` to the same `data` gives `72.984375` and `83.41071428571429`. Compare the effect of changing the denominator.
+The sample variance commonly used to estimate population variance divides the same sum by `N − 1`. In NumPy, specify `ddof=1`. For independent samples drawn from the same distribution, this correction reduces the downward bias in variance estimation caused by using the sample mean to calculate squared deviations.
 
 ```python
-# ddof=1 is the setting used when calculating sample variance.
 print(np.var(data))
 print(np.var(data, ddof=1))
 ```
 
-The outputs are `72.984375`, `83.41071428571429`.
+```text
+72.984375
+83.41071428571429
+```
 
-The two values are different. This does not mean the code is wrong. It means the calculation setting changes depending on whether you view `this data` as the whole or as a sample.
+Both calculations use the same data and the same sum of squared deviations, `583.875`. The first value is `583.875 / 8`; the second is `583.875 / 7`. The data has not changed: the denominator was chosen for a different calculation purpose.
 
-| Calculation | Code | Working interpretation |
+| Calculation purpose | Code | Denominator |
 | --- | --- | --- |
-| population variance | `np.var(data)` | Calculate spread by viewing this data bundle as if it were the whole. |
-| sample variance | `np.var(data, ddof=1)` | Calculate by viewing this data as a sample used to estimate the spread of a population. |
+| Describe the spread of the observed dataset itself | `np.var(data)` | `N = 8` |
+| Estimate population variance from a sample | `np.var(data, ddof=1)` | `N − 1 = 7` |
 
-The denominator in `np.var` is `N − ddof`. Choose the setting according to whether you are calculating the spread of the dataset itself or estimating population variance from a sample.
+The denominator in `np.var` is `N − ddof`. Setting `ddof=1` does not fix missing or overrepresented groups. Correcting the denominator and checking the sample collection method are separate tasks.
 
 ## Comparing Sample Means
 
@@ -251,8 +274,23 @@ Change the last value in `skewed_data` from `100` to `1000` and print the mean a
 
 Now change the last value to `14`. The sorted values are `10, 12, 13, 14, 15`, with mean `12.8` and median `13`. Compare the two outputs to see how much one large value raised the mean.
 
+Copy the array with `copy()` to preserve the original, then change only its last element, `[-1]`. Each output row lists the changed value, mean, and median.
+
+```python
+for last_value in [1000, 14]:
+    changed_data = skewed_data.copy()
+    changed_data[-1] = last_value
+    print(last_value, np.mean(changed_data), np.median(changed_data))
+```
+
+```text
+1000 210.0 13.0
+14 12.8 13.0
+```
+
 ## Checklist
 
+- You can distinguish an observed proportion from an estimate of a population probability.
 - You can make a small data list as a NumPy `array`.
 - You can calculate the `mean` with `np.mean`.
 - You can calculate the `median` with `np.median`.
@@ -272,3 +310,5 @@ Now change the last value to `14`. The sorted values are `10, 12, 13, 14, 15`, w
 - NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-20. Used to confirm that the median is the middle value of a sorted copy, or the average of the two middle values for an even number of values.
 - NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-20. Used to confirm variance, `ddof`, and the difference between population-variance and sample-variance calculation settings.
 - Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-20. Used to confirm the statistical background that samples should represent the population and that sampling methods can introduce variation.
+
+- NumPy Developers, [numpy.count_nonzero](https://numpy.org/doc/stable/reference/generated/numpy.count_nonzero.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-09-15. Used to verify counting elements that satisfy a condition in a Boolean array.
