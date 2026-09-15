@@ -45,7 +45,7 @@ _副标题: 把同一事件切成多个窗口时，为什么样本数会看起�
 
 问题情境：确认当重叠输入窗口很多时，如果把窗口数和源事件数当成同一个数字去读，会产生什么错觉。
 
-输入(input)：源事件表 [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv)，以及要实验的移动间隔 `stride_to_try`。这张表中的一行就是一个源事件，并包含事件长度(`length`)和窗口长度(`window`)。
+输入(input)：源事件表 [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv){ .csv-preview }，以及要实验的移动间隔 `stride_to_try`。这张表中的一行就是一个源事件，并包含事件长度(`length`)和窗口长度(`window`)。
 
 期望输出(output)：显示每个事件会扩展成多少个窗口，以及 `window` 数相对 `source_event` 数放大了多少。改变 `stride_to_try` 时，窗口数和扩展比例也会改变。
 

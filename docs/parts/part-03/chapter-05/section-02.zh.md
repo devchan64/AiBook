@@ -56,7 +56,7 @@
 
 问题情境：确认即使整体平均值看起来相同，只要分段流动不同，就应该读作不同的运行结构。
 
-输入(input)：[`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){: target="_blank" rel="noopener noreferrer" } 文件。一行是一条动作汇总行，`early_flow_mean`、`mid_flow_mean`、`late_flow_mean` 是三个区间平均值。把多大的差异视为模式变化，由 `pattern_change_threshold` 控制。
+输入(input)：[`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){ .csv-preview } 文件。一行是一条动作汇总行，`early_flow_mean`、`mid_flow_mean`、`late_flow_mean` 是三个区间平均值。把多大的差异视为模式变化，由 `pattern_change_threshold` 控制。
 
 期望输出(output)：即使 `overall_mean` 相同，区间差异和 `pattern_note` 仍然不同的输出。改变 `pattern_change_threshold` 时，被读作模式的差异大小也会改变。
 

@@ -1,7 +1,7 @@
 # P3-5.5 값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 원천 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계까지 오면, `동작은 있었는데 일부 센서값이 비어 있으면 어떻게 해야 하는가?` `중간 구간 기록이 빠졌는데 이 샘플을 버려야 하는가, 일부만 써야 하는가?` 같은 질문이 바로 생깁니다. 이때 먼저 봐야 할 것은 값을 어떻게 채울지보다, [결측값(missing value)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-missing-value)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 경계와 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 의미를 얼마나 흔드는가입니다.
 
@@ -66,6 +66,8 @@
 
 이 도식은 `비어 있음`을 하나의 상태로 보지 않고, 누락 위치와 샘플 경계 상태에 따라 판단이 갈라진다는 점을 보여 줍니다. 즉 이 절의 예시는 값 자체보다 `유지`, `특징 제외`, `구조 붕괴`로 나뉘는 판단 구조를 먼저 드러내는 데 있습니다.
 
+결측을 0으로 바꾸기 전에 0의 뜻부터 확인해야 합니다. 유량 0은 실제로 흐름이 멈춘 측정이고, 결측은 측정하지 못했다는 상태입니다. 관측값이 2와 4이고 세 번째 값이 빠졌다면 관측값 평균은 3입니다. 빈칸을 0으로 채운 평균 2는 다른 가정을 넣은 결과입니다. 또한 누락 샘플을 제외하면 특정 운전 조건만 사라질 수 있으므로 제외 전후의 조건별 건수도 함께 남깁니다.
+
 ## 빠짐 자체를 왜 열로 남길 수 있는가
 
 흔히 `빈칸은 없애야 한다`고만 생각하지만, 실제로는 빠짐 자체가 의미를 가질 수 있습니다.
@@ -84,7 +86,7 @@
 
 문제 상황: 값이 비어 있는 샘플이 모두 같은 상태가 아니라, 일부 특징만 피하면 되는 경우와 샘플 구조 자체가 무너진 경우가 갈린다는 점을 확인합니다.
 
-입력(input): [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){: target="_blank" rel="noopener noreferrer" } 파일. 한 행은 동작 1회의 요약 행이고, 빈 값은 해당 구간 평균이 만들어지지 않았다는 뜻입니다. 부분 누락 샘플 유지 정책은 `keep_partial_samples`로 조작합니다.
+입력(input): [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview } 파일. 한 행은 동작 1회의 요약 행이고, 빈 값은 해당 구간 평균이 만들어지지 않았다는 뜻입니다. 부분 누락 샘플 유지 정책은 `keep_partial_samples`로 조작합니다.
 
 기대 출력(output): `late_segment_missing`, `sample_structure_broken`, `keep_sample`, `avoid_features`가 함께 정리된 출력. `keep_partial_samples`를 바꾸면 일부 구간만 빠진 샘플의 유지 여부가 달라진다.
 
@@ -209,10 +211,8 @@ avoid=none: 12
 
 ## 체크리스트
 
-- 이 절의 질문인 `값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가`에 대해 한 문장으로 답할 수 있는가?
-- `결측과 빈 구간을 샘플 유지 여부 판단과 연결해 다뤄야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 실제 0과 결측을 다르게 처리한 평균을 계산했는가?
+- 불완전 샘플 제외로 어떤 운영 조건이 덜 남을지 확인했는가?
 
 ## 출처와 참고 자료
 

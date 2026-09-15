@@ -194,7 +194,7 @@ Input:
 
 - operation-memo sequences with the same final confirmation phrase
 - sensor sequences with the same final temperature `80`
-- input file: [`rnn-sequence-events.csv`](/AiBook/assets/part-05/chapter-12/rnn-sequence-events.csv)
+- input file: [`rnn-sequence-events.csv`](/AiBook/assets/part-05/chapter-12/rnn-sequence-events.csv){ .csv-preview }
 
 Output:
 

@@ -45,7 +45,7 @@ The small example below makes the point clearer.
 
 Problem situation: check what illusion appears if the number of windows and the number of source events are read as the same number when many input windows overlap.
 
-Input: the source-event table [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv) and the movement interval to test, `stride_to_try`. Each row in this table is one source event, with an event length (`length`) and window length (`window`).
+Input: the source-event table [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv){ .csv-preview } and the movement interval to test, `stride_to_try`. Each row in this table is one source event, with an event length (`length`) and window length (`window`).
 
 Expected output: output showing how many windows each event expands into and how much larger the `window` count becomes than the `source_event` count. If `stride_to_try` changes, the window count and expansion ratio also change.
 

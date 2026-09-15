@@ -84,7 +84,7 @@ Once this judgment is made first, we stop mixing together `values that can be fi
 
 Problem situation: check that not all samples with missing values are in the same state; some only require avoiding certain features, while others have their sample structure itself broken.
 
-Input: the [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){: target="_blank" rel="noopener noreferrer" } file. One row is one action-summary row, and an empty value means that the segment average could not be produced. The policy for keeping partially missing samples is controlled by `keep_partial_samples`.
+Input: the [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview } file. One row is one action-summary row, and an empty value means that the segment average could not be produced. The policy for keeping partially missing samples is controlled by `keep_partial_samples`.
 
 Expected output: output that organizes `late_segment_missing`, `sample_structure_broken`, `keep_sample`, and `avoid_features` together. If `keep_partial_samples` changes, the keep/drop decision for rows with only partial segment missingness changes.
 

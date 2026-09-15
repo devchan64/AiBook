@@ -146,6 +146,7 @@
   color: var(--md-default-fg-color--light);
   font-size: 0.68rem;
   margin: 0.25rem 0;
+  overflow-wrap: anywhere;
 }
 
 .md-typeset .aibook-csv-preview__table-wrap {
@@ -502,5 +503,19 @@
 
   .md-footer__link--next .md-footer__title {
     text-align: right;
+  }
+}
+
+/* Keep CSV previews usable on narrow screens and touch devices. */
+.md-typeset .aibook-csv-preview__panel,
+.md-typeset .aibook-csv-preview__body {
+  min-width: 0;
+  max-width: 100%;
+}
+@media (pointer: coarse), (max-width: 600px) {
+  .md-typeset .aibook-csv-preview__toggle {
+    min-height: 44px;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
   }
 }

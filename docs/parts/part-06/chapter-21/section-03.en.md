@@ -54,7 +54,7 @@ Depending on model libraries, hardware, and computation methods, identical pixel
 
 The CSV below is a minimal template with one run per row. Add image storage paths or detailed human-review notes as needed, while retaining both the changed value and the fixed values in the comparison.
 
-[P6-21.3 Run Record CSV Template](../../../assets/part-06/chapter-21/p6-21-3-diffusion-test-record-template.csv)
+[P6-21.3 Run Record CSV Template](/AiBook/assets/part-06/chapter-21/p6-21-3-diffusion-test-record-template.csv){ .csv-preview }
 
 After filling in the records, explain the result by answering these three questions.
 

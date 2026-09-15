@@ -54,7 +54,7 @@ The next example shows how a raw log leads first to an action-level summary tabl
 
 Problem situation: check in one view how a raw log becomes an `action-level summary table` and then a `recent/baseline aggregate table`.
 
-Input: the [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){: target="_blank" rel="noopener noreferrer" } file. One row is a `flow` record measured in one progress segment of one action, and `window` marks whether the event belongs to the baseline or recent range.
+Input: the [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){ .csv-preview } file. One row is a `flow` record measured in one progress segment of one action, and `window` marks whether the event belongs to the baseline or recent range.
 
 Expected output: an output in which the three tables `raw`, `summary`, and `aggregate` have different row meanings and different comparison roles
 

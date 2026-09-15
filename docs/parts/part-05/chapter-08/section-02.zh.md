@@ -137,7 +137,7 @@ dropout 处理这个问题的方式如下。
 
 输入：
 
-- dropout mask 日志 CSV：[`dropout-training-path-log.csv`](/AiBook/assets/part-05/chapter-08/dropout-training-path-log.csv)
+- dropout mask 日志 CSV：[`dropout-training-path-log.csv`](/AiBook/assets/part-05/chapter-08/dropout-training-path-log.csv){ .csv-preview }
 - `step`：应用 dropout 的训练 step
 - `node`、`activation`：隐藏节点和 dropout 前的 activation value
 - `train_mask`、`train_value`、`eval_value`：训练模式 mask、训练模式值、评估模式值

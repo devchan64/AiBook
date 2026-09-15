@@ -105,7 +105,7 @@ for case_name in case_order:
     print("---")
 ```
 
-这段代码会读取 [`deep-scale-activation-log.csv`](/AiBook/assets/part-05/chapter-08/deep-scale-activation-log.csv) 里记录的 36 个值，并按 case 和 layer 重新计算范围与 variance。它并不是在实现`一个完整的真实神经网络层`，而是一个压缩实验，只想看：`权重尺度在穿过层时，会把数值范围和 variance 推向哪里。` 因此，我们首先要看的不是精确训练成绩，而是`重复计算与尺度累积的方向`。
+这段代码会读取 [`deep-scale-activation-log.csv`](/AiBook/assets/part-05/chapter-08/deep-scale-activation-log.csv){ .csv-preview } 里记录的 36 个值，并按 case 和 layer 重新计算范围与 variance。它并不是在实现`一个完整的真实神经网络层`，而是一个压缩实验，只想看：`权重尺度在穿过层时，会把数值范围和 variance 推向哪里。` 因此，我们首先要看的不是精确训练成绩，而是`重复计算与尺度累积的方向`。
 
 输出示例如下。
 

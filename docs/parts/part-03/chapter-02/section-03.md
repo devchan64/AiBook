@@ -1,7 +1,7 @@
 # P3-2.3 새 표를 처음 받으면 무엇부터 적어야 하는가
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 새 표를 처음 받으면 많은 경우 바로 평균, 분포, 모델 후보부터 떠올리기 쉽습니다. 하지만 그보다 먼저 적어야 하는 것은 `이 표의 한 행은 무엇인가`, `무엇을 묶을 수 있는가`, `무엇이 아직 빠져 있는가`입니다. 이 세 가지가 정리되어야 지금 손에 있는 것이 바로 비교할 샘플 표인지, 아니면 다시 묶어야 할 원시 기록인지 구분할 수 있습니다. 새 표를 보자마자 `학습용 데이터셋인가`를 먼저 결정하기보다, 이 세 가지를 메모해 두는 편이 해석에 도움이 됩니다. 이렇게 적어 두면 뒤의 샘플 설계와 데이터셋 재설계도 훨씬 덜 추상적으로 바뀝니다.
 
@@ -88,7 +88,7 @@
 
 문제 상황: 새 로그 표를 받았을 때, 이 표를 바로 샘플 비교 표로 읽어도 되는지 확인합니다.
 
-입력(input): [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv)에 저장된 원시 로그 표와 비교 가능한 사건으로 볼 최소 행 수 `minimum_rows_per_event`
+입력(input): [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv){ .csv-preview }에 저장된 원시 로그 표와 비교 가능한 사건으로 볼 최소 행 수 `minimum_rows_per_event`
 
 기대 출력(output): 같은 표라도 `행 의미`, `묶음 기준`, `시간/순서 열`을 먼저 확인해야 아직 바로 비교할 수 없는 표라는 점이 드러납니다. `minimum_rows_per_event`를 바꾸면 어떤 사건이 충분한 기록을 가진 후보인지도 달라집니다.
 
@@ -120,7 +120,12 @@ for row in rows:
 print("1) quick structural check")
 print(f"row_count: {len(rows)}")
 print(f"event_id_count: {len(events)}")
-print("has_time_order: yes")
+has_time_order = all(
+    all(a["elapsed_seconds"] < b["elapsed_seconds"]
+        for a, b in zip(event_rows, event_rows[1:]))
+    for event_rows in events.values()
+)
+print(f"has_time_order: {'yes' if has_time_order else 'no'}")
 print()
 
 print("2) repeated rows per event")
@@ -188,10 +193,8 @@ C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
 
 ## 체크리스트
 
-- 이 절의 질문인 `새 표를 처음 받으면 무엇부터 적어야 하는가`에 대해 한 문장으로 답할 수 있는가?
-- `새 표를 처음 받았을 때 무엇부터 읽고 적어야 하는지 점검 순서를 남겨야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- CSV의 한 행 의미와 event_id별 기록 수를 확인했는가?
+- 시간 열이 존재하는 것과 실제로 순서가 맞는 것을 구분하고, 최소 기록 수를 바꾼 결과를 설명했는가?
 
 ## 출처와 참고 자료
 

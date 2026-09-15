@@ -1,7 +1,7 @@
 # P5-7.3 적응형 업데이트의 직관: Adam을 예로
 
 > Section ID: `P5-7.3`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
 P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보폭이 어떻게 달라지는지 보았습니다. 여기서 바로 다음 질문이 생깁니다. 그 보폭을 모든 파라미터에 언제나 같은 방식으로 적용해도 충분한가?
 
@@ -112,7 +112,7 @@ P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보�
 
 ## 연습 및 예제
 
-이제 예제로 바로 넘어가면 됩니다. 이번 절의 예제는 `진짜 Adam 전체 구현`이 아니라, 적응형 업데이트의 핵심 직관을 분리해서 보는 단순화 예제입니다. 예제 데이터는 [optimizer-gradient-history.csv](../../../assets/part-05/chapter-07/optimizer-gradient-history.csv)에 있습니다. 이 파일에는 12개 step 동안 세 파라미터가 받은 gradient 흐름이 들어 있습니다. 하나는 큰 gradient가 꾸준히 줄어드는 좌표, 하나는 작은 gradient가 꾸준히 줄어드는 좌표, 하나는 방향이 계속 흔들리는 좌표입니다.
+이제 예제로 바로 넘어가면 됩니다. 이번 절의 예제는 `진짜 Adam 전체 구현`이 아니라, 적응형 업데이트의 핵심 직관을 분리해서 보는 단순화 예제입니다. 예제 데이터는 [optimizer-gradient-history.csv](../../../assets/part-05/chapter-07/optimizer-gradient-history.csv){ .csv-preview }에 있습니다. 이 파일에는 12개 step 동안 세 파라미터가 받은 gradient 흐름이 들어 있습니다. 하나는 큰 gradient가 꾸준히 줄어드는 좌표, 하나는 작은 gradient가 꾸준히 줄어드는 좌표, 하나는 방향이 계속 흔들리는 좌표입니다.
 
 입력:
 

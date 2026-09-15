@@ -1,11 +1,11 @@
 # Part 3 마무리
 
 > Section ID: `P3-summary`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
-이 Part에서는 [데이터 모델링(data modeling)](../../reference/concept-glossary-parts/03-digeut.md#data-modeling)을 저장 구조 설명이 아니라 문제 표현 구조 설계로 읽었습니다. 핵심은 [원천데이터(source data)](../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)가 곧바로 [데이터셋(dataset)](../../reference/concept-glossary-parts/03-digeut.md#glossary-dataset)이 아니라는 점입니다. Part 2와 Part 3은 함께 기본기 점검 구간을 이루며, Part 3은 그중 `데이터과학 문제 구조 복구`를 맡습니다. 먼저 데이터 모델링의 목표와 범위를 고정하고, 저장된 기록을 데이터셋 후보로 다시 읽고, 샘플과 표 구조를 정하고, [특징(feature)](../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)과 [기준선(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline)을 설계하고, 해석 경계를 세운 뒤에야 뒤의 머신러닝 설명이 제대로 읽힙니다.
+이 Part에서는 [데이터 모델링(data modeling)](../../reference/concept-glossary-parts/03-digeut.md#data-modeling)을 저장 구조 설명이 아니라 문제 표현 구조 설계로 읽었습니다. 핵심은 [원천데이터(source data)](../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)도 [데이터셋(dataset)](../../reference/concept-glossary-parts/03-digeut.md#glossary-dataset)이지만, 특정 분석 목적에 맞는 입력으로 쓰려면 샘플과 열의 의미를 확인해야 한다는 점입니다. Part 2와 Part 3은 함께 기본기 점검 구간을 이루며, Part 3은 그중 `데이터과학 문제 구조 복구`를 맡습니다. 먼저 데이터 모델링의 목표와 범위를 고정하고, 저장된 기록을 데이터셋 후보로 다시 읽고, 샘플과 표 구조를 정하고, [특징(feature)](../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)과 [기준선(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline)을 설계하고, 해석 경계를 세운 뒤에야 뒤의 머신러닝 설명이 제대로 읽힙니다.
 
-이 마무리 페이지의 재점검 계획은 `무엇을 한 샘플로 보았는가`, `어떤 특징과 기준선을 남겼는가`, `어디까지 비교 리포트로 두었는가`, `무엇을 학습 문제 후보로 올렸는가`를 다시 묶는 것입니다. 이 네 질문이 정리되어야 Part 4의 학습·평가 설명이 데이터 구조 위에 놓입니다.
+마지막으로 확인할 것은 `무엇을 한 샘플로 보았는가`, `어떤 특징과 기준선을 남겼는가`, `어디까지 비교 리포트로 두었는가`, `무엇을 학습 문제 후보로 올렸는가`를 다시 묶는 것입니다. 이 네 질문이 정리되어야 Part 4의 학습·평가 설명이 데이터 구조 위에 놓입니다.
 
 대표 사례는 자동으로 실행되는 동작 1회가 있고, 그 안에 제어 파라미터 시계열과 센서 시계열이 남으며, 여러 동작을 최근 구간과 기준선으로 다시 비교하는 구조입니다. Part 3은 이 구조를 사람이 읽고 모델이 이어받을 수 있는 표 구조로 바꾸는 과정을 설명했습니다.
 
@@ -44,6 +44,17 @@ Part 3이 끝나면 남는 것은 `아무 표나`가 아닙니다. 샘플 단위
 - 어디까지의 정보를 보고 언제의 결과를 맞히는지 시간축이 분명한가
 
 이 전제가 분명하면 이후의 학습 설명도 `정리된 문제 구조 위에서 무엇을 배우는가`라는 질문으로 자연스럽게 이어집니다. 즉 Part 3의 역할은 다음 Part를 미리 설명하는 것이 아니라, 현재 데이터와 문제를 흔들리지 않는 구조로 정리해 두는 데 있습니다.
+
+## 한 장의 설계 메모로 마무리하기
+
+`최근 동작 중 먼저 검토할 10건을 고른다`는 질문으로 다음 메모를 작성해 보세요.
+
+1. 동작 식별자와 시작·종료 기준을 적고, 기록이 빠진 동작을 어떻게 표시할지 정합니다.
+2. 남길 특징 두 개의 계산법과 단위를 쓰고, 비교할 기준선의 기간·운전 조건을 정합니다.
+3. 후보 순위와 근거를 담은 출력 행을 하나 그립니다. 점수와 실제 검토 결과는 서로 다른 열에 둡니다.
+4. 질문을 `다음 7일 안 고장 발생을 예측한다`로 바꾸면 추가로 필요한 예측 시점, 결과 관측 기간, 확정 라벨을 적습니다.
+
+첫 질문에는 확정 고장 라벨 없이도 비교 규칙으로 검토 큐를 만들 수 있습니다. 두 번째 질문은 실제 결과를 확인할 수 있는 기간과 라벨이 필요합니다. 이 차이를 설명하고 관측 미완료를 0으로 채우지 않았다면, 비교 산출물과 예측 문제의 경계를 구분한 것입니다.
 
 ## 출처와 참고 자료
 

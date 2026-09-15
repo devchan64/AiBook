@@ -84,7 +84,7 @@
 
 问题情境：确认带有缺失值的样本并不都处于同一种状态；有些只是需要避开特定特征，有些则是样本结构本身已经坏掉了。
 
-输入(input)：[`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){: target="_blank" rel="noopener noreferrer" } 文件。一行是一条动作汇总行，空值表示该区间平均值没有生成出来。部分缺失样本是否保留，由 `keep_partial_samples` 控制。
+输入(input)：[`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview } 文件。一行是一条动作汇总行，空值表示该区间平均值没有生成出来。部分缺失样本是否保留，由 `keep_partial_samples` 控制。
 
 期望输出(output)：把 `late_segment_missing`、`sample_structure_broken`、`keep_sample`、`avoid_features` 一起整理出来的输出。改变 `keep_partial_samples` 时，只存在部分区间缺失的样本是否保留也会改变。
 

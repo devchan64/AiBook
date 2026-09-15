@@ -54,7 +54,7 @@
 
 问题情境：一次性查看原始日志如何先变成 `动作级汇总表`，再变成 `近期/基准线聚合表`。
 
-输入(input)：[`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){: target="_blank" rel="noopener noreferrer" } 文件。一行表示一次动作中一个进度区间里的 `flow` 测量记录，`window` 表示该动作属于基准线区间还是近期区间。
+输入(input)：[`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){ .csv-preview } 文件。一行表示一次动作中一个进度区间里的 `flow` 测量记录，`window` 表示该动作属于基准线区间还是近期区间。
 
 期望输出(output)：`raw`、`summary`、`aggregate` 三张表分别具有不同的行含义与比较角色
 

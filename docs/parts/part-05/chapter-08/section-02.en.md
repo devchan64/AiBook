@@ -137,7 +137,7 @@ The goal of this example is to confirm directly that during training dropout mak
 
 Input:
 
-- Dropout mask log CSV: [`dropout-training-path-log.csv`](/AiBook/assets/part-05/chapter-08/dropout-training-path-log.csv)
+- Dropout mask log CSV: [`dropout-training-path-log.csv`](/AiBook/assets/part-05/chapter-08/dropout-training-path-log.csv){ .csv-preview }
 - `step`: the training step where dropout was applied
 - `node`, `activation`: the hidden node and its activation value before dropout
 - `train_mask`, `train_value`, `eval_value`: the training-mode mask, training-mode value, and evaluation-mode value

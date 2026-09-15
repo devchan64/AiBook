@@ -1,7 +1,7 @@
 # P3-6.5 서로 단위와 크기가 다른 특징은 어떻게 함께 읽고 남기는가
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)을 몇 개 만들고 나면 다시 이런 혼동을 겪기 쉽습니다. `값이 큰 열이 더 중요한가?`, `초 단위와 압력 단위를 같은 표에 둬도 되는가?`, `평균이 200인 열과 0.2인 열을 그냥 나란히 비교해도 되는가?` 여기서 먼저 필요한 것은 숫자 크기보다 단위, 범위, 변동 폭, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 대비 변화를 구분해 읽는 감각입니다.
 
@@ -70,14 +70,16 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 | 이 열이 보여 주는 구조 | 수준, 방향, 흔들림, 지속 시간 |
 | 비교 기준 | 절대값 자체인지, 기준선 대비 차이인지 |
 
+다음 표에서는 압력을 kPa, 유량을 L/min으로 측정했다고 가정합니다. 표준편차는 원래 값과 같은 단위이고, 초당 기울기는 원래 값의 단위를 초로 나눈 단위입니다.
+
 예를 들면 이렇게 적을 수 있습니다.
 
 | 열 이름 | 단위/뜻 | 구조 역할 | 비교 방식 |
 | --- | --- | --- | --- |
 | `duration_seconds` | 초 | 지속 시간 | 평소보다 길어졌는가 |
-| `pressure_mean` | 압력 수준 | 평균 수준 | 기준선과 차이가 큰가 |
-| `flow_std` | 변동성 | 흔들림 | 평소보다 흔들림이 커졌는가 |
-| `late_drop_rate` | 변화율 | 후반 붕괴 속도 | 후반 기울기가 더 가팔라졌는가 |
+| `pressure_mean` | kPa | 평균 수준 | 기준선과 차이가 큰가 |
+| `flow_std` | L/min | 흔들림 | 평소보다 흔들림이 커졌는가 |
+| `late_drop_rate` | L/min/s | 후반 유량 변화 속도 | 후반 기울기가 더 가팔라졌는가 |
 
 이 표가 있으면 `무슨 숫자인지`와 `어떻게 읽을지`가 함께 고정됩니다.
 
@@ -175,6 +177,8 @@ with scaling prediction: 1
 
 스케일 조정 전에는 `duration_seconds=44`가 같은 A가 가장 가깝게 잡힙니다. 하지만 압력 변화와 유량 변동성 변화까지 같은 눈금으로 맞추면 B가 더 가까운 사례로 바뀝니다. 이 출력은 `값이 큰 열이 더 중요하다`가 아니라, 거리 기반 모델에서는 큰 범위의 열이 계산을 지배할 수 있음을 보여 줍니다. 그래서 Part 3에서는 모델 공식을 자세히 배우기 전에도, 각 특징의 단위와 범위, 비교 방식을 먼저 적어 두어야 합니다.
 
+이 예제의 표준화는 학습 묶음의 평균과 표준편차로 각 열의 눈금을 바꾸는 것입니다. 모든 특징이 똑같이 중요하다고 증명하거나 예측 향상을 보장하지는 않습니다. 새 샘플에도 학습 묶음에서 정한 변환을 그대로 적용하며, 새 샘플까지 섞어 평균과 표준편차를 다시 구하지 않습니다.
+
 따라서 특징 표는 숫자 크기 경쟁표가 아니라, 서로 다른 측정 축을 역할별로 나란히 두고 읽는 구조로 이해해야 합니다.
 
 ## 작은 도식으로 보기
@@ -185,13 +189,13 @@ with scaling prediction: 1
 
 ## 체크리스트
 
-- 이 절의 질문인 `서로 단위와 크기가 다른 특징은 어떻게 함께 읽고 남기는가`에 대해 한 문장으로 답할 수 있는가?
-- `단위와 크기가 다른 특징을 함께 읽고 남기는 기본 원칙을 제시해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 특징마다 물리 단위와 계산 분모를 적었는가?
+- 표준화 기준을 학습 데이터에서만 계산해야 하는 이유를 설명했는가?
 
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 prediction에 쓰는 input variable로 설명하므로, 특징은 숫자 크기 자체보다 무엇을 입력 변수로 재고 있는지가 먼저 중요하다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. 원시 데이터를 학습에 더 유용한 형태로 바꾸는 과정을 설명하므로, 시간 길이, 수준, 변동성, 변화율처럼 서로 다른 역할의 특징을 구분해 읽어야 한다는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 비교는 같은 항목을 기준 시점과 나란히 놓을 때 성립한다는 일반 reference 개념을 제공하므로, 서로 다른 특징끼리 직접 크기 비교하기보다 같은 열의 기준선 대비 변화로 읽어야 한다는 설명에 참고할 수 있습니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }. 전처리 기준을 학습 데이터에서만 계산하는 원칙를 확인했다. 확인일: 2026-09-15.

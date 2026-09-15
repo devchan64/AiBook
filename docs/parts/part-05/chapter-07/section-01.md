@@ -1,7 +1,7 @@
 # P5-7.1 옵티마이저(optimizer)의 역할
 
 > Section ID: `P5-7.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 P5-6장에서는 학습 루프, step/batch/epoch, 학습(learning)과 모델 실행(inference), 그리고 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분했습니다. 여기까지 오면 이제 아주 직접적인 질문이 남습니다. 모델이 틀렸다는 사실을 숫자로 계산한 뒤, 그다음 실제 모델 내부 숫자는 어디에서 바뀌는가 하는 질문입니다.
 
@@ -173,7 +173,7 @@ gradient는 방향(direction)에 대한 정보입니다. 보통은 `어느 쪽�
 - optimizer는 그 신호를 update 값으로 바꾼다
 - 파라미터 변화는 update 적용 뒤에야 생긴다
 
-코드를 보기 전에 먼저 이번 예제를 `CSV에서 읽은 batch`, `gradient 계산 후`, `optimizer step 후`로 나누어 읽겠다고 생각하는 편이 좋습니다. 예제 데이터는 [optimizer-step-role-log.csv](../../../assets/part-05/chapter-07/optimizer-step-role-log.csv)에 있습니다.
+코드를 보기 전에 먼저 이번 예제를 `CSV에서 읽은 batch`, `gradient 계산 후`, `optimizer step 후`로 나누어 읽겠다고 생각하는 편이 좋습니다. 예제 데이터는 [optimizer-step-role-log.csv](../../../assets/part-05/chapter-07/optimizer-step-role-log.csv){ .csv-preview }에 있습니다.
 
 | 구간 | 여기서 확인할 것 |
 | --- | --- |

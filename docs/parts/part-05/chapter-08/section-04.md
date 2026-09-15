@@ -1,7 +1,7 @@
 # P5-8.4 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가
 
 > Section ID: `P5-8.4`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
 P5-8.3에서는 깊은 계산이 실제로 덜 흔들리게 되는 조건을 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)로 묶어 읽었습니다. 이제 그 말을 실제 숫자로 확인합니다.
 
@@ -104,7 +104,7 @@ for case_name in case_order:
     print("---")
 ```
 
-이 코드는 [`deep-scale-activation-log.csv`](../../../assets/part-05/chapter-08/deep-scale-activation-log.csv)에 기록된 36개 값을 읽어 케이스별·층별 범위와 분산을 다시 계산합니다. `실제 신경망 층 전체`를 구현한 것이 아니라, `가중치 스케일이 층을 거치며 값 범위와 분산을 어디로 밀고 가는가`만 보려는 축약 실험입니다. 따라서 여기서 먼저 볼 것은 정확한 학습 성능이 아니라 `반복 계산과 스케일 누적 방향`입니다.
+이 코드는 [`deep-scale-activation-log.csv`](../../../assets/part-05/chapter-08/deep-scale-activation-log.csv){ .csv-preview }에 기록된 36개 값을 읽어 케이스별·층별 범위와 분산을 다시 계산합니다. `실제 신경망 층 전체`를 구현한 것이 아니라, `가중치 스케일이 층을 거치며 값 범위와 분산을 어디로 밀고 가는가`만 보려는 축약 실험입니다. 따라서 여기서 먼저 볼 것은 정확한 학습 성능이 아니라 `반복 계산과 스케일 누적 방향`입니다.
 
 출력 예시는 다음과 같습니다.
 

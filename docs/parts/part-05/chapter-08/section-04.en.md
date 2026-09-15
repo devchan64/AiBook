@@ -105,7 +105,7 @@ for case_name in case_order:
     print("---")
 ```
 
-This code reads the 36 values recorded in [`deep-scale-activation-log.csv`](/AiBook/assets/part-05/chapter-08/deep-scale-activation-log.csv) and recalculates the range and variance by case and layer. It does not implement `an entire real neural-network layer`; it is a compressed experiment that looks only at `where the weight scale pushes value range and variance as it passes through layers`. So what we should look at first is not exact training performance, but `the direction of repeated computation and scale accumulation`.
+This code reads the 36 values recorded in [`deep-scale-activation-log.csv`](/AiBook/assets/part-05/chapter-08/deep-scale-activation-log.csv){ .csv-preview } and recalculates the range and variance by case and layer. It does not implement `an entire real neural-network layer`; it is a compressed experiment that looks only at `where the weight scale pushes value range and variance as it passes through layers`. So what we should look at first is not exact training performance, but `the direction of repeated computation and scale accumulation`.
 
 An example output looks like this.
 

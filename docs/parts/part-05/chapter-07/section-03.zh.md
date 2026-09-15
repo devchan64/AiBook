@@ -110,7 +110,7 @@
 
 ## 练习与例子
 
-下面直接进入例子。这一节的例子不是在完整实现真实 Adam，而是在把自适应 update 的核心直觉拆开来看。示例数据在 [optimizer-gradient-history.csv](/AiBook/assets/part-05/chapter-07/optimizer-gradient-history.csv)。这个文件记录了 12 个 step 里三个参数收到的 gradient 流：一个坐标收到较大的负 gradient 且逐渐变小，一个坐标收到较小的负 gradient 且逐渐变小，还有一个坐标的方向持续摇摆。
+下面直接进入例子。这一节的例子不是在完整实现真实 Adam，而是在把自适应 update 的核心直觉拆开来看。示例数据在 [optimizer-gradient-history.csv](/AiBook/assets/part-05/chapter-07/optimizer-gradient-history.csv){ .csv-preview }。这个文件记录了 12 个 step 里三个参数收到的 gradient 流：一个坐标收到较大的负 gradient 且逐渐变小，一个坐标收到较小的负 gradient 且逐渐变小，还有一个坐标的方向持续摇摆。
 
 输入：
 

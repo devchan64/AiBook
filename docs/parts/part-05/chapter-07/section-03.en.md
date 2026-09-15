@@ -112,7 +112,7 @@ The first result to confirm in this diagram is that the basic direct update is c
 
 ## Practice and Example
 
-We can move directly to the example now. The example in this section is not a `full implementation of real Adam`; it is a simplified example that isolates the core intuition of adaptive update. The example data is in [optimizer-gradient-history.csv](/AiBook/assets/part-05/chapter-07/optimizer-gradient-history.csv). This file contains the gradient flow received by three parameters over 12 steps. One coordinate has a large gradient that steadily shrinks, one has a small gradient that steadily shrinks, and one has a gradient whose direction keeps wobbling.
+We can move directly to the example now. The example in this section is not a `full implementation of real Adam`; it is a simplified example that isolates the core intuition of adaptive update. The example data is in [optimizer-gradient-history.csv](/AiBook/assets/part-05/chapter-07/optimizer-gradient-history.csv){ .csv-preview }. This file contains the gradient flow received by three parameters over 12 steps. One coordinate has a large gradient that steadily shrinks, one has a small gradient that steadily shrinks, and one has a gradient whose direction keeps wobbling.
 
 Input:
 

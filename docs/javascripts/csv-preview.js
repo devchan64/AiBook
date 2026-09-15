@@ -1,7 +1,9 @@
 (function () {
   const PREVIEW_ROWS = 12;
+  let previewId = 0;
 
   function parseCsv(text) {
+    text = text.replace(/^\uFEFF/, "");
     const rows = [];
     let row = [];
     let cell = "";
@@ -63,7 +65,7 @@
 
     const header = rows[0];
     const bodyRows = rows.slice(1, PREVIEW_ROWS + 1);
-    const columnCount = Math.max(...rows.map((row) => row.length));
+    const columnCount = rows.reduce((count, row) => Math.max(count, row.length), 0);
 
     const meta = document.createElement("p");
     meta.className = "aibook-csv-preview__meta";
@@ -72,6 +74,9 @@
 
     const scroll = document.createElement("div");
     scroll.className = "aibook-csv-preview__table-wrap";
+    scroll.tabIndex = 0;
+    scroll.setAttribute("role", "region");
+    scroll.setAttribute("aria-label", "CSV 표 — 가로로 스크롤하여 나머지 열 보기");
 
     const table = document.createElement("table");
     table.className = "aibook-csv-preview__table";
@@ -120,6 +125,9 @@
     const panel = document.createElement("div");
     panel.className = "aibook-csv-preview__panel";
     panel.hidden = true;
+    panel.id = `aibook-csv-preview-${++previewId}`;
+    button.setAttribute("aria-controls", panel.id);
+    let loading = false;
 
     const status = document.createElement("div");
     status.className = "aibook-csv-preview__status";
@@ -132,10 +140,12 @@
       button.textContent = willOpen ? "내용 닫기" : "내용 보기";
       button.setAttribute("aria-expanded", String(willOpen));
 
-      if (!willOpen || button.dataset.loaded === "true") {
+      if (!willOpen || button.dataset.loaded === "true" || loading) {
         return;
       }
 
+      loading = true;
+      panel.setAttribute("aria-busy", "true");
       status.textContent = "CSV 내용을 불러오는 중입니다.";
 
       try {
@@ -149,7 +159,10 @@
         panel.replaceChild(renderTable(rows, link.getAttribute("href") || link.href), status);
         button.dataset.loaded = "true";
       } catch (error) {
-        status.textContent = `CSV 내용을 불러오지 못했습니다: ${error.message}`;
+        status.textContent = `CSV 내용을 불러오지 못했습니다: ${error.message}. 닫았다 다시 열면 재시도합니다.`;
+      } finally {
+        loading = false;
+        panel.setAttribute("aria-busy", "false");
       }
     });
 
@@ -158,7 +171,12 @@
   }
 
   function initCsvPreviews() {
-    document.querySelectorAll("a.csv-preview[href$='.csv']").forEach(attachPreview);
+    document.querySelectorAll("a.csv-preview[href]").forEach((link) => {
+      const url = new URL(link.href, document.baseURI);
+      if (/\.csv$/i.test(url.pathname) && /^(https?:)$/.test(url.protocol)) {
+        attachPreview(link);
+      }
+    });
   }
 
   if (typeof document$ !== "undefined" && document$.subscribe) {

@@ -1,7 +1,7 @@
 # P3-4.1 비교 가능한 샘플 한 건은 어떻게 정하는가
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 데이터를 읽을 때 가장 먼저 확인해야 할 것은 값의 크기보다 [행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit) 하나가 무엇을 뜻하는가입니다. 이 질문이 먼저 정리되지 않으면, 뒤에서 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)을 만들 때도, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)을 붙일 때도, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) 결과를 읽을 때도 기준이 흔들립니다. 결국 이 질문은 비교 가능한 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 한 건을 무엇으로 정할 것인가라는 질문으로 이어집니다.
 
@@ -22,7 +22,7 @@
 2. 같은 종류의 특징을 모든 건에 같은 방식으로 붙일 수 있어야 한다.
 3. 나중에 붙일 라벨이나 비교 기준이 그 단위에 자연스럽게 연결되어야 한다.
 
-이 세 가지를 기준으로 보면, 시점별 측정 행은 보통 1번은 만족하지만 2번과 3번이 약합니다. 반면 동작 1회 요약 표는 세 가지를 모두 만족하기 쉽습니다. 최근 구간 표는 3번의 비교 기준에는 강하지만, 개별 샘플 비교보다는 여러 샘플을 다시 묶은 해석 구조에 더 가깝습니다. 결국 이 절에서 정할 것은 `한 시점`, `동작 1회`, `최근 구간` 가운데 무엇을 비교 가능한 샘플 1건으로 볼 것인가입니다.
+어느 단위가 이 조건을 만족하는지는 질문에 따라 달라집니다. 다음 시점의 값을 예측한다면 시점 단위에도 같은 특징과 결과를 붙일 수 있습니다. 하루별 운영 상태를 비교한다면 하루 구간 자체가 샘플일 수 있습니다. 여기서는 동작 전체의 패턴을 비교하므로 동작 1회를 선택합니다. 결국 이 절에서 정할 것은 `한 시점`, `동작 1회`, `최근 구간` 가운데 무엇을 비교 가능한 샘플 1건으로 볼 것인가입니다.
 
 눈앞의 표를 받았을 때는 다음 순서로 읽으면 역할 구분이 더 분명해집니다.
 
@@ -47,13 +47,15 @@
 
 이 표에서 한 행은 `동작 1회`가 아니라 `동작 중 한 시점`입니다. 따라서 샘플 1건을 동작 1회로 보려면 같은 `event_id`를 가진 여러 행을 묶어야 합니다. 그런데 여기서 한 번 더 보면, 같은 원천데이터라도 `시점`, `동작 1회`, `최근 구간` 가운데 무엇을 한 건으로 읽느냐에 따라 샘플 수 자체가 달라질 뿐 아니라, 어떤 열이 그 단위에서만 의미를 갖는지도 함께 달라집니다.
 
+아래 표의 적합성은 `동작 1회 전체를 비교한다`는 질문에 한정합니다. 다른 질문으로 바꾸면 표의 판단도 달라집니다.
+
 이제 같은 예제를 앞의 세 기준으로 다시 읽어 보면 왜 `동작 1회`가 비교 가능한 샘플에 더 가깝다고 말하는지 분명해집니다.
 
 | 후보 단위 | 경계가 분명한가 | 같은 특징을 붙이기 쉬운가 | 라벨/비교 기준을 붙이기 자연스러운가 |
 | --- | --- | --- | --- |
-| 측정 시점 1행 | 예 | 약함 | 약함 |
+| 측정 시점 1행 | 예 | 순간값 비교에는 적합 | 동작 전체의 결과와는 단위가 다름 |
 | 동작 1회 | 예 | 예 | 예 |
-| 최근 구간 1묶음 | 예 | 일부만 가능 | 비교 기준에는 강하지만 개별 샘플 라벨에는 약함 |
+| 최근 구간 1묶음 | 예 | 구간 집계 비교에는 적합 | 동작 하나의 결과와는 단위가 다름 |
 
 즉 `동작 1회`를 샘플 1건으로 두면 `pressure_mean`, `pressure_rise`, `flow_mean` 같은 특징을 모든 건에 같은 방식으로 붙일 수 있고, 나중에 `검토 필요`, `정상`, `이상` 같은 결과도 그 단위에 자연스럽게 연결됩니다. 반대로 측정 시점 1행은 순간 관측값을 담는 데는 좋지만, 동작 전체 구조를 비교하는 특징과 라벨을 안정적으로 올리기 어렵습니다. 최근 구간 1묶음은 개별 동작 비교 샘플이라기보다 여러 동작을 다시 묶은 해석 단위에 가깝습니다.
 
@@ -76,9 +78,11 @@
 
 문제 상황: 같은 원천 로그라도 `시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 비교 가능한 표가 달라진다는 점을 확인합니다.
 
-입력(input): `event_id`별 시점 기록 [p3_4_1_measurement_log.csv](../../../assets/part-03/chapter-04/p3_4_1_measurement_log.csv), `event_id` 단위 검토 결과 [p3_4_1_review_decisions.csv](../../../assets/part-03/chapter-04/p3_4_1_review_decisions.csv), 지금 답하려는 질문 후보 `question_focus_options`
+입력(input): `event_id`별 시점 기록 [p3_4_1_measurement_log.csv](../../../assets/part-03/chapter-04/p3_4_1_measurement_log.csv){ .csv-preview }, `event_id` 단위 검토 결과 [p3_4_1_review_decisions.csv](../../../assets/part-03/chapter-04/p3_4_1_review_decisions.csv){ .csv-preview }, 지금 답하려는 질문 후보 `question_focus_options`
 
 첫 번째 CSV의 한 행은 동작 중 한 시점의 측정값입니다. 두 번째 CSV의 한 행은 동작 1회가 끝난 뒤 붙은 검토 결과입니다. 일부 이벤트는 시점 행 수가 부족하거나 검토 결과가 아직 없으므로, 코드가 먼저 샘플 단위를 다시 만들고 완전성과 라벨 결합 가능성을 따로 확인해야 합니다.
+
+여기서 단위 대응은 질문별로 미리 정한 예시 규칙입니다. 데이터가 최적 단위를 자동으로 추천하거나 점수로 검증하는 알고리즘은 아닙니다. 기록 수와 완전성은 CSV에서 실제로 계산합니다.
 
 기대 출력(output): `measurement_row`, `event`, `window` 세 단위가 서로 다른 샘플 수와 특징 가능성을 만든다는 출력. 질문 초점과 이벤트 완전성 기준을 바꾸면 추천 단위와 유효 샘플 수도 함께 달라진다.
 
@@ -146,8 +150,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": len(raw),
             "can_use_pressure_rise": "no",
             "label_attaches_naturally": "weak",
-            "feature_score": 1,
-            "label_score": 0,
         },
         {
             "unit_name": "event",
@@ -155,8 +157,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": int(event_summary["is_complete_event_sample"].sum()),
             "can_use_pressure_rise": "yes",
             "label_attaches_naturally": "yes",
-            "feature_score": 3,
-            "label_score": 2,
         },
         {
             "unit_name": "window",
@@ -164,8 +164,6 @@ unit_check = pd.DataFrame(
             "valid_sample_count": len(window_summary),
             "can_use_pressure_rise": "partial",
             "label_attaches_naturally": "weak",
-            "feature_score": 2,
-            "label_score": 1,
         },
     ]
 )
@@ -175,10 +173,6 @@ recommended_unit = {
     "recent_vs_baseline": "window",
 }[selected_question_focus]
 unit_check["selected_for_question"] = unit_check["unit_name"] == recommended_unit
-unit_check["question_match_score"] = unit_check["selected_for_question"].map({True: 2, False: 0})
-unit_check["total_score"] = (
-    unit_check["feature_score"] + unit_check["label_score"] + unit_check["question_match_score"]
-)
 
 focus_result = pd.DataFrame(
     [
@@ -319,10 +313,10 @@ window_name  event_count  complete_event_count  labeled_event_count  pressure_me
 recent_vs_baseline           window
 
 9) unit check for selected_question_focus = event_comparison
-      unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  feature_score  label_score  selected_for_question  question_match_score  total_score
-measurement_row            36                  36                    no                     weak              1            0                  False                     0            1
-          event            12                  12                   yes                      yes              3            2                   True                     2            7
-         window             2                   2               partial                     weak              2            1                  False                     0            3
+      unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  selected_for_question
+measurement_row            36                  36                    no                     weak                  False
+          event            12                  12                   yes                      yes                   True
+         window             2                   2               partial                     weak                  False
 ```
 
 출력에서 먼저 봐야 할 것은 `몇 건으로 세고 있는가`입니다. 원시 표에서는 측정 시점이 36건이고, `event_id` 기준으로 묶으면 동작 1회 후보가 12건이며, 다시 최근/기준선 구간으로 묶으면 비교용 집계는 2건이 됩니다. 그런데 그다음에 봐야 할 것은 `어떤 값이 어느 단위에서만 의미가 생기는가`입니다. 검토 결과는 원시 시점 행에 반복해서 붙는 것이 아니라 `event_id` 단위로 따로 도착한 뒤, 동작 1회 요약 표에 결합됩니다. 여기서 조작할 값은 `selected_question_focus`, `question_focus_options`, `expected_rows_per_event`입니다. `"event_comparison"`으로 두면 동작 1회가 추천 단위가 되지만, `"instant_value"`로 바꾸면 측정 시점 행이 더 자연스럽고, `"recent_vs_baseline"`으로 바꾸면 최근/기준선 구간 집계가 더 자연스럽습니다. `expected_rows_per_event`를 4로 높이면 현재 12개 이벤트가 모두 완전한 이벤트 샘플에서 빠집니다. 즉 같은 원천데이터라도 `한 시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 행 수와 표의 의미, 그 위에 놓을 수 있는 열의 역할, 유효 샘플 수가 함께 바뀝니다.
@@ -355,10 +349,8 @@ measurement_row            36                  36                    no         
 
 ## 체크리스트
 
-- 이 절의 질문인 `비교 가능한 샘플 한 건은 어떻게 정하는가`에 대해 한 문장으로 답할 수 있는가?
-- `비교 가능한 샘플 한 건을 무엇으로 잡을지 기준을 세워야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 시점·동작·최근 구간 중 자신의 질문에 맞는 단위를 골라 이유를 썼는가?
+- 동작의 기록이 부족할 때 유효 샘플 수가 어떻게 달라지는지 확인했는가?
 
 ## 출처와 참고 자료
 

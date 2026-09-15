@@ -56,7 +56,7 @@ The small example below checks in numbers a case where the averages are the same
 
 Problem situation: check that even when the overall average looks the same, a different segment-by-segment flow should still be read as a different operating structure.
 
-Input: the [`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){: target="_blank" rel="noopener noreferrer" } file. One row is one action-summary row, and `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean` are the three segment averages. The minimum difference to treat as a pattern change is controlled by `pattern_change_threshold`.
+Input: the [`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){ .csv-preview } file. One row is one action-summary row, and `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean` are the three segment averages. The minimum difference to treat as a pattern change is controlled by `pattern_change_threshold`.
 
 Expected output: output in which segment differences and `pattern_note` differ even under the same `overall_mean`. If `pattern_change_threshold` changes, the amount of difference treated as a pattern also changes.
 

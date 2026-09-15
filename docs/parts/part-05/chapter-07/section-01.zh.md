@@ -171,7 +171,7 @@ gradient 提供的是方向（direction）信息。它通常告诉我们：`朝�
 - optimizer 会把这个信号变成 update 值
 - 参数变化要等到 update 应用以后才会出现
 
-在看代码之前，先把这个例子分成 `CSV batch`、`gradient 计算后`、`optimizer step 后`来读，会更容易。例子数据在 [optimizer-step-role-log.csv](/AiBook/assets/part-05/chapter-07/optimizer-step-role-log.csv)。
+在看代码之前，先把这个例子分成 `CSV batch`、`gradient 计算后`、`optimizer step 后`来读，会更容易。例子数据在 [optimizer-step-role-log.csv](/AiBook/assets/part-05/chapter-07/optimizer-step-role-log.csv){ .csv-preview }。
 
 | 区间 | 这里要确认什么 |
 | --- | --- |
