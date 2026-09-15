@@ -1,9 +1,14 @@
-flowchart LR
-    table["table data"]
-    xy["build X and y"]
-    split["train / test split"]
-    fit["fit"]
-    predict["predict"]
-    metric["metric"]
+flowchart TD
+  A["Split paired samples"]
+  B["Training inputs and targets<br/>X_train, y_train"]
+  C["Train<br/>fit"]
+  D["Trained model"]
+  E["Test inputs<br/>X_test"]
+  F["Predict<br/>predict"]
+  G["Predictions"]
+  H["Test targets<br/>y_test"]
+  I["Final evaluation"]
 
-    table --> xy --> split --> fit --> predict --> metric
+  A --> B --> C --> D --> F --> G --> I
+  A --> E --> F
+  A --> H --> I

@@ -1,109 +1,52 @@
 # P2-15.1 A Small Procedure for Translating Formulas into Code
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In Part 2, we looked at formulas, Python, NumPy, Pandas, and Matplotlib separately. Now we bind that flow into one procedure. The goal is not to prove difficult formulas, but to have a procedure for translating a simple formula into code and checking the result.
+## Symbols and Computation Order
 
-When you study machine learning, formulas such as the loss function, mean, variance, and linear combination keep appearing. To avoid freezing as soon as you see a formula, you need the habit of `turning symbols into a computation procedure`.
+Distinguish symbols representing one input value from those representing collections. Separate calculations applied to each value from operations that combine the whole collection.
 
-## A Place to Tie Together Concepts from Earlier Chapters Again
-
-This section is the place where concepts learned separately in Part 2 are tied together again through one example. Rather than adding a large new theory, it shows what should be checked when the representative concepts from earlier chapters actually move together.
-
-| Concept Brought from Earlier Chapters | How It Is Reused in This Section |
-| --- | --- |
-| variable, value, type | First decide which code variable and which value each formula symbol corresponds to. |
-| list, loop | Read sigma summation as repeated calculation over samples. |
-| NumPy array, vectorization | Rewrite the same calculation in a shorter array operation. |
-| tables and plots | Check not only one final number but also intermediate values and tendencies together. |
-| Python workflow | Read and check code in the order of input, computation, output, and verification. |
-
-So the core of this section is not `memorizing a new formula`, but `connecting tools you already saw to one problem through a procedure`.
-
-## Core Criteria: A Small Procedure for Translating Formulas into Code
-
-- You can first distinguish the variables and the data bundle in a formula.
-- You can translate sigma summation into a Python loop or a NumPy computation.
-- You can compute mean squared error with a small code example.
-- You can explain the flow of checking the code result with numbers, a table, and a plot.
-- You can obtain a minimum procedure for reading machine-learning formulas in Part 3.
-
-## First Connections to Hold in This Section
-
-- Turn the symbols of the formula into code variables.
-- First look at the repeated computation per sample.
-- Read the same computation again as a NumPy array expression.
-- Check the final number, the intermediate values, and the plot together.
-
-## Three Criteria
-
-| Criterion | Why It Matters | Required Understanding in This Section |
-| --- | --- | --- |
-| What do you look at first when translating a formula into code? | It makes you divide the formula into a computation procedure instead of jumping directly to syntax. | Understand that you first separate input, computation order, and output. |
-| Why look at both loops and NumPy? | It lets you distinguish understanding the procedure from understanding a condensed expression. | Understand that the same calculation may look different only in expression. |
-| Why check the result in several ways? | It supplements the intermediate meaning that one final number can miss. | Understand that one number alone can hide intermediate process and tendency. |
-
-## Basic Order for Translating a Formula into Code
-
-When turning a formula into code, do not write code immediately. Read it in the following order first.
+To summarize errors for three predictions, first pair each prediction with the actual value for the same sample. Compute the difference and square for each pair, then sum and average across samples. Making this compressed procedure explicit in code helps reveal mismatched values or missing operations.
 
 ```mermaid
 --8<-- "assets/part-02/chapter-15/formula-to-code-flow-en.mmd"
 ```
 
-The key point is not to convert the formula into code all at once. First decide what the symbols point to, then check whether the values are single values or bundles, and only then compute.
+## Mean Squared Error
 
-## Read Mean Squared Error as an Example
-
-Mean squared error (MSE) is the value obtained by squaring the difference between the predicted values and the actual values and then averaging those squares.
+Mean squared error (MSE) averages the squared differences between predicted and actual values.
 
 \[
 \mathrm{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2
 \]
 
-At first sight it may look complex, but if you split the symbols, it becomes the following.
+The symbols refer to the following quantities.
 
 | Symbol | Meaning |
 | --- | --- |
-| \(n\) | number of data points |
-| \(y_i\) | the actual value of the i-th case |
-| \(\hat{y}_i\) | the predicted value of the i-th case |
-| \(y_i - \hat{y}_i\) | the i-th error |
-| \((y_i - \hat{y}_i)^2\) | the squared error |
-| \(\sum\) | add across all data points |
-| \(\frac{1}{n}\) | divide the sum by the number of data points to take the mean |
+| \(n\) | Number of data points |
+| \(y_i\) | Actual value for sample i |
+| \(\hat{y}_i\) | Predicted value for sample i |
+| \(y_i - \hat{y}_i\) | Error for sample i |
+| \((y_i - \hat{y}_i)^2\) | Squared error |
+| \(\sum\) | Sum across all samples |
+| \(\frac{1}{n}\) | Divide the sum by the sample count |
 
-This formula can be read as: "compute the error of each sample, square it, add them all, and divide by the count."
+Read the formula as “calculate each sample’s error, square it, add the squares, and divide by the count.”
 
-## First Translate It into a Small Python Loop
+Here each sample has one actual and one predicted value, and every sample has equal weight. \(n\) counts sample pairs, not features, and must be positive. The formula’s first sample, \(i=1\), corresponds to Python index 0. The name `y_hat` spells out the hat over the predicted value \(\hat y\).
 
-Here, rather than shortening it immediately with NumPy, we first check the computation flow with a loop.
+## Computing with a Loop
 
-Problem situation:
-
-- even if you read the formula, you may not immediately connect each symbol to a loop and variable in code
-
-Input:
-
-- a list of actual values, `actual`
-- a list of predicted values, `predicted`
-
-Expected output:
-
-- a list of squared errors by sample
-- the mean squared error value
-
-Concept to check:
-
-- sigma summation can be translated into a loop or an array computation
-- when translating a formula into code, it is safer to separate per-sample computation from the final averaging step
-- the loop version reveals the meaning of the computation before the condensed NumPy expression
+Pair actual values `[3.0, 5.0, 7.0]` with predictions `[2.5, 5.5, 8.0]` at matching positions. Errors are `[0.5, -0.5, -1.0]`, and squared errors are `[0.25, 0.25, 1.0]`. Their sum, 1.5, divided by 3 gives MSE 0.5.
 
 ```python
-# This example computes errors between actual and predicted values and translates a loss formula into code.
 actual = [3.0, 5.0, 7.0]
 predicted = [2.5, 5.5, 8.0]
+
+if len(actual) != len(predicted) or not actual:
+    raise ValueError("Use equally sized, non-empty lists.")
 
 squared_errors = []
 
@@ -115,7 +58,7 @@ mse = sum(squared_errors) / len(squared_errors)
 print(mse)
 ```
 
-This code follows almost each part of the formula directly.
+The code follows the parts of the formula directly.
 
 | Part of the Formula | Part of the Code |
 | --- | --- |
@@ -125,38 +68,24 @@ This code follows almost each part of the formula directly.
 | \(\sum\) | `sum(squared_errors)` |
 | \(\frac{1}{n}\) | `/ len(squared_errors)` |
 
-This step is short and simple, but important. It lets you check by hand what computation procedure the formula represents.
+Both lists must be nonempty and have the same length and sample order. By default, `zip` stops at the shorter list, so a length mismatch can silently omit values.
 
-## Then Shorten the Same Computation with NumPy
+The `if` check stops computation for unequal lengths or empty lists. Remove 8.0 from the prediction list to trigger `ValueError`. Without the check, only the first two pairs produce MSE 0.25, making missing data look like an improvement. This exercise assumes lists of finite real values.
 
-After understanding the computation flow, you can write it more briefly with a NumPy array.
+## Computing with NumPy Arrays
 
-Problem situation:
-
-- after understanding the meaning through a loop, you should be able to express the same formula again as a shorter array computation
-
-Input:
-
-- the array of actual values, `actual`
-- the array of predicted values, `predicted`
-
-Expected output:
-
-- the error array, `errors`
-- the squared error array, `squared_errors`
-- the mean squared error, `mse`
-
-Concept to check:
-
-- NumPy array operations reduce sigma computation into a vectorized expression
-- even in shorter code, the computation steps keep the same meaning as in the loop version
+Subtracting, squaring, and averaging the same inputs with NumPy also gives 0.5.
 
 ```python
-# This example computes errors between actual and predicted values and translates a loss formula into code.
 import numpy as np
 
 actual = np.array([3.0, 5.0, 7.0])
 predicted = np.array([2.5, 5.5, 8.0])
+
+if actual.ndim != 1 or actual.shape != predicted.shape or actual.size == 0:
+    raise ValueError("Use equally shaped, non-empty 1-D arrays.")
+if not (np.isfinite(actual).all() and np.isfinite(predicted).all()):
+    raise ValueError("Use finite values.")
 
 errors = actual - predicted
 squared_errors = errors ** 2
@@ -165,41 +94,21 @@ mse = np.mean(squared_errors)
 print(mse)
 ```
 
-In NumPy, subtracting one array from another computes values at matching positions. This connects directly to vectorization from Part 2 Chapter 11.
+Both arrays have shape `(3,)`, so subtraction pairs values at matching positions. Vectorization expresses the same operation across an array.
 
-Still, shorter NumPy code does not always mean easier understanding from the start. In this section, the formula and code are connected in the order `confirm the meaning with a loop, then shorten the expression with NumPy`.
+`ndim` counts axes, `shape` gives each axis length, and `size` counts all elements. `np.isfinite` checks that each value is neither NaN nor infinity; `.all()` checks that every element passes. Whoever constructs the inputs must still verify sample correspondence, which these checks cannot determine.
 
-## Do Not Look Only at One Final Number
+## Errors and Squared Errors
 
-MSE eventually becomes a single number. But when checking the computation process, it is better to look at intermediate values together.
-
-Problem situation:
-
-- if you look only at the final MSE value, it is hard to read immediately in which sample the error became larger
-
-Input:
-
-- `errors` computed above
-- `squared_errors`
-- `mse`
-
-Output:
-
-- the intermediate error array and the final mean squared error value
-
-Concept to check:
-
-- printing intermediate values together lets you check what number each stage of the formula actually produces
-- you can compare directly the sign of the error and the value after squaring
+MSE becomes one number. Print the intermediate values in the same session after executing the NumPy block above.
 
 ```python
-# This example computes errors between actual and predicted values and translates a loss formula into code.
 print(errors)
 print(squared_errors)
 print(mse)
 ```
 
-If the output looks similar to the following, you can confirm the meaning of each stage.
+The output is as follows.
 
 ```text
 [ 0.5 -0.5 -1. ]
@@ -207,78 +116,91 @@ If the output looks similar to the following, you can confirm the meaning of eac
 0.5
 ```
 
-An error has a direction. The sign changes depending on whether the prediction was smaller or larger than the actual value. But squared error never becomes negative. That is why MSE becomes a metric that looks at the size of the error on average.
+Errors have direction: their sign changes with underprediction or overprediction. Squared errors are never negative, allowing MSE to summarize error size without sign cancellation.
 
-## You Can Also Check It with a Plot
+MSE is specifically the **mean of squared errors**. If actual values are measured in score points, its unit is points². Taking the square root gives RMSE in the original unit: here, \(\sqrt{0.5}\approx0.707\). Doubling an error multiplies its square by four, increasing the influence of large errors.
 
-If you look only at numbers, it may not be obvious at once in which sample the error is large. If you draw the actual and predicted values side by side with Matplotlib, it becomes easier to see where the error grows.
+`np.mean(errors ** 2)` also differs from `np.mean(errors) ** 2`. The first is 0.5; the second is approximately 0.111. The latter allows opposite signs to cancel before squaring, so it is not MSE.
 
-Problem situation:
+## Differences by Sample
 
-- numerical output alone may make it hard to grasp at a glance where and how large the sample-by-sample differences are
-
-Input:
-
-- the actual-value array, `actual`
-- the predicted-value array, `predicted`
-- the sample index, `index`
-
-Output:
-
-- a line plot comparing actual and predicted values
-
-Concept to check:
-
-- a plot does not replace loss calculation, but becomes a supporting tool for interpreting the error distribution
-- even with the same numeric result, visualization helps you read more quickly in which interval the difference was large
+Compare the vertical distance between actual and predicted values at each sample position. The first two gaps are 0.5; the last is 1.0. Use points and vertical segments without connecting samples to avoid suggesting continuous change between them. This code uses `actual`, `predicted`, and `np` from the NumPy block above.
 
 ```python
-# This example computes errors between actual and predicted values and translates a loss formula into code.
 import matplotlib.pyplot as plt
 
 index = np.arange(len(actual))
 
-fig, ax = plt.subplots()
-ax.plot(index, actual, marker="o", label="actual")
-ax.plot(index, predicted, marker="o", label="predicted")
+fig, ax = plt.subplots(figsize=(6.4, 4.0))
+ax.scatter(index, actual, marker="o", color="#2563eb", label="actual")
+ax.scatter(index, predicted, marker="x", color="#dc2626", label="predicted")
+ax.vlines(index, predicted, actual, color="#64748b", linewidth=1.4)
+ax.set_xticks(index)
 ax.set_xlabel("sample index")
 ax.set_ylabel("value")
 ax.set_title("Actual and predicted values")
 ax.legend()
+fig.tight_layout()
 plt.show()
 ```
 
-The output image shows the gap between actual and predicted values for each sample.
+The image shows the actual–predicted gaps for each sample.
 
-![Line plot showing the difference between actual and predicted values](/AiBook/assets/part-02/chapter-15/actual-predicted-mse.png)
+![Actual and predicted values with vertical error gaps for three samples](/AiBook/assets/part-02/chapter-15/actual-predicted-mse-en.svg)
 
-The loop calculation, NumPy calculation, and plot-saving flow in this section can be rerun together with [`p2_15_1_formula_to_code_mse.py`](/AiBook/assets/part-02/chapter-15/p2_15_1_formula_to_code_mse.py). This script prints `loop mse`, `errors`, `squared errors`, and `numpy mse`, and saves `actual-predicted-mse.png` in the same asset folder.
+The reference source runs the loop calculation, NumPy calculation, and plot saving together. It localizes the code’s English labels for the published figures while preserving point positions and calculated values.
 
-This plot does not calculate MSE instead of you. It helps you inspect with your eyes the difference before it is compressed into one number.
+[MSE calculation and chart-generation code](/AiBook/assets/part-02/chapter-15/p2_15_1_formula_to_code_mse.py)
 
-## Case Study
+Run from the repository root in a Python environment with NumPy and Matplotlib installed. Matching the published font requires `Noto Sans CJK JP`; select another font with `--font-family` if needed.
 
-### Case 1. Why You Cannot Write Code Immediately After Seeing a Loss Formula
+```bash
+python docs/assets/part-02/chapter-15/p2_15_1_formula_to_code_mse.py --output-dir .tmp/p2-15-mse
+```
 
-Suppose a learner sees the mean squared error formula for the first time and gets stuck at the question, "How do I translate this into Python?" A person may be able to read the shape of the formula, yet fail to connect immediately `which value is one number`, `which value is a bundle of samples`, and `into what repetition sigma turns in code`.
+The script prints `loop mse`, `errors`, `squared errors`, and `numpy mse`, then saves three language-specific SVGs in the chosen folder. The default final prediction is 8.0. Add `--last-prediction 7` or `--last-prediction 9` to reproduce the numerical and visual changes below.
 
-If you jump immediately into a one-line NumPy expression at that point, you may obtain the result but miss the procedure. If you first keep `actual` and `predicted` as small lists, then compute each sample's error, square it, add everything, and divide by the count with a loop, the structure of the formula changes into a computation procedure.
+The graph does not calculate MSE for you. It reveals the differences before they are compressed into a single number.
 
-Then, by shortening the same calculation with a NumPy array, you can read `the condensed expression` separately from `the meaning of the calculation`. In other words, the loop is the foothold for interpreting the formula, and NumPy is the expression that writes that calculation more concisely.
+## Case 1. Changing Only the Final Prediction
 
-This case continues directly into formula reading after Part 3. What matters first is not writing code quickly. It is having the sense of changing symbols into a procedure of input, repetition, and output.
+Changing the final prediction from 8.0 to the actual value, 7.0, produces squared errors `[0.25, 0.25, 0.0]`. MSE falls to `0.5 / 3`, approximately 0.167, and the final two points overlap.
+
+Changing that prediction to 9.0 instead makes its error −2 and its squared error 4. MSE becomes `(0.25 + 0.25 + 4) / 3 = 1.5`. Doubling this sample’s error magnitude from 1 to 2 quadruples its squared error from 1 to 4.
+
+Changing the inputs in both the loop and NumPy versions should yield the same result. If not, check order, length, shape, and the averaging axis. In particular, changing a `(3,)` array to `(3, 1)` can broadcast subtraction across all combinations instead of computing the original paired-sample MSE.
+
+## Code That Runs but Calculates Something Else
+
+Without the input checks, `actual.reshape(3, 1) - predicted` produces shape `(3, 3)`. Each actual value is compared with all three predictions, creating nine differences. Its first row is `[0.5, -2.5, -5.0]`, mixing in predictions for other samples.
+
+| Calculation | Values Being Averaged | Result |
+| --- | --- | ---: |
+| Three matching pairs | 3 squared errors | 0.5 |
+| Subtracting `(3,)` from `(3, 1)` | 9 squared errors from all combinations | About 7.833 |
+| Reversing only prediction order | 3 incorrectly paired squared errors | About 15.167 |
+
+Shape checks prevent the second error but not the third, whose shapes still match. Check sample identifiers such as student IDs as well. Without an axis argument, `np.mean` averages every element, compressing even an incorrectly expanded array into one number.
+
+Predict whether adding 10 to both actual and predicted values changes MSE, then run it. Differences remain unchanged, so MSE stays at 0.5. Multiplying both arrays by 10 multiplies differences by 10 and squared errors by 100, producing MSE 50. Interpreting magnitudes requires matching units, samples, and calculation rules.
 
 ## Checklist
 
-- Can you explain what \(y_i\), \(\hat{y}_i\), \(n\), and \(\sum\) mean in the MSE formula?
-- Can you write the same calculation both as a Python loop and as a NumPy array computation?
-- Can you explain the difference among `errors`, `squared_errors`, and `mse`?
-- Can you explain why intermediate values should be checked instead of looking only at the final result?
-- Can you explain that a plot helps interpretation instead of replacing the computation?
-- Can you first separate symbols, data shape, and computation procedure when translating a formula into code?
+- Can you separate symbols, data shape, and calculation steps before writing code?
+- Can you explain \(y_i\), \(\hat{y}_i\), \(n\), and \(\sum\) in the MSE formula?
+- Can you translate summation into a loop or array calculation?
+- Can you write the same calculation with a Python loop and NumPy arrays?
+- Can you explain why actual and predicted values need matching order, length, and shape?
+- Can you distinguish `errors`, `squared_errors`, and `mse`?
+- Can you explain why intermediate values help verify a calculation?
+- Can you explain how a plot supports interpretation without replacing calculation?
+- Can you distinguish the mean of squares from the square of the mean, and the units of MSE from RMSE?
+- Can you explain why incorrect sample order changes results even when shapes match?
 
 ## Sources and References
 
-- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, checked on 2026-07-20. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for the numeric, list, and basic calculation expressions in the formula-to-code example.
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, checked on 2026-07-20. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for array creation, array operations, and vectorized calculation with `np.mean`.
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for checking calculation results with `Figure`, `Axes`, `plot`, labels, and legends.
+- [Python Software Foundation, Built-in Functions: zip](https://docs.python.org/3/library/functions.html#zip){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Pairing and the default stop at the shorter input.
+- [NumPy Developers, numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Averaging all elements when no axis is specified.
+- [NumPy Developers, Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Operations between arrays with different shapes.
+- [scikit-learn developers, Regression metrics](https://scikit-learn.org/stable/modules/model_evaluation.html#regression-metrics){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Definitions and interpretation of MSE, RMSE, and MAE.
+- [Matplotlib Developers, Axes.scatter](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.scatter.html){: target="_blank" rel="noopener noreferrer" } Checked on: 2026-09-15. Displaying actual and predicted values by sample.

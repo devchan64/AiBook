@@ -1,9 +1,14 @@
-flowchart LR
-    table["표 데이터"]
-    xy["X와 y 구성"]
-    split["train / test 분리"]
-    fit["학습(fit)"]
-    predict["예측(predict)"]
-    metric["평가 지표(metric)"]
+flowchart TD
+  A["샘플 쌍 분할"]
+  B["학습 입력·정답<br/>X_train, y_train"]
+  C["학습<br/>fit"]
+  D["학습된 모델"]
+  E["테스트 입력<br/>X_test"]
+  F["예측<br/>predict"]
+  G["예측값"]
+  H["테스트 정답<br/>y_test"]
+  I["최종 평가"]
 
-    table --> xy --> split --> fit --> predict --> metric
+  A --> B --> C --> D --> F --> G --> I
+  A --> E --> F
+  A --> H --> I

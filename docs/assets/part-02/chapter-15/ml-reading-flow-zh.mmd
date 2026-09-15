@@ -1,9 +1,14 @@
-flowchart LR
-    table["表格数据"]
-    xy["构建 X 和 y"]
-    split["训练 / 测试划分"]
-    拟合["拟合"]
-    预测["预测"]
-    指标["指标"]
+flowchart TD
+  A["划分成对样本"]
+  B["训练输入与目标<br/>X_train, y_train"]
+  C["训练<br/>fit"]
+  D["已训练模型"]
+  E["测试输入<br/>X_test"]
+  F["预测<br/>predict"]
+  G["预测值"]
+  H["测试目标<br/>y_test"]
+  I["最终评价"]
 
-    table --> xy --> split --> 拟合 --> 预测 --> 指标
+  A --> B --> C --> D --> F --> G --> I
+  A --> E --> F
+  A --> H --> I
