@@ -31,7 +31,8 @@
       "target_group": "target-01",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-001"
     },
     {
       "id": "bfs-input-02-watercolor",
@@ -44,7 +45,8 @@
       "target_group": "target-02",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-002"
     },
     {
       "id": "bfs-input-03-clay-render",
@@ -57,7 +59,8 @@
       "target_group": "target-03",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-003"
     },
     {
       "id": "bfs-input-04-ink-illustration",
@@ -70,7 +73,8 @@
       "target_group": "target-04",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-004"
     },
     {
       "id": "bfs-input-05-oil-painting",
@@ -83,7 +87,8 @@
       "target_group": "target-05",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-005"
     },
     {
       "id": "bfs-input-06-soft-photo",
@@ -96,7 +101,8 @@
       "target_group": "target-06",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-006"
     },
     {
       "id": "bfs-input-07-watercolor",
@@ -109,7 +115,8 @@
       "target_group": "target-07",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-007"
     },
     {
       "id": "bfs-input-08-clay-render",
@@ -122,7 +129,8 @@
       "target_group": "target-08",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-008"
     },
     {
       "id": "bfs-input-09-ink-illustration",
@@ -135,7 +143,8 @@
       "target_group": "target-09",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-009"
     },
     {
       "id": "bfs-input-10-oil-painting",
@@ -148,7 +157,8 @@
       "target_group": "target-10",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-010"
     },
     {
       "id": "bfs-input-11-soft-photo",
@@ -161,7 +171,8 @@
       "target_group": "target-11",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-011"
     },
     {
       "id": "bfs-input-12-watercolor",
@@ -174,7 +185,8 @@
       "target_group": "target-12",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-012"
     },
     {
       "id": "bfs-input-13-clay-render",
@@ -187,7 +199,8 @@
       "target_group": "target-13",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-013"
     },
     {
       "id": "bfs-input-14-ink-illustration",
@@ -200,7 +213,8 @@
       "target_group": "target-14",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-014"
     },
     {
       "id": "bfs-input-15-oil-painting",
@@ -213,7 +227,8 @@
       "target_group": "target-15",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-015"
     },
     {
       "id": "bfs-input-16-soft-photo",
@@ -226,7 +241,8 @@
       "target_group": "target-16",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-016"
     },
     {
       "id": "bfs-input-17-watercolor",
@@ -239,7 +255,8 @@
       "target_group": "target-17",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-017"
     },
     {
       "id": "bfs-input-18-clay-render",
@@ -252,7 +269,8 @@
       "target_group": "target-18",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-018"
     },
     {
       "id": "bfs-input-19-ink-illustration",
@@ -265,7 +283,8 @@
       "target_group": "target-19",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-019"
     },
     {
       "id": "bfs-input-20-oil-painting",
@@ -278,7 +297,8 @@
       "target_group": "target-20",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-020"
     },
     {
       "id": "bfs-input-21-soft-photo",
@@ -291,7 +311,8 @@
       "target_group": "target-21",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-021"
     },
     {
       "id": "bfs-input-22-watercolor",
@@ -304,7 +325,8 @@
       "target_group": "target-22",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-022"
     },
     {
       "id": "bfs-input-23-clay-render",
@@ -317,7 +339,8 @@
       "target_group": "target-23",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-023"
     },
     {
       "id": "bfs-input-24-ink-illustration",
@@ -330,7 +353,8 @@
       "target_group": "target-24",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-024"
     },
     {
       "id": "bfs-input-25-oil-painting",
@@ -343,7 +367,8 @@
       "target_group": "target-25",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-025"
     },
     {
       "id": "bfs-input-26-soft-photo",
@@ -356,7 +381,8 @@
       "target_group": "target-26",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-026"
     },
     {
       "id": "bfs-input-27-watercolor",
@@ -369,7 +395,8 @@
       "target_group": "target-27",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-027"
     },
     {
       "id": "bfs-input-28-clay-render",
@@ -382,7 +409,8 @@
       "target_group": "target-28",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-028"
     },
     {
       "id": "bfs-input-29-ink-illustration",
@@ -395,7 +423,8 @@
       "target_group": "target-29",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-029"
     },
     {
       "id": "bfs-input-30-oil-painting",
@@ -408,7 +437,8 @@
       "target_group": "target-30",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-030"
     },
     {
       "id": "bfs-input-31-soft-photo",
@@ -421,7 +451,8 @@
       "target_group": "target-31",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-031"
     },
     {
       "id": "bfs-input-32-watercolor",
@@ -434,7 +465,8 @@
       "target_group": "target-32",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-032"
     },
     {
       "id": "bfs-input-33-clay-render",
@@ -447,7 +479,8 @@
       "target_group": "target-33",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-033"
     },
     {
       "id": "bfs-input-34-ink-illustration",
@@ -460,7 +493,8 @@
       "target_group": "target-34",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-034"
     },
     {
       "id": "bfs-input-35-oil-painting",
@@ -473,7 +507,8 @@
       "target_group": "target-35",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-035"
     },
     {
       "id": "bfs-input-36-soft-photo",
@@ -486,7 +521,8 @@
       "target_group": "target-36",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-036"
     },
     {
       "id": "bfs-input-37-watercolor",
@@ -499,7 +535,8 @@
       "target_group": "target-37",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-037"
     },
     {
       "id": "bfs-input-38-clay-render",
@@ -512,7 +549,8 @@
       "target_group": "target-38",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-038"
     },
     {
       "id": "bfs-input-39-ink-illustration",
@@ -525,7 +563,8 @@
       "target_group": "target-39",
       "inspection": "comparison_sheet_and_enlarged_pair",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-039"
     },
     {
       "id": "bfs-input-40-oil-painting",
@@ -538,7 +577,8 @@
       "target_group": "target-40",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-040"
     },
     {
       "id": "bfs-input-41-soft-photo",
@@ -551,7 +591,8 @@
       "target_group": "target-41",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-041"
     },
     {
       "id": "bfs-input-42-watercolor",
@@ -564,7 +605,8 @@
       "target_group": "target-42",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-042"
     },
     {
       "id": "bfs-input-43-clay-render",
@@ -577,7 +619,8 @@
       "target_group": "target-43",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-043"
     },
     {
       "id": "bfs-input-44-ink-illustration",
@@ -590,7 +633,8 @@
       "target_group": "target-44",
       "inspection": "comparison_sheet_and_enlarged_pair",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-044"
     },
     {
       "id": "bfs-input-01-watercolor",
@@ -603,7 +647,8 @@
       "target_group": "target-01",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-045"
     },
     {
       "id": "bfs-input-02-clay-render",
@@ -616,7 +661,8 @@
       "target_group": "target-02",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-046"
     },
     {
       "id": "bfs-input-03-ink-illustration",
@@ -629,7 +675,8 @@
       "target_group": "target-03",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-047"
     },
     {
       "id": "bfs-input-04-oil-painting",
@@ -642,7 +689,8 @@
       "target_group": "target-04",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-048"
     },
     {
       "id": "bfs-input-05-soft-photo",
@@ -655,7 +703,8 @@
       "target_group": "target-05",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-049"
     },
     {
       "id": "bfs-input-06-watercolor",
@@ -668,7 +717,8 @@
       "target_group": "target-06",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-050"
     },
     {
       "id": "bfs-input-07-clay-render",
@@ -681,7 +731,8 @@
       "target_group": "target-07",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-051"
     },
     {
       "id": "bfs-input-08-ink-illustration",
@@ -694,7 +745,8 @@
       "target_group": "target-08",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-052"
     },
     {
       "id": "bfs-input-09-oil-painting",
@@ -707,7 +759,8 @@
       "target_group": "target-09",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-053"
     },
     {
       "id": "bfs-input-10-soft-photo",
@@ -720,7 +773,8 @@
       "target_group": "target-10",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-054"
     },
     {
       "id": "bfs-input-11-watercolor",
@@ -733,7 +787,8 @@
       "target_group": "target-11",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-055"
     },
     {
       "id": "bfs-input-12-clay-render",
@@ -746,7 +801,8 @@
       "target_group": "target-12",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-056"
     },
     {
       "id": "bfs-input-13-ink-illustration",
@@ -759,7 +815,8 @@
       "target_group": "target-13",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-057"
     },
     {
       "id": "bfs-input-14-oil-painting",
@@ -772,7 +829,8 @@
       "target_group": "target-14",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-058"
     },
     {
       "id": "bfs-input-15-soft-photo",
@@ -785,7 +843,8 @@
       "target_group": "target-15",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-059"
     },
     {
       "id": "bfs-input-16-watercolor",
@@ -798,7 +857,8 @@
       "target_group": "target-16",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-060"
     },
     {
       "id": "bfs-input-17-clay-render",
@@ -811,7 +871,8 @@
       "target_group": "target-17",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-061"
     },
     {
       "id": "bfs-input-18-ink-illustration",
@@ -824,7 +885,8 @@
       "target_group": "target-18",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-062"
     },
     {
       "id": "bfs-input-19-oil-painting",
@@ -837,7 +899,8 @@
       "target_group": "target-19",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-063"
     },
     {
       "id": "bfs-input-20-soft-photo",
@@ -850,7 +913,8 @@
       "target_group": "target-20",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-064"
     },
     {
       "id": "bfs-input-21-watercolor",
@@ -863,7 +927,8 @@
       "target_group": "target-21",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-065"
     },
     {
       "id": "bfs-input-22-clay-render",
@@ -876,7 +941,8 @@
       "target_group": "target-22",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-066"
     },
     {
       "id": "bfs-input-23-ink-illustration",
@@ -889,7 +955,8 @@
       "target_group": "target-23",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-067"
     },
     {
       "id": "bfs-input-24-oil-painting",
@@ -902,7 +969,8 @@
       "target_group": "target-24",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-068"
     },
     {
       "id": "bfs-input-25-soft-photo",
@@ -915,7 +983,8 @@
       "target_group": "target-25",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-069"
     },
     {
       "id": "bfs-input-26-watercolor",
@@ -928,7 +997,8 @@
       "target_group": "target-26",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-070"
     },
     {
       "id": "bfs-input-27-clay-render",
@@ -941,7 +1011,8 @@
       "target_group": "target-27",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-071"
     },
     {
       "id": "bfs-input-28-ink-illustration",
@@ -954,7 +1025,8 @@
       "target_group": "target-28",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-072"
     },
     {
       "id": "bfs-input-29-oil-painting",
@@ -967,7 +1039,8 @@
       "target_group": "target-29",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-073"
     },
     {
       "id": "bfs-input-30-soft-photo",
@@ -980,7 +1053,8 @@
       "target_group": "target-30",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-074"
     },
     {
       "id": "bfs-input-31-watercolor",
@@ -993,7 +1067,8 @@
       "target_group": "target-31",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-075"
     },
     {
       "id": "bfs-input-32-clay-render",
@@ -1006,7 +1081,8 @@
       "target_group": "target-32",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-076"
     },
     {
       "id": "bfs-input-33-ink-illustration",
@@ -1019,7 +1095,8 @@
       "target_group": "target-33",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-077"
     },
     {
       "id": "bfs-input-34-oil-painting",
@@ -1032,7 +1109,8 @@
       "target_group": "target-34",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-078"
     },
     {
       "id": "bfs-input-35-soft-photo",
@@ -1045,7 +1123,8 @@
       "target_group": "target-35",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-079"
     },
     {
       "id": "bfs-input-36-watercolor",
@@ -1058,7 +1137,8 @@
       "target_group": "target-36",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-080"
     },
     {
       "id": "bfs-input-37-clay-render",
@@ -1071,7 +1151,8 @@
       "target_group": "target-37",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-081"
     },
     {
       "id": "bfs-input-38-ink-illustration",
@@ -1084,7 +1165,8 @@
       "target_group": "target-38",
       "inspection": "comparison_sheet_and_enlarged_pair",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-082"
     },
     {
       "id": "bfs-input-39-oil-painting",
@@ -1097,7 +1179,8 @@
       "target_group": "target-39",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-083"
     },
     {
       "id": "bfs-input-40-soft-photo",
@@ -1110,7 +1193,8 @@
       "target_group": "target-40",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-084"
     },
     {
       "id": "bfs-input-41-watercolor",
@@ -1123,7 +1207,8 @@
       "target_group": "target-41",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-085"
     },
     {
       "id": "bfs-input-42-clay-render",
@@ -1136,7 +1221,8 @@
       "target_group": "target-42",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-086"
     },
     {
       "id": "bfs-input-43-ink-illustration",
@@ -1149,7 +1235,8 @@
       "target_group": "target-43",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-087"
     },
     {
       "id": "bfs-input-44-oil-painting",
@@ -1162,7 +1249,8 @@
       "target_group": "target-44",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-088"
     },
     {
       "id": "bfs-input-01-clay-render",
@@ -1175,7 +1263,8 @@
       "target_group": "target-01",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-089"
     },
     {
       "id": "bfs-input-02-ink-illustration",
@@ -1188,7 +1277,8 @@
       "target_group": "target-02",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-090"
     },
     {
       "id": "bfs-input-03-oil-painting",
@@ -1201,7 +1291,8 @@
       "target_group": "target-03",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-091"
     },
     {
       "id": "bfs-input-04-soft-photo",
@@ -1214,7 +1305,8 @@
       "target_group": "target-04",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-092"
     },
     {
       "id": "bfs-input-05-watercolor",
@@ -1227,7 +1319,8 @@
       "target_group": "target-05",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-093"
     },
     {
       "id": "bfs-input-06-clay-render",
@@ -1240,7 +1333,8 @@
       "target_group": "target-06",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-094"
     },
     {
       "id": "bfs-input-07-ink-illustration",
@@ -1253,7 +1347,8 @@
       "target_group": "target-07",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-095"
     },
     {
       "id": "bfs-input-08-oil-painting",
@@ -1266,7 +1361,8 @@
       "target_group": "target-08",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-096"
     },
     {
       "id": "bfs-input-09-soft-photo",
@@ -1279,7 +1375,8 @@
       "target_group": "target-09",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-097"
     },
     {
       "id": "bfs-input-10-watercolor",
@@ -1292,7 +1389,8 @@
       "target_group": "target-10",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-098"
     },
     {
       "id": "bfs-input-11-clay-render",
@@ -1305,7 +1403,8 @@
       "target_group": "target-11",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-099"
     },
     {
       "id": "bfs-input-12-ink-illustration",
@@ -1318,7 +1417,8 @@
       "target_group": "target-12",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-100"
     },
     {
       "id": "bfs-input-13-oil-painting",
@@ -1331,7 +1431,8 @@
       "target_group": "target-13",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-101"
     },
     {
       "id": "bfs-input-14-soft-photo",
@@ -1344,7 +1445,8 @@
       "target_group": "target-14",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-102"
     },
     {
       "id": "bfs-input-15-watercolor",
@@ -1357,7 +1459,8 @@
       "target_group": "target-15",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-103"
     },
     {
       "id": "bfs-input-16-clay-render",
@@ -1370,7 +1473,8 @@
       "target_group": "target-16",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-104"
     },
     {
       "id": "bfs-input-17-ink-illustration",
@@ -1383,7 +1487,8 @@
       "target_group": "target-17",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-105"
     },
     {
       "id": "bfs-input-18-oil-painting",
@@ -1396,7 +1501,8 @@
       "target_group": "target-18",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-106"
     },
     {
       "id": "bfs-input-19-soft-photo",
@@ -1409,7 +1515,8 @@
       "target_group": "target-19",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-107"
     },
     {
       "id": "bfs-input-20-watercolor",
@@ -1422,7 +1529,8 @@
       "target_group": "target-20",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-108"
     },
     {
       "id": "bfs-input-21-clay-render",
@@ -1435,7 +1543,8 @@
       "target_group": "target-21",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-109"
     },
     {
       "id": "bfs-input-22-ink-illustration",
@@ -1448,7 +1557,8 @@
       "target_group": "target-22",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-110"
     },
     {
       "id": "bfs-input-23-oil-painting",
@@ -1461,7 +1571,8 @@
       "target_group": "target-23",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-111"
     },
     {
       "id": "bfs-input-24-soft-photo",
@@ -1474,7 +1585,8 @@
       "target_group": "target-24",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-112"
     },
     {
       "id": "bfs-input-25-watercolor",
@@ -1487,7 +1599,8 @@
       "target_group": "target-25",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-113"
     },
     {
       "id": "bfs-input-26-clay-render",
@@ -1500,7 +1613,8 @@
       "target_group": "target-26",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-114"
     },
     {
       "id": "bfs-input-27-ink-illustration",
@@ -1513,7 +1627,8 @@
       "target_group": "target-27",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-115"
     },
     {
       "id": "bfs-input-28-oil-painting",
@@ -1526,7 +1641,8 @@
       "target_group": "target-28",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-116"
     },
     {
       "id": "bfs-input-29-soft-photo",
@@ -1539,7 +1655,8 @@
       "target_group": "target-29",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-117"
     },
     {
       "id": "bfs-input-30-watercolor",
@@ -1552,7 +1669,8 @@
       "target_group": "target-30",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-118"
     },
     {
       "id": "bfs-input-31-clay-render",
@@ -1565,7 +1683,8 @@
       "target_group": "target-31",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-119"
     },
     {
       "id": "bfs-input-32-ink-illustration",
@@ -1578,7 +1697,8 @@
       "target_group": "target-32",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-120"
     },
     {
       "id": "bfs-input-33-oil-painting",
@@ -1591,7 +1711,8 @@
       "target_group": "target-33",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-121"
     },
     {
       "id": "bfs-input-34-soft-photo",
@@ -1604,7 +1725,8 @@
       "target_group": "target-34",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-122"
     },
     {
       "id": "bfs-input-35-watercolor",
@@ -1617,7 +1739,8 @@
       "target_group": "target-35",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-123"
     },
     {
       "id": "bfs-input-36-clay-render",
@@ -1630,7 +1753,8 @@
       "target_group": "target-36",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-124"
     },
     {
       "id": "bfs-input-37-ink-illustration",
@@ -1643,7 +1767,8 @@
       "target_group": "target-37",
       "inspection": "comparison_sheet_and_enlarged_pair",
       "review_stage": "first_pass_complete",
-      "next_action": "candidate_for_pilot_only"
+      "next_action": "candidate_for_pilot_only",
+      "candidate_code": "P711-IN-125"
     },
     {
       "id": "bfs-input-38-oil-painting",
@@ -1656,7 +1781,8 @@
       "target_group": "target-38",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-126"
     },
     {
       "id": "bfs-input-39-soft-photo",
@@ -1669,7 +1795,8 @@
       "target_group": "target-39",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-127"
     },
     {
       "id": "bfs-input-41-clay-render",
@@ -1682,7 +1809,8 @@
       "target_group": "target-41",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-129"
     },
     {
       "id": "bfs-input-42-ink-illustration",
@@ -1695,7 +1823,8 @@
       "target_group": "target-42",
       "inspection": "comparison_sheet_and_enlarged_pair",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-130"
     },
     {
       "id": "bfs-input-43-oil-painting",
@@ -1708,7 +1837,8 @@
       "target_group": "target-43",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-131"
     },
     {
       "id": "bfs-input-44-soft-photo",
@@ -1721,7 +1851,8 @@
       "target_group": "target-44",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-132"
     },
     {
       "id": "bfs-input-01-ink-illustration",
@@ -1734,7 +1865,8 @@
       "target_group": "target-01",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-133"
     },
     {
       "id": "bfs-input-02-oil-painting",
@@ -1747,7 +1879,8 @@
       "target_group": "target-02",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-134"
     },
     {
       "id": "bfs-input-03-soft-photo",
@@ -1760,7 +1893,8 @@
       "target_group": "target-03",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-135"
     },
     {
       "id": "bfs-input-04-watercolor",
@@ -1773,7 +1907,8 @@
       "target_group": "target-04",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-136"
     },
     {
       "id": "bfs-input-05-clay-render",
@@ -1786,7 +1921,8 @@
       "target_group": "target-05",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-137"
     },
     {
       "id": "bfs-input-06-ink-illustration",
@@ -1799,7 +1935,8 @@
       "target_group": "target-06",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-138"
     },
     {
       "id": "bfs-input-07-oil-painting",
@@ -1812,7 +1949,8 @@
       "target_group": "target-07",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-139"
     },
     {
       "id": "bfs-input-08-soft-photo",
@@ -1825,7 +1963,8 @@
       "target_group": "target-08",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-140"
     },
     {
       "id": "bfs-input-09-watercolor",
@@ -1838,7 +1977,8 @@
       "target_group": "target-09",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-141"
     },
     {
       "id": "bfs-input-10-clay-render",
@@ -1851,7 +1991,8 @@
       "target_group": "target-10",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-142"
     },
     {
       "id": "bfs-input-11-ink-illustration",
@@ -1864,7 +2005,8 @@
       "target_group": "target-11",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-143"
     },
     {
       "id": "bfs-input-12-oil-painting",
@@ -1877,7 +2019,8 @@
       "target_group": "target-12",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-144"
     },
     {
       "id": "bfs-input-14-watercolor",
@@ -1890,7 +2033,8 @@
       "target_group": "target-14",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-146"
     },
     {
       "id": "bfs-input-15-clay-render",
@@ -1903,7 +2047,8 @@
       "target_group": "target-15",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-147"
     },
     {
       "id": "bfs-input-16-ink-illustration",
@@ -1916,7 +2061,8 @@
       "target_group": "target-16",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-148"
     },
     {
       "id": "bfs-input-17-oil-painting",
@@ -1929,7 +2075,8 @@
       "target_group": "target-17",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-149"
     },
     {
       "id": "bfs-input-18-soft-photo",
@@ -1942,7 +2089,8 @@
       "target_group": "target-18",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-150"
     },
     {
       "id": "bfs-input-19-watercolor",
@@ -1955,7 +2103,8 @@
       "target_group": "target-19",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-151"
     },
     {
       "id": "bfs-input-20-clay-render",
@@ -1968,7 +2117,8 @@
       "target_group": "target-20",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-152"
     },
     {
       "id": "bfs-input-21-ink-illustration",
@@ -1981,7 +2131,8 @@
       "target_group": "target-21",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-153"
     },
     {
       "id": "bfs-input-22-oil-painting",
@@ -1994,7 +2145,8 @@
       "target_group": "target-22",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-154"
     },
     {
       "id": "bfs-input-23-soft-photo",
@@ -2007,7 +2159,8 @@
       "target_group": "target-23",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-155"
     },
     {
       "id": "bfs-input-24-watercolor",
@@ -2020,7 +2173,8 @@
       "target_group": "target-24",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-156"
     },
     {
       "id": "bfs-input-25-clay-render",
@@ -2033,7 +2187,8 @@
       "target_group": "target-25",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-157"
     },
     {
       "id": "bfs-input-26-ink-illustration",
@@ -2046,7 +2201,8 @@
       "target_group": "target-26",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-158"
     },
     {
       "id": "bfs-input-27-oil-painting",
@@ -2059,7 +2215,8 @@
       "target_group": "target-27",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-159"
     },
     {
       "id": "bfs-input-28-soft-photo",
@@ -2072,7 +2229,8 @@
       "target_group": "target-28",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-160"
     },
     {
       "id": "bfs-input-29-watercolor",
@@ -2085,7 +2243,8 @@
       "target_group": "target-29",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-161"
     },
     {
       "id": "bfs-input-30-clay-render",
@@ -2098,7 +2257,8 @@
       "target_group": "target-30",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-162"
     },
     {
       "id": "bfs-input-31-ink-illustration",
@@ -2111,7 +2271,8 @@
       "target_group": "target-31",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-163"
     },
     {
       "id": "bfs-input-32-oil-painting",
@@ -2124,7 +2285,8 @@
       "target_group": "target-32",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-164"
     },
     {
       "id": "bfs-input-33-soft-photo",
@@ -2137,7 +2299,8 @@
       "target_group": "target-33",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-165"
     },
     {
       "id": "bfs-input-34-watercolor",
@@ -2150,7 +2313,8 @@
       "target_group": "target-34",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-166"
     },
     {
       "id": "bfs-input-35-clay-render",
@@ -2163,7 +2327,8 @@
       "target_group": "target-35",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-167"
     },
     {
       "id": "bfs-input-36-ink-illustration",
@@ -2176,7 +2341,8 @@
       "target_group": "target-36",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-168"
     },
     {
       "id": "bfs-input-37-oil-painting",
@@ -2189,7 +2355,8 @@
       "target_group": "target-37",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-169"
     },
     {
       "id": "bfs-input-38-soft-photo",
@@ -2202,7 +2369,8 @@
       "target_group": "target-38",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-170"
     },
     {
       "id": "bfs-input-39-watercolor",
@@ -2215,7 +2383,8 @@
       "target_group": "target-39",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-171"
     },
     {
       "id": "bfs-input-40-clay-render",
@@ -2228,7 +2397,8 @@
       "target_group": "target-40",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-172"
     },
     {
       "id": "bfs-input-41-ink-illustration",
@@ -2241,7 +2411,8 @@
       "target_group": "target-41",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-173"
     },
     {
       "id": "bfs-input-42-oil-painting",
@@ -2254,7 +2425,8 @@
       "target_group": "target-42",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-174"
     },
     {
       "id": "bfs-input-43-soft-photo",
@@ -2267,7 +2439,8 @@
       "target_group": "target-43",
       "inspection": "comparison_sheet_and_enlarged_pair",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-175"
     },
     {
       "id": "bfs-input-44-watercolor",
@@ -2280,7 +2453,8 @@
       "target_group": "target-44",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-176"
     },
     {
       "id": "bfs-input-02-soft-photo",
@@ -2293,7 +2467,8 @@
       "target_group": "target-02",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-178"
     },
     {
       "id": "bfs-input-03-watercolor",
@@ -2306,7 +2481,8 @@
       "target_group": "target-03",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-179"
     },
     {
       "id": "bfs-input-04-clay-render",
@@ -2319,7 +2495,8 @@
       "target_group": "target-04",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-180"
     },
     {
       "id": "bfs-input-05-ink-illustration",
@@ -2332,7 +2509,8 @@
       "target_group": "target-05",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-181"
     },
     {
       "id": "bfs-input-06-oil-painting",
@@ -2345,7 +2523,8 @@
       "target_group": "target-06",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-182"
     },
     {
       "id": "bfs-input-07-soft-photo",
@@ -2358,7 +2537,8 @@
       "target_group": "target-07",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-183"
     },
     {
       "id": "bfs-input-08-watercolor",
@@ -2371,7 +2551,8 @@
       "target_group": "target-08",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-184"
     },
     {
       "id": "bfs-input-09-clay-render",
@@ -2384,7 +2565,8 @@
       "target_group": "target-09",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-185"
     },
     {
       "id": "bfs-input-10-ink-illustration",
@@ -2397,7 +2579,8 @@
       "target_group": "target-10",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-186"
     },
     {
       "id": "bfs-input-11-oil-painting",
@@ -2410,7 +2593,8 @@
       "target_group": "target-11",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-187"
     },
     {
       "id": "bfs-input-12-soft-photo",
@@ -2423,7 +2607,8 @@
       "target_group": "target-12",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-188"
     },
     {
       "id": "bfs-input-13-watercolor",
@@ -2436,7 +2621,8 @@
       "target_group": "target-13",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-189"
     },
     {
       "id": "bfs-input-14-clay-render",
@@ -2449,7 +2635,8 @@
       "target_group": "target-14",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-190"
     },
     {
       "id": "bfs-input-15-ink-illustration",
@@ -2462,7 +2649,8 @@
       "target_group": "target-15",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-191"
     },
     {
       "id": "bfs-input-16-oil-painting",
@@ -2475,7 +2663,8 @@
       "target_group": "target-16",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-192"
     },
     {
       "id": "bfs-input-17-soft-photo",
@@ -2488,7 +2677,8 @@
       "target_group": "target-17",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-193"
     },
     {
       "id": "bfs-input-18-watercolor",
@@ -2501,7 +2691,8 @@
       "target_group": "target-18",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-194"
     },
     {
       "id": "bfs-input-19-clay-render",
@@ -2514,7 +2705,8 @@
       "target_group": "target-19",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-195"
     },
     {
       "id": "bfs-input-20-ink-illustration",
@@ -2527,7 +2719,8 @@
       "target_group": "target-20",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-196"
     },
     {
       "id": "bfs-input-21-oil-painting",
@@ -2540,7 +2733,8 @@
       "target_group": "target-21",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-197"
     },
     {
       "id": "bfs-input-22-soft-photo",
@@ -2553,7 +2747,8 @@
       "target_group": "target-22",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-198"
     },
     {
       "id": "bfs-input-23-watercolor",
@@ -2566,7 +2761,8 @@
       "target_group": "target-23",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-199"
     },
     {
       "id": "bfs-input-24-clay-render",
@@ -2579,7 +2775,8 @@
       "target_group": "target-24",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-200"
     },
     {
       "id": "bfs-input-25-ink-illustration",
@@ -2592,7 +2789,8 @@
       "target_group": "target-25",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-201"
     },
     {
       "id": "bfs-input-26-oil-painting",
@@ -2605,7 +2803,8 @@
       "target_group": "target-26",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-202"
     },
     {
       "id": "bfs-input-27-soft-photo",
@@ -2618,7 +2817,8 @@
       "target_group": "target-27",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-203"
     },
     {
       "id": "bfs-input-28-watercolor",
@@ -2631,7 +2831,8 @@
       "target_group": "target-28",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "exclude_from_selection"
+      "next_action": "exclude_from_selection",
+      "candidate_code": "P711-IN-204"
     },
     {
       "id": "bfs-input-29-clay-render",
@@ -2644,7 +2845,8 @@
       "target_group": "target-29",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-205"
     },
     {
       "id": "bfs-input-30-ink-illustration",
@@ -2657,7 +2859,8 @@
       "target_group": "target-30",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-206"
     },
     {
       "id": "bfs-input-31-oil-painting",
@@ -2670,7 +2873,8 @@
       "target_group": "target-31",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-207"
     },
     {
       "id": "bfs-input-32-soft-photo",
@@ -2683,7 +2887,8 @@
       "target_group": "target-32",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-208"
     },
     {
       "id": "bfs-input-33-watercolor",
@@ -2696,7 +2901,8 @@
       "target_group": "target-33",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-209"
     },
     {
       "id": "bfs-input-34-clay-render",
@@ -2709,7 +2915,8 @@
       "target_group": "target-34",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-210"
     },
     {
       "id": "bfs-input-35-ink-illustration",
@@ -2722,7 +2929,8 @@
       "target_group": "target-35",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-211"
     },
     {
       "id": "bfs-input-36-oil-painting",
@@ -2735,7 +2943,8 @@
       "target_group": "target-36",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-212"
     },
     {
       "id": "bfs-input-37-soft-photo",
@@ -2748,7 +2957,8 @@
       "target_group": "target-37",
       "inspection": "comparison_sheet_and_enlarged_pair",
       "review_stage": "first_pass_complete",
-      "next_action": "candidate_for_pilot_only"
+      "next_action": "candidate_for_pilot_only",
+      "candidate_code": "P711-IN-213"
     },
     {
       "id": "bfs-input-38-watercolor",
@@ -2761,7 +2971,8 @@
       "target_group": "target-38",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-214"
     },
     {
       "id": "bfs-input-39-clay-render",
@@ -2774,7 +2985,8 @@
       "target_group": "target-39",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-215"
     },
     {
       "id": "bfs-input-40-ink-illustration",
@@ -2787,7 +2999,8 @@
       "target_group": "target-40",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-216"
     },
     {
       "id": "bfs-input-41-oil-painting",
@@ -2800,7 +3013,8 @@
       "target_group": "target-41",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-217"
     },
     {
       "id": "bfs-input-42-soft-photo",
@@ -2813,7 +3027,8 @@
       "target_group": "target-42",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-218"
     },
     {
       "id": "bfs-input-43-watercolor",
@@ -2826,7 +3041,8 @@
       "target_group": "target-43",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-219"
     },
     {
       "id": "bfs-input-44-clay-render",
@@ -2839,7 +3055,8 @@
       "target_group": "target-44",
       "inspection": "comparison_sheet_256px_cells",
       "review_stage": "first_pass_complete",
-      "next_action": "detailed_pair_review_required"
+      "next_action": "detailed_pair_review_required",
+      "candidate_code": "P711-IN-220"
     }
   ],
   "geometry_review_report": "management/authoring/part-07-p7-5-11-input-geometry-review.md",
@@ -2864,7 +3081,8 @@
         "whole_body_pose_change": "not_established"
       },
       "disposal_confirmed_by": "user",
-      "files_deleted": true
+      "files_deleted": true,
+      "candidate_code": "P711-IN-128"
     },
     {
       "id": "bfs-input-13-soft-photo",
@@ -2885,7 +3103,8 @@
         "whole_body_pose_change": "not_established"
       },
       "disposal_confirmed_by": "user",
-      "files_deleted": true
+      "files_deleted": true,
+      "candidate_code": "P711-IN-145"
     },
     {
       "id": "bfs-input-01-oil-painting",
@@ -2906,8 +3125,10 @@
         "whole_body_pose_change": "not_established"
       },
       "disposal_confirmed_by": "user",
-      "files_deleted": true
+      "files_deleted": true,
+      "candidate_code": "P711-IN-177"
     }
   ],
-  "discarded_count": 3
+  "discarded_count": 3,
+  "candidate_code_policy": "P711-IN- + original generation order (3 digits). IDs remain stable after disposal; never renumber remaining candidates."
 }
