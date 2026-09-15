@@ -1,7 +1,7 @@
 # P2-13.2 기본 차트와 수식의 모양 확인
 
 > Section ID: `P2-13.2`
-> Version: `v2026.09.08`
+> Version: `v2026.09.15`
 
 ## 선 그래프: 함수의 모양
 
@@ -28,7 +28,13 @@ plt.show()
 
 ![y는 x 제곱인 함수의 모양을 보여 주는 선 그래프](../../../assets/part-02/chapter-13/basic-line-function-shape-ko.svg)
 
-이 절의 PNG 예시 자산은 [`p2_13_2_basic_chart_shapes.py`](../../../assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py)로 다시 만들 수 있습니다. 본문 코드는 차트 선택과 `Axes` 사용법을 읽기 위한 최소 코드이고, 자산 스크립트는 같은 입력 조건을 파일 출력으로 남기는 재현용 코드입니다.
+다음 스크립트는 본문과 같은 입력 조건으로 세 언어의 SVG 그래프를 저장합니다.
+
+[p2_13_2_basic_chart_shapes.py](../../../assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py)
+
+```bash
+python docs/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py
+```
 
 곡선에서는 다음 특징이 보입니다.
 
@@ -37,6 +43,8 @@ plt.show()
 - 기울기(slope)는 위치마다 달라집니다.
 
 `y = x**2`를 `y = (x - 1)**2`로 바꾸면 가장 낮은 지점이 `(0, 0)`에서 `(1, 0)`으로 옮겨집니다. 수식의 변화가 곡선의 위치에 반영됩니다.
+
+`np.linspace(-3, 3, 121)`은 양 끝을 포함해 간격 0.05인 입력값 121개를 만듭니다. 그래프는 함수의 모든 실수 입력을 그린 것이 아니라 계산한 점들을 선분으로 연결한 것입니다. 지점 수를 3으로 줄이면 `(-3, 9)`, `(0, 0)`, `(3, 9)`만 연결해 V자처럼 보입니다. 수식은 같아도 계산 지점이 적으면 곡선의 모양을 충분히 나타내지 못합니다.
 
 ## 산점도: 관계와 흩어짐
 
@@ -105,6 +113,40 @@ plt.show()
 
 `bins=18`을 `bins=6`으로 바꾸면 같은 240개 값을 더 넓은 구간에 묶습니다. 막대 수와 높이는 달라져도 모든 막대의 개수 합은 240으로 유지됩니다.
 
+## 구간 경계와 빠지는 값
+
+점수 `[45, 62, 71, 73, 82, 88, 90]`을 경계 `[40, 60, 80, 100]`으로 나누면 막대 세 개의 높이는 다음과 같습니다. 경계 목록은 구간 수보다 원소가 하나 더 많습니다.
+
+| 구간 | 포함된 점수 | 개수 |
+| --- | --- | ---: |
+| 40 이상 60 미만 | 45 | 1 |
+| 60 이상 80 미만 | 62, 71, 73 | 3 |
+| 80 이상 100 이하 | 82, 88, 90 | 3 |
+
+Matplotlib의 히스토그램은 마지막 구간을 제외하고 왼쪽 경계는 포함하고 오른쪽 경계는 제외합니다. 따라서 점수 80은 마지막 구간에 들어가고 마지막 경계인 100도 포함됩니다. `bins=3, range=(60, 100)`처럼 집계 범위를 제한하면 45가 제외되어 개수 합이 6이 됩니다. 단순히 보이는 축 범위를 바꾸는 것과, 집계에 포함할 값의 범위를 바꾸는 것은 다릅니다.
+
+두 집단의 분포를 비교할 때는 같은 경계를 사용해야 합니다. `bins=5`를 각각 적용하면 집단별 최솟값·최댓값이 달라 경계도 달라질 수 있습니다. 여기서 y축은 개수이며, `density=True`를 쓰면 막대 높이가 확률 밀도로 바뀌어 높이의 합이 아니라 막대 면적의 합이 1이 됩니다.
+
+## 막대 그래프: 범주별 비교
+
+같은 검증 자료와 손실 함수로 평가한 가상 모델 A·B·C의 손실이 `[0.42, 0.39, 0.47]`이라고 합시다. 모델 이름은 수치 구간이 아니라 범주이므로 `bar`로 비교합니다.
+
+```python
+models = ["A", "B", "C"]
+validation_loss = [0.42, 0.39, 0.47]
+fig, ax = plt.subplots()
+ax.bar(models, validation_loss)
+ax.set_ylim(0, 0.55)
+ax.set_xlabel("model")
+ax.set_ylabel("validation loss")
+ax.set_title("Model comparison on the same validation set")
+plt.show()
+```
+
+![같은 검증 자료에서 모델별 손실을 비교하는 막대 그래프](../../../assets/part-02/chapter-13/basic-bar-model-comparison-ko.svg)
+
+이 기록에서는 B의 손실이 가장 낮고 A와의 차이는 0.03입니다. 막대 길이로 크기를 비교하므로 y축은 0부터 시작합니다. B의 값을 0.49로 바꾸면 가장 낮은 모델은 A가 됩니다. 막대 그래프는 이미 범주별로 주어진 값을 표시하고, 히스토그램은 원래 관측값을 수치 구간에 넣어 개수를 계산한다는 차이가 있습니다.
+
 ## 손실 곡선: 감소와 진동
 
 두 가상 학습 기록의 손실을 비교합니다. 첫 기록은 2.4에서 0.57까지 매번 감소합니다. 둘째 기록은 2.4에서 1.46으로 내려가지만 4·6·8·10번째 반복에서 직전 값보다 상승합니다.
@@ -144,7 +186,7 @@ plt.show()
 
 첫 함수 그래프의 x축은 수식 입력값, y축은 계산한 함수값입니다. 손실 그래프의 x축은 반복 횟수, y축은 손실입니다. 선 모양만 비슷하더라도 축의 의미가 다르면 해석도 달라집니다. `set_xlabel`, `set_ylabel`, `set_title`로 변수와 그래프의 대상을 적고, 여러 선을 겹치면 `label`과 `legend()`로 구분합니다.
 
-## 사례 1. 순서를 뒤집은 손실 기록
+## 사례: 순서를 뒤집은 손실 기록
 
 손실 `[2.4, 1.8, 1.2, 0.6]`과 역순인 `[0.6, 1.2, 1.8, 2.4]`를 비교합시다. 두 목록에 들어 있는 값과 평균 1.5는 같지만, 첫 기록은 감소하고 둘째 기록은 증가합니다.
 
@@ -164,6 +206,8 @@ plt.show()
 
 ## 출처와 참고 자료
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } `Axes.plot`, `Axes.scatter`, 라벨·제목 설정을 포함한 기본 그래프 코드 흐름을 확인했습니다.
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 선 그래프, 산점도, 히스토그램을 변화·관계·분포 질문에 대응시키는 근거입니다.
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/api/pyplot_summary.html](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" } `pyplot` 함수 기반 예제와 Matplotlib 입문 코드 스타일을 확인하는 참고 자료입니다.
+- Matplotlib Developers, [Quick start guide](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-07-20. `Axes.plot`, `Axes.scatter`, 라벨·제목 설정을 포함한 기본 그래프 코드 흐름을 확인했습니다.
+- Matplotlib Developers, [Plot types](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-07-20. 선 그래프, 산점도, 히스토그램을 변화·관계·분포 질문에 대응시키는 근거입니다.
+- Matplotlib Developers, [matplotlib.pyplot](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 확인 날짜: 2026-07-20. `pyplot` 함수 기반 예제와 Matplotlib 입문 코드 스타일을 확인하는 참고 자료입니다.
+- Matplotlib Developers, [Axes.hist](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.hist.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 구간 경계·range·density의 동작.
+- NumPy Developers, [numpy.linspace](https://numpy.org/doc/stable/reference/generated/numpy.linspace.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-09-15. 양 끝 포함과 계산 지점 수.

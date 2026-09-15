@@ -1,63 +1,15 @@
-# P2-13.2 Basic Charts and Checking the Shape of Formulas
+# P2-13.2 Basic Charts and Function Shapes
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-In P2-13.1, we treated a plot as a tool for checking the shape of numbers. Now we connect a few basic chart types directly.
+## Line Plots: Function Shapes
 
-The core of this section is not "memorizing Matplotlib function names." It is building the sense of setting the question first and then choosing the chart that fits that question.
+Line plots are useful when x-axis order matters, such as time, iterations, training epochs, or continuous changes in an input value.
 
-This section explains the basic distinctions among the `line plot`, `scatter plot`, `histogram`, and `loss curve`. The representative explanation of the role of a `plot` itself and of `Figure` and `Axes` stays in P2-13.1 and P2-13.2. Here, we focus on which basic chart to choose first for which question.
-
-## Reading the Same Learning Scene with Different Questions
-
-Instead of giving each chart a completely different world as an example, this section rereads `the scene of checking a learning process` through several questions.
-
-| Question Asked in the Same Scene | Chart to Recall First | Why This Chart Fits |
-| --- | --- | --- |
-| How does loss change as epochs pass? | line plot | Because the key is change across an order. |
-| As the input value grows, does the observed value also grow? | scatter plot | Because you need to see both the sample-by-sample relationship and the spread. |
-| In which intervals do scores or measurements gather? | histogram | Because you want to inspect distribution and concentration. |
-
-Even in the same scene, if the question changes, the chart choice also changes. If you hold on to this connection, what stays longer is not the chart name but the `question-chart match`.
-
-## Core Criteria: Basic Charts and Checking the Shape of Formulas
-
-- You can distinguish the basic purpose of a line plot, scatter plot, and histogram.
-- You can calculate the shape of a formula in code and check it with a chart.
-- You can ask questions about the learning flow by looking at a loss curve.
-- You can explain why a chart needs axis labels and a title.
-- You can hold the perspective that a chart is not a conclusion but a checking tool.
-
-## Three Criteria
-
-| Criterion | Why It Matters | Required Understanding in This Section |
-| --- | --- | --- |
-| When is a line plot used? | It helps you distinguish a chart for ordered values from a chart for related values. | Understand that it is used when you want to see change across order or time. |
-| How are a scatter plot and a histogram different? | It helps you read relationship and distribution as different questions. | Understand that one inspects the relationship between two values, while the other inspects where values gather. |
-| Why are the title and axis labels important? | It makes clear that chart interpretation does not end with the picture alone. | Understand that chart interpretation is completed together with words, not by the picture alone. |
-
-| Term | Meaning to Hold First in This Section |
-| --- | --- |
-| line plot | A chart that connects value changes across order or time with lines. |
-| scatter plot | A chart that shows the relationship and spread of two variables with points. |
-| histogram | A chart that shows how much values gather in each interval. |
-| loss curve | A line plot that shows how loss changes as training repeats. |
-| axis label | Text that explains what the horizontal and vertical axes mean in a chart. |
-
-## A Line Plot Shows Change Across Order
-
-A line plot is often used when the order on the x-axis matters. It fits cases where there is a flow read from left to right, such as time, iteration count, training epochs, or continuous change in an input value.
-
-A line plot is also basic when checking the shape of a formula. For example, you can make \(y = x^2\) as a table of numbers, but if you draw it as a chart, the U-shape appears immediately.
-
-Problem situation: if you list formula values in a table, the exact numbers appear, but it is hard to catch the whole curve shape immediately.
-Input: continuously changing x values and the computed values of \(y = x^2\) corresponding to each x.
-Expected output: a line plot that shows the whole shape of \(y = x^2\).
-Concept to check: a line plot is suitable for checking the shape of a function across continuous input changes, and the axis labels and title should clarify what question the chart answers.
+For \(y=x^2\), inputs −3, 0, and 3 give 9, 0, and 9. This code evaluates 121 points from −3 to 3 and connects them into a U-shaped curve.
 
 ```python
-# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -72,33 +24,35 @@ ax.set_title("Function shape: y = x^2")
 plt.show()
 ```
 
-The output looks as follows.
+The output is:
 
-![Function shape for y equals x squared](/AiBook/assets/part-02/chapter-13/basic-line-function-shape.png)
+![Function y = x squared](/AiBook/assets/part-02/chapter-13/basic-line-function-shape-en.svg)
 
-The PNG example assets in this section can be recreated with [`p2_13_2_basic_chart_shapes.py`](/AiBook/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py). The code in the body is the minimum code for reading chart choice and `Axes` usage, while the asset script is reproducibility code that leaves the same input conditions as file outputs.
+This script saves SVG plots in all three languages using the same input conditions as the manuscript.
 
-What this graph shows is not a solution process but a shape.
+[p2_13_2_basic_chart_shapes.py](/AiBook/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py)
 
-- It is lowest near \(x=0\).
-- As \(x\) moves farther away in either direction, \(y\) grows.
-- The slope changes depending on the position.
+```bash
+python docs/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py
+```
 
-This check connects directly to the intuition for derivatives, gradients, and loss functions discussed in P2-4.
+The curve shows these features:
 
-## A Scatter Plot Shows the Relationship Between Two Values
+- The minimum is 0 at \(x=0\).
+- As \(x\) moves away from zero on either side, \(y\) grows.
+- The slope varies with position.
 
-A scatter plot marks each sample as one point. It is useful when you place different values on the x-axis and y-axis and want to check whether the two values move together.
+Changing `y = x**2` to `y = (x - 1)**2` moves the lowest point from `(0, 0)` to `(1, 0)`. The equation change shifts the curve.
 
-For example, if you want to know whether the observed value tends to grow as an input value grows, you can use a scatter plot.
+`np.linspace(-3, 3, 121)` includes both endpoints and produces 121 inputs spaced by 0.05. The plot joins computed points with line segments; it does not evaluate every real input. Reducing the count to three connects only `(-3, 9)`, `(0, 0)`, and `(3, 9)`, producing a V-like shape. Even with the same equation, too few sample points may fail to represent its curvature.
 
-Problem situation: you want to check by eye whether two values grow together and how widely the points are spread.
-Input: continuous `x` values and the observed values `y` mixed with noise.
-Expected output: a scatter plot where the relationship direction and variation are visible together.
-Concept to check: a scatter plot shows both a candidate relationship and the spread caused by variation or noise.
+## Scatter Plots: Relationships and Spread
+
+A scatter plot draws each sample as a point, putting different variables on the x- and y-axes to inspect how they vary together.
+
+This artificial dataset evaluates `2.5 * x` for 24 inputs and adds normal random noise with mean 0 and standard deviation 2.2. The points scatter around a straight line.
 
 ```python
-# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -114,30 +68,24 @@ ax.set_title("Scatter plot: relationship with variation")
 plt.show()
 ```
 
-The output looks as follows.
+The output is:
 
-![Scatter plot showing a relationship with spread](/AiBook/assets/part-02/chapter-13/basic-scatter-relationship.png)
+![A relationship with variation](/AiBook/assets/part-02/chapter-13/basic-scatter-relationship-en.svg)
 
-In this plot, the points are not on one perfect line. But there is still a flow that goes generally upward as you move to the right.
+The points do not lie exactly on one line, but they generally rise toward the right.
 
-Read it in the following way.
+In this artificial dataset:
 
-- One point is one sample.
-- The direction of the point cloud shows a candidate relationship.
-- The spread of the points shows variation or noise.
-- Do not conclude a cause from a scatter plot alone.
+- Each point is one sample.
+- Points generally follow an increasing trend.
+- Departures from the line reflect added noise.
+- A scatter plot alone does not establish causation.
 
-## A Histogram Shows Where Values Gather
+## Histograms: Counts by Interval
 
-A histogram divides values into bins and shows how many values fall into each bin. If you look only at one mean, you can miss where the data gather.
-
-Problem situation: from the mean value alone, it is hard to know where the sample values are actually concentrated.
-Input: a list of sampled `values` drawn from a normal distribution.
-Expected output: a histogram that shows the count of each value interval.
-Concept to check: a histogram helps you check concentration, skew, and rare intervals of values.
+A histogram divides values into bins and shows how many fall into each. This example draws 240 values from a normal distribution with mean 0 and standard deviation 1, then uses 18 bins. Bar height is the count in each bin.
 
 ```python
-# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -152,30 +100,58 @@ ax.set_title("Histogram: where values gather")
 plt.show()
 ```
 
-The output looks as follows.
+The output is:
 
-![Histogram showing where values gather](/AiBook/assets/part-02/chapter-13/basic-hist-distribution.png)
+![Values grouped into intervals](/AiBook/assets/part-02/chapter-13/basic-hist-distribution-en.svg)
 
-When reading a histogram, ask the following questions.
+When inspecting a histogram, ask:
 
-- In which interval do the values gather most?
-- Is it skewed to one side?
-- Are there rare values at the two ends?
-- Is there a shape that the mean alone would miss?
+- Where do most values cluster?
+- Is the distribution skewed to one side?
+- Are rare values present at the ends?
+- What shape would a mean alone hide?
 
-These questions connect directly to distribution, mean, and variance in P2-5.
+Changing `bins=18` to `bins=6` groups the same 240 values into wider intervals. The number and height of bars change, but their counts still sum to 240.
 
-## A Loss Curve Checks the Learning Flow
+## Bin Edges and Excluded Values
 
-In AI learning, we often check how loss changes during repeated training. Here, a line plot is not simply a pretty way to draw a formula. It becomes a tool for checking whether learning is moving in the expected direction.
+For scores `[45, 62, 71, 73, 82, 88, 90]` and edges `[40, 60, 80, 100]`, the three bar heights are shown below. An edge list contains one more element than the number of bins.
 
-Problem situation: you want to compare the learning flow by placing a steadily decreasing loss and a shaking loss side by side.
-Input: epoch numbers and two loss lists, `decreasing_loss` and `unstable_loss`.
-Expected output: a comparison line plot where the two loss curves appear together.
-Concept to check: a loss curve helps you check quickly whether learning is stable and whether it shakes in the middle.
+| Interval | Scores | Count |
+| --- | --- | ---: |
+| 40 ≤ score < 60 | 45 | 1 |
+| 60 ≤ score < 80 | 62, 71, 73 | 3 |
+| 80 ≤ score ≤ 100 | 82, 88, 90 | 3 |
+
+Matplotlib histogram bins include the left edge and exclude the right edge, except that the final bin includes both. Thus 80 belongs in the final bin and 100 is included too. Setting `bins=3, range=(60, 100)` excludes 45, reducing the total count to six. Changing the visible axis range differs from changing which values participate in binning.
+
+Use the same bin edges when comparing two groups. Calling `bins=5` separately can produce different edges if their minima and maxima differ. The y-axis here is count. With `density=True`, heights become probability densities: the sum of bar areas, rather than heights, is one.
+
+## Bar Charts: Comparing Categories
+
+Suppose fictional models A, B, and C have losses `[0.42, 0.39, 0.47]` on the same validation data with the same loss function. Model names are categories, not numeric intervals, so compare them with `bar`.
 
 ```python
-# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
+models = ["A", "B", "C"]
+validation_loss = [0.42, 0.39, 0.47]
+fig, ax = plt.subplots()
+ax.bar(models, validation_loss)
+ax.set_ylim(0, 0.55)
+ax.set_xlabel("model")
+ax.set_ylabel("validation loss")
+ax.set_title("Model comparison on the same validation set")
+plt.show()
+```
+
+![Model losses on the same validation set](/AiBook/assets/part-02/chapter-13/basic-bar-model-comparison-en.svg)
+
+B has the lowest loss here, 0.03 below A. Since bar length encodes magnitude, the y-axis begins at zero. Changing B to 0.49 makes A the lowest. A bar chart displays values already assigned to categories; a histogram computes counts by placing raw observations into numeric intervals.
+
+## Loss Curves: Decrease and Oscillation
+
+Compare two fictional training records. The first decreases at every step from 2.4 to 0.57. The second ends at 1.46 after starting at 2.4, but rises relative to the preceding value at iterations 4, 6, 8, and 10.
+
+```python
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -193,94 +169,45 @@ ax.legend()
 plt.show()
 ```
 
-The output lets you compare the two flows as follows.
+The resulting plot compares the two patterns.
 
-![Line plot comparing steadily decreasing and unstable loss](/AiBook/assets/part-02/chapter-13/basic-loss-curve-comparison.png)
+![Decreasing and oscillating loss](/AiBook/assets/part-02/chapter-13/basic-loss-curve-comparison-en.svg)
 
-You should not look at this plot and conclude immediately, "This is a good model." But you can ask the following questions.
+This plot does not immediately establish that a model is good. It supports questions such as:
 
-- Is the loss generally decreasing?
-- Does it shake strongly in the middle?
-- From which point does the speed of decrease slow down?
-- Do you need to split train loss and validation loss?
+- Does loss generally decrease?
+- Does it fluctuate strongly?
+- When does the decline slow down?
+- Should training and validation loss be inspected separately?
 
-The last question leads to overfitting, validation, and generalization in Part 3.
+These are separate fictional records, not a training/validation pair. Even when training loss is lower, performance on new data must be checked separately using validation data.
 
-## Axes, Titles, and Labels Are Part of Interpretation
+## Axes and Titles
 
-In a chart, the axis, title, and labels are not extra decoration. They are part of the standard by which the reader judges what they are looking at.
+The function plot uses equation inputs on x and computed values on y; the loss plot uses iterations on x and loss on y. Similar shapes can mean different things when axes differ. Use `set_xlabel`, `set_ylabel`, and `set_title` to identify variables and subject, and `label` with `legend()` to distinguish multiple lines.
 
-A bad chart draws numbers but hides the question.
+## Case: Reversing a Loss Record
 
-Problem situation: without axes and a title, it is hard to know immediately what a chart is showing.
-Input: minimal code with only one line, `ax.plot(x, y)`.
-Expected output: incomplete chart code where a line appears but the question is not visible.
-Concept to check: chart code is not complete just because it draws data; interpretation information is needed too.
+Compare `[2.4, 1.8, 1.2, 0.6]` with its reverse `[0.6, 1.2, 1.8, 2.4]`. Both contain the same values with mean 1.5, but one decreases and the other increases.
 
-```python
-# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
-ax.plot(x, y)
-```
+Histograms using the same bin edges are identical because they count occurrences without retaining order. Line plots against iteration number move in opposite directions.
 
-By contrast, if you add the axes and title like this, it becomes much clearer what question the chart answers.
-
-Problem situation: you want to make the question explicit by adding axis names and a title to the same chart.
-Input: code that adds x-axis, y-axis, and title settings to `ax.plot(x, y)`.
-Expected output: more descriptive chart code from which the reader can tell what was drawn.
-Concept to check: axis labels and a title are part of chart interpretation.
-
-```python
-# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
-ax.plot(x, y)
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.set_title("Function shape: y = x^2")
-```
-
-Here, you should build the habit of including at least the following three elements.
-
-| Element | Role |
-| --- | --- |
-| x-axis label | Explains what the horizontal value means |
-| y-axis label | Explains what the vertical value means |
-| title | Summarizes the question this chart is trying to answer |
-
-## Summarizing Basic Chart Choice in One Sentence
-
-You can choose basic charts as follows.
-
-| What You Want to See | Chart to Recall First |
-| --- | --- |
-| Change across an order | line plot |
-| Relationship between two values | scatter plot |
-| Concentration and spread of values | histogram |
-| Change during the learning process | loss curve |
-
-This table is not a formula to memorize. It is a starting point for checking what question you are asking the data.
-
-## Case Study
-
-### Case 1. When You Do Not Know Which Chart to Use and End Up Drawing Any Chart
-
-Suppose a learner has both training logs and score data. Loss is recorded by epoch, study time and score are paired by sample, and test scores are gathered at once across many students. In other words, this is a situation where the `same learning scene` must be reread through three different questions.
-
-At first, a person easily thinks, "I need to draw one graph, so let me just draw anything." But if the question changes, the chart must also change. A line plot is more natural for loss changes, a scatter plot is more natural for two values moving together, and a histogram is more natural for where values gather.
-
-This is why the section tells you to look first at `what question am I asking?` rather than at chart names. Even with the same data, the chart choice changes depending on whether you want to see change, relationship, or distribution.
-
-The checkable result appears when you switch the chart. If you draw loss by epoch as a line plot, the flow appears clearly. If you draw the same data as a histogram, the question becomes blurred. By contrast, score distribution appears more clearly in a histogram.
+A histogram can answer a question about the distribution of loss values. To ask whether loss fell during training, use an ordered line plot. Choose a chart that retains the information your question needs.
 
 ## Checklist
 
-- Can you check the shape of \(y = x^2\) with a line plot?
-- Can you explain what one point means in a scatter plot?
-- Can you explain that a histogram shows information different from the mean?
-- Can you create questions about the learning flow by looking at a loss curve?
-- Can you explain why x-axis, y-axis, and title should be added when making a chart?
-- Can you explain that line plots, scatter plots, histograms, and loss curves should be chosen by the question of change, relationship, distribution, or learning flow, and that axes, titles, and labels are part of interpretation.
+- Can you choose a chart according to change, relationship, or distribution?
+- Can you explain when a line plot is appropriate?
+- Can you interpret one scatter point and the pattern of spread?
+- Can you explain what distribution information a histogram adds beyond the mean?
+- Can you formulate questions about training from loss curves?
+- Can you choose a chart for checking a function or distribution shape?
+- Can you explain why axes, titles, and labels are part of interpretation?
 
 ## Sources and References
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used to verify the basic graph code flow including `Axes.plot`, `Axes.scatter`, labels, and titles.
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, checked on 2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for matching line plots, scatter plots, and histograms to trend, relationship, and distribution questions.
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, checked on 2026-07-20. [https://matplotlib.org/stable/api/pyplot_summary.html](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" } Used to verify the `pyplot` function examples and introductory Matplotlib code style.
+- Matplotlib Developers, [Quick start guide](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, accessed: 2026-07-20. Axes methods, labels, and titles.
+- Matplotlib Developers, [Plot types](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, accessed: 2026-07-20. Lines, scatter plots, bars, and histograms.
+- Matplotlib Developers, [matplotlib.pyplot](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, accessed: 2026-07-20. The pyplot interface for basic plotting.
+- Matplotlib Developers, [Axes.hist](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.hist.html){: target="_blank" rel="noopener noreferrer" }, accessed: 2026-09-15. bin edges, range, and density behavior.
+- NumPy Developers, [numpy.linspace](https://numpy.org/doc/stable/reference/generated/numpy.linspace.html){: target="_blank" rel="noopener noreferrer" }, accessed: 2026-09-15. endpoint inclusion and sampling point count.

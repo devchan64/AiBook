@@ -1,63 +1,15 @@
-# P2-13.2 基础图表与公式形状的确认
+# P2-13.2 基本图形与函数形状
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.26`
+> Version: `v2026.09.15`
 
-在 P2-13.1，我们把图表（plot）看成确认数字形状的工具。现在开始把几种基础图表直接连起来看。
+## 折线图：函数形状
 
-本节的核心不是“背 Matplotlib 函数名”，而是先确定问题，再建立为这个问题选择合适图表的感觉。
+当 x 轴顺序有意义时，折线图通常很适合，例如时间、迭代次数、训练轮次或输入值的连续变化。
 
-本节说明 `折线图（line plot）`、`散点图（scatter plot）`、`直方图（histogram）`、`损失曲线（loss curve）` 的基本区分。关于 `plot` 本身的角色，以及 `Figure`、`Axes` 的代表性说明，放在 P2-13.1 和 P2-13.2 中；这里重点讨论：面对什么问题，应该先选哪一种基础图表。
-
-## 用不同问题重新阅读同一个学习场景
-
-本节不为每种图表分别举一个完全不同世界的例子，而是把`检查学习过程的场景`用几个不同问题重新阅读。
-
-| 在同一场景里提出的问题 | 先想到的图表 | 为什么适合这张图 |
-| --- | --- | --- |
-| epoch 增加时，loss 怎样变化？ | 折线图（line plot） | 因为核心是顺序上的变化。 |
-| 输入值变大时，观测值也会一起变大吗？ | 散点图（scatter plot） | 因为要同时看样本之间的关系和分散程度。 |
-| 分数或测量值集中在哪些区间？ | 直方图（histogram） | 因为想看分布与集中。 |
-
-即使是在同一个场景里，只要问题改变，图表选择也会改变。抓住这个连接后，留下来的不会只是图表名称，而会是`问题-图表对应`。
-
-## 核心判断标准：基础图表与公式形状的确认
-
-- 能区分折线图、散点图、直方图的基本用途。
-- 能把公式形状用代码计算出来，并用图表确认。
-- 能通过损失曲线（loss curve）对学习流程提出问题。
-- 能说明图表为什么需要坐标轴标签和标题。
-- 能保持“图表不是结论，而是检查工具”的视角。
-
-## 三个判断标准
-
-| 标准 | 为什么重要 | 本节需要达到的理解程度 |
-| --- | --- | --- |
-| 折线图什么时候使用？ | 它帮助你区分“有顺序的值”和“有关联的值”各该用什么图。 | 理解它适用于查看顺序或时间上的变化。 |
-| 散点图和直方图有什么不同？ | 它帮助你把“关系”和“分布”读成两个不同问题。 | 理解前者看两个值的关系，后者看数值集中在哪里。 |
-| 为什么标题和坐标轴标签重要？ | 它明确告诉你，图表解释不只靠图形本身。 | 理解图表解释要和文字一起完成。 |
-
-| 术语 | 本节先抓住的含义 |
-| --- | --- |
-| 折线图（line plot） | 用线连接顺序或时间上的数值变化的图表。 |
-| 散点图（scatter plot） | 用点展示两个变量关系与分散程度的图表。 |
-| 直方图（histogram） | 展示各区间内数值集中程度的图表。 |
-| 损失曲线（loss curve） | 展示损失随着训练重复而如何变化的折线图。 |
-| 坐标轴标签（axis label） | 说明图表中横轴和纵轴各代表什么的文字。 |
-
-## 折线图用来看顺序上的变化
-
-当 x 轴上的顺序有意义时，折线图经常会被使用。像时间、重复次数、训练 epoch、输入值的连续变化这种“从左到右有阅读流程”的情况，都很适合。
-
-确认公式的形状时，折线图也是基础工具。比如 \(y = x^2\) 虽然也能做成数字表，但画成图后，U 形会立刻显现出来。
-
-问题情境：把公式值列成表时，精确数字能看到，但很难马上抓住整体曲线形状。
-输入（input）：连续变化的 x 值，以及每个 x 对应的 \(y = x^2\) 计算值。
-期望输出（output）：显示 \(y = x^2\) 整体形状的折线图。
-要确认的概念：折线图适合确认函数随连续输入变化而形成的形状，而坐标轴标签与标题应明确这张图在回答什么问题。
+对于 \(y=x^2\)，输入 −3、0、3 分别得到 9、0、9。下面的代码在 −3 到 3 之间计算 121 个点，并连接成 U 形曲线。
 
 ```python
-# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -72,33 +24,35 @@ ax.set_title("Function shape: y = x^2")
 plt.show()
 ```
 
-输出结果如下所示。
+输出如下：
 
-![函数 y 等于 x 平方的形状折线图](/AiBook/assets/part-02/chapter-13/basic-line-function-shape.png)
+![函数 y = x²](/AiBook/assets/part-02/chapter-13/basic-line-function-shape-zh.svg)
 
-本节中的 PNG 示例资产可以通过 [`p2_13_2_basic_chart_shapes.py`](/AiBook/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py) 重新生成。正文代码是为了阅读图表选择和 `Axes` 用法而保留的最小代码，资产脚本则是把同样输入条件保存成文件输出的可复现代码。
+此脚本使用与正文相同的输入条件，保存三个语言版本的 SVG 图形。
 
-这张图展示的不是解题过程，而是形状。
+[p2_13_2_basic_chart_shapes.py](/AiBook/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py)
 
-- 在 \(x=0\) 附近最低。
-- 随着 \(x\) 向左右两侧远离，\(y\) 会变大。
-- 斜率（slope）会随着位置不同而变化。
+```bash
+python docs/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py
+```
 
-这种确认会直接连接到 P2-4 中处理过的导数（derivative）、梯度（gradient）、损失函数（loss function）直觉。
+曲线展示以下特征：
 
-## 散点图用来看两个值的关系
+- 在 \(x=0\) 处取得最小值 0。
+- \(x\) 向零点两侧远离时，\(y\) 增大。
+- 斜率随位置变化。
 
-散点图会把每个样本（sample）画成一个点。当你把不同的值放在 x 轴和 y 轴上，并想确认这两个值是否一起变化时，它就很有用。
+将 `y = x**2` 改为 `y = (x - 1)**2`，最低点从 `(0, 0)` 移到 `(1, 0)`，公式的变化反映在曲线位置上。
 
-例如，如果你想看“某个输入值增大时，观测值是否也大致增大”，就可以使用散点图。
+`np.linspace(-3, 3, 121)` 包含两个端点，生成间距为 0.05 的 121 个输入值。图形只是用线段连接已计算的点，并未计算所有实数输入。若将点数减为三个，就只连接 `(-3, 9)`、`(0, 0)`、`(3, 9)`，看起来像 V 形。即使公式相同，计算点过少也可能无法充分呈现曲线形状。
 
-问题情境：你想用眼睛确认两个值是否一起变大，以及点分散得有多开。
-输入（input）：连续的 `x` 值和混入噪声的观测值 `y`。
-期望输出（output）：能同时看到关系方向和波动的散点图。
-要确认的概念：散点图会同时展示关系候选与由波动、噪声带来的分散。
+## 散点图：关系与分散
+
+散点图将每个样本画成一个点，在 x 轴和 y 轴放置不同变量，用于观察两者如何共同变化。
+
+这个人工数据集为 24 个输入计算 `2.5 * x`，再加入均值为 0、标准差为 2.2 的正态随机噪声，点便分散在直线周围。
 
 ```python
-# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -114,30 +68,24 @@ ax.set_title("Scatter plot: relationship with variation")
 plt.show()
 ```
 
-输出结果如下所示。
+输出如下：
 
-![展示带有分散关系的散点图](/AiBook/assets/part-02/chapter-13/basic-scatter-relationship.png)
+![带有分散的关系](/AiBook/assets/part-02/chapter-13/basic-scatter-relationship-zh.svg)
 
-在这张图中，点并不落在一条完美直线上，但整体仍然呈现出“往右走时大致往上”的趋势。
+点并不完全落在一条直线上，但向右总体呈上升趋势。
 
-这里可以这样读取。
+在此人工数据集中：
 
 - 一个点代表一个样本。
-- 点群的方向显示一种关系候选。
-- 点的分散程度显示波动（variation）或噪声（noise）。
-- 不能只凭散点图就断定原因。
+- 点总体沿数值增大的方向分布。
+- 偏离直线的程度反映加入的噪声。
+- 仅凭散点图不能断定因果关系。
 
-## 直方图用来看值集中在哪里
+## 直方图：按区间计数
 
-直方图（histogram）会把数值分成若干区间（bin），并展示每个区间里有多少个值。如果只看一个平均值（mean），就可能错过数据真正集中在哪里。
-
-问题情境：只看平均值时，很难知道样本值实际集中在哪些位置。
-输入（input）：从正态分布中抽取的 `values` 样本列表。
-期望输出（output）：展示各数值区间计数的直方图。
-要确认的概念：直方图能帮助你确认数值的集中、偏斜与稀少区间。
+直方图把值分入区间，并显示各区间有多少值。下面从均值为 0、标准差为 1 的正态分布中抽取 240 个值，分入 18 个区间。柱高表示各区间的数量。
 
 ```python
-# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -152,30 +100,58 @@ ax.set_title("Histogram: where values gather")
 plt.show()
 ```
 
-输出结果如下所示。
+输出如下：
 
-![显示数值集中区间的直方图](/AiBook/assets/part-02/chapter-13/basic-hist-distribution.png)
+![按区间分组的数值](/AiBook/assets/part-02/chapter-13/basic-hist-distribution-zh.svg)
 
-看直方图时，可以问下面这些问题。
+查看直方图时，可以问：
 
-- 数值最集中在哪个区间？
-- 是否向某一侧偏斜？
-- 两端是否存在稀少值？
-- 是否存在只看平均值会漏掉的形状？
+- 哪个区间的值最多？
+- 是否偏向一侧？
+- 两端是否有少见的值？
+- 只看平均值会漏掉什么形状？
 
-这些问题会直接连接到 P2-5 中处理过的分布（distribution）、平均值（mean）、方差（variance）。
+将 `bins=18` 改为 `bins=6`，会把同样的 240 个值放入更宽的区间。柱数和柱高改变，但数量总和仍为 240。
 
-## 损失曲线用于检查学习流程
+## 区间边界与被排除的值
 
-在 AI 学习中，我们经常确认损失（loss）在重复过程中是怎样变化的。此时，折线图不只是把公式画得更漂亮，而是变成了检查学习是否按预期方向进行的工具。
+将分数 `[45, 62, 71, 73, 82, 88, 90]` 按边界 `[40, 60, 80, 100]` 分组，三个柱的高度如下。边界列表的元素数比区间数多一个。
 
-问题情境：你想把稳定下降的损失和中途摇摆的损失放在一起比较学习流程。
-输入（input）：epoch 编号，以及两组损失列表 `decreasing_loss`、`unstable_loss`。
-期望输出（output）：把两条损失曲线一起画出的比较折线图。
-要确认的概念：损失曲线能让你快速检查学习是否稳定、是否在中间摇摆。
+| 区间 | 分数 | 数量 |
+| --- | --- | ---: |
+| 40 ≤ 分数 < 60 | 45 | 1 |
+| 60 ≤ 分数 < 80 | 62, 71, 73 | 3 |
+| 80 ≤ 分数 ≤ 100 | 82, 88, 90 | 3 |
+
+Matplotlib 的直方图区间通常包含左边界、不包含右边界，最后一个区间则两端都包含。因此 80 属于最后一个区间，最终边界 100 也被包含。设置 `bins=3, range=(60, 100)` 会排除 45，使数量总和变为六。改变可见坐标范围，与改变参与统计的数值范围不同。
+
+比较两个群体的分布时，应使用相同边界。若分别设置 `bins=5`，两组最小值和最大值不同可能产生不同边界。这里 y 轴表示数量；使用 `density=True` 后，柱高变为概率密度，此时总和为 1 的是柱面积而不是柱高。
+
+## 条形图：比较类别
+
+假设虚构模型 A、B、C 在相同验证数据与损失函数下的损失为 `[0.42, 0.39, 0.47]`。模型名称是类别，不是数值区间，因此用 `bar` 比较。
 
 ```python
-# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
+models = ["A", "B", "C"]
+validation_loss = [0.42, 0.39, 0.47]
+fig, ax = plt.subplots()
+ax.bar(models, validation_loss)
+ax.set_ylim(0, 0.55)
+ax.set_xlabel("model")
+ax.set_ylabel("validation loss")
+ax.set_title("Model comparison on the same validation set")
+plt.show()
+```
+
+![同一验证集上的模型损失](/AiBook/assets/part-02/chapter-13/basic-bar-model-comparison-zh.svg)
+
+此记录中 B 的损失最低，比 A 低 0.03。条长用于表达大小，因此 y 轴从 0 开始。把 B 改为 0.49 后，最低的是 A。条形图显示已按类别给出的数值，而直方图将原始观测分入数值区间后计算数量。
+
+## 损失曲线：下降与波动
+
+比较两组虚构训练记录。第一组从 2.4 逐次下降到 0.57。第二组虽从 2.4 降到 1.46，却在第 4、6、8、10 次迭代相对前一次上升。
+
+```python
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -193,94 +169,45 @@ ax.legend()
 plt.show()
 ```
 
-输出结果会像下面这样，让你比较两种流程。
+生成的图形可以比较这两种变化。
 
-![比较稳定下降损失与摇摆损失的折线图](/AiBook/assets/part-02/chapter-13/basic-loss-curve-comparison.png)
+![下降与波动的损失](/AiBook/assets/part-02/chapter-13/basic-loss-curve-comparison-zh.svg)
 
-看这张图时，不应立刻下结论说“这是好模型”。但你可以继续提出下面这些问题。
+这张图不能立即证明模型好坏，但可以帮助提出以下问题：
 
-- 损失是否大体在下降？
-- 中间是否出现明显摇摆？
-- 从哪一点开始，下降速度变慢了？
-- 是否需要把 train loss 和 validation loss 分开看？
+- 损失总体是否下降？
+- 中途是否有明显波动？
+- 从哪里开始下降变慢？
+- 是否需要分别查看训练与验证损失？
 
-最后一个问题会通向 Part 3 的过拟合（overfitting）、验证（validation）、泛化（generalization）。
+两条曲线是不同的虚构记录，不是一对训练与验证损失。即使训练损失降低，也必须用验证数据另行确认在新数据上的表现。
 
-## 坐标轴、标题、标签都是解释的一部分
+## 坐标轴与标题
 
-在图表中，坐标轴（axis）、标题（title）、标签（label）不是附加装饰，而是读者判断“自己正在看什么”的标准。
+函数图的 x 轴是公式输入，y 轴是计算结果；损失图的 x 轴是迭代次数，y 轴是损失。即使线形相似，坐标含义不同，解释也会不同。用 `set_xlabel`、`set_ylabel`、`set_title` 标明变量和对象，多条线重叠时用 `label` 和 `legend()` 区分。
 
-糟糕的图表虽然画出了数字，却把问题藏起来了。
+## 案例：颠倒损失记录的顺序
 
-问题情境：没有坐标轴和标题时，很难立刻知道图表在展示什么。
-输入（input）：只有 `ax.plot(x, y)` 一行的最小代码。
-期望输出（output）：能看到线条，但看不出问题是什么的不完整图表代码。
-要确认的概念：图表代码不能只停留在“把数据画出来”，还需要解释信息。
+比较 `[2.4, 1.8, 1.2, 0.6]` 与其逆序 `[0.6, 1.2, 1.8, 2.4]`。两者包含相同值，平均值都为 1.5，但前者下降，后者上升。
 
-```python
-# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
-ax.plot(x, y)
-```
+使用相同区间边界的直方图完全一致，因为它只统计各值出现的次数，不保留顺序。以迭代编号为 x 轴的折线图则朝相反方向变化。
 
-相反，如果像下面这样加上坐标轴和标题，就会更清楚地知道这张图回答什么问题。
-
-问题情境：你想给同一张图加上坐标轴名称和标题，使问题更明确。
-输入（input）：在 `ax.plot(x, y)` 上追加 x 轴、y 轴、标题设置的代码。
-期望输出（output）：能读出“画了什么”的更具说明性的图表代码。
-要确认的概念：坐标轴标签和标题本身就是图表解释的一部分。
-
-```python
-# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
-ax.plot(x, y)
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.set_title("Function shape: y = x^2")
-```
-
-这里至少要养成加上下面三项的习惯。
-
-| 元素 | 作用 |
-| --- | --- |
-| x 轴标签 | 说明横向数值代表什么 |
-| y 轴标签 | 说明纵向数值代表什么 |
-| 标题 | 概括这张图要回答的问题 |
-
-## 用一句话整理基础图表选择
-
-基础图表可以像下面这样选。
-
-| 想看的东西 | 先想到的图表 |
-| --- | --- |
-| 顺序上的变化 | 折线图（line plot） |
-| 两个值的关系 | 散点图（scatter plot） |
-| 数值的集中与分散 | 直方图（histogram） |
-| 学习过程中的变化 | 损失曲线（loss curve） |
-
-这张表不是要背的公式，而是用来确认“你正在向数据提出什么问题”的出发点。
-
-## 用案例来看
-
-### 案例 1. 因为不知道该用什么图，所以随便画一个图的时候
-
-假设一位学习者手上同时有训练日志和分数数据。loss 按 epoch 记录，学习时间和分数按样本成对出现，考试分数则一次性汇总了很多学生的数据。换句话说，这是把前面提到的`同一个学习场景`重新读成三个问题的情况。
-
-人一开始很容易想，“反正要画一张图，那就先随便画一个。” 但问题不同，图表也必须不同。损失变化更自然地适合折线图，两个值一起变化更自然地适合散点图，数值集中在哪里则更自然地适合直方图。
-
-这就是为什么本节让你先看`我到底在问什么问题`，而不是先看图表名称。即使是同一份数据，只要想看的是变化、关系还是分布，图表选择就会不同。
-
-一旦换图表，可检查的结果就会显现出来。把按 epoch 记录的 loss 画成折线图时，流程会更清楚；把同样的数据画成直方图时，问题反而变模糊。相反，分数分布在直方图中会更清楚地显现。
+直方图可以回答损失值的分布问题。若要判断训练期间损失是否下降，就需要保留顺序的折线图。选择图形时，应确认所需信息仍被保留。
 
 ## 检查清单
 
-- 能用折线图确认 \(y = x^2\) 的形状吗？
-- 能说明散点图里一个点代表什么吗？
-- 能说明直方图展示的是与平均值不同的信息吗？
-- 能通过损失曲线提出关于学习流程的问题吗？
-- 能说明为什么作图时要加 x 轴、y 轴和标题吗？
-- 能说明折线图、散点图、直方图、损失曲线要按“变化、关系、分布、学习流程”的问题来选，而坐标轴、标题和标签都是解释的一部分。
+- 能否根据变化、关系或分布来选择图形？
+- 能否解释何时适合使用折线图？
+- 能否说明散点图中一个点的含义及分散模式？
+- 能否解释直方图比平均值多提供哪些分布信息？
+- 能否根据损失曲线提出有关训练的问题？
+- 能否选择图形来检查函数或分布形状？
+- 能否解释坐标、标题和标签为何是解读的一部分？
 
 ## 来源与参考资料
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是确认包含 `Axes.plot`、`Axes.scatter`、坐标轴标签和标题在内的基础绘图代码流程的资料。
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 这是把折线图、散点图和直方图对应到变化、关系、分布问题的依据。
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-07-20. [https://matplotlib.org/stable/api/pyplot_summary.html](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" } 这是确认 `pyplot` 函数示例和 Matplotlib 入门代码风格的参考资料。
+- Matplotlib Developers, [Quick start guide](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 查阅日期：2026-07-20. Axes 方法、标签和标题。
+- Matplotlib Developers, [Plot types](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 查阅日期：2026-07-20. 折线图、散点图、条形图和直方图。
+- Matplotlib Developers, [matplotlib.pyplot](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" }, Matplotlib documentation, 查阅日期：2026-07-20. 基本绘图的 pyplot 接口。
+- Matplotlib Developers, [Axes.hist](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.hist.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15. 区间边界、range 与 density 的行为.
+- NumPy Developers, [numpy.linspace](https://numpy.org/doc/stable/reference/generated/numpy.linspace.html){: target="_blank" rel="noopener noreferrer" }, 查阅日期：2026-09-15. 包含端点与采样点数.
