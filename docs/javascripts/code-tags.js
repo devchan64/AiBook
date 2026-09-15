@@ -7,7 +7,22 @@
     xml: "XML", csv: "CSV", text: "Text", txt: "Text", markdown: "Markdown",
   };
 
+  // Material temporarily removes .mermaid while loading its renderer, then
+  // replaces the source pre with a diagram div. Remove any tag from that gap.
+  function removeDiagramTags() {
+    document.querySelectorAll(".aibook-code-language + .mermaid").forEach((diagram) => {
+      diagram.previousElementSibling.remove();
+    });
+  }
+
+  if (typeof MutationObserver !== "undefined") {
+    new MutationObserver(removeDiagramTags).observe(document.documentElement, {
+      childList: true, subtree: true, attributes: true, attributeFilter: ["class"],
+    });
+  }
+
   function initCodeTags() {
+    removeDiagramTags();
     document.querySelectorAll(".md-content div.highlight, .md-content pre").forEach((block) => {
       // Line-number gutters and diagram source are not separate code blocks.
       if (block.dataset.codeTagReady === "true" ||

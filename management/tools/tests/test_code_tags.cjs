@@ -13,7 +13,7 @@ function block(tag, classes='', parentHighlight=false, excluded=false) {
 }
 function run(blocks) {
   let init;
-  vm.runInNewContext(script,{document:{querySelectorAll:()=>blocks,createElement:()=>({})},
+  vm.runInNewContext(script,{document:{querySelectorAll:selector=>selector === ".aibook-code-language + .mermaid" ? [] : blocks,createElement:()=>({})},
     document$:{subscribe(fn){init=fn;fn();}}});
   return init;
 }
@@ -33,4 +33,15 @@ test('does not duplicate preview tags or tag rendered diagrams',()=>{
   const diagram=block('PRE','mermaid',false,true);
   run([preview,diagram]);
   assert.equal(preview.tags.length,0);assert.equal(diagram.tags.length,0);
+});
+
+test('removes the temporary Text tag when Material replaces its pending source with a diagram',()=>{
+  let callback, removed=0;
+  const diagram={previousElementSibling:{remove(){removed++;}}};
+  vm.runInNewContext(script,{
+    document:{documentElement:{},querySelectorAll:selector=>selector === ".aibook-code-language + .mermaid" ? [diagram] : []},
+    MutationObserver:class {constructor(fn){callback=fn;}observe(){}},
+    document$:{subscribe(){}},
+  });
+  callback(); assert.equal(removed,1);
 });
