@@ -69,7 +69,7 @@
 
     const meta = document.createElement("p");
     meta.className = "aibook-csv-preview__meta";
-    meta.textContent = `앞 ${bodyRows.length}개 데이터 행을 표시합니다. 전체 원본은 CSV 링크에서 확인합니다.`;
+    meta.textContent = `앞 ${bodyRows.length}개 데이터 행을 표시합니다. 다운로드와 복사는 전체 CSV 원본을 사용합니다.`;
     wrapper.appendChild(meta);
 
     const scroll = document.createElement("div");
@@ -115,11 +115,16 @@
       return;
     }
     link.dataset.csvPreviewReady = "true";
+    const sourceUrl = link.href;
+    const container = link.closest("p, li, td, th, blockquote");
 
     const button = document.createElement("button");
     button.className = "aibook-csv-preview__toggle";
     button.type = "button";
-    button.textContent = "내용 보기";
+    while (link.firstChild) button.appendChild(link.firstChild);
+    const label = document.createElement("span");
+    label.textContent = " · 내용 보기";
+    button.appendChild(label);
     button.setAttribute("aria-expanded", "false");
 
     const panel = document.createElement("div");
@@ -133,11 +138,46 @@
     status.className = "aibook-csv-preview__status";
     status.textContent = "CSV 내용을 불러오지 않았습니다.";
     panel.appendChild(status);
+    const actions = document.createElement("div");
+    actions.className = "aibook-csv-preview__actions";
+    const download = document.createElement("button");
+    download.type = "button";
+    download.textContent = "다운로드";
+    download.disabled = true;
+    const copy = document.createElement("button");
+    copy.type = "button";
+    copy.textContent = "클립보드 복사";
+    copy.disabled = true;
+    const feedback = document.createElement("span");
+    feedback.setAttribute("role", "status");
+    actions.appendChild(download);
+    actions.appendChild(copy);
+    actions.appendChild(feedback);
+    panel.appendChild(actions);
+    let csvText = "";
+    download.addEventListener("click", () => {
+      const url = URL.createObjectURL(new Blob([csvText], { type: "text/csv;charset=utf-8" }));
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = new URL(sourceUrl).pathname.split("/").pop();
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+    });
+    copy.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(csvText);
+        feedback.textContent = "전체 CSV를 복사했습니다.";
+      } catch (_) {
+        feedback.textContent = "클립보드에 복사하지 못했습니다. 브라우저 권한을 확인하거나 다운로드를 이용하세요.";
+      }
+    });
 
     button.addEventListener("click", async () => {
       const willOpen = panel.hidden;
       panel.hidden = !willOpen;
-      button.textContent = willOpen ? "내용 닫기" : "내용 보기";
+      label.textContent = willOpen ? " · 내용 닫기" : " · 내용 보기";
       button.setAttribute("aria-expanded", String(willOpen));
 
       if (!willOpen || button.dataset.loaded === "true" || loading) {
@@ -149,15 +189,18 @@
       status.textContent = "CSV 내용을 불러오는 중입니다.";
 
       try {
-        const response = await fetch(link.href);
+        const response = await fetch(sourceUrl);
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
         }
 
         const text = await response.text();
+        csvText = text;
         const rows = parseCsv(text);
         panel.replaceChild(renderTable(rows, link.getAttribute("href") || link.href), status);
         button.dataset.loaded = "true";
+        download.disabled = false;
+        copy.disabled = false;
       } catch (error) {
         status.textContent = `CSV 내용을 불러오지 못했습니다: ${error.message}. 닫았다 다시 열면 재시도합니다.`;
       } finally {
@@ -166,13 +209,21 @@
       }
     });
 
-    link.insertAdjacentElement("afterend", button);
-    button.insertAdjacentElement("afterend", panel);
+    link.replaceWith(button);
+    // Keep the entire surrounding paragraph/list sentence ahead of the preview.
+    if (container && container.tagName === "P") {
+      container.insertAdjacentElement("afterend", panel);
+    } else if (container) {
+      container.appendChild(panel);
+    } else {
+      button.insertAdjacentElement("afterend", panel);
+    }
   }
 
   function initCsvPreviews() {
-    document.querySelectorAll("a.csv-preview[href]").forEach((link) => {
-      const url = new URL(link.href, document.baseURI);
+    document.querySelectorAll(".md-content a[href]").forEach((link) => {
+      let url;
+      try { url = new URL(link.href, document.baseURI); } catch (_) { return; }
       if (/\.csv$/i.test(url.pathname) && /^(https?:)$/.test(url.protocol)) {
         attachPreview(link);
       }

@@ -111,15 +111,38 @@
   border-radius: 0.25rem;
   color: var(--md-primary-fg-color);
   cursor: pointer;
-  display: inline-flex;
-  font-size: 0.68rem;
+  display: inline;
+  font-size: inherit;
   font-weight: 600;
   line-height: 1.35;
-  margin-left: 0.35rem;
+  margin-left: 0;
   min-height: 1.35rem;
   padding: 0.08rem 0.42rem;
   user-select: none;
   vertical-align: 0.06rem;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
+
+.md-typeset .aibook-csv-preview__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.md-typeset .aibook-csv-preview__actions button {
+  border: 1px solid var(--md-primary-fg-color);
+  border-radius: 0.25rem;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  color: var(--md-primary-fg-color);
+}
+
+.md-typeset .aibook-csv-preview__actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .md-typeset .aibook-csv-preview__toggle:hover,

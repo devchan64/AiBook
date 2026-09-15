@@ -12,15 +12,21 @@ class Element {
   getAttribute(key) { return this.attrs[key]; }
   addEventListener(key, fn) { this.listeners[key] = fn; }
   insertAdjacentElement(_, node) { this.next = node; }
+  closest() { return this.container || null; }
+  replaceWith(node) { this.next = node; this.replaced = true; }
   replaceChild(next, old) { const i = this.children.indexOf(old); assert.notEqual(i, -1); this.children[i] = next; }
   click() { return this.listeners.click(); }
 }
-function setup(hrefs, fetch) {
+function setup(hrefs, fetch, clipboard = {}, container = null) {
   const links = hrefs.map(href => Object.assign(new Element('a'), { href, attrs: {href} }));
+  links.forEach(link => { link.container = container; });
   const document = { baseURI: 'https://example.test/book/', readyState: 'complete',
-    createElement: tag => new Element(tag), querySelectorAll: () => links };
+    createElement: tag => new Element(tag), querySelectorAll: selector => {
+      assert.equal(selector, '.md-content a[href]');
+      return links.filter(link => !link.replaced);
+    } };
   let init;
-  vm.runInNewContext(script, { document, URL, fetch, document$: {subscribe(fn) { init = fn; fn(); }} });
+  vm.runInNewContext(script, { document, URL, fetch, navigator: {clipboard}, document$: {subscribe(fn) { init = fn; fn(); }} });
   return { links, init };
 }
 function find(node, tag) { return [ ...(node.tagName === tag ? [node] : []), ...node.children.flatMap(c => find(c, tag)) ]; }
@@ -52,4 +58,43 @@ test('failed requests can be retried and row previews are limited to 12', async 
 test('empty input renders a readable empty state',async()=>{
   const {links}=setup(['https://example.test/empty.csv'],async()=>response(''));
   const button=links[0].next; await button.click(); assert.match(button.next.children[0].textContent,/행이 없습니다/);
+});
+test('preview follows the complete paragraph and replaces navigation with an inline button', async () => {
+  const paragraph = new Element('P');
+  const {links} = setup(['https://example.test/input.csv'], async () => response('a\n1'), {}, paragraph);
+  const button = links[0].next;
+  assert.equal(links[0].replaced, true);
+  assert.equal(button.tagName, 'button');
+  assert.equal(button.attrs.href, undefined);
+  assert.equal(button.next, undefined);
+  assert.equal(paragraph.next.hidden, true);
+  await button.click();
+  assert.equal(paragraph.next.hidden, false);
+  assert.equal(button.attrs['aria-controls'], paragraph.next.id);
+});
+test('list and table cell previews stay inside their container after its text', () => {
+  for (const tag of ['LI', 'TD', 'TH']) {
+    const container = new Element(tag);
+    const sentence = new Element('span'); sentence.textContent = 'Trailing sentence.';
+    container.appendChild(sentence);
+    setup(['https://example.test/input.csv'], () => {}, {}, container);
+    assert.equal(container.children[0], sentence);
+    assert.equal(container.children[1].hidden, true);
+  }
+});
+test('copy uses the complete original CSV and reports success or clipboard rejection', async () => {
+  const original = '\uFEFFname,value\r\n'+Array.from({length:20}, (_,i)=>`"item,${i}",${i}`).join('\r\n');
+  let copied;
+  const clipboard = {writeText: async text => {copied=text;}};
+  const {links} = setup(['https://example.test/all.csv'], async () => response(original), clipboard);
+  const toggle=links[0].next, panel=toggle.next;
+  const [download, copy] = find(panel,'button');
+  assert.equal(download.disabled,true); assert.equal(copy.disabled,true);
+  await toggle.click();
+  assert.equal(download.disabled,false); assert.equal(copy.disabled,false);
+  await copy.click(); assert.equal(copied,original);
+  assert.match(find(panel,'span')[0].textContent,/복사했습니다/);
+  clipboard.writeText = async () => {throw new Error('denied');};
+  await copy.click(); assert.match(find(panel,'span')[0].textContent,/복사하지 못했습니다/);
+  await toggle.click(); assert.equal(panel.hidden,true);
 });
