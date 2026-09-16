@@ -33,13 +33,13 @@
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-input-pool-v1.json --selection docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-selection-v1.json --dry-run
 ```
 
-처음에는 수평 좌우 90도 24개를 생성해 얼굴 비율 변화와 보존 조건을 검수한다. 아래 명령부터 실제 GPU 추론이 실행된다. 실행 시 사용 중인 GPU가 있으면 대기한다. 코드 준비 단계에서는 실행하지 않았다.
+수평 좌우 90도 24개 생성은 완료했다. 현재 실행 목록은 전체를 선택하며, 완료 24개를 건너뛰고 남은 156개를 생성한다. 아래 명령부터 실제 GPU 추론이 실행된다. 실행 시 사용 중인 GPU가 있으면 대기한다. 현재 이 명령으로 후속 생성이 진행 중이다.
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-input-pool-v1.json --selection docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-selection-v1.json --wait-for-gpu
 ```
 
-`--selection`은 이번에 출력할 ID와 생성하지 않을 ID를 지정한다. 예시 JSON은 수평 좌우 90도 24개를 선택한다.
+`--selection`은 이번에 출력할 ID와 생성하지 않을 ID를 지정한다. 현재 JSON의 `include_ids`는 `null`이며 전체 미완료 항목을 선택한다.
 
 - `include_ids`: 이번 실행 대상. `null` 또는 필드 생략은 전체, 빈 배열은 생성 대상 없음이다. 순서는 원본 생성 목록을 따른다.
 - `exclude_ids`: 생성 제외 ID. 선택 목록에 있어도 제외가 우선한다. 실제 실행 시 출력 폴더의 상태 JSON에 누적되며, 이후 옵션을 생략해도 유지된다. `--dry-run`은 이 기록을 저장하지 않는다.
@@ -73,3 +73,15 @@
 완료된 생성 결과의 프롬프트와 파일 해시는 변경하지 않았다. 실행에는 `--spec`으로 조합 JSON을 직접 전달한다. 이번 실행 범위만 조정하는 `--selection` JSON과 사람의 검수 기록은 역할이 달라 별도로 유지한다.
 
 현재 `training_caption`에서는 BFS 표현을 제거하고 Mira의 얼굴·헤어·화풍을 직접 지칭한다. 입력 생성 조건의 기준 해시는 향후 학습 지시인 `training_caption`과 분리해 검사한다. 기존 결과·카탈로그·학습·평가의 캡션 기록은 당시 실행 조건으로 유지하며, 새 학습 목록을 채택할 때 현재 캡션을 사용한다.
+
+[첫 24개 입력·목표 비교표](bfs-proportion-comparison-24.md){ .aibook-markdown-preview }
+
+## 채택한 입력에 맞춘 새 목표
+
+사용자는 첫 24개 입력을 모두 활용하기로 결정했다. 기존 Mira 기준과 다른 포즈·표정·의상은 입력의 조건으로 받아들이고 [새 목표 생성 목록](p7-5-10-mira-matched-targets-v1.json)으로 대응하는 Mira 목표 24개를 만든다. 공용 생성기의 `reference_images`는 참조 순서를 명시한다. 이 목록은 첫 번째 이미지로 채택 입력, 두 번째 이미지로 같은 방향의 Mira 기준을 전달한다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-matched-targets-v1.json --wait-for-gpu
+```
+
+입력의 활용 결정과 새 목표 검수를 구분한다. 새 목표 카탈로그의 `control_image`는 고정된 입력, `image`는 새 Mira 목표다. 후보 선택 코드가 이를 그대로 학습 쌍으로 내보내므로 생성 방향을 다시 뒤집지 않는다.

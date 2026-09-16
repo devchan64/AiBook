@@ -141,6 +141,9 @@ def validate(manifest):
     """분할 누수·중복·해시 변경을 검사하며 인물 유사도는 판정하지 않는다."""
     require(manifest.get("model_id") == MODEL, "Expected Edit-2511 manifest")
     require(manifest.get("schema_version") == 1, "Unsupported manifest schema")
+    pending = [item["id"] for item in manifest["items"]
+               if item.get("pair_status", "ready") != "ready"]
+    require(not pending, f"Dataset has {len(pending)} pending target/review pairs; finalize them before training")
     trigger = manifest.get("trigger", "")
     require(trigger and isinstance(trigger, str), "Missing trigger")
     paired = manifest.get("purpose") == "paired_edit_training"

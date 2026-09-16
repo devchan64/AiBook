@@ -119,6 +119,8 @@ def catalog(out, spec, fingerprint):
             "target": item.get("training_target"),
             "target_sha256": item.get("training_target_sha256"),
             "suggested_caption": item.get("training_caption", ""),
+            "control_image": item.get("training_input"),
+            "control_sha256": item.get("training_input_sha256"),
         })
     write(out / "candidate-catalog.json", {
         "schema_version": 1, "model_id": MODEL_ID, "fingerprint": fingerprint,
@@ -262,6 +264,11 @@ def main():
     groups = {}
     for item in spec["items"]:
         assert item["reference"] in spec["references"] and item["prompt"].strip()
+        reference_keys = item.get("reference_images", [item["reference"]])
+        assert reference_keys and reference_keys[0] == item["reference"]
+        assert all(key in spec["references"] for key in reference_keys)
+        if item.get("training_input"):
+            assert sha256(asset_path(item["training_input"])) == item["training_input_sha256"]
         if item.get("training_target"):
             target_hash = item["training_target_sha256"]
             assert sha256(asset_path(item["training_target"])) == target_hash, "Target changed"
@@ -328,17 +335,21 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
             state["status"] = "generating"
             write(state_path, state)
             print("Generating " + item["id"], flush=True)
-            ref = spec["references"][item["reference"]]
-            with Image.open(asset_path(ref["path"])) as opened:
-                assert opened.width == opened.height
-                image = opened.convert("RGB").resize(
-                    (size, size), Image.Resampling.LANCZOS
-                )
+            refs = [spec["references"][key] for key in
+                    item.get("reference_images", [item["reference"]])]
+            images = []
+            # Picture 1은 편집할 장면, 추가 참조는 JSON에 명시한 순서로 전달한다.
+            for ref in refs:
+                with Image.open(asset_path(ref["path"])) as opened:
+                    assert opened.width == opened.height
+                    images.append(opened.convert("RGB").resize(
+                        (size, size), Image.Resampling.LANCZOS
+                    ))
             started = time.monotonic()
             # 각 항목의 시드를 고정해 반복 실행의 입력 조건을 추적한다.
             with torch.inference_mode():
                 result = pipe(
-                    image=[image],
+                    image=images,
                     prompt=item["prompt"],
                     negative_prompt=" ",
                     width=size,
@@ -358,7 +369,8 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
                     "model_id": MODEL_ID,
                     "fingerprint": fingerprint,
                     "design": item,
-                    "input": ref,
+                    "input": refs[0],
+                    "input_images": refs,
                     "settings": cfg,
                     "reference_preprocessing": "RGB Lanczos square resize to target size",
                     "runtime": runtime_record(),

@@ -1,18 +1,20 @@
 # P7-5.10 LoRA 데이터셋 검토표
 
-구성 기준일: 2026-09-16
+구성 기준일: 2026-09-17
 
 [5.10 원고로 돌아가기](../../../../parts/part-07/chapter-05/section-10.md)
 
-[학습·검증 데이터셋 JSON](../sec-12/p7-5-11-bfs-paired-dataset-v1.json)
+[통합 데이터셋 JSON: 217개](p7-5-10-paired-dataset.json)
+
+[이전 학습에 사용한 193쌍 기록](../sec-12/p7-5-11-bfs-paired-dataset-v1.json)
 
 ## 데이터셋 구성
 
-이 표는 JSON에 포함된 **193쌍 전체**를 입력 → 목표 순서로 보여 준다. 사용자 채택 판단에서 최종 폐기 27건을 제외한 구성으로, 기존 AI 검수 의견과는 구분한다. 데이터셋 구성이며 학습 완료나 성능 검증 결과를 뜻하지 않는다.
+현재 **217개를 한 목록에서 관리**한다. 기존 193쌍은 준비 완료이며, 추가 24개는 입력 활용이 확정되고 새 Mira 목표 생성·검수를 기다린다. 아래 기존 193쌍 표와 끝의 추가 24개 표는 같은 통합 JSON에 대응한다. 기존 193쌍은 입력 → 목표 순서로 보여 준다. 사용자 채택 판단에서 최종 폐기 27건을 제외한 구성으로, 기존 AI 검수 의견과는 구분한다. 데이터셋 구성이며 학습 완료나 성능 검증 결과를 뜻하지 않는다.
 
 - 학습: **174쌍**, 중복을 제외한 Mira 목표 **37장**.
 - 검증: **19쌍**, 중복을 제외한 Mira 목표 **4장**.
-- 합계: **193쌍**, 중복을 제외한 Mira 목표 **41장**. 같은 목표에 서로 다른 입력이 대응하므로 쌍 수와 목표 이미지 수는 다르다.
+- 기존 준비 완료: **193쌍**, 중복을 제외한 Mira 목표 **41장**. 같은 목표에 서로 다른 입력이 대응하므로 쌍 수와 목표 이미지 수는 다르다.
 - 추가 생성 목표 후보 **123장**은 대응 입력이 아직 없어 이 데이터셋에 포함하지 않았다.
 
 같은 목표에서 파생된 입력은 같은 분할에 둔다. 다만 공통 Mira 기준 이미지에서 파생된 자료이므로 이 분할만으로 외부 장면에 대한 독립 검증을 보장하지 않는다. 관리번호는 기존 `P711-IN-NNN`을 유지하며 폐기 번호를 재사용하지 않는다.
@@ -233,3 +235,34 @@
 | **P711-IN-196**<br>`bfs-input-20-ink-illustration` | [![P711-IN-196 입력](input-images/bfs-input-20-ink-illustration.png)](input-images/bfs-input-20-ink-illustration.png) | [![P711-IN-196 Mira 목표](validation/images/p7-5-10-mira-v2-evaluation-04.png)](validation/images/p7-5-10-mira-v2-evaluation-04.png) | `validation`<br>`target-20` |
 | **P711-IN-197**<br>`bfs-input-21-oil-painting` | [![P711-IN-197 입력](input-images/bfs-input-21-oil-painting.png)](input-images/bfs-input-21-oil-painting.png) | [![P711-IN-197 Mira 목표](validation/images/p7-5-10-mira-v2-evaluation-05.png)](validation/images/p7-5-10-mira-v2-evaluation-05.png) | `validation`<br>`target-21` |
 | **P711-IN-198**<br>`bfs-input-22-soft-photo` | [![P711-IN-198 입력](input-images/bfs-input-22-soft-photo.png)](input-images/bfs-input-22-soft-photo.png) | [![P711-IN-198 Mira 목표](validation/images/p7-5-10-mira-v2-evaluation-06.png)](validation/images/p7-5-10-mira-v2-evaluation-06.png) | `validation`<br>`target-22` |
+
+## 추가 24개: 입력 채택·새 목표 대기
+
+통합 합계는 **217개**다. 분할 예약은 학습 198개(기존 174개 + 추가 24개), 검증 19개다. 새 목표가 준비되지 않은 24개는 `pair_status`로 구분하며, 통합 목록을 학습 준비 코드에 바로 넘기면 명시적으로 중단한다. 새 목표의 생성·검수가 끝나면 같은 행에 이미지·결과 기록의 해시를 채우고 `ready`로 바꾼다. 기존 학습 재현용 193쌍 기록과 이미지 파일은 변경하지 않는다.
+
+| 관리번호 | 입력 | 목표 상태 |
+| --- | --- | --- |
+| P710-PROP-001 | ![P710-PROP-001 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-photo.png) | P710-TGT-001 · 생성·검수 대기 |
+| P710-PROP-002 | ![P710-PROP-002 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-illustration.png) | P710-TGT-002 · 생성·검수 대기 |
+| P710-PROP-003 | ![P710-PROP-003 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-wide-photo.png) | P710-TGT-003 · 생성·검수 대기 |
+| P710-PROP-004 | ![P710-PROP-004 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-wide-illustration.png) | P710-TGT-004 · 생성·검수 대기 |
+| P710-PROP-005 | ![P710-PROP-005 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-photo.png) | P710-TGT-005 · 생성·검수 대기 |
+| P710-PROP-006 | ![P710-PROP-006 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-illustration.png) | P710-TGT-006 · 생성·검수 대기 |
+| P710-PROP-007 | ![P710-PROP-007 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-long-photo.png) | P710-TGT-007 · 생성·검수 대기 |
+| P710-PROP-008 | ![P710-PROP-008 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-long-illustration.png) | P710-TGT-008 · 생성·검수 대기 |
+| P710-PROP-009 | ![P710-PROP-009 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-wide-photo.png) | P710-TGT-009 · 생성·검수 대기 |
+| P710-PROP-010 | ![P710-PROP-010 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-wide-illustration.png) | P710-TGT-010 · 생성·검수 대기 |
+| P710-PROP-011 | ![P710-PROP-011 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-square-photo.png) | P710-TGT-011 · 생성·검수 대기 |
+| P710-PROP-012 | ![P710-PROP-012 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-square-illustration.png) | P710-TGT-012 · 생성·검수 대기 |
+| P710-PROP-013 | ![P710-PROP-013 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-long-photo.png) | P710-TGT-013 · 생성·검수 대기 |
+| P710-PROP-014 | ![P710-PROP-014 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-long-illustration.png) | P710-TGT-014 · 생성·검수 대기 |
+| P710-PROP-015 | ![P710-PROP-015 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-photo.png) | P710-TGT-015 · 생성·검수 대기 |
+| P710-PROP-016 | ![P710-PROP-016 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-illustration.png) | P710-TGT-016 · 생성·검수 대기 |
+| P710-PROP-017 | ![P710-PROP-017 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-square-photo.png) | P710-TGT-017 · 생성·검수 대기 |
+| P710-PROP-018 | ![P710-PROP-018 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-square-illustration.png) | P710-TGT-018 · 생성·검수 대기 |
+| P710-PROP-019 | ![P710-PROP-019 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-long-photo.png) | P710-TGT-019 · 생성·검수 대기 |
+| P710-PROP-020 | ![P710-PROP-020 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-long-illustration.png) | P710-TGT-020 · 생성·검수 대기 |
+| P710-PROP-021 | ![P710-PROP-021 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-wide-photo.png) | P710-TGT-021 · 생성·검수 대기 |
+| P710-PROP-022 | ![P710-PROP-022 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-wide-illustration.png) | P710-TGT-022 · 생성·검수 대기 |
+| P710-PROP-023 | ![P710-PROP-023 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-square-photo.png) | P710-TGT-023 · 생성·검수 대기 |
+| P710-PROP-024 | ![P710-PROP-024 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-square-illustration.png) | P710-TGT-024 · 생성·검수 대기 |
