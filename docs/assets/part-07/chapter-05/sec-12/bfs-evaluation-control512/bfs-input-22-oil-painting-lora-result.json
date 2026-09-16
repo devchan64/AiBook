@@ -1,0 +1,28 @@
+{
+  "case": {
+    "id": "bfs-input-22-oil-painting",
+    "management_code": "P711-IN-154",
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-22-oil-painting.png",
+      "sha256": "a704688dea83625de2df6c8814f692da433a2f92b4323190fd81a1d13294cb09"
+    },
+    "comparison_target": {
+      "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-06.png",
+      "sha256": "7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb"
+    },
+    "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+    "seed": 62294
+  },
+  "scale": 1,
+  "observed_vae_input_sizes": [
+    [
+      512,
+      512
+    ]
+  ],
+  "checkpoint_sha256": "4606552aecbe5a50880c666ddc89a16138d7bd8e532255888712cb5daab794fb",
+  "plan_sha256": "04a4e4ae438e392028498f6276f6690b49567c94e626321d96e9b5f47b07d8ef",
+  "output_sha256": "e01259bdca07f449471fff9d36daf66be2f9ec4361c42f2482b88e98648a984d",
+  "elapsed_seconds": 243.4,
+  "status": "pending_visual_review"
+}

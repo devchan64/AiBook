@@ -1,0 +1,28 @@
+{
+  "case": {
+    "id": "bfs-input-20-watercolor",
+    "management_code": "P711-IN-108",
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-20-watercolor.png",
+      "sha256": "a09640f09e0b77e26919f10f16f0b50d1344601f7acb7ec0e508e5f172af4df5"
+    },
+    "comparison_target": {
+      "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-04.png",
+      "sha256": "f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508"
+    },
+    "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+    "seed": 62294
+  },
+  "scale": 1,
+  "observed_vae_input_sizes": [
+    [
+      512,
+      512
+    ]
+  ],
+  "checkpoint_sha256": "4606552aecbe5a50880c666ddc89a16138d7bd8e532255888712cb5daab794fb",
+  "plan_sha256": "04a4e4ae438e392028498f6276f6690b49567c94e626321d96e9b5f47b07d8ef",
+  "output_sha256": "13a121b7b1ec419f956ca679e292bb301f9ac897af836596cbf9e815fc1a809c",
+  "elapsed_seconds": 228.73,
+  "status": "pending_visual_review"
+}

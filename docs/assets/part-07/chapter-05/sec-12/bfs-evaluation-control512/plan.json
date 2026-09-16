@@ -1,0 +1,296 @@
+{
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "dataset_sha256": "63ac3648d316356a6771436d95872f6a8a27c67f8c20586186986366c8f52051",
+  "evaluation_type": "held_out_paired_edit",
+  "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-12/bfs-paired-v2/checkpoints/mira_bfs.safetensors",
+  "checkpoint_sha256": "4606552aecbe5a50880c666ddc89a16138d7bd8e532255888712cb5daab794fb",
+  "size": 512,
+  "vae_reference_size": 512,
+  "vl_reference_size": 384,
+  "preprocessing": "match_training_control_512_no_crop",
+  "steps": 20,
+  "cfg": 4.0,
+  "scales": [
+    0,
+    1
+  ],
+  "cases": [
+    {
+      "id": "bfs-input-19-ink-illustration",
+      "management_code": "P711-IN-019",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-19-ink-illustration.png",
+        "sha256": "f11f10a4afabcc8a4cb6432db9123ce242eb58a1b9289a44f281b59c28d62fee"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-02.png",
+        "sha256": "ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-20-oil-painting",
+      "management_code": "P711-IN-020",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-20-oil-painting.png",
+        "sha256": "ce552620f1c8c5d97774d3efefb00e2dfce93cb397504d7854a6377f8811ef98"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-04.png",
+        "sha256": "f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-21-soft-photo",
+      "management_code": "P711-IN-021",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-21-soft-photo.png",
+        "sha256": "ff0012d1166bb4b79e34599e2ab741bc9413fda6ea9337c46ebf15d6ed3fd6c6"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-05.png",
+        "sha256": "68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-22-watercolor",
+      "management_code": "P711-IN-022",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-22-watercolor.png",
+        "sha256": "762332f4ceacee17846a9f68456f4139237f67db282247d5bcfefbfc36953f6b"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-06.png",
+        "sha256": "7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-19-oil-painting",
+      "management_code": "P711-IN-063",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-19-oil-painting.png",
+        "sha256": "5c82f537ab4414eaf68635e81d67ec3941d90ba18d8c12caf8149a29da3434b0"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-02.png",
+        "sha256": "ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-20-soft-photo",
+      "management_code": "P711-IN-064",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-20-soft-photo.png",
+        "sha256": "5609e23881f556cb252169aa8a2be898ead498de5e12cbd79608bf1f8db29524"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-04.png",
+        "sha256": "f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-22-clay-render",
+      "management_code": "P711-IN-066",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-22-clay-render.png",
+        "sha256": "8d826e28e2f4a2ef50e7f94fd1583f4a19f72099126c0cf27b9f91c25e33712d"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-06.png",
+        "sha256": "7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-19-soft-photo",
+      "management_code": "P711-IN-107",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-19-soft-photo.png",
+        "sha256": "6c3b2ff7e1a7a5073bd146841061629ca444e6564190ab860351d85d6bab7611"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-02.png",
+        "sha256": "ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-20-watercolor",
+      "management_code": "P711-IN-108",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-20-watercolor.png",
+        "sha256": "a09640f09e0b77e26919f10f16f0b50d1344601f7acb7ec0e508e5f172af4df5"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-04.png",
+        "sha256": "f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-21-clay-render",
+      "management_code": "P711-IN-109",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-21-clay-render.png",
+        "sha256": "5917b194121b7bdfac19715f1f3732ae900225003fdee01b4e81397b725e879c"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-05.png",
+        "sha256": "68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-22-ink-illustration",
+      "management_code": "P711-IN-110",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-22-ink-illustration.png",
+        "sha256": "0c93df34790d49085dfc2b5481b6a1aedb7dec66b409ec07b6ec940330c82f54"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-06.png",
+        "sha256": "7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-19-watercolor",
+      "management_code": "P711-IN-151",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-19-watercolor.png",
+        "sha256": "1053a7a3599f87d42b8e326c00dff67e151bcb83a6a6c74a616a61130297a79a"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-02.png",
+        "sha256": "ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-20-clay-render",
+      "management_code": "P711-IN-152",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-20-clay-render.png",
+        "sha256": "2c9def7b99ea0a3f2c23013ea5b3f26880eead9ea238820056d2017894e7b0c7"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-04.png",
+        "sha256": "f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-21-ink-illustration",
+      "management_code": "P711-IN-153",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-21-ink-illustration.png",
+        "sha256": "18794c3b8c4340e8b1a32e9b745f82428d493190dfe4848abc8c3abb7d7eefcf"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-05.png",
+        "sha256": "68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-22-oil-painting",
+      "management_code": "P711-IN-154",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-22-oil-painting.png",
+        "sha256": "a704688dea83625de2df6c8814f692da433a2f92b4323190fd81a1d13294cb09"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-06.png",
+        "sha256": "7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-19-clay-render",
+      "management_code": "P711-IN-195",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-19-clay-render.png",
+        "sha256": "c3af6fa48bd6d31ad6c8f0f524901c2fd17ad72b5ce43c71bbf64c17cad2951a"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-02.png",
+        "sha256": "ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-20-ink-illustration",
+      "management_code": "P711-IN-196",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-20-ink-illustration.png",
+        "sha256": "b3395a5be2c4dca99b9f2895492e808c6c41a436d6e099cb57fb4f45697f7598"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-04.png",
+        "sha256": "f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-21-oil-painting",
+      "management_code": "P711-IN-197",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-21-oil-painting.png",
+        "sha256": "73dfba31e138660b166f65b002fbd1002ed8893c4bacad2d233be8e9a417bb28"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-05.png",
+        "sha256": "68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "bfs-input-22-soft-photo",
+      "management_code": "P711-IN-198",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-22-soft-photo.png",
+        "sha256": "3d4e62d765c8463e6f4faae138bd306b485e34ef04179bc38eb7a798a4b21636"
+      },
+      "comparison_target": {
+        "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-06.png",
+        "sha256": "7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb"
+      },
+      "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    }
+  ],
+  "code_sha256": "fe0d39018ff2af9e21c85b5b78bcd4b56f40229c967cc2be16e09b209c8bfc4a",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  }
+}

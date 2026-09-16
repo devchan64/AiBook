@@ -1,0 +1,28 @@
+{
+  "case": {
+    "id": "bfs-input-21-soft-photo",
+    "management_code": "P711-IN-021",
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-11/input-images/bfs-input-21-soft-photo.png",
+      "sha256": "ff0012d1166bb4b79e34599e2ab741bc9413fda6ea9337c46ebf15d6ed3fd6c6"
+    },
+    "comparison_target": {
+      "path": "docs/assets/part-07/chapter-05/sec-11/validation/images/p7-5-11-mira-v2-evaluation-05.png",
+      "sha256": "68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6"
+    },
+    "prompt": "Transform the woman into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+    "seed": 62294
+  },
+  "scale": 0,
+  "observed_vae_input_sizes": [
+    [
+      512,
+      512
+    ]
+  ],
+  "checkpoint_sha256": "4606552aecbe5a50880c666ddc89a16138d7bd8e532255888712cb5daab794fb",
+  "plan_sha256": "04a4e4ae438e392028498f6276f6690b49567c94e626321d96e9b5f47b07d8ef",
+  "output_sha256": "a834919e70e5deadfd0baba11daf6d3417ffac58c826d3efad373cd6b60e2383",
+  "elapsed_seconds": 195.56,
+  "status": "pending_visual_review"
+}

@@ -1,3 +1,5 @@
+> 폐기된 P7-5.11 실험의 과거 기록이다. 현행 실습의 근거나 결론으로 사용하지 않는다. 현재 실습은 P7-5.12를 따른다.
+
 # P7-5.11 LoRA 평가 근거와 현재 판정
 
 확인일: 2026-09-13. 목표는 얼굴 참조 없이 새 장면에서도 Mira와 같은 인물로 보이는 것이다. **B400은 일부 특징이 개선됐지만 동일 인물 재현 목표에는 미달한다.** 머리색 변화, 학습 손실 감소, 가중치 생성 완료를 정체성 재현 성공으로 기록하지 않는다.
@@ -47,7 +49,7 @@
 
 ## 근거 코드
 
-- [실행한 학습 쌍 구성](../../docs/assets/part-07/chapter-05/sec-11/p7_5_11_mira_lora.py): `prepare`의 다른 Mira 이미지 선택.
+- [실행한 학습 쌍 구성](../../docs/assets/part-07/chapter-05/sec-12/p7_5_11_mira_lora.py): `prepare`의 다른 Mira 이미지 선택.
 - [고정 Musubi 문서](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/docs/qwen_image.md): 2511 제어 이미지 학습 지원.
 - [Qwen-VL 캐시 코드](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/src/musubi_tuner/qwen_image_cache_text_encoder_outputs.py): 캡션과 제어 이미지를 함께 인코딩.
 - [학습 코드](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/src/musubi_tuner/qwen_image_train_network.py): 제어 잠재표현 연결과 `target = noise - latents`.
