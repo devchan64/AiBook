@@ -20,6 +20,7 @@ import re
 import shlex
 import subprocess
 import sys
+import tempfile
 import time
 
 ROOT = Path(__file__).resolve().parents[5]
@@ -142,10 +143,12 @@ def validate(manifest):
     require(manifest.get("schema_version") == 1, "Unsupported manifest schema")
     trigger = manifest.get("trigger", "")
     require(trigger and isinstance(trigger, str), "Missing trigger")
-    ids, hashes, groups = set(), set(), {}
+    paired = manifest.get("purpose") == "paired_edit_training"
+    ids, hashes, groups, target_splits = set(), set(), {}, {}
     selected = {"train": [], "validation": []}
     for item in manifest["items"]:
         key = item["id"]
+        require(re.fullmatch(r"[A-Za-z0-9_-]+", key), f"Unsafe id: {key}")
         require(key not in ids, f"Duplicate id: {key}")
         ids.add(key)
         split = item["split"]
@@ -175,12 +178,28 @@ def validate(manifest):
         require(
             sha(record) == item["record_sha256"], f"Generation record changed: {key}"
         )
+        # 편집 쌍의 생성 기록은 Mira 목표가 아니라 생성된 입력을 가리킨다.
+        content_hash = item["control_sha256"] if paired else item["sha256"]
+        if paired:
+            control = local(item["control_image"])
+            require(
+                control.is_relative_to(ROOT / "docs/assets"),
+                f"Input outside assets: {key}",
+            )
+            require(sha(control) == content_hash, f"Input changed: {key}")
+            require(
+                content_hash != item["sha256"], f"Identical input and target: {key}"
+            )
+            require(
+                target_splits.setdefault(item["sha256"], split) == split,
+                f"Target leakage: {key}",
+            )
         require(
-            read(record).get("output", {}).get("sha256") == item["sha256"],
+            read(record).get("output", {}).get("sha256") == content_hash,
             f"Record/image mismatch: {key}",
         )
-        require(item["sha256"] not in hashes, f"Duplicate image content: {key}")
-        hashes.add(item["sha256"])
+        require(content_hash not in hashes, f"Duplicate image content: {key}")
+        hashes.add(content_hash)
         selected[split].append(item)
     purpose = manifest.get("purpose", "identity_training")
     require(
@@ -189,6 +208,7 @@ def validate(manifest):
             "identity_training",
             "single_image_memorization",
             "neutral_control_ablation",
+            "paired_edit_training",
         ),
         "Unknown experiment purpose",
     )
@@ -215,6 +235,8 @@ def settings(config):
         "Model or trainer pin mismatch",
     )
     t = config["training"]
+    for key in ("save_state", "save_state_on_train_end"):
+        require(type(t.get(key, False)) is bool, f"Boolean required: {key}")
     for key in (
         "resolution",
         "control_resolution",
@@ -251,11 +273,83 @@ def settings(config):
     return t
 
 
+def state_files(state):
+    """단일 프로세스 재개 상태의 누락을 검사하고 파일 해시를 고정한다."""
+    require(state.is_dir(), f"Missing training state directory: {state}")
+    names = {p.name for p in state.iterdir() if p.is_file()}
+    require(
+        {"optimizer.bin", "scheduler.bin", "random_states_0.pkl"} <= names
+        and bool({"model.safetensors", "pytorch_model.bin"} & names),
+        f"Incomplete training state: {state}",
+    )
+    return {
+        str(p.relative_to(state)): sha(p)
+        for p in sorted(state.rglob("*"))
+        if p.is_file()
+    }
+
+
+def prepare_resume(source, state, additional_steps, output):
+    """원래 자료·설정을 계승하고 추가 스텝만 바꾼 별도 패키지를 만든다."""
+    check_package(source)
+    require(
+        type(additional_steps) is int and additional_steps > 0,
+        "Positive additional steps required",
+    )
+    config = read(source / "config.json")
+    require(
+        state.parent == source / "checkpoints",
+        "State must belong to source package checkpoints",
+    )
+    match = re.fullmatch(r"mira_(?:bfs|identity)-step(\d+)-state", state.name)
+    if match:
+        completed = int(match[1])
+        require(0 < completed <= config["training"]["steps"], "Invalid saved step")
+    else:
+        require(
+            state.name in ("mira_bfs-state", "mira_identity-state"),
+            "Unknown state name",
+        )
+        require(
+            read(source / "run-result.json")["status"] == "trained_not_evaluated",
+            "Final state requires completed training",
+        )
+        completed = config["training"]["steps"]
+    files = state_files(state)
+    cumulative = config.get("resume", {}).get("previous_steps", 0) + completed
+    config["resume"] = {
+        "state": str(state),
+        "files": files,
+        "source_package": str(source),
+        "source_package_sha256": sha(source / "package.json"),
+        "previous_steps": cumulative,
+    }
+    config["training"].update(
+        steps=additional_steps, save_state=True, save_state_on_train_end=True
+    )
+    # 元パッケージは変更せず、キャッシュ・出力も新しい場所に作る。
+    with tempfile.TemporaryDirectory() as temp:
+        path = Path(temp) / "config.json"
+        write(path, config)
+        result = prepare(source / "manifest.json", path, output)
+    return {
+        **result,
+        "previous_steps": cumulative,
+        "additional_steps": additional_steps,
+        "planned_total_steps": cumulative + additional_steps,
+    }
+
+
 def prepare(manifest_path, config_path, output):
     """선정 목록과 설정을 고정한 새 학습 패키지를 만든다."""
     manifest, config = read(manifest_path), read(config_path)
     selected, t = validate(manifest), settings(config)
     require(not output.exists(), f"Output already exists: {output}")
+    paired = manifest.get("purpose") == "paired_edit_training"
+    aliases = {}
+    if paired:
+        # 학습기는 목표 파일명으로 캐시를 구분하므로 쌍마다 별도 이름을 부여한다.
+        (output / "paired-targets").mkdir(parents=True)
     train = sorted(selected["train"], key=lambda x: x["id"])
     # A는 다른 Mira 이미지, B·1장 진단은 외형 정보가 없는 단색을 조건으로 삼는다.
     neutral = (
@@ -269,17 +363,25 @@ def prepare(manifest_path, config_path, output):
         for i, target in enumerate(sorted(selected[split], key=lambda x: x["id"])):
             # 검증 목표가 학습 참조로 유입되지 않도록 참조는 학습 분할에서만 고른다.
             choices = [x for x in train if x["sha256"] != target["sha256"]]
-            control_path = (
-                neutral if neutral else local(choices[i % len(choices)]["image"])
-            )
+            image_path = local(target["image"])
+            if paired:
+                control_path = local(target["control_image"])
+                name = f"paired-targets/{target['id']}{image_path.suffix}"
+                (output / name).symlink_to(image_path)
+                image_path = output / name
+                aliases[name] = target["sha256"]
+            else:
+                control_path = (
+                    neutral if neutral else local(choices[i % len(choices)]["image"])
+                )
             pairs[split].append(
                 {
-                    "image_path": str(local(target["image"])),
+                    "image_path": str(image_path),
                     "control_path": str(control_path),
                     "caption": target["caption"],
                 }
             )
-    output.mkdir(parents=True)
+    output.mkdir(parents=True, exist_ok=paired)
     for split, rows in pairs.items():
         (output / f"{split}.jsonl").write_text(
             "".join(json.dumps(x, ensure_ascii=False) + "\n" for x in rows)
@@ -310,6 +412,7 @@ def prepare(manifest_path, config_path, output):
             )
         },
     }
+    lock["files"].update(aliases)
     write(output / "package.json", lock)
     return lock
 
@@ -407,11 +510,18 @@ def commands(package, trainer, python):
         "--output_dir",
         str(package / "checkpoints"),
         "--output_name",
-        "mira_identity",
+        "mira_bfs"
+        if read(package / "manifest.json").get("purpose") == "paired_edit_training"
+        else "mira_identity",
     ]
     for key in ("fp8_base", "fp8_scaled", "fp8_vl"):
         if t[key]:
             train.append("--" + key)
+    for key in ("save_state", "save_state_on_train_end"):
+        if t.get(key, False):
+            train.append("--" + key)
+    if c.get("resume"):
+        train.extend(["--resume", c["resume"]["state"]])
     return [("cache_latents", latent), ("cache_text", text), ("train", train)]
 
 
@@ -424,6 +534,17 @@ def check_package(package):
         )
     validate(read(package / "manifest.json"))
     require(lock["trainer_commit"] == PIN, "Package trainer mismatch")
+    resume = read(package / "config.json").get("resume")
+    if resume:
+        require(
+            sha(Path(resume["source_package"]) / "package.json")
+            == resume["source_package_sha256"],
+            "Source package changed",
+        )
+        require(
+            state_files(Path(resume["state"])) == resume["files"],
+            "Training state changed",
+        )
 
 
 def run(package, trainer, python, execute):
@@ -528,6 +649,8 @@ def run(package, trainer, python, execute):
         "wrapper_sha256": sha(__file__),
         "package_sha256": sha(package / "package.json"),
         "steps": [],
+        "previous_training_steps": config.get("resume", {}).get("previous_steps", 0),
+        "requested_training_steps": config["training"]["steps"],
     }
     write(package / "run-result.json", result)
     try:
@@ -553,9 +676,25 @@ def run(package, trainer, python, execute):
             require(proc.returncode == 0, f"{stage} failed: inspect its log")
         checkpoints = sorted((package / "checkpoints").glob("*.safetensors"))
         require(checkpoints, "Trainer exited without a LoRA checkpoint")
+        if config["training"].get("save_state") or config["training"].get(
+            "save_state_on_train_end"
+        ):
+            output_name = (
+                "mira_bfs"
+                if read(package / "manifest.json").get("purpose")
+                == "paired_edit_training"
+                else "mira_identity"
+            )
+            final_state = package / "checkpoints" / f"{output_name}-state"
+            result["final_training_state"] = {
+                "path": str(final_state),
+                "files": state_files(final_state),
+            }
         result.update(
             status="trained_not_evaluated",
             checkpoints=[{"path": str(p), "sha256": sha(p)} for p in checkpoints],
+            cumulative_training_steps=result["previous_training_steps"]
+            + config["training"]["steps"],
         )
     except BaseException as error:
         result.update(status="failed", error=str(error))
@@ -586,6 +725,11 @@ def main():
         help="steps·save_every·학습률·가중치 경로를 담은 JSON",
     )
     p.add_argument("--output", type=Path, required=True)
+    p = sub.add_parser("prepare-resume", help="저장 상태를 이어 학습할 새 패키지 준비")
+    p.add_argument("--source-package", type=Path, required=True)
+    p.add_argument("--state", type=Path, required=True)
+    p.add_argument("--additional-steps", type=int, required=True)
+    p.add_argument("--output", type=Path, required=True)
     p = sub.add_parser("run")
     p.add_argument("--package", type=Path, required=True)
     p.add_argument("--trainer", type=Path, required=True)
@@ -606,6 +750,13 @@ def main():
             result = inventory(args.output.resolve())
         elif args.action == "prepare":
             result = prepare(args.manifest, args.config, args.output.resolve())
+        elif args.action == "prepare-resume":
+            result = prepare_resume(
+                args.source_package.resolve(),
+                args.state.resolve(),
+                args.additional_steps,
+                args.output.resolve(),
+            )
         else:
             result = run(
                 args.package.resolve(),
