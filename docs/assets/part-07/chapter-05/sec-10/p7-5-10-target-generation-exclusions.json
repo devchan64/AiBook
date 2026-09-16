@@ -2,7 +2,7 @@
   "schema_version": 1,
   "spec": "p7-5-11-mira-target-pool-v3.json",
   "spec_sha256": "321e110e3f4b90da7c3a9c7906145408e094b817e505a4702054c25bb365e4a2",
-  "instruction": "목표 생성은 p7_5_11_generate_reviewed_targets.py를 사용한다. 폐기 5건은 새 출력 폴더에서도 재생성하지 않는다. 원래 조건과 생성 코드는 보존한다.",
+  "instruction": "폐기 확정 항목은 재생성하지 않는다. 공용 p7_5_10_generate_supplements.py가 spec_sha256으로 이 정책을 자동 적용한다.",
   "items": [
     {
       "id": "mira-target-front-expression-06",

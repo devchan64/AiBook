@@ -2,7 +2,7 @@
   "schema_version": 1,
   "spec": "p7-5-11-bfs-input-pool-v2.json",
   "spec_sha256": "787487e3c64e24850045cb9d28b0c2c119a4ccc63a85b13979710a7f98467b97",
-  "instruction": "폐기 확정 27건은 재생성하지 않는다. 원래 생성 항목과 코드는 보존한다. 입력 생성은 p7_5_11_generate_reviewed_inputs.py를 사용한다.",
+  "instruction": "폐기 확정 항목은 재생성하지 않는다. 공용 p7_5_10_generate_supplements.py가 spec_sha256으로 이 정책을 자동 적용한다.",
   "items": [
     {
       "id": "bfs-input-40-watercolor",

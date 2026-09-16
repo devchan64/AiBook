@@ -36,6 +36,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--input-manifest", type=Path, help="학습 외 새 입력의 생성 목록 JSON")
     parser.add_argument(
         "--checkpoint", type=Path, required=True, help="비교할 학습 스텝의 LoRA 파일"
     )
@@ -58,33 +59,62 @@ def main():
     assert (
         dataset["purpose"] == "paired_edit_training" and dataset["model_id"] == MODEL_ID
     )
-    rows = [x for x in dataset["items"] if x["split"] == "validation"]
-    assert len(rows) == 19
-    if args.case:
-        assert set(args.case) <= {x["id"] for x in rows}
-        rows = [x for x in rows if x["id"] in args.case]
     cases = []
-    for item in rows:
-        assert sha256(ROOT / item["control_image"]) == item["control_sha256"]
-        assert sha256(ROOT / item["image"]) == item["sha256"]
-        cases.append(
-            {
-                "id": item["id"],
-                "management_code": item["management_code"],
-                "reference": {
-                    "path": item["control_image"],
-                    "sha256": item["control_sha256"],
-                },
-                "comparison_target": {"path": item["image"], "sha256": item["sha256"]},
-                "prompt": item["caption"],
-                "seed": 62294,
-            }
-        )
+    if args.input_manifest:
+        from PIL import Image
+
+        input_manifest = args.input_manifest.resolve()
+        inputs = json.loads(input_manifest.read_text())["jobs"]
+        assert len({item["id"] for item in inputs}) == len(inputs)
+        assert all(item["status"] == "generated" for item in inputs)
+        training_hashes = {item["control_sha256"] for item in dataset["items"]}
+        caption = dataset["items"][0]["caption"].replace("the woman", "the person")
+        for index, item in enumerate(inputs, 1):
+            image = input_manifest.parent / item["image"]
+            assert image.resolve().is_relative_to(ROOT)
+            assert sha256(image) == item["sha256"]
+            assert item["sha256"] not in training_hashes
+            with Image.open(image) as source:
+                assert source.size == (512, 512)
+            cases.append({
+                "id": item["id"], "management_code": f"P712-CAM-{index:03d}",
+                "reference": {"path": str(image.relative_to(ROOT)), "sha256": item["sha256"]},
+                "subject": item["subject"], "vertical": item["vertical"], "yaw": item["yaw"],
+                "prompt": caption, "seed": 62294,
+            })
+    else:
+        rows = [x for x in dataset["items"] if x["split"] == "validation"]
+        assert len(rows) == 19
+        if args.case:
+            assert set(args.case) <= {x["id"] for x in rows}
+            rows = [x for x in rows if x["id"] in args.case]
+        cases = []
+        for item in rows:
+            assert sha256(ROOT / item["control_image"]) == item["control_sha256"]
+            assert sha256(ROOT / item["image"]) == item["sha256"]
+            cases.append(
+                {
+                    "id": item["id"],
+                    "management_code": item["management_code"],
+                    "reference": {
+                        "path": item["control_image"],
+                        "sha256": item["control_sha256"],
+                    },
+                    "comparison_target": {"path": item["image"], "sha256": item["sha256"]},
+                    "prompt": item["caption"],
+                    "seed": 62294,
+                }
+            )
+
+    if args.case:
+        assert set(args.case) <= {case["id"] for case in cases}
+        cases = [case for case in cases if case["id"] in args.case]
     # 입력·지시·시드를 고정하고 어댑터 적용 여부만 바꾼다.
     plan = {
         "model": MODEL_ID,
         "dataset_sha256": sha256(dataset_path),
-        "evaluation_type": "held_out_paired_edit",
+        "evaluation_type": "new_synthetic_inputs" if args.input_manifest else "held_out_paired_edit",
+        "input_manifest_sha256": sha256(args.input_manifest) if args.input_manifest else None,
         "checkpoint": str(checkpoint),
         "checkpoint_sha256": sha256(checkpoint),
         "size": 512,

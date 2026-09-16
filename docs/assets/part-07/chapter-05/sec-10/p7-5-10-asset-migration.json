@@ -2,7 +2,6 @@
   "section_id": "P7-5.10",
   "retained_in_sec12": [
     "codex-camera-inputs-v1",
-    "codex-camera-lora-v1",
     "p7-5-11-bfs-paired-dataset-v1.json",
     "p7_5_12_camera_report.py",
     "p7_5_12_evaluate_bfs.py"
