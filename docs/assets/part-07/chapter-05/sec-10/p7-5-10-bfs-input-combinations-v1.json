@@ -6013,8 +6013,252 @@
     "constraints",
     "edit"
   ],
-  "source_spec": {
-    "path": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-pool-v2.json",
-    "sha256": "787487e3c64e24850045cb9d28b0c2c119a4ccc63a85b13979710a7f98467b97"
-  }
+  "provenance": {
+    "original_spec_sha256": "787487e3c64e24850045cb9d28b0c2c119a4ccc63a85b13979710a7f98467b97",
+    "expanded_spec_sha256": "f5bf115931786aa501c94d92b4274872eba5d3f9233d844a830d2af89a5f8856",
+    "note": "Original prompts, IDs, seeds and references verified before consolidation; generated result records remain unchanged."
+  },
+  "output_dir": "docs/assets/part-07/chapter-05/sec-10/input-images",
+  "excluded_items": [
+    {
+      "id": "bfs-input-40-watercolor",
+      "sha256": "9545052398ce83dd972fd37c81da6f80fa0ee7d33bc3a6657f21269af487084a",
+      "record_sha256": "42bb808e82eb63d556b24203e08d623cf366f622fb4fee41d3a582b5701d9f89",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-13-soft-photo",
+      "sha256": "4dcd48a5354b4cb1e9b14e96df4af9c92037b49b9e94350bf048e59b5a74843e",
+      "record_sha256": "33df84da9e1badf0b4be9a3af48fb9be52f07379ba3127c83412b97fdd50fc42",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-01-oil-painting",
+      "sha256": "8882d8d50655c1b6e00df62c3efc8ea8ef9a43e3d26d12715ec351d1c3b7c88e",
+      "record_sha256": "1d41a1c6fb00b64fa6f200831c52987573085d03cbc8c27acdee51c6850c716b",
+      "status": "discarded",
+      "reason": "User confirmed disposal after IPR-001–003 comparison",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-17-watercolor",
+      "sha256": "d85d0e87b9683744843a426bedc6a3bd3446a6bce9135adcc703c3344994b018",
+      "record_sha256": "bdf9ff51e765d162ece1cf0d8df4cf58ba0393ec43f6dbf9e5ff9033c218c807",
+      "candidate_code": "P711-IN-017",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 배경 손실·변경",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-32-watercolor",
+      "sha256": "a4c3c2a9f01914950711e05c67cd71a3de915437146578822e8e40d86b1484d2",
+      "record_sha256": "fae13958ba4e9838fea94a4c1d8b8149f8bd40075503ff07907352243a5b4b9c",
+      "candidate_code": "P711-IN-032",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 배경 손실·변경",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-21-watercolor",
+      "sha256": "8174fadce4767badf0cfdc41e70e907bdc063ad0295cbe49c8fd5b992f758c15",
+      "record_sha256": "80456fba7c7d45ecba12258b7939246d563b8b46e2f5698c76cb7ddd9ed9ddf3",
+      "candidate_code": "P711-IN-065",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 배경 손실·변경",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-31-watercolor",
+      "sha256": "24c10580f3b3087c67d7ad5db3dd33c304b58af761d7f3a69ed31c939b9884e7",
+      "record_sha256": "2c3a57210af04cc9acf9fcba1bb8cba252c225706f78d7bdb16f0eb2fd06a71a",
+      "candidate_code": "P711-IN-075",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 배경 손실·변경",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-32-ink-illustration",
+      "sha256": "d01846dc480cd1a753c73a7de1842fc20f0fe48d146a26ef6950da8e93d59027",
+      "record_sha256": "0a51f326831dc850f4e48738443e967d6756ade4652fd109fb259b4ab44f4297",
+      "candidate_code": "P711-IN-120",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 배경 손실·변경",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-23-clay-render",
+      "sha256": "8b92ec53a8a44027a60f579740ce438ffd3af579f1a09289f3d7ca4003c79ebf",
+      "record_sha256": "100861d05040d38e4ed59bba32c41c8ea789e4c934bee2037f0da061043a21f5",
+      "candidate_code": "P711-IN-023",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-26-soft-photo",
+      "sha256": "32ff75d819e49b00e5e3aef4f1c36d63dd9c1322f7690ecb016ca9f67d7f34c1",
+      "record_sha256": "639d3f2b03009bd0dcff78bc1c198c2ef23eaeba212f0b2a490b25f2e1fb8d2a",
+      "candidate_code": "P711-IN-026",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-28-clay-render",
+      "sha256": "261aea27315ec67d2e4ee7d4896c9c21032c7f5e7bf0d16fd4be64c0b66c5c40",
+      "record_sha256": "778cfd3823e60f14ad96e7ccbb287ab8dbeb0d191eca2d697445a0569c51b806",
+      "candidate_code": "P711-IN-028",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-04-oil-painting",
+      "sha256": "b3e190743419d3c9d0566909b53193e93ce82432b0398b57162629ed56fab482",
+      "record_sha256": "a20ad8f8cc6b56cc39e04b95a66c9ec55e60a2d34f5a8d0a5a3842c25c8dd918",
+      "candidate_code": "P711-IN-048",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-23-ink-illustration",
+      "sha256": "33cdeb4bfcb7682b740ac6dafe201600fbabf5bd95ca0869130e814972ea3dd7",
+      "record_sha256": "96c0ad4db18ba70759ba188b28f52d624d31ea3acb63fc8cc193f5a525fdf849",
+      "candidate_code": "P711-IN-067",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-26-watercolor",
+      "sha256": "282deddd87ff2c722d457ddecd95757df7cb7d6a48590ff7df7fe9d7f004cdf0",
+      "record_sha256": "f52bb767280d280d3304189774fcf23beec1c6a62d6aa85c9a3afa5a2f93ba3b",
+      "candidate_code": "P711-IN-070",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-28-ink-illustration",
+      "sha256": "7c7d66f4ef944aa3f18413648b00c80d495c7faa79de83fa377ea064e75b6d54",
+      "record_sha256": "fe49bfc5ffe5a2ee0a5208073daefeb10c4b5afaa84fa6ee161d0258819872d5",
+      "candidate_code": "P711-IN-072",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-04-soft-photo",
+      "sha256": "d3053c945a514a8a0a2f824ad76a01019a0d8d00c92652841720e21ed263470b",
+      "record_sha256": "f3418dc1effd53b4d07e40c938da6a68a336106b5231b3b15a2797f9f053a9b8",
+      "candidate_code": "P711-IN-092",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-23-oil-painting",
+      "sha256": "f4c8fe8326f5bc6745d4cb5cfc8692de44c04a854c654b422c2239b7ae819bf9",
+      "record_sha256": "3743b3d97e3ae00ddca1fd1e961bcf326cdeb79b3ecb474d296d9e1750b66786",
+      "candidate_code": "P711-IN-111",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-26-clay-render",
+      "sha256": "a512175b5db1402f89c4bee59cf6c581eb50f32ed39bb439e42dbec3ab1e3074",
+      "record_sha256": "7345cdd4e8544690d206edb0256ff6f8a98eb6391477134e937d8e6b896986ec",
+      "candidate_code": "P711-IN-114",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-28-oil-painting",
+      "sha256": "2418f75584945e6479a005ea0fd5f177897d319bd7216eab8b3e0ac0eaf06104",
+      "record_sha256": "5b70f359074f81094b3c2d24893466f390217b4acfff1170d6dfebd7691d8852",
+      "candidate_code": "P711-IN-116",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-04-watercolor",
+      "sha256": "a409257e3d46dcbc3bea4c5a338f9aedaee7ba55133702e80a9be66c69dd9c15",
+      "record_sha256": "8d1f917e5c1385f4aa02e82d03e7e5f802dff5ba1af7bcc68d76f10ca7198252",
+      "candidate_code": "P711-IN-136",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-23-soft-photo",
+      "sha256": "4aa72f2c816239318cea37a37da6dc464327aeecf3ba373c536a519268817522",
+      "record_sha256": "c6b16d6b4b94d3edadf6a083c99b6a5b0eee8f91c8ad5f36ed3dd64aa3086a82",
+      "candidate_code": "P711-IN-155",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-26-ink-illustration",
+      "sha256": "273725108dba2f53d3793653898b74ed9ae0239e8c7cdfff9d4a3f6049da9c56",
+      "record_sha256": "2c09130ccc6a92f32aad9917f1bdfc14157b4bb2d34521cd46b1023feef6ce2e",
+      "candidate_code": "P711-IN-158",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-28-soft-photo",
+      "sha256": "67de1a5e37c9db52a593f5a5b8ea75ae934c77c1432243c93ab384188c0aa419",
+      "record_sha256": "8bc81cdfcd7f7e2e641983626e936e20d6da1919a828390985f8ddb679ff14e5",
+      "candidate_code": "P711-IN-160",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-04-clay-render",
+      "sha256": "d1fc6bda2ea5969fb7170cd3cd5c9a7813d3f9779f314f2b32b95a321ca3668a",
+      "record_sha256": "2eba8192e3c6637652a1390be84fd1100f43c9ee509c8475ce5e8a26110fd586",
+      "candidate_code": "P711-IN-180",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-23-watercolor",
+      "sha256": "111de0a13c7230599eb87600842280295abca7d36c911a9de065d5047cb13a3e",
+      "record_sha256": "d03fadb331a8080ccdc1ccdd400b6c28715915d1f2775e015d33796825674f60",
+      "candidate_code": "P711-IN-199",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-26-oil-painting",
+      "sha256": "1d63a1b50e42f50fd6642e5e0d283db7e76caf91ab88e7ce7b389bc7df77cae2",
+      "record_sha256": "9cfd2cc2fe632de7bc6cace5b7dadf6bf34fbb0460c75a5076c0a7b3aff4eaf7",
+      "candidate_code": "P711-IN-202",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    },
+    {
+      "id": "bfs-input-28-watercolor",
+      "sha256": "6922980cd88801bd3b26dc0623751b035dab1c222b959a6ecf684db2242f3e52",
+      "record_sha256": "00636dc8bdb5f1111a9888660e7c0e779c900b0f7db47264f613952c10180bba",
+      "candidate_code": "P711-IN-204",
+      "status": "discarded",
+      "reason": "사용자 최종 폐기 확정: 입력 표정 보존 조건과 불일치",
+      "regenerate": false
+    }
+  ]
 }

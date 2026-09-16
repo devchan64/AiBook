@@ -449,4 +449,4 @@
 - **P711-IN-202** · `bfs-input-26-oil-painting`: 사용자 폐기 확정.
 - **P711-IN-204** · `bfs-input-28-watercolor`: 사용자 폐기 확정.
 
-[재생성 제외 목록 JSON](p7-5-10-input-generation-exclusions.json)
+[재생성 제외 항목을 포함한 생성 조건 JSON](p7-5-10-bfs-input-combinations-v1.json)

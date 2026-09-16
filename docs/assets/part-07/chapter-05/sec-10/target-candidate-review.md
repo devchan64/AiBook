@@ -159,4 +159,4 @@
 | **P711-TGT-127**<br>raised eyebrows and a small round open mouth | [![기준](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png)](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | [![P711-TGT-127](target-images/mira-target-left-profile-expression-07.png)](target-images/mira-target-left-profile-expression-07.png) | 1차 비교에서 뚜렷한 결함 없음 |
 | **P711-TGT-128**<br>a wink with the nearer eye closed and the other eye open | [![기준](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png)](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | [![P711-TGT-128](target-images/mira-target-left-profile-expression-08.png)](target-images/mira-target-left-profile-expression-08.png) | 1차 비교에서 뚜렷한 결함 없음 |
 
-[목표 재생성 제외 목록 JSON](p7-5-10-target-generation-exclusions.json)
+[재생성 제외 항목을 포함한 목표 생성 조건 JSON](p7-5-10-mira-target-combinations-v1.json)

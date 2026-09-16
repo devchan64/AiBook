@@ -17,6 +17,7 @@ import time
 import sys
 import subprocess
 import copy
+import hashlib
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "sec-02"))
@@ -60,17 +61,19 @@ def load_spec(path):
         if direction["reference"] != row["reference"]:
             raise ValueError(f"Direction/reference mismatch: {row['id']}")
         row["prompt"] = " ".join(part["prompt"] for part in selected if part["prompt"])
-    for key in ("components", "prompt_order", "source_spec"):
+    for key in ("components", "prompt_order", "provenance"):
         expanded.pop(key, None)
     expanded["schema_version"] = 1
-    if "source_spec" in spec:
-        source = spec["source_spec"]
-        original_path = ROOT / source["path"]
-        if sha256(original_path) != source["sha256"]:
-            raise ValueError("Original generation spec changed")
-        if expanded != json.loads(original_path.read_text()):
+    if "provenance" in spec:
+        # 원본 JSON 사본 대신 정규화한 내용의 해시로 과거 생성 조건을 검증한다.
+        original = {key: value for key, value in expanded.items()
+                    if key not in ("output_dir", "excluded_items")}
+        canonical = json.dumps(original, ensure_ascii=False, sort_keys=True,
+                               separators=(",", ":")).encode()
+        source = spec["provenance"]
+        if hashlib.sha256(canonical).hexdigest() != source["expanded_spec_sha256"]:
             raise ValueError("Composed spec differs from original; use a new independent spec for changed conditions")
-        expanded["_original_spec_sha256"] = source["sha256"]
+        expanded["_original_spec_sha256"] = source["original_spec_sha256"]
     return expanded
 
 
@@ -146,12 +149,8 @@ def generation_plan(out, spec_path, spec, selection=None):
         "composition_sha256": sha256(spec_path), "code_sha256": sha256(Path(__file__)),
         "helper_sha256": sha256(ASSETS / "sec-02/p7_5_2_qwen_edit_2511_generate_mira_torso.py"),
     }
-    # 과거 폐기 결정은 실행 옵션을 빼도 적용한다. 생성 원본 JSON의 해시로 연결한다.
-    policy_excluded = set()
-    for policy_path in Path(__file__).parent.glob("*-generation-exclusions.json"):
-        policy = json.loads(policy_path.read_text())
-        if policy["spec_sha256"] == fingerprint["spec_sha256"]:
-            policy_excluded |= checked_ids([item["id"] for item in policy["items"]])
+    # 과거 폐기 결정은 생성 목록 자체에 보존해 실행 옵션을 빼도 적용한다.
+    policy_excluded = checked_ids([item["id"] for item in spec.get("excluded_items", [])])
     excluded |= policy_excluded
     # 이관된 완료 묶음은 기존 카탈로그·원본 기록의 해시를 검증하고 그대로 재사용한다.
     catalog_path = out / "candidate-catalog.json"
@@ -205,7 +204,7 @@ def main():
     parser.add_argument(
         "--spec",
         type=Path,
-        default=None,
+        default=ASSETS / "sec-10/p7-5-10-bfs-input-combinations-v1.json",
     )
     parser.add_argument(
         "--output-dir", type=Path,
@@ -218,21 +217,16 @@ def main():
     )
     parser.add_argument("--limit", type=int, help="이번 실행에서 생성할 미완료 후보 수")
     parser.add_argument("--wait-for-gpu", action="store_true", help="다른 CUDA 작업 종료 후 시작")
-    parser.add_argument("--job", type=Path, help="spec·output_dir을 지정한 실행 설정 JSON")
     parser.add_argument("--selection", type=Path, help="include_ids·exclude_ids를 지정한 JSON")
     args = parser.parse_args()
     if args.limit is not None and args.limit < 1:
         parser.error("--limit must be positive")
-    job = json.loads(args.job.read_text()) if args.job else {}
-    if set(job) - {"spec", "output_dir"}:
-        parser.error("Job accepts only spec and output_dir")
-    args.spec = args.spec or ROOT / job.get("spec", "docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-supplement-spec-v2.json")
     # 얼굴 외형을 다시 정의하지 않고 목록의 변경 대상과 방향별 참조를 사용한다.
     spec = load_spec(args.spec)
     # 실험별 프롬프트·참조·저장 위치는 JSON으로 교체하고 생성기는 공유한다.
-    out = (args.output_dir or ROOT / job.get("output_dir", spec.get(
+    out = (args.output_dir or ROOT / spec.get(
         "output_dir", ".tmp/p7-5-11/supplements-v2"
-    ))).resolve()
+    )).resolve()
     if not out.is_relative_to(ROOT):
         raise ValueError("Output directory must be inside the repository")
     assert spec["schema_version"] == 1 and spec["model_id"] == MODEL_ID

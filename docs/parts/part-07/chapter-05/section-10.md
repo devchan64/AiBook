@@ -102,32 +102,25 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 [이관 전 기록의 자산 경로 해석 Python](../../../assets/part-07/chapter-05/sec-10/p7_5_10_asset_paths.py)
 
-[기존 입력 후보 220장 생성 원본 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-pool-v2.json)
-
 목록의 `reference`는 **입력 후보를 생성할 때 사용하는 Mira 목표**를 가리킨다. 생성 카탈로그의 `image`는 생성된 입력 후보 경로, `training_target`은 원래 Mira 목표 경로다. `prompt`는 자료 생성 지시이고, `training_caption`은 반대 방향인 BFS 변환을 학습할 지시다. 두 문구를 바꾸어 쓰지 않는다.
 
-입력·목표 후보는 아래 공용 생성 코드 하나를 사용한다. `--job` JSON으로 생성 목록과 저장 경로를 지정하며, 폐기 정책은 생성 목록의 해시로 자동 연결한다. `--selection` JSON의 `include_ids`·`exclude_ids`로 이번 출력 대상을 좁힐 수 있고, 완료 이미지는 재생성하지 않는다.
+입력·목표 후보는 아래 공용 생성 코드 하나를 사용한다. `--spec` JSON 하나에 조건 조합·저장 경로(`output_dir`)·폐기 목록(`excluded_items`)을 함께 지정한다. `--selection` JSON의 `include_ids`·`exclude_ids`로 이번 출력 대상을 좁힐 수 있고, 완료 이미지는 재생성하지 않는다.
 
 [이미지 순차 생성 Python](../../../assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py)
 
 [입력 후보 조건 조합 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-combinations-v1.json)
 
-현재 실행은 `components`에 방향·얼굴·화풍·배경과 보존 조건을 정의하고, `items`에서 각 후보의 조건 ID를 선택하는 공통 구조를 사용한다. `prompt_order`에 따라 문구를 조합한다. 기존 입력 220개의 조합은 생성 당시 프롬프트·시드·참조와 정확히 일치하는지 확인한 뒤 폐기 27개를 제외한다. 입력에서는 목표의 배경과 방향을 유지하고, 목표 후보를 만들 때 배경 조건을 변경한다. 당시 평문 목록과 생성 기록은 해시 검증을 위해 보존한다.
+현재 실행은 `components`에 방향·얼굴·화풍·배경과 보존 조건을 정의하고, `items`에서 각 후보의 조건 ID를 선택하는 공통 구조를 사용한다. `prompt_order`에 따라 문구를 조합한다. 기존 입력 220개의 조합은 생성 당시 프롬프트·시드·참조와 정확히 일치하는지 확인한 뒤 폐기 27개를 제외한다. 입력에서는 목표의 배경과 방향을 유지하고, 목표 후보를 만들 때 배경 조건을 변경한다. 펼친 생성 조건의 기준 해시는 `provenance`에 보존하고 당시 결과 기록은 변경하지 않는다. 중복된 평문 목록은 별도로 두지 않는다.
 
 [15방향 토르소를 활용한 얼굴 비율 보강 계획](../../../assets/part-07/chapter-05/sec-10/bfs-proportion-generation.md){ .aibook-markdown-preview }
 
 보강 계획은 5.2의 15방향 토르소에 얼굴 조건 6종·화풍 2종을 조합한 180개 입력 후보이며 아직 생성하지 않았다. 같은 생성기를 사용하고, 생성 후 입력·목표의 얼굴 비율 차이와 표정·배경 보존을 검수한다.
 
-
 원래 220개 생성 조건은 보존한다. 얼굴 방향 3건·배경 손실 및 변경 5건·표정 불일치 19건을 합한 폐기 확정 27건은 아래 명령에서 제외되어 실행 대상은 193개다. `--dry-run`으로 제외 ID를 확인할 수 있다.
-
-[재생성 제외 목록 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-input-generation-exclusions.json)
-
-[입력 생성 실행 설정 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-input-generation-job.json)
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py \
-  --job docs/assets/part-07/chapter-05/sec-10/p7-5-10-input-generation-job.json \
+  --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-combinations-v1.json \
   --dry-run
 ```
 
@@ -413,8 +406,6 @@ Mira 단발·얼굴로 바뀌고 초록 상의·미술관의 큰 배치는 남�
 
 ### 후속 실험용 Mira 목표 후보를 별도로 보관한다
 
-[추가 Mira 목표 후보 128개 생성 목록 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-mira-target-pool-v3.json)
-
 [목표 후보 123장 검수 비교표](../../../assets/part-07/chapter-05/sec-10/target-candidate-review.md){ .aibook-markdown-preview }
 
 비교표는 방향별 기준 Mira와 생성 후보를 나란히 배치하고, `P711-TGT-001`~`128` 관리번호로 1차 검수 의견을 연결한다. 전체 축소 비교와 의심 5건의 확대 확인 결과이며, 학습 채택 완료를 뜻하지 않는다.
@@ -423,15 +414,11 @@ Mira 단발·얼굴로 바뀌고 초록 상의·미술관의 큰 배치는 남�
 
 목표 생성 명령은 `P711-TGT-030·062·078·094·126`을 제외한다. `--dry-run`으로 123개 유효 후보의 완료 여부와 제외 ID를 확인할 수 있다. 원래 생성 조건은 삭제하지 않는다.
 
-[목표 재생성 제외 목록 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-target-generation-exclusions.json)
-
 [목표 후보 조건 조합 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-mira-target-combinations-v1.json)
-
-[목표 생성 실행 설정 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-target-generation-job.json)
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py \
-  --job docs/assets/part-07/chapter-05/sec-10/p7-5-10-target-generation-job.json \
+  --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-target-combinations-v1.json \
   --wait-for-gpu
 ```
 
