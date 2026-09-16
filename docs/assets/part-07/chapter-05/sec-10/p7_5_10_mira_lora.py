@@ -21,7 +21,7 @@ import shlex
 import subprocess
 import sys
 import tempfile
-from p7_5_10_asset_paths import asset_path
+from p7_5_10_generate_supplements import asset_path
 import time
 
 ROOT = Path(__file__).resolve().parents[5]

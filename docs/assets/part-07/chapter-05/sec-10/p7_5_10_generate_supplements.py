@@ -7,8 +7,6 @@
 가중치는 model_weight_manager.py로 준비한 .tmp/download 캐시만 읽는다.
 """
 
-from p7_5_10_asset_paths import asset_path
-
 import argparse
 import fcntl
 import json
@@ -29,6 +27,22 @@ from p7_5_2_qwen_edit_2511_generate_mira_torso import (
     sha256,
     runtime_record,
 )
+
+
+ALIASES = json.loads(
+    (Path(__file__).parent / "p7-5-10-asset-migration.json").read_text()
+)["path_aliases"]
+
+
+def asset_path(value):
+    """과거 생성 기록의 경로를 현재 자산으로 연결해 원본 기록을 보존한다."""
+    path = Path(value)
+    path = (ROOT / path if not path.is_absolute() else path).resolve()
+    if path.is_relative_to(ROOT):
+        destination = ALIASES.get(path.relative_to(ROOT).as_posix())
+        if destination:
+            return (ROOT / destination).resolve()
+    return path
 
 
 def write(path, data):
@@ -66,12 +80,17 @@ def load_spec(path):
     expanded["schema_version"] = 1
     if "provenance" in spec:
         # 원본 JSON 사본 대신 정규화한 내용의 해시로 과거 생성 조건을 검증한다.
-        original = {key: value for key, value in expanded.items()
-                    if key not in ("output_dir", "excluded_items")}
+        original = copy.deepcopy({key: value for key, value in expanded.items()
+                                  if key not in ("output_dir", "excluded_items")})
+        source = spec["provenance"]
+        # 향후 학습 지시 수정은 이미지 생성 조건의 변경과 구분한다.
+        if "generation_spec_sha256" in source:
+            for row in original["items"]:
+                row.pop("training_caption", None)
         canonical = json.dumps(original, ensure_ascii=False, sort_keys=True,
                                separators=(",", ":")).encode()
-        source = spec["provenance"]
-        if hashlib.sha256(canonical).hexdigest() != source["expanded_spec_sha256"]:
+        expected = source.get("generation_spec_sha256", source["expanded_spec_sha256"])
+        if hashlib.sha256(canonical).hexdigest() != expected:
             raise ValueError("Composed spec differs from original; use a new independent spec for changed conditions")
         expanded["_original_spec_sha256"] = source["original_spec_sha256"]
     return expanded

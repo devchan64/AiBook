@@ -10,8 +10,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from p7_5_10_generate_supplements import ROOT, sha256
-from p7_5_10_asset_paths import asset_path
+from p7_5_10_generate_supplements import ROOT, sha256, asset_path
 
 
 def read(path):

@@ -166,7 +166,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -203,7 +203,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -240,7 +240,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -277,7 +277,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -314,7 +314,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -351,7 +351,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -388,7 +388,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -425,7 +425,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -462,7 +462,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -499,7 +499,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -536,7 +536,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -573,7 +573,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
       "training_target_sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-90"
@@ -610,7 +610,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -647,7 +647,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -684,7 +684,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -721,7 +721,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -758,7 +758,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -795,7 +795,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -832,7 +832,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -869,7 +869,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -906,7 +906,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -943,7 +943,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -980,7 +980,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -1017,7 +1017,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
       "training_target_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-90"
@@ -1054,7 +1054,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1091,7 +1091,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1128,7 +1128,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1165,7 +1165,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1202,7 +1202,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1239,7 +1239,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1276,7 +1276,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1313,7 +1313,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1350,7 +1350,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1387,7 +1387,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1424,7 +1424,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1461,7 +1461,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-90.png",
       "training_target_sha256": "9fc552e604027dbfcfa30c8a1028d5225ae6774c37d21d53b6465c600d78ebad",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-90"
@@ -1498,7 +1498,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1535,7 +1535,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1572,7 +1572,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1609,7 +1609,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1646,7 +1646,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1683,7 +1683,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1720,7 +1720,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1757,7 +1757,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1794,7 +1794,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1831,7 +1831,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1868,7 +1868,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1905,7 +1905,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
       "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-90"
@@ -1942,7 +1942,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -1979,7 +1979,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2016,7 +2016,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2053,7 +2053,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2090,7 +2090,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2127,7 +2127,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2164,7 +2164,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2201,7 +2201,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2238,7 +2238,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2275,7 +2275,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2312,7 +2312,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2349,7 +2349,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-90.png",
       "training_target_sha256": "941038f4cd7905b22ed35fe7dba298be5d4f13bb9a81aa6fdd729329f695266e",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-90"
@@ -2386,7 +2386,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2423,7 +2423,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2460,7 +2460,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2497,7 +2497,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2534,7 +2534,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2571,7 +2571,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2608,7 +2608,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2645,7 +2645,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2682,7 +2682,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2719,7 +2719,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2756,7 +2756,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2793,7 +2793,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-90.png",
       "training_target_sha256": "525d0baee26c819d1f38e3731c9e7b238912067bea6a5f47e0b07257b8e59ce8",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-90"
@@ -2830,7 +2830,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -2867,7 +2867,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -2904,7 +2904,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -2941,7 +2941,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -2978,7 +2978,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -3015,7 +3015,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -3052,7 +3052,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -3089,7 +3089,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -3126,7 +3126,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -3163,7 +3163,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -3200,7 +3200,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -3237,7 +3237,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-45.png",
       "training_target_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "minus-45"
@@ -3274,7 +3274,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3311,7 +3311,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3348,7 +3348,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3385,7 +3385,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3422,7 +3422,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3459,7 +3459,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3496,7 +3496,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3533,7 +3533,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3570,7 +3570,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3607,7 +3607,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3644,7 +3644,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3681,7 +3681,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-45.png",
       "training_target_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "plus-45"
@@ -3718,7 +3718,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -3755,7 +3755,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -3792,7 +3792,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -3829,7 +3829,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -3866,7 +3866,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -3903,7 +3903,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -3940,7 +3940,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -3977,7 +3977,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -4014,7 +4014,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -4051,7 +4051,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -4088,7 +4088,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -4125,7 +4125,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-minus-45.png",
       "training_target_sha256": "aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "minus-45"
@@ -4162,7 +4162,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4199,7 +4199,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4236,7 +4236,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4273,7 +4273,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4310,7 +4310,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4347,7 +4347,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4384,7 +4384,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4421,7 +4421,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4458,7 +4458,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4495,7 +4495,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4532,7 +4532,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4569,7 +4569,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-45.png",
       "training_target_sha256": "bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "plus-45"
@@ -4606,7 +4606,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4643,7 +4643,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4680,7 +4680,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4717,7 +4717,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4754,7 +4754,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4791,7 +4791,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4828,7 +4828,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4865,7 +4865,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4902,7 +4902,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4939,7 +4939,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -4976,7 +4976,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -5013,7 +5013,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-minus-45.png",
       "training_target_sha256": "3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "minus-45"
@@ -5050,7 +5050,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5087,7 +5087,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5124,7 +5124,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5161,7 +5161,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5198,7 +5198,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5235,7 +5235,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5272,7 +5272,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5309,7 +5309,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5346,7 +5346,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5383,7 +5383,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5420,7 +5420,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5457,7 +5457,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-plus-45.png",
       "training_target_sha256": "3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "plus-45"
@@ -5494,7 +5494,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5531,7 +5531,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5568,7 +5568,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5605,7 +5605,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5642,7 +5642,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5679,7 +5679,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5716,7 +5716,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5753,7 +5753,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5790,7 +5790,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5827,7 +5827,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5864,7 +5864,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5901,7 +5901,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-zero.png",
       "training_target_sha256": "c5baea6817a2a1421e03eebba37548577f078a16bc420a265ddd7e6fc7065261",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "level",
         "yaw": "zero"
@@ -5938,7 +5938,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -5975,7 +5975,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6012,7 +6012,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6049,7 +6049,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6086,7 +6086,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6123,7 +6123,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6160,7 +6160,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6197,7 +6197,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6234,7 +6234,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6271,7 +6271,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6308,7 +6308,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6345,7 +6345,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-zero.png",
       "training_target_sha256": "1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "low",
         "yaw": "zero"
@@ -6382,7 +6382,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6419,7 +6419,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6456,7 +6456,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6493,7 +6493,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6530,7 +6530,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6567,7 +6567,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6604,7 +6604,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6641,7 +6641,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6678,7 +6678,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6715,7 +6715,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6752,7 +6752,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
@@ -6789,7 +6789,7 @@
       "reserved_split": "train",
       "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-elevated-zero.png",
       "training_target_sha256": "7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
-      "training_caption": "Transform the person into mira_person with the BFS face and hairstyle, and render the entire image in the BFS illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+      "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "camera_view": {
         "vertical": "elevated",
         "yaw": "zero"
