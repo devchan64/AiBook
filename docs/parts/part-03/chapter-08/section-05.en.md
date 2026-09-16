@@ -1,7 +1,7 @@
 # P3-8.5 How Are Multiple Comparison Columns Grouped into One Review-Priority Candidate
 
 > Section ID: `P3-8.5`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` From the viewpoint of [column-role separation](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), as the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
 
@@ -58,7 +58,7 @@ In the previous section, conservative sentences were written in the order `compa
 
 So a priority candidate does not discard the explanation. It is the result of compressing the sentence again into `judgment axes`.
 
-## Looking at the Comparison Table First
+## Comparing Priority by Differences, Repetition, and Cost {#looking-at-the-comparison-table-first}
 
 | event_id | diff_mean | repeatability_score | recent_count | safety_related |
 | --- | ---: | ---: | ---: | --- |
@@ -74,15 +74,26 @@ Before turning this table directly into a `priority_score`, you can first group 
 | B | High | Low | Low | Low |
 | C | Medium | High | High | High |
 
+The high, medium, and low entries in this table are illustrative judgments. Reproducing the final ranking requires an explicit sorting and tie-breaking rule, such as `safety-related cases first, then magnitude of change under the same conditions`. Even `repeatability_score=4` needs a definition: four repetitions or a grade of four? Operationally important cases may deserve early checking even when interpretive confidence is low.
+
 Only at that point does it become explainable why A comes first and why B can move one level down even though its difference value is large.
 
-## A Small Diagram
+## Connecting Comparison Evidence to Review Priority {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-5-mermaid-01-en.mmd"
 ```
 
 This diagram shows that the columns should not be collapsed straight into one score. They first need to be regrouped by `what judgment axis is this`. What should be seen first here is not the complexity that `there are many columns`, but the structure that `different questions are grouped into a few judgment axes`. Review priority is a candidate judgment created by grouping change magnitude, repeatability, interpretation confidence, and operational importance together, not by reading one difference value in isolation. The core of this section is therefore not `how should one implement a single-line score`, but `into what bundles of questions are multiple comparison columns compressed first`.
+
+Apply an explicit illustrative rule to this table: place `safety_related=yes` first, sort within each group by descending absolute `diff_mean`, and break remaining ties by ascending `event_id`. The order is A → C → B. C precedes B despite its smaller difference because safety relevance comes first. This is the chosen review order, not a ranking of failure probabilities.
+
+If absolute difference becomes the primary criterion, the order is A → B → C. A and B have equal difference magnitudes, so the tie rule puts A first. The same data produces a different order when the policy changes; store the rule version alongside the ranking. These are calculation examples, and an appropriate operational rule must be chosen separately.
+
+## Checklist
+
+- Did you specify the ordering rule and tie-breaking procedure for candidates?
+- Can you explain a ranking decision for a case with both a large difference and few samples?
 
 ## Sources and References
 

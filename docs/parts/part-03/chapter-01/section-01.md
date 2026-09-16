@@ -1,11 +1,11 @@
 # P3-1.1 데이터 모델링은 무엇을 달성하려는가
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), [타깃(target)](../../../reference/concept-glossary-parts/12-tieut.md#target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)입니다.
 
-데이터 모델링을 저장 구조 정리로만 이해하면, 이미 쌓여 있는 표를 보기 좋게 바꾸는 정도로 생각하기 쉽습니다. 하지만 AI와 데이터 분석에서 말하는 데이터 모델링은 그보다 더 앞선 판단입니다. 데이터 모델링은 지금 있는 [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)로 어떤 질문에 답할 수 있게 만들 것인가를 정하는 일입니다.
+데이터 모델링을 저장 구조 정리로만 이해하면, 이미 쌓여 있는 표를 보기 좋게 바꾸는 정도로 생각하기 쉽습니다. 이 책의 Part 3에서는 데이터 모델링을 질문에 맞는 샘플과 표현을 설계하는 넓은 의미로 사용합니다. 이는 이 책의 집필 범위이며, 데이터베이스 분야의 데이터 모델링 정의를 대체하는 표준 정의는 아닙니다. 데이터 모델링은 지금 있는 [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)로 어떤 질문에 답할 수 있게 만들 것인가를 정하는 일입니다.
 
 처음 읽을 때 가장 흔한 혼동은 `DB를 어떻게 저장할까`와 `AI가 읽을 문제 구조를 어떻게 만들까`를 같은 일처럼 보는 것입니다. 둘은 연결되지만 목표가 다릅니다.
 
@@ -66,8 +66,10 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 
 | action_id | flow_mean | flow_std | pressure_mean | late_drop_rate | baseline_gap | review_flag |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| A-101 | 24.60 | 0.63 | 101.53 | -1.2 | 0.9 | review |
-| A-102 | 24.77 | 0.06 | 101.00 | 0.0 | 0.1 | normal |
+| A-101 | 24.60 | 0.62 | 101.53 | -1.2 | -1.2 | review |
+| A-102 | 24.77 | 0.06 | 101.00 | 0.0 | 0.0 | no_flag |
+
+이 표는 설명용 가상 기록을 계산한 결과입니다. 유량은 L/min, 압력은 kPa로 가정합니다. `flow_std`는 세 유량값의 표본 표준편차(분모 3−1)이고, `late_drop_rate`는 마지막 두 유량값의 차이를 1초로 나눈 값입니다. A-101에서는 `(23.9−25.1)/1 = −1.2 L/min/s`입니다. 여기서 음수가 더 작아질수록 하강이 가파릅니다. 별도로 주어진 평소 하강률을 0으로 가정해 `baseline_gap = late_drop_rate−0`으로 계산하고, 차이가 −0.5 미만일 때만 `review`를 붙였습니다. `no_flag`는 이 규칙에 걸리지 않았다는 뜻이며 정상 확정이 아닙니다. 기준선과 임계값은 앞의 여섯 로그 행만으로 추정한 값이 아닙니다.
 
 이 두 표의 차이가 바로 데이터 모델링의 목적을 보여 줍니다.
 
@@ -96,7 +98,7 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 - 무엇과 비교하면 변화가 보이는가
 - 이 결과는 자동 확정인가, 사람 검토 후보인가
 
-이 네 질문에 답할 수 있으면, 데이터 모델링은 이미 상당 부분 성공한 것입니다. 반대로 이 질문에 답하지 못하면 원천데이터가 아무리 많아도 뒤의 모델 설명은 흔들리기 쉽습니다. 학습 밀도를 높인다는 것은 정의를 더 많이 늘어놓는 일이 아니라, 이 네 질문에 독자가 스스로 답할 수 있게 사례와 비교 구조를 충분히 보여 주는 일에 더 가깝습니다.
+이 네 질문에 답할 수 있으면, 데이터 모델링은 이미 상당 부분 성공한 것입니다. 반대로 이 질문에 답하지 못하면 원천데이터가 아무리 많아도 뒤의 모델 설명은 흔들리기 쉽습니다. 각 열을 원시 기록이나 계산 규칙으로 되짚을 수 있어야 다른 사람이 같은 표를 다시 만들 수 있습니다.
 
 그래서 Part 3에서는 먼저 `무엇을 샘플로 보고`, `어떤 값을 남기고`, `무엇과 비교하고`, `어떤 결과 구조로 넘길 것인가`를 고정합니다. 데이터 정제와 탐색, 통계적 검정, 학습 알고리즘은 모두 이 설계 위에서 다시 읽히는 후속 작업입니다. 이 경계가 잡혀야 데이터 문제를 `이미 설계된 구조 위에서 푸는 문제`로 읽을 수 있습니다.
 
@@ -107,14 +109,12 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 
 ## 체크리스트
 
-- 이 절의 질문인 `데이터 모델링은 무엇을 달성하려는가`에 대해 한 문장으로 답할 수 있는가?
-- `데이터 모델링이 모델 선택보다 먼저 문제 구조를 드러내는 일이라는 점을 잡아야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- A의 유량 표준편차와 기준선 차이를 다시 계산해 표의 값과 맞췄는가?
+- DB의 저장 구조 설명과 이 사례의 분석 입력 설계를 구분해 말할 수 있는가?
 
 ## 출처와 참고 자료
 
 - W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, `무엇을 한 건으로 볼 것인가`, `어떤 과정을 거쳐 요약 표와 비교 구조가 만들어졌는가`를 설명 가능한 형태로 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `feature`, `label leakage`. example는 features와 label이 자연스럽게 붙는 단위여야 하고, feature engineering은 학습에 유용한 입력 구조를 만드는 과정이라는 점을 설명하므로, Part 3에서 샘플 단위, 특징 표, 출력 구조를 먼저 고정해야 한다는 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 샘플·입력·결과의 역할을 나누는 용어 기준으로 참고했습니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - U.S. Bureau of Labor Statistics, `Base period`. 기준 시점이나 기간을 reference로 두는 일반 개념을 제공하므로, 데이터 모델링에서 최근 상태를 무엇과 비교할지 기준선을 먼저 세워야 한다는 설명을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 데이터 수집, 선택, 전처리, 변환, 해석을 포함한 더 넓은 지식 발견 흐름을 설명하므로, Part 3이 데이터과학 전체가 아니라 그중 문제 구조 설계와 표현 변환에 초점을 둔다는 경계 설명의 일반 배경이 됩니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

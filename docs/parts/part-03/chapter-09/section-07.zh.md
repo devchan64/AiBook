@@ -1,7 +1,7 @@
-# P3-9.7 输入和结果满足什么条件，才能被读成预测问题
+# P3-9.7 如何区分预测时可用的输入与之后的结果
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 这个区分不要只留在说明句中，也要作为 交接用 数据表的最小字段保留下来。例如同时放入 `feature_available_at`、`target_window_start`、`target_window_end`、`cutoff_at`、`horizon_days`、`leakage_check_note`，就能逐行确认哪个输入在什么时点可用，以及要预测哪个结果 期间。
 
@@ -87,7 +87,13 @@ leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
 
 `leaky_after_review` 的准确率是 `1.0`，但不能把它读成一个好的预测问题。`review_result_code` 是人已经完成复核之后才生成的列。在真实运营预测时点，这个值还不知道。因此这个例子的核心不是寻找高分模型，而是先关上：`这列在预测时点真的能构造出来吗？`
 
-## 用一个小图来看
+### 发生时间与可用时间不同
+
+假设在 10 点进行预测。传感器虽然在 9 点 59 分测量，但服务器直到 10 点 2 分才收到，这个值就不能放入 10 点的输入。即使某列标注的是过去时间，也要确认预测系统当时是否实际能够读取。即便是 `recent_diff`，如果计算基准线时混入了未来记录，也不能作为输入。
+
+这里，`cutoff` 是输入信息的截止时点，`horizon` 是要预测的未来期间。应一起写明两个边界，例如：`用截至 10 点可用的信息，预测之后 7 天内是否失败。`之后到达的正确结果可以作为训练目标关联进来，但重建当时输入时不能包含它。
+
+## 在预测时点区分可用输入与后续结果 {#_3}
 
 输入/结果契约并不是`把列分开`就结束了，还必须按下面顺序关到只剩预测时点真正可用的值。
 
@@ -99,8 +105,15 @@ leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
 
 即使样本边界保持不变，输入表达也不必只能固定成一种形式。有的情况下，一行特征向量更自然；也有的情况下，保留时间顺序的一组输入更自然。真正重要的是，不管采用哪种表达方式，先要满足的都是：`这个输入在预测时点是否真的可用`，以及`结果候选和时间边界是否已经一起被关上了`。所以这里处理的，不是`随便一张表`，而是样本边界和时间边界都已经关上的输入结构。核心不是`把表传过去`，而是`把在预测时点成立的输入/结果契约关上`。更广一点说，这里关上的，是`输入定义`、`结果定义`、`时点可用性`、`可复现性`一起匹配的预测契约。
 
+## 检查清单
+
+- 你是否在时间轴上标明了预测时点和结果观察期间？
+- 你是否检查了输入中有无预测前发生、但预测后才到达的值？
+
 ## 来源与参考资料
 
 - Google, *Machine Learning Glossary*, `feature`, `label`, `label leakage`。用于确认术语依据：特征是模型的输入变量，而标签泄漏是把标签的代理值混入特征中的设计缺陷。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
 - Google, *Datasets: Dividing the original dataset*。用于确认训练/验证/测试数据应分离、相同特征变换也应应用到真实运营数据、验证/测试数据应贴近模型会遇到的真实数据这一观点。 [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*。用于确认 provenance 视角下应保留处理步骤、可复现性、版本管理和派生关系。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }。用于确认实际预测时不可用信息的泄漏问题。确认日期：2026-09-15。

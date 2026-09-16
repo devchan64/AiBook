@@ -1,7 +1,7 @@
 # P3-6.2 What Intermediate Representations Can We Add When Features Alone Are Not Enough
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Features such as averages, slopes, and variability are good starting points. But in some cases, a few numbers alone are not enough to describe the segment-level structure fully. Suppose there is a pattern that rises slowly in the early phase, stays flat in the middle phase, and then drops quickly in the late phase. If that structure is left as only two or three numbers, it can feel insufficient both when a person reads it again and when a model compares it. So in Part 3, [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation) is read together as a human-led input re-expression that remains between raw logs and summary features so the structure can stay more visible.
 
@@ -43,7 +43,7 @@ The code below reads a segment-slope CSV and changes the token boundaries in two
 
 Problem situation: check what becomes easier to see when continuous numerical slopes are converted into a short symbol sequence.
 
-Input: the segment-slope CSV by action, [p3_6_2_segment_slopes.csv](/AiBook/assets/part-03/chapter-06/p3_6_2_segment_slopes.csv), and the token-boundary candidates `token_settings`
+Input: the segment-slope CSV by action, [p3_6_2_segment_slopes.csv](/AiBook/assets/part-03/chapter-06/p3_6_2_segment_slopes.csv){ .csv-preview }, and the token-boundary candidates `token_settings`
 
 Expected output: output where each action's slope list is turned into a token sequence such as `UP2`, `UP1`, `FLAT`, `DOWN1`, `DOWN2`. If the boundaries change, the number of segments left as `FLAT`, the number of strong rise/fall tokens, and the list of changed actions also change.
 
@@ -61,7 +61,6 @@ token_settings = {
     "conservative": {"strong_threshold": 0.90, "weak_threshold": 0.30},
 }
 
-
 def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float) -> str:
     if slope >= strong_threshold:
         return "UP2"
@@ -72,7 +71,6 @@ def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float)
     if slope <= -weak_threshold:
         return "DOWN1"
     return "FLAT"
-
 
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 for row in rows:
@@ -225,7 +223,9 @@ event_id           token_sequence  token_similarity
        B FLAT FLAT FLAT FLAT FLAT          0.120765
 ```
 
-If we inspect only the numerical average, `A` and `B` are equally close candidates. But `B` is actually flat in every segment and does not have the same rise-flat-decline structure as the query. When the token sequences are vectorized, `A` becomes the closest candidate, and `C`, which shares part of the rise and decline structure, moves next. The point is not that `TfidfVectorizer` is the correct answer. The point is that once human-defined segment tokens are turned into real library input, we can compare order and direction differences that average-based summaries erased.
+Using numerical means alone, `A` and `B` are equally close candidates. Yet every segment of `B` is flat, so it lacks the query's rise–flat–fall structure. Vectorizing the token sequences instead places `A` closest, followed by `C`, which shares some rising and falling structure. This does not mean `TfidfVectorizer` is the correct answer. It shows that converting human-defined segment tokens into real library inputs lets us compare direction tokens and adjacent token pairs whose differences disappeared in the mean summary.
+
+Here, `ngram_range=(1, 2)` counts individual tokens and adjacent token pairs. With `(1, 1)`, A and its reversed sequence D have identical token counts and cannot be distinguished. Even token pairs do not preserve the entire order or absolute timing. For example, `UP FLAT UP DOWN UP` and `UP DOWN UP FLAT UP` have different orders but identical counts of single tokens and adjacent pairs. Retaining a token sequence and converting it into a frequency vector are two stages with different information losses.
 
 This matters because segment tokens are still human-defined expressions, yet they already have the property of being `a sequence with order`. So they can preserve structure more directly when numerical features alone might miss it, and they also let us carry the same input structure forward naturally when sequential data or representation learning is explained later.
 
@@ -247,16 +247,22 @@ So numerical features and intermediate representations are not in competition. T
 
 This section can be read not as an introduction to one particular token rule, but as the problem of `what intermediate representation should be placed between raw structure and summarized features`.
 
-## A Small Diagram
+## Converting Segment Summaries into Token Sequences {#a-small-diagram}
 
 The core of this section is that we do not immediately discard the raw curve or close it too quickly into a few numbers. Once the curve is segmented and turned through numerical summaries into a token sequence, one more layer appears: the `intermediate representation`.
 
 --8<-- "assets/part-03/chapter-06/p3-6-2-mermaid-01-en.mmd"
 
-
 So tokenization is more accurately read not as an isolated technique, but as a choice about `at what resolution the structure should remain` between leaving the raw log as it is and summarizing it too strongly.
+
+## Checklist
+
+- Did you use the example to check what information unigrams and bigrams preserve?
+- Can you explain how sequences can differ despite identical token and adjacent-pair frequencies?
 
 ## Sources and Further Reading
 
 - TensorFlow, `Subword tokenizers`. Because it explains subword tokenizers as a representation between word-based tokenization and character-based tokenization, it can help explain the generalized view that Part 3's segment tokens also sit as an intermediate representation between raw logs and strong summaries. The part that connects this directly to time-series tokenization is an analogical application based on the official explanation. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains feature engineering as the process of deciding transformations helpful for model training, it supports the point that intermediate representations are also transformations that do not leave raw values untouched but convert them into forms helpful for comparison and learning. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+
+- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){ target="_blank" rel="noopener noreferrer" }. Checked the local order information preserved by word frequencies and n-grams. Checked: 2026-09-15.

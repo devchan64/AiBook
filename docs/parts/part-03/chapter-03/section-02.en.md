@@ -1,7 +1,7 @@
 # P3-3.2 How Should a Dataset Be Redesigned to Match the Question
 
 > Section ID: `P3-3.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 To redesign a dataset means not using an existing file as it is, but reselecting the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit and [column](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) structure required by the question. In other words, it means deciding again what should count as one [row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit), `which columns should remain`, and `what should be compared against what`. That is also why an action-level table, a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and a candidate prediction-problem table differ from one another: the difference is born inside this redesign.
 
@@ -17,14 +17,14 @@ None of these three tables is automatically `the correct dataset`. The suitable 
 
 The place where readers often get stuck here is, `I understand the table types, but which table should I choose for my current question?` So when the question and the table structure are matched directly, the selection criterion becomes much clearer.
 
-| The question we are trying to answer now | The table that should be built first | Why |
+| Question to answer now | Table to build first | Why |
 | --- | --- | --- |
-| Was this one action more unstable than the others? | action-level table | Because the comparison target is `one action`, so time-point logs have to be grouped into one case first |
-| Do the most recent 20 cases show a different pattern from the usual 200? | recent-segment comparison table | Because the question itself asks about the difference between `groups of actions`, so aggregate and baseline-comparison columns are needed |
-| If an anomaly is visible, at what time point did the cause begin? | measurement table + action-level table | Because we first have to select the anomalous case through the action-level table and then go back down to the raw time-point logs to inspect the detailed cause |
-| Can an input table for later supervised learning be built? | action-level feature table or candidate prediction-problem table | Because input columns and target-label candidates must be separated on top of the same sample unit |
+| Was this action less stable than other actions? | Action-level table | The comparison concerns one action, so time-point logs must first be grouped into action records |
+| Do the latest 20 actions follow a different pattern from the usual 200? | Recent-period comparison table | The question compares groups of actions and needs aggregation and baseline-comparison columns |
+| At what time did signs of an anomaly begin? | Measurement table + action-level table | Select unusual actions in the action table, then return to raw time-point logs to locate the start of the change |
+| Can we later build an input table for supervised learning? | Action-level feature table or candidate prediction table | Input columns and candidate target labels must be separated on the same sample unit |
 
-In other words, the table that is built first changes depending on whether `the question asks about one action`, `asks about changes in the recent segment`, or `asks about a detailed time-point cause`. Dataset redesign feels difficult not mainly because many tables are made, but because it is easy to miss that `when the question changes, the reference table changes too`.
+The first table changes depending on whether the question concerns one action, a change in a recent period, or the time a change began. Dataset redesign feels difficult less because it involves many tables than because it is easy to miss that `a different question requires a different reference table`.
 
 So when we say a dataset is being built, at least the following judgments are included.
 
@@ -68,7 +68,7 @@ Even with the same source time series, once the question changes, the draft tabl
 
 The key point is not that the source data changes three times, but that depending on which question is used to read the same records, `what one row means`, `which columns remain`, and `what output is needed immediately` all change. To compare one action, we first need a table grouped by `event_id`. To compare recent segments, a structure that places the `recent bundle` and the `baseline bundle` side by side is needed earlier than an action-level table. By contrast, once later learning candidates are being considered, a table that separates input columns from result candidates matters more than a comparison-report sentence.
 
-## A Small Diagram
+## How Questions Change Samples and Tables {#a-small-diagram}
 
 The fact that a changed question also changes the first table to build can be compressed into the redesign flow below.
 
@@ -90,6 +90,11 @@ Once these four lines are written, it becomes clear whether what we are doing no
 This section can be reread not as a procedure for remaking files, but as the problem of what criteria should guide `question-aligned table redesign`.
 
 So it is more accurate to read dataset redesign not as `making many tables`, but as realigning the meaning of rows and the role of columns whenever the question changes.
+
+## Checklist
+
+- Did you sketch the tables needed for two different questions about the same logs?
+- Did you distinguish locating the observed onset of an anomaly from claiming to have identified its cause?
 
 ## Sources and Further Reading
 

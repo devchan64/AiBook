@@ -1,7 +1,7 @@
 # P3-5.2 요약 표는 평균 밖의 패턴을 어떻게 남기는가
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 같은 [평균(mean)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-mean)을 가진 두 동작이 항상 같은 구조를 뜻하지는 않습니다. 평균은 전체 수준을 한눈에 요약하는 데는 유용하지만, 시간에 따라 어떻게 움직였는지까지 모두 보여 주지는 못합니다. 그래서 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계에서는 `평균이 같다`는 사실만으로 안심하지 않고, 평균 밖의 패턴 차이를 어떻게 남길지 함께 고민해야 합니다.
 
@@ -56,7 +56,7 @@
 
 문제 상황: 전체 평균은 같아 보여도 구간별 흐름이 다르면 다른 운영 구조로 읽어야 한다는 점을 확인합니다.
 
-입력(input): [`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){: target="_blank" rel="noopener noreferrer" } 파일. 한 행은 동작 1회의 요약 행이고, `early_flow_mean`, `mid_flow_mean`, `late_flow_mean`은 세 구간 평균입니다. 패턴 변화로 볼 최소 차이는 `pattern_change_threshold`로 조작합니다.
+입력(input): [`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){ .csv-preview } 파일. 한 행은 동작 1회의 요약 행이고, `early_flow_mean`, `mid_flow_mean`, `late_flow_mean`은 세 구간 평균입니다. 패턴 변화로 볼 최소 차이는 `pattern_change_threshold`로 조작합니다.
 
 기대 출력(output): 같은 `overall_mean` 아래에서도 구간 차이와 `pattern_note`가 달라지는 출력. `pattern_change_threshold`를 바꾸면 어느 정도 차이를 패턴으로 읽을지도 달라진다.
 
@@ -164,6 +164,8 @@ E07: mid_minus_early=1.20 late_minus_mid=-0.30 -> mid peak then drop
 E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 ```
 
+아래 계산은 세 구간을 같은 무게로 취급한 평균입니다. 구간 길이와 측정점 수가 같다는 가정에서 전체 평균과 일치합니다. 길이가 다른 구간의 평균을 단순히 더해 3으로 나누면 동작 전체의 시간 평균과 다를 수 있습니다.
+
 모든 동작의 `overall_mean`은 2.4입니다. 하지만 2단계를 보면 같은 평균 아래에서도 `flat across segments`, `mid peak then drop`, `late decline after high early/mid`가 각각 12건씩 나뉩니다. 여기서 조작할 값은 `pattern_change_threshold`입니다. 값을 낮추면 더 작은 구간 차이도 패턴 변화로 잡히고, 값을 높이면 완만한 차이는 평평한 흐름으로 남을 수 있습니다. 3단계의 `pattern_note`는 이 차이를 한 문장으로 다시 접은 결과입니다. 따라서 평균만 보면 같은 사례처럼 보이지만, 구간 평균과 구간 차이를 함께 보면 서로 다른 동작 구조라는 점이 드러납니다.
 
 이 예제도 같은 순서로 읽으면 됩니다.
@@ -176,7 +178,7 @@ E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 
 이 차이는 나중에 기준선 비교에서도 그대로 중요해집니다. 최근 구간 평균이 평소와 같아 보여도, 후반 하강 패턴이 더 강해졌다면 이미 상태 변화가 시작되었을 수 있기 때문입니다. 따라서 `같은 평균, 다른 패턴`을 읽는 감각은 단지 특징 하나를 더 보는 요령이 아니라, 뒤에서 `최근 구조가 평소와 달라졌는가`를 읽기 위한 준비 단계입니다.
 
-## 작은 도식으로 보기
+## 전체 평균에서 구간 패턴으로 {#_1}
 
 이 절의 읽기 순서는 단순합니다. 먼저 `전체 평균이 같은가`를 확인하고, 그다음 `구간 평균`과 `기울기/시점`을 따라가면 마지막에 `패턴 해석`이 남습니다. 즉 평균은 시작점일 뿐, 구조 해석은 그 다음 층위에서 닫힙니다.
 
@@ -186,10 +188,8 @@ E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 
 ## 체크리스트
 
-- 이 절의 질문인 `요약 표는 평균 밖의 패턴을 어떻게 남기는가`에 대해 한 문장으로 답할 수 있는가?
-- `요약 표가 평균 밖의 패턴까지 남겨야 하는 이유를 설명해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 평균이 같아도 구간 순서가 다른 사례를 만들었는가?
+- 구간별 길이가 다를 때 전체 평균을 어떻게 계산할지 설명했는가?
 
 ## 출처와 참고 자료
 

@@ -1,7 +1,7 @@
 # P3-5.1 원시 로그를 비교 가능한 표로 어떻게 바꾸는가
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 원시 로그를 처음 보면 데이터가 매우 풍부해 보입니다. 시간 순서대로 값이 많이 쌓여 있고, 센서도 여럿이고, 제어 파라미터도 함께 보일 수 있기 때문입니다. 하지만 이런 풍부함이 곧바로 비교 가능한 데이터셋을 뜻하지는 않습니다. [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위를 정한 뒤에는 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)와 집계 표로 바꾸는 절차가 필요합니다. 원시 로그와 요약 표, 집계 표는 서로 다른 역할을 맡고 있으며, [한 행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit)이 뜻하는 대상도 다릅니다.
 
@@ -54,7 +54,7 @@
 
 문제 상황: 원시 로그가 `동작 1회 요약 표`를 거쳐 `최근/기준선 집계 표`로 바뀌는 과정을 한 번에 확인합니다.
 
-입력(input): [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){: target="_blank" rel="noopener noreferrer" } 파일. 한 행은 한 동작의 한 진행 구간에서 측정된 `flow` 기록이고, `window`는 기준선 또는 최근 구간을 뜻합니다.
+입력(input): [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){ .csv-preview } 파일. 한 행은 한 동작의 한 진행 구간에서 측정된 `flow` 기록이고, `window`는 기준선 또는 최근 구간을 뜻합니다.
 
 기대 출력(output): `raw`, `summary`, `aggregate` 세 표가 서로 다른 행 의미와 비교 역할을 갖는 출력
 
@@ -182,19 +182,21 @@ recent   events=3 early=1.00 mid=2.55 late=1.85
 
 이 표가 중요하다는 것은 `표를 하나만 잘 만들면 끝난다`는 뜻이 아니라, 질문마다 다시 내려가거나 올라갈 표가 다르다는 뜻입니다.
 
+### 동작별 평균과 측정점 전체 평균은 다르다
+
+가상 로그에서 A는 두 측정점이 모두 10이고, B는 여섯 측정점이 모두 20이라고 해 보겠습니다. 동작을 똑같이 한 건으로 보면 평균은 `(10+20)/2 = 15`입니다. 여덟 측정점을 같은 무게로 보면 `(2×10+6×20)/8 = 17.5`입니다. 뒤 계산에서는 B가 A보다 세 배의 무게를 받습니다. 동작당 상태를 묻는지, 측정점당 수준을 묻는지에 따라 계산이 달라집니다. 측정 간격까지 불규칙하면 측정점 평균을 시간 평균으로도 곧바로 읽을 수 없습니다.
+
 또 하나 중요한 점은 세 표가 경쟁 관계가 아니라는 사실입니다. 요약 표를 만들었다고 해서 원시 로그가 필요 없어지는 것은 아닙니다. 집계 표를 만들었다고 해서 동작 단위 표가 쓸모없어지는 것도 아닙니다. 오히려 집계 표에서 이상한 변화가 보이면 다시 요약 표와 원시 로그로 내려가 확인해야 합니다. 비교를 위한 표현이 늘어날수록 원시 시계열을 다시 확인하는 절차도 함께 중요해집니다.
 
 따라서 `원시 로그 -> 요약 표 -> 집계 표`는 단순 축약 순서가 아니라, 같은 시계열을 기록 수준, 샘플 수준, 상태 수준으로 다시 표현하는 연속된 설계입니다. 핵심은 표가 하나씩 늘어난다는 사실보다, 어떤 질문에는 원시 기록이, 어떤 질문에는 샘플 요약이, 어떤 질문에는 상태 집계가 더 직접적인 근거가 된다는 점입니다.
 
 ## 체크리스트
 
-- 이 절의 질문인 `원시 로그를 비교 가능한 표로 어떻게 바꾸는가`에 대해 한 문장으로 답할 수 있는가?
-- `원시 로그를 비교 가능한 표로 바꾸는 표현 전환 과정을 보여 주어야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 동작별 평균의 평균과 모든 시점 평균을 각각 계산했는가?
+- 두 평균에서 각 동작이 받는 가중치가 왜 다른지 설명했는가?
 
 ## 출처와 참고 자료
 
 - W3C, `PROV-Overview`. provenance framework가 처리 단계, 재현 가능성, 버전, 파생 관계를 표현할 수 있어야 한다고 정리하므로, 원시 로그가 어떤 처리 단계를 거쳐 요약 표와 집계 표로 바뀌었는지 분리해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`의 `example`과 `labeled example`. example는 features와 label이 붙는 샘플 수준 구조를 전제로 하므로, raw row 수준과 event summary 수준을 구분해 sample-level table을 만들어야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 시점별 기록을 동작별 표로 묶는 규칙은 이 절의 질문에 맞춘 자체 예시입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, aggregate table처럼 최근 상태와 기준선 상태를 비교하는 별도 표현 수준이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

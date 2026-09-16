@@ -1,7 +1,7 @@
-# P3-9.12 Target Names and Error Costs
+# P3-9.12 How Do False-Alarm and Miss Costs Change Decision Criteria
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 Do not leave error cost only in an explanatory paragraph; keep policy-related fields such as `false_negative_cost`, `false_positive_cost`, `review_capacity`, `threshold_policy_note`, and `cost_owner`. Then, even with the same target name, the kind of mistake you are trying harder to reduce connects to score interpretation and review-queue design.
 
@@ -88,7 +88,7 @@ Expected output:
 
 A lower threshold makes the review queue larger, but it does not miss risky cases. A higher threshold makes the review queue smaller, but missed cases increase and total cost rises. The values to change in this example are `miss_cost`, `false_alarm_cost`, and `thresholds`. If the false-alarm cost is set higher, another threshold may become more natural. So even with the same target name, the error cost has to be written first so that score and threshold are interpreted in the same direction.
 
-## A Small Diagram
+## Reflecting Error Costs in Decision Rules {#a-small-diagram}
 
 Even with the same score, the review-queue flow changes depending on which kind of error you are trying harder to reduce.
 
@@ -99,6 +99,13 @@ Even with the same score, the review-queue flow changes depending on which kind 
 This section is therefore not only a section that defines `false negative` and `false positive`. It is a section that makes you reread the current problem as `what kind of mistake are we trying harder to reduce`. Once the target name has been fixed, the next thing to write is which kind of error hurts more under that target, so that scores, thresholds, and review-queue priority are all read in the same direction.
 
 So rather than wrapping up the problem with accuracy alone, you should first ask why the intention to reduce one kind of error more than the other has to be written down first. This section groups together `miss cost`, `over-detection cost`, and `judgment-rule adjustment`, so that the error-cost structure is fixed first before it changes how the target is interpreted.
+
+Before applying a cost table, define the positive class (1). If 1 means `failure within 7 days`, a miss is an actual failure predicted as negative. The costs in this section are assumptions for calculation, not estimates of real costs. Different review staffing and capacity can change which thresholds are feasible even with the same scores, so do not directly adopt the cheapest example rule as the operational optimum.
+
+## Checklist
+
+- Did you define the positive class and calculate false-alarm and miss costs?
+- Can you explain how decisions change if actual costs and capacity differ from the example?
 
 ## Sources and References
 

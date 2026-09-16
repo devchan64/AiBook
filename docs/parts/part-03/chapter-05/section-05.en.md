@@ -1,7 +1,7 @@
 # P3-5.5 How Do We Handle Samples with Missing Values or Empty Segments
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 This judgment should remain inside the table too. Columns such as `keep_sample`, `missing_scope`, `avoid_features`, `missing_indicator`, and `raw_log_recheck_needed` let you see again which policy handled blanks. If you keep the sample but decide not to create a certain feature, also leave whether the reason was `late_segment_missing` or `end_detected=0`; later you can tell whether missing-value handling was simple preprocessing or a sample-boundary problem.
 
@@ -58,13 +58,21 @@ Before complicated missing-value imputation techniques, it is more important to 
 
 So the concern here is more similar to `how should we classify the current state of this sample?` than to `how should we fill it?` The usual order of judgment is `whether to keep the sample -> what features must not be built -> whether the missingness itself should remain as a flag column`.
 
-## Looking Through a Small Diagram
+## Choosing Sample Handling by Missingness Location {#looking-through-a-small-diagram}
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-en.mmd"
 ```
 
+</div>
+</div>
+
 This diagram shows that we do not treat `being empty` as one single state. The judgment branches according to the location of the missingness and the state of the sample boundary. So the example in this section aims less to reveal values themselves and more to reveal first the judgment structure that branches into `keep`, `exclude features`, and `structural collapse`.
+
+Before replacing missing values with zero, establish what zero means. A flow of zero is a measurement of stopped flow; missingness means a measurement was unavailable. If the observed values are 2 and 4 and the third is missing, the observed-value mean is 3. Filling the blank with zero produces a mean of 2 by introducing a different assumption. Excluding incomplete samples can also remove particular operating conditions, so retain condition counts before and after exclusion.
 
 ## Why Can the Missingness Itself Remain as a Column
 
@@ -80,11 +88,11 @@ So in Part 3, it is also worth checking whether flag columns such as `missing_se
 
 Once this judgment is made first, we stop mixing together `values that can be filled` and `missingness that has already broken the sample structure`. The key point comes before the name of any processing technique: first separate whether the current sample is still the same comparison unit and whether the missingness itself should remain as structural information.
 
-## Small Code Example
+## Deciding Sample Retention by Missingness Location {#small-code-example}
 
 Problem situation: check that not all samples with missing values are in the same state; some only require avoiding certain features, while others have their sample structure itself broken.
 
-Input: the [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){: target="_blank" rel="noopener noreferrer" } file. One row is one action-summary row, and an empty value means that the segment average could not be produced. The policy for keeping partially missing samples is controlled by `keep_partial_samples`.
+Input: [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview }. One row summarizes one action, and an empty value means the corresponding segment mean was not produced. Use `keep_partial_samples` to control whether partially incomplete samples are retained.
 
 Expected output: output that organizes `late_segment_missing`, `sample_structure_broken`, `keep_sample`, and `avoid_features` together. If `keep_partial_samples` changes, the keep/drop decision for rows with only partial segment missingness changes.
 
@@ -207,9 +215,14 @@ The last thing to check here is threefold. Is this sample still the same compari
 
 The fact that values are missing is not only a [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing) problem. It is a data-modeling signal that asks again whether the sample is still the same comparison unit and whether the missingness itself should remain as structural information. So to say that we handle missingness means, before filling blanks, redrawing the boundary that says which samples remain comparable and which should be pulled back from comparison.
 
+## Checklist
+
+- Did you calculate means treating actual zero and missingness differently?
+- Did you check which operating conditions may become underrepresented when incomplete samples are excluded?
+
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example assumes the same unit where features and labels attach, it supports the point that when missingness shakes the sample boundary, we should check first whether the sample is still the same comparison unit before filling values. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Sample-retention decisions based on missingness location are design criteria applied in this section. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because feature engineering is the process of turning raw data into a form more useful for learning and comparison, it reinforces the judgment in this section that features whose meaning is broken by segment missingness should not be built. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, `PROV-Overview`. Because the provenance framework says derivation and processing steps should remain explainable, it provides the higher-level frame that the location of missingness and whether sample structure has collapsed should remain as separate information so that quality and reproducibility can be judged again later. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - scikit-learn developers, `Imputation of missing values`. Because it explains that dropping rows or columns with missing values can lose valuable data and that `MissingIndicator` can preserve information about which values were missing, it supports this section's explanation that we should first decide whether missingness itself should remain as a flag column. [https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

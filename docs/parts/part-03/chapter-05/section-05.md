@@ -1,7 +1,7 @@
 # P3-5.5 값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 원천 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계까지 오면, `동작은 있었는데 일부 센서값이 비어 있으면 어떻게 해야 하는가?` `중간 구간 기록이 빠졌는데 이 샘플을 버려야 하는가, 일부만 써야 하는가?` 같은 질문이 바로 생깁니다. 이때 먼저 봐야 할 것은 값을 어떻게 채울지보다, [결측값(missing value)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-missing-value)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 경계와 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 의미를 얼마나 흔드는가입니다.
 
@@ -58,13 +58,21 @@
 
 이 판단도 표 안에 남아야 합니다. `keep_sample`, `missing_scope`, `avoid_features`, `missing_indicator`, `raw_log_recheck_needed` 같은 열을 두면 빈칸을 어떤 정책으로 처리했는지 다시 볼 수 있습니다. 특히 샘플을 유지하되 특정 특징만 만들지 않기로 했다면, 그 이유가 `late_segment_missing`인지 `end_detected=0`인지 같이 남겨야 뒤에서 결측 처리가 단순 전처리인지 샘플 경계 문제인지 구분할 수 있습니다.
 
-## 작은 도식으로 보기
+## 결측 위치에 따라 샘플 처리 나누기 {#_5}
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="도식: 좌우로 스크롤하여 확인" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-ko.mmd"
 ```
 
+</div>
+</div>
+
 이 도식은 `비어 있음`을 하나의 상태로 보지 않고, 누락 위치와 샘플 경계 상태에 따라 판단이 갈라진다는 점을 보여 줍니다. 즉 이 절의 예시는 값 자체보다 `유지`, `특징 제외`, `구조 붕괴`로 나뉘는 판단 구조를 먼저 드러내는 데 있습니다.
+
+결측을 0으로 바꾸기 전에 0의 뜻부터 확인해야 합니다. 유량 0은 실제로 흐름이 멈춘 측정이고, 결측은 측정하지 못했다는 상태입니다. 관측값이 2와 4이고 세 번째 값이 빠졌다면 관측값 평균은 3입니다. 빈칸을 0으로 채운 평균 2는 다른 가정을 넣은 결과입니다. 또한 누락 샘플을 제외하면 특정 운전 조건만 사라질 수 있으므로 제외 전후의 조건별 건수도 함께 남깁니다.
 
 ## 빠짐 자체를 왜 열로 남길 수 있는가
 
@@ -80,11 +88,11 @@
 
 이 판단을 먼저 해 두면 `채울 수 있는 값`과 `샘플 구조를 이미 무너뜨린 누락`을 섞지 않게 됩니다. 핵심은 처리 기법 이름보다 먼저, 현재 샘플이 아직 같은 비교 단위인지와 빠짐 자체를 구조 정보로 남길지 구분하는 데 있습니다.
 
-## 작은 코드 예시
+## 결측 위치별로 샘플 유지 여부 판단하기 {#_7}
 
 문제 상황: 값이 비어 있는 샘플이 모두 같은 상태가 아니라, 일부 특징만 피하면 되는 경우와 샘플 구조 자체가 무너진 경우가 갈린다는 점을 확인합니다.
 
-입력(input): [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){: target="_blank" rel="noopener noreferrer" } 파일. 한 행은 동작 1회의 요약 행이고, 빈 값은 해당 구간 평균이 만들어지지 않았다는 뜻입니다. 부분 누락 샘플 유지 정책은 `keep_partial_samples`로 조작합니다.
+입력(input): [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview } 파일. 한 행은 동작 1회의 요약 행이고, 빈 값은 해당 구간 평균이 만들어지지 않았다는 뜻입니다. 부분 누락 샘플 유지 정책은 `keep_partial_samples`로 조작합니다.
 
 기대 출력(output): `late_segment_missing`, `sample_structure_broken`, `keep_sample`, `avoid_features`가 함께 정리된 출력. `keep_partial_samples`를 바꾸면 일부 구간만 빠진 샘플의 유지 여부가 달라진다.
 
@@ -209,14 +217,12 @@ avoid=none: 12
 
 ## 체크리스트
 
-- 이 절의 질문인 `값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가`에 대해 한 문장으로 답할 수 있는가?
-- `결측과 빈 구간을 샘플 유지 여부 판단과 연결해 다뤄야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 실제 0과 결측을 다르게 처리한 평균을 계산했는가?
+- 불완전 샘플 제외로 어떤 운영 조건이 덜 남을지 확인했는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 같은 단위를 전제로 하므로, 결측이 샘플 경계를 흔들 때는 값을 채우기 전에 그 샘플이 아직 같은 비교 단위인지 먼저 확인해야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 결측 위치에 따른 샘플 유지 판단은 이 절의 사례에 적용한 설계 기준입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering은 원시 데이터를 학습과 비교에 더 유용한 형태로 바꾸는 과정이므로, 구간 누락 때문에 뜻이 깨진 특징은 만들지 말아야 한다는 이 절의 판단을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - W3C, `PROV-Overview`. provenance framework가 derivation과 processing steps를 설명 가능하게 남겨야 한다고 정리하므로, 누락 위치와 샘플 구조 붕괴 여부를 별도 정보로 남겨야 나중에 품질과 재현성을 다시 판단할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - scikit-learn developers, `Imputation of missing values`. 결측값이 있는 행이나 열을 버릴 수 있지만 가치 있는 데이터 손실이 생길 수 있고, `MissingIndicator`로 결측 여부를 이진 행렬로 표시할 수 있으며 결측이 있었던 정보를 보존하는 일이 유용할 수 있다고 설명하므로, 빠짐 자체를 표시 열로 남길지 먼저 판단해야 한다는 이 절의 설명을 보강합니다. [https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

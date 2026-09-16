@@ -1,7 +1,7 @@
 # P3-5.7 Rules for Folding Multiple Follow-Up Events
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 The final table should also keep the folding rule traceable. For example, if you leave `folding_rule`, `severity_cutoff`, `follow_up_window_days`, `source_event_count`, and `target_candidate_name` in a memo, you can explain again what event range and threshold produced `any_failure=1`. Even from the same follow-up event log, `first_event` and `worst_event` are different columns, so do not freeze one column name as if it were the actual target label.
 
@@ -46,11 +46,15 @@ Leaving the notes below first reduces later confusion.
 | Which of `any`, `first`, `worst`, `count` was used | To explain again what the result column means |
 | Whether the folded result is for reporting or a prediction candidate | To avoid mixing comparison reports with target candidates |
 
+Before folding events into a result, define the observation period and deduplication rules. For `failure within 7 days`, a failure on day 9 is excluded. If a transmission retry stores the same event twice, compare event identifiers so that `count` does not count it twice. Define `first` using occurrence-time order, and establish tie-breaking rules for events at the same time or with the same severity.
+
+The example below assumes follow-up is complete for the entire sample roster, the event log is already restricted to the analysis period, and there are no duplicates. Only under those assumptions can S30, which has no events, be assigned 0. A sample still under observation must remain `pending` even if no event has occurred.
+
 Small example:
 
 Problem situation: check that when several follow-up events exist after the same sample, different folding rules such as `first`, `worst`, `count`, and `any` create different result columns.
 
-Input: the sample roster [p3_5_7_sample_roster.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_sample_roster.csv), the follow-up event log [p3_5_7_follow_up_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv), the event severity table [p3_5_7_event_severity.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_event_severity.csv), and candidate severity thresholds for failure, `failure_severity_cutoffs`
+Input: the sample roster [p3_5_7_sample_roster.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_sample_roster.csv){ .csv-preview }, the follow-up event log [p3_5_7_follow_up_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv){ .csv-preview }, the event severity table [p3_5_7_event_severity.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_event_severity.csv){ .csv-preview }, and candidate severity thresholds for failure, `failure_severity_cutoffs`
 
 The first CSV has one row for each sample that must remain in the final result table. The second CSV has one row for each follow-up event that actually occurred after a sample. The third CSV turns event names into severity numbers so that the `worst` and `any_failure` rules can be calculated.
 
@@ -72,11 +76,9 @@ selected_failure_severity_cutoff = 4
 failure_severity_cutoffs = [4, 3, 2]
 preview_row_count = 12
 
-
 def read_csv(path):
     with path.open(newline="", encoding="utf-8") as file:
         return list(csv.DictReader(file))
-
 
 sample_roster = read_csv(sample_roster_path)
 follow_ups = read_csv(follow_up_events_path)
@@ -230,11 +232,16 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 
 The key point in this example is that even while looking at the same source event, `first_event`, `worst_event`, `event_count`, `event_sequence`, and `any_failure` can become different result columns. For S01, the first follow-up event is `review`, but the most severe event is `failure`. For S02, the first event is `review`, but the most severe event is `warning`. Samples like S30 have no follow-up events, but they still exist in the sample roster, so they are folded as `none` and 0 and remain in the final table. The values to manipulate here are `selected_failure_severity_cutoff` and `failure_severity_cutoffs`. With the threshold at 4, only S01, S07, S13, S19, and S25, which have `failure`, become failure candidates. If the threshold is lowered to 3, samples whose worst event is `warning` also enter the failure-candidate set. If it is lowered to 2, samples whose worst event is `review` or `inspection` are included too. In other words, unless the folding rule and threshold are written down, the same follow-up event log can be read with different [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) meanings from table to table.
 
-## A Small Diagram
+## Combining Follow-Up Events into Sample-Level Outcomes {#a-small-diagram}
 
 This section compresses one point: `several follow-up events` do not automatically become one result column. The same event list turns into different representative result columns depending on whether it is folded by `any`, `first`, `worst`, or `count`.
 
 --8<-- "assets/part-03/chapter-05/p3-5-7-mermaid-01-en.mmd"
+
+## Checklist
+
+- Did you specify the observation period, deduplication, and representative-label selection rules for follow-up events?
+- Did you distinguish zero follow-up events from incomplete observation?
 
 ## Sources and Further Reading
 

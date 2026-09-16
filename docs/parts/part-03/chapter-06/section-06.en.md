@@ -1,7 +1,7 @@
 # P3-6.6 Same Column Name, Different Feature
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 _Subtitle: Why can a column with the same name become a different feature when its measurement rule or unit changes?_
 
@@ -34,7 +34,7 @@ Even with the same column name, if one of the following changes, Part 3 should f
 
 All four of these are not primarily model-technique issues. They are issues of `what the feature we kept actually means`.
 
-## Looking Through a Small Diagram
+## Comparing Measurement Definitions Beyond Column Names {#looking-through-a-small-diagram}
 
 | event_id | flow_mean | flow_unit | sensor_version | segment_rule | ops_definition |
 | --- | ---: | --- | --- | --- | --- |
@@ -55,6 +55,8 @@ So if we read these four rows as one unchanged feature column, the meaning of th
 ```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-6-mermaid-01-en.mmd"
 ```
+
+If only units differ, conversion can restore comparability. Since `41 mL/s = 41×60/1000 = 2.46 L/min`, C's value is not about 17 times A's. This does not establish that sensor location, calibration, or calculation intervals match, so check those conditions even after standardizing units. If only an operational judgment rule changed, the original physical feature may be unchanged while the output label's meaning differs.
 
 ## So What Should Be Written Down First at This Stage
 
@@ -81,7 +83,7 @@ Once it is no longer the same feature, the baseline comparison in Chapter 7 also
 
 So a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is not only a same-group comparison. It should also be a `same feature-definition` comparison. Leaving this note behind lets us check first `did different feature definitions get mixed together?` before jumping to the conclusion that `the model is strange`.
 
-## Small Code Example
+## Comparing Groups by Name Alone and by Full Definition {#small-code-example}
 
 Problem situation: check that even when the same column name `flow_mean` is used, it may not be the same feature if unit, sensor version, segment rule, and operational definition differ.
 
@@ -221,8 +223,12 @@ The last three things to check here are the following. Are the unit and calculat
 
 If the measurement unit, sensor version, or calculation rule changes, then the same column name may no longer mean the same feature, so Part 3 should check feature-definition sameness before looking at the numbers. This section can be read not as a trick for managing column names, but as the problem of [feature-definition identity](/AiBook/en/reference/concept-glossary-alpha/f/#feature).
 
-
 So feature identity should be read not as one line of column name, but as a definition bundle that includes what was built under what rule and version.
+
+## Checklist
+
+- Did you convert 41 mL/s to L/min?
+- Did you distinguish a unit-only change from changes in sensor or aggregation definitions?
 
 ## Sources and Further Reading
 

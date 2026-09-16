@@ -1,7 +1,7 @@
-# P3-9.7 입력과 결과는 어떤 조건이 닫혀야 예측 문제로 읽을 수 있는가
+# P3-9.7 예측 시점에 쓸 입력과 이후 결과는 어떻게 구분하는가
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 문제를 예측 문제로 올리기로 했다면, 이제는 그 구조가 실제 [예측 계약(prediction contract)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-prediction-contract)을 만족하는지 닫아야 합니다. 중요한 것은 긴 이론이 아니라 네 가지 확인입니다. 어떤 열이 입력인지, 어떤 열이 결과 후보인지, 예측 시점 이후 정보가 섞이지 않았는지, 그리고 어디까지의 정보를 보고 언제의 결과를 맞히는지입니다.
 
@@ -87,7 +87,13 @@ leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
 
 `leaky_after_review`는 정확도가 `1.0`이지만, 이 결과를 좋은 예측 문제라고 읽으면 안 됩니다. `review_result_code`는 사람이 이미 검토한 뒤에 생기는 열이기 때문입니다. 실제 운영 시점에는 이 값을 아직 모릅니다. 따라서 이 예제의 핵심은 높은 점수를 얻는 모델을 찾는 것이 아니라, `이 열을 예측 시점에 실제로 만들 수 있는가`를 먼저 닫아야 한다는 점입니다.
 
-## 작은 도식으로 보기
+### 발생 시각과 사용 가능 시각은 다르다
+
+10시에 예측한다고 가정합시다. 센서 측정은 9시 59분에 발생했지만 서버에는 10시 2분에 도착했다면, 그 값은 10시 입력에 넣을 수 없습니다. 과거 시각이 적힌 열이라도 예측 시스템이 그때 실제로 읽을 수 있었는지 확인해야 합니다. `recent_diff`도 기준선을 계산할 때 미래 기록을 섞었다면 입력으로 쓸 수 없습니다.
+
+여기서 `cutoff`는 입력 정보의 마감 시점, `horizon`은 예측할 미래 기간입니다. `10시까지 사용 가능한 정보로 이후 7일 내 실패를 예측한다`처럼 두 경계를 함께 적습니다. 나중에 도착한 정답은 학습용 결과로 결합할 수 있지만, 당시 입력을 다시 만들 때에는 포함하지 않습니다.
+
+## 예측 시점에서 입력과 이후 결과 나누기 {#_3}
 
 입력과 결과 계약은 `열을 나눈다`에서 끝나지 않고, 예측 시점에 실제로 쓸 수 있는 값만 남는지까지 아래 순서로 닫혀야 합니다.
 
@@ -101,13 +107,13 @@ leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
 
 ## 체크리스트
 
-- 이 절의 질문인 `입력과 결과는 어떤 조건이 닫혀야 예측 문제로 읽을 수 있는가`에 대해 한 문장으로 답할 수 있는가?
-- `입력과 결과를 Part 4로 넘기기 전에 무엇을 먼저 닫아야 하는지 분명히 해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 예측 시점과 결과 관측 기간을 시간축에 표시했는가?
+- 예측 시점 전에 발생했지만 이후에 도착한 값이 입력에 들어가는지 확인했는가?
 
 ## 출처와 참고 자료
 
 - Google, *Machine Learning Glossary*, `feature`, `label`, `label leakage`. 특징이 모델의 입력 변수이며, 라벨 누수가 라벨의 대리값이 특징에 섞이는 설계 결함이라는 용어 기준을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Google, *Datasets: Dividing the original dataset*. 훈련·검증·테스트 분리, 같은 특징 변환을 실제 운영 데이터에도 적용해야 한다는 설명, 테스트/검증 데이터가 실제 데이터와 맞아야 한다는 관점을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. 처리 단계, 재현 가능성, 버전 관리, 파생 관계를 provenance 관점에서 남기는 기준을 확인하는 데 참고했습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }. 실제 예측 때 쓸 수 없는 정보의 누출를 확인했다. 확인일: 2026-09-15.

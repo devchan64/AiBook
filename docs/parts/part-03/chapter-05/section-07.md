@@ -1,7 +1,7 @@
 # P3-5.7 여러 후속 사건을 접는 규칙
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 _보조제목: 같은 샘플 뒤의 여러 사건은 어떤 규칙으로 하나의 표 구조에 접어야 하는가_
 
@@ -46,11 +46,15 @@ _보조제목: 같은 샘플 뒤의 여러 사건은 어떤 규칙으로 하나�
 
 최종 표에는 접기 규칙 자체도 추적 가능하게 남겨야 합니다. 예를 들어 `folding_rule`, `severity_cutoff`, `follow_up_window_days`, `source_event_count`, `target_candidate_name`을 메모로 남기면 `any_failure=1`이 어떤 사건 범위와 임계값에서 나온 결과인지 다시 설명할 수 있습니다. 같은 후속 사건 로그라도 `first_event`와 `worst_event`는 다른 열이므로, 한 열 이름만 보고 실제 목표 라벨처럼 고정하지 않아야 합니다.
 
+사건을 접기 전에는 관측 기간과 중복 제거 규칙도 정해야 합니다. `7일 내 실패 여부`라면 9일째의 실패는 포함하지 않습니다. 전송 재시도로 같은 사건이 두 번 저장되었다면 `count`에서 두 번 세지 않도록 사건 식별자를 대조합니다. `first`는 발생 시각으로 정렬하고, 같은 시각의 사건이나 같은 심각도끼리의 우선순위도 정해 둡니다.
+
+아래 예제는 샘플 명단 전체의 추적이 끝났고, 후속 사건 로그는 분석할 기간으로 이미 제한되었으며 중복이 없다고 가정합니다. 이 가정에서만 사건이 없는 S30에 0을 붙일 수 있습니다. 아직 관찰 중인 샘플은 사건이 없더라도 `pending`으로 남겨야 합니다.
+
 작은 예시:
 
 문제 상황: 같은 샘플 뒤에 여러 후속 사건이 있을 때 `first`, `worst`, `count`, `any` 같은 서로 다른 접기 규칙이 다른 결과 열을 만든다는 점을 확인합니다.
 
-입력(input): 샘플 명단 [p3_5_7_sample_roster.csv](../../../assets/part-03/chapter-05/p3_5_7_sample_roster.csv), 후속 사건 로그 [p3_5_7_follow_up_events.csv](../../../assets/part-03/chapter-05/p3_5_7_follow_up_events.csv), 사건 심각도 표 [p3_5_7_event_severity.csv](../../../assets/part-03/chapter-05/p3_5_7_event_severity.csv), 실패로 볼 심각도 기준 후보 `failure_severity_cutoffs`
+입력(input): 샘플 명단 [p3_5_7_sample_roster.csv](../../../assets/part-03/chapter-05/p3_5_7_sample_roster.csv){ .csv-preview }, 후속 사건 로그 [p3_5_7_follow_up_events.csv](../../../assets/part-03/chapter-05/p3_5_7_follow_up_events.csv){ .csv-preview }, 사건 심각도 표 [p3_5_7_event_severity.csv](../../../assets/part-03/chapter-05/p3_5_7_event_severity.csv){ .csv-preview }, 실패로 볼 심각도 기준 후보 `failure_severity_cutoffs`
 
 첫 번째 CSV의 한 행은 최종 결과 표에 남아야 할 샘플 1건입니다. 두 번째 CSV의 한 행은 샘플 뒤에 실제로 발생한 후속 사건 1건입니다. 세 번째 CSV는 사건 이름을 심각도 숫자로 바꿔 `worst`와 `any_failure` 규칙을 계산하게 합니다.
 
@@ -230,7 +234,7 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 
 이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 서로 다른 결과 열로 만들어질 수 있다는 점입니다. S01은 첫 후속 사건이 `review`이지만 가장 심한 사건은 `failure`이고, S02는 첫 사건이 `review`이지만 가장 심한 사건은 `warning`입니다. S30처럼 후속 사건이 없는 샘플도 샘플 명단에는 있으므로 `none`과 0으로 접혀 최종 표에 남습니다. 여기서 조작할 값은 `selected_failure_severity_cutoff`와 `failure_severity_cutoffs`입니다. 기준을 4로 두면 `failure`가 있는 S01, S07, S13, S19, S25만 실패 후보가 되지만, 3으로 낮추면 `warning`이 가장 심한 샘플들도 실패 후보에 들어갑니다. 2로 낮추면 `review`나 `inspection`이 가장 심한 샘플까지 포함됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 후속 사건 로그도 표마다 다른 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label) 뜻으로 읽히게 됩니다.
 
-## 작은 도식으로 보기
+## 여러 후속 사건을 샘플별 결과로 묶기 {#_1}
 
 이 절은 `여러 후속 사건`이 자동으로 하나의 결과 열이 되지 않는다는 점을 압축합니다. 같은 사건 목록도 `any`, `first`, `worst`, `count` 가운데 어떤 규칙으로 접느냐에 따라 다른 대표 결과 열로 바뀝니다.
 
@@ -238,10 +242,8 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 
 ## 체크리스트
 
-- 이 절의 질문인 `여러 후속 사건을 접는 규칙`에 대해 한 문장으로 답할 수 있는가?
-- `한 샘플 뒤의 여러 후속 사건을 표 구조 안에서 어떻게 접어야 하는지 정리해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 후속 사건의 관측 기간·중복 처리·대표 라벨 선택 규칙을 적었는가?
+- 후속 사건 0건과 관측 미완료를 구분했는가?
 
 ## 출처와 참고 자료
 

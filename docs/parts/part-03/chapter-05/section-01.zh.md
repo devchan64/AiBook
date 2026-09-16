@@ -1,7 +1,7 @@
 # P3-5.1 如何把原始日志转换成可比较的表
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 转成实际列设计时，原始日志中要用 `event_id`、`timestamp`、`progress_bin`、传感器值等留下记录发生的位置；摘要表中要放 `event_id`、`early_flow_mean`、`mid_flow_mean`、`late_flow_mean` 等用于比较一次动作的列；聚合表中需要 `window`、`event_count`、`baseline_gap` 等显示多个动作被再次分组的列。即使三张表都来自同一源数据，各表的第一列和派生列也必须指向不同 表示层级，后面比较 标准 和特征候选才不会混在一起。
 
@@ -54,7 +54,7 @@
 
 问题情境：一次性查看原始日志如何先变成 `动作级汇总表`，再变成 `近期/基准线聚合表`。
 
-输入(input)：[`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){: target="_blank" rel="noopener noreferrer" } 文件。一行表示一次动作中一个进度区间里的 `flow` 测量记录，`window` 表示该动作属于基准线区间还是近期区间。
+输入：[`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){ .csv-preview }。一行是一次动作某个进程区段中测得的 `flow` 记录；`window` 表示基准区间或近期区间。
 
 期望输出(output)：`raw`、`summary`、`aggregate` 三张表分别具有不同的行含义与比较角色
 
@@ -182,12 +182,21 @@ recent   events=3 early=1.00 mid=2.55 late=1.85
 
 这张表的重要性，不是说 `只要做出一张好表就结束了`，而是说：不同的问题，需要向上或向下切换到不同的表去读。
 
+### 动作均值的平均与全部测量点的平均并不相同
+
+假设一份虚构日志中，A 的两个测量点都是 10，B 的六个测量点都是 20。把每次动作视为同等的一条记录，平均为 `(10+20)/2 = 15`；把八个测量点视为同等权重，平均为 `(2×10+6×20)/8 = 17.5`。第二种计算中，B 的权重是 A 的三倍。计算方式取决于问题是在问每次动作的状态，还是每个测量点的水平。如果测量间隔还不规则，也不能直接把测量点平均理解为时间平均。
+
 另一个重要点是，这三种表并不是互相竞争的。做出了汇总表，并不意味着原始日志就不需要了。做出了聚合表，也不意味着动作级表失去价值。恰恰相反，如果在聚合表里看到了异常变化，就应该重新回到汇总表和原始日志去检查。为了比较而增加的表示层越多，重新回看原始时间序列的过程也越重要。
 
 因此，`原始日志 -> 汇总表 -> 聚合表` 不是简单的压缩顺序，而是把同一条时间序列依次改写到记录层、样本层、状态层的一套连续设计。关键不在于表一张张增加，而在于：有些问题以原始记录为更直接的依据，有些问题以样本汇总为更直接的依据，还有些问题以状态聚合为更直接的依据。
 
+## 检查清单
+
+- 你是否分别计算了动作均值的平均与全部时点的平均？
+- 你能否解释两种平均中各动作权重为何不同？
+
 ## 来源与参考资料
 
 - W3C, `PROV-Overview`. provenance framework 说明处理步骤、可复现性、版本和派生关系都应可表示，因此它为“原始日志是如何经过处理变成汇总表和聚合表”的分层记录提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary` 中的 `example` 和 `labeled example`。因为 example 预设的是特征和标签附着在样本层结构上，所以它强化了区分原始行与动作汇总行，并构建样本层表结构的必要性。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 将时点记录汇总为动作表的规则是本节自行设计的例子。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - U.S. Bureau of Labor Statistics, `Base period`. 它把基准时段说明为比较其他时段的参考，因此为“比较近期状态和基准线状态时，需要像聚合表这样的独立表示层”提供了一般依据。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

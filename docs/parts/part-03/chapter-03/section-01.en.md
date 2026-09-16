@@ -1,7 +1,7 @@
 # P3-3.1 Why Source Data Should Not Be Read as a Learning Problem Right Away
 
 > Section ID: `P3-3.1`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 When source data first arrives, many people almost reflexively think, `what can we predict with this?` first. Because there is a table, many values, and records measured over time, it feels as if the data could be turned immediately into some learning problem. But that reaction is usually too fast. The table in front of us is more likely not yet `a training dataset`, but merely [recorded source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data), or at best a [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#dataset).
 
@@ -41,9 +41,9 @@ For example, even after seeing only part of the source data below, the learning-
 | A | 1 | 2.0 | 1.4 |
 | A | 2 | 2.4 | 1.6 |
 
-Looking only at this table, it is easy to think of words such as `classification problem`, `prediction problem`, or `time-series learning problem`. But we still have not decided whether this table is `a time-point record` or `a one-action table`. So if we choose a learning-problem frame here right away, the format of the problem gets ahead of the problem itself.
+This table can quickly suggest phrases such as `classification problem`, `prediction problem`, or `time-series learning problem`. One row is a record at one time point. What remains undecided is whether to use that row as a sample or group rows by action, and which outcome to predict. Choosing a learning formulation immediately would therefore put the form of the problem ahead of the problem itself.
 
-## A Small Diagram
+## Decisions Between Source Records and a Learning Problem {#a-small-diagram}
 
 It becomes clearer which questions stay empty when source data is escalated too early into a learning problem if the flow is reread as `source records -> empty questions -> sample/label candidate cleanup`.
 
@@ -53,7 +53,7 @@ It becomes clearer which questions stay empty when source data is escalated too 
 
 Problem situation: when a time-point log table arrives, check which core questions remain empty if we read it immediately as a learning problem.
 
-Input: the raw log table [p3_3_1_source_operation_log.csv](/AiBook/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv), where multiple time-point measurements are mixed under each `event_id`, and `label_column_to_try`, the column name to inspect as a label candidate
+Input: the raw log table [p3_3_1_source_operation_log.csv](/AiBook/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv){ .csv-preview }, where multiple time-point measurements are mixed under each `event_id`, and `label_column_to_try`, the column name to inspect as a label candidate
 
 One row in the input file is a sensor record measured at a specific second (`second`) inside one action (`event_id`). The table also contains `batch_id`, `recipe`, `pressure`, `flow`, `vibration`, and `temperature`, but at this point we have not yet decided which column is the sample identifier and which column is the label.
 
@@ -187,7 +187,12 @@ If we place side by side the empty questions left behind when the learning-probl
 
 The core of this table is not that the name of the learning problem is wrong. The problem is that the questions that have to be answered before that frame are still empty. Data modeling is the front-end design that fills those blanks.
 
-So the most common mistake when source data first arrives is to mistake `record structure` for `learning structure`. The mere existence of time-point logs does not mean a prediction problem has already been defined. Only after we decide how to group those logs, what to keep, and what to compare them against can we accurately use the word dataset. Once the learning-problem frame appears first, that front-end design is easily skipped, and later the sample unit and table structure have to be taken apart and rebuilt. If this section is reread as a problem of managing the moment of `problem escalation`, it becomes even clearer that the key is not `let model names come to mind later`, but the judgment not to escalate prematurely into a learning problem before the sample unit and label candidate are organized.
+A common mistake on first receiving source data is to confuse the `record structure` with the `learning structure`. Time-point logs alone do not define a prediction problem. We must decide how to group them, what to retain, and what to predict before judging whether the dataset fits the current learning task. Jumping to a learning formulation can skip this design work and force later revisions to sample units and table structures. Viewed as managing the timing of `problem escalation`, the key is not merely to delay naming a model, but to avoid prematurely treating the task as a learning problem before sample units and candidate labels are defined.
+
+## Checklist
+
+- Did you distinguish a time-point row from an action record and write a question for each?
+- Can you explain what comparisons are possible when the source logs have no outcome labels?
 
 ## Sources and Further Reading
 

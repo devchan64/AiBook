@@ -1,7 +1,7 @@
 # P3-9.6 Checking Label Consistency
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 _Subtitle: What should be checked first when the same event receives different labels by person or time?_
 
@@ -32,7 +32,7 @@ The reasons label candidates wobble usually gather into the following few catego
 
 So the problem with a label candidate is not only `wrong/right`, but also `is the same rule repeating`.
 
-## Looking at the Comparison Table First
+## Causes of Label Disagreement and What to Recheck {#looking-at-the-comparison-table-first}
 
 | event_id | diff | repeatability | reviewer | review_label |
 | --- | ---: | --- | --- | --- |
@@ -74,17 +74,17 @@ So instead of forcing unstable cause classification straight into a prediction p
 
 Leaving these notes makes it possible to check not only `is there a column`, but also `does that column repeat with the same meaning`. At the current stage, therefore, the more important judgment is not raising the problem type more heavily, but not leaving a label candidate whose meaning still wobbles as it is.
 
-## A Small Diagram
+## From Label Disagreement to Reviewing Decision Criteria {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-6-mermaid-01-en.mmd"
 ```
 
-## A Small Python Example
+## Checking Label Differences by Event, Reviewer, and Period {#a-small-python-example}
 
 Problem situation: when different reviewers label the same event differently, having a label-candidate column still does not immediately make it easy to read as a stable target label.
 
-Input: repeated review records [p3_9_6_label_reviews.csv](/AiBook/assets/part-03/chapter-09/p3_9_6_label_reviews.csv). One row in this table is a label record left by a particular reviewer for a particular event in a particular month. The key columns are `event_id`, `review_month`, `reviewer`, and `review_label`.
+Input: repeated review records [p3_9_6_label_reviews.csv](/AiBook/assets/part-03/chapter-09/p3_9_6_label_reviews.csv){ .csv-preview }. One row in this table is a label record left by a particular reviewer for a particular event in a particular month. The key columns are `event_id`, `review_month`, `reviewer`, and `review_label`.
 
 Expected output: output that shows the review count by event, the number of label types, the actual disagreement-event list, and the monthly label distribution side by side
 
@@ -217,6 +217,13 @@ review_month  normal  review_needed
 ```
 
 The purpose of this example is not to build model inputs, but to check first `how many reviews were performed for the same event, and where did the labels diverge`. When you first look at the review count by event, then count the number of label types, and finally check the actual disagreement-event list and detailed records, it becomes clearer why this section asks you to look at `does label meaning repeat` before `is there a label column`. In the output, events such as `A`, `D`, `F`, `G`, `I`, and `L` appear separately because their label variety is 2 among the 12 events. Looking at the monthly label distribution together also lets you note the possibility of rule changes by period. What matters here is not one team's memo habit, but checking `label meaning stability`. When reading a target candidate, you need to ask together whether the current label candidate repeats with relatively the same meaning, whether a point of rule change can be noted, and whether unstable labels are being kept from being used directly as the result column. Only with that check does a target-candidate table become more than a list of columns. It becomes a structure that includes `the stability of label meaning`.
+
+Two reviewers can assign the same label and both be wrong. Agreement is not accuracy. When monthly positive rates change, distinguish changes in case composition from changes in labeling criteria. Comparing judgments on the same fixed cases using the same information, alongside criterion versions, helps separate those two effects.
+
+## Checklist
+
+- Did you find reviewer disagreements and specify a re-adjudication rule?
+- Can you explain why high agreement does not guarantee accuracy?
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P3-5.6 겹치는 입력 창과 샘플 수
 
 > Section ID: `P3-5.6`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 _보조제목: 같은 사건을 여러 창으로 자르면 왜 샘플 수가 실제보다 커 보일 수 있는가_
 
@@ -20,6 +20,8 @@ _보조제목: 같은 사건을 여러 창으로 자르면 왜 샘플 수가 실
 | --- | ---: | ---: | ---: | ---: |
 | A | 100 | 30 | 10 | 8 |
 | B | 100 | 30 | 10 | 8 |
+
+`stride`는 창 시작점을 몇 측정점씩 옮기는지 뜻합니다. 길이 100, 창 길이 30, 이동 간격 10이면 시작점은 0, 10, …, 70의 여덟 곳입니다. 끝에 남는 불완전 창을 버리는 규칙에서는 `창 수 = floor((원천 길이−창 길이)/이동 간격)+1`이고, 원천 길이가 창보다 짧으면 0개입니다. 여기서 `floor`는 소수점 아래를 버린다는 뜻입니다.
 
 이 표를 보고 `샘플이 16건 있다`고만 말하면 절반만 맞습니다. 실제 사건은 2건이고, 입력 창은 16개입니다. 따라서 비교 리포트나 대표성 판단에서는 여전히 `2건의 사건`이라는 사실을 같이 적어야 합니다.
 
@@ -45,7 +47,7 @@ _보조제목: 같은 사건을 여러 창으로 자르면 왜 샘플 수가 실
 
 문제 상황: 겹치는 입력 창이 많아졌을 때 창 수와 원천 사건 수를 같은 숫자로 읽으면 어떤 착시가 생기는지 확인합니다.
 
-입력(input): 원천 사건 표 [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv)와 실험할 이동 간격 `stride_to_try`. 이 표의 한 행은 하나의 원천 사건이며, 사건 길이(`length`)와 창 길이(`window`)가 함께 들어 있습니다.
+입력(input): 원천 사건 표 [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv){ .csv-preview }와 실험할 이동 간격 `stride_to_try`. 이 표의 한 행은 하나의 원천 사건이며, 사건 길이(`length`)와 창 길이(`window`)가 함께 들어 있습니다.
 
 기대 출력(output): 각 사건이 몇 개 창으로 늘어나는지와 `source_event` 대비 `window` 수가 얼마나 커지는지 보여 주는 출력. `stride_to_try`를 바꾸면 창 수와 확장 비율이 달라진다.
 
@@ -176,7 +178,7 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 이 예제의 목적은 창 수를 계산하는 것보다 `창 수가 실제 사건 수를 얼마나 부풀려 보이게 하는가`를 확인하는 데 있습니다. 여기서 조작할 값은 `stride_to_try`입니다. `10`을 `20`으로 바꾸면 창 수와 확장 비율이 줄고, 더 작은 값으로 바꾸면 같은 원천 사건에서 더 많은 입력 조각이 생깁니다. 그런데 `source_event` 수는 계속 36건입니다. 그래서 겹치는 입력 창은 같은 사건을 여러 번 잘라 본 결과일 수 있으며, 창 수를 곧바로 사건 수처럼 읽으면 안 됩니다. 출력 4단계처럼 라인과 운영 모드별로 다시 묶어 보면, 원천 사건 수는 각 조건에서 6건씩 같아도 파생된 window 수는 길이와 창 설정에 따라 다르게 불어납니다.
 
-## 작은 도식으로 보기
+## 입력 창 수와 원천 사건 수 구분하기 {#_1}
 
 이 절의 핵심은 `창 수가 커진다`와 `원천 사건 수가 늘었다`를 분리하는 데 있습니다. 같은 두 사건에서 겹치는 창을 많이 만들면 입력 조각 수는 커지지만, 사건 수 자체는 그대로 남습니다.
 
@@ -184,14 +186,12 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 ## 체크리스트
 
-- 이 절의 질문인 `겹치는 입력 창과 샘플 수`에 대해 한 문장으로 답할 수 있는가?
-- `겹치는 입력 창이 샘플 수를 부풀려 보이게 만드는 이유를 설명해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 입력 길이와 이동 간격으로 생성 창 수를 계산했는가?
+- 겹친 창 수가 독립적인 사건 수와 같지 않은 이유를 설명했는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 단위를 전제로 하므로, 여러 입력 창이 생겼다고 해서 원천 사건 수 자체가 자동으로 늘어났다고 읽으면 안 된다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 중첩 창 수와 원천 사건 수를 따로 세는 것은 이 절의 사례에서 확인하는 구분입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - W3C, `PROV-Overview`. provenance framework가 어떤 entity가 어떤 derivation을 거쳐 생성되었는지 추적해야 한다고 정리하므로, 각 입력 창이 어떤 원천 사건에서 파생되었는지 분리해 남겨야 창 수와 사건 수를 혼동하지 않는다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Google for Developers, `Datasets: Dividing the original dataset`. 학습용 표본이 어떤 원천 데이터에서 어떤 규칙으로 만들어졌는지 구분해야 한다는 일반 관점을 제공하므로, 겹치는 창이 많을 때도 원천 사건 단위와 입력 조각 단위를 따로 적어야 한다는 이 절의 설명을 일반화하는 데 참고할 수 있습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`. 같은 원천 과정에서 나온 의존 샘플은 독립동일분포 가정이 깨질 수 있고, grouped data에서는 같은 그룹의 샘플이 훈련 fold와 검증 fold에 함께 나타나지 않게 해야 한다고 설명하므로, 겹치는 입력 창이 실제 사건 수를 늘린 것이 아니라 같은 사건에서 파생된 의존 조각일 수 있다는 이 절의 주의를 보강합니다. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

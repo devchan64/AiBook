@@ -1,7 +1,7 @@
-# P3-9.10 라벨 확정 지연과 미완료 음성
+# P3-9.10 라벨 확정 지연과 관측 미완료는 어떻게 구분하는가
 
 > Section ID: `P3-9.10`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 _보조제목: 늦게 확정되는 라벨과 아직 닫히지 않은 0 라벨은 어떻게 구분하는가_
 
@@ -25,25 +25,43 @@ _보조제목: 늦게 확정되는 라벨과 아직 닫히지 않은 0 라벨은
 
 운영 표에는 `label_observed_at`, `observation_cutoff`, `label_status`, `negative_is_complete`, `pending_reason`을 따로 남기는 편이 좋습니다. 그러면 0이라는 값이 충분히 관측한 뒤 붙은 값인지, 아직 기다리는 중인 임시 상태인지가 target 후보 단계에서부터 분리됩니다.
 
-## 작은 도식으로 보기
+### 7일이 지나지 않은 무사고는 아직 0이 아니다
+
+가상 사건 A, B, C가 모두 9월 1일 10시에 시작했고, 목표가 그 뒤 7일 내 실패 여부라고 가정합니다.
+
+| 샘플 | 현재 확인한 근거 | 라벨 상태 | 결과값 |
+| --- | --- | --- | --- |
+| A | 9월 3일까지 추적, 실패 기록 없음 | 추적 기간 미완료 | 비움 |
+| B | 9월 8일 10시까지 빠짐없이 추적, 실패 없음 | 음성 확정 | 0 |
+| C | 9월 2일 실패 발생, 9월 4일 확인 완료 | 양성 확정 | 1 |
+
+C는 기간 내 실패가 확인되면 7일을 다 기다리지 않아도 1로 정할 수 있습니다. A는 실패가 없다고 결론 낼 관찰 시간이 부족합니다. B도 단지 날짜만 지났다는 이유가 아니라 추적이 빠짐없이 끝났다는 근거가 있어야 0입니다. 실패가 발생한 날과 시스템에서 확인된 날도 따로 남깁니다.
+
+## 결과 확정과 관측 완료를 따로 확인하기 {#_1}
 
 표를 읽고 나서도 `아직 확정되지 않음`과 `충분히 관측한 뒤 0을 붙임`이 한 번에 구분되지 않으면, 아래 순서로 다시 보면 됩니다.
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="도식: 좌우로 스크롤하여 확인" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-10-mermaid-01-ko.mmd"
 ```
 
+</div>
+</div>
+
 즉 여기서 중요한 것은 `0과 1을 더 세밀하게 나누는 기술`이 아니라, 아직 닫히지 않은 라벨과 충분히 관측된 음성을 같은 값으로 섞지 않기 위한 관측 완결성 구분입니다. 이 절은 `결과 확정 지연`, `관측 기간 미완료`, `상태 메모`를 구분해, 라벨이 닫혔는지 자체를 하나의 데이터 모델링 조건으로 다룹니다.
 
 ## 체크리스트
 
-- 이 절의 질문인 `라벨 확정 지연과 미완료 음성`에 대해 한 문장으로 답할 수 있는가?
-- `늦게 확정되는 라벨과 닫히지 않은 음성 라벨을 구분해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- A·B·C의 관측 종료일과 결과 도착일로 확정 가능 여부를 판단했는가?
+- 관측 미완료를 음성 라벨로 채우지 않는 이유를 설명했는가?
 
 ## 출처와 참고 자료
 
 - Google, *Machine Learning Glossary*, `label`, `proxy labels`. 라벨이 예시의 답 또는 결과 부분이며, 직접 라벨을 볼 수 없을 때 proxy label이 실제 라벨을 근사하는 데이터라는 용어 기준을 확인하는 데 참고했습니다. 이 절의 `관측 미완료 음성` 해석은 proxy label 설명을 운영 관측 완결성 문맥으로 확장해 적용한 것입니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. 처리 단계, 재현 가능성, 버전 관리, 파생 관계를 provenance 관점에서 남기는 기준을 확인하는 데 참고했습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Corbin, Baiocchi, Chen, *Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection*, 2023. 예측 시점 뒤 충분한 추적 기록이 없으면 일부 예시의 class label이 관측되지 않을 수 있다는 설명을, `닫힌 0`과 `아직 관측되지 않은 상태`를 구분하는 근거로 참고했습니다. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+
+- [NIST Censoring](https://www.itl.nist.gov/div898/handbook/apr/section1/apr131.htm){ target="_blank" rel="noopener noreferrer" }. 관측 종료까지 사건이 관찰되지 않은 기록과 최종 음성의 구분를 확인했다. 확인일: 2026-09-15.

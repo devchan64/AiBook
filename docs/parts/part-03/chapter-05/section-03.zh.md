@@ -1,7 +1,7 @@
 # P3-5.3 即使有原始时间序列，为什么也不能立刻称它为学习输入
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 在表中也不要隐藏这个选择。如果制作摘要向量，每行可以和 `event_id` 一起留下 `input_type=event_summary` 这样的结构 备注；如果保留区间序列，就需要 `event_id`、`segment_index`、`segment_order`。如果是最近聚合输入，则要留下 `window_id`、`window_start`、`window_end`、`source_event_count`。把输入结构显露为列，才能再次说明原始时间序列按什么规则变成了学习输入候选。
 
@@ -37,7 +37,12 @@
 
 ## 要把原始时间序列变成学习输入，还需要什么
 
-要把原始时间序列真正变成一个输入结构，至少要先有下面这些决定。
+| 先确定的事项 | 为什么需要 |
+| --- | --- |
+| 样本边界 | 定义一份输入从哪里开始、到哪里结束 |
+| 是否切分区段以及如何切分 | 决定保留完整顺序，还是比较各区段摘要 |
+| 长度处理方式 | 按输入格式决定保留可变长度、截断还是填充 |
+| 学习目标 | 监督学习需定义标签；预测下一个值则需定义输入与未来值的边界 |
 
 | 先要定什么 | 为什么需要 |
 | --- | --- |
@@ -72,23 +77,30 @@
 
 假设一次动作中有 300 个时点记录。
 
-1. 在 Part 3 里，首先要判断这 300 个点是不是构成 `一次完整动作`。
-2. 再把它分成前段、中段、后段，做成汇总表。
-3. 如果需要，可以再用 `UP, FLAT, DOWN` 这样的中间表示，把结构进一步保留下来。
-4. 只有到这一步之后，才能决定：这次动作应被看成一条输入、一个区段序列，还是一个近期区间聚合。
+1. Part 3 首先判断这 300 个点是否构成`一次动作`。
+2. 选择保留整个动作的顺序，还是缩减为前段、中段、后段摘要。
+3. 如有需要，通过 `UP, FLAT, DOWN` 等中间表示保留更多结构。
+4. 按所选表示记录时间顺序、长度处理和缺失规则。并不是只有先制作汇总表，才能把原始时间序列用作输入。
 
 也就是说，正确顺序不是 `有原始时间序列 -> 它立刻就是学习输入`，而是 `有原始时间序列 -> 先决定要把它变成什么输入结构`。
 
-## 用一个小图来看
+## 从样本边界与学习目标到输入结构 {#_5}
 
-这一节最核心的顺序，是事情不会停在 `已有原始时间序列` 这里。只有先定好样本边界、区间/长度规则和目标标签，最后才谈得上选择 `输入结构`。
+本节的决策顺序不会停在`已经有原始时间序列`这里。选择`输入结构`，还需要确定样本边界、区段与长度规则以及学习目标。
 
 --8<-- "assets/part-03/chapter-05/p3-5-3-mermaid-01-zh.mmd"
 
 这一节要抓住的重点，不是模型种类，而是在把原始时间序列直接叫做输入之前，应该先把样本边界、区间标准和目标结构定下来。所以，说原始时间序列还不是学习输入，与其说是 `数据还不够`，不如说更接近 `输入结构的边界和目的还没有被明确说明`。
 
+## 检查清单
+
+- 保留原始时间序列时，你是否仍写明了样本边界、长度处理和缺失规则？
+- 你是否区分了手工汇总可以选择不用的原因与需要学习目标的原因？
+
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 是一个把特征和标签一起定义出来的结构，所以它支持这一点：在把原始时间序列称为输入之前，应该先固定单个样本的边界和结果列。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明当特征变成标签代理时会出现设计缺陷，因此强化了这一点：如果不先固定输入结构和目标结构，就可能把原始时间序列的一部分错误地直接当作输入送进去。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- W3C, `PROV-Overview`. provenance framework 说明对象识别、派生关系和可复现性应得到支持，因此它强化了一个上位框架：输入长度和区间规则本身，也应作为一种可复现的结构设计被留下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 用于样本与学习目标的术语说明，并不要求每个输入都带有答案标签。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
+- Google for Developers，`Machine Learning Glossary` 的 `label leakage`。其中解释了特征成为标签代理的设计缺陷，支持以下判断：若未先定义输入和目标结构，就可能把不应使用的部分时间序列直接送入模型。[https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" } / 确认日期：2026-07-20
+- W3C，`PROV-Overview`。其来源追踪框架涵盖对象识别、派生过程和可复现性，为可复现地记录输入长度、区段规则及其形成的结构提供了框架。[https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){ target="_blank" rel="noopener noreferrer" } / 确认日期：2026-07-20
+
+- [Google Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" }。用于确认监督学习标签与一般输入结构的区别。确认日期：2026-09-15。

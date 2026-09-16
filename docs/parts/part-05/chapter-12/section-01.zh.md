@@ -195,7 +195,7 @@ LSTM 和 GRU 是想更好处理 basic RNN 记忆问题的结构。
 
 - 具有相同最后确认短语的运维备忘录 sequence
 - 具有相同最后温度 `80` 的传感器 sequence
-- 输入文件：[`rnn-sequence-events.csv`](/AiBook/assets/part-05/chapter-12/rnn-sequence-events.csv)
+- 输入文件：[`rnn-sequence-events.csv`](/AiBook/assets/part-05/chapter-12/rnn-sequence-events.csv){ .csv-preview }
 
 输出：
 

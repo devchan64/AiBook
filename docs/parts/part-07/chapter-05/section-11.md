@@ -1,7 +1,7 @@
 # P7-5.11 Mira 얼굴·헤어 LoRA 학습 준비하기
 
 > Section ID: `P7-5.11`
-> Version: `v2026.09.15`
+> Version: `v2026.09.16`
 
 **Qwen-Image-Edit-2511에 적용해 새 장면에서도 Mira의 얼굴과 헤어를 유지하는 LoRA**를 학습한다. [P7-5.2](section-02.md)의 얼굴·각도 이미지와 [P7-5.9](section-09.md)의 표정 이미지에서 학습 후보를 검토하고, 이미지 생성·검수·학습·평가를 거쳐 정체성이 유지되는지 확인한다.
 
@@ -93,10 +93,20 @@ LoRA는 기반 모델의 가중치를 고정하고 작은 추가 행렬을 학�
 
 [추가 Mira 목표 후보 128개 생성 목록 JSON](../../../assets/part-07/chapter-05/sec-11/p7-5-11-mira-target-pool-v3.json)
 
-이 목록은 기존 의상·배경·조명·표정 조건 32개를 방향별 고정 참조 4개에 적용한다. 얼굴·홍채·피부색·헤어를 다시 묘사하지 않고 변경 대상만 지시한다. 128장은 생성 예정 후보 수이며 학습에 채택한 수가 아니다. 이번 실행 순서는 [5.12의 참조 입력 후보](section-12.md)를 먼저 생성하고 Mira 목표 후보를 늘리는 순서다.
+[목표 후보 123장 검수 비교표](../../../assets/part-07/chapter-05/sec-11/target-candidate-review.md)
+
+비교표는 방향별 기준 Mira와 생성 후보를 나란히 배치하고, `P711-TGT-001`~`128` 관리번호로 1차 검수 의견을 연결한다. 전체 축소 비교와 의심 5건의 확대 확인 결과이며, 학습 채택 완료를 뜻하지 않는다.
+
+이 목록은 기존 의상·배경·조명·표정 조건 32개를 방향별 고정 참조 4개에 적용한다. 얼굴·홍채·피부색·헤어를 다시 묘사하지 않고 변경 대상만 지시한다. 최초 128장 중 생성 불량 5장을 폐기해 123장을 보관하며, 이는 학습에 채택한 수가 아니다. 이번 실행 순서는 [5.12의 참조 입력 후보](section-12.md)를 먼저 생성하고 Mira 목표 후보를 늘리는 순서다.
+
+목표 생성 명령은 `P711-TGT-030·062·078·094·126`을 제외한다. `--dry-run`으로 123개 실행 대상과 제외 ID를 확인할 수 있다. 원래 생성 조건은 삭제하지 않는다.
+
+[목표 재생성 제외 목록 JSON](../../../assets/part-07/chapter-05/sec-11/p7-5-11-target-generation-exclusions.json)
+
+[폐기 목록을 적용하는 목표 생성 Python](../../../assets/part-07/chapter-05/sec-11/p7_5_11_generate_reviewed_targets.py)
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/sec-11/p7_5_11_generate_supplements.py \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-11/p7_5_11_generate_reviewed_targets.py \
   --spec docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-target-pool-v3.json \
   --output-dir docs/assets/part-07/chapter-05/sec-11/target-images \
   --wait-for-gpu
@@ -120,6 +130,12 @@ LoRA는 기반 모델의 가중치를 고정하고 작은 추가 행렬을 학�
 ```
 
 출력은 채택 이미지의 경로·해시·캡션·분할을 담은 별도 JSON이다. 원본 이미지는 복사하지 않으며 기존 학습 40장의 목록도 갱신하지 않는다. 같은 조건의 방향 변형은 같은 `group`으로 묶어 학습과 검증 사이에 나누지 않는다. 다만 여러 조건이 같은 기준 얼굴에서 파생되었으므로 이 분할만으로 외부 장면에 대한 독립 검증이 되지는 않는다. 검수 목록과 출력 이름을 달리하면 같은 후보 모음에서 서로 다른 실험용 데이터셋을 구성할 수 있다.
+
+현재 입력 후보에서 확정 폐기 27건을 제외하여 구성한 편집 학습 데이터셋은 **입력·목표 193쌍(학습 174·검증 19)**이다. 중복을 제외한 Mira 목표는 41장으로, 아래 검토표에서 입력 → 목표와 분할을 함께 확인한다. 추가 생성 목표 후보 123장은 대응 입력이 아직 없어 포함하지 않았다. 이 구성은 뒤에서 설명하는 기존 A/B 실험의 학습 40장과 구분하며, 아직 학습 결과를 뜻하지 않는다.
+
+[LoRA 데이터셋 193쌍 검토표](../../../assets/part-07/chapter-05/sec-11/bfs-paired-dataset-review.md)
+
+[LoRA 학습·검증 데이터셋 JSON](../../../assets/part-07/chapter-05/sec-11/p7-5-11-bfs-paired-dataset-v1.json)
 
 ## 생성 결과를 검수하고 학습 자료를 확정한다
 

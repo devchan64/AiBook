@@ -1,26 +1,17 @@
-# P3-2.1 为什么已存的记录还不能直接算作数据集
+# P3-2.1 为什么要按照分析目的重新组织存储记录
 
 > Section ID: `P3-2.1`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
-很多人一听到数据建模，先想到的是数据库表设计。实际上，`data modeling` 这个词也经常出现在整理[存储结构](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)的语境里。它背后还连着 `DSS/BI/DW/OLAP` 这类把数据汇总起来再接到决策上的数据系统脉络。换句话说，数据建模从一开始并不只是 AI 的语言，它也生长在“把已存的数据重新组织、重新比较，再连接到判断”这一更宽的流程里。但 AI 和数据分析需要的数据建模，会再往前走一步。这里比起 `数据存在哪里`，更重要的是 `应该把已存的记录重新看成什么样的数据集候选，才能回答某个问题`
+在数据库中，数据建模用于表示需要存储的对象及其关系。本 Part 侧重于确定用存储记录回答什么问题，并据此组织样本和列。存储目的与分析目的不同时，同一批记录也需要按不同方式分组。
 
-这一节聚焦的是区分 `已存的记录` 和[数据集候选](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)。可以先把 [dataset](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-dataset) 理解成：为了学习或评估而按同一个问题组织起来的一组样本和变量。后面的章节会把 `sample`、`feature`、`baseline`、`output structure` 一起展开，但这里先不急着长篇定义这些词，而是先固定一件事：为什么只有存储结构，还不能直接进入那个阶段。
+[数据集](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-dataset)是汇集起来的一组数据。原始日志、图像集合和无标签记录都可以是数据集。但拥有数据集，并不意味着它已经可以直接用于某个特定分析或学习任务。本节的`候选数据集`指仍在按照当前问题检查样本单位和列结构的资料。
 
-开头出现的术语也不适合用同样的分量来读。`DSS`、`BI`、`DW`、`OLAP` 是说明数据使用背景的缩写，而这一节真正的核心概念是 `存储结构`、`数据集候选`、`样本单位`、[问题表示结构](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)。
-
-| 区分 | 这里应该怎么读 |
-| --- | --- |
-| `DSS/BI/DW/OLAP` | 把数据汇总并连接到决策的背景语境 |
-| 存储结构 | 为了不丢记录而保存数据的表 |
-| 数据集候选 | 为了回答同一个问题而把样本重新组织后的可比较表 |
-| 样本单位 | 决定什么算一条案例的标准 |
-
-也就是说，数据集并不是 `行数很多的表`。它更接近一种表：里面聚着为了回答同一个问题而组织起来的样本，同时也整理好了描述这些样本的列。因此，存储结构里的一行，并不会自动变成数据集里的一条样本。
+存储表的一行可以与分析样本相同，也可以不同。如果要预测下一个测量值，可以从逐时点的行出发；如果要比较完整动作，就需要把多行合成一次动作。
 
 假设这里有自动执行动作的源数据。按时间累积的控制参数和传感器值，可以直接放进存储表里。每一行可以放一个时间点、一个传感器名、一个测量值和一个控制设定值。这样的结构适合保存记录，也适合在出问题时回头追踪细节流程。
 
-但只看这张表，仍然很难立刻回答 `这次动作是不是比平时更长`、`后段下降是不是异常地慢`、`最近 20 次和基准线相比是不是发生了变化` 这类问题。因为存储结构里的一行通常表示的是 `某一个时间点的记录`，而这些问题真正需要的比较单位却是 `一次完整动作`，或者 `把多个动作聚起来的近期区段`。所以，光是“有已存记录”这件事，并不等于“已经有数据集”。
+但直接看这张表，还很难回答`这次动作是否比平时更长`、`后段下降是否特别慢`、`最近 20 次动作与基准线相比是否变化`等问题。因为存储结构中的一行通常表示`一个时点的记录`，而这些问题要求的比较单位是`一次动作`，或`由多次动作组成的近期区间`。因此，有了存储记录，并不等于已经准备好了动作级比较所需的表。
 
 要把这种差别看清楚，可以把存储结构和问题表达结构并排放在一起。
 
@@ -37,7 +28,7 @@
 | 现在这张表能不能直接拿来比较？ | 因为存储结构可能擅长保存记录，却不擅长比较 |
 | 如果出现奇怪的值，要回到哪里去看？ | 因为单靠问题表达结构，并不能解释所有细节原因 |
 
-这三个问题，是快速区分 `手上的记录已经是数据集，还是还只是数据集候选` 的标准。第一个问的是行的含义，第二个问的是可比较性，第三个问的是何时要重新打开原始日志。数据建模，就是把已存记录重新表达成能够回答这三个问题的结构。
+这三个问题可以帮助我们快速判断：手头的数据集能否直接用于当前问题，还是需要重新组织。第一个问题问行的含义，第二个问可比性，第三个问什么时候需要重新打开原始日志。数据建模就是把存储记录重新表示成能够回答这三个问题的形式。
 
 在存储结构里，重要的是尽可能完整地保留下来。反过来，在问题表达结构里，则必须判断 `什么要留下`、`什么可以舍弃`。例如，一旦决定把一次完整动作看成一条样本，就可以不再保留数百条逐时刻记录，而改做出 `总动作时长`、`前段均值`、`后段下降率`、`跟踪误差` 这样的新列。这不是在破坏存储结构，而是在为了回答别的问题，重新设计一种表达方式。
 
@@ -48,13 +39,19 @@
 | 存储结构 | `timestamp`, `sensor_name`, `value` | 一个时间点记录 |
 | 问题表达结构 | `event_id`, `mid_flow_mean`, `late_drop_rate` | 一次动作的摘要 |
 
-## 用一个小图来看
+## 从保存记录到按问题重组 {#_1}
 
-如果按下面的顺序去读 `记录保存` 和 `为问题重新组织` 是在哪里分开的，就会更清楚：已存记录并不会立刻变成数据集。
+如下图区分`保存记录`与`按照问题重新分组`，就更容易理解为什么存储记录可能还需要按问题重新组织。
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-02/p3-2-1-mermaid-01-zh.mmd"
 ```
+
+</div>
+</div>
 
 问题情境：确认同一份源记录，在存储结构里是按时间点逐行保存，在数据集候选里则被重新组织成按动作汇总的摘要表。
 
@@ -63,6 +60,8 @@
 期望输出(output)：同一份记录被区分成 `stored time-step records` 和 `event-level dataset candidate` 这两种不同表角色，并且没有达到标准的事件会从比较候选中排除
 
 要确认的概念：已经存在存储记录，并不等于已经准备好了能回答问题的数据集候选。`min_points_per_event` 一变，哪些记录能被承认为一次动作样本也会跟着变。
+
+这份输入每隔 1 秒记录一次，因此最后两个流量值之差就等于每秒变化率。间隔不同时，必须除以两次测量之间的时间差。
 
 ```python
 # 这个例子把按时间点存储的记录重新汇总成 event 级的数据集候选。
@@ -86,13 +85,15 @@ storage_table = pd.DataFrame(
     ]
 )
 
+storage_table = storage_table.sort_values(["event_id", "second"])
+
 dataset_candidate = (
     storage_table.groupby("event_id")
     .agg(
         point_count=("second", "count"),
-        duration_seconds=("second", "max"),
+        duration_seconds=("second", lambda values: values.max() - values.min()),
         mean_flow=("flow", "mean"),
-        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
+        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2] if len(values) >= 2 else float("nan")),
     )
     .reset_index()
 )
@@ -163,7 +164,12 @@ print(usable_candidate.round(2))
 
 从更宽一点的角度看，这一节把 `保存源记录`、`重设分析单位`、`生成派生表达` 区分成不同层次的工作，并整理出把记录结构提升成问题表达结构的起始条件。
 
-因此，说“已存记录还不是数据集”，比起表示 `格式不同`，更接近表示 `用来回答问题的单位和派生表达还没有定下来`。
+因此，首先要检查的不是资料叫什么，而是回答当前问题所需的单位和派生表示是否已经定义。
+
+## 检查清单
+
+- 你能否解释原始日志虽然也可以是数据集，却仍可能未准备好回答当前问题？
+- 你是否写明了构造动作比较表所需的标识和分组规则？
 
 ## 来源与参考资料
 
@@ -171,3 +177,5 @@ print(usable_candidate.round(2))
 - Oracle, `Introduction to Data Warehousing Concepts`. 它说明 data warehouse 是为了 business intelligence activities、query and analysis、维护历史记录和数据分析而设计的结构，因此支持开头的背景说明：`DSS/BI/DW/OLAP` 会把已存数据连接到决策和分析。 [https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html](https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - W3C, `PROV-Overview`. 它同时处理 provenance、derivation、traceability，因此强化了这个上位框架：存储结构保留原始证据，问题表达结构则为不同问题构造派生表达。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 它整理了变量、观测值、表结构之间的关系，因此提供了一般原理，说明为什么存储结构中的一行和分析表中的一行不一定表示同一件事。 [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+
+- [Google Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" }。用于确认数据集、有标签样本与无标签样本之间的区别。确认日期：2026-09-15。

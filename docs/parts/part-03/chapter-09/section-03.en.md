@@ -1,7 +1,7 @@
 # P3-9.3 Differences Among Three Operational Tables
 
 > Section ID: `P3-9.3`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 _Subtitle: How do comparison reports, review-candidate queues, and target-candidate tables organize the same events differently?_
 
@@ -25,9 +25,9 @@ In a comparison report, `what changed` has to appear first. The goal is still to
 
 | event_id | baseline_mean | current_mean | diff | repeatability | report_sentence |
 | --- | --- | --- | --- | --- | --- |
-| A | 2.6 | 2.2 | -0.4 | high | The late-stage mean is clearly lower than the baseline |
-| B | 2.5 | 2.4 | -0.1 | low | There is no large difference from the baseline |
-| C | 2.7 | 2.1 | -0.6 | high | Mean decline and increased variability appear together |
+| A | 2.6 | 2.2 | -0.4 | high | The late-segment mean is clearly below baseline |
+| B | 2.5 | 2.4 | -0.1 | low | There is no large difference from baseline |
+| C | 2.7 | 2.1 | -0.6 | high | The mean is 0.6 below baseline |
 
 The center of this table is `difference explanation`. A reader can immediately read what differs from the usual state. But this table alone may still be insufficient to decide automatically `what should be reviewed first`, and target labels such as `normal/abnormal` may still be unclear.
 
@@ -39,7 +39,9 @@ When it changes into a review-candidate queue, the center of the table changes. 
 | --- | --- | --- | --- | --- | --- |
 | C | -0.6 | high | 1 | 0.92 | 1 |
 | A | -0.4 | high | 1 | 0.81 | 2 |
-| B | -0.1 | low | 0 | 0.18 | 3 |
+| B | -0.1 | low | 0 | 0.18 | Excluded |
+
+These are fictional scores illustrating the format, not probabilities. Assume the actual queue retains only cases with `review_needed=1` and sorts them by descending score. B remains in the full candidate table but does not enter the review queue.
 
 In this table, `priority_score`, `queue_rank`, and `review_needed` stand ahead of `report_sentence`. In other words, if the comparison report says `what change is visible`, the review-candidate queue says `which of those should a person inspect first`.
 
@@ -67,7 +69,7 @@ The difference above becomes simpler if you read it in the following order.
 2. Add repeatability and judgment criteria to that difference and create a review-candidate queue.
 3. Gather again only the columns to be used as result candidates and create a target-candidate table.
 
-This order matters because the three tables are not substitutes for one another. If you create a review-candidate queue without a comparison report, the explanation of why a case rose becomes weak. If you create only a target-candidate table without a review-candidate queue, the current reason the problem mattered can disappear. Conversely, if you keep only the review queue without a target-candidate table, it becomes hard to organize where input columns and result columns should be split.
+Depending on the purpose, all three tables or only some of them may be used. If labels are already collected through a separate inspection, a target-label table can be built without a review queue. Whatever the route, sample identifiers must remain connected to the evidence for their labels.
 
 The diagram below shows how the same event list splits into three outputs.
 
@@ -96,6 +98,11 @@ Confusion decreases if you judge it like this at the end.
 | Organizing learning inputs and results | Target-candidate table | Replacing the explanation in the comparison report |
 
 The key is that these three outputs are not `wasteful duplication of the same data three times`. They are structures that answer different questions. The comparison report handles change interpretation, the review-candidate queue handles review priority, and the target-candidate table handles the split between input and result columns.
+
+## Checklist
+
+- Did you locate event A in the report, review queue, and target table and compare its roles?
+- Can you explain why B, with review_needed equal to 0, is excluded from the review queue?
 
 ## Sources and References
 

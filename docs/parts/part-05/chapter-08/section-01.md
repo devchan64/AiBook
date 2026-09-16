@@ -1,7 +1,7 @@
 # P5-8.1 목적 함수에 제약을 두는 방법: 정규화(regularization)
 
 > Section ID: `P5-8.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규칙이라는 점을 보았습니다. 하지만 학습 루프가 잘 돈다고 해서 곧바로 새 데이터까지 잘 버티는 모델이 되는 것은 아닙니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -213,7 +213,7 @@ regularization이 더 자주 필요해지는 장면은 대체로 다음처럼 �
 
 입력:
 
-- 학습 로그 CSV: [`regularization-training-log.csv`](../../../assets/part-05/chapter-08/regularization-training-log.csv)
+- 학습 로그 CSV: [`regularization-training-log.csv`](../../../assets/part-05/chapter-08/regularization-training-log.csv){ .csv-preview }
 - `model`: regularization이 없는 설정과 L2 regularization을 둔 설정
 - `epoch`: 학습 반복 번호
 - `train_loss`, `validation_loss`, `weight_size`: 훈련 손실, 검증 손실, 가중치 크기

@@ -1,6 +1,7 @@
 flowchart TD
-    A[Stored records accumulate by time point] --> B{What does one row mean now?}
-    B --> C[One row is only one recorded moment]
-    C --> D[Regroup records by the question's sample unit]
-    D --> E[Derive comparison-ready columns]
-    E --> F[Now it becomes a dataset candidate]
+    A[Stored time-point records] --> B{Do rows match the sample unit for the question?}
+    B -->|Yes| C[Keep the current row unit]
+    B -->|No| D[Regroup for the question]
+    C --> E[Check required columns and comparison conditions]
+    D --> E
+    E --> F[Check the dataset candidate for the current purpose]

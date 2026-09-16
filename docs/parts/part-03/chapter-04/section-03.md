@@ -1,11 +1,13 @@
-# P3-4.3 한 행, 샘플 1건, 최근 구간 1개는 어떻게 다른가
+# P3-4.3 시점 기록, 동작 샘플, 구간 집계는 어떻게 다른가
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 [한 행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit), [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 1건, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data) 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
 
-세 단위를 한 번에 구분해야 하는 이유는 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), 기준선 비교, 검토 문장이 서로 다른 층위에 붙기 때문입니다. 행을 샘플로 착각하거나 구간을 샘플 한 건처럼 읽는 순간, 뒤에서 만드는 표와 비교 구조도 함께 흔들리기 시작합니다.
+세 단위를 한 번에 구분해야 하는 이유는 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), 기준선 비교, 검토 문장이 서로 다른 층위에 붙기 때문입니다. 현재 질문의 샘플 단위를 확인하지 않고 시점 행이나 집계 구간을 섞어 세면, 뒤에서 만드는 표와 비교 구조도 함께 흔들리기 시작합니다.
+
+`행`은 저장 형식이고 `샘플`은 분석 단위입니다. 동작 요약 표에서는 한 행과 한 샘플이 일치합니다. 최근 구간을 분석 대상으로 정한 다른 문제에서는 구간 하나가 한 샘플이 됩니다. 이 절에서는 동작 1회를 샘플로 두었을 때의 세 표현을 비교합니다.
 
 세 층위를 다시 나누면 다음과 같습니다.
 
@@ -71,7 +73,7 @@
 
 예를 들어 `late_drop_rate` 같은 특징은 시점 한 줄에 바로 붙지 않고, 동작 1회 샘플을 만든 뒤에야 계산할 수 있습니다. 반면 `recent_count=20` 같은 값은 개별 샘플 특징이 아니라 최근 구간 집계에 더 가깝습니다. 그래서 층위를 섞어 읽으면 특징, 기준선, [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)가 모두 추상적으로 느껴집니다.
 
-## 한눈에 비교하는 작은 코드 예시
+## 시점·동작·구간별 집계 결과 비교하기 {#_3}
 
 문제 상황: 같은 원천 로그에서 `한 행`, `샘플 1건`, `최근 구간 1개`가 서로 다른 층위라는 점을 행 수와 출력 구조로 확인합니다.
 
@@ -183,7 +185,7 @@ window count: 2
 
 이 절은 용어 구분표가 아니라, `표현 층위(levels of representation)`를 동시에 읽는 문제로 다시 볼 수 있습니다.
 
-## 작은 도식으로 보기
+## 시점 기록을 동작과 구간으로 묶기 {#_5}
 
 앞의 설명을 가장 짧게 줄이면, `한 행 -> 샘플 1건 -> 구간 1개`는 같은 데이터를 더 큰 비교 단위로 다시 읽어 가는 층위 이동입니다. 각 층위는 서로 다른 질문에 답하므로 같은 단위처럼 섞어 읽으면 안 됩니다.
 
@@ -194,13 +196,11 @@ window count: 2
 
 ## 체크리스트
 
-- 이 절의 질문인 `한 행, 샘플 1건, 최근 구간 1개는 어떻게 다른가`에 대해 한 문장으로 답할 수 있는가?
-- `한 행, 샘플 1건, 최근 구간 1개가 서로 다른 층위라는 점을 구분해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 시점 표·동작 표·구간 표에서 한 행의 뜻을 각각 썼는가?
+- 최근 구간 자체를 샘플로 삼을 수 있는 질문을 하나 만들었는가?
 
 ## 출처와 참고 자료
 
 - W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, row-level record, event-level sample, window-level aggregate가 서로 다른 표현 층위라는 점을 구분해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간과 기준 구간 같은 집계 수준 표현은 sample-level 표현과 다른 비교 층위를 가진다는 점을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 sample-level 구조를 전제로 하므로, row-level record와 window-level aggregate를 sample-level example와 섞어 읽지 말아야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 시점 기록과 구간 집계도 질문에 따라 샘플이 될 수 있으며, 동작 1회를 샘플로 둔 구분은 이 절의 사례 설정입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15

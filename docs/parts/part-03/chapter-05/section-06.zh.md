@@ -1,7 +1,7 @@
 # P3-5.6 重叠输入窗口与样本数
 
 > Section ID: `P3-5.6`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 把窗口做成实际表时，每个派生输入窗口也要保留源事件识别符。有 `source_event_id`、`window_id`、`window_start`、`window_end`、`stride`、`source_event_weight` 等列，就可以分别统计输入窗口数和源事件数。没有这些列，237 个窗口来自 36 个事件这一事实会消失；以后读取代表性或评估分数时，依据单位可能看起来比实际更大。
 
@@ -17,6 +17,8 @@ _副标题: 把同一事件切成多个窗口时，为什么样本数会看起�
 | 输入窗口数 | 从这些事件里切出来的学习输入片段数 |
 
 例如，如果对一次动作用长度 30、stride 10 来切窗口，那么一个事件就可能扩展成多个输入。
+
+`stride` 表示窗口起点每次移动多少个测量点。源长度为 100、窗口长度为 30、步长为 10 时，起点为 0、10、…、70，共八个窗口。如果规则是丢弃末尾不完整的窗口，则 `窗口数 = floor((源长度−窗口长度)/步长)+1`；源长度短于窗口时，窗口数为 0。这里 `floor` 表示向下取整。
 
 | event_id | 源长度 | 窗口长度 | stride | 生成的窗口数 |
 | --- | ---: | ---: | ---: | ---: |
@@ -45,7 +47,7 @@ _副标题: 把同一事件切成多个窗口时，为什么样本数会看起�
 
 问题情境：确认当重叠输入窗口很多时，如果把窗口数和源事件数当成同一个数字去读，会产生什么错觉。
 
-输入(input)：源事件表 [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv)，以及要实验的移动间隔 `stride_to_try`。这张表中的一行就是一个源事件，并包含事件长度(`length`)和窗口长度(`window`)。
+输入(input)：源事件表 [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv){ .csv-preview }，以及要实验的移动间隔 `stride_to_try`。这张表中的一行就是一个源事件，并包含事件长度(`length`)和窗口长度(`window`)。
 
 期望输出(output)：显示每个事件会扩展成多少个窗口，以及 `window` 数相对 `source_event` 数放大了多少。改变 `stride_to_try` 时，窗口数和扩展比例也会改变。
 
@@ -80,7 +82,6 @@ with source_events_path.open(newline="", encoding="utf-8") as file:
             }
         )
 
-
 def print_event_preview(rows):
     print("event_id line_id     mode  length  window  stride  window_count")
     for row in rows:
@@ -89,7 +90,6 @@ def print_event_preview(rows):
             f"{row['length']:>7} {row['window']:>7} {row['stride']:>7} "
             f"{row['window_count']:>13}"
         )
-
 
 def print_expansion_preview(rows):
     print("event_id  window_count")
@@ -176,15 +176,20 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 这个例子的目的，并不主要是计算窗口数，而是确认 `窗口数会把真实事件数膨胀成什么样子`。这里可以操作的值是 `stride_to_try`。如果把 `10` 改成 `20`，窗口数和扩展比例会下降；如果改成更小的值，同一批源事件会产生更多输入片段。但 `source_event` 数仍然是 36 个。因此，重叠输入窗口可能只是同一个事件被切着看了很多次，不能把窗口数直接当作事件数来读。像第 4 步那样按线路和运行模式重新分组后也可以看到：每个条件下的源事件数都是 6 个，但派生出的 window 数会随着长度和窗口设置而不同程度地膨胀。
 
-## 用一个小图来看
+## 区分输入窗口数与源事件数 {#_1}
 
 这一节的核心，是把 `窗口数变大了` 和 `源事件数增加了` 分开来看。即使从同样 2 个事件里切出很多重叠窗口，输入片段数会变大，但事件数本身并不会跟着变。
 
 --8<-- "assets/part-03/chapter-05/p3-5-6-mermaid-01-zh.mmd"
 
+## 检查清单
+
+- 你是否根据输入长度和步长计算了窗口数量？
+- 你能否解释重叠窗口数为什么不等于独立事件数？
+
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 预设的是特征和标签附着的单位，所以它支持这一节的判断：即使生成了很多输入窗口，也不意味着源事件数本身自动增加了。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 将重叠窗口数与源事件数分开统计，是本节案例展示的区别。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - W3C, `PROV-Overview`. provenance framework 说明应能追踪某个实体是通过什么派生过程生成的，因此它提供了一个更高层的框架：每个输入窗口都应与它来自哪个源事件分开保留，才能避免把窗口数和事件数混淆。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - Google for Developers, `Datasets: Dividing the original dataset`. 它提供了一般视角：训练样本应与源数据及其生成规则区分开来。因此，它也有助于推广这一节的说明：即使窗口大量重叠，也应把源事件单位和输入片段单位分开写明。 [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`. 该文档说明，同一源过程产生的依赖样本可能破坏独立同分布假设；在 grouped data 中，也应避免同一组的样本同时出现在训练 fold 和验证 fold 中。因此，它强化了这一节的提醒：重叠输入窗口可能只是来自同一事件的依赖片段，而不是新的真实事件。 [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

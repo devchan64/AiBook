@@ -1,7 +1,7 @@
 # P5-12.1 순환 신경망(RNN), 장단기 메모리(LSTM), 게이트 순환 유닛(GRU)의 필요성
 
 > Section ID: `P5-12.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 _보조제목: RNN, LSTM, GRU는 순차 데이터의 어떤 문제를 다루는가_
 
@@ -196,7 +196,7 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 - 같은 마지막 확인 문구를 가진 운영 메모 시퀀스
 - 같은 마지막 온도 `80`을 가진 센서 시퀀스
-- 입력 파일: [`rnn-sequence-events.csv`](../../../assets/part-05/chapter-12/rnn-sequence-events.csv)
+- 입력 파일: [`rnn-sequence-events.csv`](../../../assets/part-05/chapter-12/rnn-sequence-events.csv){ .csv-preview }
 
 출력:
 

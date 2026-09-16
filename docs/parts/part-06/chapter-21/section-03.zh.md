@@ -54,7 +54,7 @@ P6-21.1 讨论了模型公开了什么，以及许可证和公开范围；P6-21.
 
 下面的 CSV 是每行对应一次运行的最小模板。可以按需添加图像保存路径或详细的人工检查备注，但不能遗漏比较中改变的值与固定的值。
 
-[P6-21.3 运行记录 CSV 模板](/AiBook/assets/part-06/chapter-21/p6-21-3-diffusion-test-record-template.csv)
+[P6-21.3 运行记录 CSV 模板](/AiBook/assets/part-06/chapter-21/p6-21-3-diffusion-test-record-template.csv){ .csv-preview }
 
 填写记录后，尝试回答以下三个问题来说明结果。
 

@@ -1,7 +1,7 @@
 # P3-4.2 一旦样本单位摇摆，哪些东西会一起摇摆
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 因此，如果决定改变样本单位，表设计也必须一起改变。不要保留按时间点的表并反复贴同一个标签，而要先制作一次动作的摘要表，并让该表中的特征列和标签列指向同一个 `event_id`。分割列也应贴在一次动作样本上，而不是时间点行上。这样以后读分数时，`到底预测的是什么`才不会在时间点行和一次动作之间摇摆。
 
@@ -50,7 +50,7 @@
 
 所以，样本单位并不是只在 Part 3 某一节里才需要做的决定。它是 feature engineering、[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较、[review queue](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)，甚至后续预测输入结构解释都一起依赖的底层结构。
 
-## 用一个小图来看
+## 样本单位对特征、标签与评估的影响 {#_1}
 
 前面那几段的核心其实只有一个。样本单位一旦摇摆，feature、label、split、evaluation 和运营解释并不是各自单独跑偏，而是会一起失去同一个基准点。
 
@@ -130,7 +130,7 @@ print("3) event-level features and labels line up on the same unit")
 print(per_event)
 print()
 print("4) split stability differs by unit")
-print(unit_summary)
+print(unit_summary.to_string(index=False))
 ```
 
 期望输出：
@@ -153,9 +153,9 @@ event-level samples: 3
 2        C   1.266667       1.9        0.6              1
 
 4) split stability differs by unit
-    unit  sample_count                    feature_example  label_rows train_events test_events
-0    row             9                 flow at one second           6        A,B,C       A,B,C
-1  event             3  flow_mean / flow_max / late_drop           2          A,B           C
+ unit  sample_count                  feature_example  label_rows train_events test_events
+  row             9               flow at one second           6        A,B,C       A,B,C
+event             3 flow_mean / flow_max / late_drop           2          A,B           C
 ```
 
 这段输出同时展示了三件事。第一，`review_needed` 是贴在整次动作上的标签，但在时点表里，它会在 A 和 C 上各重复三次。第二，像 `late_drop` 这样的特征，只有在数据先被归成一次完整动作后才算得出来。第三，如果看 `unit summary`，在时点级分割里，同一个 `event_id` 可能同时出现在训练和评估两边；但在动作级分割里，就能把整个 `C` 都完整地留作测试。正是这个差别，说明了为什么 feature、label、split、evaluation 这些单位会一起摇摆。
@@ -209,7 +209,6 @@ row_test = raw[raw["second"].eq(2)]
 event_train = raw[raw["event_id"].isin(["A", "B", "C", "D"])]
 event_test = raw[raw["event_id"].isin(["E", "F", "G", "H"])]
 
-
 def evaluate(train, test):
     model = DecisionTreeClassifier(random_state=0)
     model.fit(train[["flow"]], train["review_needed"])
@@ -218,7 +217,6 @@ def evaluate(train, test):
         (event_id, int(prediction), int(actual))
         for event_id, prediction, actual in zip(test["event_id"], predictions, test["review_needed"])
     ]
-
 
 row_accuracy, _ = evaluate(row_train, row_test)
 event_accuracy, event_predictions = evaluate(event_train, event_test)
@@ -260,9 +258,14 @@ event split predictions: [('E', 0, 1), ('E', 0, 1), ('E', 0, 1), ('F', 0, 0), ('
 
 所以，当样本单位摇摆时，这个问题不应该被读成简单的记号混乱，而应该被读成一种一致性崩塌：feature、label、split、evaluation 开始指向不同单位。
 
+## 检查清单
+
+- 同一事件的行出现在训练与评估两边时，你是否指出了重叠的信息？
+- 你是否举例说明改变样本单位时，特征和标签也会一起变化？
+
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 要求 features 和 label 对齐在同一个单位上，所以它为这个判断提供依据：样本单位一旦摇摆，feature 和 label 的含义也会一起摇摆。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 为样本变化时检查特征与标签的对应关系提供术语依据。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明 feature 成为 label proxy 的设计缺陷，因此强化了这个警告：如果在错误单位上混用行级 feature 和动作级 label，就会产生结构性错误。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`。它说明在 grouped data 中，同一组里的相互依赖样本不应同时出现在训练 fold 和验证 fold，因此直接强化了本节关于分割/评估的警告：如果把时点行当作样本，同一动作中的相邻行可能会混进训练和评估。 [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - W3C, `PROV-Overview`. provenance framework 说明它应支持 reproducibility 和 derivation，因此强化了这个上位框架：只有可复现地记录“特征和标签是在什么单位上做出来的”，split 和 evaluation 才可能维持同一套标准。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

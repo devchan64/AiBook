@@ -1,7 +1,7 @@
 # P3-8.6 Confirmed Labels Left Only on Some Cases
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 _Subtitle: What should be written with the interpretation when confirmed labels exist only for reviewed cases?_
 
@@ -125,11 +125,16 @@ event_id  manually_reviewed  actual_failure_for_demo  predicted_from_reviewed_on
 
 If we look only at reviewed labels, the accuracy is `1.0`. But when all events are opened for the demo, accuracy drops to `0.7`, and all three errors are on the `manually_reviewed=0` path. This output shows that cases with confirmed labels may not represent all events. In real operations, we may not know the result of unreviewed events, so it is even more important to write together whether a missing label means normal or unchecked, and by what rule a person reviewed only some events.
 
-## A Small Diagram
+## Separating Reviewed Cases from the Full Evaluation Population {#a-small-diagram}
 
 The key point in this section is not to read `confirmed labels that remain only on reviewed cases` as if they were the answer table for all events. Once confirmed labels appear, the `meaning of missing labels`, the `review path`, and possible `bias` should be written beside them so the interpretation is not overstated.
 
 --8<-- "assets/part-03/chapter-08/p3-8-6-mermaid-01-en.mmd"
+
+## Checklist
+
+- Can you explain why overall performance is hard to estimate from reviewed cases alone?
+- Did you propose a way to check outcomes for unreviewed cases?
 
 ## Sources and References
 

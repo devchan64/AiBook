@@ -1,6 +1,6 @@
 flowchart TD
-    A[New event enters the target horizon] --> B{Was the result confirmed?}
-    B -- Yes --> C[Record the confirmed label]
-    B -- No --> D{Was the full follow-up window observed?}
-    D -- Yes --> E[Attach closed negative 0]
-    D -- No --> F[Keep pending or observation-incomplete state]
+    A[Define the observation horizon for the sample] --> B{Is a target event within the horizon confirmed?}
+    B -->|Yes| C[Record positive label 1]
+    B -->|No| D{Are full follow-up and outcome verification both complete?}
+    D -->|Yes: no event confirmed| E[Record confirmed negative label 0]
+    D -->|No| F[Keep pending or incompletely observed status]

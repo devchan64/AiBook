@@ -1,7 +1,7 @@
 # P3-9.1 现在的问题应该提升到哪一层
 
 > Section ID: `P3-9.1`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 看现实记录时，人们常常会先反应成：“既然有事件记录，也多少有一点结果备注，那是不是可以直接提升成[分类](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)问题？”但在现实记录里，这个想法往往太快了。有些问题确实可以做成预测问题，但也有些问题更诚实的做法，是先把它留在`更好地挑出复核候选`这一层，而且这也更符合当前的数据状态。既然[解释边界](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)已经立住，下一步就要决定：当前问题应该提升到 [告警(alert)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)、[复核候选(review candidate)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)、[标签预测(label prediction)](/AiBook/zh/reference/concept-glossary-pinyin/b/#label-prediction) 中的哪一层。
 
@@ -27,11 +27,11 @@ alert 是最轻的一层。只要看见了与基线不同的变化，就可以�
 
 把这种差别写得更实务一些，会变成下面这样。
 
-| 阶段 | 输入示例 | 输出示例 | 先要有的东西 | 如果还没有，就不要提升到这一层的东西 |
+| 阶段 | 输入示例 | 输出示例 | 首先需要具备 | 仅凭此阶段不能确定的事项 |
 | --- | --- | --- | --- | --- |
-| alert | 最近区间与基线的差异 | `注意` | 比较结构和差值 | 原因标签 |
-| review candidate | 差值 + 重复性 + 判断条件 | `优先确认` | alert + 重复性 + 优先级标准 | 稳定的目标标签 |
-| label prediction | 按事件整理的特征表 | `正常/异常` 或某个具体状态 | 相对稳定的目标标签和评估结构 | 在标签不足时先强行搭复杂分类问题 |
+| 警告 | 近期区间与基准线的差异 | `注意` | 比较结构和差值 | 原因标签 |
+| 复核候选 | 差值 + 重复性 + 判断条件 | `优先确认` | 警告 + 重复性 + 优先级标准 | 稳定的目标标签 |
+| 标签预测 | 事件级特征表 | `正常/异常`或特定状态 | 比较稳定的目标标签与评估结构 | 在标签不足时就建立复杂分类问题的依据 |
 
 所以，并不是因为`想把问题提升到更高层`，就立刻往上走。只有当下面一层的证据积累够了，才提升到下一层。
 
@@ -51,13 +51,26 @@ alert 是最轻的一层。只要看见了与基线不同的变化，就可以�
 
 也就是说，预测问题不是起点，而是在前面几层的证据和结构都足够清楚之后，才值得讨论的事情。有些问题，最终一直停留在 comparison report 和 review queue，反而会更诚实。只凭比较结构就已经能很好支撑的判断，没有必要硬抬成 label prediction 问题。
 
-## 用一个小图来看
+这三种输出并不是每个项目都必须依次通过的等级。如果一个问题已经持续收集到一致的结果标签，就可以不先运行比较报告或复核队列，直接设计监督学习。另外，预测标签也不等于证明原因。这里要区分的是：当前案例具备支持哪种输出的依据。
+
+## 比较报告、复核队列与预测问题的边界 {#_1}
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-1-mermaid-01-zh.mmd"
 ```
 
+</div>
+</div>
+
 这张图说明，把问题往上提，并不是`无条件上升一层`，而是一个要问当前证据到底到了哪一层的分支判断。它不是在列标签名称，而是在一层层判断：是停在`alert`，还是走到`review candidate`，还是再提升成`label prediction`。关键在于：`alert 是变化信号，review candidate 是复核优先级，而 label prediction 是比它们都更强的问题设定。` 现在的问题能提升到哪一层，判断标准不应该是`是不是更高级`，而应是`当前数据究竟诚实地支撑到哪里`。
+
+## 检查清单
+
+- 你是否区分了警告、复核候选和已确认结果？
+- 你是否区分了资料足以支持的输出与依据仍不足的输出？
 
 ## 来源与参考资料
 

@@ -1,7 +1,7 @@
 # P3-4.2 샘플 단위가 흔들리면 무엇이 함께 흔들리는가
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위는 뒤에 나오는 거의 모든 개념의 기준점입니다. 따라서 측정값과 샘플을 혼동하면 단지 용어 하나를 잘못 쓰는 데서 끝나지 않습니다. [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)의 뜻도 흔들리고, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)의 뜻도 흔들리고, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design)가 무엇을 평가하는지도 같이 흔들립니다. 앞 절에서 샘플 한 건을 무엇으로 볼지 정했다면, 이제는 그 결정이 무엇을 함께 고정하고 무엇을 함께 흔드는지 봐야 합니다.
 
@@ -50,7 +50,7 @@
 
 즉 샘플 단위는 Part 3의 한 절에서만 필요한 결정이 아니라, 특징 설계(feature engineering), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교, [검토 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), 예측용 입력 구조 해석까지 모두 기대는 바닥 구조입니다.
 
-## 작은 도식으로 보기
+## 샘플 단위가 특징·라벨·평가에 미치는 영향 {#_1}
 
 앞 문단의 핵심은 하나입니다. 샘플 단위가 흔들리면 특징, 라벨, 분할, 평가, 운영 해석이 각자 따로 흔들리는 것이 아니라 같은 기준을 잃으면서 함께 어긋납니다.
 
@@ -130,7 +130,7 @@ print("3) event-level features and labels line up on the same unit")
 print(per_event)
 print()
 print("4) split stability differs by unit")
-print(unit_summary)
+print(unit_summary.to_string(index=False))
 ```
 
 예상 출력:
@@ -153,9 +153,9 @@ event-level samples: 3
 2        C   1.266667       1.9        0.6              1
 
 4) split stability differs by unit
-    unit  sample_count                    feature_example  label_rows train_events test_events
-0    row             9                 flow at one second           6        A,B,C       A,B,C
-1  event             3  flow_mean / flow_max / late_drop           2          A,B           C
+ unit  sample_count                  feature_example  label_rows train_events test_events
+  row             9               flow at one second           6        A,B,C       A,B,C
+event             3 flow_mean / flow_max / late_drop           2          A,B           C
 ```
 
 이 출력은 세 가지를 한 번에 보여 줍니다. 첫째, `review_needed`는 동작 1회에 붙는 라벨인데 시점별 표에서는 A와 C에 대해 3번씩 반복됩니다. 둘째, `late_drop` 같은 특징은 동작 1회로 묶였을 때만 계산됩니다. 셋째, `unit summary`를 보면 시점별 분할에서는 같은 `event_id`가 훈련과 평가 양쪽에 동시에 나타날 수 있지만, 동작 단위 분할에서는 `C` 전체를 테스트로 떼어 낼 수 있습니다. 이 차이가 바로 특징(feature), 라벨(label), 분할(split), 평가(evaluation) 단위가 함께 흔들리는 이유입니다.
@@ -262,14 +262,12 @@ event split predictions: [('E', 0, 1), ('E', 0, 1), ('E', 0, 1), ('F', 0, 0), ('
 
 ## 체크리스트
 
-- 이 절의 질문인 `샘플 단위가 흔들리면 무엇이 함께 흔들리는가`에 대해 한 문장으로 답할 수 있는가?
-- `샘플 단위가 흔들리면 특징, 라벨, 평가가 함께 흔들린다는 점을 보여 주어야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 같은 사건의 행이 학습·평가에 섞일 때 어떤 정보가 겹치는지 짚었는가?
+- 샘플 단위를 바꾸면 특징과 라벨도 함께 바뀌는 예를 들었는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 같은 단위 위에 정렬되어 있어야 하므로, 샘플 단위가 흔들리면 feature와 label의 뜻도 함께 흔들린다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 샘플을 바꾸면 연결할 특징과 라벨의 대상도 재검토해야 한다는 본문 설명의 용어 기준입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 잘못된 단위에서 row-level feature와 event-level label을 섞으면 구조적 오류가 생길 수 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`. grouped data에서 같은 그룹의 의존 샘플이 훈련 fold와 검증 fold에 함께 나타나지 않게 해야 한다고 설명하므로, 시점별 행을 샘플처럼 나누면 같은 동작의 가까운 행이 훈련/평가에 섞일 수 있다는 이 절의 분할·평가 경고를 직접 보강합니다. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - W3C, `PROV-Overview`. provenance framework가 reproducibility와 derivation을 지원해야 한다고 정리하므로, 어떤 단위에서 feature와 label이 만들어졌는지 재현 가능하게 남겨야 split/evaluation도 같은 기준을 유지할 수 있다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

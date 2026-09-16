@@ -1,7 +1,7 @@
 # P3-9.13 Problem Boundaries to Hand Off to Part 4
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 In the table handed to Part 4, keep only fields such as `problem_type_candidate`, `split_risk`, `group_key`, `time_key`, `metric_candidate`, `baseline_note`, and `open_questions`. Rather than explaining the evaluation procedure at length here, briefly write the names of the items handled later and why they are needed, so the current problem structure can wait for the next judgment.
 
@@ -25,7 +25,7 @@ At the stage of sorting out the current problem type, it is enough if boundaries
 - Has information from after the result leaked into the input?
 - Is the actual target more similar to ranking or a continuous value than to 0/1 classification?
 
-## A Small Diagram
+## Checking Time, Entity, and Information Boundaries Before Handoff {#a-small-diagram}
 
 For this last check, the more important thing is not memorizing the item names, but wrapping up the current problem structure in a sensible order.
 
@@ -34,6 +34,13 @@ For this last check, the more important thing is not memorizing the item names, 
 ```
 
 In this section, what matters more than memorizing all the names is checking whether the current data structure has properly confirmed the time boundary, entity boundary, information boundary, and output format. At the present stage, what is needed is not to unfold detailed procedures at length, but to make the current structure able to state without contradiction what it predicts and what it still should not predict. This section should therefore be read not as a list of names, but as the final checklist for whether `split design`, `information-boundary inspection`, and [output-format selection](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) are confirmed without contradiction inside the current problem structure at the stage of sorting out the current problem type.
+
+If performance on new equipment is the goal, separate equipment IDs between training and evaluation. If the goal is the future state of equipment already observed, the same equipment can appear on both sides, but time boundaries must be respected. For new equipment in the future, respect both time and equipment boundaries. Also check that overlapping input windows or training samples whose outcome observation periods are not complete do not import information from the evaluation time. Splits are therefore defined by the target population and time of generalization, not by the number of stored rows.
+
+## Checklist
+
+- Did you decide whether evaluation targets new entities or the future of existing entities?
+- Did you document time, entity, and information boundaries together with the output format on one page?
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P3-1.3 How Should a Data Question Be Written So the Problem Structure Appears Before the Model
 
 > Section ID: `P3-1.3`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 A good [data question](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) should first reveal `what will count as one case`, `what will be compared with what`, and `what we ultimately want to know`. Only when this question structure is in place before model names or technology names do the later sample unit, table structure, features, baselines, and output structure also settle into place together. In particular, the question that selects what a person should inspect first should visibly lead to a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), while the question that defines what should later be predicted should lead to a target candidate. A bad question, by contrast, has a model name but leaves the sample unit and comparison reference empty.
 
@@ -36,11 +36,11 @@ For example, the sentence `Is recent behavior abnormal?` is still too broad. Onc
 
 At first, it is usually easier not to write the finished question in one attempt, but to revise an overly broad sentence step by step.
 
-| The phrase that first comes to mind | First revision | Second revision |
+| Initial thought | First revision | Second revision |
 | --- | --- | --- |
-| I want to catch anomalies | I want to know which actions should be examined first | I want to choose the cases in the recent segment that a person should review first, using one action as one case |
-| I want to predict the result | I want to decide what result I want to predict later | I want to see whether an outcome candidate such as `review_needed` can be created from an action-level feature table |
-| I want to try deep learning | I want to decide whether to use the raw time series as it is | I first want to decide whether an action-level summary vector or a bundle of recent time-series segments is the more natural input structure |
+| I want to catch anomalies | I want to know which actions to inspect first | Treating one action as one sample, I want to select recent cases for people to review first |
+| I want to predict an outcome | I want to define the outcome to predict later | I want to see whether features available at action completion can predict failure within the next 7 days |
+| I want to try deep learning | I want to decide whether to retain the raw time series | I want to first choose between a summary vector for one action and the time series of that same action |
 
 So rewriting the question is not a matter of polishing the sentence. It is the work of revealing the problem structure step by step.
 
@@ -57,7 +57,7 @@ The comparison below shows a confusion that appears especially often in Part 3.
 
 The important point here is not that a `good question` must always be short. It is that it must contain the clues required for the design that follows.
 
-## A small diagram
+## Making the Question Concrete with Samples, Comparisons, and Outputs {#a-small-diagram}
 
 The same scene can lead into a completely different Part 3 flow depending on how the question is written.
 
@@ -75,7 +75,14 @@ What matters in this example is not code execution but the correspondence itself
 --8<-- "assets/part-03/chapter-01/p3-1-3-mermaid-01-en.mmd"
 ```
 
-If the question itself is vague, then `what table has to be rebuilt` also remains abstract. That is why rewriting the data question is not an extra sentence-polishing step. It is the starting point for deciding through what sample and table structure the stored data will be read again. The moment the question is written better, it also becomes much more direct why the sample and baseline are needed first. More broadly, a good data question is not just a sentence formulation. It is a problem-definition device that fixes the `target unit`, `desired outcome`, and `comparison or output structure` together at once. In other words, a good data question is not `a nicely worded sentence`, but the minimum design sentence that determines the table structure and comparison structure that follow.
+Rewrite `Is the machine abnormal?` by specifying one case, its reference, and the output. Assuming that completed actions from one machine are being compared, one answer is: `Treat each action as one case, compare its late-stage mean with past actions in the same operating mode, and flag candidates for human review.` This requires one row per action, operating mode, late-stage mean, a baseline, and a review flag. It does not ask for failure prediction, so the question alone does not supply future failure labels.
+
+What changes if the question becomes `Summarize the entire day's operating state at the end of each day`? The first table has one row per action; the second output table has one row per day. The daily table also needs an action count and an aggregation period. Checking whether the row unit and required columns change with the question distinguishes a wording change from a design change.
+
+## Checklist
+
+- Did you write a question specifying the sample unit, desired outcome, and comparison reference without naming a model?
+- Did you distinguish what stays fixed and what changes when comparing a summary vector with the time series of the same action?
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P3-6.4 Why Not Every Column in a Summary Table Is a Feature
 
 > Section ID: `P3-6.4`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 The fact that a column appears in a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) and the judgment that it is a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) are not the same statement. A summary table can contain features that describe sample structure, but it can also contain columns for comparison, candidate result columns, and columns for identification and context. So the distinction to hold first in this section is that `a column in the summary table` and `a feature to be read as model input` do not automatically match.
 
@@ -65,6 +65,8 @@ What is especially easy to confuse is a column such as `baseline_mid_flow_mean` 
 
 So the format `numerical column` comes after the question `why was this column created?`
 
+A column's role is not permanently fixed by its name. Time of day derived from a timestamp or an operating mode determined before prediction can be candidate input features. Conversely, even `mid_flow_mean` is not yet available when predicting before an action starts. A `Yes` in the table below means it is a candidate when used after measurements for that action are complete. Selecting an input requires checking not only its purpose, but also when it actually becomes available.
+
 ## Small Check Table
 
 In this section, separating column roles matters more than a calculation experiment. We can reread the columns in a working table by `why the column was created`, not by `the format of the value`.
@@ -82,18 +84,28 @@ In this section, separating column roles matters more than a calculation experim
 
 What this table shows is not a grand classification rule. The core point is that one working table can temporarily contain several kinds of columns side by side, and that those columns need to be read again with role-specific reasons. In particular, `baseline_mid_flow_mean` and `delta_from_baseline` are numerical columns, yet they are first read as comparison columns, while `review_score` and `review_needed` are numerical columns, yet they are first read as candidate results. This also explains why `depends` appears. The baseline itself or a difference-from-baseline value was created for comparison explanation, so whether it should immediately be passed on as an input feature has to be judged again later according to what prediction problem will be built.
 
+This also explains the `Depends` entries. The baseline itself and differences from it were created for comparative explanations, so whether to pass them directly as input features must be reconsidered according to the prediction task eventually defined.
+
 If we touch this distinction once right after feature design, the illusion `aren't they all features anyway?` becomes weaker. A summary table is not a table that stores only features. It is a working table where feature candidates, comparison columns, candidate results, and identification/context columns can temporarily sit together. Once we read it this way, the roles of baseline-comparison columns and target-candidate columns also feel less abrupt when they reappear later.
 
 This section can be read not only as the question `which numerical column is a feature?`, but as the problem of [column-role separation in a working table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling).
 
-
 So instead of the misunderstanding `if it is a numerical column, it must be a feature`, we should first ask whether each column describes the sample, holds a comparison reference, records a result, or merely keeps context.
 
-## A Small Diagram
+## Separating Identifier, Context, Input, and Outcome Columns {#a-small-diagram}
 
 The core point of this section is that not every column in a working table should be read as the same kind. Even inside one table, columns split into feature, comparison, target-candidate, and context columns, and that role separation has to come first.
 
 --8<-- "assets/part-03/chapter-06/p3-6-4-mermaid-01-en.mmd"
+
+Turn `it depends` into a concrete choice. Suppose the task predicts failure within seven days immediately after an action ends, and both the current action's mean and a baseline made only from past actions are available then. In this case, `delta_from_baseline = mid_flow_mean − baseline_mid_flow_mean` can be an input candidate. If the baseline instead includes measurements taken after the current action, the difference column cannot be used as input even though its name is unchanged.
+
+Mark each column separately as `used for comparison`, `input candidate`, and `available at prediction time`. The first difference column can satisfy all three. Column roles are not mutually exclusive labels: using a column for comparison does not automatically exclude it from input, and being numeric does not automatically qualify it.
+
+## Checklist
+
+- Did you distinguish identifier, context, input, and outcome columns?
+- Did you choose a context column and check whether it is actually available at prediction time?
 
 ## Sources and Further Reading
 

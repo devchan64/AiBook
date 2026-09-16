@@ -1,9 +1,7 @@
 ```mermaid
 flowchart TD
-    H[Human designs input]
-    F[Features and intermediate representations]
-    M[Model receives that input]
-    R[Model learns internal representations]
-
-    H --> F --> M --> R
+    H[People define the input structure] --> M[The model receives the input]
+    M --> Q{Does this model learn internal representations?}
+    Q -->|Yes| R[Use learned representations]
+    Q -->|No| F[Learn relationships using the supplied features]
 ```

@@ -1,7 +1,7 @@
 # P3-4.5 How Well Does the Sample Set We Collected Represent the Overall Operating Situation
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 When leaving this in a table, do not keep these four points only as explanation outside the sample table. Keep columns that reveal the coverage range, such as `sampled_at`, `shift`, `load_mode`, `machine_id`, and `maintenance_phase`, so you can count missing conditions again later. Do not leave weak coverage only as a conclusion sentence; if you put it in `coverage_note` or a separate review memo, you can later check which conditions were barely observed when reading Part 4 evaluation scores.
 
@@ -16,6 +16,8 @@ The problem of representativeness asks, separately from whether the definition o
 | The sample unit is well organized | Under what operating conditions were the samples gathered? |
 | Feature and label candidates also exist | Are they concentrated only in one specific period or one specific mode? |
 | The number of rows also looks sufficient | Does the bundle evenly cover the whole operating scene? |
+
+Representativeness does not mean every condition has the same number of cases. If the target operation is 80% daytime and 20% nighttime, interpret the data against those proportions and its collection process. If performance must be checked separately for the two shifts, also assess whether there are enough nighttime cases. Meeting a minimum count in each condition does not prove representativeness.
 
 In other words, `the definition of one sample` and `the representativeness of the sample bundle` are different problems.
 
@@ -45,7 +47,7 @@ In Part 3, what matters more than formal sampling theory at this stage is to wri
 
 These notes are not for proving generalization later. They are for first making visible what the current table does represent and what it still does not represent.
 
-## A Small Diagram
+## Comparing Collection Coverage with Operational Coverage {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-04/p3-4-5-mermaid-01-en.mmd"
@@ -64,11 +66,11 @@ So the order is as follows.
 
 Only after these notes are left behind can we later read results together with `from what condition range was this sample bundle obtained?`, and avoid missing `what operating conditions were barely seen?` In that sense, the problem of representativeness is similar to the problem of first writing down what the current sample bundle covers and what it misses.
 
-## Small Code Example
+## Checking Collection Imbalance and Errors by Group {#small-code-example}
 
 Problem situation: even if all sample units are correctly aligned as `one full action`, check which conditions the actual sample bundle is tilted toward.
 
-Input: the action-sample table stored in [p3_4_5_sample_coverage.csv](/AiBook/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv) and the minimum observation criterion `minimum_count`. This table contains `shift`, `load_mode`, `machine_id`, and `maintenance_phase`.
+Input: the action-sample table stored in [p3_4_5_sample_coverage.csv](/AiBook/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv){ .csv-preview } and the minimum observation criterion `minimum_count`. This table contains `shift`, `load_mode`, `machine_id`, and `maintenance_phase`.
 
 Expected output: a `coverage summary` showing which conditions were seen a lot and which were nearly empty. If `minimum_count` changes, the number of conditions marked as representativeness gaps also changes.
 
@@ -148,6 +150,8 @@ maintenance_phase: most_seen=stable (28), least_seen=after-maintenance, unique_c
 ```
 
 What matters in this example is not a classification technique, but making visible at a glance `what the current table sees a lot of` and `what it barely sees`. The value to manipulate here is `minimum_count`. When `minimum_count = 9`, some scopes such as `shift` have all conditions above the criterion, while scopes such as `load_mode`, `machine_id`, and `maintenance_phase` have some conditions marked as representativeness gaps. If this value is lowered, the gaps decrease; if it is raised, more conditions are marked as insufficient. That is how we can explain with both numbers and a table why `even with 36 samples, representativeness can look different by condition`.
+
+This code counts only conditions that occur at least once in the CSV. Conditions present in the target operation but absent from the collection must be checked against a separate list and marked as zero cases. Also, the data may contain `nighttime` and `high load` separately without any `nighttime and high load` cases, so check required combinations too.
 
 When reading this table, three things should be checked together. Can this table explain the time, mode, and equipment range from which it collected samples? Can we write down the conditions that were barely seen? And later, when reading evaluation scores, can we also bring back to mind this range of representativeness? Only when notes like these are attached does the sample table become not just `an organized table`, but `a table that also records what operating range it represents`.
 
@@ -240,6 +244,11 @@ errors by load_mode: {'high': 0, 'low': 3, 'normal': 0}
 If we look only at overall accuracy, the decision tree appears better than the baseline. But `errors by load_mode` shows that errors remain in the `low` condition. That condition was absent from the training bundle and appears for the first time in the checking bundle. So this output makes us ask first not `how well did the model score?`, but `which conditions were barely seen before evaluation?` Representativeness checking is a table check before training a model, and it is also a condition check we must return to when reading model evaluation.
 
 Fixing the sample unit correctly does not automatically mean that the sample bundle represents the whole operating situation. That is why, in Part 3, the time range, mode range, equipment range, and remaining gaps should all be written down together.
+
+## Checklist
+
+- Did you compare condition proportions in the collected table with the target operating distribution?
+- Did you find zero-case conditions and combinations missed by separate category counts?
 
 ## Sources and Further Reading
 

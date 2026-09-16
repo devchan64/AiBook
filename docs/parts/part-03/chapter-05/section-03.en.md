@@ -1,7 +1,7 @@
 # P3-5.3 Why Can We Not Immediately Call Raw Time Series a Learning Input
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 Do not hide this choice in the table either. If you build a summary vector, each row can keep `event_id` and a structure memo such as `input_type=event_summary`. If you keep a segment sequence, you need `event_id`, `segment_index`, and `segment_order`. For a recent aggregate input, keep `window_id`, `window_start`, `window_end`, and `source_event_count`. Exposing the input structure as columns lets you explain again which rule turned the raw time series into a candidate learning input.
 
@@ -37,7 +37,12 @@ But all three are illusions that appear when `defining the input structure` and 
 
 ## What Else Is Needed to Turn Raw Time Series into a Learning Input
 
-To turn a raw time series into an actual input structure, at least the following decisions must already exist.
+| Decision to make first | Why it is needed |
+| --- | --- |
+| Sample boundary | Define where one input starts and ends |
+| Whether and how to segment | Decide whether to retain the full sequence or compare segment summaries |
+| Length handling | Match the input format by retaining variable lengths, truncating, or padding |
+| Learning objective | Define labels for supervised learning, or the boundary between input and future values for next-value prediction |
 
 | What must be decided first | Why it is necessary |
 | --- | --- |
@@ -72,23 +77,30 @@ So the existence of a raw time series does not make the summary table unnecessar
 
 Suppose an action contains 300 time-point records.
 
-1. In Part 3, we first decide whether these 300 points form `one full action`.
-2. We divide them into early, middle, and late segments and build a summary table.
-3. If needed, we preserve more structure through an intermediate representation such as `UP, FLAT, DOWN`.
-4. Only after that can we choose whether to view that one full action as one input, as several segment sequences, or as a recent-range aggregate.
+1. Part 3 first decides whether these 300 points constitute `one action`.
+2. Choose whether to retain the action's full sequence or reduce it to early, middle, and late summaries.
+3. If needed, retain more structure through an intermediate representation such as `UP, FLAT, DOWN`.
+4. Document time order, length handling, and missing-value rules for the chosen representation. A summary table is not a prerequisite for using a raw time series as input.
 
 So the correct order is not `a raw time series exists -> it is immediately a learning input`, but `a raw time series exists -> decide what input structure to convert it into`.
 
-## A Small Diagram
+## From Sample Boundaries and Learning Objectives to Input Structure {#a-small-diagram}
 
-The core sequence in this section is that the story does not end at `a raw time series exists`. Only after sample boundaries, segment/length rules, and target labels are fixed can we finally choose an `input structure`.
+The sequence of decisions in this section does not stop at `we have a raw time series`. Choosing an `input structure` also requires sample boundaries, segment/length rules, and a learning objective.
 
 --8<-- "assets/part-03/chapter-05/p3-5-3-mermaid-01-en.mmd"
 
 What this section should hold onto is not the model type, but the order that says before calling a raw time series an input, we should first decide sample boundaries, segment criteria, and target structure. So saying that the raw time series is not yet a learning input means less `the data is insufficient` and more `the boundaries and purpose of the input structure have not yet been specified`.
 
+## Checklist
+
+- Did you specify sample boundaries, length handling, and missing-value rules even when retaining raw time series?
+- Did you distinguish why handcrafted summaries are optional from why a learning objective is needed?
+
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example is a structure where features and labels are defined together, it supports the claim that before calling a raw time series an input, the boundary of one sample and the result column should first be fixed. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it reinforces the point that unless the input structure and target structure are fixed first, part of the raw time series can be passed through incorrectly as the input. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, `PROV-Overview`. Because the provenance framework says identifying an object, derivation, and reproducibility should be supported, it reinforces the higher-level frame that input length and segment rules should also remain reproducible as a designed structure. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Used for sample and learning-objective terminology; it does not require every input to have an answer label. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
+- Google for Developers, `Machine Learning Glossary`, `label leakage`. Its explanation of features becoming proxies for labels supports the risk of passing inappropriate time-series information into a model when input and target structures are undefined. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20
+- W3C, `PROV-Overview`. The provenance framework covers identifying objects, derivation, and reproducibility, providing a framework for reproducibly documenting how input lengths and segment rules form a structure. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){ target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20
+
+- [Google Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" }. Checked the distinction between supervised-learning labels and general input structures. Checked: 2026-09-15.

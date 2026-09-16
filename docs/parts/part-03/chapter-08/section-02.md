@@ -1,7 +1,7 @@
 # P3-8.2 변화 신호를 어디까지 말하고 원인은 어디서 멈추는가
 
 > Section ID: `P3-8.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline)이 생기면 최근 구간과 평소 상태의 차이를 읽을 수 있습니다. 하지만 여기서도 `차이가 보였으니 원인도 바로 알 수 있겠지`라는 식의 해석은 매우 위험합니다. 변화 신호가 보인다는 것과, 그 원인이 무엇인지 확정하는 것은 전혀 다른 단계이기 때문입니다. 해석 강도를 조절한 뒤에는, 이제 [해석 경계(interpretation boundary)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-interpretation-boundary)를 더 분명히 정해야 합니다.
 
@@ -15,7 +15,9 @@
 | --- | --- | --- |
 | 최근 선이 기준선보다 아래에 있음 | 상태가 확실히 악화되었다 | 최근 구간이 기준선보다 낮아 보여 추가 확인이 필요하다 |
 | 최근 막대가 더 큼 | 원인이 이미 분명하다 | 비교값 차이가 보여 원인 확정 없이 검토한다 |
-| 상자그림 범위가 넓어짐 | 시스템이 불안정해졌다 | 최근 분산이 커 보이므로 반복성과 표본 수를 함께 본다 |
+| 상자그림 범위가 넓어짐 | 시스템이 불안정해졌다 | 상자 폭 또는 수염 범위 중 무엇이 넓어졌는지 확인하고 원자료의 산포를 함께 본다 |
+
+상자그림의 상자는 보통 가운데 50%가 들어 있는 사분위 범위이고, 분산 자체를 그린 것이 아닙니다. 상자와 수염, 극단값 표시는 서로 다른 정보를 담습니다. 그림의 축 범위나 집계 간격이 달라져도 변화가 더 커 보일 수 있으므로 같은 눈금과 같은 집계 조건인지 먼저 확인합니다.
 
 | 표현 | 뜻 | 지금 단계에서 말할 수 있는가 |
 | --- | --- | --- |
@@ -54,7 +56,7 @@
 
 예를 들어 `최근 구간은 기준선 대비 후반 하강이 커졌으며, 최근 건수는 6건이므로 원인 확정 없이 검토 우선순위를 높인다` 같은 문장은 비교 구조와 해석 경계를 함께 반영합니다. 반대로 `센서 이상이 발생했다` 같은 문장은 아직 없는 근거를 미리 끌어다 쓰는 셈이 됩니다. 이때 경고는 자동 진단 결과라기보다 사람이 먼저 볼 대상을 좁히는 신호라는 점을 유지해야 합니다.
 
-## 작은 도식으로 보기
+## 변화 관찰과 원인 판단 사이의 경계 {#_1}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-2-mermaid-01-ko.mmd"
@@ -78,12 +80,12 @@
 
 ## 체크리스트
 
-- 이 절의 질문인 `변화 신호를 어디까지 말하고 원인은 어디서 멈추는가`에 대해 한 문장으로 답할 수 있는가?
-- `변화 신호 해석과 원인 단정의 경계를 나눠야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 상자그림의 중앙값과 사분위 범위를 각각 읽었는가?
+- 관찰된 변화와 검증되지 않은 원인 설명을 구분했는가?
 
 ## 출처와 참고 자료
 
 - W3C, `PROV-Overview`. 관찰 결과와 그 결과가 어떤 절차와 근거를 거쳐 나왔는지 구분해 남기는 provenance 관점을 제공하므로, 비교표가 뒷받침하는 것은 변화 관찰과 검토 후보 수준이지 원인 확정까지는 아니라는 이 절의 설명을 일반화하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 신호 구조와, control limits와 specification limits를 구분하는 설명을 제공하므로, 변화 신호와 원인 확정 또는 기능 판정을 같은 층위로 섞지 말아야 한다는 이 절의 판단 경계를 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+
+- [NIST Box Plot](https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm){ target="_blank" rel="noopener noreferrer" }. 중앙값과 사분위수 범위의 해석를 확인했다. 확인일: 2026-09-15.

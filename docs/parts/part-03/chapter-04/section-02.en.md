@@ -1,7 +1,7 @@
 # P3-4.2 What Else Starts to Drift When the Sample Unit Drifts
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 Therefore, if you decide to change the sample unit, the table design must change with it. Instead of keeping a time-point table and repeating the label across rows, first create a one-operation summary table, then make the feature columns and label column point to the same `event_id`. The split column should also attach to the one-operation sample, not to time-point rows. Then, when you read scores later, you will not lose track of whether the model matched a time-point row or one operation.
 
@@ -50,7 +50,7 @@ Here the mismatch of the sample unit becomes clearer if we divide the `misattach
 
 So the sample unit is not a decision needed only in one section of Part 3. It is the floor structure on which feature engineering, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and even the interpretation of the prediction input structure all depend.
 
-## A Small Diagram
+## How Sample Units Affect Features, Labels, and Evaluation {#a-small-diagram}
 
 The core point of the previous discussion is simple. When the sample unit drifts, feature, label, split, evaluation, and operational interpretation do not drift separately. They all lose the same reference point together.
 
@@ -130,7 +130,7 @@ print("3) event-level features and labels line up on the same unit")
 print(per_event)
 print()
 print("4) split stability differs by unit")
-print(unit_summary)
+print(unit_summary.to_string(index=False))
 ```
 
 Expected output:
@@ -153,9 +153,9 @@ event-level samples: 3
 2        C   1.266667       1.9        0.6              1
 
 4) split stability differs by unit
-    unit  sample_count                    feature_example  label_rows train_events test_events
-0    row             9                 flow at one second           6        A,B,C       A,B,C
-1  event             3  flow_mean / flow_max / late_drop           2          A,B           C
+ unit  sample_count                  feature_example  label_rows train_events test_events
+  row             9               flow at one second           6        A,B,C       A,B,C
+event             3 flow_mean / flow_max / late_drop           2          A,B           C
 ```
 
 This output shows three things at once. First, `review_needed` is a label attached to one full action, but in the time-point table it is repeated three times each for A and C. Second, a feature such as `late_drop` is computed only after the data is grouped into one full action. Third, if we look at `unit summary`, then in the time-point split the same `event_id` can appear on both the training and evaluation sides, while in the action-level split the whole of `C` can be held out as test. This difference is exactly why the units of feature, label, split, and evaluation drift together.
@@ -209,7 +209,6 @@ row_test = raw[raw["second"].eq(2)]
 event_train = raw[raw["event_id"].isin(["A", "B", "C", "D"])]
 event_test = raw[raw["event_id"].isin(["E", "F", "G", "H"])]
 
-
 def evaluate(train, test):
     model = DecisionTreeClassifier(random_state=0)
     model.fit(train[["flow"]], train["review_needed"])
@@ -218,7 +217,6 @@ def evaluate(train, test):
         (event_id, int(prediction), int(actual))
         for event_id, prediction, actual in zip(test["event_id"], predictions, test["review_needed"])
     ]
-
 
 row_accuracy, _ = evaluate(row_train, row_test)
 event_accuracy, event_predictions = evaluate(event_train, event_test)
@@ -260,9 +258,14 @@ The same content can be summarized more briefly as follows.
 
 So when the sample unit drifts, the problem should not be read as a simple notation confusion. It should be read as a collapse of consistency in which feature, label, split, and evaluation begin pointing at different units.
 
+## Checklist
+
+- Did you identify what information overlaps when rows from the same event appear in training and evaluation?
+- Did you give an example where changing the sample unit also changes features and labels?
+
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example requires features and label to be aligned on the same unit, it provides the basis for the claim that if the sample unit drifts, the meaning of both feature and label drifts together. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Provides terminology for checking feature and label alignment when the sample changes. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw in which a feature becomes a proxy for the label, it strengthens the warning that structural errors can arise when row-level features and event-level labels are mixed on the wrong unit. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`. Because it explains that, for grouped data, dependent samples from the same group should not appear in both the training and validation folds, it directly strengthens this section's split/evaluation warning that nearby rows from the same action can be mixed into training and evaluation if time-point rows are treated as samples. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, `PROV-Overview`. Because the provenance framework explains that it should support reproducibility and derivation, it strengthens the higher-level frame that split and evaluation can keep the same criterion only when the unit at which features and labels were made is recorded reproducibly. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

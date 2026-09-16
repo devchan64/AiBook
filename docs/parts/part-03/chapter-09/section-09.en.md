@@ -1,7 +1,7 @@
-# P3-9.9 How Should the Actual Target and a Proxy Target Be Distinguished
+# P3-9.9 How Do We Distinguish the Actual Target from a Proxy Target
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 If you decide to use a proxy target, keep notes such as `business_goal`, `proxy_target`, `proxy_reason`, `proxy_gap`, and `review_owner` in the table. These fields keep the target name from hardening into the real goal and help you later separate what you directly predict from what you predict as a substitute when the problem type moves toward prediction.
 
@@ -44,7 +44,7 @@ Suppose the result you truly want to know is `final state confirmation`, but the
 
 In this table, the prediction problem you can build right now may be `review_needed`. But that is not the same thing as directly predicting `final state confirmation`. The problem defined here is `does this need review`, not `what will the final state be`. Keeping the proxy-target label makes it explicit whether the current problem type is `actual-target prediction` or `proxy-column prediction`.
 
-## A Small Diagram
+## Connecting Observable Proxies to the Actual Target {#a-small-diagram}
 
 The moment a proxy target is used, it becomes clearer to reread where `what can be observed now` diverges from `what is truly wanted`.
 
@@ -53,6 +53,13 @@ The moment a proxy target is used, it becomes clearer to reread where `what can 
 ```
 
 A proxy target is therefore not a temporary convenient name, but a device that explicitly states that a different observable is being used in place of the original goal. The core here is to leave together `the result you truly want to know`, `the proxy column you can observe now`, and `a record of the distance between them`, so that the limitation of the proxy goal stays preserved inside the structure.
+
+If a provisional label is created by the rule `1 when the input decline rate crosses a threshold`, a model trained on that input is initially reproducing the rule. A high score against provisional labels does not validate real failure prediction. Targeting actual failures requires independently confirmed failure records and an observation period.
+
+## Checklist
+
+- Did you distinguish provisional rule-based labels from actually confirmed outcomes?
+- Can you explain why reproducing a rule well does not, by itself, validate real failure prediction?
 
 ## Sources and References
 

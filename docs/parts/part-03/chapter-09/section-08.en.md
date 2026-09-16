@@ -1,7 +1,7 @@
-# P3-9.8 What Does One Prediction Actually Decide, and Why Are Scores and Policy Different
+# P3-9.8 Which Rules Turn Prediction Scores into Actions
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 When handing this over as an actual table, separate fields at different levels, such as `prediction_unit`, `score_column`, `decision_threshold`, `policy_version`, and `action_column`. Written this way, the model output, the rule that turns it into an action, and the action that is actually executed do not collapse into the same thing.
 
@@ -24,13 +24,24 @@ One predicted value needs to be written together with the unit of action it conn
 
 Even with the same score, the action can change when the policy changes. Also, some problems use the score only for [ranking](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-ranking), while others want to read the number itself almost like a [probability estimate](/AiBook/en/reference/concept-glossary-alpha/p/#probability-estimate). That difference also needs to be written down first. The meaning of one prediction is therefore not just `producing one number`. It includes the decision structure by which that number goes through a rule and leads to an action. More broadly, this section separates `model output`, `decision rule`, and `real action` as different levels, so that one predicted value is read inside an operational decision structure.
 
-## A Small Diagram
+## From Scores to Thresholds and Operational Policies {#a-small-diagram}
 
 One prediction does not end with a score. It must be read all the way through the policy rule into the resulting action.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-8-mermaid-01-en.mmd"
 ```
+
+If only 10 cases can be reviewed per day, selecting the top 10 scores and selecting `scores at least 0.7` can yield different results. Thirty cases above 0.7 would exceed capacity. Nor should a score be interpreted as an occurrence probability merely because it lies between 0 and 1. Record the score's meaning, action rule, and processing capacity separately.
+
+In a fictional example, A, B, and C score 0.82, 0.80, and 0.79, and today's review capacity is two cases. Both `at least 0.80` and `top two` select A and B. What happens when D arrives with 0.95? The threshold selects three cases—D, A, and B—while the top-two rule selects only D and A. B's score has not changed, but its selection status has.
+
+If only two of the three qualifying cases can be handled today, record B as `qualifies, waiting because of capacity`, rather than `below threshold`. Keep threshold eligibility and today's processing status in separate columns. This lets a later reviewer distinguish a low model score from insufficient processing capacity.
+
+## Checklist
+
+- Did you specify a threshold or top-count rule connecting scores to actions?
+- Can you explain what happens when candidates exceed daily review capacity?
 
 ## Sources and References
 

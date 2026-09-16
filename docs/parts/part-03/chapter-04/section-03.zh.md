@@ -1,11 +1,13 @@
-# P3-4.3 一行、一个样本、一个近期区段有什么不同
+# P3-4.3 时点记录、动作样本和区间汇总有什么不同
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 制作下一张表时，要把这种差异直接转成列的角色。行层位可以留下 `second`、`flow` 这类瞬间记录；样本层位放 `event_id`、`flow_mean`、`flow_max` 等说明一次动作的列；区间层位放 `window`、`event_count`、`window_flow_mean` 等显示多个样本再次分组的列。如果三种层位必须放在同一张表中，每个列名都要显示它是在哪个层位计算出来的，避免后面的特征、基准线和 复核句 指向不同单位。
 
-[一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/y/#sample-unit)、一个[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、`一个近期区段` 都会在看数据表时浮现出来，但它们并不属于同一个层级。在[源数据(source data)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)表里，先看见的是行；在比较一次完整动作时，中心会变成样本；到了[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较时，近期区段又会作为另一个比较单位出现。
+需要一起区分这三个单位，是因为[特征](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、基准线比较和复核语句可能属于不同层级。如果不先确认当前问题的样本单位，就混合统计时点行和汇总区间，后面构造的表与比较结构也会失去一致性。
+
+`行`是存储形式，`样本`是分析单位。在动作汇总表中，一行与一条样本一致。在另一个以近期区间为分析对象的问题里，一个区间就是一条样本。本节比较的是以一次动作为样本时的三种表示。
 
 必须一次把这三个单位区分开的原因，是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、基准线比较和复核语句分别贴在不同层级上。一旦把一行误当成样本，或者把区段读成一条样本，后面搭出来的表结构和比较结构也会一起开始摇摆。
 
@@ -73,7 +75,7 @@
 
 例如，像 `late_drop_rate` 这样的特征，并不会直接贴在单个时点行上。它只能在先把一次完整动作构造成样本之后才能算出来。反过来，像 `recent_count=20` 这样的值就不是单条样本特征，而更像近期区段聚合。所以，只要把这些层级混着读，特征、基准线和[输出结构(output structure)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)就都会变得抽象。
 
-## 一眼看懂的代码小例子
+## 比较时点、动作与区间的汇总结果 {#_3}
 
 问题情境：通过行数和输出结构确认 `一行`、`一个样本`、`一个近期区段` 在同一份原始日志里属于不同层级。
 
@@ -183,7 +185,7 @@ window count: 2
 
 这一节并不是一个术语对照表，而可以重新读成：它在处理的是如何同时阅读 `表达层级(levels of representation)` 的问题。
 
-## 用一个小图来看
+## 将时点记录汇总为动作与区间 {#_5}
 
 把前面的说明压到最短，就是 `一行 -> 一个样本 -> 一个区段` 代表同一份数据被一步步读成更大的比较单位。每个层级回答的问题不同，所以不能把它们混成同一个单位来读。
 
@@ -191,8 +193,13 @@ window count: 2
 
 所以，`一行`、`一个样本`、`一个近期区段` 不应该被读成三个名字相近的对象，而应该被读成：为了回答不同问题，同一份源数据在不同层级上被重新表达之后得到的结果。
 
+## 检查清单
+
+- 你是否分别写出了时点表、动作表和区间表中一行的含义？
+- 你是否提出了一个可以把近期区间本身当作样本的问题？
+
 ## 来源与参考资料
 
 - W3C, `PROV-Overview`. provenance framework 说明它应支持 identifying an object 和 representing derivation，因此为把行级记录、事件级样本、窗口级聚合作为不同表达层级分别记录下来提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时期是拿来和其他时期比较的 reference，因此强化了这一点：像近期区段和基准区段这类聚合层级表达，属于和样本层级不同的比较层级。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 预设的是样本层级结构，所以它支持这样一点：不应该把行级记录和窗口级聚合读成样本层级 example。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 时点记录与区间汇总也可作为样本；选择单次动作是本节案例的设定。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15

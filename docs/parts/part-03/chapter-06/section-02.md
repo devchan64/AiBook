@@ -1,7 +1,7 @@
 # P3-6.2 특징만으로 부족할 때 어떤 중간 표현을 더 둘 수 있는가
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 평균, 기울기, 변동성 같은 특징은 좋은 출발점이 됩니다. 하지만 어떤 경우에는 숫자 몇 개만으로는 구간별 구조를 충분히 설명하기 어렵습니다. 예를 들어 초반에는 천천히 오르고, 중반에는 평평하게 유지되다가, 후반에는 빠르게 떨어지는 패턴이 있다고 하겠습니다. 이런 구조를 숫자 두세 개로만 남기면 사람이 다시 읽을 때도 아쉽고, 모델이 비교할 때도 중요한 모양 차이를 놓칠 수 있습니다. 그래서 Part 3에서는 [중간 표현(intermediate representation)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-intermediate-representation)을 원시 로그와 요약 특징 사이에서 구조를 더 또렷하게 남기기 위해 두는 사람 주도 입력 재표현으로 함께 봅니다.
 
@@ -43,7 +43,7 @@
 
 문제 상황: 연속 수치 기울기를 짧은 기호열로 바꾸면 무엇이 더 잘 보이는지 확인합니다.
 
-입력(input): 동작별 구간 기울기 CSV [p3_6_2_segment_slopes.csv](../../../assets/part-03/chapter-06/p3_6_2_segment_slopes.csv), 토큰 경계 후보 `token_settings`
+입력(input): 동작별 구간 기울기 CSV [p3_6_2_segment_slopes.csv](../../../assets/part-03/chapter-06/p3_6_2_segment_slopes.csv){ .csv-preview }, 토큰 경계 후보 `token_settings`
 
 기대 출력(output): 동작별 기울기 목록이 `UP2`, `UP1`, `FLAT`, `DOWN1`, `DOWN2` 같은 토큰 시퀀스로 바뀐 출력. 경계값을 바꾸면 `FLAT`으로 남는 구간 수, 강한 상승/하강 토큰 수, 바뀐 동작 목록이 달라진다.
 
@@ -225,7 +225,9 @@ event_id           token_sequence  token_similarity
        B FLAT FLAT FLAT FLAT FLAT          0.120765
 ```
 
-숫자 평균만 보면 `A`와 `B`는 똑같이 가까운 후보입니다. 하지만 `B`는 실제로는 모든 구간이 평평한 패턴이고, 쿼리와 같은 상승-평탄-하강 구조를 갖지 않습니다. 반대로 토큰 시퀀스를 벡터화하면 `A`가 가장 가깝고, 일부 상승과 하강 구조를 공유하는 `C`가 그다음으로 올라옵니다. 여기서 중요한 점은 `TfidfVectorizer`가 정답이라는 뜻이 아닙니다. 이미 사람이 만든 세그먼트 토큰을 실제 라이브러리 입력으로 바꾸면, 평균 요약이 지워 버린 순서와 방향 차이를 다시 비교할 수 있다는 점입니다.
+숫자 평균만 보면 `A`와 `B`는 똑같이 가까운 후보입니다. 하지만 `B`는 실제로는 모든 구간이 평평한 패턴이고, 쿼리와 같은 상승-평탄-하강 구조를 갖지 않습니다. 반대로 토큰 시퀀스를 벡터화하면 `A`가 가장 가깝고, 일부 상승과 하강 구조를 공유하는 `C`가 그다음으로 올라옵니다. 여기서 중요한 점은 `TfidfVectorizer`가 정답이라는 뜻이 아닙니다. 이미 사람이 만든 세그먼트 토큰을 실제 라이브러리 입력으로 바꾸면, 평균 요약이 지운 방향 토큰과 인접한 토큰 쌍의 차이를 비교할 수 있다는 점입니다.
+
+여기서 `ngram_range=(1, 2)`는 토큰 하나와 인접한 두 토큰을 함께 셉니다. `(1, 1)`로 바꾸면 A와 역순인 D의 토큰별 개수가 같아 구분하지 못합니다. 두 토큰 묶음을 써도 전체 순서와 절대 시점이 모두 보존되지는 않습니다. 예를 들어 `UP FLAT UP DOWN UP`과 `UP DOWN UP FLAT UP`은 순서는 다르지만 토큰 하나와 인접 쌍의 개수가 같습니다. 토큰 시퀀스를 보존하는 것과 그 시퀀스를 빈도 벡터로 바꾸는 것은 정보 손실이 다른 두 단계입니다.
 
 이 점이 중요한 이유는 세그먼트 토큰이 아직 사람이 규칙을 정한 표현이면서도, 이미 `순서를 가진 시퀀스`라는 성질을 갖고 있기 때문입니다. 그래서 숫자 특징만으로는 놓치기 쉬운 구조를 더 직접 남길 수 있고, 뒤에서 순차 데이터나 표현 학습을 설명할 때도 같은 입력 구조를 자연스럽게 이어서 볼 수 있습니다.
 
@@ -247,7 +249,7 @@ event_id           token_sequence  token_similarity
 
 이 절은 특정 토큰 규칙 소개가 아니라, `원시 구조와 요약 특징 사이에 어떤 중간 표현을 둘 것인가(intermediate representation between raw structure and summarized features)`의 문제로 다시 볼 수 있습니다.
 
-## 작은 도식으로 보기
+## 구간별 수치 요약을 토큰 시퀀스로 바꾸기 {#_1}
 
 이 절의 핵심은 원시 곡선을 바로 버리거나 바로 숫자 몇 개로 닫지 않는 데 있습니다. 곡선을 구간으로 나누고, 수치 요약을 거쳐 토큰 시퀀스로 바꾸면 `중간 표현`이라는 한 층위가 생깁니다.
 
@@ -258,12 +260,12 @@ event_id           token_sequence  token_similarity
 
 ## 체크리스트
 
-- 이 절의 질문인 `특징만으로 부족할 때 어떤 중간 표현을 더 둘 수 있는가`에 대해 한 문장으로 답할 수 있는가?
-- `특징만으로 부족할 때 어떤 중간 표현을 추가할 수 있는지 보여 주어야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- unigram과 bigram이 각각 보존하는 정보를 예제로 확인했는가?
+- 같은 단어·인접쌍 빈도에도 전체 순서가 다를 수 있음을 설명했는가?
 
 ## 출처와 참고 자료
 
 - TensorFlow, `Subword tokenizers`. subword tokenizer를 word-based tokenization과 character-based tokenization 사이를 잇는 표현으로 설명하므로, Part 3의 세그먼트 토큰도 원시 로그와 강한 요약 사이에 놓이는 중간 표현이라는 일반화된 관점을 설명하는 데 참고할 수 있습니다. 여기서 시계열 토큰화와 직접 동일시하는 부분은 이 공식 설명을 바탕으로 한 유비적 적용입니다. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 model training에 helpful한 transformations를 결정하는 과정으로 설명하므로, 중간 표현도 원시 값을 그대로 두지 않고 비교와 학습에 도움이 되는 형태로 바꾸는 변환이라는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+
+- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){ target="_blank" rel="noopener noreferrer" }. 단어 빈도와 n-gram이 보존하는 국소 순서 정보를 확인했다. 확인일: 2026-09-15.

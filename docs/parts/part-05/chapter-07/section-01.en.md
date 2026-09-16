@@ -171,7 +171,7 @@ Concepts to confirm:
 - the optimizer turns that signal into an update value
 - parameter change appears only after the update is applied
 
-Before looking at the code, it is helpful to decide that we will read this example in three intervals: `CSV batch`, `after gradient calculation`, and `after optimizer step`. The example data is in [optimizer-step-role-log.csv](/AiBook/assets/part-05/chapter-07/optimizer-step-role-log.csv).
+Before looking at the code, it is helpful to decide that we will read this example in three intervals: `CSV batch`, `after gradient calculation`, and `after optimizer step`. The example data is in [optimizer-step-role-log.csv](/AiBook/assets/part-05/chapter-07/optimizer-step-role-log.csv){ .csv-preview }.
 
 | Interval | What to confirm here |
 | --- | --- |

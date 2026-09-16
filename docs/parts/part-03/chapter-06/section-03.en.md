@@ -1,7 +1,7 @@
 # P3-6.3 How Should We Distinguish Human-Made Features from Representations Learned by the Model
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 Once we place [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) together with [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation), it becomes important to read clearly where `the human act of deciding the input structure` separates from `the model's act of learning a representation inside that input`. If this distinction becomes blurred, Part 3's feature design can look like outdated preprocessing, or the opposite misunderstanding can arise that the model will decide the structure of the problem for us. The key point is that the two are not in competition. The features and intermediate representations that people make in Part 3 are the act of first deciding `in what input structure the problem will be read`. The representation learned by the model is the act of learning `what patterns inside that input structure better separate useful cases`.
 
@@ -54,6 +54,8 @@ The boundary splits at `does a human first decide what to provide as the input?`
 
 So features and intermediate representations decide `what the input will be`, while representation learning learns `what matters inside that input`.
 
+In this section, `intermediate representation` means human-defined segment or symbolic representations. In other contexts, learned representations inside neural networks are also called intermediate representations. Nor does every model learn a new internal representation: some learn only the relationship between human-made features and an outcome. Handcrafted features and representation learning are not two mandatory stages that every task must pass through in sequence.
+
 ## Two Common Misunderstandings
 
 The first is the misunderstanding that `if it is deep learning, feature design is unnecessary`. Deep learning can reduce the need for humans to hand-build every feature, but it does not decide sample boundaries and input range on our behalf. Decisions such as whether one full action is one sample, whether a recent range is one sample, and whether to leave the full time series uncut are still the human's responsibility.
@@ -77,11 +79,22 @@ Suppose we have the raw log for one full action.
 
 Looking at this order makes it clear that feature design is not an outdated preparation step from before deep learning. It is the input-definition stage that is needed first no matter what learning method is used. So the conclusion of this section is not the opposition of `human-made features vs deep learning`, but the question of where [input specification](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) and [representation learning](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representation-learning) separate. Feature design should be read not as obsolete manual labor but as the act of first specifying the input structure on which the later learning stage depends.
 
-## A Small Diagram
+## The Relationship Between Handcrafted Features and Learned Representations {#a-small-diagram}
 
 The boundary in this section is simple. Humans first design the `input` through features and intermediate representations, and only after receiving that input does the model learn internal representations. They are not competing choices, but consecutive stages.
 
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
+
 --8<-- "assets/part-03/chapter-06/p3-6-3-mermaid-01-en.mmd"
+
+</div>
+</div>
+
+## Checklist
+
+- Can you explain the difference between human-defined summary rules and learned representations?
+- Did you list input boundaries that people must define even when using representation learning?
 
 ## Sources and Further Reading
 

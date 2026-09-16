@@ -1,7 +1,7 @@
-# P3-9.7 Under What Conditions Can Inputs and Results Be Read as a Prediction Problem
+# P3-9.7 How Do We Separate Inputs Available at Prediction Time from Later Outcomes
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 Do not leave this distinction only in explanatory sentences; keep it as minimum fields in the handoff data table. For example, `feature_available_at`, `target_window_start`, `target_window_end`, `cutoff_at`, `horizon_days`, and `leakage_check_note` let you check row by row which input was available at what time and which result period it tries to predict.
 
@@ -87,7 +87,13 @@ leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
 
 `leaky_after_review` has accuracy `1.0`, but this should not be read as a good prediction problem. `review_result_code` is created only after a person has already completed the review. At the real operating prediction time, that value is still unknown. So the point of this example is not to find a high-scoring model, but to settle first whether this column can actually be made at prediction time.
 
-## A Small Diagram
+### Occurrence Time Differs from Availability Time
+
+Suppose a prediction is made at 10:00. A sensor measurement taken at 09:59 but received by the server at 10:02 cannot be included in the 10:00 inputs. Even if a column carries a past timestamp, verify that the prediction system could actually read it then. Even `recent_diff` is unsuitable if its baseline was calculated using future records.
+
+Here, `cutoff` is the deadline for input information and `horizon` is the future period to predict. State both boundaries together, for example: `Use information available by 10:00 to predict failure within the following 7 days.` An answer arriving later can be joined as the training outcome, but must be excluded when reconstructing the inputs available at that time.
+
+## Separating Available Inputs from Later Outcomes at Prediction Time {#a-small-diagram}
 
 The input/result contract does not end with `separate the columns`. It must also settle in the order below so that only values available at prediction time remain.
 
@@ -99,8 +105,15 @@ So confirming the input/result contract is not only a matter of `splitting colum
 
 Even when the same sample boundary is kept, the input representation does not need to stay fixed as only one form. In some cases, a one-row feature vector is more natural. In others, a grouped input that preserves time order is more natural. What matters is that regardless of representation style, the contract `is this an input that can actually be used at prediction time` and `is the result candidate confirmed together with the time boundary` must be satisfied first. What is being handled here is therefore not `just any table`, but an input structure whose sample boundary and time boundary are confirmed. The core is not `passing along a table`, but `confirming the input/result contract that holds at prediction time`. More broadly, what is settled here is a prediction contract in which `input definition`, `result definition`, `time-point availability`, and `reproducibility` all match together.
 
+## Checklist
+
+- Did you mark prediction time and the outcome observation period on a timeline?
+- Did you check whether inputs contain values that occurred before prediction but arrived afterward?
+
 ## Sources and References
 
 - Google, *Machine Learning Glossary*, `feature`, `label`, `label leakage`. Used to check the term basis that features are model input variables and that label leakage is a design flaw in which a label proxy is mixed into the features. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - Google, *Datasets: Dividing the original dataset*. Used to check the view that train/validation/test data should be separated, the same feature transformation should also apply to real-world data, and validation/test data should match the real-world data the model will encounter. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. Used to check the provenance basis for preserving processing steps, reproducibility, versioning, and derivation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }. Checked leakage of information unavailable during actual prediction. Checked: 2026-09-15.

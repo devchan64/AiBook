@@ -1,11 +1,13 @@
 # P3-2.2 What Structures Go Inside a Dataset Candidate
 
 > Section ID: `P3-2.2`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
-As the previous section showed, stored records may not yet be a dataset. The next question therefore follows immediately: if we rebuild a [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#dataset), what structure should go inside it? To answer that question, Part 3 looks at [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) together. These terms are more accurate when read not as a list to memorize separately, but as one dataset-design structure. We have to decide what counts as one sample before features can be made; features are needed before we can decide what should be compared with a baseline; and only after that comparison is in place can we decide what output structure to make.
+As the preceding section showed, even a stored dataset may need restructuring for the current question. The next question follows directly: what structures belong inside a rebuilt [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#dataset)? To answer it, Part 3 considers [samples](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baselines](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and [output structures](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) together. These terms are better understood as a connected dataset design than as separate items to memorize. Defining one sample lets us construct features; those features determine what to compare with a baseline; and the comparison helps determine the output structure.
 
 What matters especially in this section is reading `output structure`, before it hardens directly into a [target](/AiBook/en/reference/concept-glossary-alpha/t/#target), as a problem-design axis that separates review-oriented results from prediction-oriented target candidates. This is also why a dataset candidate should be read not as the name of one table, but as several connected structures. Only when what counts as the sample, which features are kept, what is compared against the baseline, and what output structure closes the process are all decided together does the meaning of the dataset candidate become clear.
+
+The four elements below form a design framework for this book's state-comparison example. They do not mean every dataset must contain baseline and output columns. An unlabeled image collection is also called a dataset, for example. Features can be directly measured values or categories; they need not always be produced by summary calculations.
 
 Take one automatically executed action as an example. The sample might be `the whole current action treated as one case`. Features might be values calculated and kept from that action, such as `total time`, `mid-stage mean`, `late-stage drop rate`, or `tracking error`. The baseline might be a representative value from the usual range or a comparison group outside the recent cases. The output structure is the result format that a person or a model will finally read, for example something like `needs review`, `caution`, `normal range`, or `candidate prediction label`.
 
@@ -38,11 +40,13 @@ The table below shows more concretely how the four elements connect inside one r
 | A | 0.74 | -0.32 | 0.92 | -0.05 | -0.27 | `needs review` |
 | B | 0.89 | -0.08 | 0.92 | -0.05 | -0.03 | `normal range` |
 
+Here, flow is in L/min and the late decline rate is the flow change per second between the final two measurements. We calculate `baseline_gap = late_drop_rate−baseline_late_drop_rate`. The fictional rule flags a case for review when `baseline_gap <= −0.20`. In this example, `normal range` only means the rule did not trigger; it is not a confirmed label establishing the absence of a failure or its cause. The boundary value −0.20 is included. Of −0.21, −0.20, and −0.19, only the first two trigger the rule.
+
 The order for reading this table proceeds naturally from left to right. `sample_id` fixes what was counted as one sample. `mean_flow` and `late_drop_rate` are features that describe that sample. `baseline_mean_flow` and `baseline_late_drop_rate` are the usual baseline. `baseline_gap` records the comparison result, showing how much more the late-stage drop rate of the current sample fell relative to the baseline. And if that comparison result is large enough, the `output` column creates an operational judgment such as `needs review`.
 
 In other words, an output such as `needs review` is not a phrase that gets attached suddenly at the far end of the table. The earlier columns must already have organized `what is being compared` and `what differs from the usual state`, or the final output column cannot be explained either. For that reason, sample, feature, baseline, and output structure are not independent lists even when they live in the same table. They are one design flow that runs from front to back.
 
-## A Small Diagram
+## Connecting Samples, Features, Baselines, and Outputs {#a-small-diagram}
 
 The four structures inside a dataset candidate can be read in one pass when they are compressed into the sequence `sample -> feature -> baseline comparison -> output structure`.
 
@@ -52,7 +56,7 @@ The four structures inside a dataset candidate can be read in one pass when they
 
 Problem situation: check the flow in which one action is treated as one sample, features are written down, the result is compared with the usual baseline, and a final operational output is produced.
 
-Input: the time-step flow log [p3_2_2_event_flow_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv), which contains both `baseline` and `recent` periods, and candidate review thresholds `review_gap_thresholds`
+Input: the time-step flow log [p3_2_2_event_flow_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv){ .csv-preview }, which contains both `baseline` and `recent` periods, and candidate review thresholds `review_gap_thresholds`
 
 One input-file row is the measured flow (`flow`) at a specific second (`second`) of one sample. `sample_id` points to one action, and `period` separates whether that sample belongs to the `baseline` period used to build the usual reference or the `recent` period to be compared.
 
@@ -234,6 +238,11 @@ This flow can be remembered more briefly in the following order.
 4. Decide the output structure that a person reads or a model inherits.
 
 These four stages unfold later into different Chapters, but in practice they are one continuous judgment. So whichever Chapter we are reading, it helps not to lose direction if we also ask `which stage does this explanation belong to: sample, feature, baseline, or output structure?` Once we hold onto the relation that `the sample has to be fixed before features exist, features have to be fixed before comparison structure exists, and comparison structure has to exist before output structure is organized`, it becomes much clearer that a dataset candidate is not the name of one file, but a table designed so that these four structures interlock. More broadly, this section establishes the minimum contract that organizes how `the example unit`, `descriptive variables`, `comparison reference`, and `result format` lock together inside one data problem. So a dataset candidate should be read not as `a table with many columns`, but as a structure in which descriptive values, comparison references, and result formats divide their roles inside one example.
+
+## Checklist
+
+- Did you identify the roles of samples, features, labels, and baselines in the table?
+- Did you distinguish this example's comparison structure from the fact that datasets can exist without labels?
 
 ## Sources and Further Reading
 

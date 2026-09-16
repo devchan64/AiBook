@@ -1,7 +1,7 @@
 # P3-8.3 In What Order and With What Wording Should Conservative Interpretation Sentences Be Written
 
 > Section ID: `P3-8.3`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 A conservative interpretation sentence should separate `what changed`, `how strongly it can be stated`, and `what a person should do next` inside one sentence. The key question here is what order and wording should be used after reading a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) so that you avoid both exaggeration and a sentence so weak that it leaves no information. More important than inventing a new boundary is deciding how to place already confirmed [comparison results](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) and [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) in the sentence.
 
@@ -61,13 +61,20 @@ If the previous section's levels of `record`, `review candidate`, and `strong wa
 
 This table does not mean `every state always gets this label`. Its role is to keep the sentence from sliding into excessively strong confirmatory wording by fixing default endings in advance.
 
-## A Small Diagram
+## Connecting Observations, Comparisons, and Limits in an Interpretation {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-3-mermaid-01-en.mmd"
 ```
 
 This diagram shows that the order of sentence construction is itself the key point. If you state the comparison result first, then add the strength condition, and close with the next action, both exaggeration and empty vagueness are reduced. The issue here is not `how to write weak sentences`, but `how to place a sentence in the order directly supported by the evidence`. When that order is fixed, report sentences keep the comparison basis and avoid dragging in a cause judgment that does not yet exist.
+
+Few samples do not automatically mean action should be delayed. Even with low confidence that a change persists, an observation exceeding a separate safety limit can be checked under the established operating procedure. Record `insufficient evidence of repeated change` and `immediate checking required` in separate fields.
+
+## Checklist
+
+- Did you write a review statement in the order of observations, uncertainty, and next checks?
+- Did you check that describing a small sample does not automatically postpone necessary action?
 
 ## Sources and References
 

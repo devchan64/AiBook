@@ -1,7 +1,7 @@
 # P3-5.1 How Do We Turn Raw Logs into Comparable Tables
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 In actual column design, the raw log should keep the event location through fields such as `event_id`, `timestamp`, `progress_bin`, and sensor values. The summary table should contain columns for comparing one operation, such as `event_id`, `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean`. The aggregation table needs columns such as `window`, `event_count`, and `baseline_gap` to show that several operations were grouped again. Even if all three tables came from the same source, their first columns and derived columns must point to different representation levels so comparison standards and feature candidates do not mix later.
 
@@ -54,7 +54,7 @@ The next example shows how a raw log leads first to an action-level summary tabl
 
 Problem situation: check in one view how a raw log becomes an `action-level summary table` and then a `recent/baseline aggregate table`.
 
-Input: the [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){: target="_blank" rel="noopener noreferrer" } file. One row is a `flow` record measured in one progress segment of one action, and `window` marks whether the event belongs to the baseline or recent range.
+Input: [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){ .csv-preview }. Each row records `flow` measured in one progress segment of an action; `window` indicates the baseline or recent period.
 
 Expected output: an output in which the three tables `raw`, `summary`, and `aggregate` have different row meanings and different comparison roles
 
@@ -182,12 +182,21 @@ The same flow can be judged more briefly like this.
 
 The importance of this table does not mean `once we make one good table, we are done`. It means that depending on the question, the table we have to move down to or up to changes.
 
+### The Mean Across Actions Differs from the Mean Across All Measurement Points
+
+Suppose a fictional log contains two measurements of 10 for A and six measurements of 20 for B. Giving each action equal weight produces `(10+20)/2 = 15`. Giving each of the eight measurements equal weight produces `(2×10+6×20)/8 = 17.5`. In the second calculation, B receives three times A's weight. The calculation depends on whether the question concerns the state per action or the level per measurement point. With irregular measurement intervals, a mean over measurement points cannot automatically be interpreted as a mean over time either.
+
 Another important point is that the three tables are not in competition. Making a summary table does not make the raw log unnecessary. Making an aggregate table does not make the action-level table useless. On the contrary, if an unusual change appears in the aggregate table, we have to move back down to the summary table and the raw log to check it. The more comparison-oriented representations we add, the more important it becomes to re-check the raw time series too.
 
 So `raw log -> summary table -> aggregate table` is not a simple order of shrinking. It is a continuous design that rewrites the same time series at the record level, the sample level, and the state level. The key point is not just that more tables appear one by one, but that for some questions raw records are the more direct evidence, for other questions sample summaries are, and for still other questions state aggregates are.
 
+## Checklist
+
+- Did you calculate both the mean of action means and the mean across all time points?
+- Can you explain why each action receives different weights in those two means?
+
 ## Sources and Further Reading
 
 - W3C, `PROV-Overview`. Because the provenance framework explains that processing steps, reproducibility, versioning, and derivation should be representable, it provides a general basis for keeping separate records of how raw logs were transformed into summary tables and aggregate tables. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`: `example` and `labeled example`. Because an example assumes a sample-level structure where features and labels attach, it reinforces the need to distinguish raw rows from event-summary rows and build a sample-level table. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. The rule for grouping time-point records into action tables is this section’s own example. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
 - U.S. Bureau of Labor Statistics, `Base period`. Because it explains a reference period as the basis for comparing other periods, it offers a general basis for needing a separate representation level such as an aggregate table when comparing recent state against baseline state. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

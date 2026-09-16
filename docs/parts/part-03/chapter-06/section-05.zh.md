@@ -1,7 +1,7 @@
 # P3-6.5 当特征的单位和尺度不同的时候，应该怎样一起读取和保留
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 做出几个[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)之后，很容易又重新陷入一种混乱。`值大的那一列是不是更重要？` `秒和压力单位，可以放在同一张表里吗？` `平均值 200 的列和 0.2 的列，能不能就这样并排比较？` 这里首先需要的，不是去看数字大小，而是先建立一种感觉：要区分单位(unit)、范围(range)、变化幅度、以及相对[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)的变化。
 
@@ -70,14 +70,16 @@
 | 这一列展示的结构 | 水平、方向、波动、持续时间 |
 | 比较基准 | 是看绝对值本身，还是看相对基准线的差值 |
 
+下表假定压力单位为 kPa，流量单位为 L/min。标准差与原始值使用相同单位；每秒的斜率则使用原始值的单位除以秒。
+
 例如，可以这样写。
 
-| 列名 | 单位/含义 | 结构角色 | 比较方式 |
+| 列名 | 单位或含义 | 结构作用 | 比较方式 |
 | --- | --- | --- | --- |
-| `duration_seconds` | 秒 | 持续时间 | 是否比平时更长 |
-| `pressure_mean` | 压力水平 | 平均水平 | 和基准线相比差异大吗 |
-| `flow_std` | 波动性 | 摆动程度 | 是否比平时更抖 |
-| `late_drop_rate` | 变化率 | 后段崩塌速度 | 后段斜率是否变得更陡 |
+| `duration_seconds` | 秒 | 持续时间 | 是否比平时更长？ |
+| `pressure_mean` | kPa | 平均水平 | 与基准线的差异是否很大？ |
+| `flow_std` | L/min | 波动 | 是否比平时波动更大？ |
+| `late_drop_rate` | L/min/s | 后段流量变化速度 | 后段斜率是否更陡？ |
 
 有了这张表，`这是什么数字` 和 `该怎样读它` 就能同时被固定下来。
 
@@ -116,7 +118,6 @@
 3. 知道比起数字大小本身，`同一列相对基准线的变化` 可能更重要。
 
 因为特征表里的数字并不都在表达同一种大小，所以应先写清单位和角色，再通过同一列相对基准线的变化去读取。这一节与其说是在介绍缩放公式，不如说更接近于：在一张工作表里，应该如何按角色读取不同测量尺度的数字。
-
 
 同样的问题也会出现在模型输入里。下面的例子使用同一个 k-NN 模型，但比较两种读法：不做尺度调整直接读取，以及用 `StandardScaler` 把各列调整到可比较尺度后再读取。
 
@@ -175,16 +176,25 @@ with scaling prediction: 1
 
 尺度调整前，因为 A 的 `duration_seconds=44` 与查询样本相同，所以它会被选成最近案例。但把压力变化和流量波动变化也调整到可比较尺度后，B 会变成更近的案例。这个输出不是在说 `数值更大的列更重要`，而是在说明：在距离模型里，范围更大的列可能支配计算。所以即使还没有细学模型公式，Part 3 也应该先写下每个特征的单位、范围和比较方式。
 
+本例的标准化使用训练集的均值和标准差改变每一列的刻度。它既不能证明所有特征同样重要，也不保证预测效果提高。对新样本应直接应用训练集上确定的同一变换，而不是把新样本混入后重新计算均值和标准差。
+
 因此，特征表不该被理解成“数值大小竞赛表”，而应理解成一种结构：不同测量轴被并排放在一起，并按照各自角色来读取。
 
-## 用一个小图来看
+## 确认单位与尺度后比较特征 {#_6}
 
 这一节抓住的是：即使不同单位、不同尺度的值放在同一张表里，也应该按列角色去读，并和该列自己的基准线比较。比起数值大小，首先要问的是 `这列到底在测什么。`
 
 --8<-- "assets/part-03/chapter-06/p3-6-5-mermaid-01-zh.mmd"
+
+## 检查清单
+
+- 你是否写明了每个特征的物理单位和计算分母？
+- 你能否解释为什么标准化参数必须只从训练数据计算？
 
 ## 来源与参考资料
 
 - Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此支持这样一点：比起数字本身大不大，更重要的是它作为输入变量到底在测什么。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它解释了把原始数据改造成更适合学习的形式，因此强化了这一节的说明：持续时间、水平、波动性、变化率这样承担不同角色的特征，应当分开读取。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 它提供了一个一般概念：比较之所以成立，是因为把同一个项目与参考点并排放在一起。因此，它可以支持这里的说明：与其直接把不同特征互相比大小，不如把每一列读成相对基准线的变化。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }。用于确认仅从训练数据估计预处理参数的原则。确认日期：2026-09-15。

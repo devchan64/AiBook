@@ -1,7 +1,7 @@
 # P3-2.3 第一次拿到新表时，应该先写下什么
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 第一次拿到一张新表时，很多人很容易立刻想到均值、分布、模型候选。但在这之前更应该先写下来的，是 `这张表的一行表示什么`、`什么能被归到一起`、`还有什么仍然缺着`。只有把这三点先整理出来，才能分清：现在手上的，到底已经是可以直接比较的样本表，还是仍然需要重新归组的原始记录。与其一看到新表就先决定它是不是 `训练数据集`，不如先把这三点写下来，这对解释会更有帮助。这样一来，后面的样本设计和数据集重设计也会少很多抽象感。
 
@@ -51,7 +51,7 @@
 
 也就是说，第一阶段更接近 `确认身份`，而不是 `开始计算`。
 
-## 用一个小图来看
+## 从行含义到可比性的检查 {#_3}
 
 第一次读一张新表时，更安全的顺序是：`确认行的含义 -> 确认归组标准 -> 检查格式/质量 -> 判断是否需要重新归组`。
 
@@ -84,11 +84,11 @@
 - 格式一致性：先看 `event_id` 是否能用一致格式把同一个动作归在一起，`elapsed_seconds` 是否真能读出时间顺序。
 - 第一次质量检查：检查有没有某些 `event_id` 的行数异常地多或少，时间是否倒退或缺段，以及在比较前是否已有需要单独标记的缺失值。
 
-## 小型代码示例
+## 用各列值分布检查读表备忘录 {#_5}
 
 问题情境：第一次拿到一张新日志表时，检查它能不能直接被读成样本比较表。
 
-输入(input)：保存在 [p3_2_3_first_table_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_3_first_table_log.csv) 里的原始日志表，以及把事件看作可比较候选所需的最少行数 `minimum_rows_per_event`
+输入(input)：保存在 [p3_2_3_first_table_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_3_first_table_log.csv){ .csv-preview } 里的原始日志表，以及把事件看作可比较候选所需的最少行数 `minimum_rows_per_event`
 
 期望输出(output)：即使是同一张表，只要先检查 `行的含义`、`归组标准`、`时间/顺序列`，就会显露出它还不是能直接比较的表。改变 `minimum_rows_per_event` 后，哪些事件拥有足够记录、能作为候选也会跟着改变。
 
@@ -120,7 +120,12 @@ for row in rows:
 print("1) quick structural check")
 print(f"row_count: {len(rows)}")
 print(f"event_id_count: {len(events)}")
-print("has_time_order: yes")
+has_time_order = all(
+    all(a["elapsed_seconds"] < b["elapsed_seconds"]
+        for a, b in zip(event_rows, event_rows[1:]))
+    for event_rows in events.values()
+)
+print(f"has_time_order: {'yes' if has_time_order else 'no'}")
 print()
 
 print("2) repeated rows per event")
@@ -185,6 +190,11 @@ C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
 如果再从格式与质量的视角重读同样结果，会更清楚。`event_id` 会重复，说明从格式一致性角度看，`确实存在一个可以把一条样本归组起来的键`。而 `rows per event` 彼此不同，则说明从第一次质量检查角度看，`不同样本的记录长度并不一样`。这种差别必须在早期就写下来，这样以后比较均值时，我们才能同时读到 `为什么有些样本是建立在更少证据之上的`。
 
 之所以要先写下格式一致性和第一次质量检查，是为了避免一拿到新表就先贴上均值或模型名字，而是先看清楚 `现在手上的行到底是什么`，以及 `还有什么在阻碍比较`。只有在键格式、时间顺序、重复长度、缺失值和孤立行等问题先被整理出来之后，后面重新归组样本、构造可比较列时，才能用同一套稳定标准去读这张表。
+
+## 检查清单
+
+- 你是否确认了 CSV 一行的含义及每个 event_id 的记录数量？
+- 你是否区分了存在时间列与记录实际有序，并解释了改变最低记录数的结果？
 
 ## 来源与参考资料
 

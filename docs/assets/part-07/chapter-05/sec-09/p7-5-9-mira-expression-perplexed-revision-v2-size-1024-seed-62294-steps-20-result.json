@@ -1,0 +1,67 @@
+{
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png",
+    "sha256": "410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539"
+  },
+  "size": [
+    1024,
+    1024
+  ],
+  "steps": 20,
+  "seed": 62294,
+  "true_cfg_scale": 4.0,
+  "negative_prompt": " ",
+  "independent_from_original": true,
+  "extra_lora": null,
+  "expression_spec": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-spec.json",
+    "sha256": "5e528ae06367253044e524fe22f5366be924911661fb1bdbdbc666019fbafd2d"
+  },
+  "status": "generated",
+  "experiment_id": "p7-5-9-mira-expressions",
+  "expression": "perplexed",
+  "design": {
+    "id": "perplexed",
+    "label_ko": "난처함",
+    "family": "self_conscious",
+    "au_hints": [
+      1,
+      24
+    ],
+    "movement_description_ko": "곤란한 부탁을 받고 대답을 망설이는 순간. 눈썹 안쪽만 조금 올리고 입술을 가볍게 누르며 얼굴은 정면으로 유지하고 눈동자만 살짝 옆으로 이동",
+    "movement_prompt": "hesitating to answer an awkward request, inner brow corners slightly raised, lips lightly pressed together, eyes glancing slightly aside",
+    "review_question": "화난 얼굴이나 수줍은 미소가 아니라 곤란해서 대답을 망설이는 모습인가? 얼굴은 정면으로 유지되고 시선만 살짝 옆으로 이동하며, 홍조나 땀 없이 눈썹과 입술의 움직임으로 표현되는가?",
+    "sources": [
+      "User-defined awkward hesitation and FACS-informed design hypothesis, 2026-09-13; embarrassment research is a movement reference, not an equivalent emotion label",
+      "https://facsref.ucsd.edu/",
+      "https://melindaozel.com/facs-cheat-sheet/",
+      "https://greatergood.berkeley.edu/dacherkeltner/docs/keltner.embarrassment.jpsp.1995.pdf"
+    ]
+  },
+  "prompt": "Edit only the facial expression of the woman in Picture 1 to show hesitating to answer an awkward request, inner brow corners slightly raised, lips lightly pressed together, eyes glancing slightly aside. Keep the same person, facial proportions, iris color, hair color and hairstyle. Keep her head facing straight forward, the same framing, shoulders, background, lighting and illustration style. Do not add text or objects.",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "attention_slicing": null,
+  "model_load_seconds": 2.06,
+  "elapsed_seconds": 405.56,
+  "peak_allocated_bytes": 4458008064,
+  "peak_reserved_bytes": 5003804672,
+  "source_code_sha256": "41b73b4689d5ebe7bf372152913cbf71ed21d5a298e5b53a816c71b48cb633af",
+  "helper_code_sha256": "647496bb123e379689d007f144e7f8d3752d3bd304efed5ecd124b335bd70d01",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-09/p7-5-9-mira-expression-perplexed-revision-v2-size-1024-seed-62294-steps-20.png",
+    "sha256": "31a506125e75d57caff62f5af125aa6ab36e9f1cc85a19801bad49fafa2c8248"
+  }
+}

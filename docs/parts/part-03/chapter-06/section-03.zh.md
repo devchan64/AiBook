@@ -1,7 +1,7 @@
 # P3-6.3 人工设计的特征，与模型学习到的表示，应该怎样区分
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.25`
+> Version: `v2026.09.15`
 
 当我们把 [特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature) 和 [中间表示(intermediate representation)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation) 放在一起看时，就会出现一个重要问题：`人来决定输入结构`，和 `模型在这个输入里学习表示`，到底应该在哪里分开来读。如果这个区别变得模糊，Part 3 的特征设计就容易看起来像过时的预处理；反过来，也容易误以为模型会替我们把问题结构也一起决定掉。关键在于，它们并不是竞争关系。Part 3 里人设计出来的特征和中间表示，是先决定 `应该把问题读成什么输入结构`；而模型学到的表示，则是在这个输入结构里进一步学习 `哪些模式更能把有用差异区分出来`。
 
@@ -54,6 +54,8 @@
 
 所以，特征和中间表示决定的是 `输入要被看成什么`，而表示学习学习的是 `在这个输入里面什么最重要`。
 
+本节的`中间表示`指人工定义的区段或符号表示。在其他语境中，神经网络内部学到的表示也会被称为中间表示。另外，并不是所有模型都会学习新的内部表示；有些模型只学习人工特征与结果之间的关系。手工特征和表示学习并不是每个任务都必须依次经过的两个阶段。
+
 ## 两种常见误解
 
 第一种误解是：`既然是深度学习，那就不需要特征设计。` 深度学习确实可以减少人手工设计每一个特征的必要，但它不会替我们决定样本边界和输入范围。一整次动作算一条样本，还是一个近期区间算一条样本，整条时间序列要不要切开，这些决定仍然是人的责任。
@@ -77,11 +79,22 @@
 
 看清这个顺序之后，就会明白：特征设计不是深度学习之前过时的准备动作，而是不管用什么学习方法都需要先完成的输入定义阶段。所以，这一节的结论也不是 `人工特征 vs 深度学习` 的对立，而是 [输入说明(input specification)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input) 和 [表示学习(representation learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-representation-learning) 究竟从哪里分开。特征设计不该被读成过时的手工劳动，而应被读成：它是先把后续学习阶段所依赖的输入结构说明清楚的工作。
 
-## 用一个小图来看
+## 手工特征与学习表示的关系 {#_5}
 
 这一节的边界很简单。人先用特征和中间表示把 `输入` 设计出来，模型收到这个输入之后，才开始学习内部表示。它们不是竞争关系，而是前后相接的阶段。
 
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
+<div class="aibook-diagram-canvas" markdown="1">
+
 --8<-- "assets/part-03/chapter-06/p3-6-3-mermaid-01-zh.mmd"
+
+</div>
+</div>
+
+## 检查清单
+
+- 你能否解释人工汇总规则与模型学到的表示之间的区别？
+- 你是否列出了即使使用表示学习，仍需由人确定的输入边界？
 
 ## 来源与参考资料
 

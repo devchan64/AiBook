@@ -1,7 +1,7 @@
 # P3-5.4 输入窗口(window)应该从哪里切，长度又该如何对齐
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 这个判断最好留下为窗口设计 备注，而不只是单独说明。例如 `window_start_rule`、`window_end_rule`、`alignment_rule`、`target_length`、`padding_policy` 这样的列或文档 备注，可以追踪同一源时间序列为什么得到这个输入长度。特别是按进度率对齐时，实际时间差可能消失，所以也要留下 `duration_seconds` 这样的原始长度信息，之后才能确认丢掉了什么、保留了什么。
 
@@ -62,14 +62,18 @@
 
 所以，长度对齐方式不能只按模型方便来定。例如，如果实际时间差本身很重要，那么只保留进度视角时，就可能丢掉关键的信息。反过来，如果问题的重点是 `动作是否在后段崩掉`，那么即使总时长不同，按进度切区间也可能更合适。
 
+等间隔重采样统一的是测量间隔。把 40 秒与 80 秒的记录都改为每秒一个点，并不会使点数相同。如果需要固定点数，还要另定规则：截取共同的时间范围、统一进程区间数量，或填充较短输入的空位。如果用 0 填充，也要保留标记，以便与实际测得的 0 区分。
+
+在动作结束前进行预测时，如果最终进度百分比或结束前区段的计算依赖实际结束时间，就还不能使用这些信息。应区分用于比较已完成动作的窗口和用于进行中预测的窗口。
+
 ## 用一个场景重新看
 
 假设动作 A 持续 40 秒，动作 B 持续 80 秒。两者都表现出“前段稳定、后段下降”的结构，但如果按绝对时间去看，下降出现的位置会显得不一样。
 
-| 动作 | 按绝对时间看到的样子 | 按进度重新读出来的样子 |
+| 动作 | 按绝对时间看到的现象 | 按进程比例重新理解 |
 | --- | --- | --- |
-| A | 30 秒之后急剧下降 | 在最后 25% 区间里下降 |
-| B | 65 秒之后急剧下降 | 在最后 25% 区间里下降 |
+| A | 30 秒后急降 | 在最后 25% 区段下降 |
+| B | 60 秒后急降 | 在最后 25% 区段下降 |
 
 如果问题是 `它在第几秒发生急跌？`，那按绝对时间对齐更重要。反过来，如果问题是 `动作最后阶段是否出现崩塌结构？`，按进度对齐就更自然。也就是说，窗口和对齐标准不是由数据自己决定的，而是由问题决定的。
 
@@ -104,8 +108,13 @@
 
 输入窗口(window)不是因为模型要求才出现的格式，而是“什么应被看作一条可比较输入”的数据建模结果。这样整理之后，即使后面继续读取更长的输入结构，也会先回头看 `为什么输入窗口被切成这样`。同时也更容易看出来：汇总特征本身，也已经是建立在某个窗口和对齐标准之上的结果。
 
+## 检查清单
+
+- 你是否算出了 80 秒动作最后 25% 的起点？
+- 你能否解释为何不能在动作结束前预测时使用最终动作长度？
+
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 是特征和标签一起定义的单位，所以它支持这一节的核心：在把原始时间序列叫做输入之前，应该先固定一条输入的起点、终点和长度标准。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 窗口起点、终点与长度规则是针对本节时间序列案例作出的设计判断。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
 - W3C, `PROV-Overview`. provenance framework 说明对象识别、派生关系和可复现性应得到支持，因此它强化了一个更高层的框架：输入窗口和对齐标准背后的规则，也应当被可复现地记录下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 它提供了“用于比较的参考时段”这一一般概念，因此支持这一节的判断：究竟由绝对时间还是由进度来充当比较标准，应该先由问题来决定。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

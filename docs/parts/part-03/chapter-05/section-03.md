@@ -1,7 +1,7 @@
 # P3-5.3 원시 시계열이 있어도 왜 바로 학습 입력이라고 말할 수 없는가
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 원시 시계열을 보면 많은 독자가 이렇게 생각합니다. `값도 많고 순서도 있으니, 이걸 그냥 학습 입력으로 넘기면 되지 않을까?` 하지만 여기서 한 번 멈춰야 합니다. 원시 시계열이 있다는 사실만으로 아직 바로 [학습 입력(input)](../../../reference/concept-glossary-parts/05-mieum.md#model-input)이 준비되었다고 말할 수는 없기 때문입니다.
 
@@ -40,9 +40,9 @@
 | 먼저 정해야 하는 것 | 왜 필요한가 |
 | --- | --- |
 | 샘플 경계 | 한 입력이 어디서 시작하고 끝나는지 정해야 하기 때문 |
-| 구간 자르기 방식 | 초반/중반/후반처럼 비교 기준이 있어야 하기 때문 |
-| 길이 맞추기 방식 | 입력 길이가 제각각이면 바로 비교하기 어렵기 때문 |
-| 목표 라벨 후보(target candidate) | 무엇을 맞히고 싶은지 정해야 하기 때문 |
+| 구간 자르기 여부와 방식 | 전체 순서를 유지할지, 구간별 요약을 비교할지 정하기 때문 |
+| 길이 처리 방식 | 가변 길이를 유지할지, 자르거나 채울지 입력 형식에 맞게 정하기 때문 |
+| 학습 목표 | 지도학습이면 라벨을, 다음 값 예측이면 입력과 미래 값의 경계를 정하기 때문 |
 
 예를 들어 같은 원시 시계열이라도 아래처럼 전혀 다른 입력 구조가 될 수 있습니다.
 
@@ -73,15 +73,15 @@
 예를 들어 동작 중 300개의 시점 기록이 있다고 해 보겠습니다.
 
 1. Part 3에서는 먼저 이 300개 점이 `한 동작 1회`를 이루는지부터 정합니다.
-2. 초반, 중반, 후반 구간을 나눠 요약 표를 만듭니다.
+2. 동작 전체의 순서를 유지할지, 초반·중반·후반 요약으로 줄일지 선택합니다.
 3. 필요하면 `UP, FLAT, DOWN` 같은 중간 표현으로 구조를 더 남깁니다.
-4. 그 다음에야 이 동작 1회를 하나의 입력으로 볼지, 여러 구간 시퀀스로 볼지, 최근 구간 집계로 볼지를 고를 수 있습니다.
+4. 선택한 표현에 맞춰 시간 순서, 길이 처리, 결측 규칙을 기록합니다. 요약 표를 만들어야만 원시 시계열을 입력으로 쓸 수 있는 것은 아닙니다.
 
 즉 `원시 시계열이 있다 -> 바로 학습 입력이다`가 아니라, `원시 시계열이 있다 -> 어떤 입력 구조로 바꿀지 결정한다`가 올바른 순서입니다.
 
-## 작은 도식으로 보기
+## 샘플 경계와 학습 목표에서 입력 구조로 {#_5}
 
-이 절의 핵심 순서는 `원시 시계열이 있다`에서 끝나지 않는다는 점입니다. 샘플 경계, 구간/길이 규칙, 목표 라벨을 먼저 정한 뒤에야 비로소 `입력 구조`를 고를 수 있습니다.
+이 절의 핵심 순서는 `원시 시계열이 있다`에서 끝나지 않는다는 점입니다. 샘플 경계, 구간/길이 규칙, 학습 목표를 정해야 비로소 `입력 구조`를 고를 수 있습니다.
 
 --8<-- "assets/part-03/chapter-05/p3-5-3-mermaid-01-ko.mmd"
 
@@ -89,13 +89,13 @@
 
 ## 체크리스트
 
-- 이 절의 질문인 `원시 시계열이 있어도 왜 바로 학습 입력이라고 말할 수 없는가`에 대해 한 문장으로 답할 수 있는가?
-- `원시 시계열이 바로 학습 입력 구조가 될 수 없는 이유를 정리해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
-- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
-- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+- 원시 시계열을 유지할 때도 필요한 샘플 경계·길이·결측 규칙을 썼는가?
+- 수작업 요약이 선택 사항인 이유와 학습 목표가 필요한 이유를 구분했는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 함께 정의된 구조이므로, 원시 시계열을 곧바로 입력이라고 부르기 전에 한 샘플의 경계와 결과 열을 먼저 정해야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 샘플 경계와 학습 목표를 정하는 본문 설명의 용어 기준이며, 모든 입력에 정답 라벨이 필요하다는 뜻은 아닙니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
 - Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 입력 구조와 목표 구조를 먼저 정하지 않으면 원시 시계열 일부를 잘못된 입력으로 그대로 넘길 위험이 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - W3C, `PROV-Overview`. provenance framework가 identifying an object, derivation, reproducibility를 지원해야 한다고 정리하므로, 입력 길이와 구간 규칙도 어떤 구조로 만들어졌는지 재현 가능하게 남겨야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+
+- [Google Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" }. 지도학습 라벨과 일반 입력 구조의 구분를 확인했다. 확인일: 2026-09-15.

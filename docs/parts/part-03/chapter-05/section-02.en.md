@@ -1,7 +1,7 @@
 # P3-5.2 How Does a Summary Table Preserve Patterns Beyond the Average
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.31`
+> Version: `v2026.09.15`
 
 Therefore, place pattern-tracing columns next to the overall mean in the summary table, such as `early_mean`, `mid_mean`, `late_mean`, `rise_slope`, `drop_slope`, and `peak_segment`. These columns are not decorative notes around the mean; they are evidence for later comparison sentences such as `the means are the same, but the late drop differs`. Also record which pattern rule you used in `pattern_note` or a derived-rule memo, so the same raw log can be summarized again with the same judgment.
 
@@ -56,7 +56,7 @@ The small example below checks in numbers a case where the averages are the same
 
 Problem situation: check that even when the overall average looks the same, a different segment-by-segment flow should still be read as a different operating structure.
 
-Input: the [`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){: target="_blank" rel="noopener noreferrer" } file. One row is one action-summary row, and `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean` are the three segment averages. The minimum difference to treat as a pattern change is controlled by `pattern_change_threshold`.
+Input: [`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){ .csv-preview }. Each row summarizes one action; `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean` are the three segment means. Change `pattern_change_threshold` to set the minimum difference treated as a pattern change.
 
 Expected output: output in which segment differences and `pattern_note` differ even under the same `overall_mean`. If `pattern_change_threshold` changes, the amount of difference treated as a pattern also changes.
 
@@ -164,6 +164,8 @@ E07: mid_minus_early=1.20 late_minus_mid=-0.30 -> mid peak then drop
 E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 ```
 
+The calculation below gives the three segments equal weight. It matches the overall mean under the assumption that segment durations and measurement counts are equal. Simply adding the means of unequal-length segments and dividing by three can differ from the time average of the whole action.
+
 The `overall_mean` of every action is 2.4. But stage 2 still separates the same average into 12 `flat across segments` cases, 12 `mid peak then drop` cases, and 12 `late decline after high early/mid` cases. The value to manipulate is `pattern_change_threshold`. If the value is lowered, smaller segment differences are treated as pattern changes; if the value is raised, gentler differences may remain classified as flat. The `pattern_note` in stage 3 is the result of folding this difference back into one sentence. So if we look only at the average, the rows appear like the same case, but if we look at segment averages and segment differences together, it becomes clear that they are different action structures.
 
 This example should also be read in the same order.
@@ -176,13 +178,18 @@ For example, A can be summarized as `an action that is high in the middle and dr
 
 This difference becomes just as important later in baseline comparison. Even if the recent segment average looks the same as usual, the state may already have begun to change if the late-phase decline pattern has become stronger. So the ability to read `same average, different pattern` is not just a trick for looking at one extra feature. It is a preparation step for later reading `has the recent structure changed from the usual one?`
 
-## A Small Diagram
+## From Overall Means to Segment Patterns {#a-small-diagram}
 
 The reading order in this section is simple. First confirm `is the overall average the same?` Then follow `segment means` and `slope/timing`, and what remains at the end is `pattern interpretation`. The average is only the starting point; structure interpretation settles at the next level.
 
 --8<-- "assets/part-03/chapter-05/p3-5-2-mermaid-01-en.mmd"
 
 If we lump two actions into the same category just because the average is the same, we may miss cases that actually have a much steeper late decline. That is why the summary table should reveal `even when the average is the same, the structure can differ`. This idea naturally continues into later feature design, segment representation, and baseline comparison.
+
+## Checklist
+
+- Did you construct cases with equal means but different segment orders?
+- Can you explain how to calculate the overall mean when segment lengths differ?
 
 ## Sources and Further Reading
 
