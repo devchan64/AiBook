@@ -83,6 +83,8 @@
     }
   }, true);
 
+  document.addEventListener("aibook:content-loaded", markExpandableImages);
+
   if (typeof document$ !== "undefined" && document$.subscribe) {
     document$.subscribe(markExpandableImages);
   } else if (document.readyState === "loading") {

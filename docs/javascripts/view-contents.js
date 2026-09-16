@@ -221,6 +221,14 @@
     return wrapper;
   }
 
+  function fileTypeTag(language) {
+    const tag = document.createElement("span");
+    tag.className = "aibook-view-contents__file-type";
+    const names = { python: "Python", json: "JSON", csv: "CSV", markdown: "Markdown" };
+    tag.textContent = names[language] || language;
+    return tag;
+  }
+
   function attachViewContents(link, language) {
     if (link.dataset.viewContentsReady === "true") {
       return;
@@ -232,9 +240,11 @@
     const button = document.createElement("button");
     button.className = "aibook-view-contents__toggle";
     button.type = "button";
+    button.append(fileTypeTag(language), document.createTextNode(" "));
     while (link.firstChild) button.appendChild(link.firstChild);
     const label = document.createElement("span");
-    label.textContent = " · 내용보기";
+    label.className = "aibook-view-contents__action-tag";
+    label.textContent = "내용보기";
     button.appendChild(label);
     button.setAttribute("aria-expanded", "false");
 
@@ -292,7 +302,7 @@
     button.addEventListener("click", async () => {
       const willOpen = panel.hidden;
       panel.hidden = !willOpen;
-      label.textContent = willOpen ? " · 내용닫기" : " · 내용보기";
+      label.textContent = willOpen ? "내용닫기" : "내용보기";
       button.setAttribute("aria-expanded", String(willOpen));
 
       if (!willOpen || button.dataset.loaded === "true" || loading) {
@@ -351,11 +361,108 @@
     }
   }
 
+  function attachMarkdownContents(link) {
+    if (link.dataset.viewContentsReady === "true") return;
+    link.dataset.viewContentsReady = "true";
+    const sourceUrl = link.href;
+    const container = link.closest("p, li, td, th, blockquote");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "aibook-view-contents__toggle";
+    const title = link.textContent;
+    const label = document.createElement("span");
+    label.className = "aibook-view-contents__action-tag";
+    label.textContent = "내용보기";
+    button.append(fileTypeTag("markdown"), document.createTextNode(` ${title} `), label);
+    button.setAttribute("aria-expanded", "false");
+    const panel = document.createElement("div");
+    panel.className = "aibook-view-contents__panel";
+    panel.id = `aibook-view-contents-${++contentsId}`;
+    panel.hidden = true;
+    button.setAttribute("aria-controls", panel.id);
+    const toolbar = document.createElement("div");
+    toolbar.className = "aibook-view-contents__markdown-tools";
+    const original = document.createElement("a");
+    original.href = sourceUrl;
+    original.textContent = "문서 열기";
+    const refresh = document.createElement("button");
+    refresh.type = "button";
+    refresh.textContent = "새로고침";
+    toolbar.append(original, refresh);
+    const body = document.createElement("div");
+    body.className = "aibook-view-contents__markdown";
+    body.setAttribute("role", "region");
+    body.setAttribute("aria-label", title);
+    body.tabIndex = 0;
+    panel.append(toolbar, body);
+    let loaded = false;
+    let loading = false;
+
+    async function load() {
+      if (loading) return;
+      loading = true;
+      refresh.disabled = true;
+      panel.setAttribute("aria-busy", "true");
+      body.textContent = "문서 내용을 불러오는 중입니다.";
+      try {
+        const response = await fetch(sourceUrl, { cache: "no-cache" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (new URL(response.url).origin !== location.origin) throw new Error("외부 문서는 미리볼 수 없습니다");
+        const parsed = new DOMParser().parseFromString(await response.text(), "text/html");
+        const article = parsed.querySelector(".md-content__inner");
+        if (!article) throw new Error("문서 본문을 찾지 못했습니다");
+        article.querySelectorAll("script, style, link, iframe, object, embed, form, .md-content__button, .headerlink").forEach((node) => node.remove());
+        article.querySelectorAll("*").forEach((node) => {
+          for (const attr of [...node.attributes]) {
+            if (/^on/i.test(attr.name) || ["srcdoc", "srcset", "style"].includes(attr.name)) node.removeAttribute(attr.name);
+          }
+          if (node.id) node.id = `${panel.id}-${node.id}`;
+          for (const attr of ["href", "src"]) {
+            if (!node.hasAttribute(attr)) continue;
+            const value = node.getAttribute(attr);
+            if (attr === "href" && value.startsWith("#")) {
+              node.setAttribute(attr, `#${panel.id}-${value.slice(1)}`);
+              continue;
+            }
+            const url = new URL(value, response.url);
+            if (!["http:", "https:"].includes(url.protocol)) node.removeAttribute(attr);
+            else node.setAttribute(attr, url.href);
+          }
+        });
+        body.replaceChildren(...article.childNodes);
+        loaded = true;
+        document.dispatchEvent(new Event("aibook:content-loaded"));
+      } catch (error) {
+        loaded = false;
+        body.textContent = `문서를 불러오지 못했습니다: ${error.message}. 새로고침으로 재시도할 수 있습니다.`;
+      } finally {
+        loading = false;
+        refresh.disabled = false;
+        panel.setAttribute("aria-busy", "false");
+      }
+    }
+    refresh.addEventListener("click", load);
+    button.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+      label.textContent = panel.hidden ? "내용보기" : "내용닫기";
+      button.setAttribute("aria-expanded", String(!panel.hidden));
+      if (!panel.hidden && !loaded) load();
+    });
+    link.replaceWith(button);
+    if (container?.tagName === "P") container.insertAdjacentElement("afterend", panel);
+    else if (container) container.appendChild(panel);
+    else button.insertAdjacentElement("afterend", panel);
+  }
+
   function initViewContents() {
     document.querySelectorAll(".md-content a[href]").forEach((link) => {
       let url;
       try { url = new URL(link.href, document.baseURI); } catch (_) { return; }
       if (!/^https?:$/.test(url.protocol)) return;
+      if (link.classList.contains("aibook-markdown-preview") && url.origin === location.origin) {
+        attachMarkdownContents(link);
+        return;
+      }
       const extension = url.pathname.split(".").pop().toLowerCase();
       if (["csv", "py", "json"].includes(extension)) {
         attachViewContents(link, extension === "csv" ? "csv" : link.dataset.language || LANGUAGE_BY_EXTENSION[extension] || "text");

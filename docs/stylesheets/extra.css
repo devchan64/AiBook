@@ -564,3 +564,41 @@
   outline: 2px solid var(--md-accent-fg-color);
   outline-offset: 2px;
 }
+
+.md-typeset .aibook-view-contents__markdown-tools {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .aibook-view-contents__markdown-tools button {
+  color: var(--md-typeset-a-color);
+  cursor: pointer;
+}
+
+.md-typeset .aibook-view-contents__markdown {
+  max-height: 75vh;
+  overflow: auto;
+  padding: 0.75rem;
+}
+
+.md-typeset .aibook-view-contents__file-type,
+.md-typeset .aibook-view-contents__action-tag {
+  display: inline-block;
+  margin-inline-end: 0.5em;
+  padding: 0.05em 0.45em;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 0.25rem;
+  background: var(--md-code-bg-color);
+  color: var(--md-code-fg-color);
+  font-size: 0.75em;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.md-typeset .aibook-view-contents__action-tag {
+  margin-inline: 0.5em 0;
+}
