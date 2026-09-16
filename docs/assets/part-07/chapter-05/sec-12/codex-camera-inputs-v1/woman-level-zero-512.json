@@ -1,0 +1,30 @@
+{
+  "section_id": "P7-5.12",
+  "generator": "Codex built-in image_gen",
+  "id": "woman-level-zero",
+  "subject": "woman",
+  "vertical": "level",
+  "yaw": 0,
+  "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+  "status": "generated",
+  "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-10c0cf7d-f261-4cbb-987c-063744c8716e.png",
+  "original_size": [
+    1254,
+    1254
+  ],
+  "image": "woman-level-zero-512.png",
+  "sha256": "317fbebe05fd07966504f410e0ac1dc46755f67f78e6e9e4365d2cf4b1ad78d1",
+  "metadata_file": "woman-level-zero-512.json",
+  "output_size": [
+    512,
+    512
+  ],
+  "original_sha256": "302f5c18e0539e127fc30934be9bb39b05aa34c224e6739da6eeb14af43aeadf",
+  "postprocessing": {
+    "operation": "resize",
+    "resampling": "LANCZOS",
+    "crop": false
+  },
+  "angle_note": "Angles are requested generation labels, not measured camera coordinates.",
+  "original_retained": false
+}

@@ -1,0 +1,30 @@
+{
+  "section_id": "P7-5.12",
+  "generator": "Codex built-in image_gen",
+  "id": "woman-low-minus-45",
+  "subject": "woman",
+  "vertical": "low",
+  "yaw": -45,
+  "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+  "status": "generated",
+  "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-fef6b24b-72b6-4184-81c3-43f7cc1d7a8c.png",
+  "original_size": [
+    1254,
+    1254
+  ],
+  "image": "woman-low-minus-45-512.png",
+  "sha256": "dc947b00e4f2e5094e59dac9eea2757dfe438467ae68aee062e0fee6dfbdb77f",
+  "metadata_file": "woman-low-minus-45-512.json",
+  "output_size": [
+    512,
+    512
+  ],
+  "original_sha256": "158c11150925292cca697de0d7624645018e1217fcb34818cb65a89c0001a010",
+  "postprocessing": {
+    "operation": "resize",
+    "resampling": "LANCZOS",
+    "crop": false
+  },
+  "angle_note": "Angles are requested generation labels, not measured camera coordinates.",
+  "original_retained": false
+}

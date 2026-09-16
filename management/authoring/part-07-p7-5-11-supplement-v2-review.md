@@ -19,7 +19,7 @@
 
 학습·평가 매니페스트 (폐기된 5.11 실험 자료)
 
-[실행 코드](../../docs/assets/part-07/chapter-05/sec-12/p7_5_11_mira_lora.py)
+[실행 코드](../../docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py)
 
 데이터 준비 패키지: `.tmp/p7-5-11/lora-v2-reviewed/`. 학습 실행 패키지와 품질 판정은 아래에서 구분한다.
 
@@ -27,7 +27,7 @@
 
 | 배경 03 · 채택 | 조명 05 · 보류 | 표정 08 · 보류 |
 | --- | --- | --- |
-| ![배경 03](../../docs/assets/part-07/chapter-05/sec-12/training-images/p7-5-11-mira-v2-background-03.png) | ![조명 05](../../.tmp/p7-5-11/supplements-v2/lighting-05.png) | ![표정 08](../../.tmp/p7-5-11/supplements-v2/expression-08.png) |
+| ![배경 03](../../docs/assets/part-07/chapter-05/sec-10/training-images/p7-5-10-mira-v2-background-03.png) | ![조명 05](../../.tmp/p7-5-11/supplements-v2/lighting-05.png) | ![표정 08](../../.tmp/p7-5-11/supplements-v2/expression-08.png) |
 
 보류 이미지는 실험 폴더에 남겨 두었으므로 임시 데이터 정리 후 미리보기가 사라질 수 있다. 판정과 원본 해시는 검수 JSON에 보존한다.
 

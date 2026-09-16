@@ -1,0 +1,16 @@
+{
+  "repo_id": "devchan64/mira-bfs-qwen-image-edit-2511-lora",
+  "revision": "83c28cc630d01f887c401769ab1504fdaa1447a6",
+  "public": true,
+  "license": "apache-2.0",
+  "filename": "mira_bfs.safetensors",
+  "bytes": 590153704,
+  "sha256": "4606552aecbe5a50880c666ddc89a16138d7bd8e532255888712cb5daab794fb",
+  "download_url": "https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/83c28cc630d01f887c401769ab1504fdaa1447a6/mira_bfs.safetensors",
+  "training_steps": 1600,
+  "anonymous_download_verified": true,
+  "model_card_revision": "9adcb3b5922a09b23549e572e08a2f08a201d89b",
+  "manuscript_section": "P7-5.10",
+  "manuscript_url": "https://devchan64.github.io/AiBook/parts/part-07/chapter-05/section-10",
+  "manuscript_publication_status": "pending"
+}

@@ -49,7 +49,7 @@
 
 ## 근거 코드
 
-- [실행한 학습 쌍 구성](../../docs/assets/part-07/chapter-05/sec-12/p7_5_11_mira_lora.py): `prepare`의 다른 Mira 이미지 선택.
+- [실행한 학습 쌍 구성](../../docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py): `prepare`의 다른 Mira 이미지 선택.
 - [고정 Musubi 문서](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/docs/qwen_image.md): 2511 제어 이미지 학습 지원.
 - [Qwen-VL 캐시 코드](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/src/musubi_tuner/qwen_image_cache_text_encoder_outputs.py): 캡션과 제어 이미지를 함께 인코딩.
 - [학습 코드](https://github.com/kohya-ss/musubi-tuner/blob/e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1/src/musubi_tuner/qwen_image_train_network.py): 제어 잠재표현 연결과 `target = noise - latents`.

@@ -30,4 +30,4 @@
 
 최종 기준: 입력 표정을 보존한다. 방향 3건·배경 5건에 더해 표정 불일치 19건도 사용자 확정 폐기했다. 총 폐기 27건, 현재 보관 193개다. 위 217쌍 검사 및 24건 관찰은 폐기 전 시점의 기록이다. 폐기한 입력·기록은 삭제했으며 재생성을 금지한다.
 
-[217개 비교표](../../docs/assets/part-07/chapter-05/sec-12/input-candidate-comparison.md)
+[217개 비교표](../../docs/assets/part-07/chapter-05/sec-10/input-candidate-comparison.md)

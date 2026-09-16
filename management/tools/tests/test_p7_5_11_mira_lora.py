@@ -10,8 +10,8 @@ import tomllib
 import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT / 'docs/assets/part-07/chapter-05/sec-12'))
-SPEC = importlib.util.spec_from_file_location('mira_lora', ROOT / 'docs/assets/part-07/chapter-05/sec-12/p7_5_11_mira_lora.py')
+sys.path.insert(0, str(ROOT / 'docs/assets/part-07/chapter-05/sec-10'))
+SPEC = importlib.util.spec_from_file_location('mira_lora', ROOT / 'docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py')
 M = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(M)
 
