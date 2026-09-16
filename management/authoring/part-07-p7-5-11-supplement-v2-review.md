@@ -17,7 +17,7 @@
 
 [개별 검수 JSON](part-07-p7-5-11-supplement-v2-review.json)
 
-[학습·평가 매니페스트](../../docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-lora-reviewed-v2.json)
+학습·평가 매니페스트 (폐기된 5.11 실험 자료)
 
 [실행 코드](../../docs/assets/part-07/chapter-05/sec-12/p7_5_11_mira_lora.py)
 

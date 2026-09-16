@@ -13,13 +13,13 @@
 - 장면 지시: 카페 재킷·컵과 정원 카디건·배경은 대체로 따르지만, 정원은 모두 눈을 감아 홍채를 판정할 수 없다. 일부 구도는 정면에 가깝고 A100 정원은 입을 다문 미소 지시와 다르다.
 - 적용 범위: 최종 사용은 Qwen-Image-Edit-2511의 LoRA 어댑터다. 단색 입력 진단과 실제 장면 입력의 편집 품질은 구분한다. 장면 보존·요청 편집·정체성의 미적용/적용 비교는 미실행이다.
 
-[100·200·400 검수 JSON](../../docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/review.json)
+100·200·400 검수 JSON (폐기된 5.11 실험 자료)
 
-[통합 A/B 비교 계획 JSON](../../docs/assets/part-07/chapter-05/sec-11/p7-5-11-ab-comparison-plan.json)
+통합 A/B 비교 계획 JSON (폐기된 5.11 실험 자료)
 
-[전체 30장 결과·대기 목록 JSON](../../docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/index.json)
+전체 30장 결과·대기 목록 JSON (폐기된 5.11 실험 자료)
 
-[1장 암기 검수 JSON](../../docs/assets/part-07/chapter-05/sec-11/memorization-evaluation/results/review.json)
+1장 암기 검수 JSON (폐기된 5.11 실험 자료)
 
 ## 확인한 사실
 
@@ -28,11 +28,11 @@
 - 학습용 ComfyUI DiT와 평가용 Diffusers DiT의 0·30·59번 블록에서 Q/K/V/출력 투영 가중치 총 12개를 비교해 모두 정확히 일치했다. 전체 기반 가중치·텍스트 인코더를 모두 비교한 것은 아니며, 학습 중 FP8 처리와 추론 BF16의 차이는 남는다.
 - 실제 400스텝 실행의 캐시에서 원본 정면 및 카페 보충본의 목표·참조 4개를 VAE로 복원했다. 표본 모두 청록색 머리·주황색 홍채·기준 피부색이 유지됐다. 캐시 전처리가 Mira의 색을 전부 없앴다는 증거는 없다. 40개 전체의 캐시 시각 검수는 아니다.
 
-캐시 복원 증거: [이미지·캐시 해시 JSON](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/results/cache-decode-audit.json). 기반 가중치 표본: [비교 JSON](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/results/base-weight-sample-audit.json).
+캐시 복원 증거: 이미지·캐시 해시 JSON (폐기된 5.11 실험 자료). 기반 가중치 표본: 비교 JSON (폐기된 5.11 실험 자료).
 
 | 캐시 복원 · 정면 목표 | 캐시 복원 · 카페 목표 | 캐시 복원 · 카페 목표의 참조 |
 | --- | --- | --- |
-| ![정면 학습 목표](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/1-latents_1x64x64_bfloat16.png) | ![카페 학습 목표](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/0-latents_1x64x64_bfloat16.png) | ![카페 학습 참조](../../docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/0-latents_control_0_1x64x64_bfloat16.png) |
+| 정면 학습 목표 (폐기된 5.11 실험 자료) | 카페 학습 목표 (폐기된 5.11 실험 자료) | 카페 학습 참조 (폐기된 5.11 실험 자료) |
 
 ## 검증되지 않은 원인 가설
 
