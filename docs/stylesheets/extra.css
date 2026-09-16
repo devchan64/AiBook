@@ -382,9 +382,10 @@
     width: auto;
   }
 
-  .md-typeset img[data-aibook-expandable="true"] {
-    cursor: zoom-in;
-  }
+}
+
+.md-typeset img[data-aibook-expandable="true"] {
+  cursor: zoom-in;
 }
 
 .aibook-image-dialog {
