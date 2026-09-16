@@ -1,0 +1,643 @@
+{
+  "date": "2026-09-16",
+  "reason": "P7-5.11 폐기 실험 자산 정리. 현행 P7-5.12 의존 자산은 sec-12에 이관 완료.",
+  "deleted_files": [
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/README.md",
+      "sha256": "50258fe818107331ad727963383cc0b282da92f527f7919fc9113381ceafc917"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/0-latents_1x64x64_bfloat16.png",
+      "sha256": "db8b3794254b578895e4124b15431aeac4662541a2ad1a28f5279647f349666b"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/0-latents_control_0_1x64x64_bfloat16.png",
+      "sha256": "213dc7112440b18b27b24531bf7b008b1e6e70c41f8fa1b597e05a30a47ecc29"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/1-latents_1x64x64_bfloat16.png",
+      "sha256": "b70ea9a2b5da3bfce617dfd43df3b3b1b1bf893b0b01d80e039d7c57fa0da5f6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/cause-analysis/images/1-latents_control_0_1x64x64_bfloat16.png",
+      "sha256": "e5c46e6ff28044ef6a52bd53353e3deaf3a669a0270acde59b3a1a9f76a50c9f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/cause-analysis/results/base-weight-sample-audit.json",
+      "sha256": "38873bda3fa6e490c7ff3a41988dafa0fc7c6b4199d52ab5bdb4d2e5f5cda33d"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/cause-analysis/results/cache-decode-audit.json",
+      "sha256": "07dd8e98fe3f616d64fe0de7c341ce5ccc774b369a7da3d4f60cc5aadaf2b17e"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-100-cafe.png",
+      "sha256": "35793c1bc19f4ccad50af1e4ffd304c963256af6429578d253d7c747ca23620f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-100-garden.png",
+      "sha256": "f8372db2b06e3cb555c7d80d6b89348f918173ca9a25f46ecbc1b91658215763"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-100-portrait.png",
+      "sha256": "4bee80b6f7383450d1499aeaec04c0ec25133427557839664837b39c0118f6de"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-1600-cafe.png",
+      "sha256": "f647f7cb4f623b6a31f533c483d89c27d496ce1114fbe150d6cc8c5be1bcba02"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-1600-garden.png",
+      "sha256": "7f1da777635a829f6a2035b24d70b87b93556cf495a3ca4ca0e1f921f4739ccb"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-1600-portrait.png",
+      "sha256": "4f7542dda13484ef00686b774ed5f04907684acc20df2cd8038dc77989ce4547"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-200-cafe.png",
+      "sha256": "5553bb721ddce8f08f988cae1779099f016f416c9daef4f4c177855040f616b2"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-200-garden.png",
+      "sha256": "2e751a71bf7e6df57f38037f5901cf02fd298d7df834dfe3cdc3b6318c33eebb"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-200-portrait.png",
+      "sha256": "c70551d8841107a11afbb95719e3bb5bfe31d29fd44fcd957d688e8a93950a30"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-400-cafe.png",
+      "sha256": "7d225cd92bf807a950ca27c65b5483708285782dba89803f2cf4e606f0a3a5a0"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-400-garden.png",
+      "sha256": "235d0fba10a505ab238d73a82e47637ee4206b96c1843da659ff6adf1ff50dea"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-400-portrait.png",
+      "sha256": "3a161e876843e19a45b17ffae022b11c7ffcc0dd62b2f1091f528240cea90b77"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-800-cafe.png",
+      "sha256": "6013ec678a4fdcd96b3b7ffbcab171c0ae2b8124750ea930dfade7b8d75c1a9c"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-800-garden.png",
+      "sha256": "7c257e5a1697a5851cb260dee5d933bd2373d414ba7ce4c36e820c324691341d"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/A-800-portrait.png",
+      "sha256": "dc39ef943a496d0763597f20226aa0fe27bbfe91f8e9729d983273b957a4dc6d"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-100-cafe.png",
+      "sha256": "f3d7f5dc8a5c942a67f33110d4db0bb0baabd1571144ce1298f271a71f04503b"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-100-garden.png",
+      "sha256": "e50288b96753e74ae3149583848ff1ea5994629cff3611369de1e90824ad0479"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-100-portrait.png",
+      "sha256": "2cea0c6e6ba0cdea6cc8b1c35df6d4e461ac043fe79580e2778ca61b1eb4bf5f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-1600-cafe.png",
+      "sha256": "562a9d205e59396aa6f12eb3acecd0cd6b80fadc4a768b4907f6421717c2e3b5"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-1600-garden.png",
+      "sha256": "3685ebd41d7c88553c15eecac3393f8e80a5bfd48a0c58808f1b87abae456f1f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-1600-portrait.png",
+      "sha256": "69d48ac8d7754159605a2596cd46e73a88458bc4052240db4722c78d1682664c"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-200-cafe.png",
+      "sha256": "c8f1a7cb1e8641c1cd23a50ba3ef10ce6d6862f187b8b1bed57361108baf8a70"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-200-garden.png",
+      "sha256": "fec8ef3cdf31c8e9ac30b7dabb42312da82e658046646f2a5efee793200a3627"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-200-portrait.png",
+      "sha256": "1e6238fb291b01395b33f730161098facbe3944c2e9bea1125c957cb3d8cc3d9"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-400-cafe.png",
+      "sha256": "60d99e95116092a8a5a8cd4d448921d2b88dcbab0fe90ab1069d1a46a1e9474c"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-400-garden.png",
+      "sha256": "9c134e75524045b7803ef1f2bd97cd520e5b7534a90a5f1fae26c0c82fbb910d"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-400-portrait.png",
+      "sha256": "9921ac14f40a5ba18e86614ca8fabe9cca8e312eb439f20257f12f13b15d86a0"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-800-cafe.png",
+      "sha256": "b6d3411d6ba36fefd547743f3274edc28c23dff8415f93203d350458ae6a729b"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-800-garden.png",
+      "sha256": "35c9734caccccc4d2dfe36a4d3e13eefebe21a43eea430dfc082d6ed6a176f82"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/images/B-800-portrait.png",
+      "sha256": "d14a271d7eb8b7032290d17954460f06f392b7110da444f58677e398f11093c4"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-100-cafe-plan.json",
+      "sha256": "df7d0460ae07cf478270aecbe62c7fb2670e6e4b4e12ada41616e1779d49a2f6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-100-cafe-result.json",
+      "sha256": "e9516ffd8e1bf694b013a7051ea2c3aa09eab6af1556e9eeac7ee640d41aad34"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-100-garden-plan.json",
+      "sha256": "df7d0460ae07cf478270aecbe62c7fb2670e6e4b4e12ada41616e1779d49a2f6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-100-garden-result.json",
+      "sha256": "b6c1c16ab9bd0b17c1a7a4ce684f2c54f8346496ef8c093896181d221ecb6fec"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-100-portrait-plan.json",
+      "sha256": "df7d0460ae07cf478270aecbe62c7fb2670e6e4b4e12ada41616e1779d49a2f6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-100-portrait-result.json",
+      "sha256": "3abf5f519ec6c67194358e32f6bc785fcdef27d5a4a6a445646f9521b20d426b"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-1600-cafe-result.json",
+      "sha256": "9cc10f4872de9f395b08c153e327edfebdeadf0896466eef2e3483f065e19e73"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-1600-garden-result.json",
+      "sha256": "9e0c3b736620f9560952b1d51cc49e527e6cb0b9afcebf210dc9b7ffd87a1693"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-1600-plan.json",
+      "sha256": "40fe524087defc7f8168e3c92be977598d867d66e3de0fd499ac958c53e953a2"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-1600-portrait-result.json",
+      "sha256": "115c1f41b5d0ce35b48f5cb15525494bbcf91f792a121ec5273d0247aa7fade6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-200-cafe-plan.json",
+      "sha256": "2dae8c44c737abe96d8bb68a9cc205d05c486c969586512fb3a505568e9efab5"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-200-cafe-result.json",
+      "sha256": "743894be2ce9d2760b20a4c866ad93aa0fed2bc5cadab2fbe274b8e0eab97513"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-200-garden-plan.json",
+      "sha256": "2dae8c44c737abe96d8bb68a9cc205d05c486c969586512fb3a505568e9efab5"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-200-garden-result.json",
+      "sha256": "cec6a634a7f47084918626e944cf4c38b81931c02b17462de2fe65acf24149d5"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-200-portrait-plan.json",
+      "sha256": "fd2e146e09ea17ba54a866ebc4708be1d5a27ebe86c1dd2a2c6a957428033702"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-200-portrait-result.json",
+      "sha256": "92355f8d81b1b3677fb65e547f42eada987003d1bff42d169d1e867e8e8ce382"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-400-cafe-plan.json",
+      "sha256": "f4e28eba96aaca624429cd0fcfba281d44bc98ab3dba85060b363b39d41b9825"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-400-cafe-result.json",
+      "sha256": "942d87eb8abe2aceaaca31f518847ad6de4be22774d3ae5647756c732fbaba4f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-400-garden-plan.json",
+      "sha256": "f4e28eba96aaca624429cd0fcfba281d44bc98ab3dba85060b363b39d41b9825"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-400-garden-result.json",
+      "sha256": "bd00b61b8ff04b7fde9a943af4ce1bdde3099ff4643c6ef412da3894a0664aa0"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-400-portrait-plan.json",
+      "sha256": "f4e28eba96aaca624429cd0fcfba281d44bc98ab3dba85060b363b39d41b9825"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-400-portrait-result.json",
+      "sha256": "335282727f162a18cb56372ea23c8edcc27611fa8edaea658129e9c8bb96d035"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-800-cafe-result.json",
+      "sha256": "89cc2b0cfae0cf42c914f4a822219bafbecdb536a2400ebb7261005b4da696dc"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-800-garden-result.json",
+      "sha256": "a9cd92618b980a01460848939769a2df6b6302dd615c2188f6fc5203362392d7"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-800-plan.json",
+      "sha256": "781add5e1b9b0436ae1d0b27a927de81437e5de7119e323653e8b0e65b552aaf"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/A-800-portrait-result.json",
+      "sha256": "ff4c96cbbd24d9c6e8ff7fa43b4b6cd96cde2a0b7df4d73dda25cd7b69cd7a8d"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-100-cafe-plan.json",
+      "sha256": "4fa335bc0061da7135ba65dc7aebd7ff616fa920a2a7600471338a47e2068310"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-100-cafe-result.json",
+      "sha256": "e3a1fa3e7b05eb9310c3ebf05ed23f53d6ae767be431b1df3ebabad845d3dfd0"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-100-garden-plan.json",
+      "sha256": "4fa335bc0061da7135ba65dc7aebd7ff616fa920a2a7600471338a47e2068310"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-100-garden-result.json",
+      "sha256": "282697a9a2e7d354292c1592b3e2bda6792465b9947f70db25f6abece663ec74"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-100-portrait-plan.json",
+      "sha256": "4fa335bc0061da7135ba65dc7aebd7ff616fa920a2a7600471338a47e2068310"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-100-portrait-result.json",
+      "sha256": "3c11b654fadfd0464c903eb6597dacaa65cfb26f2bd142be41e684df0423347d"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-1600-cafe-result.json",
+      "sha256": "df078ebc8d80e76e47ca553f98f6a23bd9dd241f5d4a666029f1d88b59a98d8e"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-1600-garden-result.json",
+      "sha256": "1dc47ff1cd7e33829f640d16fe5dff51a35fcf93e466cfc960e7769afec04724"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-1600-plan.json",
+      "sha256": "5723ce28947905e0dc4bd25e87cd4c52ac03da1ca0db178b156b36a07037a08f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-1600-portrait-result.json",
+      "sha256": "5137129150bb85dd4a76799bdc84947275726ac6a0e62e0fa8f712738fd2bf5c"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-200-cafe-plan.json",
+      "sha256": "d23c812b1adb4a34351166c7ea5b0890299585e53199fd01ec2fe0b40c81b70f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-200-cafe-result.json",
+      "sha256": "dcbd640be9ad5186c5cafbd59c86b624d5b031b186cd59ca86324257b0db8ff1"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-200-garden-plan.json",
+      "sha256": "d23c812b1adb4a34351166c7ea5b0890299585e53199fd01ec2fe0b40c81b70f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-200-garden-result.json",
+      "sha256": "d115135b3d149f9ebf192a0dd322b524acce1aa3817f3451dbf1c964a9903cba"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-200-portrait-plan.json",
+      "sha256": "d23c812b1adb4a34351166c7ea5b0890299585e53199fd01ec2fe0b40c81b70f"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-200-portrait-result.json",
+      "sha256": "2d4cd14b90a65b695eb2de84dcea8d67a8d1a979670fdfe49c8921e13302ad8d"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-400-cafe-plan.json",
+      "sha256": "64181a49c26000eda24a2c02e0b9fd6af1acfa515bd1e6d90d4b4835ee139ea6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-400-cafe-result.json",
+      "sha256": "fe148994a92ac29f066736fa997e7f50b4bfb3debf7801f27eee7eae77903eb1"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-400-garden-plan.json",
+      "sha256": "64181a49c26000eda24a2c02e0b9fd6af1acfa515bd1e6d90d4b4835ee139ea6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-400-garden-result.json",
+      "sha256": "74b64990159fb6063d711dfd5203ef1bc3162005e2549633a696adc3c3282920"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-400-portrait-plan.json",
+      "sha256": "64181a49c26000eda24a2c02e0b9fd6af1acfa515bd1e6d90d4b4835ee139ea6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-400-portrait-result.json",
+      "sha256": "f1412f174abd2f5655c3c60a72d3c3627963b4b24d325ed5bd9e667de6a5d7bb"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-800-cafe-result.json",
+      "sha256": "8d735542a8e15415f669df721d0f9d676e2ff1a12ac93da1010f088aa0aa8c10"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-800-garden-result.json",
+      "sha256": "e3122e87a04a8033208b97d334bec5cc2b135d86add2eb02599f6a10e3060e2d"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-800-plan.json",
+      "sha256": "b66e562f3a787445b8ac098f37f507ce9a3c0e8b24c78c9874124d620d5e0eaf"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/B-800-portrait-result.json",
+      "sha256": "a56c7504a5a89e4d13df8b9206f37c14b14527225df9a52d36e47dde4d3774be"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/index.json",
+      "sha256": "f8aae194cae3c70e9fb86d3e17029a09290c92689b5ff516286683d42a52e13a"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/checkpoint-matrix-evaluation/results/review.json",
+      "sha256": "109963a79a94d61da1251bef6060b3d34250ab6e3b78577c1617a2dee778e077"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png",
+      "sha256": "c09ba7b3c2dc8ba2357f74cfd66f334759845a7fbc343087af2c9344a3d3ef18"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/results/plan.json",
+      "sha256": "7a7fd1b6f6107ae9f8071c34799d709126ab27973904be629a6f5b8de3139758"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-evaluation/spec.json",
+      "sha256": "55d7b5b646e1af3b2915b4f29daddfea905d2ba6dd1ad3ba2d9ac569a718b272"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/images/portrait-scale-2.png",
+      "sha256": "4d37150368883ccc7357dab46978afc278d18b8e39f275196135200190f9a5d7"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/images/portrait-scale-4.png",
+      "sha256": "9698852d12e31730461424d5a4a934838f640af580087d9dc407d7cdf39ed8a6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/loaded-weights.json",
+      "sha256": "f6932f9bed806dc4bec9a1d380856b7c6defb7e10363559ae68dfa1dea7a5a8c"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/plan.json",
+      "sha256": "c21d38a3c72b702c3f2319d9b03f8837221db5d370e497ed86fb2b57f93d76e7"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-0-probe.json",
+      "sha256": "ee31ecf9729b5e1545dcaca9218a09c976e305e5ed9cc18fdcef257dd822e5ef"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-0-result.json",
+      "sha256": "a9c34f466047f22fcadfd9a9c2c9e6013db736832d810812ae10bff10de02466"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-1-probe.json",
+      "sha256": "bd51a5fb946306b4fab31efa6ca40bb172c66d41abed0f2dbd39bd30f4f53b0a"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-1-result.json",
+      "sha256": "2bb487133e3aa1d06f5f91d39ec866ac669a7b566d37ae501ceec82be22e7ba4"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-2-probe.json",
+      "sha256": "ff67ff6e2dd4db3e8c2fa2600cd64e43ab359396071fc67f5f44cfcc2c69dc32"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-2-result.json",
+      "sha256": "a851f0436ec4bfbd697e0c9a928492cd098a72811b35e80e81d85e3afa149552"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-2-review.json",
+      "sha256": "d81363b8da5b7379f79d09869733ec816842c7b7d9ade09ae952d6a130d42852"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-4-probe.json",
+      "sha256": "507ba8593498011ff51fef4a659ec37762280500059886d0028c998dd111e36c"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-4-result.json",
+      "sha256": "217820dfbc745401ad8a8324c959c584b692903a6401fe020a1cef2adddcbfc3"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/portrait-scale-4-review.json",
+      "sha256": "45f86c3ea14e085a2c77a759e2b079ed67313dd263ffd55e677917a0a29c1ae4"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/identity-strength-evaluation/results/review.json",
+      "sha256": "8e911e931f1f0e2fd32ab3d25008e983ce6e3c3cdce6c72809f18688df0832b4"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/memorization-evaluation/images/portrait-step100.png",
+      "sha256": "1eb597b29ad6ad52022713d5d49cd1fec23f31ec5199bc763520341f09345362"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/memorization-evaluation/images/portrait-step200.png",
+      "sha256": "546355d76d824b2a4f6c9c22993411606a299f90548799e6da51ae9d7b25fc69"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/memorization-evaluation/results/portrait-step100-result.json",
+      "sha256": "713c1cc5316d2e7c5b1780d826e7e9cbe55d1f9e7f166444e8245b15d0a40535"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/memorization-evaluation/results/portrait-step200-result.json",
+      "sha256": "fcd6ab4f76dcd69c9ddf3ae4180c06251459f7b391cc2efe7d6cfc50f28a7112"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/memorization-evaluation/results/review.json",
+      "sha256": "4e9459cd0bf6789ed1c4dbb58fdf3d300435fc1827f1e402d348e2c71c0bc9fb"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/A-training/config.json",
+      "sha256": "1758fd31bba93dc726f8fa39cf71fd2015a344c2254454a73cda345916fa9ae9"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/A-training/dataset.toml",
+      "sha256": "a55284df371694603ac0697800bbf6e2edc62f0ff92d899145008a4d4571adb7"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/A-training/manifest.json",
+      "sha256": "65665ecab2899b4427348034bb18d4a0452c47d121e156f66be7b6951d595c9b"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/A-training/package.json",
+      "sha256": "706cd61a6e2d1b35219e633c554bc0886228cbd4810af5b816aa65f6904a8f63"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/A-training/run-result.json",
+      "sha256": "5a61fd6a01b6032109a4de4171f7f4bb147b5c8bbb3dcc53f6b3e06d5074d5b6"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/A-training/train.jsonl",
+      "sha256": "5042023f1c833994e6a21f162bfbe2c0952aa647b69d4af366a1220c60a38448"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/A-training/validation.jsonl",
+      "sha256": "e7a2e5621231718099926f9018ce8d204d7efc1ce40a6a0dbb61356c350b155b"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/B-training/config.json",
+      "sha256": "1758fd31bba93dc726f8fa39cf71fd2015a344c2254454a73cda345916fa9ae9"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/B-training/dataset.toml",
+      "sha256": "d6837acc0fbc0bb91f76b3e7fdc3c21f4c61f01413968fb822714698e8fc999e"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/B-training/manifest.json",
+      "sha256": "ebabe760f3c875c99a9035a0e7f4ffdda00e1e2d24f3306c4b67cc2ecccb7278"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/B-training/package.json",
+      "sha256": "ed292f663313c1f32909659a512bd30c4bc115726399dd2ad59f1d1f7d4b3217"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/B-training/run-result.json",
+      "sha256": "d3422b67cc03dacd8caa0a3887128cea22a4fe13045e10141c59d0bcf9d1a363"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/B-training/train.jsonl",
+      "sha256": "933b9810af478eb7a32f3cdde6293efe3a9b022f0e24dbdb0e3f8fe559fedbe8"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/B-training/validation.jsonl",
+      "sha256": "149c40460f084b229242f740b6d02fb5ef2d19cad895b0a80fa5479787760e56"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/executed-comparison-audit.json",
+      "sha256": "5a37f698d20e3bde9e71d5816ad0342379ea5ab1658dbe36e246ce471625d769"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/review.json",
+      "sha256": "f35f88b491ce2eb3176ed0d2ea14a6d00f7cbbb36aa96575d524690c8f8ee6ae"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/neutral-ablation-evaluation/results/training-pair-comparison.json",
+      "sha256": "e2755e5278242c2bb61de82ee331ada55bac520729a3d34e7ea33bef16f8d643"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-a-run1600-config.json",
+      "sha256": "2ce8d51f0d0131c6ff4edbfd454ed901ca127e9e4a8a99dc014f69f4c8b99bd7"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-ab-comparison-plan.json",
+      "sha256": "6ad30847bdfcd05ad5beb74d51893f3fd7d0cf0e28187e07ae612ae662b6a700"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-b-run1600-config.json",
+      "sha256": "2ce8d51f0d0131c6ff4edbfd454ed901ca127e9e4a8a99dc014f69f4c8b99bd7"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-bfs-input-generation-v1.json",
+      "sha256": "7e36cf0c76093610eabde4f863c2a146135c77c340c44d8fd04f4e06728c8dd2"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-long-training-plan.json",
+      "sha256": "403b1ff12cb52ce2545ee9daaf9a81c2228b4cdaf8d50bf65e4a546cbaf1449a"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-memorization-config.json",
+      "sha256": "83d47f1b4be809d96e216400f58d44f5e344853793580689bfef98b79f485b29"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-memorization-manifest.json",
+      "sha256": "280ccf1dbc461073714ec14264f7a3f6d29bd69f49324a898cc91cefdfe2038c"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-memorization-plan.json",
+      "sha256": "ba19d359269ade800357f96fe724ca72e71ae9cc2ced193cdad32eda647ab55c"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-lora-config-v2-8gb.json",
+      "sha256": "cc7a2163a5e3737fc4522f8bc7004019c2433d0cb8da217f35cce83d6f6a0125"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-lora-config.json",
+      "sha256": "b8637c2c18ed0c5fccea01cc59c3eeef69fe1be1c70ffa4dd47ed509bc17ba45"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-lora-reviewed-v2.json",
+      "sha256": "8210cff89134129a1aa0183bf48f2e17d5cc93091656f479073cb0fe9e28204a"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-lora-reviewed.json",
+      "sha256": "61dbe50cf92cf13f73e069aad526d0782898f723bc28392246e0d8786864f4bc"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-mira-supplement-profile-correction.json",
+      "sha256": "b16f51b2ae6d5eabb6156ae2e3c7f1d2d33a1fec6fcb1c0bbd0c8a234a4525c7"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7-5-11-neutral-ablation-manifest.json",
+      "sha256": "53ea70fa9ff70ed15685fdd66636489cb0b02f39ec77ad9b56ba2819217c1e9b"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/p7_5_11_evaluate_lora.py",
+      "sha256": "9973eb38e9b407c5e17307de35e9c7e9861c2c7670418d36cad8f147e5912ca9"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/sec-11/training-images.json",
+      "sha256": "8796ee925cd36d217af7d44fd46c944ea15dc48bcac2ba07e6774a39fa44179d"
+    }
+  ],
+  "deleted_compatibility_links": [
+    "docs/assets/part-07/chapter-05/p7-5-11/README.md",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/p7-5-11-mira-lora-reviewed-v2.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/p7-5-11-mira-supplement-profile-correction.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/p7-5-11-mira-lora-config-v2-8gb.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/p7-5-11-neutral-ablation-manifest.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/p7-5-11-mira-lora-reviewed.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/review.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/A-training/package.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/A-training/manifest.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/A-training/dataset.toml",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/A-training/config.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/A-training/validation.jsonl",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/B-training/package.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/B-training/manifest.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/B-training/dataset.toml",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/B-training/config.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/neutral-ablation-evaluation/results/B-training/validation.jsonl",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/images/portrait-scale-2.png",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/images/portrait-scale-4.png",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-4-probe.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-4-result.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-0-result.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-0-probe.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/plan.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-2-result.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-4-review.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-2-probe.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-1-probe.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/loaded-weights.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-2-review.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/portrait-scale-1-result.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-strength-evaluation/results/review.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/cause-analysis/images/1-latents_1x64x64_bfloat16.png",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/cause-analysis/images/0-latents_1x64x64_bfloat16.png",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/cause-analysis/images/0-latents_control_0_1x64x64_bfloat16.png",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/cause-analysis/images/1-latents_control_0_1x64x64_bfloat16.png",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/cause-analysis/results/cache-decode-audit.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/cause-analysis/results/base-weight-sample-audit.json",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/inputs/neutral-canvas.png",
+    "docs/assets/part-07/chapter-05/p7-5-11/datasets/identity-evaluation/results/plan.json"
+  ],
+  "updated_markdown": [
+    "management/authoring/part-07-p7-5-11-identity-failure-analysis.md",
+    "management/authoring/part-07-p7-5-2-identity-training-review.md",
+    "management/authoring/part-07-p7-5-11-supplement-v2-review.md",
+    "management/authoring/part-07-p7-5-11-candidate-review.md"
+  ],
+  "preserved": "sec-12의 생성 원본 기록과 이관 해석 코드, 다운로드 모델 및 학습 체크포인트"
+}

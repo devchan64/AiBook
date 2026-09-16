@@ -1,0 +1,30 @@
+{
+  "section_id": "P7-5.12",
+  "generator": "Codex built-in image_gen",
+  "id": "toddler-low-plus-45",
+  "subject": "toddler",
+  "vertical": "low",
+  "yaw": 45,
+  "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+  "status": "generated",
+  "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-f618dc98-95b9-46c3-8404-6f7c5b694fd7.png",
+  "original_size": [
+    1254,
+    1254
+  ],
+  "image": "toddler-low-plus-45-512.png",
+  "sha256": "e24c181eceb48d737fdc606000a8378cd86c4f454e000171e43dd9711c473a3d",
+  "metadata_file": "toddler-low-plus-45-512.json",
+  "output_size": [
+    512,
+    512
+  ],
+  "original_sha256": "1717b19b2f816af274eea6b92b4ed9d6e1be5bf76d63ea696daf5eced35d0e61",
+  "postprocessing": {
+    "operation": "resize",
+    "resampling": "LANCZOS",
+    "crop": false
+  },
+  "angle_note": "Angles are requested generation labels, not measured camera coordinates.",
+  "original_retained": false
+}

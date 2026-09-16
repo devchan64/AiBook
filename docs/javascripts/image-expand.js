@@ -1,5 +1,4 @@
 (function () {
-  const DESKTOP_QUERY = window.matchMedia("(min-width: 45em)");
   const DIALOG_ID = "aibook-image-dialog";
 
   function dialog() {
@@ -26,19 +25,19 @@
   }
 
   function openImage(image) {
-    if (!DESKTOP_QUERY.matches || !image.currentSrc) {
+    if (!(image.currentSrc || image.src)) {
       return;
     }
 
     const viewer = dialog();
     const expanded = viewer.querySelector(".aibook-image-dialog__image");
-    expanded.src = image.currentSrc;
+    expanded.src = image.currentSrc || image.src;
     expanded.alt = image.alt;
     viewer.showModal();
   }
 
   function isExpandable(image) {
-    return image.closest(".md-typeset") && !image.closest("a") && image.currentSrc;
+    return image.closest(".md-typeset") && (image.currentSrc || image.src);
   }
 
   function markExpandableImages() {
@@ -47,29 +46,44 @@
         return;
       }
       image.dataset.aibookExpandable = "true";
-      image.tabIndex = 0;
-      image.setAttribute("role", "button");
-      image.setAttribute("aria-label", `${image.alt || "이미지"} 확대해서 보기`);
+      const control = image.closest("a") || image;
+      control.tabIndex = 0;
+      control.setAttribute("role", "button");
+      control.setAttribute("aria-haspopup", "dialog");
+      control.setAttribute("aria-label", `${image.alt || "이미지"} 확대해서 보기`);
     });
   }
 
+  function eventImage(target) {
+    if (!(target instanceof Element)) {
+      return null;
+    }
+    return target.closest(".md-typeset img[data-aibook-expandable='true']") ||
+      target.closest(".md-typeset a")?.querySelector("img[data-aibook-expandable='true']");
+  }
+
   document.addEventListener("click", (event) => {
-    const image = event.target.closest(".md-typeset img[data-aibook-expandable='true']");
+    const image = eventImage(event.target);
     if (image) {
+      event.preventDefault();
+      event.stopPropagation();
       openImage(image);
     }
-  });
+  }, true);
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" && event.key !== " ") {
       return;
     }
-    const image = event.target.closest(".md-typeset img[data-aibook-expandable='true']");
+    const image = eventImage(event.target);
     if (image) {
       event.preventDefault();
+      event.stopPropagation();
       openImage(image);
     }
-  });
+  }, true);
+
+  document.addEventListener("aibook:content-loaded", markExpandableImages);
 
   if (typeof document$ !== "undefined" && document$.subscribe) {
     document$.subscribe(markExpandableImages);

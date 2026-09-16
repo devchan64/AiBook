@@ -1,0 +1,30 @@
+{
+  "section_id": "P7-5.12",
+  "generator": "Codex built-in image_gen",
+  "id": "man-low-zero",
+  "subject": "man",
+  "vertical": "low",
+  "yaw": 0,
+  "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+  "status": "generated",
+  "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-26da5304-5b96-42fa-8de4-43e0357abcd4.png",
+  "original_size": [
+    1254,
+    1254
+  ],
+  "image": "man-low-zero-512.png",
+  "sha256": "0e35ac4ef65b54bab1aa5e2bc1bab7717aa4b2483ebbd02be0122c53b78db0fc",
+  "metadata_file": "man-low-zero-512.json",
+  "output_size": [
+    512,
+    512
+  ],
+  "original_sha256": "5b051a4e68dcf4be563e3edfef13f5c64a5f837798c3fe1938beb34964425046",
+  "postprocessing": {
+    "operation": "resize",
+    "resampling": "LANCZOS",
+    "crop": false
+  },
+  "angle_note": "Angles are requested generation labels, not measured camera coordinates.",
+  "original_retained": false
+}

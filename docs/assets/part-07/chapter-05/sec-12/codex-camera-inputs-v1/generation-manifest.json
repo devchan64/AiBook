@@ -1,0 +1,776 @@
+{
+  "section_id": "P7-5.12",
+  "generator": "Codex built-in image_gen",
+  "requested_size": [
+    512,
+    512
+  ],
+  "note": "New synthetic experiment inputs. Angles are requested labels, not measured camera coordinates. Not part of the previous 193 training pairs.",
+  "jobs": [
+    {
+      "id": "man-low-minus-90",
+      "subject": "man",
+      "vertical": "low",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-dfb66001-6f6b-4d35-83a0-8a9dd5b24029.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-low-minus-90-512.png",
+      "sha256": "e5b320b4554c11f3de393c3040f7ea6a1c9a49f429603d1b5e4918145cd6a09c",
+      "metadata_file": "man-low-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-low-minus-45",
+      "subject": "man",
+      "vertical": "low",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-acab8e4c-4ec1-4bda-86bf-b41dc6a00532.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-low-minus-45-512.png",
+      "sha256": "43ea223d3cf2111e61a84212be916ceb956bc85d74ae5bac9a9a5eaf45997a97",
+      "metadata_file": "man-low-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-low-zero",
+      "subject": "man",
+      "vertical": "low",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-26da5304-5b96-42fa-8de4-43e0357abcd4.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-low-zero-512.png",
+      "sha256": "0e35ac4ef65b54bab1aa5e2bc1bab7717aa4b2483ebbd02be0122c53b78db0fc",
+      "metadata_file": "man-low-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-low-plus-45",
+      "subject": "man",
+      "vertical": "low",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-76fb7383-b947-42f6-969b-571de0514b4b.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-low-plus-45-512.png",
+      "sha256": "1aca4e3f659823f62e798bd33082416f89df3ca284aa954437fd972bd60e9778",
+      "metadata_file": "man-low-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-low-plus-90",
+      "subject": "man",
+      "vertical": "low",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-00a22c2b-1368-4311-8c8f-7bf0cfda2ff4.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-low-plus-90-512.png",
+      "sha256": "d914d9a2cd9f337f4c263dc1085b226a0b2b7dec406639998e75c57236c4f7f7",
+      "metadata_file": "man-low-plus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-level-minus-90",
+      "subject": "man",
+      "vertical": "level",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-701c5d8c-6dc9-4b92-9e1c-62103c5651e8.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-level-minus-90-512.png",
+      "sha256": "6942052db445d4baa2d9c256df8fe890cb80692d73c4224217e4bd7c42c9f10a",
+      "metadata_file": "man-level-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-level-minus-45",
+      "subject": "man",
+      "vertical": "level",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-747e9855-7a28-48ed-9679-d622dd85df88.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-level-minus-45-512.png",
+      "sha256": "abc76419688207f7b4be4391711235c083a1f3d35f5f33f7f1148ca21765a353",
+      "metadata_file": "man-level-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-level-zero",
+      "subject": "man",
+      "vertical": "level",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate one 512x512 square photographic image for an AI book's camera-angle experiment. One fictional adult man, age 32, short wavy dark brown hair, light stubble, medium tan skin, wearing an ordinary teal cotton shirt. Upper body medium shot from waist to above head, complete head visible, natural anatomy. Camera: eye-level, straight frontal view (yaw 0). He stands relaxed, one hand loosely holding a plain ceramic cup near waist, gentle closed-mouth smile. Visible detailed background: a cozy cafe with wooden shelves, window and green plants; no other people. Natural daylight, realistic skin and fabric. No text, logos, borders or collage. This is a standalone scene, not a contact sheet.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-4658289b-359c-454b-8616-c25ba4258113.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-level-zero-512.png",
+      "sha256": "fd925b1e0e6762d8749115fb7d091af020130c76909f10d577b7071196fffeec",
+      "metadata_file": "man-level-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-level-plus-45",
+      "subject": "man",
+      "vertical": "level",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-4257b70e-87bf-4e1b-a467-2453a15271b8.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-level-plus-45-512.png",
+      "sha256": "d2bc2b578418638700767c55234cf430d26da84eb9ec8c5c805432a4c41905ce",
+      "metadata_file": "man-level-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-level-plus-90",
+      "subject": "man",
+      "vertical": "level",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-1039b7c4-609b-4091-bd0a-40345e199518.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-level-plus-90-512.png",
+      "sha256": "b2fbea6a3f8f64b34471d5a334a370cfa9c4515dc84fd78d995f8de25fbcaa2e",
+      "metadata_file": "man-level-plus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-elevated-minus-90",
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-d80a87a3-4eff-4075-80b3-26e0ae2c7fe2.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-elevated-minus-90-512.png",
+      "sha256": "038cf7182c5d4f1fefe800d630d2d45f2479625babc32c3fd0f9bb0797883579",
+      "metadata_file": "man-elevated-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-elevated-minus-45",
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-df645f14-9d04-4f82-934f-67a98990963a.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-elevated-minus-45-512.png",
+      "sha256": "5d4aa6488af1891990d0ba51ec3ee598fc4060a16a5dd00118b4e4b44836e2d6",
+      "metadata_file": "man-elevated-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-elevated-zero",
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-002fc797-065e-411a-b2b8-cbc5f3c03da2.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-elevated-zero-512.png",
+      "sha256": "5ae3c5a8946819c862702d5126786afb2ef3d3420c6349d8e766d3cec11d2ca2",
+      "metadata_file": "man-elevated-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-elevated-plus-45",
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-1999ea8f-0fef-4146-9bd6-6de34c9c7891.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-elevated-plus-45-512.png",
+      "sha256": "c863f482f68f1b1f65ddb2162cac1e21d78c53bdc961aed26dac661dbcc8f585",
+      "metadata_file": "man-elevated-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "man-elevated-plus-90",
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-3b19a595-80d1-4e55-90bd-050597cc2c0b.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "man-elevated-plus-90-512.png",
+      "sha256": "e0cc02ade02109b38a46c51929b2512af5337af36b04ca9a9543fdb010a8e960",
+      "metadata_file": "man-elevated-plus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-low-minus-90",
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-d4941b07-0147-4aca-9fd5-56f0e79ff54c.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-low-minus-90-512.png",
+      "sha256": "44fa15dd3b5ffdafa8053668976a2e00923811fcf1aeee5c94d0cc3297018385",
+      "metadata_file": "woman-low-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-low-minus-45",
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-fef6b24b-72b6-4184-81c3-43f7cc1d7a8c.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-low-minus-45-512.png",
+      "sha256": "dc947b00e4f2e5094e59dac9eea2757dfe438467ae68aee062e0fee6dfbdb77f",
+      "metadata_file": "woman-low-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-low-zero",
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-c9fe2009-01d0-49cc-a81f-db3cc995ffde.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-low-zero-512.png",
+      "sha256": "3b2b5fea8c2465cf268c8db9984cb53a15ee7f076b9a78cff67e739258e27652",
+      "metadata_file": "woman-low-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-low-plus-45",
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-3191b115-2953-4040-9b04-2400fb0772fe.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-low-plus-45-512.png",
+      "sha256": "46e8ccfaf0378388ff6906922533884efdd2fe090e207427db5270c58ca0eb1c",
+      "metadata_file": "woman-low-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-low-plus-90",
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-da1ed439-2bcb-4ad5-a7d4-eb3af4a6df9b.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-low-plus-90-512.png",
+      "sha256": "21e3bb2d3e35def362345d9894caca12d6c028348c0ec32fda5a62422ca560ec",
+      "metadata_file": "woman-low-plus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-level-minus-90",
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-23f8fe68-e946-4153-b539-42841d90d846.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-level-minus-90-512.png",
+      "sha256": "f8cfa0127f432d798934f59672aa74895ef86bd7d9754fa1f821a688c13c81e4",
+      "metadata_file": "woman-level-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-level-minus-45",
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-3a179184-caa6-4178-b6bc-44daf5608ec3.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-level-minus-45-512.png",
+      "sha256": "59dc518ae3c274f063542123b48e246bd4fcd57e71b57c7198ddd8965b9fba87",
+      "metadata_file": "woman-level-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-level-zero",
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-10c0cf7d-f261-4cbb-987c-063744c8716e.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-level-zero-512.png",
+      "sha256": "317fbebe05fd07966504f410e0ac1dc46755f67f78e6e9e4365d2cf4b1ad78d1",
+      "metadata_file": "woman-level-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-level-plus-45",
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-e62debc9-59a8-4318-a37c-d00a38060a8b.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-level-plus-45-512.png",
+      "sha256": "2b590dac82b79083ffd72e399fefb90dbeeeb8aea2c0e8971279fa414acb9579",
+      "metadata_file": "woman-level-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-level-plus-90",
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-ee45c2a9-8403-4712-b860-51d75f466a2f.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-level-plus-90-512.png",
+      "sha256": "eb48e51d16ffd374df573d358c97ba44ed1c3cdddd0ee4880648cb789fe65a92",
+      "metadata_file": "woman-level-plus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-elevated-minus-90",
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-edd0d3d2-8f1e-4dca-a483-cb9609f309f5.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-elevated-minus-90-512.png",
+      "sha256": "5bd77f5b423c6c4a20232bd989213e685485241edba64314882fd034ce4f970a",
+      "metadata_file": "woman-elevated-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-elevated-minus-45",
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-159eba2c-18aa-4e14-842e-4091fae07b98.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-elevated-minus-45-512.png",
+      "sha256": "b6e5b47e62b0c386c0b16fb0ed2e40f44284e166cee701bf6c679cd605ad9b09",
+      "metadata_file": "woman-elevated-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-elevated-zero",
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-873889f7-7276-41bd-bdaa-c7cd822cc671.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-elevated-zero-512.png",
+      "sha256": "a8d47b68c5fb81465ec60ccd6312a8238717d54bf8604a4ca3240e0cfe5316f2",
+      "metadata_file": "woman-elevated-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-elevated-plus-45",
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-294eba1a-8a73-4757-aa47-8864b2673917.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-elevated-plus-45-512.png",
+      "sha256": "149fe8f9bf7b2c3a7a08acad4b7bab272416cbb0bcb4802c41065ac39ff21ac0",
+      "metadata_file": "woman-elevated-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "woman-elevated-plus-90",
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-a98e9f8c-fb79-4121-b25f-39153856baca.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "woman-elevated-plus-90-512.png",
+      "sha256": "ca6ad347166ae75b5a3956d888634579512cddaf054d975a9b4b6e255fa1dfa8",
+      "metadata_file": "woman-elevated-plus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-low-minus-90",
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-61a1f88b-2ec9-4702-8d30-376a240bd02d.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-low-minus-90-512.png",
+      "sha256": "72751bccb408b7f84f075b7716a0b6182f93c6e8b443cc1856d651e2b9f2b09e",
+      "metadata_file": "toddler-low-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-low-minus-45",
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-d5000d84-44e0-4380-992b-16cf75047650.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-low-minus-45-512.png",
+      "sha256": "38eb582fe593cf310f34e8fca9bfe4483383b2ade137cc8bacbbe4ed1f4a6227",
+      "metadata_file": "toddler-low-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-low-zero",
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-ff5ff9c3-1864-49b1-96f4-7826cb40b212.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-low-zero-512.png",
+      "sha256": "25dcf712054d13ddb90bce831f6259a142020020f03d4bc0146e54cab76b43db",
+      "metadata_file": "toddler-low-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-low-plus-45",
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-f618dc98-95b9-46c3-8404-6f7c5b694fd7.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-low-plus-45-512.png",
+      "sha256": "e24c181eceb48d737fdc606000a8378cd86c4f454e000171e43dd9711c473a3d",
+      "metadata_file": "toddler-low-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-low-plus-90",
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-7a1f5ac9-a168-4bb3-9013-d618ee97c244.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-low-plus-90-512.png",
+      "sha256": "911af1bbe9cc3df16d7407b43dffa6e3c2bbec808024981ab5b8b98e7b9842ff",
+      "metadata_file": "toddler-low-plus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-level-minus-90",
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-21bb3889-331f-4faa-9988-92922ffda3b4.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-level-minus-90-512.png",
+      "sha256": "1a87bf12d04dacc87f66e62b6c5b1b72681c6623852d9187b93306eaf9a44ba5",
+      "metadata_file": "toddler-level-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-level-minus-45",
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-a531a6b7-a177-460f-979c-90aaf9ad527a.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-level-minus-45-512.png",
+      "sha256": "b1148e52eb45f453553f0b926e382f3f08d925a2f07bb754b146ecf083b8ef51",
+      "metadata_file": "toddler-level-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-level-zero",
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-4454bdda-009b-48c5-8e8d-cd83f222efd3.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-level-zero-512.png",
+      "sha256": "ee11650f50688b169efeffb6d79344f9a7d5a1bc321a3a552af3471a2b728450",
+      "metadata_file": "toddler-level-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-level-plus-45",
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-ab543ad2-8189-45e1-9f9d-1d530aaf82b7.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-level-plus-45-512.png",
+      "sha256": "aba9d32d2a36eb25a79f00412443b1ae183655054ccfba3febc6b0b33b10ece2",
+      "metadata_file": "toddler-level-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-level-plus-90",
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: eye-level shot; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-948853c5-50fa-4390-85fd-0ed42d03d991.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-level-plus-90-512.png",
+      "sha256": "2be615c8e8490baf3b2f3be51da3f4ffd9fe9234c2d409ba33c37090b665e68b",
+      "metadata_file": "toddler-level-plus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-elevated-minus-90",
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": -90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: left side profile view, see subject's left cheek, nose points toward image left, only one eye visible (yaw label -90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: arms comfortably relaxed, a gentle smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-dd67488d-454d-4864-a547-7cb4c72fd4ea.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-elevated-minus-90-512.png",
+      "sha256": "ad32897266d3b948e7fed4390dce1522f4a02a952287b5355c84b42a7d43f0ae",
+      "metadata_file": "toddler-elevated-minus-90-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-elevated-minus-45",
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": -45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-aa341c7d-f3b4-43f7-a986-6a34b9784869.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-elevated-minus-45-512.png",
+      "sha256": "18ef70f1e7b7888dca5b1caf6a451ab35aa9cca08da35e9ad23eefd4a39fcc8c",
+      "metadata_file": "toddler-elevated-minus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-elevated-zero",
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": 0,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: straight frontal view (yaw label 0 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: hands loosely clasped near waist, thoughtful neutral expression. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-43a462e7-dfad-4cef-ae75-fee81d23c784.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-elevated-zero-512.png",
+      "sha256": "e90dc2b399ea0e0e27db800900afc5b3af599eb567b6cad5fddd8cf16e21fc4f",
+      "metadata_file": "toddler-elevated-zero-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-elevated-plus-45",
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": 45,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: front-right quarter view, see more of subject's right cheek, nose points toward image right (yaw label 45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand resting on upper chest, curious slightly raised eyebrows. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-fead4779-fd12-47f2-8673-47b57e0a9fb0.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-elevated-plus-45-512.png",
+      "sha256": "67120330eaf28db9334e2697611975789ed9af091a1fa3704f1f723bb21384f4",
+      "metadata_file": "toddler-elevated-plus-45-512.json",
+      "original_retained": false
+    },
+    {
+      "id": "toddler-elevated-plus-90",
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": 90,
+      "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 3-year-old toddler, round cheeks, short straight dark hair, brown eyes, mint green long-sleeved sweatshirt, fully clothed. Scene: cheerful indoor playroom with wooden toy shelves, colorful blocks and a window, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+      "status": "generated",
+      "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-7a37f9b2-464b-480e-acd7-091ba8186acf.png",
+      "original_size": [
+        1254,
+        1254
+      ],
+      "image": "toddler-elevated-plus-90-512.png",
+      "sha256": "b98ba590e3eac0ad6ed0c8df12ce1a825e427fef4eb81c180f3f3284d9a3386f",
+      "metadata_file": "toddler-elevated-plus-90-512.json",
+      "original_retained": false
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "section_id": "P7-5.12",
+  "generator": "Codex built-in image_gen",
+  "id": "woman-elevated-plus-90",
+  "subject": "woman",
+  "vertical": "elevated",
+  "yaw": 90,
+  "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 30-year-old adult woman, warm light-brown skin, brown eyes, shoulder-length curly dark hair, mustard yellow long-sleeved blouse. Scene: sunlit library with bookshelves, reading tables and potted plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: elevated shot, camera clearly above head looking diagonally down, top of head and shoulders visible; horizontal view: right side profile view, see subject's right cheek, nose points toward image right, only one eye visible (yaw label 90 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: holding a small plain book near waist, cheerful smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+  "status": "generated",
+  "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-a98e9f8c-fb79-4121-b25f-39153856baca.png",
+  "original_size": [
+    1254,
+    1254
+  ],
+  "image": "woman-elevated-plus-90-512.png",
+  "sha256": "ca6ad347166ae75b5a3956d888634579512cddaf054d975a9b4b6e255fa1dfa8",
+  "metadata_file": "woman-elevated-plus-90-512.json",
+  "output_size": [
+    512,
+    512
+  ],
+  "original_sha256": "47287114f56968f3ecf96ce4a157aa7c7289d13c3b2070b4384a620cdfd450d2",
+  "postprocessing": {
+    "operation": "resize",
+    "resampling": "LANCZOS",
+    "crop": false
+  },
+  "angle_note": "Angles are requested generation labels, not measured camera coordinates.",
+  "original_retained": false
+}

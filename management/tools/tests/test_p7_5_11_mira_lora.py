@@ -1,5 +1,7 @@
 """CPU-only packaging regressions. Synthetic review flags are test fixtures only."""
 import copy
+import sys
+from PIL import Image
 import importlib.util
 import json
 from pathlib import Path
@@ -8,7 +10,8 @@ import tomllib
 import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
-SPEC = importlib.util.spec_from_file_location('mira_lora', ROOT / 'docs/assets/part-07/chapter-05/sec-11/p7_5_11_mira_lora.py')
+sys.path.insert(0, str(ROOT / 'docs/assets/part-07/chapter-05/sec-10'))
+SPEC = importlib.util.spec_from_file_location('mira_lora', ROOT / 'docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py')
 M = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(M)
 
@@ -59,7 +62,10 @@ class PackagingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'two reviewed'):
             self.package()
         self.manifest['purpose'] = 'single_image_memorization'
-        path = ROOT / 'docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png'
+        fixture = tempfile.TemporaryDirectory(dir=ROOT / 'docs/assets')
+        self.addCleanup(fixture.cleanup)
+        path = Path(fixture.name) / 'neutral-canvas.png'
+        Image.new('RGB', (512, 512), (240, 240, 240)).save(path)
         self.manifest['neutral_control'] = {'path': str(path), 'sha256': M.sha(path)}
         package = self.package()
         row = json.loads((package / 'train.jsonl').read_text())
@@ -77,7 +83,10 @@ class PackagingTests(unittest.TestCase):
 
     def test_ablation_preserves_targets_captions_and_validation(self):
         self.manifest['purpose'] = 'neutral_control_ablation'
-        path = ROOT / 'docs/assets/part-07/chapter-05/sec-11/identity-evaluation/inputs/neutral-canvas.png'
+        fixture = tempfile.TemporaryDirectory(dir=ROOT / 'docs/assets')
+        self.addCleanup(fixture.cleanup)
+        path = Path(fixture.name) / 'neutral-canvas.png'
+        Image.new('RGB', (512, 512), (240, 240, 240)).save(path)
         self.manifest['neutral_control'] = {'path': str(path), 'sha256': M.sha(path)}
         package = self.package()
         for split in ('train', 'validation'):
@@ -147,6 +156,7 @@ class PackagingTests(unittest.TestCase):
     def test_cpu_text_cache_rejects_fp8_and_is_in_plan(self):
         config = M.read(M.CONFIG)
         config['training']['text_encoder_device'] = 'cpu'
+        config['training']['fp8_vl'] = True
         with self.assertRaisesRegex(ValueError, 'CPU text caching'):
             M.settings(config)
         config['training']['fp8_vl'] = False

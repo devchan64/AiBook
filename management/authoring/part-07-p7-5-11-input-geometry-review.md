@@ -26,7 +26,7 @@
 
 **처리:** 사용자 확정 폐기. 입력 이미지·생성 기록 삭제, 활성 후보 목록에서 제거.
 
-[Mira 목표](../../docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-background-01.png)
+[Mira 목표](../../docs/assets/part-07/chapter-05/sec-10/training-images/p7-5-10-mira-v2-background-01.png)
 
 ## IPR-003 — bfs-input-40-watercolor
 
@@ -36,4 +36,4 @@
 
 **처리:** 사용자 확정 폐기. 입력 이미지·생성 기록 삭제, 활성 후보 목록에서 제거.
 
-[Mira 목표](../../docs/assets/part-07/chapter-05/sec-11/training-images/p7-5-11-mira-v2-outfit-04.png)
+[Mira 목표](../../docs/assets/part-07/chapter-05/sec-10/training-images/p7-5-10-mira-v2-outfit-04.png)

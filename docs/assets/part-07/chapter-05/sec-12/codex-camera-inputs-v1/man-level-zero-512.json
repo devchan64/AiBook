@@ -1,0 +1,30 @@
+{
+  "section_id": "P7-5.12",
+  "generator": "Codex built-in image_gen",
+  "id": "man-level-zero",
+  "subject": "man",
+  "vertical": "level",
+  "yaw": 0,
+  "prompt": "Use case: photorealistic-natural. Generate one 512x512 square photographic image for an AI book's camera-angle experiment. One fictional adult man, age 32, short wavy dark brown hair, light stubble, medium tan skin, wearing an ordinary teal cotton shirt. Upper body medium shot from waist to above head, complete head visible, natural anatomy. Camera: eye-level, straight frontal view (yaw 0). He stands relaxed, one hand loosely holding a plain ceramic cup near waist, gentle closed-mouth smile. Visible detailed background: a cozy cafe with wooden shelves, window and green plants; no other people. Natural daylight, realistic skin and fabric. No text, logos, borders or collage. This is a standalone scene, not a contact sheet.",
+  "status": "generated",
+  "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-4658289b-359c-454b-8616-c25ba4258113.png",
+  "original_size": [
+    1254,
+    1254
+  ],
+  "image": "man-level-zero-512.png",
+  "sha256": "fd925b1e0e6762d8749115fb7d091af020130c76909f10d577b7071196fffeec",
+  "metadata_file": "man-level-zero-512.json",
+  "output_size": [
+    512,
+    512
+  ],
+  "original_sha256": "c7d21faec997548d5abdd6c139209e71adb0486824c1c1961ebb99d4be0793fb",
+  "postprocessing": {
+    "operation": "resize",
+    "resampling": "LANCZOS",
+    "crop": false
+  },
+  "angle_note": "Angles are requested generation labels, not measured camera coordinates.",
+  "original_retained": false
+}

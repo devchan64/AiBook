@@ -1,0 +1,30 @@
+{
+  "section_id": "P7-5.12",
+  "generator": "Codex built-in image_gen",
+  "id": "man-low-minus-45",
+  "subject": "man",
+  "vertical": "low",
+  "yaw": -45,
+  "prompt": "Use case: photorealistic-natural. Generate ONE standalone 512x512 square photographic image for a camera-angle experiment. Subject: One fictional 32-year-old adult man, medium tan skin, short wavy dark-brown hair, light stubble, teal cotton shirt. Scene: cozy cafe with wooden shelving, large windows and green plants, background objects clearly recognizable, no other people. Upper body medium shot from waist to above head, full head and shoulders visible. Camera: low-angle shot, camera clearly below face looking upward, visible underside of chin; horizontal view: front-left quarter view, see more of subject's left cheek, nose points toward image left (yaw label -45 degrees). Head and torso point in the same direction; do not turn the head toward the lens for side views. Pose and expression: one hand raised near shoulder in a small wave, happy open-mouth smile. Natural daylight, realistic anatomy, skin and fabric, modest ordinary clothing. No text, logo, border, grid or collage.",
+  "status": "generated",
+  "source": "/home/cbsim/.codex/generated_images/01a0aa40-1cc9-7852-82f5-e17420341999/exec-acab8e4c-4ec1-4bda-86bf-b41dc6a00532.png",
+  "original_size": [
+    1254,
+    1254
+  ],
+  "image": "man-low-minus-45-512.png",
+  "sha256": "43ea223d3cf2111e61a84212be916ceb956bc85d74ae5bac9a9a5eaf45997a97",
+  "metadata_file": "man-low-minus-45-512.json",
+  "output_size": [
+    512,
+    512
+  ],
+  "original_sha256": "d4c188aba3a3fc0e8b14e9932d3aa3d5fcbe10392572756b8c7af8d4784cb39b",
+  "postprocessing": {
+    "operation": "resize",
+    "resampling": "LANCZOS",
+    "crop": false
+  },
+  "angle_note": "Angles are requested generation labels, not measured camera coordinates.",
+  "original_retained": false
+}
