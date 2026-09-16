@@ -7,7 +7,7 @@
     "helper_sha256": "647496bb123e379689d007f144e7f8d3752d3bd304efed5ecd124b335bd70d01"
   },
   "planned_count": 128,
-  "generated_count": 128,
+  "generated_count": 123,
   "items": [
     {
       "id": "mira-target-front-outfit-01",
@@ -551,25 +551,6 @@
       "condition": "slightly raised inner eyebrows and a concerned expression",
       "reference": "front",
       "group": "mira-target-expression-05",
-      "reference_sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
-      "review_status": "pending",
-      "split": "pending",
-      "caption": "",
-      "reserved_split": null,
-      "target": null,
-      "target_sha256": null,
-      "suggested_caption": ""
-    },
-    {
-      "id": "mira-target-front-expression-06",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-front-expression-06.png",
-      "sha256": "740e3b3084029d3bd48c83af39d1263eaba014a47150019cb83fb510356a187c",
-      "record": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-front-expression-06-result.json",
-      "record_sha256": "9f4da4ab2375f4ac8454f619453c2af8f6b8024efc5f37bfd67cc9ca2d02a50d",
-      "category": "expression",
-      "condition": "lowered drawn-together eyebrows and closed lips",
-      "reference": "front",
-      "group": "mira-target-expression-06",
       "reference_sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
       "review_status": "pending",
       "split": "pending",
@@ -1169,25 +1150,6 @@
       "suggested_caption": ""
     },
     {
-      "id": "mira-target-right-expression-06",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-right-expression-06.png",
-      "sha256": "43c5e60bb7458c32e7cf46cee522ba9151a364c58bef4c53dc44b432e6c62831",
-      "record": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-right-expression-06-result.json",
-      "record_sha256": "c95923393ce67509b95ede2df405b8eccd3b0c49065ed2e3518d55b295879fe2",
-      "category": "expression",
-      "condition": "lowered drawn-together eyebrows and closed lips",
-      "reference": "right",
-      "group": "mira-target-expression-06",
-      "reference_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "review_status": "pending",
-      "split": "pending",
-      "caption": "",
-      "reserved_split": null,
-      "target": null,
-      "target_sha256": null,
-      "suggested_caption": ""
-    },
-    {
       "id": "mira-target-right-expression-07",
       "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-right-expression-07.png",
       "sha256": "6ff99c5b31a496c1216bd352ecade4a82ac76183e77ca340ea002c66da1e6536",
@@ -1473,25 +1435,6 @@
       "suggested_caption": ""
     },
     {
-      "id": "mira-target-left-background-06",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-background-06.png",
-      "sha256": "b464d3db87879cae6144d4dfdcd7234a3aabfcb760373219f417bfcd0676506c",
-      "record": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-background-06-result.json",
-      "record_sha256": "c86646499c72b7f11a5b0d8a7d00616366eb0d1fbbec7aee4f66eab587328eff",
-      "category": "background",
-      "condition": "a railway waiting room",
-      "reference": "left",
-      "group": "mira-target-background-06",
-      "reference_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "review_status": "pending",
-      "split": "pending",
-      "caption": "",
-      "reserved_split": null,
-      "target": null,
-      "target_sha256": null,
-      "suggested_caption": ""
-    },
-    {
       "id": "mira-target-left-background-07",
       "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-background-07.png",
       "sha256": "7f13dededb259b9ea42232d4cc8ab7f023bfc26ac4e897bcbb263425da953223",
@@ -1767,25 +1710,6 @@
       "condition": "slightly raised inner eyebrows and a concerned expression",
       "reference": "left",
       "group": "mira-target-expression-05",
-      "reference_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "review_status": "pending",
-      "split": "pending",
-      "caption": "",
-      "reserved_split": null,
-      "target": null,
-      "target_sha256": null,
-      "suggested_caption": ""
-    },
-    {
-      "id": "mira-target-left-expression-06",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-expression-06.png",
-      "sha256": "b90a640c78449f1ee58b794409428f7e6013c66352603bf510e8f2a500c6a7a7",
-      "record": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-expression-06-result.json",
-      "record_sha256": "a62ad66d5cb4972555c68dad59e6c7ec6e17a2351594aee293ababef98a27736",
-      "category": "expression",
-      "condition": "lowered drawn-together eyebrows and closed lips",
-      "reference": "left",
-      "group": "mira-target-expression-06",
       "reference_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
       "review_status": "pending",
       "split": "pending",
@@ -2385,25 +2309,6 @@
       "suggested_caption": ""
     },
     {
-      "id": "mira-target-left-profile-expression-06",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-profile-expression-06.png",
-      "sha256": "11694c03373061bbdc7f4927638351d99c298f58b380c490de78dfb1f0179ca9",
-      "record": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-profile-expression-06-result.json",
-      "record_sha256": "9f3cd4b7018431b78f11b9743fc8e7c96e61ec4cda87b7db0cf377e10e1024c2",
-      "category": "expression",
-      "condition": "lowered drawn-together eyebrows and closed lips",
-      "reference": "left_profile",
-      "group": "mira-target-expression-06",
-      "reference_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "review_status": "pending",
-      "split": "pending",
-      "caption": "",
-      "reserved_split": null,
-      "target": null,
-      "target_sha256": null,
-      "suggested_caption": ""
-    },
-    {
       "id": "mira-target-left-profile-expression-07",
       "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-profile-expression-07.png",
       "sha256": "0d8886bba9827692ae12ee19550e7b3b8c4fd288f3aefb35a9bf86ee2358c066",
@@ -2440,6 +2345,59 @@
       "target": null,
       "target_sha256": null,
       "suggested_caption": ""
+    }
+  ],
+  "discarded_count": 5,
+  "discarded_items": [
+    {
+      "id": "mira-target-front-expression-06",
+      "sha256": "740e3b3084029d3bd48c83af39d1263eaba014a47150019cb83fb510356a187c",
+      "record_sha256": "9f4da4ab2375f4ac8454f619453c2af8f6b8024efc5f37bfd67cc9ca2d02a50d",
+      "management_code": "P711-TGT-030",
+      "status": "discarded",
+      "regenerate": false,
+      "reason": "사용자 최종 폐기: 생성 불량",
+      "date": "2026-09-16"
+    },
+    {
+      "id": "mira-target-right-expression-06",
+      "sha256": "43c5e60bb7458c32e7cf46cee522ba9151a364c58bef4c53dc44b432e6c62831",
+      "record_sha256": "c95923393ce67509b95ede2df405b8eccd3b0c49065ed2e3518d55b295879fe2",
+      "management_code": "P711-TGT-062",
+      "status": "discarded",
+      "regenerate": false,
+      "reason": "사용자 최종 폐기: 생성 불량",
+      "date": "2026-09-16"
+    },
+    {
+      "id": "mira-target-left-background-06",
+      "sha256": "b464d3db87879cae6144d4dfdcd7234a3aabfcb760373219f417bfcd0676506c",
+      "record_sha256": "c86646499c72b7f11a5b0d8a7d00616366eb0d1fbbec7aee4f66eab587328eff",
+      "management_code": "P711-TGT-078",
+      "status": "discarded",
+      "regenerate": false,
+      "reason": "사용자 최종 폐기: 생성 불량",
+      "date": "2026-09-16"
+    },
+    {
+      "id": "mira-target-left-expression-06",
+      "sha256": "b90a640c78449f1ee58b794409428f7e6013c66352603bf510e8f2a500c6a7a7",
+      "record_sha256": "a62ad66d5cb4972555c68dad59e6c7ec6e17a2351594aee293ababef98a27736",
+      "management_code": "P711-TGT-094",
+      "status": "discarded",
+      "regenerate": false,
+      "reason": "사용자 최종 폐기: 생성 불량",
+      "date": "2026-09-16"
+    },
+    {
+      "id": "mira-target-left-profile-expression-06",
+      "sha256": "11694c03373061bbdc7f4927638351d99c298f58b380c490de78dfb1f0179ca9",
+      "record_sha256": "9f3cd4b7018431b78f11b9743fc8e7c96e61ec4cda87b7db0cf377e10e1024c2",
+      "management_code": "P711-TGT-126",
+      "status": "discarded",
+      "regenerate": false,
+      "reason": "사용자 최종 폐기: 생성 불량",
+      "date": "2026-09-16"
     }
   ]
 }

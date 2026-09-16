@@ -2,16 +2,14 @@
   "schema_version": 1,
   "date": "2026-09-16",
   "catalog": "docs/assets/part-07/chapter-05/sec-11/target-images/candidate-catalog.json",
-  "catalog_sha256": "838218de9dfe6906abff14643383e046da8942ca4429b3c5aa6de9202a673be2",
+  "catalog_sha256": "112dc1ec3fafee761cfb71fe07886dbae869e813b5993d3a25c87d96283478cd",
   "scope": "128 images inspected in 16 sheets with direction-matched reference, 320px per image. Expression detail inspected for 030/062/094/126; full image for 078. Not a full-resolution audit of all images.",
   "criteria": "Mira identity, bob hairstyle, target illustration style, requested edits, and artifacts. Background/expression changes requested during TARGET creation are allowed. Future training INPUT must preserve the selected target expression and scene.",
   "counts": {
     "first_pass_no_major_issue": 91,
-    "lighting_style_review": 32,
-    "expression_relabel_review": 4,
-    "generation_mismatch": 1
+    "lighting_style_review": 32
   },
-  "files_deleted": false,
+  "files_deleted": true,
   "training_started": false,
   "items": [
     {
@@ -448,21 +446,6 @@
       "review_disposition": "first_pass_no_major_issue",
       "review_note": "320px 비교표에서 방향별 기준의 얼굴·단발 헤어와 요청 변경이 대체로 이어진다. 뚜렷한 결함을 발견하지 못했으며 원본 전체 확대 검수·학습 채택 완료를 뜻하지 않는다.",
       "inspection": "sheet_320px"
-    },
-    {
-      "id": "mira-target-front-expression-06",
-      "management_code": "P711-TGT-030",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-front-expression-06.png",
-      "image_sha256": "740e3b3084029d3bd48c83af39d1263eaba014a47150019cb83fb510356a187c",
-      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
-      "reference_sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
-      "condition": "lowered drawn-together eyebrows and closed lips",
-      "status": "pending",
-      "split": "pending",
-      "caption": "",
-      "review_disposition": "expression_relabel_review",
-      "review_note": "눈썹을 낮추어 모으라는 요청과 달리 눈썹 안쪽이 올라가거나 눈을 감고 내리뜬 모습이다. 확대 비교에서 확인했다. 얼굴 아이덴티 불량이나 폐기로 단정하지 않으며 실제 표정에 맞춘 라벨·후속 입력 대응을 검토한다.",
-      "inspection": "sheet_320px_plus_detail"
     },
     {
       "id": "mira-target-front-expression-07",
@@ -930,21 +913,6 @@
       "inspection": "sheet_320px"
     },
     {
-      "id": "mira-target-right-expression-06",
-      "management_code": "P711-TGT-062",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-right-expression-06.png",
-      "image_sha256": "43c5e60bb7458c32e7cf46cee522ba9151a364c58bef4c53dc44b432e6c62831",
-      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
-      "reference_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
-      "condition": "lowered drawn-together eyebrows and closed lips",
-      "status": "pending",
-      "split": "pending",
-      "caption": "",
-      "review_disposition": "expression_relabel_review",
-      "review_note": "눈썹을 낮추어 모으라는 요청과 달리 눈썹 안쪽이 올라가거나 눈을 감고 내리뜬 모습이다. 확대 비교에서 확인했다. 얼굴 아이덴티 불량이나 폐기로 단정하지 않으며 실제 표정에 맞춘 라벨·후속 입력 대응을 검토한다.",
-      "inspection": "sheet_320px_plus_detail"
-    },
-    {
       "id": "mira-target-right-expression-07",
       "management_code": "P711-TGT-063",
       "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-right-expression-07.png",
@@ -1170,21 +1138,6 @@
       "inspection": "sheet_320px"
     },
     {
-      "id": "mira-target-left-background-06",
-      "management_code": "P711-TGT-078",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-background-06.png",
-      "image_sha256": "b464d3db87879cae6144d4dfdcd7234a3aabfcb760373219f417bfcd0676506c",
-      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
-      "reference_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "condition": "a railway waiting room",
-      "status": "pending",
-      "split": "pending",
-      "caption": "",
-      "review_disposition": "generation_mismatch",
-      "review_note": "철도 대합실 요청과 달리 검은 단색 배경이다. RGB 원본에서도 확인했다. 요청 실패와 학습 이미지 자체의 사용 가능성은 구분하며, 현재 대합실 조건으로 채택하지 않는다.",
-      "inspection": "sheet_320px_plus_detail"
-    },
-    {
       "id": "mira-target-left-background-07",
       "management_code": "P711-TGT-079",
       "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-background-07.png",
@@ -1408,21 +1361,6 @@
       "review_disposition": "first_pass_no_major_issue",
       "review_note": "320px 비교표에서 방향별 기준의 얼굴·단발 헤어와 요청 변경이 대체로 이어진다. 뚜렷한 결함을 발견하지 못했으며 원본 전체 확대 검수·학습 채택 완료를 뜻하지 않는다.",
       "inspection": "sheet_320px"
-    },
-    {
-      "id": "mira-target-left-expression-06",
-      "management_code": "P711-TGT-094",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-expression-06.png",
-      "image_sha256": "b90a640c78449f1ee58b794409428f7e6013c66352603bf510e8f2a500c6a7a7",
-      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
-      "reference_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
-      "condition": "lowered drawn-together eyebrows and closed lips",
-      "status": "pending",
-      "split": "pending",
-      "caption": "",
-      "review_disposition": "expression_relabel_review",
-      "review_note": "눈썹을 낮추어 모으라는 요청과 달리 눈썹 안쪽이 올라가거나 눈을 감고 내리뜬 모습이다. 확대 비교에서 확인했다. 얼굴 아이덴티 불량이나 폐기로 단정하지 않으며 실제 표정에 맞춘 라벨·후속 입력 대응을 검토한다.",
-      "inspection": "sheet_320px_plus_detail"
     },
     {
       "id": "mira-target-left-expression-07",
@@ -1890,21 +1828,6 @@
       "inspection": "sheet_320px"
     },
     {
-      "id": "mira-target-left-profile-expression-06",
-      "management_code": "P711-TGT-126",
-      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-profile-expression-06.png",
-      "image_sha256": "11694c03373061bbdc7f4927638351d99c298f58b380c490de78dfb1f0179ca9",
-      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
-      "reference_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
-      "condition": "lowered drawn-together eyebrows and closed lips",
-      "status": "pending",
-      "split": "pending",
-      "caption": "",
-      "review_disposition": "expression_relabel_review",
-      "review_note": "눈썹을 낮추어 모으라는 요청과 달리 눈썹 안쪽이 올라가거나 눈을 감고 내리뜬 모습이다. 확대 비교에서 확인했다. 얼굴 아이덴티 불량이나 폐기로 단정하지 않으며 실제 표정에 맞춘 라벨·후속 입력 대응을 검토한다.",
-      "inspection": "sheet_320px_plus_detail"
-    },
-    {
       "id": "mira-target-left-profile-expression-07",
       "management_code": "P711-TGT-127",
       "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-profile-expression-07.png",
@@ -1934,5 +1857,93 @@
       "review_note": "320px 비교표에서 방향별 기준의 얼굴·단발 헤어와 요청 변경이 대체로 이어진다. 뚜렷한 결함을 발견하지 못했으며 원본 전체 확대 검수·학습 채택 완료를 뜻하지 않는다.",
       "inspection": "sheet_320px"
     }
-  ]
+  ],
+  "discarded_items": [
+    {
+      "id": "mira-target-front-expression-06",
+      "management_code": "P711-TGT-030",
+      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-front-expression-06.png",
+      "image_sha256": "740e3b3084029d3bd48c83af39d1263eaba014a47150019cb83fb510356a187c",
+      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-front-p7-5-4-direct-v1-size-1280x1280-seed-62294-steps-30.png",
+      "reference_sha256": "c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
+      "condition": "lowered drawn-together eyebrows and closed lips",
+      "status": "discarded",
+      "split": "pending",
+      "caption": "",
+      "review_disposition": "user_confirmed_discard",
+      "review_note": "눈썹을 낮추어 모으라는 요청과 달리 눈썹 안쪽이 올라가거나 눈을 감고 내리뜬 모습이다. 확대 비교에서 확인했다. 얼굴 아이덴티 불량이나 폐기로 단정하지 않으며 실제 표정에 맞춘 라벨·후속 입력 대응을 검토한다.",
+      "inspection": "sheet_320px_plus_detail",
+      "files_deleted": true,
+      "regenerate": false
+    },
+    {
+      "id": "mira-target-right-expression-06",
+      "management_code": "P711-TGT-062",
+      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-right-expression-06.png",
+      "image_sha256": "43c5e60bb7458c32e7cf46cee522ba9151a364c58bef4c53dc44b432e6c62831",
+      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "reference_sha256": "4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
+      "condition": "lowered drawn-together eyebrows and closed lips",
+      "status": "discarded",
+      "split": "pending",
+      "caption": "",
+      "review_disposition": "user_confirmed_discard",
+      "review_note": "눈썹을 낮추어 모으라는 요청과 달리 눈썹 안쪽이 올라가거나 눈을 감고 내리뜬 모습이다. 확대 비교에서 확인했다. 얼굴 아이덴티 불량이나 폐기로 단정하지 않으며 실제 표정에 맞춘 라벨·후속 입력 대응을 검토한다.",
+      "inspection": "sheet_320px_plus_detail",
+      "files_deleted": true,
+      "regenerate": false
+    },
+    {
+      "id": "mira-target-left-background-06",
+      "management_code": "P711-TGT-078",
+      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-background-06.png",
+      "image_sha256": "b464d3db87879cae6144d4dfdcd7234a3aabfcb760373219f417bfcd0676506c",
+      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+      "reference_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
+      "condition": "a railway waiting room",
+      "status": "discarded",
+      "split": "pending",
+      "caption": "",
+      "review_disposition": "user_confirmed_discard",
+      "review_note": "철도 대합실 요청과 달리 검은 단색 배경이다. RGB 원본에서도 확인했다. 요청 실패와 학습 이미지 자체의 사용 가능성은 구분하며, 현재 대합실 조건으로 채택하지 않는다.",
+      "inspection": "sheet_320px_plus_detail",
+      "files_deleted": true,
+      "regenerate": false
+    },
+    {
+      "id": "mira-target-left-expression-06",
+      "management_code": "P711-TGT-094",
+      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-expression-06.png",
+      "image_sha256": "b90a640c78449f1ee58b794409428f7e6013c66352603bf510e8f2a500c6a7a7",
+      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png",
+      "reference_sha256": "8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
+      "condition": "lowered drawn-together eyebrows and closed lips",
+      "status": "discarded",
+      "split": "pending",
+      "caption": "",
+      "review_disposition": "user_confirmed_discard",
+      "review_note": "눈썹을 낮추어 모으라는 요청과 달리 눈썹 안쪽이 올라가거나 눈을 감고 내리뜬 모습이다. 확대 비교에서 확인했다. 얼굴 아이덴티 불량이나 폐기로 단정하지 않으며 실제 표정에 맞춘 라벨·후속 입력 대응을 검토한다.",
+      "inspection": "sheet_320px_plus_detail",
+      "files_deleted": true,
+      "regenerate": false
+    },
+    {
+      "id": "mira-target-left-profile-expression-06",
+      "management_code": "P711-TGT-126",
+      "image": "docs/assets/part-07/chapter-05/sec-11/target-images/mira-target-left-profile-expression-06.png",
+      "image_sha256": "11694c03373061bbdc7f4927638351d99c298f58b380c490de78dfb1f0179ca9",
+      "reference": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+      "reference_sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "condition": "lowered drawn-together eyebrows and closed lips",
+      "status": "discarded",
+      "split": "pending",
+      "caption": "",
+      "review_disposition": "user_confirmed_discard",
+      "review_note": "눈썹을 낮추어 모으라는 요청과 달리 눈썹 안쪽이 올라가거나 눈을 감고 내리뜬 모습이다. 확대 비교에서 확인했다. 얼굴 아이덴티 불량이나 폐기로 단정하지 않으며 실제 표정에 맞춘 라벨·후속 입력 대응을 검토한다.",
+      "inspection": "sheet_320px_plus_detail",
+      "files_deleted": true,
+      "regenerate": false
+    }
+  ],
+  "discarded_count": 5
 }

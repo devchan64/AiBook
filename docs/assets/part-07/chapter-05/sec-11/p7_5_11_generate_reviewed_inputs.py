@@ -13,17 +13,19 @@ import p7_5_11_generate_supplements as generator
 BASE = Path(__file__).resolve().parent
 
 
-def main():
+def main(policy_name='p7-5-11-input-generation-exclusions.json',
+         spec_name='p7-5-11-bfs-input-pool-v2.json', output_name='input-images'):
+    """입력·목표별 제외 정책을 적용하고 기존 생성기로 전달한다."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--spec', type=Path, default=BASE / 'p7-5-11-bfs-input-pool-v2.json')
-    parser.add_argument('--output-dir', type=Path, default=BASE / 'input-images')
+    parser.add_argument('--spec', type=Path, default=BASE / spec_name)
+    parser.add_argument('--output-dir', type=Path, default=BASE / output_name)
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--limit', type=int)
     parser.add_argument('--wait-for-gpu', action='store_true')
     args = parser.parse_args()
     if args.limit is not None and args.limit < 1:
         parser.error('--limit must be positive')
-    policy = json.loads((BASE / 'p7-5-11-input-generation-exclusions.json').read_text())
+    policy = json.loads((BASE / policy_name).read_text())
     spec = json.loads(args.spec.read_text())
     assert generator.sha256(args.spec) == policy['spec_sha256'], 'Unexpected generation spec'
     excluded = {x['id'] for x in policy['items']}
