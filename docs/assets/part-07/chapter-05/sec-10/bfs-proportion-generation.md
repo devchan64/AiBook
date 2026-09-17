@@ -74,8 +74,9 @@
 
 현재 `training_caption`에서는 BFS 표현을 제거하고 Mira의 얼굴·헤어·화풍을 직접 지칭한다. 입력 생성 조건의 기준 해시는 향후 학습 지시인 `training_caption`과 분리해 검사한다. 기존 결과·카탈로그·학습·평가의 캡션 기록은 당시 실행 조건으로 유지하며, 새 학습 목록을 채택할 때 현재 캡션을 사용한다.
 
-[첫 24개 입력·목표 비교표](bfs-proportion-comparison-24.md){ .aibook-markdown-preview }
 
 ## 단순 토르소 목표 재사용
 
 사용 확정 입력 173개는 5.2의 15방향 토르소 원본을 목표로 사용한다. 목표를 별도로 생성하지 않는다. 입력과 목표의 실제 경로 및 공통 결과 ID는 생성 JSON의 `dataset_usage`와 통합 데이터셋에서 확인한다.
+
+[확정 데이터셋 366쌍 검수표](bfs-paired-dataset-review.md){ .aibook-markdown-preview }에서 관리번호별 입력·목표 대응을 확인한다.

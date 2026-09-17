@@ -112,9 +112,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 [15방향 토르소를 활용한 얼굴 비율 보강 계획](../../../assets/part-07/chapter-05/sec-10/bfs-proportion-generation.md){ .aibook-markdown-preview }
 
-[보강 입력 24개와 Mira 목표 비교표](../../../assets/part-07/chapter-05/sec-10/bfs-proportion-comparison-24.md){ .aibook-markdown-preview }
 
-[보강 입력 180개 검수표](../../../assets/part-07/chapter-05/sec-10/bfs-proportion-review-180.md){ .aibook-markdown-preview }
 
 5.2의 15방향 토르소에 얼굴 조건 6종·화풍 2종을 조합한 입력 180개 중 사용자 제외 7개를 뺀 173개를 사용한다. 단순 토르소 목표는 **5.2의 같은 방향 원본을 재사용**한다. 별도로 생성한 맞춤 목표와 해당 생성 기능은 제거했다. 검수표에서 관리번호별 입력과 Mira 기준의 얼굴 비율, 방향·표정·포즈·의상·배경을 비교한다.
 
@@ -128,13 +126,12 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 `--dry-run`은 참조와 완료 이미지의 해시를 확인하고, 폐기·완료 항목을 제외한 실제 생성 대상을 출력한다. 현재 입력 193개가 모두 존재하면 생성 대상은 0개다. 실제 생성은 사용 중인 GPU 작업과 겹치지 않는 시점에 이 옵션을 빼고 실행한다. 설정은 Qwen-Image-Edit-2511, 1024×1024, 20스텝, CFG 4.0이며 추가 LoRA는 적용하지 않는다. 각 후보는 해당 Mira 목표에서 독립적으로 생성한다.
 
-생성 코드는 PNG·생성 기록과 후보 카탈로그를 기록한다. 완료 항목은 해시를 확인하고 건너뛰며, 학습 목록은 쌍 검수 후 별도로 구성한다. 검수 판단을 생성 카탈로그와 분리하여 생성 재개 시 덮어쓰지 않는다. 생성 완료는 채택을 뜻하지 않으며 BFS 변환 LoRA는 아래 확정 목록으로 1600스텝 학습을 마쳤으며 검증 19쌍의 편집 평가와 시각 검수를 마쳤다. 완료된 학습용 이미지의 생성·선택 Python과 생성 조건 JSON, 후보 이미지·생성 기록은 `sec-10/`에서 관리한다. 진행 중인 45장 평가의 입력·출력 폴더, 평가·비교표 코드와 기준 데이터셋 JSON은 실행 경로와 지문 보존을 위해 `sec-12/`에 남긴다. 폐기 27건을 제외한 참조 입력 후보 193장과 생성 기록은 `sec-10/input-images/`, 추가 Mira 목표 후보는 `sec-10/target-images/`에서 관리한다. 생성된 후보와 학습에 채택한 자료는 구분한다.
+생성 코드는 PNG·생성 기록과 후보 카탈로그를 기록한다. 완료 항목은 해시를 확인하고 건너뛰며, 학습 목록은 쌍 검수 후 별도로 구성한다. 검수 판단을 생성 카탈로그와 분리하여 생성 재개 시 덮어쓰지 않는다. 생성 완료는 채택을 뜻하지 않으며 BFS 변환 LoRA는 아래 확정 목록으로 1600스텝 학습을 마쳤으며 검증 19쌍의 편집 평가와 시각 검수를 마쳤다. 완료된 학습용 이미지의 생성·선택 Python과 생성 조건 JSON, 후보 이미지·생성 기록은 `sec-10/`에서 관리한다. 진행 중인 45장 평가의 입력·출력 폴더, 평가·비교표 코드와 평가 코드는 `sec-12/`에 남아 있으며 최신 데이터셋 JSON은 `sec-10/`을 참조한다. 폐기 27건을 제외한 참조 입력 후보 193장과 생성 기록은 `sec-10/input-images/`, 추가 Mira 목표 후보는 `sec-10/target-images/`에서 관리한다. 생성된 후보와 학습에 채택한 자료는 구분한다.
 
 [참조 입력 후보 193장 카탈로그 JSON](../../../assets/part-07/chapter-05/sec-10/input-images/candidate-catalog.json)
 
-[입력 후보 193개 비교표 Markdown](../../../assets/part-07/chapter-05/sec-10/input-candidate-comparison.md){ .aibook-markdown-preview }
 
-비교표에는 각 입력과 Mira 목표를 나란히 배치하고, 원래 생성 순번에 고정한 `P711-IN-NNN` 관리번호를 부여했다. 기존 AI 검수 기록은 실험용 채택 2개와 확대 검수 보류 191개를 남긴 이력이다. 이후 사용자 채택 판단에서 폐기 27건을 제외하여 아래 193쌍 데이터셋을 확정했다. 후보 생성 기록과 최종 학습 목록의 역할을 구분하고, 관리번호는 그대로 유지한다.
+확정 데이터셋 검수표에서 관리번호별 입력·목표 대응을 확인한다. 기존 입력의 `P711-IN-NNN`과 보강 입력의 `P710-PROP-NNN` 관리번호를 유지하며, 사용 여부는 최신 데이터셋 JSON을 기준으로 한다.
 
 전체 후보를 원고에 펼치지 않고, 같은 Mira 목표에서 생성한 입력 변형 3장만 예로 든다. 생성 방향은 **Mira 목표 → 다른 인물·화풍의 입력 후보**, 학습 방향은 그 반대다. 아래는 확정 데이터셋에 포함된 입력 변형을 보여 주는 샘플이다.
 
@@ -168,11 +165,9 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 [현재 통합 데이터셋 JSON: 기존 193쌍 + 보강 173쌍](../../../assets/part-07/chapter-05/sec-10/p7-5-10-paired-dataset.json)
 
-[이전 학습에 사용한 193쌍 데이터셋 JSON](../../../assets/part-07/chapter-05/sec-12/p7-5-11-bfs-paired-dataset-v1.json)
-
 ## 확정 데이터셋으로 LoRA를 학습한다
 
-현재 확정 데이터셋은 기존 193쌍과 보강 173쌍을 합한 366쌍(학습 347·검증 19)이다. 아래 명령은 이미 수행한 193쌍 실습을 재현하기 위해 **이전 학습의 확정 데이터셋 JSON**을 준비 코드에 넘긴다. `purpose`가 `paired_edit_training`이면 각 행의 `control_image`를 입력으로, `image`를 목표로 고정한다. 같은 행에 지정한 입력·목표 대응을 유지한다. 입력·목표와 생성 기록의 해시, 중복 입력, 같은 목표가 학습과 검증에 함께 들어가는 오류를 검사한다.
+현재 확정 데이터셋은 기존 193쌍과 보강 173쌍을 합한 366쌍(학습 347·검증 19)이다. 아래 명령은 **현재 366쌍 데이터셋**으로 새 학습을 준비한다. 배포된 LoRA와 아래 저장된 평가 결과는 보강 전 193쌍으로 수행한 결과이며, 366쌍으로 학습을 완료했다는 뜻은 아니다. `purpose`가 `paired_edit_training`이면 각 행의 `control_image`를 입력으로, `image`를 목표로 고정한다. 같은 행에 지정한 입력·목표 대응을 유지한다. 입력·목표와 생성 기록의 해시, 중복 입력, 같은 목표가 학습과 검증에 함께 들어가는 오류를 검사한다.
 
 [고정 입력·목표 대응을 지원하는 학습 준비·실행 Python](../../../assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py)
 
@@ -182,15 +177,15 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 8GB GPU에서는 잠재표현·조건 임베딩 캐시, gradient checkpointing, 일부 블록의 CPU 이동, 기반 가중치의 FP8 처리를 사용했다. 이들은 계산·메모리 사용 방식을 조절하며 학습 목표를 대신하지 않는다. 목표 해상도와 참조의 VAE·시각언어 인코더 처리 크기를 별도로 확인한다. 모델 다운로드·해시 검증은 저장소의 모델 관리 도구로 수행하고 `.tmp/download/`의 기존 파일을 사용한다. 학습 전용 환경의 의존성은 저장소 `requirements.txt` 안내를 따른다.
 
-첫 비교 설정은 아래 실행 환경에서 해상도 512, rank·alpha 16, 학습률 0.0001, 배치 크기 1, 최대 1600스텝, 400스텝마다 저장으로 둔다. 이는 충분한 학습량을 확정한 값이 아니다. 한 스텝에 한 쌍을 사용하므로 1600스텝은 학습 174쌍을 평균 약 9.2회 사용하는 양이며, **장당 1600스텝이 아니다**. 입력 유형별 보존 품질과 Mira 변환 정도를 확인하고 다음 실행의 학습량을 조정한다.
+첫 비교 설정은 아래 실행 환경에서 해상도 512, rank·alpha 16, 학습률 0.0001, 배치 크기 1, 최대 1600스텝, 400스텝마다 저장으로 둔다. 이는 충분한 학습량을 확정한 값이 아니다. 한 스텝에 한 쌍을 사용하므로 1600스텝은 현재 학습 347쌍을 평균 약 4.6회 사용하는 양이며, **장당 1600스텝이 아니다**. 입력 유형별 보존 품질과 Mira 변환 정도를 확인하고 다음 실행의 학습량을 조정한다.
 
 저장소 루트에서 다음 명령을 실행한다. 패키지 경로는 실행마다 새 이름을 사용한다.
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py prepare \
-  --manifest docs/assets/part-07/chapter-05/sec-12/p7-5-11-bfs-paired-dataset-v1.json \
+  --manifest docs/assets/part-07/chapter-05/sec-10/p7-5-10-paired-dataset.json \
   --config docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-lora-config.json \
-  --output .tmp/p7-5-12/bfs-paired-v2
+  --output .tmp/p7-5-10/bfs-paired-366-v1
 ```
 
 출력 패키지의 `train.jsonl`에는 174쌍, `validation.jsonl`에는 19쌍이 기록된다. 학습용 `dataset.toml`은 `train.jsonl`만 읽고, 검증 쌍은 별도 편집 평가에 사용한다. 원본 이미지와 학습 설정은 `sec-10/`, 진행 중 평가가 읽는 확정 데이터셋 목록은 `sec-12/`, 실행 패키지·캐시·체크포인트는 `.tmp/p7-5-12/`에 둔다.
@@ -201,7 +196,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py run \
-  --package .tmp/p7-5-12/bfs-paired-v2 \
+  --package .tmp/p7-5-10/bfs-paired-366-v1 \
   --trainer /tmp/p7511-musubi \
   --python .tmp/p7-5-11/musubi-venv/bin/python
 ```
@@ -410,9 +405,7 @@ Mira 단발·얼굴로 바뀌고 초록 상의·미술관의 큰 배치는 남�
 
 ### 후속 실험용 Mira 목표 후보를 별도로 보관한다
 
-[목표 후보 123장 검수 비교표](../../../assets/part-07/chapter-05/sec-10/target-candidate-review.md){ .aibook-markdown-preview }
 
-비교표는 방향별 기준 Mira와 생성 후보를 나란히 배치하고, `P711-TGT-001`~`128` 관리번호로 1차 검수 의견을 연결한다. 전체 축소 비교와 의심 5건의 확대 확인 결과이며, 학습 채택 완료를 뜻하지 않는다.
 
 이 목록은 기존 의상·배경·조명·표정 조건 32개를 방향별 고정 참조 4개에 적용한다. 얼굴·홍채·피부색·헤어를 다시 묘사하지 않고 변경 대상만 지시한다. 최초 128장 중 생성 불량 5장을 폐기해 123장을 보관하며, 이는 학습에 채택한 수가 아니다. 이번에는 참조 입력 후보를 먼저 생성한 뒤 Mira 목표 후보를 늘렸다. 추가 목표 123장은 대응 입력이 없어 현재 193쌍 학습에는 포함하지 않는다.
 
@@ -453,8 +446,8 @@ Mira 단발·얼굴로 바뀌고 초록 상의·미술관의 큰 배치는 남�
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py prepare-resume \
-  --source-package .tmp/p7-5-12/bfs-paired-v2 \
-  --state .tmp/p7-5-12/bfs-paired-v2/checkpoints/mira_bfs-state \
+  --source-package .tmp/p7-5-10/bfs-paired-366-v1 \
+  --state .tmp/p7-5-10/bfs-paired-366-v1/checkpoints/mira_bfs-state \
   --additional-steps 1600 \
   --output .tmp/p7-5-12/bfs-continued-v1
 

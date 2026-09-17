@@ -52,7 +52,7 @@ def main():
         parser.error("--checkpoint and --checkpoint-sha256 must be provided together")
     if len(set(args.scales)) != len(args.scales):
         parser.error("Duplicate scales are not allowed")
-    dataset_path = ASSETS / "sec-12/p7-5-11-bfs-paired-dataset-v1.json"
+    dataset_path = ASSETS / "sec-10/p7-5-10-paired-dataset.json"
     dataset = json.loads(dataset_path.read_text())
     checkpoint = args.checkpoint.resolve()
     assert sha256(checkpoint) == args.checkpoint_sha256

@@ -10,11 +10,6 @@
     "train": 347,
     "validation": 19
   },
-  "historical_dataset": {
-    "path": "docs/assets/part-07/chapter-05/sec-12/p7-5-11-bfs-paired-dataset-v1.json",
-    "sha256": "5a3da4df6038d48f3cfb88da3122d7e530fe7889f607963e0aa4091b07f3ac3c",
-    "purpose": "snapshot used by the previous 193-pair training/evaluation"
-  },
   "policy": "Current selected dataset: existing 193 pairs plus 173 accepted proportion inputs. Seven excluded inputs and 13 unnecessary generated targets are not used. Images are referenced without copying.",
   "items": [
     {

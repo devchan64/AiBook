@@ -6,9 +6,7 @@
 
 사용 제외 입력: `P710-PROP-113·135·147·153·163·167·168`.
 
-[180개 입력 및 미사용 목표 검수 이력](bfs-proportion-review-180.md){ .aibook-markdown-preview }
 
-[이전 학습의 193쌍 기록](../sec-12/p7-5-11-bfs-paired-dataset-v1.json)
 
 | 관리번호 | 학습 입력 | Mira 목표 | 분할 |
 | --- | --- | --- | --- |
