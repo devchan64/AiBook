@@ -102,11 +102,11 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 목록의 `reference`는 **입력 후보를 생성할 때 사용하는 Mira 목표**를 가리킨다. 생성 카탈로그의 `image`는 생성된 입력 후보 경로, `training_target`은 원래 Mira 목표 경로다. `prompt`는 자료 생성 지시이고, `training_caption`은 반대 방향인 BFS 변환을 학습할 지시다. 두 문구를 바꾸어 쓰지 않는다. 현재 생성 목록의 `training_caption`은 BFS 대신 Mira의 얼굴·헤어·일러스트 화풍을 직접 지칭한다. 기존 학습·평가 기록의 캡션은 당시 조건으로 보존하며, 이 수정이 배포된 LoRA를 바꾸지는 않는다.
 
-입력·목표 후보는 아래 공용 생성 코드 하나를 사용한다. `--spec` JSON 하나에 조건 조합·저장 경로(`output_dir`)·폐기 목록(`excluded_items`)을 함께 지정한다. `--selection` JSON의 `include_ids`·`exclude_ids`로 이번 출력 대상을 좁힐 수 있고, 완료 이미지는 재생성하지 않는다.
+데이터셋용 입력·목표 후보의 이미지 생성은 아래 공용 코드 하나로 통일한다. 조건마다 별도 생성기를 만들지 않고 JSON을 바꿔 실행한다. `--spec` JSON 하나에 조건 조합·저장 경로(`output_dir`)·폐기 목록(`excluded_items`)을 함께 지정한다. 통합 JSON의 `selection.include_management_ids`·`exclude_management_ids`로 이번 출력 대상을 좁힐 수 있고, 완료 이미지는 재생성하지 않는다.
 
 [이미지 순차 생성 Python](../../../assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py)
 
-[입력 후보 조건 조합 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-combinations-v1.json)
+[입력 후보 조건 조합 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json)
 
 현재 실행은 `components`에 방향·얼굴·화풍·배경과 보존 조건을 정의하고, `items`에서 각 후보의 조건 ID를 선택하는 공통 구조를 사용한다. `prompt_order`에 따라 문구를 조합한다. 기존 입력 220개의 조합은 생성 당시 프롬프트·시드·참조와 정확히 일치하는지 확인한 뒤 폐기 27개를 제외한다. 입력에서는 목표의 배경과 방향을 유지하고, 목표 후보를 만들 때 배경 조건을 변경한다. 펼친 생성 조건의 기준 해시는 `provenance`에 보존하고 당시 결과 기록은 변경하지 않는다. 중복된 평문 목록은 별도로 두지 않는다.
 
@@ -120,13 +120,13 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py \
-  --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-combinations-v1.json \
+  --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json --rule P710-RULE-INPUT-001 \
   --dry-run
 ```
 
 `--dry-run`은 참조와 완료 이미지의 해시를 확인하고, 폐기·완료 항목을 제외한 실제 생성 대상을 출력한다. 현재 입력 193개가 모두 존재하면 생성 대상은 0개다. 실제 생성은 사용 중인 GPU 작업과 겹치지 않는 시점에 이 옵션을 빼고 실행한다. 설정은 Qwen-Image-Edit-2511, 1024×1024, 20스텝, CFG 4.0이며 추가 LoRA는 적용하지 않는다. 각 후보는 해당 Mira 목표에서 독립적으로 생성한다.
 
-생성 코드는 PNG·생성 기록과 후보 카탈로그를 기록한다. 완료 항목은 해시를 확인하고 건너뛰며, 학습 목록은 쌍 검수 후 별도로 구성한다. 검수 판단을 생성 카탈로그와 분리하여 생성 재개 시 덮어쓰지 않는다. 생성 완료는 채택을 뜻하지 않으며 BFS 변환 LoRA는 아래 확정 목록으로 1600스텝 학습을 마쳤으며 검증 19쌍의 편집 평가와 시각 검수를 마쳤다. 완료된 학습용 이미지의 생성·선택 Python과 생성 조건 JSON, 후보 이미지·생성 기록은 `sec-10/`에서 관리한다. 진행 중인 45장 평가의 입력·출력 폴더, 평가·비교표 코드와 평가 코드는 `sec-12/`에 남아 있으며 최신 데이터셋 JSON은 `sec-10/`을 참조한다. 폐기 27건을 제외한 참조 입력 후보 193장과 생성 기록은 `sec-10/input-images/`, 추가 Mira 목표 후보는 `sec-10/target-images/`에서 관리한다. 생성된 후보와 학습에 채택한 자료는 구분한다.
+생성 코드는 PNG·생성 기록과 후보 카탈로그를 기록한다. 완료 항목은 해시를 확인하고 건너뛰며, 학습 목록은 쌍 검수 후 별도로 구성한다. 검수 판단을 생성 카탈로그와 분리하여 생성 재개 시 덮어쓰지 않는다. 생성 완료는 채택을 뜻하지 않으며 BFS 변환 LoRA는 아래 확정 목록으로 1600스텝 학습을 마쳤으며 검증 19쌍의 편집 평가와 시각 검수를 마쳤다. 완료된 학습용 이미지의 생성·선택 Python과 생성 조건 JSON, 후보 이미지·생성 기록은 `sec-10/`에서 관리한다. 진행 중인 45장 평가의 입력·출력 폴더, 평가 코드는 `sec-12/`에 남아 있으며 최신 데이터셋 JSON은 `sec-10/`을 참조한다. 폐기 27건을 제외한 참조 입력 후보 193장과 생성 기록은 `sec-10/input-images/`, 추가 Mira 목표 후보는 `sec-10/target-images/`에서 관리한다. 생성된 후보와 학습에 채택한 자료는 구분한다.
 
 [참조 입력 후보 193장 카탈로그 JSON](../../../assets/part-07/chapter-05/sec-10/input-images/candidate-catalog.json)
 
@@ -153,7 +153,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 > 인물을 Mira의 얼굴과 헤어로 바꾸고, 그림 전체에 Mira의 목표 화풍을 적용한다. 자세·머리 방향·표정·의상 디자인·구도·장면 배치는 유지한다.
 
-[후보 검수 목록·데이터셋 선택 Python](../../../assets/part-07/chapter-05/sec-10/p7_5_10_select_candidates.py)
+[후보 검수 목록·데이터셋 선택 Python](../../../assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py)
 
 `review-template`·`export` 명령에 입력 후보 카탈로그를 지정한다. 선택 결과는 `control_image`에 생성한 다른 인물 이미지, `image`에 원래 Mira 목표를 기록한다. 같은 목표의 모든 파생본은 같은 분할에 두고 기존 검증 목표를 학습으로 옮기지 않는다. 입력 후보 220개는 목표 장면 220개가 아니라 **44개 목표의 변형**이다.
 
@@ -171,7 +171,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 [고정 입력·목표 대응을 지원하는 학습 준비·실행 Python](../../../assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py)
 
-[BFS LoRA 첫 비교 실행 설정 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-bfs-lora-config.json)
+[데이터셋 JSON의 training_config 학습 설정](../../../assets/part-07/chapter-05/sec-10/p7-5-10-paired-dataset.json)
 
 학습 설정에서 `rank`는 LoRA의 작은 행렬이 표현할 변화의 차원이고, `alpha`는 그 변화량의 스케일을 정하는 데 쓰인다. 학습률은 한 번 갱신할 때의 변화 크기, 스텝은 가중치 갱신 횟수다. 추론 때의 LoRA 강도는 학습된 변화를 얼마나 적용할지 정하므로 학습률과 구분한다. 한 번에 여러 설정을 바꾸기보다 같은 검증 입력에서 바꾼 항목의 영향을 비교한다.
 
@@ -184,7 +184,6 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py prepare \
   --manifest docs/assets/part-07/chapter-05/sec-10/p7-5-10-paired-dataset.json \
-  --config docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-lora-config.json \
   --output .tmp/p7-5-10/bfs-paired-366-v1
 ```
 
@@ -411,11 +410,11 @@ Mira 단발·얼굴로 바뀌고 초록 상의·미술관의 큰 배치는 남�
 
 목표 생성 명령은 `P711-TGT-030·062·078·094·126`을 제외한다. `--dry-run`으로 123개 유효 후보의 완료 여부와 제외 ID를 확인할 수 있다. 원래 생성 조건은 삭제하지 않는다.
 
-[목표 후보 조건 조합 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-mira-target-combinations-v1.json)
+[목표 후보 조건 조합 JSON](../../../assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json)
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py \
-  --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-target-combinations-v1.json \
+  --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json --rule P710-RULE-TARGET-001 \
   --wait-for-gpu
 ```
 
@@ -424,11 +423,11 @@ Mira 단발·얼굴로 바뀌고 초록 상의·미술관의 큰 배치는 남�
 추가 목표 후보를 후속 실험에 활용할 때는 다음 명령으로 검수할 항목을 나열한다. 각 이미지와 참조를 비교하여 `status`를 `accepted` 또는 `rejected`로 바꾸고, 채택 항목에 `split`, 실제 이미지에 맞는 `caption`, 판단 이유인 `review_note`를 적는다. 캡션에는 `mira_person`을 포함한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_select_candidates.py review-template \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py review-template \
   --catalog docs/assets/part-07/chapter-05/sec-10/target-images/candidate-catalog.json \
   --output .tmp/p7-5-12/target-review-v3.json
 
-.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_select_candidates.py export \
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py export \
   --catalog docs/assets/part-07/chapter-05/sec-10/target-images/candidate-catalog.json \
   --review .tmp/p7-5-12/target-review-v3.json \
   --output .tmp/p7-5-12/selected-targets-v3.json

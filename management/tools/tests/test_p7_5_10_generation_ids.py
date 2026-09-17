@@ -17,7 +17,7 @@ class GenerationIdTests(unittest.TestCase):
         registry = json.loads((ASSETS / 'p7-5-10-paired-dataset.json').read_text())
         for key, rule in registry['generation_rules'].items():
             path = ROOT / rule['spec']
-            spec = G.load_spec(path)
+            spec = G.load_spec(path, key)
             before = copy.deepcopy(spec)
             G.bind_rule(path, spec)
             for original, row in zip(before['items'], spec['items']):
@@ -26,7 +26,7 @@ class GenerationIdTests(unittest.TestCase):
                 self.assertEqual(row['identifiers']['rule_id'], key)
 
     def test_wrong_rule_selection_fails_before_output(self):
-        path = ASSETS / 'p7-5-10-bfs-proportion-input-pool-v1.json'
+        path = ASSETS / 'p7-5-10-image-generation.json'
         with tempfile.TemporaryDirectory() as folder:
             with self.assertRaisesRegex(ValueError, 'different rule'):
                 G.generation_plan(Path(folder), path, G.load_spec(path),
@@ -34,11 +34,11 @@ class GenerationIdTests(unittest.TestCase):
             self.assertEqual(list(Path(folder).iterdir()), [])
 
     def test_empty_selection_never_requests_generation(self):
-        path = ASSETS / 'p7-5-10-bfs-proportion-input-pool-v1.json'
+        path = ASSETS / 'p7-5-10-image-generation.json'
         with tempfile.TemporaryDirectory() as folder:
             _, pending = G.generation_plan(Path(folder), path, G.load_spec(path),
                                           {'include_ids': [], 'rule_id': 'P710-RULE-INPUT-002',
-                                           'rule_revision': 4})
+                                           'rule_revision': 5})
             self.assertEqual(pending, [])
 
     def test_result_identity_is_shared_and_pending_is_null(self):
@@ -48,6 +48,23 @@ class GenerationIdTests(unittest.TestCase):
             self.assertEqual(G.result_id(row['sha256']), row['target_result_id'])
         with self.assertRaises(ValueError):
             G.result_id('short-hash')
+
+    def test_completed_groups_are_reused_with_exclusions(self):
+        path = ASSETS / 'p7-5-10-image-generation.json'
+        for key in json.loads(path.read_text())['rules']:
+            spec = G.load_spec(path, key)
+            state, pending = G.generation_plan(ROOT / spec['output_dir'], path, spec)
+            self.assertEqual(pending, [])
+            self.assertTrue(state['reuse_catalog'])
+
+    def test_unknown_management_id_is_rejected(self):
+        data = json.loads((ASSETS / 'p7-5-10-image-generation.json').read_text())
+        data['selection']['include_management_ids'] = ['P710-PROP-999']
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'generation.json'
+            path.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, 'management IDs'):
+                G.load_spec(path)
 
 
 if __name__ == '__main__':

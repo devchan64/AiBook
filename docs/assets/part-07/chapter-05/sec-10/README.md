@@ -1,42 +1,30 @@
 # P7-5.10 캐릭터 일관성을 위한 LoRA 자산
 
-완료된 생성·학습 준비·평가 자산은 이 디렉터리에서 관리한다. 이전 파일명의 `p7-5-11`·`p7-5-12`와 `p7_5_11`·`p7_5_12`를 `p7-5-10`·`p7_5_10`으로 변경했다.
+## 기준 파일 4개
 
-## 현재 경로와 실행 이력
+| 역할 | 기준 파일 |
+| --- | --- |
+| 이미지 생성 코드 | [p7_5_10_generate_supplements.py](p7_5_10_generate_supplements.py) |
+| 이미지 생성 조건·관리번호·선택·경로 호환 정보 | [p7-5-10-image-generation.json](p7-5-10-image-generation.json) |
+| 후보 선택·데이터셋 준비·LoRA 학습 코드 | [p7_5_10_mira_lora.py](p7_5_10_mira_lora.py) |
+| 확정 데이터셋·학습 설정 | [p7-5-10-paired-dataset.json](p7-5-10-paired-dataset.json) |
 
-- [자산 이관 목록 JSON](p7-5-10-asset-migration.json)은 sec-11/sec-12의 과거 경로와 현재 파일을 대응시킨다.
-- [공용 생성 Python](p7_5_10_generate_supplements.py)의 `asset_path()`는 생성 조건과 과거 기록에 남은 경로를 현재 파일로 연결한다.
-- 결과·평가 계획 JSON의 내부 경로, 관리번호와 지문은 당시 실행 이력이다. 결과 기록의 바이트와 해시는 보존한다. 생성 조건은 공통 조합 JSON에 통합하고 원래 조건의 기준 해시로 검증한다. 현재 후보 카탈로그와 문서 링크는 새 경로를 사용한다.
-- 새 실험도 기존 산출물 재사용 여부를 먼저 확인한다. 코드·문서·학습 캡션 변경만으로 이미지를 다시 만들지 않는다. 실제 생성 조건이 달라진 항목만 별도 ID와 출력으로 관리한다.
+생성 JSON의 `management_index`는 528개 관리번호를 `rules`의 조건 ID에 연결한다. 실행 범위는 `selection`에서 관리번호로 지정하거나 CLI의 `--rule`·`--ids`로 좁힌다. 기존 이미지와 제외 항목은 재생성하지 않는다. 단순 토르소 목표는 5.2 원본을 재사용한다.
 
-## sec-12에 유지한 입력과 실행 코드
+데이터셋 JSON의 `items`는 확정 366쌍(학습 347·검증 19), `training_config`는 학습 설정이다. 입력·목표 결과 ID는 `sha256:<전체 이미지 해시>`로 통일한다. 실제 파일은 `training-images/input-images/` 366개와 `training-images/target-images/` 46개이며 기존 경로는 심볼릭 링크로 연결한다.
 
-- `../sec-12/codex-camera-inputs-v1/`: 45장 입력과 JSON.
-- `../sec-12/p7_5_12_evaluate_bfs.py`: 평가 실행 코드.
-- `../sec-12/p7_5_12_camera_report.py`: 비교표 갱신 코드.
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --rule P710-RULE-INPUT-002 --dry-run
+```
 
-이 파일들은 이관에서 내용과 이름을 변경하지 않았다. 2026년 9월 17일 사용자 요청으로 45장 평가와 비교표 갱신을 중단하고 `codex-camera-lora-v1/` 출력 폴더를 삭제했다. 입력과 실행 코드는 보존한다. 기존 평가 코드의 19쌍 모드를 다시 실행하기 전에는 이관 경로 해석을 반영해야 한다. 이관은 로컬 저장소에만 반영했으며 외부에 게시된 모델 카드와 체크포인트는 변경하지 않았다.
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py prepare \
+  --manifest docs/assets/part-07/chapter-05/sec-10/p7-5-10-paired-dataset.json \
+  --output .tmp/p7-5-10/bfs-paired-366-v1
+```
 
-## 유지하는 JSON의 역할
+`review-template`·`export`도 같은 LoRA 코드의 하위 명령이다. 검수 목록을 내보내는 작업은 이미지 생성이나 학습 실행을 하지 않는다. `run`은 기본적으로 실행 계획만 출력하며 `--execute`를 지정해야 학습을 실행한다.
 
-- `p7-5-10-bfs-input-combinations-v1.json`: 기존 입력 220개 조합·저장 위치·폐기 27개.
-- `p7-5-10-mira-target-combinations-v1.json`: 기존 목표 128개 조합·저장 위치·폐기 5개.
-- `p7-5-10-bfs-proportion-input-pool-v1.json`: 15방향 보강 입력 180개 조합·저장 위치.
-- `p7-5-10-bfs-proportion-selection-v1.json`: 이번에 생성할 보강 후보 선택.
-- `p7-5-10-bfs-lora-config.json`: 학습 설정.
-- `p7-5-10-asset-migration.json`: 기존 기록의 이미지 경로를 실제 파일로 연결하는 호환 정보.
+[확정 데이터셋 검수표](bfs-paired-dataset-review.md){ .aibook-markdown-preview }
 
-중복 평문 생성 목록·실행 설정·별도 폐기 목록과 현재 실행에서 사용하지 않는 과거 40장 보충 목록은 제거했다. 이미지와 결과 기록, 검수 기록, 현재 학습 데이터셋은 유지한다.
-
-학습 입력과 목표도 이 공통 결과 ID를 사용한다. `control_image`는 `input_result_id`, `image`는 `target_result_id`로 식별하며 `items[].id`로 학습 쌍을 연결한다. 같은 ID 체계를 사용한다는 것은 서로 다른 입력과 목표에 같은 ID 값을 부여한다는 뜻이 아니다. 같은 이미지를 여러 쌍에서 재사용하면 ID를 유지하고, 파일 복사 없이 기존 경로로 연결한다. 필드 대응과 등록 시점은 통합 목록의 `identifier_policy.training_images`에 정의한다.
-
-공용 생성기는 통합 목록의 `generation_rules`에서 `--spec` 경로에 대응하는 규칙과 파일 해시를 확인한다. 새 생성 조건은 이 등록부에 ID·리비전·해시를 등록한다. 선택 JSON은 `include_ids`·`exclude_ids`와 함께 `rule_id`·`rule_revision`을 지정할 수 있으며, 지정된 규칙이 다르면 생성 전에 중단한다. `--dry-run`에는 규칙·조건·조합 요소 ID도 출력한다.
-
-새 결과 JSON의 `identifiers`에는 규칙·조건·조합 요소 ID를, 참조와 `output.result_id`에는 이미지 ID를 남긴다. 카탈로그와 후보 선택 결과에도 입력·목표 결과 ID를 연결한다. 과거 결과 기록은 덮어쓰지 않으며 이미 실행 중인 프로세스에는 소스 변경이 소급 적용되지 않는다. 재개 시 코드 지문이 다르면 기존 파일을 보존하고 호환성을 확인한다. ID 추가를 이유로 새 폴더에서 전체를 재생성하지 않는다.
-
-확정 학습 이미지의 실제 파일은 `training-images/input-images/` 366개와 `training-images/target-images/` 46개로 모았다. 같은 목표를 공유하는 366쌍은 동일 파일과 결과 ID를 재사용한다. 기존 원고·생성 기록 경로는 심볼릭 링크로 유지하므로 이미지 사본을 추가하지 않는다.
-
-
-단순 토르소 목표는 5.2의 15방향 원본을 재사용한다. 별도 맞춤 목표 이미지·결과 기록·생성 설정은 삭제했고 공용 생성기에서 복수 참조 기반 맞춤 목표 생성 기능을 제거했다. 생성 입력과 목표 연결은 통합 366쌍 JSON을 기준으로 한다.
-
-검수표는 [확정 데이터셋 366쌍 검수표](bfs-paired-dataset-review.md){ .aibook-markdown-preview } 하나로 관리한다. 개별 입력·목표 후보 비교표는 삭제했다.
+개별 이미지·생성 기록·후보 카탈로그와 학습 패키지는 산출물이다. 기준 파일 4개와 구분하며 중복 복사하지 않는다. sec-12의 외부 평가 입력과 LoRA 평가 코드는 평가용으로 유지한다.

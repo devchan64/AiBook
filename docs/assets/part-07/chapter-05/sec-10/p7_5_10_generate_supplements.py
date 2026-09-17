@@ -30,7 +30,7 @@ from p7_5_2_qwen_edit_2511_generate_mira_torso import (
 
 
 ALIASES = json.loads(
-    (Path(__file__).parent / "p7-5-10-asset-migration.json").read_text()
+    (Path(__file__).parent / "p7-5-10-image-generation.json").read_text()
 )["path_aliases"]
 
 
@@ -52,9 +52,45 @@ def write(path, data):
     temporary.replace(path)
 
 
-def load_spec(path):
-    """조건별 문구와 명시적인 조합을 펼친다. 기존 실험은 원문 일치를 검사한다."""
-    spec = json.loads(path.read_text())
+def load_spec(path, rule_id=None):
+    """통합 생성 JSON에서 규칙과 관리번호 선택을 해석한다."""
+    document = json.loads(path.read_text())
+    if document.get("schema_version") != 3:
+        return expand_spec(document)
+    key = rule_id or document["default_rule"]
+    rule = document["rules"][key]
+    canonical = json.dumps(rule["spec"], ensure_ascii=False, sort_keys=True,
+                           separators=(",", ":")).encode()
+    if hashlib.sha256(canonical).hexdigest() != rule["spec_content_sha256"]:
+        raise ValueError("Rule content changed: review revision and content hash")
+    spec = expand_spec(rule["spec"])
+    spec["_rule"] = {"rule_id": key, "rule_revision": rule["revision"]}
+    spec["_original_spec_sha256"] = rule["legacy_spec_sha256"]
+    index = document["management_index"]
+    lookup = {value["condition_id"]: code for code, value in index.items()
+              if value["rule_id"] == key}
+    if len(lookup) != len(spec["items"]) or set(lookup) != {r["id"] for r in spec["items"]}:
+        raise ValueError("Management index must uniquely cover every condition")
+    for row, original in zip(spec["items"], rule["spec"]["items"]):
+        row["management_id"] = lookup[row["id"]]
+        row["identifiers"] = dict(spec["_rule"], condition_id=row["id"],
+            component_ids={axis: f"{key}/{rule['revision']}/{axis}/{choice}"
+                           for axis, choice in original.get("components", {}).items()})
+    selection = document["selection"]
+    def selected(field):
+        values = selection.get(field)
+        if values is None:
+            return None
+        if not isinstance(values, list) or len(values) != len(set(values)) or any(v not in index for v in values):
+            raise ValueError("Duplicate or unknown management IDs")
+        return [index[v]["condition_id"] for v in values if index[v]["rule_id"] == key]
+    spec["_selection"] = {"include_ids": selected("include_management_ids"),
+                          "exclude_ids": selected("exclude_management_ids") or []}
+    return spec
+
+
+def expand_spec(spec):
+    """조건별 문구를 펼치며 과거 생성 프롬프트의 원문 일치를 검사한다."""
     if spec["schema_version"] == 1:
         return spec
     if spec["schema_version"] != 2:
@@ -107,6 +143,8 @@ def result_id(digest):
 
 def bind_rule(spec_path, spec):
     """통합 JSON의 규칙 등록을 읽되 원본 생성 조건은 변경하지 않는다."""
+    if "_rule" in spec:
+        return
     registry = json.loads((Path(__file__).parent / "p7-5-10-paired-dataset.json").read_text())
     matches = [(key, rule) for key, rule in registry["generation_rules"].items()
                if asset_path(rule["spec"]) == spec_path.resolve()]
@@ -181,7 +219,7 @@ def wait_for_gpu(state, path, enabled):
 def generation_plan(out, spec_path, spec, selection=None):
     """선택·제외·완료 기록을 합쳐 실제 생성 대상만 반환한다."""
     bind_rule(spec_path, spec)
-    selection = {} if selection is None else selection
+    selection = spec.get("_selection", {}) if selection is None else selection
     if not isinstance(selection, dict):
         raise ValueError("Selection must be a JSON object")
     ids = {item["id"] for item in spec["items"]}
@@ -215,7 +253,7 @@ def generation_plan(out, spec_path, spec, selection=None):
         if saved["fingerprint"]["spec_sha256"] != fingerprint["spec_sha256"]:
             raise ValueError("Completed catalog belongs to a different spec")
         rows = saved["items"]
-        if len(rows) == len({row["id"] for row in rows}) and {row["id"] for row in rows} == ids - policy_excluded:
+        if len(rows) == len({row["id"] for row in rows}) and ids - policy_excluded <= {row["id"] for row in rows} <= ids:
             for row in rows:
                 image, record = asset_path(row["image"]), asset_path(row["record"])
                 if sha256(image) != row["sha256"] or sha256(record) != row["record_sha256"]:
@@ -260,7 +298,7 @@ def main():
     parser.add_argument(
         "--spec",
         type=Path,
-        default=ASSETS / "sec-10/p7-5-10-bfs-input-combinations-v1.json",
+        default=ASSETS / "sec-10/p7-5-10-image-generation.json",
     )
     parser.add_argument(
         "--output-dir", type=Path,
@@ -273,12 +311,13 @@ def main():
     )
     parser.add_argument("--limit", type=int, help="이번 실행에서 생성할 미완료 후보 수")
     parser.add_argument("--wait-for-gpu", action="store_true", help="다른 CUDA 작업 종료 후 시작")
-    parser.add_argument("--selection", type=Path, help="include_ids·exclude_ids를 지정한 JSON")
+    parser.add_argument("--rule", help="통합 JSON의 생성 규칙 ID")
+    parser.add_argument("--ids", nargs="+", help="이번 실행에 포함할 관리번호")
     args = parser.parse_args()
     if args.limit is not None and args.limit < 1:
         parser.error("--limit must be positive")
     # 얼굴 외형을 다시 정의하지 않고 목록의 변경 대상과 방향별 참조를 사용한다.
-    spec = load_spec(args.spec)
+    spec = load_spec(args.spec, args.rule)
     # 실험별 프롬프트·참조·저장 위치는 JSON으로 교체하고 생성기는 공유한다.
     out = (args.output_dir or ROOT / spec.get(
         "output_dir", ".tmp/p7-5-11/supplements-v2"
@@ -304,7 +343,12 @@ def main():
             assert sha256(asset_path(item["training_target"])) == target_hash, "Target changed"
             split = item.get("reserved_split")
             assert groups.setdefault(target_hash, split) == split, "Target split leakage"
-    selection = json.loads(args.selection.read_text()) if args.selection else None
+    selection = None
+    if args.ids:
+        by_code = {r["management_id"]: r["id"] for r in spec["items"]}
+        if len(args.ids) != len(set(args.ids)) or any(code not in by_code for code in args.ids):
+            parser.error("Management IDs must be unique and belong to --rule")
+        selection = dict(spec.get("_selection", {}), include_ids=[by_code[c] for c in args.ids])
     if args.dry_run:
         state, pending = generation_plan(out, args.spec, spec, selection)
         print(json.dumps({"model": MODEL_ID, "planned_count": len(ids),
@@ -314,6 +358,7 @@ def main():
                           "order": [item["id"] for item in pending[:args.limit]],
                           "rule": spec["_rule"],
                           "conditions": [item["identifiers"] for item in pending[:args.limit]],
+                          "management_ids": [item["management_id"] for item in pending[:args.limit]],
                           "output_dir": str(out)}, indent=2))
         return
     out.mkdir(parents=True, exist_ok=True)

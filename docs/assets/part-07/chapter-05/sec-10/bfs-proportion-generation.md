@@ -21,56 +21,50 @@
 
 ## 파일과 실행
 
-[180개 생성 목록](p7-5-10-bfs-proportion-input-pool-v1.json)
+[180개 생성 목록](p7-5-10-image-generation.json)
 
-[이번 실행 목록](p7-5-10-bfs-proportion-selection-v1.json)
 
 [공용 후보 생성 코드](p7_5_10_generate_supplements.py)
 
-저장소 루트에서 공용 생성기에 `--spec`으로 JSON을 전달한다. 생성 조건은 목록의 `settings`, `references`, `components`, `prompt_order`, `items`(조건 조합·시드·목표 연결), `output_dir`에서 관리한다. 비율 보강 전용 스크립트나 별도 설계 목록은 두지 않는다. 새 실험은 JSON과 출력 폴더를 새로 지정한다. `--output-dir`을 전달하면 JSON의 저장 위치보다 우선한다.
+생성 조건과 실행 선택은 [단일 생성 JSON](p7-5-10-image-generation.json)에서 관리한다. `management_index`로 관리번호를 조회하고 `rules`에서 조건을 확인한다. 보강 입력은 `P710-RULE-INPUT-002`이며 사용 확정 173개와 제외 7개가 있다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-input-pool-v1.json --selection docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-selection-v1.json --dry-run
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py \
+  --rule P710-RULE-INPUT-002 --dry-run
 ```
 
-수평 좌우 90도 24개 생성은 완료했다. 현재 실행 목록은 전체를 선택하며, 완료 24개를 건너뛰고 남은 156개를 생성한다. 아래 명령부터 실제 GPU 추론이 실행된다. 실행 시 사용 중인 GPU가 있으면 대기한다. 현재 이 명령으로 후속 생성이 진행 중이다.
+특정 관리번호만 확인하려면 `--ids`를 지정한다.
 
 ```bash
-.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-input-pool-v1.json --selection docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-selection-v1.json --wait-for-gpu
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py \
+  --rule P710-RULE-INPUT-002 --ids P710-PROP-001 P710-PROP-002 --dry-run
 ```
 
-`--selection`은 이번에 출력할 ID와 생성하지 않을 ID를 지정한다. 현재 JSON의 `include_ids`는 `null`이며 전체 미완료 항목을 선택한다.
-
-- `include_ids`: 이번 실행 대상. `null` 또는 필드 생략은 전체, 빈 배열은 생성 대상 없음이다. 순서는 원본 생성 목록을 따른다.
-- `exclude_ids`: 생성 제외 ID. 선택 목록에 있어도 제외가 우선한다. 실제 실행 시 출력 폴더의 상태 JSON에 누적되며, 이후 옵션을 생략해도 유지된다. `--dry-run`은 이 기록을 저장하지 않는다.
-- 완료된 PNG와 결과 JSON은 해시를 검사한 뒤 건너뛴다. 완료 기록이 있는데 파일이 없거나 손상된 경우 자동 재생성하지 않고 중단한다. 폐기했다면 해당 ID를 제외 목록에 넣는다.
-- 알 수 없는 ID나 중복 ID는 오류로 처리한다. `--limit`은 선택·제외·완료 처리를 마친 뒤 남은 대상 수를 제한한다.
-
-검수 후 `include_ids`를 변경하거나 `null`로 지정하면 완료 항목과 누적 제외 항목을 건너뛰고 나머지를 생성한다. 새 출력 폴더에서는 이전 폴더의 상태를 읽지 않으므로, 같은 제외 JSON을 계속 전달해야 한다. 기본 출력은 `input-images/proportion-v1/`이다. 생성기와 목록이 바뀌면 같은 폴더에서 이어 실행하지 못하도록 기존 생성기가 지문을 검사한다. 기존 후보·폐기 목록·193쌍 학습 목록은 변경하지 않는다.
+같은 JSON의 `selection.include_management_ids`는 `null`이면 전체, 빈 배열이면 미선택이다. `exclude_management_ids`와 규칙의 `excluded_items`는 선택보다 우선한다. 관리번호를 지정해도 완료 이미지는 재사용하고 폐기 후보는 생성하지 않는다. 현재 세 규칙은 모두 생성 완료여서 기본 저장 위치에서 생성 대상이 0개다. 새 생성이 필요한 경우에만 조건·관리번호를 등록하고 미리보기 확인 후 `--dry-run`을 빼서 실행한다. 조건 변경으로 재개 검사가 실패하면 완료 파일을 보존하고 호환성을 먼저 확인한다.
 
 ## 채택 기준
 
 입력에서 목표로 바꿀 학습 신호가 생겼는지 확인한다. 머리색만 바뀌고 얼굴 비율이 그대로인 후보는 이번 보강 목적에 미달한다. 얼굴 길이·폭, 턱선을 헤어 부피와 분리하여 비교하고, 머리카락에 가려진 두개골 형태는 추정하여 판정하지 않는다.
 
-표정·입 벌림·시선·머리 방향·몸 자세·배경 객체가 바뀌거나 사라진 후보는 제외한다. 배경의 화풍 변화와 구조 손실도 구분한다. 합격 후보만 [선택 코드](p7_5_10_select_candidates.py)의 검수 목록을 통해 별도 데이터셋으로 내보낸다. 생성 완료만으로 학습에 자동 편입하지 않는다.
+표정·입 벌림·시선·머리 방향·몸 자세·배경 객체가 바뀌거나 사라진 후보는 제외한다. 배경의 화풍 변화와 구조 손실도 구분한다. 합격 후보만 [선택 코드](p7_5_10_mira_lora.py)의 검수 목록을 통해 별도 데이터셋으로 내보낸다. 생성 완료만으로 학습에 자동 편입하지 않는다.
 
 추가 학습의 효과는 기존과 같은 평가 입력·시드·LoRA 강도에서 비교한다. 보강 전후 학습량도 함께 기록해 데이터 보강과 추가 스텝의 영향을 혼동하지 않는다.
 
 ## 기존 데이터와 공유하는 조합 구조
 
-[기존 입력 220개 조건 조합](p7-5-10-bfs-input-combinations-v1.json)
+[기존 입력 220개 조건 조합](p7-5-10-image-generation.json)
 
-[기존 목표 128개 조건 조합](p7-5-10-mira-target-combinations-v1.json)
+[기존 목표 128개 조건 조합](p7-5-10-image-generation.json)
 
-세 목록은 모두 `schema_version: 2`를 사용한다. `components`에는 방향(`direction`), 얼굴(`face`), 얼굴 비율 변경 지시(`geometry`), 화풍(`style`), 보존 조건(`preservation`), 배경(`background`), 제약(`constraints`), 의상·조명·표정 같은 추가 편집(`edit`)을 정의한다. 적용하지 않는 조건은 빈 문구로 표현한다.
+생성 입력은 `schema_version: 3`의 단일 JSON이다. `rules` 안의 세 조건 묶음은 `schema_version: 2` 조합 형식을 유지한다. `components`에는 방향(`direction`), 얼굴(`face`), 얼굴 비율 변경 지시(`geometry`), 화풍(`style`), 보존 조건(`preservation`), 배경(`background`), 제약(`constraints`), 의상·조명·표정 같은 추가 편집(`edit`)을 정의한다. 적용하지 않는 조건은 빈 문구로 표현한다.
 
 `items`의 각 행은 실행할 조합 하나다. 행의 `components`는 각 조건의 ID를 선택하고, `prompt_order`는 최종 문구를 이어 붙이는 순서를 지정한다. 모든 가능한 조합을 자동 실행하지 않으므로 기존에 폐기한 조합이 다시 추가되지 않는다. 방향 조건의 `reference`와 항목의 `reference`가 다르면 실행을 중단한다. 입력의 방향은 참조 이미지에 따라 유지하며, 입력에서 별도로 카메라를 회전시키지 않는다. 기존 입력의 방향 항목 44개는 서로 다른 참조 목표 44개에 대한 연결이며 44개 카메라 각도를 뜻하지 않는다.
 
 기존 입력은 얼굴 5종·화풍 5종·배경 유지 문구를 조합한다. 원래 명시된 220개 조합에서 폐기 27개를 제외한 193개를 유지한다. 기존 목표 목록은 방향별 참조와 배경·의상·조명·표정 편집 조건을 조합하며, 128개 중 폐기 5개를 제외한 123개가 남는다. 새 입력은 15방향 토르소·얼굴 6종·화풍 2종을 조합한 180개다.
 
-기존 평문 생성 목록과 중복된 실행·폐기 파일은 조건 조합 JSON으로 통합했다. `output_dir`은 저장 위치, `excluded_items`는 폐기 ID·사유·기존 해시를 보존한다. `provenance`에는 원래 파일의 해시와 펼친 조건을 정규화한 기준 해시를 기록한다. 공용 생성기는 이미지 생성 프롬프트·ID·시드·참조·설정이 기준 해시와 일치하는지 검사하므로 평문 사본을 유지할 필요가 없다. 다른 조건을 실험하려면 독립된 새 후보 목록·ID·출력 폴더를 만든다.
+기존 평문 생성 목록과 중복된 실행·폐기 파일은 조건 조합 JSON으로 통합했다. `output_dir`은 저장 위치, `excluded_items`는 폐기 ID·사유·기존 해시를 보존한다. `provenance`에는 원래 파일의 해시와 펼친 조건을 정규화한 기준 해시를 기록한다. 공용 생성기는 이미지 생성 프롬프트·ID·시드·참조·설정이 기준 해시와 일치하는지 검사하므로 평문 사본을 유지할 필요가 없다. 다른 조건을 실험하려면 통합 JSON 안에 새 관리번호·조건을 등록하고 기존 결과 재사용 여부부터 확인한다.
 
-완료된 생성 결과의 프롬프트와 파일 해시는 변경하지 않았다. 실행에는 `--spec`으로 조합 JSON을 직접 전달한다. 이번 실행 범위만 조정하는 `--selection` JSON과 사람의 검수 기록은 역할이 달라 별도로 유지한다.
+완료된 생성 결과의 프롬프트와 파일 해시는 변경하지 않았다. 실행에는 `--spec`으로 조합 JSON을 직접 전달한다. 이번 실행 범위는 같은 JSON의 `selection`에서 관리번호로 지정한다.
 
 현재 `training_caption`에서는 BFS 표현을 제거하고 Mira의 얼굴·헤어·화풍을 직접 지칭한다. 입력 생성 조건의 기준 해시는 향후 학습 지시인 `training_caption`과 분리해 검사한다. 기존 결과·카탈로그·학습·평가의 캡션 기록은 당시 실행 조건으로 유지하며, 새 학습 목록을 채택할 때 현재 캡션을 사용한다.
 

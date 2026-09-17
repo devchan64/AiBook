@@ -111,3 +111,7 @@
 ## 확정 학습 이미지 저장 위치
 
 P7-5.10의 사용 확정 이미지는 `sec-10/training-images/input-images/`와 `sec-10/training-images/target-images/`에 실제 파일로 저장한다. 생성 후보와 미사용 결과의 위치는 이관 대상과 구분한다. 동일 해시의 목표는 하나만 저장하며, 과거 원고·생성 기록이 참조하는 경로는 상대 심볼릭 링크로 연결한다. 데이터셋과 생성 JSON의 `dataset_usage`는 확정 저장 경로를 직접 가리킨다. 경로 이동으로 결과 ID를 변경하거나 이미지를 재생성하지 않는다.
+
+## 생성 입력 JSON 통합
+
+P7-5.10은 `p7-5-10-image-generation.json` 하나에서 관리번호 색인(`management_index`), 생성 규칙(`rules`), 실행 선택(`selection`)을 관리한다. 별도의 조건·선택 JSON을 만들지 않는다. CLI의 `--rule`과 `--ids`로 규칙과 관리번호를 지정한다. 원래 생성 ID와 결과 해시는 유지하며 관리번호는 재번호를 부여하지 않는다.

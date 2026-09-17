@@ -9165,21 +9165,41 @@
   ],
   "generation_rules": {
     "P710-RULE-INPUT-001": {
-      "revision": 1,
-      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-combinations-v1.json",
-      "spec_sha256": "d4bb91bd73c9857c7190fe2ee81bab0f7e153ef389745fd0b1f19081d30deb11",
-      "description": "기존 입력 후보 생성"
+      "revision": 2,
+      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json",
+      "spec_sha256": "ef55896b28651e6e50e04dd83f9761de9ee8e9ca77e6608ab746da8b0cffb0fe",
+      "description": "기존 입력 후보 생성",
+      "previous_revisions": [
+        {
+          "revision": 1,
+          "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-combinations-v1.json",
+          "spec_sha256": "d4bb91bd73c9857c7190fe2ee81bab0f7e153ef389745fd0b1f19081d30deb11",
+          "description": "기존 입력 후보 생성"
+        }
+      ],
+      "rule_key": "P710-RULE-INPUT-001",
+      "revision_note": "Consolidated into management-ID generation JSON; original inference conditions retained."
     },
     "P710-RULE-TARGET-001": {
-      "revision": 1,
-      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-target-combinations-v1.json",
-      "spec_sha256": "fa101cda7666a473885b91a4a5af9ff999e2cd4939edad97e8cfb283db252399",
-      "description": "기존 추가 목표 후보 생성"
+      "revision": 2,
+      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json",
+      "spec_sha256": "ef55896b28651e6e50e04dd83f9761de9ee8e9ca77e6608ab746da8b0cffb0fe",
+      "description": "기존 추가 목표 후보 생성",
+      "previous_revisions": [
+        {
+          "revision": 1,
+          "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-target-combinations-v1.json",
+          "spec_sha256": "fa101cda7666a473885b91a4a5af9ff999e2cd4939edad97e8cfb283db252399",
+          "description": "기존 추가 목표 후보 생성"
+        }
+      ],
+      "rule_key": "P710-RULE-TARGET-001",
+      "revision_note": "Consolidated into management-ID generation JSON; original inference conditions retained."
     },
     "P710-RULE-INPUT-002": {
-      "revision": 4,
-      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-input-pool-v1.json",
-      "spec_sha256": "940b99882ce64a7e0c9c9491f78a1d739187aa44bed6645e93c01ec3ae101fd2",
+      "revision": 5,
+      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json",
+      "spec_sha256": "ef55896b28651e6e50e04dd83f9761de9ee8e9ca77e6608ab746da8b0cffb0fe",
       "description": "15방향 얼굴 비율 보강 입력 생성",
       "previous_revisions": [
         {
@@ -9201,9 +9221,17 @@
           "spec_sha256": "b5572b649dc6f7b8d4130e51ea2b8977e6f0271bfd7e3f17ebe701951c68b693",
           "description": "15방향 얼굴 비율 보강 입력 생성",
           "revision_note": "Register accepted dataset usage for 173 inputs; generation prompts and image bytes unchanged."
+        },
+        {
+          "revision": 4,
+          "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-input-pool-v1.json",
+          "spec_sha256": "940b99882ce64a7e0c9c9491f78a1d739187aa44bed6645e93c01ec3ae101fd2",
+          "description": "15방향 얼굴 비율 보강 입력 생성",
+          "revision_note": "Selected image paths moved to training-images; original inference references remain valid through symlinks."
         }
       ],
-      "revision_note": "Selected image paths moved to training-images; original inference references remain valid through symlinks."
+      "revision_note": "Consolidated into management-ID generation JSON; original inference conditions retained.",
+      "rule_key": "P710-RULE-INPUT-002"
     }
   },
   "identifier_policy": {
@@ -9247,9 +9275,51 @@
     "target_policy": "Simple torso targets reuse the 15 P7-5.2 reference images; separately generated matched targets and their generation feature were deleted.",
     "unique_input_images": 366,
     "unique_target_images": 46,
-    "generation_spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-input-pool-v1.json",
-    "generation_spec_sha256": "940b99882ce64a7e0c9c9491f78a1d739187aa44bed6645e93c01ec3ae101fd2",
-    "selection_field": "items[].dataset_usage.use",
+    "generation_spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json",
+    "generation_spec_sha256": "ef55896b28651e6e50e04dd83f9761de9ee8e9ca77e6608ab746da8b0cffb0fe",
+    "selection_field": "rules.P710-RULE-INPUT-002.spec.items[].dataset_usage.use",
     "review_date": "2026-09-18"
+  },
+  "training_config": {
+    "model_id": "Qwen/Qwen-Image-Edit-2511",
+    "trainer_commit": "e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1",
+    "training": {
+      "resolution": 512,
+      "control_resolution": 512,
+      "rank": 16,
+      "alpha": 16,
+      "learning_rate": 0.0001,
+      "steps": 1600,
+      "save_every": 400,
+      "seed": 62294,
+      "blocks_to_swap": 55,
+      "fp8_base": true,
+      "fp8_scaled": true,
+      "fp8_vl": false,
+      "text_encoder_device": "cpu",
+      "save_state": true,
+      "save_state_on_train_end": true
+    },
+    "weights": {
+      "dit": {
+        "path": ".tmp/download/artifacts/weight-mira-qwen-2511-dit/split_files/diffusion_models/qwen_image_edit_2511_bf16.safetensors",
+        "sha256": "ae42d927b5fac4f278b9a894554c727e619727a63622976f2d95625be4bce08c",
+        "repo_id": "Comfy-Org/Qwen-Image-Edit_ComfyUI",
+        "revision": "7d41107b653d3039be20972fb82398b01b3213eb"
+      },
+      "vae": {
+        "path": ".tmp/download/huggingface/hub/models--Comfy-Org--Qwen-Image_ComfyUI/snapshots/7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f/split_files/vae/qwen_image_vae.safetensors",
+        "sha256": "a70580f0213e67967ee9c95f05bb400e8fb08307e017a924bf3441223e023d1f",
+        "repo_id": "Comfy-Org/Qwen-Image_ComfyUI",
+        "revision": "7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f"
+      },
+      "text_encoder": {
+        "path": ".tmp/download/artifacts/weight-mira-qwen-2511-text-encoder/split_files/text_encoders/qwen_2.5_vl_7b.safetensors",
+        "sha256": "cfafd739459bc86257397259f612a9aee88e5b98e85b5c0d0d1717e898b3463a",
+        "repo_id": "Comfy-Org/Qwen-Image_ComfyUI",
+        "revision": "7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f"
+      }
+    },
+    "experiment_note": "BFS 입력·목표 고정 대응의 첫 비교 실행. 1600스텝은 충분한 학습량이라는 결론이 아니며 400스텝마다 보존·변환 품질을 비교한다."
   }
 }
