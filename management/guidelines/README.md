@@ -49,6 +49,7 @@
 | `concept-glossary-guidelines.md` | 개념사전 작성 기준 | 개념사전 항목 추가·수정, 중심 Section과 등장 Section 정리 전 |
 | `section-metadata-guidelines.md` | Section 메타데이터 관리 기준 | Section ID, 제목 앞 인덱스, Version, 릴리즈노트 연결 확인 전 |
 | `python-example-guidelines.md` | Python 예제 작성 기준 | Python 예제 추가·수정, 코드 블록 유지 여부 판단 전 |
+| `generated-asset-management-guidelines.md` | 생성 산출물 재사용·제외·진행 관리 | 이미지 생성·재생성·데이터셋 보강 전 |
 | `chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 | `english-translation-guidelines.md` | 영어 번역 운영 기준 | 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전 |
 | `chinese-translation-guidelines.md` | 중국어 간체 번역 운영 기준 | 중국어 간체판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전 |
@@ -59,6 +60,12 @@
 | `../authoring/part-XX-open-checklist.md` | Part별 중심선 체크포인트 노트 | 목차 기준 중심 주제 정리, Part 흐름 점검 전 |
 
 ## 작업 유형별 참조 순서
+
+### 이미지 생성·데이터셋을 보강할 때
+
+1. `generated-asset-management-guidelines.md`로 기존 산출물 재사용·제외·진행 상태를 확인한다.
+2. 현재 통합 데이터셋과 생성 조건 JSON을 대조하여 필요한 ID만 선택한다.
+3. 코드를 수정할 때는 `python-example-guidelines.md`를 함께 적용한다.
 
 ### Section 본문을 새로 쓰거나 크게 고칠 때
 
@@ -126,6 +133,7 @@
 - `english-translation-guidelines.md`
 - `manuscript-writing-workflow.md`
 - `python-example-guidelines.md`
+- `generated-asset-management-guidelines.md`
 - `repository-management-guidelines.md`
 - `section-metadata-guidelines.md`
 - `source-copyright-guidelines.md`

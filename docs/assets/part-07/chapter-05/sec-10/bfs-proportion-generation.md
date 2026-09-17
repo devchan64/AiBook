@@ -78,7 +78,7 @@
 
 ## 채택한 입력에 맞춘 새 목표
 
-사용자는 첫 24개 입력을 모두 활용하기로 결정했다. 기존 Mira 기준과 다른 포즈·표정·의상은 입력의 조건으로 받아들이고 [새 목표 생성 목록](p7-5-10-mira-matched-targets-v1.json)으로 대응하는 Mira 목표 24개를 만든다. 공용 생성기의 `reference_images`는 참조 순서를 명시한다. 이 목록은 첫 번째 이미지로 채택 입력, 두 번째 이미지로 같은 방향의 Mira 기준을 전달한다.
+사용자는 첫 24개 입력을 모두 활용하기로 결정했다. 기존 Mira 기준과 다른 포즈·표정·의상은 입력의 조건으로 받아들이고 [새 목표 생성 목록](p7-5-10-mira-matched-targets-v1.json)으로 대응하는 Mira 목표를 준비한다. 기존 목표를 재사용하는 11개는 `excluded_items`로 생성에서 제외하고 13개만 새로 만든다. 공용 생성기의 `reference_images`는 참조 순서를 명시한다. 이 목록은 첫 번째 이미지로 채택 입력, 두 번째 이미지로 같은 방향의 Mira 기준을 전달한다.
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-matched-targets-v1.json --wait-for-gpu

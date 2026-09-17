@@ -10,7 +10,7 @@
 
 ## 데이터셋 구성
 
-현재 **217개를 한 목록에서 관리**한다. 기존 193쌍은 준비 완료이며, 추가 24개는 입력 활용이 확정되고 새 Mira 목표 생성·검수를 기다린다. 아래 기존 193쌍 표와 끝의 추가 24개 표는 같은 통합 JSON에 대응한다. 기존 193쌍은 입력 → 목표 순서로 보여 준다. 사용자 채택 판단에서 최종 폐기 27건을 제외한 구성으로, 기존 AI 검수 의견과는 구분한다. 데이터셋 구성이며 학습 완료나 성능 검증 결과를 뜻하지 않는다.
+현재 **217개를 한 목록에서 관리**한다. 기존 193쌍은 준비 완료이며, 추가 24개는 입력 활용이 확정되었으며, 11개는 기존 목표를 재사용하고 13개만 새 목표 생성·검수를 기다린다. 아래 기존 193쌍 표와 끝의 추가 24개 표는 같은 통합 JSON에 대응한다. 기존 193쌍은 입력 → 목표 순서로 보여 준다. 사용자 채택 판단에서 최종 폐기 27건을 제외한 구성으로, 기존 AI 검수 의견과는 구분한다. 데이터셋 구성이며 학습 완료나 성능 검증 결과를 뜻하지 않는다.
 
 - 학습: **174쌍**, 중복을 제외한 Mira 목표 **37장**.
 - 검증: **19쌍**, 중복을 제외한 Mira 목표 **4장**.
@@ -236,33 +236,33 @@
 | **P711-IN-197**<br>`bfs-input-21-oil-painting` | [![P711-IN-197 입력](input-images/bfs-input-21-oil-painting.png)](input-images/bfs-input-21-oil-painting.png) | [![P711-IN-197 Mira 목표](validation/images/p7-5-10-mira-v2-evaluation-05.png)](validation/images/p7-5-10-mira-v2-evaluation-05.png) | `validation`<br>`target-21` |
 | **P711-IN-198**<br>`bfs-input-22-soft-photo` | [![P711-IN-198 입력](input-images/bfs-input-22-soft-photo.png)](input-images/bfs-input-22-soft-photo.png) | [![P711-IN-198 Mira 목표](validation/images/p7-5-10-mira-v2-evaluation-06.png)](validation/images/p7-5-10-mira-v2-evaluation-06.png) | `validation`<br>`target-22` |
 
-## 추가 24개: 입력 채택·새 목표 대기
+## 추가 24개: 기존 목표 재사용 11개·새 목표 대기 13개
 
-통합 합계는 **217개**다. 분할 예약은 학습 198개(기존 174개 + 추가 24개), 검증 19개다. 새 목표가 준비되지 않은 24개는 `pair_status`로 구분하며, 통합 목록을 학습 준비 코드에 바로 넘기면 명시적으로 중단한다. 새 목표의 생성·검수가 끝나면 같은 행에 이미지·결과 기록의 해시를 채우고 `ready`로 바꾼다. 기존 학습 재현용 193쌍 기록과 이미지 파일은 변경하지 않는다.
+통합 합계는 **217개**다. 준비 완료는 **204쌍**(기존 193 + 목표 재사용 11), 새 목표 대기는 **13개**다. 분할 예약은 학습 198개·검증 19개다. 대기 항목이 남아 있는 통합 목록으로 학습을 시작하면 중단한다. 새 목표 검수 후 같은 행의 해시와 상태를 확정한다.
 
-| 관리번호 | 입력 | 목표 상태 |
+| 관리번호 | 입력 | 목표 · 상태 |
 | --- | --- | --- |
-| P710-PROP-001 | ![P710-PROP-001 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-photo.png) | P710-TGT-001 · 생성·검수 대기 |
-| P710-PROP-002 | ![P710-PROP-002 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-illustration.png) | P710-TGT-002 · 생성·검수 대기 |
-| P710-PROP-003 | ![P710-PROP-003 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-wide-photo.png) | P710-TGT-003 · 생성·검수 대기 |
-| P710-PROP-004 | ![P710-PROP-004 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-wide-illustration.png) | P710-TGT-004 · 생성·검수 대기 |
-| P710-PROP-005 | ![P710-PROP-005 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-photo.png) | P710-TGT-005 · 생성·검수 대기 |
-| P710-PROP-006 | ![P710-PROP-006 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-illustration.png) | P710-TGT-006 · 생성·검수 대기 |
-| P710-PROP-007 | ![P710-PROP-007 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-long-photo.png) | P710-TGT-007 · 생성·검수 대기 |
-| P710-PROP-008 | ![P710-PROP-008 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-long-illustration.png) | P710-TGT-008 · 생성·검수 대기 |
-| P710-PROP-009 | ![P710-PROP-009 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-wide-photo.png) | P710-TGT-009 · 생성·검수 대기 |
-| P710-PROP-010 | ![P710-PROP-010 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-wide-illustration.png) | P710-TGT-010 · 생성·검수 대기 |
-| P710-PROP-011 | ![P710-PROP-011 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-square-photo.png) | P710-TGT-011 · 생성·검수 대기 |
-| P710-PROP-012 | ![P710-PROP-012 입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-square-illustration.png) | P710-TGT-012 · 생성·검수 대기 |
-| P710-PROP-013 | ![P710-PROP-013 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-long-photo.png) | P710-TGT-013 · 생성·검수 대기 |
-| P710-PROP-014 | ![P710-PROP-014 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-long-illustration.png) | P710-TGT-014 · 생성·검수 대기 |
-| P710-PROP-015 | ![P710-PROP-015 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-photo.png) | P710-TGT-015 · 생성·검수 대기 |
-| P710-PROP-016 | ![P710-PROP-016 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-illustration.png) | P710-TGT-016 · 생성·검수 대기 |
-| P710-PROP-017 | ![P710-PROP-017 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-square-photo.png) | P710-TGT-017 · 생성·검수 대기 |
-| P710-PROP-018 | ![P710-PROP-018 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-square-illustration.png) | P710-TGT-018 · 생성·검수 대기 |
-| P710-PROP-019 | ![P710-PROP-019 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-long-photo.png) | P710-TGT-019 · 생성·검수 대기 |
-| P710-PROP-020 | ![P710-PROP-020 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-long-illustration.png) | P710-TGT-020 · 생성·검수 대기 |
-| P710-PROP-021 | ![P710-PROP-021 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-wide-photo.png) | P710-TGT-021 · 생성·검수 대기 |
-| P710-PROP-022 | ![P710-PROP-022 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-wide-illustration.png) | P710-TGT-022 · 생성·검수 대기 |
-| P710-PROP-023 | ![P710-PROP-023 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-square-photo.png) | P710-TGT-023 · 생성·검수 대기 |
-| P710-PROP-024 | ![P710-PROP-024 입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-square-illustration.png) | P710-TGT-024 · 생성·검수 대기 |
+| P710-PROP-001 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-photo.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-minus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-002 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-illustration.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-minus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-003 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-wide-photo.png) | P710-TGT-003 · 생성·검수 대기 |
+| P710-PROP-004 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-wide-illustration.png) | P710-TGT-004 · 생성·검수 대기 |
+| P710-PROP-005 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-photo.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-minus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-006 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-illustration.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-minus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-007 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-long-photo.png) | P710-TGT-007 · 생성·검수 대기 |
+| P710-PROP-008 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-long-illustration.png) | P710-TGT-008 · 생성·검수 대기 |
+| P710-PROP-009 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-wide-photo.png) | P710-TGT-009 · 생성·검수 대기 |
+| P710-PROP-010 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-wide-illustration.png) | P710-TGT-010 · 생성·검수 대기 |
+| P710-PROP-011 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-square-photo.png) | P710-TGT-011 · 생성·검수 대기 |
+| P710-PROP-012 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-minus-90-man-square-illustration.png) | P710-TGT-012 · 생성·검수 대기 |
+| P710-PROP-013 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-long-photo.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-plus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-014 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-long-illustration.png) | P710-TGT-014 · 생성·검수 대기 |
+| P710-PROP-015 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-photo.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-plus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-016 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-illustration.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-plus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-017 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-square-photo.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-plus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-018 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-square-illustration.png) | P710-TGT-018 · 생성·검수 대기 |
+| P710-PROP-019 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-long-photo.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-plus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-020 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-long-illustration.png) | P710-TGT-020 · 생성·검수 대기 |
+| P710-PROP-021 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-wide-photo.png) | P710-TGT-021 · 생성·검수 대기 |
+| P710-PROP-022 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-wide-illustration.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-plus-90.png)<br>기존 목표 재사용 · 준비 완료 |
+| P710-PROP-023 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-square-photo.png) | P710-TGT-023 · 생성·검수 대기 |
+| P710-PROP-024 | ![입력](input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-square-illustration.png) | ![재사용 Mira 목표](target-images/proportion-v1/torso-level-plus-90.png)<br>기존 목표 재사용 · 준비 완료 |

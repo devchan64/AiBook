@@ -28,6 +28,7 @@ P7-5.1~P7-5.7, P7-5.9, P7-5.10, P7-5.15~P7-5.16 Section별 개정 이력은 `rel
 - `guidelines/section-learning-focus-guidelines.md`
 - `guidelines/manuscript-writing-workflow.md`
 - `guidelines/python-example-guidelines.md`
+- `guidelines/generated-asset-management-guidelines.md`
 - `guidelines/english-translation-guidelines.md`
 - `guidelines/chinese-translation-guidelines.md`
 - `guidelines/chart-guidelines.md`

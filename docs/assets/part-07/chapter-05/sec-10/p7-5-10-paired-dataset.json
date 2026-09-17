@@ -6,8 +6,8 @@
   "status": "partially_ready",
   "counts": {
     "total": 217,
-    "ready": 193,
-    "pending_target_generation_and_review": 24,
+    "ready": 204,
+    "pending_target_generation_and_review": 13,
     "train_reserved": 198,
     "validation": 19
   },
@@ -33,7 +33,15 @@
       "management_code": "P711-IN-001",
       "source_target_group": "target-01",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-01-soft-photo",
+      "input_result_id": "sha256:20d49d1eaa5ee867b1c36e055b523d705312e1de0e0d1b6d38ad1c08a5d068e4",
+      "target_result_id": "sha256:410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-02-watercolor",
@@ -50,7 +58,15 @@
       "management_code": "P711-IN-002",
       "source_target_group": "target-02",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-02-watercolor",
+      "input_result_id": "sha256:0d21b9412a09fb8151a4df0cfcdad525486e5c342dcbc0ec594ccae975f1448f",
+      "target_result_id": "sha256:c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-03-clay-render",
@@ -67,7 +83,15 @@
       "management_code": "P711-IN-003",
       "source_target_group": "target-03",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-03-clay-render",
+      "input_result_id": "sha256:ca4ffb51140542a70c77d88c9d4872aaf19b5ba49f0eb64b106e1b707548224f",
+      "target_result_id": "sha256:aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-04-ink-illustration",
@@ -84,7 +108,15 @@
       "management_code": "P711-IN-004",
       "source_target_group": "target-04",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-04-ink-illustration",
+      "input_result_id": "sha256:3eb9c8e952df8ca46f5900b2e854591d915c029ccc37fc6c47ac1fd005db31b1",
+      "target_result_id": "sha256:1816d4a68443f84143b34692bb71c79b07192a0615480bb59fcf43bca18954a4",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-05-oil-painting",
@@ -101,7 +133,15 @@
       "management_code": "P711-IN-005",
       "source_target_group": "target-05",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-05-oil-painting",
+      "input_result_id": "sha256:ac8183af6c751895b2c09eede2932e573a62352c3bcadd038b5a81be02050b49",
+      "target_result_id": "sha256:bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-06-soft-photo",
@@ -118,7 +158,15 @@
       "management_code": "P711-IN-006",
       "source_target_group": "target-06",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-06-soft-photo",
+      "input_result_id": "sha256:74071fe1c8ba03eae8d12f783c12c0f8d2c2f7a9a7f8151abc8bb3a21a0e8bc4",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-07-watercolor",
@@ -135,7 +183,15 @@
       "management_code": "P711-IN-007",
       "source_target_group": "target-07",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-07-watercolor",
+      "input_result_id": "sha256:0b82617c809db36038965560b40de7cae4528cae59f449f08dd80b386bf39aad",
+      "target_result_id": "sha256:4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-08-clay-render",
@@ -152,7 +208,15 @@
       "management_code": "P711-IN-008",
       "source_target_group": "target-08",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-08-clay-render",
+      "input_result_id": "sha256:ab6d5bc1e55991e7b82cc660f06f9e501676507cedd94a29110628033884a36e",
+      "target_result_id": "sha256:8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-09-ink-illustration",
@@ -169,7 +233,15 @@
       "management_code": "P711-IN-009",
       "source_target_group": "target-09",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-09-ink-illustration",
+      "input_result_id": "sha256:66e816e11b9cb560f91f3a52d6a81d4f85d727bd5e43b3472eeac990f49a42bb",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-10-oil-painting",
@@ -186,7 +258,15 @@
       "management_code": "P711-IN-010",
       "source_target_group": "target-10",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-10-oil-painting",
+      "input_result_id": "sha256:c2d07195a8a67fef6355e934fe36c56c729fc8a1c481a2f88840792cab46a743",
+      "target_result_id": "sha256:3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-11-soft-photo",
@@ -203,7 +283,15 @@
       "management_code": "P711-IN-011",
       "source_target_group": "target-11",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-11-soft-photo",
+      "input_result_id": "sha256:93359a5d63facf85858a0a01f960480d52325776d42847f0261982f0ef6ca833",
+      "target_result_id": "sha256:7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-12-watercolor",
@@ -220,7 +308,15 @@
       "management_code": "P711-IN-012",
       "source_target_group": "target-12",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-12-watercolor",
+      "input_result_id": "sha256:d64eb096df7bca5d81bb58837480039a6c3e26bafe69a8a9e347a4a269df1837",
+      "target_result_id": "sha256:3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-13-clay-render",
@@ -237,7 +333,15 @@
       "management_code": "P711-IN-013",
       "source_target_group": "target-13",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-13-clay-render",
+      "input_result_id": "sha256:9835fdca0bc1ed471f6557622bac686b9bd364f04e501863875622636dc3f214",
+      "target_result_id": "sha256:8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-14-ink-illustration",
@@ -254,7 +358,15 @@
       "management_code": "P711-IN-014",
       "source_target_group": "target-14",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-14-ink-illustration",
+      "input_result_id": "sha256:072e318152f47ba95944cc3deafb579bf9db7ff619e0ad4377f964763eeb272f",
+      "target_result_id": "sha256:c9be837ecf353450934a8d0ff5ff32033bddb9e76c87dd6ab59cc53d73796934",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-15-oil-painting",
@@ -271,7 +383,15 @@
       "management_code": "P711-IN-015",
       "source_target_group": "target-15",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-15-oil-painting",
+      "input_result_id": "sha256:e2c3944b3e85a9f83c0ee0b7fd8b6323febe744c0350860298a6bbbb2667d47e",
+      "target_result_id": "sha256:34ac6ccaf3d6b037aa630f186636527668e18c3ba98515e497a049c042a6da8c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-16-soft-photo",
@@ -288,7 +408,15 @@
       "management_code": "P711-IN-016",
       "source_target_group": "target-16",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-16-soft-photo",
+      "input_result_id": "sha256:edad64f7c07e45f91cb356e41ac374ce80003bc86b89f763d6cdbf457cc51f5c",
+      "target_result_id": "sha256:343d24b9a1fbca4038e5007b9f3982e8783a378b39b3d84093a8aeda22a6e75a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-18-clay-render",
@@ -305,7 +433,15 @@
       "management_code": "P711-IN-018",
       "source_target_group": "target-18",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-18-clay-render",
+      "input_result_id": "sha256:2d923f57b1f1f5a607a9cfe991cf08a8897e1541eec712ca3325e7ceaf173e21",
+      "target_result_id": "sha256:ccd52b3237cf70b3f18c7e84551153357c9d1e57300132a948e1ee0b01f79c3b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-19-ink-illustration",
@@ -322,7 +458,15 @@
       "management_code": "P711-IN-019",
       "source_target_group": "target-19",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-19-ink-illustration",
+      "input_result_id": "sha256:f11f10a4afabcc8a4cb6432db9123ce242eb58a1b9289a44f281b59c28d62fee",
+      "target_result_id": "sha256:ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-20-oil-painting",
@@ -339,7 +483,15 @@
       "management_code": "P711-IN-020",
       "source_target_group": "target-20",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-20-oil-painting",
+      "input_result_id": "sha256:ce552620f1c8c5d97774d3efefb00e2dfce93cb397504d7854a6377f8811ef98",
+      "target_result_id": "sha256:f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-21-soft-photo",
@@ -356,7 +508,15 @@
       "management_code": "P711-IN-021",
       "source_target_group": "target-21",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-21-soft-photo",
+      "input_result_id": "sha256:ff0012d1166bb4b79e34599e2ab741bc9413fda6ea9337c46ebf15d6ed3fd6c6",
+      "target_result_id": "sha256:68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-22-watercolor",
@@ -373,7 +533,15 @@
       "management_code": "P711-IN-022",
       "source_target_group": "target-22",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-22-watercolor",
+      "input_result_id": "sha256:762332f4ceacee17846a9f68456f4139237f67db282247d5bcfefbfc36953f6b",
+      "target_result_id": "sha256:7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-24-ink-illustration",
@@ -390,7 +558,15 @@
       "management_code": "P711-IN-024",
       "source_target_group": "target-24",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-24-ink-illustration",
+      "input_result_id": "sha256:da2825c5f9938a54929ddc3144323c2c7236da7ecd4a0d8eaf460a7f7bf5165e",
+      "target_result_id": "sha256:2fc913ff8d50af68a86b36ef7347d02d7ff8aae45bc49570a3abed572b28a98a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-25-oil-painting",
@@ -407,7 +583,15 @@
       "management_code": "P711-IN-025",
       "source_target_group": "target-25",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-25-oil-painting",
+      "input_result_id": "sha256:ffb3bb90d815e997df3cfe60573c5f7db717b3bb6873e56017473e9e81295ebb",
+      "target_result_id": "sha256:854972ceeb4e9bbeaa12b29081f988fbc8fd281e835f31ea520f73c36d75b244",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-27-watercolor",
@@ -424,7 +608,15 @@
       "management_code": "P711-IN-027",
       "source_target_group": "target-27",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-27-watercolor",
+      "input_result_id": "sha256:fec9b4fc6de7ae10d19e30a47fa6de15b4e98ea2a6824704d20bb7df039a297b",
+      "target_result_id": "sha256:069d91fd0ad5bfd060958bd867b94a6f1fea6aa53a3058c63a663e4e5e66681c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-29-ink-illustration",
@@ -441,7 +633,15 @@
       "management_code": "P711-IN-029",
       "source_target_group": "target-29",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-29-ink-illustration",
+      "input_result_id": "sha256:78fb1ce18dc6edcdf6ead767c8ae701e89a36f9556a0fc5080d323a2b8ba2a09",
+      "target_result_id": "sha256:55cc1bb3e0654599c62d67f77730e5fd0d618ed09376854acd5415a6654e87d7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-30-oil-painting",
@@ -458,7 +658,15 @@
       "management_code": "P711-IN-030",
       "source_target_group": "target-30",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-30-oil-painting",
+      "input_result_id": "sha256:ad41759ab2ab9884b37533c1c6a9d94ee182be44935528fe75b15476081a4473",
+      "target_result_id": "sha256:a9be19e7cf7eb7ab9d5c01edf4f4673be96be372d7c6e9185387209c525d3667",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-31-soft-photo",
@@ -475,7 +683,15 @@
       "management_code": "P711-IN-031",
       "source_target_group": "target-31",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-31-soft-photo",
+      "input_result_id": "sha256:7e3ce736830668fdda9ce617581656f9e7481ff02084fba1b768ad1002ac42f5",
+      "target_result_id": "sha256:f392ffd252b8ff685aedbce11abc41b995a8711f11dc832bcd895e52425fb521",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-33-clay-render",
@@ -492,7 +708,15 @@
       "management_code": "P711-IN-033",
       "source_target_group": "target-33",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-33-clay-render",
+      "input_result_id": "sha256:9a188e16edbc367d22e740c54d33ad11df3b048765fd826a066bb009d4dd1825",
+      "target_result_id": "sha256:4c99a08361d280fcd27f7249bf983d39e498f4d68756ba10029269614594de13",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-34-ink-illustration",
@@ -509,7 +733,15 @@
       "management_code": "P711-IN-034",
       "source_target_group": "target-34",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-34-ink-illustration",
+      "input_result_id": "sha256:6968078605a6d1871fdc1152a3723eb68596e1cca0c873fd6100955470bb87f6",
+      "target_result_id": "sha256:47431c7cf1ef9f4d87ffb1a094ef6e3b4f9cb55b5dfb0a7f923abe28259d87e1",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-35-oil-painting",
@@ -526,7 +758,15 @@
       "management_code": "P711-IN-035",
       "source_target_group": "target-35",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-35-oil-painting",
+      "input_result_id": "sha256:2f45cd42b40ad3d6e75411c84391f89e77d269eb7a964a1d635e00a4838dbde7",
+      "target_result_id": "sha256:620bec613e863502e0893f8ae4ce2899faeec203b8d60e30f743a2bb106be1f9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-36-soft-photo",
@@ -543,7 +783,15 @@
       "management_code": "P711-IN-036",
       "source_target_group": "target-36",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-36-soft-photo",
+      "input_result_id": "sha256:14f139f3bf5fda5aa0b2ed39dc96b019e38bc45e982cea7e0ad7a86208ca3aba",
+      "target_result_id": "sha256:cba898b1120e280a1d27aeb4089c4485520705f4c5139ebc7e3287f7ca15d161",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-37-watercolor",
@@ -560,7 +808,15 @@
       "management_code": "P711-IN-037",
       "source_target_group": "target-37",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-37-watercolor",
+      "input_result_id": "sha256:c55e2bb046f157e17064bab55278a6bb46ffe515c0908d8063a0640489b50532",
+      "target_result_id": "sha256:8f0cc69fc3fadf17ab76b535b537a84c404bb43af118d43be8354070186ddfd3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-38-clay-render",
@@ -577,7 +833,15 @@
       "management_code": "P711-IN-038",
       "source_target_group": "target-38",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-38-clay-render",
+      "input_result_id": "sha256:06244a4edaf4ff67a37d238cd1136364fc74bf9a6fc41e64c047c2a1d0a6f48b",
+      "target_result_id": "sha256:df1dd6ec626e321d4c39406b2783d25ff09ee52db4dcc32faea28cea166ca5d4",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-39-ink-illustration",
@@ -594,7 +858,15 @@
       "management_code": "P711-IN-039",
       "source_target_group": "target-39",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-39-ink-illustration",
+      "input_result_id": "sha256:b4ad89ca58862af2c44b9bca6fcdcbc4b3efd31e311cea385f3e1e21a15a26ef",
+      "target_result_id": "sha256:8fc597c33f206775a5f4ff56d3ab455d773bde9b0027b18f7003055f1de4b63b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-40-oil-painting",
@@ -611,7 +883,15 @@
       "management_code": "P711-IN-040",
       "source_target_group": "target-40",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-40-oil-painting",
+      "input_result_id": "sha256:8ba34a5c4b5d7879bffc41945bdc0e6590dd8ba364d54bb586ee79bc329283bb",
+      "target_result_id": "sha256:6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-41-soft-photo",
@@ -628,7 +908,15 @@
       "management_code": "P711-IN-041",
       "source_target_group": "target-41",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-41-soft-photo",
+      "input_result_id": "sha256:0472f934952ac6cf9b490d3d058d08bc743b12a04cd8f0f071d6265988dc75c3",
+      "target_result_id": "sha256:7e2e1bd26a5ba8437d379b1f2cd0fd57f54b7f16c014f0489d4ba14b417a2977",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-42-watercolor",
@@ -645,7 +933,15 @@
       "management_code": "P711-IN-042",
       "source_target_group": "target-42",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-42-watercolor",
+      "input_result_id": "sha256:29a5e88c8f052d9784482f143fc85c2cf042a227f7797b785841d9598b82e389",
+      "target_result_id": "sha256:a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-43-clay-render",
@@ -662,7 +958,15 @@
       "management_code": "P711-IN-043",
       "source_target_group": "target-43",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-43-clay-render",
+      "input_result_id": "sha256:41eb57758a0c87c05e2c26c2613f44aa52197aa96deae3bdc08a030dc892d886",
+      "target_result_id": "sha256:ffc040f45c033c2833d65de7db7ef932310a6969f86d3e7d6b9b19bcfc3922bf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-44-ink-illustration",
@@ -679,7 +983,15 @@
       "management_code": "P711-IN-044",
       "source_target_group": "target-44",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-44-ink-illustration",
+      "input_result_id": "sha256:2fe7e3ebd36e70f86dec7404523dc4b416896d1319070ea89335cad33e3907b7",
+      "target_result_id": "sha256:f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-01-watercolor",
@@ -696,7 +1008,15 @@
       "management_code": "P711-IN-045",
       "source_target_group": "target-01",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-01-watercolor",
+      "input_result_id": "sha256:61102252f99fd99153db6b1f1a24397bd6337c81b91c544405b3671b2bb241ca",
+      "target_result_id": "sha256:410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-02-clay-render",
@@ -713,7 +1033,15 @@
       "management_code": "P711-IN-046",
       "source_target_group": "target-02",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-02-clay-render",
+      "input_result_id": "sha256:bdd4907d74d8f5416d00d1817efabcad072b781952d1eee63981b1a39f84efde",
+      "target_result_id": "sha256:c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-03-ink-illustration",
@@ -730,7 +1058,15 @@
       "management_code": "P711-IN-047",
       "source_target_group": "target-03",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-03-ink-illustration",
+      "input_result_id": "sha256:9eda1337d3219fb9e5b1bef1fc758f5d89818d4ba441047aec0e6f3e0e7e7bc4",
+      "target_result_id": "sha256:aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-05-soft-photo",
@@ -747,7 +1083,15 @@
       "management_code": "P711-IN-049",
       "source_target_group": "target-05",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-05-soft-photo",
+      "input_result_id": "sha256:9c1f5026dfa876fefca56a36c3ae96e7ad4f3acc4853bdd6c857d2239bf6e2b5",
+      "target_result_id": "sha256:bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-06-watercolor",
@@ -764,7 +1108,15 @@
       "management_code": "P711-IN-050",
       "source_target_group": "target-06",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-06-watercolor",
+      "input_result_id": "sha256:19acc8fb688de835940aaa7b6327b54eabe2b0332411094707913bba16c25695",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-07-clay-render",
@@ -781,7 +1133,15 @@
       "management_code": "P711-IN-051",
       "source_target_group": "target-07",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-07-clay-render",
+      "input_result_id": "sha256:9eebe3678ec38f7276c9705d83bc6d782f3d9b7e02efe97a76a82f830f4acbf0",
+      "target_result_id": "sha256:4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-08-ink-illustration",
@@ -798,7 +1158,15 @@
       "management_code": "P711-IN-052",
       "source_target_group": "target-08",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-08-ink-illustration",
+      "input_result_id": "sha256:b940ecbcac7730659ccec9adafd87121cb3cde9c6df053fa3075575585f89a23",
+      "target_result_id": "sha256:8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-09-oil-painting",
@@ -815,7 +1183,15 @@
       "management_code": "P711-IN-053",
       "source_target_group": "target-09",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-09-oil-painting",
+      "input_result_id": "sha256:3e783953cc6f068433615bbecc03bfc2f6feaabf815cb5c53e781c510fe21366",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-10-soft-photo",
@@ -832,7 +1208,15 @@
       "management_code": "P711-IN-054",
       "source_target_group": "target-10",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-10-soft-photo",
+      "input_result_id": "sha256:a27f79df92102bc85044073b459f29476620e971a8bb84b027572883bda27fbe",
+      "target_result_id": "sha256:3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-11-watercolor",
@@ -849,7 +1233,15 @@
       "management_code": "P711-IN-055",
       "source_target_group": "target-11",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-11-watercolor",
+      "input_result_id": "sha256:43769e498373c1b715764bb15c6572b902459d0fd0bc83e7f3f8e84288f8a9ea",
+      "target_result_id": "sha256:7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-12-clay-render",
@@ -866,7 +1258,15 @@
       "management_code": "P711-IN-056",
       "source_target_group": "target-12",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-12-clay-render",
+      "input_result_id": "sha256:51ac02bcf86da7a8132abac61e2482ca5db439f993fc57d255a8d68f748dad0c",
+      "target_result_id": "sha256:3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-13-ink-illustration",
@@ -883,7 +1283,15 @@
       "management_code": "P711-IN-057",
       "source_target_group": "target-13",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-13-ink-illustration",
+      "input_result_id": "sha256:4e500fade03349812555aa44c2e46c758aba665a7ce1cca0abe56e10ca8d68c4",
+      "target_result_id": "sha256:8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-14-oil-painting",
@@ -900,7 +1308,15 @@
       "management_code": "P711-IN-058",
       "source_target_group": "target-14",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-14-oil-painting",
+      "input_result_id": "sha256:0b3b12895bf99c503a2adc65f26c315fb5f423177babd748f47baed1eac7551c",
+      "target_result_id": "sha256:c9be837ecf353450934a8d0ff5ff32033bddb9e76c87dd6ab59cc53d73796934",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-15-soft-photo",
@@ -917,7 +1333,15 @@
       "management_code": "P711-IN-059",
       "source_target_group": "target-15",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-15-soft-photo",
+      "input_result_id": "sha256:ce152709cbfd7ad293cbb1522c6b4cc122848d61401a22022ec0c43b0d193d3b",
+      "target_result_id": "sha256:34ac6ccaf3d6b037aa630f186636527668e18c3ba98515e497a049c042a6da8c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-16-watercolor",
@@ -934,7 +1358,15 @@
       "management_code": "P711-IN-060",
       "source_target_group": "target-16",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-16-watercolor",
+      "input_result_id": "sha256:2b86be036b0852f7e396ea96f115d584b7c9722597904bac8a3d60ecd3f96fdf",
+      "target_result_id": "sha256:343d24b9a1fbca4038e5007b9f3982e8783a378b39b3d84093a8aeda22a6e75a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-17-clay-render",
@@ -951,7 +1383,15 @@
       "management_code": "P711-IN-061",
       "source_target_group": "target-17",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-17-clay-render",
+      "input_result_id": "sha256:c29897aa77c60430ef10c662449906519cc9d6b14bd1f5a0df2d03a7a50d0f8b",
+      "target_result_id": "sha256:25d23db4d559eaab862d5a88935b84c54da06dd92f38913fac081bf5db19a6e9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-18-ink-illustration",
@@ -968,7 +1408,15 @@
       "management_code": "P711-IN-062",
       "source_target_group": "target-18",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-18-ink-illustration",
+      "input_result_id": "sha256:cd82f50d874c3c811e3a82fc0cda4d3f7e99c95a622ac4addf7c6db899741ba1",
+      "target_result_id": "sha256:ccd52b3237cf70b3f18c7e84551153357c9d1e57300132a948e1ee0b01f79c3b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-19-oil-painting",
@@ -985,7 +1433,15 @@
       "management_code": "P711-IN-063",
       "source_target_group": "target-19",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-19-oil-painting",
+      "input_result_id": "sha256:5c82f537ab4414eaf68635e81d67ec3941d90ba18d8c12caf8149a29da3434b0",
+      "target_result_id": "sha256:ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-20-soft-photo",
@@ -1002,7 +1458,15 @@
       "management_code": "P711-IN-064",
       "source_target_group": "target-20",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-20-soft-photo",
+      "input_result_id": "sha256:5609e23881f556cb252169aa8a2be898ead498de5e12cbd79608bf1f8db29524",
+      "target_result_id": "sha256:f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-22-clay-render",
@@ -1019,7 +1483,15 @@
       "management_code": "P711-IN-066",
       "source_target_group": "target-22",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-22-clay-render",
+      "input_result_id": "sha256:8d826e28e2f4a2ef50e7f94fd1583f4a19f72099126c0cf27b9f91c25e33712d",
+      "target_result_id": "sha256:7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-24-oil-painting",
@@ -1036,7 +1508,15 @@
       "management_code": "P711-IN-068",
       "source_target_group": "target-24",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-24-oil-painting",
+      "input_result_id": "sha256:6c884920fbe5005cedafee596020c80f5cfe038a3d14784c20c8d8445ddc37bf",
+      "target_result_id": "sha256:2fc913ff8d50af68a86b36ef7347d02d7ff8aae45bc49570a3abed572b28a98a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-25-soft-photo",
@@ -1053,7 +1533,15 @@
       "management_code": "P711-IN-069",
       "source_target_group": "target-25",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-25-soft-photo",
+      "input_result_id": "sha256:fb0e53a25968756799a17e870487850490da88da5c40c753c84b5b3295c11b42",
+      "target_result_id": "sha256:854972ceeb4e9bbeaa12b29081f988fbc8fd281e835f31ea520f73c36d75b244",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-27-clay-render",
@@ -1070,7 +1558,15 @@
       "management_code": "P711-IN-071",
       "source_target_group": "target-27",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-27-clay-render",
+      "input_result_id": "sha256:9188d7102ba08076696c9f515d4a9733d3b42550761d05de1c1636ac89289d99",
+      "target_result_id": "sha256:069d91fd0ad5bfd060958bd867b94a6f1fea6aa53a3058c63a663e4e5e66681c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-29-oil-painting",
@@ -1087,7 +1583,15 @@
       "management_code": "P711-IN-073",
       "source_target_group": "target-29",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-29-oil-painting",
+      "input_result_id": "sha256:9f2e6f75d641761e62fab2cde43c45aa3e882bbe076450f8560e83d5bb989ce2",
+      "target_result_id": "sha256:55cc1bb3e0654599c62d67f77730e5fd0d618ed09376854acd5415a6654e87d7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-30-soft-photo",
@@ -1104,7 +1608,15 @@
       "management_code": "P711-IN-074",
       "source_target_group": "target-30",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-30-soft-photo",
+      "input_result_id": "sha256:e1d60e4a7c0d5382120f7f6e403a1435811a62c6034313d27bdd1112b9b7b023",
+      "target_result_id": "sha256:a9be19e7cf7eb7ab9d5c01edf4f4673be96be372d7c6e9185387209c525d3667",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-32-clay-render",
@@ -1121,7 +1633,15 @@
       "management_code": "P711-IN-076",
       "source_target_group": "target-32",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-32-clay-render",
+      "input_result_id": "sha256:1c8273aa2670522bbdf464253219194d0b66f3fd4c069a66564126f41aa709e6",
+      "target_result_id": "sha256:d0f02e7f143c785f875c317f59406f39d133924a52fe9f948d466912dee2b0ec",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-33-ink-illustration",
@@ -1138,7 +1658,15 @@
       "management_code": "P711-IN-077",
       "source_target_group": "target-33",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-33-ink-illustration",
+      "input_result_id": "sha256:80cc8546049f602e5cbc64551582f81af8d54a7ae8cfc22f18bb1c12cabeae69",
+      "target_result_id": "sha256:4c99a08361d280fcd27f7249bf983d39e498f4d68756ba10029269614594de13",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-34-oil-painting",
@@ -1155,7 +1683,15 @@
       "management_code": "P711-IN-078",
       "source_target_group": "target-34",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-34-oil-painting",
+      "input_result_id": "sha256:43e4c96e76f25bb5a3f14b55782239f927e108f67cd08d3c893eb6c76471cb83",
+      "target_result_id": "sha256:47431c7cf1ef9f4d87ffb1a094ef6e3b4f9cb55b5dfb0a7f923abe28259d87e1",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-35-soft-photo",
@@ -1172,7 +1708,15 @@
       "management_code": "P711-IN-079",
       "source_target_group": "target-35",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-35-soft-photo",
+      "input_result_id": "sha256:fc8d25a464b0c78da0f6c9412c6d2a39f5455e9e3eb59c68ff088ee54fd17644",
+      "target_result_id": "sha256:620bec613e863502e0893f8ae4ce2899faeec203b8d60e30f743a2bb106be1f9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-36-watercolor",
@@ -1189,7 +1733,15 @@
       "management_code": "P711-IN-080",
       "source_target_group": "target-36",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-36-watercolor",
+      "input_result_id": "sha256:f82bd5d97cd4a593c370c37d80dd5907195c38d54805ee04543ac318a8321c23",
+      "target_result_id": "sha256:cba898b1120e280a1d27aeb4089c4485520705f4c5139ebc7e3287f7ca15d161",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-37-clay-render",
@@ -1206,7 +1758,15 @@
       "management_code": "P711-IN-081",
       "source_target_group": "target-37",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-37-clay-render",
+      "input_result_id": "sha256:faaf6ef3a699ed4910eaf6af08fa795ea3ce9e1028673171a7a094ba8e4cd8cf",
+      "target_result_id": "sha256:8f0cc69fc3fadf17ab76b535b537a84c404bb43af118d43be8354070186ddfd3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-38-ink-illustration",
@@ -1223,7 +1783,15 @@
       "management_code": "P711-IN-082",
       "source_target_group": "target-38",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-38-ink-illustration",
+      "input_result_id": "sha256:d4e158ca31804a237171ca09c3886d5e167d00b7145d4418c77928451ca0a22f",
+      "target_result_id": "sha256:df1dd6ec626e321d4c39406b2783d25ff09ee52db4dcc32faea28cea166ca5d4",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-39-oil-painting",
@@ -1240,7 +1808,15 @@
       "management_code": "P711-IN-083",
       "source_target_group": "target-39",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-39-oil-painting",
+      "input_result_id": "sha256:86da54c0c7f959e77d0649a4250b6d9347b1ba45851b0d2b9141147707f2fb2d",
+      "target_result_id": "sha256:8fc597c33f206775a5f4ff56d3ab455d773bde9b0027b18f7003055f1de4b63b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-40-soft-photo",
@@ -1257,7 +1833,15 @@
       "management_code": "P711-IN-084",
       "source_target_group": "target-40",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-40-soft-photo",
+      "input_result_id": "sha256:4c516508d94393700cc74848d3d8cc864fa15b20804cab170d43291b911635c0",
+      "target_result_id": "sha256:6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-41-watercolor",
@@ -1274,7 +1858,15 @@
       "management_code": "P711-IN-085",
       "source_target_group": "target-41",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-41-watercolor",
+      "input_result_id": "sha256:74123914eceb7d4784fbf63abb197ec72b95c6c7fa1a076a2ccc8c803d79f991",
+      "target_result_id": "sha256:7e2e1bd26a5ba8437d379b1f2cd0fd57f54b7f16c014f0489d4ba14b417a2977",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-42-clay-render",
@@ -1291,7 +1883,15 @@
       "management_code": "P711-IN-086",
       "source_target_group": "target-42",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-42-clay-render",
+      "input_result_id": "sha256:47cd1bc8b7c5053d1970338a88bb9f4f415361354e275aaddda1d6adac751776",
+      "target_result_id": "sha256:a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-43-ink-illustration",
@@ -1308,7 +1908,15 @@
       "management_code": "P711-IN-087",
       "source_target_group": "target-43",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-43-ink-illustration",
+      "input_result_id": "sha256:7019717bfb1e32ecfe7a5204ad755871b96326ad97c92fb2b30bb061fb494bac",
+      "target_result_id": "sha256:ffc040f45c033c2833d65de7db7ef932310a6969f86d3e7d6b9b19bcfc3922bf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-44-oil-painting",
@@ -1325,7 +1933,15 @@
       "management_code": "P711-IN-088",
       "source_target_group": "target-44",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-44-oil-painting",
+      "input_result_id": "sha256:7d141418106b65ad966e0ccd30a5a85d02c18da23d262676b976a39496e55e6c",
+      "target_result_id": "sha256:f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-01-clay-render",
@@ -1342,7 +1958,15 @@
       "management_code": "P711-IN-089",
       "source_target_group": "target-01",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-01-clay-render",
+      "input_result_id": "sha256:6dddd4112af970affec7bf4570850211539bf86abcc86344f48cce18e99603f2",
+      "target_result_id": "sha256:410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-02-ink-illustration",
@@ -1359,7 +1983,15 @@
       "management_code": "P711-IN-090",
       "source_target_group": "target-02",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-02-ink-illustration",
+      "input_result_id": "sha256:398584a1d37c8ee19c26f5fb69b0ddb493bb15533d3823783f26aaf3bf59403e",
+      "target_result_id": "sha256:c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-03-oil-painting",
@@ -1376,7 +2008,15 @@
       "management_code": "P711-IN-091",
       "source_target_group": "target-03",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-03-oil-painting",
+      "input_result_id": "sha256:dc93477983bd6b016c663a504f58432cc7b0c2f36ff69632758f5089e5fb26d3",
+      "target_result_id": "sha256:aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-05-watercolor",
@@ -1393,7 +2033,15 @@
       "management_code": "P711-IN-093",
       "source_target_group": "target-05",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-05-watercolor",
+      "input_result_id": "sha256:bb956cd107454605fbdc33b9fc89baaeae32488d106f724318c5a3e9558bc73d",
+      "target_result_id": "sha256:bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-06-clay-render",
@@ -1410,7 +2058,15 @@
       "management_code": "P711-IN-094",
       "source_target_group": "target-06",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-06-clay-render",
+      "input_result_id": "sha256:d788bf85aa793d9b91cd4419cb24df372b9a33c358377b2574170a546390f68f",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-07-ink-illustration",
@@ -1427,7 +2083,15 @@
       "management_code": "P711-IN-095",
       "source_target_group": "target-07",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-07-ink-illustration",
+      "input_result_id": "sha256:70ed72de12c3cfd42dce87282c1807359027ced9d8c386aa23e404f6956d6322",
+      "target_result_id": "sha256:4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-08-oil-painting",
@@ -1444,7 +2108,15 @@
       "management_code": "P711-IN-096",
       "source_target_group": "target-08",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-08-oil-painting",
+      "input_result_id": "sha256:379c6303a63d516c2a2fe4ad8d44e34ac685ff1b0336d5420429b3ed024ab2a9",
+      "target_result_id": "sha256:8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-09-soft-photo",
@@ -1461,7 +2133,15 @@
       "management_code": "P711-IN-097",
       "source_target_group": "target-09",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-09-soft-photo",
+      "input_result_id": "sha256:f28aff830100d35c6756b2db6f5a684b41e7dbd1fb9b211a0bdeb23c1df92051",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-10-watercolor",
@@ -1478,7 +2158,15 @@
       "management_code": "P711-IN-098",
       "source_target_group": "target-10",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-10-watercolor",
+      "input_result_id": "sha256:f04001a88aa681d771540cac0c2f715d18e98f966bc395e159689a00abfacbf2",
+      "target_result_id": "sha256:3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-11-clay-render",
@@ -1495,7 +2183,15 @@
       "management_code": "P711-IN-099",
       "source_target_group": "target-11",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-11-clay-render",
+      "input_result_id": "sha256:3b2548984d683743898a3e9b2a42eb2e7533336600bac8855fd667bdff8d0a84",
+      "target_result_id": "sha256:7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-12-ink-illustration",
@@ -1512,7 +2208,15 @@
       "management_code": "P711-IN-100",
       "source_target_group": "target-12",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-12-ink-illustration",
+      "input_result_id": "sha256:abb08776c152b87c87bba348b52c499886e7819925f85570779be75c5bd2dec0",
+      "target_result_id": "sha256:3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-13-oil-painting",
@@ -1529,7 +2233,15 @@
       "management_code": "P711-IN-101",
       "source_target_group": "target-13",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-13-oil-painting",
+      "input_result_id": "sha256:9163b6abed8d329e983d5ce427ff00fa4ed793af403d0d3d808e7991fea05890",
+      "target_result_id": "sha256:8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-14-soft-photo",
@@ -1546,7 +2258,15 @@
       "management_code": "P711-IN-102",
       "source_target_group": "target-14",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-14-soft-photo",
+      "input_result_id": "sha256:a171ca618d75044dc7d70fd2d1ac2fb894a045a226eddd74452343b46ab21112",
+      "target_result_id": "sha256:c9be837ecf353450934a8d0ff5ff32033bddb9e76c87dd6ab59cc53d73796934",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-15-watercolor",
@@ -1563,7 +2283,15 @@
       "management_code": "P711-IN-103",
       "source_target_group": "target-15",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-15-watercolor",
+      "input_result_id": "sha256:db87f9b9861252878349c0c40e9aedd7e962f686af3d9f93d924210f56bb2f6e",
+      "target_result_id": "sha256:34ac6ccaf3d6b037aa630f186636527668e18c3ba98515e497a049c042a6da8c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-16-clay-render",
@@ -1580,7 +2308,15 @@
       "management_code": "P711-IN-104",
       "source_target_group": "target-16",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-16-clay-render",
+      "input_result_id": "sha256:794d2da76806691e7ceb66a80022632680e4d79aeedcc422ab72dc12acfb1758",
+      "target_result_id": "sha256:343d24b9a1fbca4038e5007b9f3982e8783a378b39b3d84093a8aeda22a6e75a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-17-ink-illustration",
@@ -1597,7 +2333,15 @@
       "management_code": "P711-IN-105",
       "source_target_group": "target-17",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-17-ink-illustration",
+      "input_result_id": "sha256:4917048d799a1108af6ca9ef82edd4008e47f51c686438e7fc70dc12d94bb37d",
+      "target_result_id": "sha256:25d23db4d559eaab862d5a88935b84c54da06dd92f38913fac081bf5db19a6e9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-18-oil-painting",
@@ -1614,7 +2358,15 @@
       "management_code": "P711-IN-106",
       "source_target_group": "target-18",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-18-oil-painting",
+      "input_result_id": "sha256:251f42cbb333f03e804221be278fa0dd1a0954c5dfd359aaa29a99a416b2e0e0",
+      "target_result_id": "sha256:ccd52b3237cf70b3f18c7e84551153357c9d1e57300132a948e1ee0b01f79c3b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-19-soft-photo",
@@ -1631,7 +2383,15 @@
       "management_code": "P711-IN-107",
       "source_target_group": "target-19",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-19-soft-photo",
+      "input_result_id": "sha256:6c3b2ff7e1a7a5073bd146841061629ca444e6564190ab860351d85d6bab7611",
+      "target_result_id": "sha256:ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-20-watercolor",
@@ -1648,7 +2408,15 @@
       "management_code": "P711-IN-108",
       "source_target_group": "target-20",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-20-watercolor",
+      "input_result_id": "sha256:a09640f09e0b77e26919f10f16f0b50d1344601f7acb7ec0e508e5f172af4df5",
+      "target_result_id": "sha256:f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-21-clay-render",
@@ -1665,7 +2433,15 @@
       "management_code": "P711-IN-109",
       "source_target_group": "target-21",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-21-clay-render",
+      "input_result_id": "sha256:5917b194121b7bdfac19715f1f3732ae900225003fdee01b4e81397b725e879c",
+      "target_result_id": "sha256:68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-22-ink-illustration",
@@ -1682,7 +2458,15 @@
       "management_code": "P711-IN-110",
       "source_target_group": "target-22",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-22-ink-illustration",
+      "input_result_id": "sha256:0c93df34790d49085dfc2b5481b6a1aedb7dec66b409ec07b6ec940330c82f54",
+      "target_result_id": "sha256:7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-24-soft-photo",
@@ -1699,7 +2483,15 @@
       "management_code": "P711-IN-112",
       "source_target_group": "target-24",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-24-soft-photo",
+      "input_result_id": "sha256:df7582e3fde39e81242a22e12f2cefb79785a37bf273f966ce1e19cd27e95617",
+      "target_result_id": "sha256:2fc913ff8d50af68a86b36ef7347d02d7ff8aae45bc49570a3abed572b28a98a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-25-watercolor",
@@ -1716,7 +2508,15 @@
       "management_code": "P711-IN-113",
       "source_target_group": "target-25",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-25-watercolor",
+      "input_result_id": "sha256:fbc68c2a4fa7ef6eac302e5e05d0691c70a6264ad94cfa9af6b96a9f0037ff32",
+      "target_result_id": "sha256:854972ceeb4e9bbeaa12b29081f988fbc8fd281e835f31ea520f73c36d75b244",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-27-ink-illustration",
@@ -1733,7 +2533,15 @@
       "management_code": "P711-IN-115",
       "source_target_group": "target-27",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-27-ink-illustration",
+      "input_result_id": "sha256:46be3a7e1f67c73785597528b87a5b9419c434842bc76b8183724fe423ae2a95",
+      "target_result_id": "sha256:069d91fd0ad5bfd060958bd867b94a6f1fea6aa53a3058c63a663e4e5e66681c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-29-soft-photo",
@@ -1750,7 +2558,15 @@
       "management_code": "P711-IN-117",
       "source_target_group": "target-29",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-29-soft-photo",
+      "input_result_id": "sha256:3fc26247f224ac19c16c403241072875d8a0f209e1de335ece3a3347b47fff74",
+      "target_result_id": "sha256:55cc1bb3e0654599c62d67f77730e5fd0d618ed09376854acd5415a6654e87d7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-30-watercolor",
@@ -1767,7 +2583,15 @@
       "management_code": "P711-IN-118",
       "source_target_group": "target-30",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-30-watercolor",
+      "input_result_id": "sha256:5e5b20954874fdabf47e4bf3ea9918e333dd9b020682d5821f59c67c94a6449b",
+      "target_result_id": "sha256:a9be19e7cf7eb7ab9d5c01edf4f4673be96be372d7c6e9185387209c525d3667",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-31-clay-render",
@@ -1784,7 +2608,15 @@
       "management_code": "P711-IN-119",
       "source_target_group": "target-31",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-31-clay-render",
+      "input_result_id": "sha256:7c95a529f86158c6ed0c7c970f23fda731cc971f407fa89a4fd2a78ade92c7c8",
+      "target_result_id": "sha256:f392ffd252b8ff685aedbce11abc41b995a8711f11dc832bcd895e52425fb521",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-33-oil-painting",
@@ -1801,7 +2633,15 @@
       "management_code": "P711-IN-121",
       "source_target_group": "target-33",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-33-oil-painting",
+      "input_result_id": "sha256:177e87b7b65e64e1773d0e88d14cff094938066ab9affbfa9e2b75ec48ebe590",
+      "target_result_id": "sha256:4c99a08361d280fcd27f7249bf983d39e498f4d68756ba10029269614594de13",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-34-soft-photo",
@@ -1818,7 +2658,15 @@
       "management_code": "P711-IN-122",
       "source_target_group": "target-34",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-34-soft-photo",
+      "input_result_id": "sha256:dfad425b5a66a83f8674ed5c0e8287c1598931dffe5b1622533e56ff7220afc8",
+      "target_result_id": "sha256:47431c7cf1ef9f4d87ffb1a094ef6e3b4f9cb55b5dfb0a7f923abe28259d87e1",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-35-watercolor",
@@ -1835,7 +2683,15 @@
       "management_code": "P711-IN-123",
       "source_target_group": "target-35",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-35-watercolor",
+      "input_result_id": "sha256:5ec0672aeb4418af68b5bc0aa84c25b6c87c0d7b8ddf1d9e3c81b0de538e2e69",
+      "target_result_id": "sha256:620bec613e863502e0893f8ae4ce2899faeec203b8d60e30f743a2bb106be1f9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-36-clay-render",
@@ -1852,7 +2708,15 @@
       "management_code": "P711-IN-124",
       "source_target_group": "target-36",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-36-clay-render",
+      "input_result_id": "sha256:9a93fecc48880c6d02300ebff14e166ad39feb4dd45fdcc7f71b59e6cdda00a6",
+      "target_result_id": "sha256:cba898b1120e280a1d27aeb4089c4485520705f4c5139ebc7e3287f7ca15d161",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-37-ink-illustration",
@@ -1869,7 +2733,15 @@
       "management_code": "P711-IN-125",
       "source_target_group": "target-37",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-37-ink-illustration",
+      "input_result_id": "sha256:0d2205e2cb1322291a3b0a0e58bfe4a7754f07d1a05090beaaa556f09ddf3231",
+      "target_result_id": "sha256:8f0cc69fc3fadf17ab76b535b537a84c404bb43af118d43be8354070186ddfd3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-38-oil-painting",
@@ -1886,7 +2758,15 @@
       "management_code": "P711-IN-126",
       "source_target_group": "target-38",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-38-oil-painting",
+      "input_result_id": "sha256:6c952e54b95bd73df080b612275ab0f5f36a98d02675a26435f34bf5547fdc17",
+      "target_result_id": "sha256:df1dd6ec626e321d4c39406b2783d25ff09ee52db4dcc32faea28cea166ca5d4",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-39-soft-photo",
@@ -1903,7 +2783,15 @@
       "management_code": "P711-IN-127",
       "source_target_group": "target-39",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-39-soft-photo",
+      "input_result_id": "sha256:6c11621339f37a3330aca90d7661fb8611243100b55080cb7fb31c4f2e5f6ec1",
+      "target_result_id": "sha256:8fc597c33f206775a5f4ff56d3ab455d773bde9b0027b18f7003055f1de4b63b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-41-clay-render",
@@ -1920,7 +2808,15 @@
       "management_code": "P711-IN-129",
       "source_target_group": "target-41",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-41-clay-render",
+      "input_result_id": "sha256:104119be3d0acddfdd4c5dfb531c7c896c87ebb411538bb7cf8eb859966e01d6",
+      "target_result_id": "sha256:7e2e1bd26a5ba8437d379b1f2cd0fd57f54b7f16c014f0489d4ba14b417a2977",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-42-ink-illustration",
@@ -1937,7 +2833,15 @@
       "management_code": "P711-IN-130",
       "source_target_group": "target-42",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-42-ink-illustration",
+      "input_result_id": "sha256:328341f59333ba888621c6bb1490c4b31f4d73718aaefe8c7f828dd37a4f0d97",
+      "target_result_id": "sha256:a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-43-oil-painting",
@@ -1954,7 +2858,15 @@
       "management_code": "P711-IN-131",
       "source_target_group": "target-43",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-43-oil-painting",
+      "input_result_id": "sha256:314ddbae1c914bf7431bc70c33e1deba2bce6715b5a86aa7df5fe3d06a761845",
+      "target_result_id": "sha256:ffc040f45c033c2833d65de7db7ef932310a6969f86d3e7d6b9b19bcfc3922bf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-44-soft-photo",
@@ -1971,7 +2883,15 @@
       "management_code": "P711-IN-132",
       "source_target_group": "target-44",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-44-soft-photo",
+      "input_result_id": "sha256:1bef3eb3e273a86baa55ef7512f95552df188514720c9cc115f22e761e374c9a",
+      "target_result_id": "sha256:f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-01-ink-illustration",
@@ -1988,7 +2908,15 @@
       "management_code": "P711-IN-133",
       "source_target_group": "target-01",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-01-ink-illustration",
+      "input_result_id": "sha256:1ddd2258c569420494128bab2aee581c232f1242123b6af89145d990ba5f6437",
+      "target_result_id": "sha256:410da2b06054d44e38cbb066f599961a07689ed2657aff4811d33617050ff539",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-02-oil-painting",
@@ -2005,7 +2933,15 @@
       "management_code": "P711-IN-134",
       "source_target_group": "target-02",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-02-oil-painting",
+      "input_result_id": "sha256:f1e193a7bcb2851c55aebe5035695864dc5a83ef94f382f49e1fd6b97348eeaf",
+      "target_result_id": "sha256:c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-03-soft-photo",
@@ -2022,7 +2958,15 @@
       "management_code": "P711-IN-135",
       "source_target_group": "target-03",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-03-soft-photo",
+      "input_result_id": "sha256:9a50353ff5e7ba0d54139bdb1f6038e8ac914b2ab8a7446ed3faaecc4a82c439",
+      "target_result_id": "sha256:aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-05-clay-render",
@@ -2039,7 +2983,15 @@
       "management_code": "P711-IN-137",
       "source_target_group": "target-05",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-05-clay-render",
+      "input_result_id": "sha256:613991976fac0f2407b35de2021419be43030919f776feff1ab14e6f52cce463",
+      "target_result_id": "sha256:bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-06-ink-illustration",
@@ -2056,7 +3008,15 @@
       "management_code": "P711-IN-138",
       "source_target_group": "target-06",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-06-ink-illustration",
+      "input_result_id": "sha256:2d7afca2950034ee543dab6e57dc7eb0e00e40a0fd7ded52ab12e10f12d9799f",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-07-oil-painting",
@@ -2073,7 +3033,15 @@
       "management_code": "P711-IN-139",
       "source_target_group": "target-07",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-07-oil-painting",
+      "input_result_id": "sha256:e784455cf13c45e109195be23c5bb74d90c26d9fd280d3bd87bad3c0db5dc7ab",
+      "target_result_id": "sha256:4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-08-soft-photo",
@@ -2090,7 +3058,15 @@
       "management_code": "P711-IN-140",
       "source_target_group": "target-08",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-08-soft-photo",
+      "input_result_id": "sha256:832049cefc9bbf402087c8c9275f99aacda0747775318a510486b4d10082e8bb",
+      "target_result_id": "sha256:8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-09-watercolor",
@@ -2107,7 +3083,15 @@
       "management_code": "P711-IN-141",
       "source_target_group": "target-09",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-09-watercolor",
+      "input_result_id": "sha256:aabc9972d93e108511481fdf6ec2afac64e2754c263539117768dce2402c5d1a",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-10-clay-render",
@@ -2124,7 +3108,15 @@
       "management_code": "P711-IN-142",
       "source_target_group": "target-10",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-10-clay-render",
+      "input_result_id": "sha256:7d97d1d34a425f93b692e2f59aeb5c306d0765fb0029f43e1c21bb204a6e3c49",
+      "target_result_id": "sha256:3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-11-ink-illustration",
@@ -2141,7 +3133,15 @@
       "management_code": "P711-IN-143",
       "source_target_group": "target-11",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-11-ink-illustration",
+      "input_result_id": "sha256:955374b83e25ff20478224086b7255d5793f6c3de176927c4d01af6589137bfa",
+      "target_result_id": "sha256:7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-12-oil-painting",
@@ -2158,7 +3158,15 @@
       "management_code": "P711-IN-144",
       "source_target_group": "target-12",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-12-oil-painting",
+      "input_result_id": "sha256:2a0039b914c53e82afc6f8ea5155f48dce1ca2e272683ed338e789a48ffc470d",
+      "target_result_id": "sha256:3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-14-watercolor",
@@ -2175,7 +3183,15 @@
       "management_code": "P711-IN-146",
       "source_target_group": "target-14",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-14-watercolor",
+      "input_result_id": "sha256:0948ee89d13de1ccf18b7dace7c51f3464bed9bb94114535c6244bb822685a48",
+      "target_result_id": "sha256:c9be837ecf353450934a8d0ff5ff32033bddb9e76c87dd6ab59cc53d73796934",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-15-clay-render",
@@ -2192,7 +3208,15 @@
       "management_code": "P711-IN-147",
       "source_target_group": "target-15",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-15-clay-render",
+      "input_result_id": "sha256:798373f70e0837973bde2cdc0f6bc7bc42e63dec323c708a1680729dae2e1521",
+      "target_result_id": "sha256:34ac6ccaf3d6b037aa630f186636527668e18c3ba98515e497a049c042a6da8c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-16-ink-illustration",
@@ -2209,7 +3233,15 @@
       "management_code": "P711-IN-148",
       "source_target_group": "target-16",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-16-ink-illustration",
+      "input_result_id": "sha256:115a09c8177ee7c54f5e9c9ced8b08830c8d618f74bd7790e2f7a25a418bf019",
+      "target_result_id": "sha256:343d24b9a1fbca4038e5007b9f3982e8783a378b39b3d84093a8aeda22a6e75a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-17-oil-painting",
@@ -2226,7 +3258,15 @@
       "management_code": "P711-IN-149",
       "source_target_group": "target-17",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-17-oil-painting",
+      "input_result_id": "sha256:478844126a7fa24014ca40791dac0c6fa2f98cd51009bbe538b9c9e87f81cccc",
+      "target_result_id": "sha256:25d23db4d559eaab862d5a88935b84c54da06dd92f38913fac081bf5db19a6e9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-18-soft-photo",
@@ -2243,7 +3283,15 @@
       "management_code": "P711-IN-150",
       "source_target_group": "target-18",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-18-soft-photo",
+      "input_result_id": "sha256:41da3a0b61e44171f7e18bf0ebab4449e1de94138229e83e72f50743c7a58779",
+      "target_result_id": "sha256:ccd52b3237cf70b3f18c7e84551153357c9d1e57300132a948e1ee0b01f79c3b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-19-watercolor",
@@ -2260,7 +3308,15 @@
       "management_code": "P711-IN-151",
       "source_target_group": "target-19",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-19-watercolor",
+      "input_result_id": "sha256:1053a7a3599f87d42b8e326c00dff67e151bcb83a6a6c74a616a61130297a79a",
+      "target_result_id": "sha256:ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-20-clay-render",
@@ -2277,7 +3333,15 @@
       "management_code": "P711-IN-152",
       "source_target_group": "target-20",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-20-clay-render",
+      "input_result_id": "sha256:2c9def7b99ea0a3f2c23013ea5b3f26880eead9ea238820056d2017894e7b0c7",
+      "target_result_id": "sha256:f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-21-ink-illustration",
@@ -2294,7 +3358,15 @@
       "management_code": "P711-IN-153",
       "source_target_group": "target-21",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-21-ink-illustration",
+      "input_result_id": "sha256:18794c3b8c4340e8b1a32e9b745f82428d493190dfe4848abc8c3abb7d7eefcf",
+      "target_result_id": "sha256:68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-22-oil-painting",
@@ -2311,7 +3383,15 @@
       "management_code": "P711-IN-154",
       "source_target_group": "target-22",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-22-oil-painting",
+      "input_result_id": "sha256:a704688dea83625de2df6c8814f692da433a2f92b4323190fd81a1d13294cb09",
+      "target_result_id": "sha256:7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-24-watercolor",
@@ -2328,7 +3408,15 @@
       "management_code": "P711-IN-156",
       "source_target_group": "target-24",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-24-watercolor",
+      "input_result_id": "sha256:f113b51b33a0a1cdd38526d4bad454288f08d402bae6af9cab7aa06921608eae",
+      "target_result_id": "sha256:2fc913ff8d50af68a86b36ef7347d02d7ff8aae45bc49570a3abed572b28a98a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-25-clay-render",
@@ -2345,7 +3433,15 @@
       "management_code": "P711-IN-157",
       "source_target_group": "target-25",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-25-clay-render",
+      "input_result_id": "sha256:2d984c0ee1f1b72eb23e55d3a2fb2ad7723c164ca472e14bb5c987bd7bd7ff3d",
+      "target_result_id": "sha256:854972ceeb4e9bbeaa12b29081f988fbc8fd281e835f31ea520f73c36d75b244",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-27-oil-painting",
@@ -2362,7 +3458,15 @@
       "management_code": "P711-IN-159",
       "source_target_group": "target-27",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-27-oil-painting",
+      "input_result_id": "sha256:6aeddcd2d9d41398dd71fa32b1e6b18680fc016327213ca76099227f7b186ae5",
+      "target_result_id": "sha256:069d91fd0ad5bfd060958bd867b94a6f1fea6aa53a3058c63a663e4e5e66681c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-29-watercolor",
@@ -2379,7 +3483,15 @@
       "management_code": "P711-IN-161",
       "source_target_group": "target-29",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-29-watercolor",
+      "input_result_id": "sha256:8747e453240523c49fc98fc8556be7234e73ba1863a75da8a87dd4ebe61627ed",
+      "target_result_id": "sha256:55cc1bb3e0654599c62d67f77730e5fd0d618ed09376854acd5415a6654e87d7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-30-clay-render",
@@ -2396,7 +3508,15 @@
       "management_code": "P711-IN-162",
       "source_target_group": "target-30",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-30-clay-render",
+      "input_result_id": "sha256:c2b91fb37d61c1be8e80d29655445c946825d8f64c17c8d092d5f560743b0bc8",
+      "target_result_id": "sha256:a9be19e7cf7eb7ab9d5c01edf4f4673be96be372d7c6e9185387209c525d3667",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-31-ink-illustration",
@@ -2413,7 +3533,15 @@
       "management_code": "P711-IN-163",
       "source_target_group": "target-31",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-31-ink-illustration",
+      "input_result_id": "sha256:9c093c2bac7e3a3660fa911c71e68646cf65f0d59060dbeada31c5e73cb241f7",
+      "target_result_id": "sha256:f392ffd252b8ff685aedbce11abc41b995a8711f11dc832bcd895e52425fb521",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-32-oil-painting",
@@ -2430,7 +3558,15 @@
       "management_code": "P711-IN-164",
       "source_target_group": "target-32",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-32-oil-painting",
+      "input_result_id": "sha256:92315b2fea82f1e3a9be7b39bad33235940cdb9c675180aa9c3c1c863a0ee0ba",
+      "target_result_id": "sha256:d0f02e7f143c785f875c317f59406f39d133924a52fe9f948d466912dee2b0ec",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-33-soft-photo",
@@ -2447,7 +3583,15 @@
       "management_code": "P711-IN-165",
       "source_target_group": "target-33",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-33-soft-photo",
+      "input_result_id": "sha256:af72816dfd0707a099d90890cfb98f38736f5bc1738c8f0cdbed2a9ddc6b1b34",
+      "target_result_id": "sha256:4c99a08361d280fcd27f7249bf983d39e498f4d68756ba10029269614594de13",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-34-watercolor",
@@ -2464,7 +3608,15 @@
       "management_code": "P711-IN-166",
       "source_target_group": "target-34",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-34-watercolor",
+      "input_result_id": "sha256:1267f0a841adac6bfc8e50a893f68066c3a522cdef06f1680e172118dac75732",
+      "target_result_id": "sha256:47431c7cf1ef9f4d87ffb1a094ef6e3b4f9cb55b5dfb0a7f923abe28259d87e1",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-35-clay-render",
@@ -2481,7 +3633,15 @@
       "management_code": "P711-IN-167",
       "source_target_group": "target-35",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-35-clay-render",
+      "input_result_id": "sha256:6e200fa29abed4229903f589b38cf2791cb85aa27eb58258349faa2fb75882a5",
+      "target_result_id": "sha256:620bec613e863502e0893f8ae4ce2899faeec203b8d60e30f743a2bb106be1f9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-36-ink-illustration",
@@ -2498,7 +3658,15 @@
       "management_code": "P711-IN-168",
       "source_target_group": "target-36",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-36-ink-illustration",
+      "input_result_id": "sha256:a5435d1cee6502df5bcb0bd811eb8d9afd189a7732bc1b5a35fced9c32c90098",
+      "target_result_id": "sha256:cba898b1120e280a1d27aeb4089c4485520705f4c5139ebc7e3287f7ca15d161",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-37-oil-painting",
@@ -2515,7 +3683,15 @@
       "management_code": "P711-IN-169",
       "source_target_group": "target-37",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-37-oil-painting",
+      "input_result_id": "sha256:afbd3e0938582ee0db142efc3c5baeb8af1052c5bc6656dfcafb0057c825593e",
+      "target_result_id": "sha256:8f0cc69fc3fadf17ab76b535b537a84c404bb43af118d43be8354070186ddfd3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-38-soft-photo",
@@ -2532,7 +3708,15 @@
       "management_code": "P711-IN-170",
       "source_target_group": "target-38",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-38-soft-photo",
+      "input_result_id": "sha256:fa6414a6417862b87efd44f3af00c45bbdcc3fc133661dd832e0449e96d78937",
+      "target_result_id": "sha256:df1dd6ec626e321d4c39406b2783d25ff09ee52db4dcc32faea28cea166ca5d4",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-39-watercolor",
@@ -2549,7 +3733,15 @@
       "management_code": "P711-IN-171",
       "source_target_group": "target-39",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-39-watercolor",
+      "input_result_id": "sha256:8f96d67a657d563f3520948c1fa0e4b16d87b4c83a526c5f02e9a9fa6613f69c",
+      "target_result_id": "sha256:8fc597c33f206775a5f4ff56d3ab455d773bde9b0027b18f7003055f1de4b63b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-40-clay-render",
@@ -2566,7 +3758,15 @@
       "management_code": "P711-IN-172",
       "source_target_group": "target-40",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-40-clay-render",
+      "input_result_id": "sha256:349ead9eb6408ad68417a5f1bff6c519b09b95941c57c110de69ce935b66603c",
+      "target_result_id": "sha256:6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-41-ink-illustration",
@@ -2583,7 +3783,15 @@
       "management_code": "P711-IN-173",
       "source_target_group": "target-41",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-41-ink-illustration",
+      "input_result_id": "sha256:7eefe06b7814bd3ccbfd068dbe417ef88596f151b365c14bfc2565745e489ed9",
+      "target_result_id": "sha256:7e2e1bd26a5ba8437d379b1f2cd0fd57f54b7f16c014f0489d4ba14b417a2977",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-42-oil-painting",
@@ -2600,7 +3808,15 @@
       "management_code": "P711-IN-174",
       "source_target_group": "target-42",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-42-oil-painting",
+      "input_result_id": "sha256:b8c9e4a4c3ac0d51f17701e94c9439fe8ad6ac0551516558e33152e8233e9605",
+      "target_result_id": "sha256:a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-43-soft-photo",
@@ -2617,7 +3833,15 @@
       "management_code": "P711-IN-175",
       "source_target_group": "target-43",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-43-soft-photo",
+      "input_result_id": "sha256:359bd89790d588a92b89bf1863539f25e2fcac551728d0b4d97a8398ee58dc66",
+      "target_result_id": "sha256:ffc040f45c033c2833d65de7db7ef932310a6969f86d3e7d6b9b19bcfc3922bf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-44-watercolor",
@@ -2634,7 +3858,15 @@
       "management_code": "P711-IN-176",
       "source_target_group": "target-44",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-44-watercolor",
+      "input_result_id": "sha256:db7ea78e2ee37906975ed83b1996934926399776a6e6a63eefda83221782fa3b",
+      "target_result_id": "sha256:f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-02-soft-photo",
@@ -2651,7 +3883,15 @@
       "management_code": "P711-IN-178",
       "source_target_group": "target-02",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-02-soft-photo",
+      "input_result_id": "sha256:de336c64afc8137c9e79ef3e73937855259a09f361c6a780ca6a486f942013c3",
+      "target_result_id": "sha256:c93b64985de5276440f6755fb15d11800d1fcd525af6f340a66ba22b33b4b0bd",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-03-watercolor",
@@ -2668,7 +3908,15 @@
       "management_code": "P711-IN-179",
       "source_target_group": "target-03",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-03-watercolor",
+      "input_result_id": "sha256:531a249f5ba41ad2bcfeda9e1c2e32401a2bb0169c126a90cbdfed3717519043",
+      "target_result_id": "sha256:aac9c101e2b794bb3bc795f61d7a6773220e6534a35deb426ff86248f4e5c1b3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-05-ink-illustration",
@@ -2685,7 +3933,15 @@
       "management_code": "P711-IN-181",
       "source_target_group": "target-05",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-05-ink-illustration",
+      "input_result_id": "sha256:bb223c8d50fe4cb558653c55ffa09a92d157b9ac0b798d1dfa7397be19869c4e",
+      "target_result_id": "sha256:bacc1614c0bc9747fb627ccaf8d900c8f33d298e8af1fc37bca41870e0b4bfe9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-06-oil-painting",
@@ -2702,7 +3958,15 @@
       "management_code": "P711-IN-182",
       "source_target_group": "target-06",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-06-oil-painting",
+      "input_result_id": "sha256:16509535212b17f751a383bba39a8266a56117afdd4fa346c256a0e47271f3e8",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-07-soft-photo",
@@ -2719,7 +3983,15 @@
       "management_code": "P711-IN-183",
       "source_target_group": "target-07",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-07-soft-photo",
+      "input_result_id": "sha256:52722b6bada9167eec2cea80aa4dfb497da4db0306f7195fb242c0e854c08895",
+      "target_result_id": "sha256:4376ebefdce092105cb6477741faec22215153876f1abec30d642262c872ba9f",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-08-watercolor",
@@ -2736,7 +4008,15 @@
       "management_code": "P711-IN-184",
       "source_target_group": "target-08",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-08-watercolor",
+      "input_result_id": "sha256:8a374490bf4d09d0b554135496dcfa25d6af4ebdc3ecc2b7c1981387fde57323",
+      "target_result_id": "sha256:8a1e341703b2b2ff221ab4eb856e79b29db685e2763fb7ac5a1462fba434bfdf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-09-clay-render",
@@ -2753,7 +4033,15 @@
       "management_code": "P711-IN-185",
       "source_target_group": "target-09",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-09-clay-render",
+      "input_result_id": "sha256:8dab9f51cb93a90efb46f5fc9511935ce133911db8e985a06fba99239925b183",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-10-ink-illustration",
@@ -2770,7 +4058,15 @@
       "management_code": "P711-IN-186",
       "source_target_group": "target-10",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-10-ink-illustration",
+      "input_result_id": "sha256:c2c069b3746e274e87923ffc00b8b7d4a8d703d27eaecca14614189230dc424a",
+      "target_result_id": "sha256:3026bedc5695e5eb85a1ce1d40d355870f8630a8cc5646f04785970ff2aac5cf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-11-oil-painting",
@@ -2787,7 +4083,15 @@
       "management_code": "P711-IN-187",
       "source_target_group": "target-11",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-11-oil-painting",
+      "input_result_id": "sha256:4121685f299552333f121194fdf1673882d051039c8234b80943812d11cb8927",
+      "target_result_id": "sha256:7bef114bb201e92e2b378c6e9d45129fd53442479c66377017f2180fe7b61866",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-12-soft-photo",
@@ -2804,7 +4108,15 @@
       "management_code": "P711-IN-188",
       "source_target_group": "target-12",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-12-soft-photo",
+      "input_result_id": "sha256:f9d3cbf2ab05cf37a15e5f2f2259f62883ac60a2598a1dd86253330e88d40cf9",
+      "target_result_id": "sha256:3ede8eb278d9046b199b201a151a94be0aafec403d33ab42be670a63cb5e70ea",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-13-watercolor",
@@ -2821,7 +4133,15 @@
       "management_code": "P711-IN-189",
       "source_target_group": "target-13",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-13-watercolor",
+      "input_result_id": "sha256:ed8ebec8364e015dc16b60cd3ad1cd2633458409f60260ac50035a9864313094",
+      "target_result_id": "sha256:8f1e84f8668854f68d59ff02ea347cf6ac3b030c8c4aea03afcb17bf506e11c3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-14-clay-render",
@@ -2838,7 +4158,15 @@
       "management_code": "P711-IN-190",
       "source_target_group": "target-14",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-14-clay-render",
+      "input_result_id": "sha256:80bdb651f7c529b285d808046676e06a464270219c1e4c51f4d5ab17bd701a18",
+      "target_result_id": "sha256:c9be837ecf353450934a8d0ff5ff32033bddb9e76c87dd6ab59cc53d73796934",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-15-ink-illustration",
@@ -2855,7 +4183,15 @@
       "management_code": "P711-IN-191",
       "source_target_group": "target-15",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-15-ink-illustration",
+      "input_result_id": "sha256:6035f12055d52d106971c45df01e4aa045147bed63267ecaa017cecf6dcee746",
+      "target_result_id": "sha256:34ac6ccaf3d6b037aa630f186636527668e18c3ba98515e497a049c042a6da8c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-16-oil-painting",
@@ -2872,7 +4208,15 @@
       "management_code": "P711-IN-192",
       "source_target_group": "target-16",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-16-oil-painting",
+      "input_result_id": "sha256:151faa91e7ab20ad203224d9acdd1cfdccc94602855766dd7f4dcf1658dd9a53",
+      "target_result_id": "sha256:343d24b9a1fbca4038e5007b9f3982e8783a378b39b3d84093a8aeda22a6e75a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-17-soft-photo",
@@ -2889,7 +4233,15 @@
       "management_code": "P711-IN-193",
       "source_target_group": "target-17",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-17-soft-photo",
+      "input_result_id": "sha256:c3d2977841b3ab4ff88ecb630b795b3f5c6add6b7a4ba957d2afb5f56ae67d00",
+      "target_result_id": "sha256:25d23db4d559eaab862d5a88935b84c54da06dd92f38913fac081bf5db19a6e9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-18-watercolor",
@@ -2906,7 +4258,15 @@
       "management_code": "P711-IN-194",
       "source_target_group": "target-18",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-18-watercolor",
+      "input_result_id": "sha256:02ddec91992944b555df54f9d5fc2fac6b0ae803fdb4e7be5558fd69c516f75a",
+      "target_result_id": "sha256:ccd52b3237cf70b3f18c7e84551153357c9d1e57300132a948e1ee0b01f79c3b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-19-clay-render",
@@ -2923,7 +4283,15 @@
       "management_code": "P711-IN-195",
       "source_target_group": "target-19",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-19-clay-render",
+      "input_result_id": "sha256:c3af6fa48bd6d31ad6c8f0f524901c2fd17ad72b5ce43c71bbf64c17cad2951a",
+      "target_result_id": "sha256:ceb197e2fc32192ca306ccc08b92fddbcb60c35370e1158d6ecddb59d78eeaa0",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-20-ink-illustration",
@@ -2940,7 +4308,15 @@
       "management_code": "P711-IN-196",
       "source_target_group": "target-20",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-20-ink-illustration",
+      "input_result_id": "sha256:b3395a5be2c4dca99b9f2895492e808c6c41a436d6e099cb57fb4f45697f7598",
+      "target_result_id": "sha256:f77fa037937ed63b526269d1b7f573eb6d50ab4803d97074d8da07cee4fc7508",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-21-oil-painting",
@@ -2957,7 +4333,15 @@
       "management_code": "P711-IN-197",
       "source_target_group": "target-21",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-21-oil-painting",
+      "input_result_id": "sha256:73dfba31e138660b166f65b002fbd1002ed8893c4bacad2d233be8e9a417bb28",
+      "target_result_id": "sha256:68c57329d87dded3492ebdc24acc33a166e3b7db2161ecedd86d1eafdadce8b6",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-22-soft-photo",
@@ -2974,7 +4358,15 @@
       "management_code": "P711-IN-198",
       "source_target_group": "target-22",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-22-soft-photo",
+      "input_result_id": "sha256:3d4e62d765c8463e6f4faae138bd306b485e34ef04179bc38eb7a798a4b21636",
+      "target_result_id": "sha256:7879ee6db4baeeeda287c1cb267531cf156357a2fac0cde6ce317a6bda9dd7fb",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-24-clay-render",
@@ -2991,7 +4383,15 @@
       "management_code": "P711-IN-200",
       "source_target_group": "target-24",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-24-clay-render",
+      "input_result_id": "sha256:2b7db61f18d7f7693360f16d88cbb7617ad0a8e4f546bd62d3ac744189936a49",
+      "target_result_id": "sha256:2fc913ff8d50af68a86b36ef7347d02d7ff8aae45bc49570a3abed572b28a98a",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-25-ink-illustration",
@@ -3008,7 +4408,15 @@
       "management_code": "P711-IN-201",
       "source_target_group": "target-25",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-25-ink-illustration",
+      "input_result_id": "sha256:05cc937a0398d687d266afee564a6e617e7b9c8c692979d2db294deda04ae779",
+      "target_result_id": "sha256:854972ceeb4e9bbeaa12b29081f988fbc8fd281e835f31ea520f73c36d75b244",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-27-soft-photo",
@@ -3025,7 +4433,15 @@
       "management_code": "P711-IN-203",
       "source_target_group": "target-27",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-27-soft-photo",
+      "input_result_id": "sha256:9522666fa426269f7d2edf86e4e8ecdba99fc4053996cd4e28dd57297a853422",
+      "target_result_id": "sha256:069d91fd0ad5bfd060958bd867b94a6f1fea6aa53a3058c63a663e4e5e66681c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-29-clay-render",
@@ -3042,7 +4458,15 @@
       "management_code": "P711-IN-205",
       "source_target_group": "target-29",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-29-clay-render",
+      "input_result_id": "sha256:d528d221f6ea64d91a3ae9b243b99ff459f71d63a851f75340354556bec9bacb",
+      "target_result_id": "sha256:55cc1bb3e0654599c62d67f77730e5fd0d618ed09376854acd5415a6654e87d7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-30-ink-illustration",
@@ -3059,7 +4483,15 @@
       "management_code": "P711-IN-206",
       "source_target_group": "target-30",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-30-ink-illustration",
+      "input_result_id": "sha256:b53741a08f8afde0d6d9b146c23c30894a3cf9a954cf0671a39553c5106cd910",
+      "target_result_id": "sha256:a9be19e7cf7eb7ab9d5c01edf4f4673be96be372d7c6e9185387209c525d3667",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-31-oil-painting",
@@ -3076,7 +4508,15 @@
       "management_code": "P711-IN-207",
       "source_target_group": "target-31",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-31-oil-painting",
+      "input_result_id": "sha256:2efe2c7057e69c02ca96c2d05fd8909187147e7c5b56a16fffcdeec1bd0559b4",
+      "target_result_id": "sha256:f392ffd252b8ff685aedbce11abc41b995a8711f11dc832bcd895e52425fb521",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-32-soft-photo",
@@ -3093,7 +4533,15 @@
       "management_code": "P711-IN-208",
       "source_target_group": "target-32",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-32-soft-photo",
+      "input_result_id": "sha256:1019fc4298f20bad3a7c83ef12e63d24850f9ba808b3f87a90f53080da1ace15",
+      "target_result_id": "sha256:d0f02e7f143c785f875c317f59406f39d133924a52fe9f948d466912dee2b0ec",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-33-watercolor",
@@ -3110,7 +4558,15 @@
       "management_code": "P711-IN-209",
       "source_target_group": "target-33",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-33-watercolor",
+      "input_result_id": "sha256:8f1295b1f5a6364b8694d667615eabd8dfcb485eff763b455567fccf603b269f",
+      "target_result_id": "sha256:4c99a08361d280fcd27f7249bf983d39e498f4d68756ba10029269614594de13",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-34-clay-render",
@@ -3127,7 +4583,15 @@
       "management_code": "P711-IN-210",
       "source_target_group": "target-34",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-34-clay-render",
+      "input_result_id": "sha256:95335a375642803a2361845f25115e99e5cd972f7b944747cd88b7e4efaf90ec",
+      "target_result_id": "sha256:47431c7cf1ef9f4d87ffb1a094ef6e3b4f9cb55b5dfb0a7f923abe28259d87e1",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-35-ink-illustration",
@@ -3144,7 +4608,15 @@
       "management_code": "P711-IN-211",
       "source_target_group": "target-35",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-35-ink-illustration",
+      "input_result_id": "sha256:d02d0ff8be095be416f53655b83cfc571c3d76a3200b0d4659f994f601d1568d",
+      "target_result_id": "sha256:620bec613e863502e0893f8ae4ce2899faeec203b8d60e30f743a2bb106be1f9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-36-oil-painting",
@@ -3161,7 +4633,15 @@
       "management_code": "P711-IN-212",
       "source_target_group": "target-36",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-36-oil-painting",
+      "input_result_id": "sha256:c39770a7fcd9fe1e3975769610915dea5f04707ff859db779016333ce23f691d",
+      "target_result_id": "sha256:cba898b1120e280a1d27aeb4089c4485520705f4c5139ebc7e3287f7ca15d161",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-37-soft-photo",
@@ -3178,7 +4658,15 @@
       "management_code": "P711-IN-213",
       "source_target_group": "target-37",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-37-soft-photo",
+      "input_result_id": "sha256:80db5657bc3980c8739bad4e021208465c61c4fe3a9aed0536b830fb5f4f5145",
+      "target_result_id": "sha256:8f0cc69fc3fadf17ab76b535b537a84c404bb43af118d43be8354070186ddfd3",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-38-watercolor",
@@ -3195,7 +4683,15 @@
       "management_code": "P711-IN-214",
       "source_target_group": "target-38",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-38-watercolor",
+      "input_result_id": "sha256:c524a5965a2dcb911621ff0511561628ce67bb04023c6fa83d38051ac3662b53",
+      "target_result_id": "sha256:df1dd6ec626e321d4c39406b2783d25ff09ee52db4dcc32faea28cea166ca5d4",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-39-clay-render",
@@ -3212,7 +4708,15 @@
       "management_code": "P711-IN-215",
       "source_target_group": "target-39",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-39-clay-render",
+      "input_result_id": "sha256:5cf2e65f2ddb61cb658f7e3c14f4eeb9110c130a84b9a5b9407a3e91a86c38f2",
+      "target_result_id": "sha256:8fc597c33f206775a5f4ff56d3ab455d773bde9b0027b18f7003055f1de4b63b",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-40-ink-illustration",
@@ -3229,7 +4733,15 @@
       "management_code": "P711-IN-216",
       "source_target_group": "target-40",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-40-ink-illustration",
+      "input_result_id": "sha256:3bdbc68828b9a1daf9b29141ba13449a3b732a9308aa282272b43b52959b419c",
+      "target_result_id": "sha256:6bf7fce625566099dc20564714901cbc85245e510372d4bbc7e14e5a2fe5980c",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-41-oil-painting",
@@ -3246,7 +4758,15 @@
       "management_code": "P711-IN-217",
       "source_target_group": "target-41",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-41-oil-painting",
+      "input_result_id": "sha256:b3154d7d30e567f460479a679e4d4c250689f5595d5d116cecfa3969a864188a",
+      "target_result_id": "sha256:7e2e1bd26a5ba8437d379b1f2cd0fd57f54b7f16c014f0489d4ba14b417a2977",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-42-soft-photo",
@@ -3263,7 +4783,15 @@
       "management_code": "P711-IN-218",
       "source_target_group": "target-42",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-42-soft-photo",
+      "input_result_id": "sha256:6a41223f4c3bbd44ae40b04eba754edb0ff767757ab6cfb30b79a2382c3fdb1a",
+      "target_result_id": "sha256:a171de469cac1fff3523875d922ec3461145857e08c00a648ddd40a089cfbb3e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-43-watercolor",
@@ -3280,7 +4808,15 @@
       "management_code": "P711-IN-219",
       "source_target_group": "target-43",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-43-watercolor",
+      "input_result_id": "sha256:22431f94fe222953cd2ddcbaf8dab6e99b15ba0d0b043be3ea2321e8da4c09b8",
+      "target_result_id": "sha256:ffc040f45c033c2833d65de7db7ef932310a6969f86d3e7d6b9b19bcfc3922bf",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "bfs-input-44-clay-render",
@@ -3297,41 +4833,65 @@
       "management_code": "P711-IN-220",
       "source_target_group": "target-44",
       "pair_status": "ready",
-      "origin": "existing-193"
+      "origin": "existing-193",
+      "input_rule_id": "P710-RULE-INPUT-001",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-input-44-clay-render",
+      "input_result_id": "sha256:31b3aa36eb1cef283dff059e8cee4c886870de1450dc25374bd00cd604a5e777",
+      "target_result_id": "sha256:f22b85c82d9d27132f691fc3754738c4caf25038af7d3beda920454cdbafcd4e",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-001",
       "management_code": "P710-PROP-001",
-      "target_management_code": "P710-TGT-001",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-photo.png",
       "control_sha256": "6a55759b935eea0dbc4765b83e7dcc1f9ce10d084085da40dd8f0854e41e1aa3",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-001.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-001-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
+      "sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-photo-result.json",
+      "record_sha256": "a0f862e7cf2d84404f906a66828a176d2614eac3db0dd8eb040ff719c45aa0ab",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-woman-long-photo",
+      "input_result_id": "sha256:6a55759b935eea0dbc4765b83e7dcc1f9ce10d084085da40dd8f0854e41e1aa3",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-002",
       "management_code": "P710-PROP-002",
-      "target_management_code": "P710-TGT-002",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-illustration.png",
       "control_sha256": "060b5f70f0de8644f3078b370964223f9f5489003bc3b6748c4ee7d01ceeccb3",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-002.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-002-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
+      "sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-long-illustration-result.json",
+      "record_sha256": "fec9ca9e04e05cdccb82f554684d5152444eaae7f501e69c1590047ba3f85686",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-woman-long-illustration",
+      "input_result_id": "sha256:060b5f70f0de8644f3078b370964223f9f5489003bc3b6748c4ee7d01ceeccb3",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-003",
@@ -3348,7 +4908,15 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-003-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-woman-wide-photo",
+      "input_result_id": "sha256:9cfc0b67217cb578c50ff4c196122fa996f82797af0e3f238f5f093d19221057",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-003"
     },
     {
       "id": "p710-prop-004",
@@ -3365,41 +4933,65 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-004-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-woman-wide-illustration",
+      "input_result_id": "sha256:f846dec9e1788ec2da1f74fd94030763c0f74eec003ced3e379f8d6f59909ccc",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-004"
     },
     {
       "id": "p710-prop-005",
       "management_code": "P710-PROP-005",
-      "target_management_code": "P710-TGT-005",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-photo.png",
       "control_sha256": "0002338bfcba1c41abd38b2f3893c378823f4ad25fc5521ae8ac4ab4ea029bda",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-005.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-005-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
+      "sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-photo-result.json",
+      "record_sha256": "a9d6ac39c251ab6fe13ea09e2735166de83a7ea11f6c4e16db9f8c673fc7c47c",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-woman-square-photo",
+      "input_result_id": "sha256:0002338bfcba1c41abd38b2f3893c378823f4ad25fc5521ae8ac4ab4ea029bda",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-006",
       "management_code": "P710-PROP-006",
-      "target_management_code": "P710-TGT-006",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-illustration.png",
       "control_sha256": "7a4857ff77f52e34ae67c32b07ca0068430866b479e99e82831b6a7824a145e6",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-006.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-006-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-minus-90.png",
+      "sha256": "34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-minus-90-woman-square-illustration-result.json",
+      "record_sha256": "6ffd4ac7086eac7d338c46134bff988f42956747759e109f867cdf2bfb368967",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-woman-square-illustration",
+      "input_result_id": "sha256:7a4857ff77f52e34ae67c32b07ca0068430866b479e99e82831b6a7824a145e6",
+      "target_result_id": "sha256:34889d61da4dfff630af74258e02af9e1dfe60bc16fc192f1ef09c734f741bd7",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-007",
@@ -3416,7 +5008,15 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-007-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-man-long-photo",
+      "input_result_id": "sha256:9ee92d23d37663b3c6c08060cd0eb677e66553f0adcd110f05353729fb764085",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-007"
     },
     {
       "id": "p710-prop-008",
@@ -3433,7 +5033,15 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-008-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-man-long-illustration",
+      "input_result_id": "sha256:0edfcc22e7bf436e6996d98055190004347c61e5da91a10fb58efe2a3ecdc41b",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-008"
     },
     {
       "id": "p710-prop-009",
@@ -3450,7 +5058,15 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-009-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-man-wide-photo",
+      "input_result_id": "sha256:9769a5c932645704720b0f3dc5e783a6fc91291051651cce874ff1a679413d90",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-009"
     },
     {
       "id": "p710-prop-010",
@@ -3467,7 +5083,15 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-010-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-man-wide-illustration",
+      "input_result_id": "sha256:2bf15ef85ed625773272cc5b52417d37593c306c510639554b4067fcb6f940c1",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-010"
     },
     {
       "id": "p710-prop-011",
@@ -3484,7 +5108,15 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-011-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-man-square-photo",
+      "input_result_id": "sha256:5698eaa5438f9a2f17f9721dc545dc4d5f68000fe1e69a5403ad610d24ac2bdd",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-011"
     },
     {
       "id": "p710-prop-012",
@@ -3501,24 +5133,40 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-012-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-minus-90-man-square-illustration",
+      "input_result_id": "sha256:3bb349c277a27b8c21450f24aa1da2bfb325e000236c323cf860f7790aa6efc2",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-012"
     },
     {
       "id": "p710-prop-013",
       "management_code": "P710-PROP-013",
-      "target_management_code": "P710-TGT-013",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-long-photo.png",
       "control_sha256": "3fe4f49274553719fac572e43b334fc55992c91110bcc3180e1c9f9cc9da633c",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-013.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-013-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-long-photo-result.json",
+      "record_sha256": "71ca4174276c9c0a63539af5f0b0782a98cad73d87a90b0a2a0fd13fcc74e6f6",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-woman-long-photo",
+      "input_result_id": "sha256:3fe4f49274553719fac572e43b334fc55992c91110bcc3180e1c9f9cc9da633c",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-014",
@@ -3535,58 +5183,90 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-014-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-woman-long-illustration",
+      "input_result_id": "sha256:8f3c750a063307f8aad58ed8d55974e45409b7c0f64785c769faf0ebd5e00df3",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-014"
     },
     {
       "id": "p710-prop-015",
       "management_code": "P710-PROP-015",
-      "target_management_code": "P710-TGT-015",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-photo.png",
       "control_sha256": "329e2517016a2c1c57cda78138319966d8efa76598fc1f26cd528490c6f6ec9b",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-015.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-015-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-photo-result.json",
+      "record_sha256": "bb80712d3a1de8d5c8a5f93ecf2b4a7370b4516bb16e67a9a48edd99e814848d",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-woman-wide-photo",
+      "input_result_id": "sha256:329e2517016a2c1c57cda78138319966d8efa76598fc1f26cd528490c6f6ec9b",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-016",
       "management_code": "P710-PROP-016",
-      "target_management_code": "P710-TGT-016",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-illustration.png",
       "control_sha256": "4dc1e153c3b18d2d08e6e4fffa14e1908efec3d95b9fc04619fd89569d0a1f99",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-016.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-016-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-wide-illustration-result.json",
+      "record_sha256": "9d4b6c1824d80fc9f22b969fe61da397fd56e9242a0d611e6ec8e3872547d9ea",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-woman-wide-illustration",
+      "input_result_id": "sha256:4dc1e153c3b18d2d08e6e4fffa14e1908efec3d95b9fc04619fd89569d0a1f99",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-017",
       "management_code": "P710-PROP-017",
-      "target_management_code": "P710-TGT-017",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-square-photo.png",
       "control_sha256": "ca0216d5a09420bc0904d75bdc8f24ecce65ef068673f9b09b7f43589f772a0d",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-017.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-017-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-woman-square-photo-result.json",
+      "record_sha256": "0705a4bd36fbb06ecd9eae183a8f8a37d3a10f55e285556c5a396bfe97e412a5",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-woman-square-photo",
+      "input_result_id": "sha256:ca0216d5a09420bc0904d75bdc8f24ecce65ef068673f9b09b7f43589f772a0d",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-018",
@@ -3603,24 +5283,40 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-018-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-woman-square-illustration",
+      "input_result_id": "sha256:fde46ce42c5d063a276ba92ee2fe04e98a9c528de05a9fa0031772812e127681",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-018"
     },
     {
       "id": "p710-prop-019",
       "management_code": "P710-PROP-019",
-      "target_management_code": "P710-TGT-019",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-long-photo.png",
       "control_sha256": "6476ab534efe04a944349251aa3a59f0546476ab1b698d057bdd6d076c7d4286",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-019.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-019-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-long-photo-result.json",
+      "record_sha256": "6ab88b9f4f465025414177776b61063b39b2e90acc100dcca52fd4e7be59d45b",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-man-long-photo",
+      "input_result_id": "sha256:6476ab534efe04a944349251aa3a59f0546476ab1b698d057bdd6d076c7d4286",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-020",
@@ -3637,7 +5333,15 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-020-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-man-long-illustration",
+      "input_result_id": "sha256:eb3632024f0e2840935bd7f1d1c80127f8e8cc4800c66f579671f1204b5a97b2",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-020"
     },
     {
       "id": "p710-prop-021",
@@ -3654,24 +5358,40 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-021-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-man-wide-photo",
+      "input_result_id": "sha256:877453de1ad21e58e0ad93afea0b58baf9f5cb7d19bdb41a4e169251091deab7",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-021"
     },
     {
       "id": "p710-prop-022",
       "management_code": "P710-PROP-022",
-      "target_management_code": "P710-TGT-022",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-wide-illustration.png",
       "control_sha256": "e2233d4259c5633b10f0c7989e7f262e5aaa58310fd7d102d040eb33e0e8b63e",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-022.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-022-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-wide-illustration-result.json",
+      "record_sha256": "4ee1973695261c3948a4aea056af18312b2488c004f4f1c388ef9cc951b22583",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-man-wide-illustration",
+      "input_result_id": "sha256:e2233d4259c5633b10f0c7989e7f262e5aaa58310fd7d102d040eb33e0e8b63e",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     },
     {
       "id": "p710-prop-023",
@@ -3688,24 +5408,72 @@
       "sha256": null,
       "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-023-result.json",
       "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요.",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-man-square-photo",
+      "input_result_id": "sha256:ea89ff0e2313629c38745641a92ffbf081662ab1f14f8ad2e1a987567ce767cc",
+      "target_result_id": null,
+      "target_rule_id": "P710-RULE-TARGET-002",
+      "target_rule_revision": 1,
+      "target_condition_id": "mira-proportion-target-023"
     },
     {
       "id": "p710-prop-024",
       "management_code": "P710-PROP-024",
-      "target_management_code": "P710-TGT-024",
       "origin": "accepted-input-24",
-      "pair_status": "pending_target_generation_and_review",
+      "pair_status": "ready",
       "split": "train",
       "group": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
       "caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
       "control_image": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-square-illustration.png",
       "control_sha256": "a6a991ee8dd35567cc2687b428833c6f3df80613308f93ac6653df10215daa7a",
-      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-024.png",
-      "sha256": null,
-      "record": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-matched-v1/mira-proportion-target-024-result.json",
-      "record_sha256": null,
-      "review_note": "사용자 입력 활용 확정. 실제 입력의 포즈·표정·의상에 맞춘 새 Mira 목표 생성 후 목표 검수 필요."
+      "image": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-level-plus-90.png",
+      "sha256": "308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "record": "docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-level-plus-90-man-square-illustration-result.json",
+      "record_sha256": "6f6d7ac2b8077513c60c6025fe41dcb03413854f02eac5bf0af5067a0fbf0adc",
+      "review_note": "사용자 입력 활용 확정. 크로스체크에서 추가 목표 생성이 필요한 차이가 지목되지 않아 기존 방향별 Mira 목표를 재사용한다.",
+      "target_source": "reused_direction_reference",
+      "input_rule_id": "P710-RULE-INPUT-002",
+      "input_rule_revision": 1,
+      "input_condition_id": "bfs-proportion-torso-level-plus-90-man-square-illustration",
+      "input_result_id": "sha256:a6a991ee8dd35567cc2687b428833c6f3df80613308f93ac6653df10215daa7a",
+      "target_result_id": "sha256:308a584a6968e0fa7026b343b8ba2a919eca8402d8ce33be41ecfbf5bb33bbb9",
+      "target_rule_id": null,
+      "target_rule_revision": null,
+      "target_condition_id": null
     }
-  ]
+  ],
+  "generation_rules": {
+    "P710-RULE-INPUT-001": {
+      "revision": 1,
+      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-input-combinations-v1.json",
+      "spec_sha256": "d4bb91bd73c9857c7190fe2ee81bab0f7e153ef389745fd0b1f19081d30deb11",
+      "description": "기존 입력 후보 생성"
+    },
+    "P710-RULE-TARGET-001": {
+      "revision": 1,
+      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-target-combinations-v1.json",
+      "spec_sha256": "fa101cda7666a473885b91a4a5af9ff999e2cd4939edad97e8cfb283db252399",
+      "description": "기존 추가 목표 후보 생성"
+    },
+    "P710-RULE-INPUT-002": {
+      "revision": 1,
+      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-bfs-proportion-input-pool-v1.json",
+      "spec_sha256": "906bf512629ce6bee6feb43922c4894d2f27170be296203564e07ceb7ec43814",
+      "description": "15방향 얼굴 비율 보강 입력 생성"
+    },
+    "P710-RULE-TARGET-002": {
+      "revision": 1,
+      "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-matched-targets-v1.json",
+      "spec_sha256": "e062272761233b700004f414dcaf87473b29125a4d9f039c94c0255e10c01670",
+      "description": "채택 입력에 맞춘 Mira 목표 생성"
+    }
+  },
+  "identifier_policy": {
+    "rule": "rule_id identifies a recipe family; revision and spec_sha256 identify the registered recipe snapshot. Condition ID is the existing spec item ID. Component IDs are scoped by rule_id/revision/axis/key.",
+    "result": "sha256:<full image file SHA-256> identifies a materialized image across paths and datasets. Pending targets have null result IDs. Existing management codes remain the human-readable candidate identifiers.",
+    "scope": "Rule IDs are registered here without modifying in-flight specs or historical result records. Resolve condition ID against the registered spec; identical content reuses the same result ID.",
+    "revision": "Do not modify a registered snapshot silently. Caption/review changes may change the spec checksum but do not themselves authorize image regeneration; compare actual inference conditions."
+  }
 }

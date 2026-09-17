@@ -2,7 +2,7 @@
   "schema_version": 2,
   "model_id": "Qwen/Qwen-Image-Edit-2511",
   "purpose": "Create Mira targets matched to 24 user-accepted input candidates, preserving actual input pose/expression/clothes/background. Picture 2 supplies direction-matched Mira identity and rendering style only.",
-  "input_decision": "User accepts all 24 inputs for dataset use and requests matched targets instead of discarding inputs. Final pairs require target review.",
+  "input_decision": "All 24 inputs accepted; reuse existing targets for 11, generate matched targets only for 13 reviewed pose/expression/clothing differences.",
   "settings": {
     "size": 1024,
     "steps": 20,
@@ -1021,5 +1021,61 @@
       "target_review_status": "pending_generation"
     }
   ],
-  "excluded_items": []
+  "excluded_items": [
+    {
+      "id": "mira-proportion-target-001",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-002",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-005",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-006",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-013",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-015",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-016",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-017",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-019",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-022",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    },
+    {
+      "id": "mira-proportion-target-024",
+      "reason": "Reuse existing direction-matched Mira target; no additional target generation needed.",
+      "regenerate": false
+    }
+  ]
 }
