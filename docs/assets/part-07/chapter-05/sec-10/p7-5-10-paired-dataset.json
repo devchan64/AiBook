@@ -5474,6 +5474,24 @@
     "rule": "rule_id identifies a recipe family; revision and spec_sha256 identify the registered recipe snapshot. Condition ID is the existing spec item ID. Component IDs are scoped by rule_id/revision/axis/key.",
     "result": "sha256:<full image file SHA-256> identifies a materialized image across paths and datasets. Pending targets have null result IDs. Existing management codes remain the human-readable candidate identifiers.",
     "scope": "Rule IDs are registered here without modifying in-flight specs or historical result records. Resolve condition ID against the registered spec; identical content reuses the same result ID.",
-    "revision": "Do not modify a registered snapshot silently. Caption/review changes may change the spec checksum but do not themselves authorize image regeneration; compare actual inference conditions."
+    "revision": "Do not modify a registered snapshot silently. Caption/review changes may change the spec checksum but do not themselves authorize image regeneration; compare actual inference conditions.",
+    "training_images": {
+      "namespace": "Input and target images share the result ID namespace sha256:<full image file SHA-256>. Role is a pair relation, not part of image identity.",
+      "input": {
+        "path_field": "control_image",
+        "hash_field": "control_sha256",
+        "id_field": "input_result_id",
+        "directory": "input-images/"
+      },
+      "target": {
+        "path_field": "image",
+        "hash_field": "sha256",
+        "id_field": "target_result_id",
+        "directory": "target-images/"
+      },
+      "pair": "items[].id identifies the training pair; it does not require input_result_id and target_result_id to be equal.",
+      "reuse": "The same image keeps its result ID across roles, pairs and paths. Reuse the original path or a relative symlink; do not copy image bytes or assign a new image ID.",
+      "lifecycle": "Register result IDs after verifying generated file hashes, before admitting a pair to training. Missing outputs have null IDs. Replaced image bytes receive a new result ID while previous generation records remain unchanged."
+    }
   }
 }
