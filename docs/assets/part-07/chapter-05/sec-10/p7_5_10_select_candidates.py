@@ -10,7 +10,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from p7_5_10_generate_supplements import ROOT, sha256, asset_path
+from p7_5_10_generate_supplements import ROOT, sha256, asset_path, result_id
 
 
 def read(path):
@@ -83,6 +83,12 @@ def select(catalog, reviews, trigger):
             if groups.setdefault(input_group, split) != split:
                 raise ValueError(f'Input leakage: {key}')
             item.update(control_image=row['control_image'], control_sha256=row['control_sha256'])
+        item["input_result_id"] = result_id(item.get("control_sha256"))
+        item["target_result_id"] = result_id(item["sha256"])
+        side = "input" if row.get("target") else "target"
+        identity = row.get("identifiers", {})
+        for field in ("rule_id", "rule_revision", "condition_id"):
+            item[side + "_" + field] = identity.get(field)
         selected.append(item)
     if not selected:
         raise ValueError('No accepted candidates; review images before exporting')

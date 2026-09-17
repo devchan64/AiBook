@@ -96,6 +96,33 @@ def load_spec(path):
     return expanded
 
 
+def result_id(digest):
+    """입력·목표·생성 결과에 동일한 콘텐츠 ID를 사용한다."""
+    if digest is None:
+        return None
+    if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        raise ValueError("Result ID requires a full lowercase SHA-256")
+    return "sha256:" + digest
+
+
+def bind_rule(spec_path, spec):
+    """통합 JSON의 규칙 등록을 읽되 원본 생성 조건은 변경하지 않는다."""
+    registry = json.loads((Path(__file__).parent / "p7-5-10-paired-dataset.json").read_text())
+    matches = [(key, rule) for key, rule in registry["generation_rules"].items()
+               if asset_path(rule["spec"]) == spec_path.resolve()]
+    if len(matches) != 1:
+        raise ValueError("Register exactly one generation rule for this spec in the dataset JSON")
+    key, rule = matches[0]
+    if sha256(spec_path) != rule["spec_sha256"]:
+        raise ValueError("Rule snapshot changed: review revision and registered spec hash first")
+    spec["_rule"] = {"rule_id": key, "rule_revision": rule["revision"]}
+    raw = json.loads(spec_path.read_text())
+    for row, original in zip(spec["items"], raw["items"]):
+        row["identifiers"] = dict(spec["_rule"], condition_id=row["id"],
+            component_ids={axis: f"{key}/{rule['revision']}/{axis}/{choice}"
+                           for axis, choice in original.get("components", {}).items()})
+
+
 def catalog(out, spec, fingerprint):
     """생성물 전체를 나열한다. 검수와 학습 분할은 별도 목록에서 결정한다."""
     rows = []
@@ -108,7 +135,13 @@ def catalog(out, spec, fingerprint):
         if data["fingerprint"] != fingerprint or data["output"]["sha256"] != sha256(png):
             raise ValueError(f"Result mismatch: {item['id']}")
         rows.append({
-            "id": item["id"], "image": str(png.relative_to(ROOT)),
+            "id": item["id"], "identifiers": item["identifiers"],
+            "result_id": result_id(sha256(png)),
+            "input_result_id": result_id(item.get("training_input_sha256") or sha256(png))
+                if item.get("training_input") or item.get("training_target") else None,
+            "target_result_id": result_id(item.get("training_target_sha256") or sha256(png))
+                if item.get("training_input") or item.get("training_target") else None,
+            "image": str(png.relative_to(ROOT)),
             "sha256": sha256(png), "record": str(record.relative_to(ROOT)),
             "record_sha256": sha256(record), "category": item.get("category", "input"),
             "condition": item.get("condition", ""), "reference": item["reference"],
@@ -149,12 +182,16 @@ def wait_for_gpu(state, path, enabled):
 
 def generation_plan(out, spec_path, spec, selection=None):
     """선택·제외·완료 기록을 합쳐 실제 생성 대상만 반환한다."""
+    bind_rule(spec_path, spec)
     selection = {} if selection is None else selection
     if not isinstance(selection, dict):
         raise ValueError("Selection must be a JSON object")
     ids = {item["id"] for item in spec["items"]}
-    if set(selection) - {"include_ids", "exclude_ids"}:
-        raise ValueError("Selection accepts only include_ids and exclude_ids")
+    if set(selection) - {"include_ids", "exclude_ids", "rule_id", "rule_revision"}:
+        raise ValueError("Unknown selection field")
+    for field in ("rule_id", "rule_revision"):
+        if field in selection and selection[field] != spec["_rule"][field]:
+            raise ValueError("Selection belongs to a different rule or revision")
 
     def checked_ids(values):
         if not isinstance(values, list) or not all(isinstance(x, str) for x in values):
@@ -194,7 +231,7 @@ def generation_plan(out, spec_path, spec, selection=None):
     state_path = out / "generation-state.json"
     old = json.loads(state_path.read_text()) if state_path.exists() else {}
     if old and old["fingerprint"] != fingerprint:
-        raise ValueError("Changed spec/code: use a new output directory")
+        raise ValueError("Changed spec/code: preserve outputs and review resume compatibility; do not regenerate automatically")
     # 실행에서 확정한 제외는 다음 실행에서 옵션을 빼도 유지한다.
     excluded |= checked_ids(old.get("excluded_ids", []))
     completed, pending = [], []
@@ -282,6 +319,8 @@ def main():
                           "excluded_ids": state["excluded_ids"],
                           "count": len(pending[:args.limit]),
                           "order": [item["id"] for item in pending[:args.limit]],
+                          "rule": spec["_rule"],
+                          "conditions": [item["identifiers"] for item in pending[:args.limit]],
                           "output_dir": str(out)}, indent=2))
         return
     out.mkdir(parents=True, exist_ok=True)
@@ -335,7 +374,8 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
             state["status"] = "generating"
             write(state_path, state)
             print("Generating " + item["id"], flush=True)
-            refs = [spec["references"][key] for key in
+            refs = [dict(spec["references"][key],
+                         result_id=result_id(spec["references"][key]["sha256"])) for key in
                     item.get("reference_images", [item["reference"]])]
             images = []
             # Picture 1은 편집할 장면, 추가 참조는 JSON에 명시한 순서로 전달한다.
@@ -369,6 +409,7 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
                     "model_id": MODEL_ID,
                     "fingerprint": fingerprint,
                     "design": item,
+                    "identifiers": item["identifiers"],
                     "input": refs[0],
                     "input_images": refs,
                     "settings": cfg,
@@ -378,7 +419,8 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
                     "dtype": "bfloat16",
                     "device_placement": "sequential_cpu_offload",
                     "elapsed_seconds": round(time.monotonic() - started, 2),
-                    "output": {"path": str(png), "sha256": sha256(png)},
+                    "output": {"path": str(png), "sha256": sha256(png),
+                               "result_id": result_id(sha256(png))},
                 },
             )
             state["completed"].append(item["id"])
