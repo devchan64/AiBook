@@ -38,7 +38,7 @@ class GenerationIdTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             _, pending = G.generation_plan(Path(folder), path, G.load_spec(path),
                                           {'include_ids': [], 'rule_id': 'P710-RULE-INPUT-002',
-                                           'rule_revision': 1})
+                                           'rule_revision': 4})
             self.assertEqual(pending, [])
 
     def test_result_identity_is_shared_and_pending_is_null(self):

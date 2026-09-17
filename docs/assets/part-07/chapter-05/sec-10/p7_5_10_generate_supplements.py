@@ -137,10 +137,10 @@ def catalog(out, spec, fingerprint):
         rows.append({
             "id": item["id"], "identifiers": item["identifiers"],
             "result_id": result_id(sha256(png)),
-            "input_result_id": result_id(item.get("training_input_sha256") or sha256(png))
-                if item.get("training_input") or item.get("training_target") else None,
-            "target_result_id": result_id(item.get("training_target_sha256") or sha256(png))
-                if item.get("training_input") or item.get("training_target") else None,
+            "input_result_id": result_id(sha256(png))
+                if item.get("training_target") else None,
+            "target_result_id": result_id(item.get("training_target_sha256"))
+                if item.get("training_target") else None,
             "image": str(png.relative_to(ROOT)),
             "sha256": sha256(png), "record": str(record.relative_to(ROOT)),
             "record_sha256": sha256(record), "category": item.get("category", "input"),
@@ -152,8 +152,6 @@ def catalog(out, spec, fingerprint):
             "target": item.get("training_target"),
             "target_sha256": item.get("training_target_sha256"),
             "suggested_caption": item.get("training_caption", ""),
-            "control_image": item.get("training_input"),
-            "control_sha256": item.get("training_input_sha256"),
         })
     write(out / "candidate-catalog.json", {
         "schema_version": 1, "model_id": MODEL_ID, "fingerprint": fingerprint,
@@ -301,11 +299,6 @@ def main():
     groups = {}
     for item in spec["items"]:
         assert item["reference"] in spec["references"] and item["prompt"].strip()
-        reference_keys = item.get("reference_images", [item["reference"]])
-        assert reference_keys and reference_keys[0] == item["reference"]
-        assert all(key in spec["references"] for key in reference_keys)
-        if item.get("training_input"):
-            assert sha256(asset_path(item["training_input"])) == item["training_input_sha256"]
         if item.get("training_target"):
             target_hash = item["training_target_sha256"]
             assert sha256(asset_path(item["training_target"])) == target_hash, "Target changed"
@@ -374,11 +367,10 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
             state["status"] = "generating"
             write(state_path, state)
             print("Generating " + item["id"], flush=True)
-            refs = [dict(spec["references"][key],
-                         result_id=result_id(spec["references"][key]["sha256"])) for key in
-                    item.get("reference_images", [item["reference"]])]
+            ref = spec["references"][item["reference"]]
+            refs = [dict(ref, result_id=result_id(ref["sha256"]))]
             images = []
-            # Picture 1은 편집할 장면, 추가 참조는 JSON에 명시한 순서로 전달한다.
+            # 단일 Mira 기준을 편집해 학습 입력 후보를 생성한다.
             for ref in refs:
                 with Image.open(asset_path(ref["path"])) as opened:
                     assert opened.width == opened.height

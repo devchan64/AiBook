@@ -76,12 +76,6 @@
 
 [첫 24개 입력·목표 비교표](bfs-proportion-comparison-24.md){ .aibook-markdown-preview }
 
-## 채택한 입력에 맞춘 새 목표
+## 단순 토르소 목표 재사용
 
-사용자는 첫 24개 입력을 모두 활용하기로 결정했다. 기존 Mira 기준과 다른 포즈·표정·의상은 입력의 조건으로 받아들이고 [새 목표 생성 목록](p7-5-10-mira-matched-targets-v1.json)으로 대응하는 Mira 목표를 준비한다. 기존 목표를 재사용하는 11개는 `excluded_items`로 생성에서 제외하고 13개만 새로 만든다. 공용 생성기의 `reference_images`는 참조 순서를 명시한다. 이 목록은 첫 번째 이미지로 채택 입력, 두 번째 이미지로 같은 방향의 Mira 기준을 전달한다.
-
-```bash
-.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --spec docs/assets/part-07/chapter-05/sec-10/p7-5-10-mira-matched-targets-v1.json --wait-for-gpu
-```
-
-입력의 활용 결정과 새 목표 검수를 구분한다. 새 목표 카탈로그의 `control_image`는 고정된 입력, `image`는 새 Mira 목표다. 후보 선택 코드가 이를 그대로 학습 쌍으로 내보내므로 생성 방향을 다시 뒤집지 않는다.
+사용 확정 입력 173개는 5.2의 15방향 토르소 원본을 목표로 사용한다. 목표를 별도로 생성하지 않는다. 입력과 목표의 실제 경로 및 공통 결과 ID는 생성 JSON의 `dataset_usage`와 통합 데이터셋에서 확인한다.

@@ -76,13 +76,6 @@ def select(catalog, reviews, trigger):
                 raise ValueError(f'Target leakage: {key}')
             item.update(control_image=item.pop('image'), control_sha256=item.pop('sha256'),
                         image=row['target'], sha256=row['target_sha256'])
-        elif row.get('control_image'):
-            # 입력을 고정하고 새 Mira 목표를 생성한 경우에는 방향을 뒤집지 않는다.
-            checked(row['control_image'], row['control_sha256'])
-            input_group = 'control:' + row['control_sha256']
-            if groups.setdefault(input_group, split) != split:
-                raise ValueError(f'Input leakage: {key}')
-            item.update(control_image=row['control_image'], control_sha256=row['control_sha256'])
         item["input_result_id"] = result_id(item.get("control_sha256"))
         item["target_result_id"] = result_id(item["sha256"])
         side = "input" if row.get("target") else "target"

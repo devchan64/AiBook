@@ -77,7 +77,9 @@ def inventory(output):
             if digest in seen:
                 continue
             seen.add(digest)
-            record = image.with_name(image.stem + "-result.json")
+            # 이미지가 이동되어도 생성 기록은 원고의 기존 경로 옆에 보존된다.
+            source_image = manuscript.parent / url
+            record = source_image.with_name(source_image.stem + "-result.json").resolve()
             require(record.is_file(), f"Missing generation record: {record}")
             data = read(record)
             design = data.get("design", {})

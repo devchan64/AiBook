@@ -1,7 +1,7 @@
 # P7-5.10 보충학습: 캐릭터 일관성을 위한 LoRA 학습과 평가
 
 > Section ID: `P7-5.10`
-> Version: `v2026.09.17`
+> Version: `v2026.09.18`
 
 장면이나 입력 인물이 달라져도 Mira를 같은 캐릭터로 알아볼 수 있게 만드는 것이 이번 보충학습의 목표다. 이를 위해 **얼굴·헤어·화풍을 일관되게 표현하는 LoRA**를 학습하고, 실제 편집 결과에서 그 특징이 유지되는지 확인한다. 캐릭터 일관성은 머리색 하나가 같다는 뜻이 아니라 얼굴의 인상, 헤어의 형태, 목표 화풍이 함께 이어지는 것을 뜻한다.
 
@@ -114,7 +114,9 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 [보강 입력 24개와 Mira 목표 비교표](../../../assets/part-07/chapter-05/sec-10/bfs-proportion-comparison-24.md){ .aibook-markdown-preview }
 
-보강 계획은 5.2의 15방향 토르소에 얼굴 조건 6종·화풍 2종을 조합한 180개 입력 후보이며 수평 좌우 90도 24개 생성 후 나머지 156개를 생성 중이다. 같은 생성기를 사용하고, 생성 후 입력·목표의 얼굴 비율 차이와 표정·배경 보존을 검수한다. 첫 24개 입력은 사용자 검수로 활용하기로 결정했으며, 11개는 기존 Mira 목표를 재사용하고, 나머지 13개만 실제 포즈·표정·의상에 맞는 목표를 추가 생성한다. 새 목표를 검수한 뒤 최종 학습 쌍을 구성한다.
+[보강 입력 180개 검수표](../../../assets/part-07/chapter-05/sec-10/bfs-proportion-review-180.md){ .aibook-markdown-preview }
+
+5.2의 15방향 토르소에 얼굴 조건 6종·화풍 2종을 조합한 입력 180개 중 사용자 제외 7개를 뺀 173개를 사용한다. 단순 토르소 목표는 **5.2의 같은 방향 원본을 재사용**한다. 별도로 생성한 맞춤 목표와 해당 생성 기능은 제거했다. 검수표에서 관리번호별 입력과 Mira 기준의 얼굴 비율, 방향·표정·포즈·의상·배경을 비교한다.
 
 원래 220개 생성 조건은 보존한다. 얼굴 방향 3건·배경 손실 및 변경 5건·표정 불일치 19건을 합한 폐기 확정 27건은 아래 명령에서 제외되어 실행 대상은 193개다. `--dry-run`으로 제외 ID를 확인할 수 있다.
 
@@ -138,7 +140,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 공통 Mira 목표 | 사진풍 입력 후보 | 수채화 입력 후보 | 컬러 펜화 입력 후보 |
 | --- | --- | --- | --- |
-| ![공통 Mira 목표](../../../assets/part-07/chapter-05/sec-02/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png){ width="240" } | ![사진풍 입력 후보](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-01-soft-photo.png){ width="240" } | ![수채화 입력 후보](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-01-watercolor.png){ width="240" } | ![컬러 펜화 입력 후보](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-01-ink-illustration.png){ width="240" } |
+| ![공통 Mira 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-2-mira-head-qwen-image-bf16-front-v1-code-63ece7-seed-62294-steps-30-size-1280.png){ width="240" } | ![사진풍 입력 후보](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-01-soft-photo.png){ width="240" } | ![수채화 입력 후보](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-01-watercolor.png){ width="240" } | ![컬러 펜화 입력 후보](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-01-ink-illustration.png){ width="240" } |
 
 얼굴·헤어·화풍의 변화와 구도·표정·의상 보존은 별도로 살핀다. 후보가 생성되었다는 이유만으로 대응 관계가 맞다고 간주하지 않으며, 전체 후보의 경로와 해시는 위 카탈로그에서 확인한다.
 
@@ -162,15 +164,15 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 사용자 채택 판단에서 확정 폐기 27건을 제외하여 **학습 174쌍·검증 19쌍**을 구성했다. 중복을 제외한 Mira 목표는 학습 37장·검증 4장으로 총 41장이다. 193쌍은 서로 다른 목표 장면 193장을 뜻하지 않는다. 추가로 생성한 목표 후보 123장은 대응 입력이 아직 없어 포함하지 않는다.
 
-[통합 217개 데이터셋 검토표](../../../assets/part-07/chapter-05/sec-10/bfs-paired-dataset-review.md){ .aibook-markdown-preview }
+[통합 366쌍 데이터셋 검토표](../../../assets/part-07/chapter-05/sec-10/bfs-paired-dataset-review.md){ .aibook-markdown-preview }
 
-[현재 통합 데이터셋 JSON: 기존 193쌍 + 추가 입력 24개](../../../assets/part-07/chapter-05/sec-10/p7-5-10-paired-dataset.json)
+[현재 통합 데이터셋 JSON: 기존 193쌍 + 보강 173쌍](../../../assets/part-07/chapter-05/sec-10/p7-5-10-paired-dataset.json)
 
 [이전 학습에 사용한 193쌍 데이터셋 JSON](../../../assets/part-07/chapter-05/sec-12/p7-5-11-bfs-paired-dataset-v1.json)
 
 ## 확정 데이터셋으로 LoRA를 학습한다
 
-현재 관리는 통합 217개 목록을 사용한다. 기존 193쌍과 목표 재사용 11쌍을 합한 204쌍은 준비 완료이며, 나머지 13개만 목표 생성·검수 대기 상태다. 통합 목록의 대기 항목이 남아 있으면 학습 준비는 중단된다. 아래 명령은 이미 수행한 193쌍 실습을 재현하기 위해 **이전 학습의 확정 데이터셋 JSON**을 준비 코드에 넘긴다. `purpose`가 `paired_edit_training`이면 각 행의 `control_image`를 입력으로, `image`를 목표로 고정한다. 같은 행에 지정한 입력·목표 대응을 유지한다. 입력·목표와 생성 기록의 해시, 중복 입력, 같은 목표가 학습과 검증에 함께 들어가는 오류를 검사한다.
+현재 확정 데이터셋은 기존 193쌍과 보강 173쌍을 합한 366쌍(학습 347·검증 19)이다. 아래 명령은 이미 수행한 193쌍 실습을 재현하기 위해 **이전 학습의 확정 데이터셋 JSON**을 준비 코드에 넘긴다. `purpose`가 `paired_edit_training`이면 각 행의 `control_image`를 입력으로, `image`를 목표로 고정한다. 같은 행에 지정한 입력·목표 대응을 유지한다. 입력·목표와 생성 기록의 해시, 중복 입력, 같은 목표가 학습과 검증에 함께 들어가는 오류를 검사한다.
 
 [고정 입력·목표 대응을 지원하는 학습 준비·실행 Python](../../../assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py)
 
@@ -228,7 +230,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-019 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-ink-illustration.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-ink-illustration.png) | [![P711-IN-019 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-ink-illustration-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-ink-illustration-base.png) | [![P711-IN-019 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-ink-illustration-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-ink-illustration-lora.png) | [![P711-IN-019 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png) |
+| [![P711-IN-019 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-ink-illustration.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-ink-illustration.png) | [![P711-IN-019 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-ink-illustration-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-ink-illustration-base.png) | [![P711-IN-019 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-ink-illustration-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-ink-illustration-lora.png) | [![P711-IN-019 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png) |
 
 강·벤치와 손을 든 자세는 남는다. Mira 단발·얼굴은 나타나지만 열린 입이 거의 닫히고 소매 끝 장식이 추가된다.
 
@@ -236,7 +238,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-020 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-oil-painting.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-oil-painting.png) | [![P711-IN-020 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-oil-painting-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-oil-painting-base.png) | [![P711-IN-020 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-oil-painting-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-oil-painting-lora.png) | [![P711-IN-020 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png) |
+| [![P711-IN-020 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-oil-painting.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-oil-painting.png) | [![P711-IN-020 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-oil-painting-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-oil-painting-base.png) | [![P711-IN-020 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-oil-painting-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-oil-painting-lora.png) | [![P711-IN-020 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png) |
 
 전신은 화면 안에 유지된다. 양옆 화분·식물이 사라지고 회랑 구조가 단순해진다. 입력의 크게 열린 입도 유지되지 않는다.
 
@@ -244,7 +246,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-021 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-21-soft-photo.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-21-soft-photo.png) | [![P711-IN-021 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-soft-photo-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-soft-photo-base.png) | [![P711-IN-021 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-soft-photo-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-soft-photo-lora.png) | [![P711-IN-021 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-05.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-05.png) |
+| [![P711-IN-021 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-21-soft-photo.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-21-soft-photo.png) | [![P711-IN-021 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-soft-photo-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-soft-photo-base.png) | [![P711-IN-021 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-soft-photo-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-soft-photo-lora.png) | [![P711-IN-021 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-05.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-05.png) |
 
 초록 상의와 돌아보는 자세, 미술관의 그림·조각·방문객 배치가 대체로 남는다. 얼굴과 단발은 목표 쪽으로 바뀐다. 배경 세부는 단순해진다.
 
@@ -252,7 +254,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-022 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-watercolor.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-watercolor.png) | [![P711-IN-022 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-watercolor-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-watercolor-base.png) | [![P711-IN-022 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-watercolor-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-watercolor-lora.png) | [![P711-IN-022 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png) |
+| [![P711-IN-022 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-watercolor.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-watercolor.png) | [![P711-IN-022 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-watercolor-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-watercolor-base.png) | [![P711-IN-022 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-watercolor-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-watercolor-lora.png) | [![P711-IN-022 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png) |
 
 컵을 쥔 양손과 창가 구도가 남는다. 머리는 목표의 단발·색으로 바뀌고 입 벌림은 줄어든다. 창·의상 세부는 별도 확대 확인 대상이다.
 
@@ -260,7 +262,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-063 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-oil-painting.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-oil-painting.png) | [![P711-IN-063 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-oil-painting-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-oil-painting-base.png) | [![P711-IN-063 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-oil-painting-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-oil-painting-lora.png) | [![P711-IN-063 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png) |
+| [![P711-IN-063 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-oil-painting.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-oil-painting.png) | [![P711-IN-063 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-oil-painting-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-oil-painting-base.png) | [![P711-IN-063 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-oil-painting-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-oil-painting-lora.png) | [![P711-IN-063 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png) |
 
 유화 질감이 목표 쪽 채색으로 바뀌고 강·벤치·팔 자세는 남는다. 크게 열린 입이 닫혀 표정 보존은 미흡하다.
 
@@ -268,7 +270,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-064 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-soft-photo.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-soft-photo.png) | [![P711-IN-064 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-soft-photo-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-soft-photo-base.png) | [![P711-IN-064 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-soft-photo-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-soft-photo-lora.png) | [![P711-IN-064 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png) |
+| [![P711-IN-064 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-soft-photo.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-soft-photo.png) | [![P711-IN-064 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-soft-photo-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-soft-photo-base.png) | [![P711-IN-064 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-soft-photo-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-soft-photo-lora.png) | [![P711-IN-064 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png) |
 
 전신과 코트 윤곽은 남지만 회랑·화분·식물 대부분이 밝은 단색 배경으로 사라진다. 장면 보존 실패가 뚜렷하다.
 
@@ -276,7 +278,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-066 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-clay-render.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-clay-render.png) | [![P711-IN-066 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-clay-render-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-clay-render-base.png) | [![P711-IN-066 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-clay-render-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-clay-render-lora.png) | [![P711-IN-066 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png) |
+| [![P711-IN-066 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-clay-render.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-clay-render.png) | [![P711-IN-066 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-clay-render-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-clay-render-base.png) | [![P711-IN-066 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-clay-render-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-clay-render-lora.png) | [![P711-IN-066 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png) |
 
 입력의 입체적 질감이 목표 쪽 일러스트로 바뀐다. 컵·손·창가 구도는 대체로 남지만 입 벌림이 줄어든다.
 
@@ -284,7 +286,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-107 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-soft-photo.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-soft-photo.png) | [![P711-IN-107 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-soft-photo-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-soft-photo-base.png) | [![P711-IN-107 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-soft-photo-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-soft-photo-lora.png) | [![P711-IN-107 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png) |
+| [![P711-IN-107 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-soft-photo.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-soft-photo.png) | [![P711-IN-107 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-soft-photo-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-soft-photo-base.png) | [![P711-IN-107 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-soft-photo-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-soft-photo-lora.png) | [![P711-IN-107 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png) |
 
 사진풍 얼굴·곱슬머리가 Mira 얼굴·단발로 바뀐다. 강·벤치·손짓은 남지만 입 벌림과 손가락 세부가 달라진다.
 
@@ -292,7 +294,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-108 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-watercolor.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-watercolor.png) | [![P711-IN-108 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-watercolor-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-watercolor-base.png) | [![P711-IN-108 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-watercolor-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-watercolor-lora.png) | [![P711-IN-108 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png) |
+| [![P711-IN-108 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-watercolor.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-watercolor.png) | [![P711-IN-108 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-watercolor-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-watercolor-base.png) | [![P711-IN-108 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-watercolor-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-watercolor-lora.png) | [![P711-IN-108 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png) |
 
 인물의 전신 범위는 유지되지만 회랑과 식물이 밝은 단색 배경으로 사라진다. 머리 방향은 대체로 남으나 배경 보존은 실패한다.
 
@@ -300,7 +302,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-109 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-21-clay-render.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-21-clay-render.png) | [![P711-IN-109 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-clay-render-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-clay-render-base.png) | [![P711-IN-109 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-clay-render-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-clay-render-lora.png) | [![P711-IN-109 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-05.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-05.png) |
+| [![P711-IN-109 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-21-clay-render.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-21-clay-render.png) | [![P711-IN-109 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-clay-render-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-clay-render-base.png) | [![P711-IN-109 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-clay-render-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-clay-render-lora.png) | [![P711-IN-109 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-05.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-05.png) |
 
 점토풍 인물이 목표 쪽 일러스트로 변한다. 초록 상의·어깨 방향·미술관의 큰 배치는 남는다. 입·시선의 세밀한 일치는 보류한다.
 
@@ -308,7 +310,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-110 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-ink-illustration.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-ink-illustration.png) | [![P711-IN-110 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-ink-illustration-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-ink-illustration-base.png) | [![P711-IN-110 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-ink-illustration-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-ink-illustration-lora.png) | [![P711-IN-110 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png) |
+| [![P711-IN-110 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-ink-illustration.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-ink-illustration.png) | [![P711-IN-110 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-ink-illustration-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-ink-illustration-base.png) | [![P711-IN-110 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-ink-illustration-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-ink-illustration-lora.png) | [![P711-IN-110 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png) |
 
 긴 곱슬머리에서 Mira 단발로 바뀐다. 컵과 창가 구도는 남지만 열린 입이 작아지고 의상 선·질감이 단순해진다.
 
@@ -316,7 +318,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-151 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-watercolor.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-watercolor.png) | [![P711-IN-151 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-watercolor-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-watercolor-base.png) | [![P711-IN-151 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-watercolor-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-watercolor-lora.png) | [![P711-IN-151 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png) |
+| [![P711-IN-151 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-watercolor.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-watercolor.png) | [![P711-IN-151 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-watercolor-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-watercolor-base.png) | [![P711-IN-151 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-watercolor-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-watercolor-lora.png) | [![P711-IN-151 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png) |
 
 Mira 얼굴·헤어로 바뀌며 강·벤치·손짓이 남는다. 입력의 크게 열린 입이 닫혀 표정 변화가 분명하다.
 
@@ -324,7 +326,7 @@ Mira 얼굴·헤어로 바뀌며 강·벤치·손짓이 남는다. 입력의 크
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-152 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-clay-render.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-clay-render.png) | [![P711-IN-152 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-clay-render-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-clay-render-base.png) | [![P711-IN-152 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-clay-render-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-clay-render-lora.png) | [![P711-IN-152 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png) |
+| [![P711-IN-152 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-clay-render.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-clay-render.png) | [![P711-IN-152 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-clay-render-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-clay-render-base.png) | [![P711-IN-152 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-clay-render-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-clay-render-lora.png) | [![P711-IN-152 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png) |
 
 전신 범위는 유지되지만 양옆 큰 식물이 사라지고 회랑이 단순해진다. 열린 입도 유지되지 않는다.
 
@@ -332,7 +334,7 @@ Mira 얼굴·헤어로 바뀌며 강·벤치·손짓이 남는다. 입력의 크
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-153 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-21-ink-illustration.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-21-ink-illustration.png) | [![P711-IN-153 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-ink-illustration-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-ink-illustration-base.png) | [![P711-IN-153 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-ink-illustration-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-ink-illustration-lora.png) | [![P711-IN-153 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-05.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-05.png) |
+| [![P711-IN-153 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-21-ink-illustration.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-21-ink-illustration.png) | [![P711-IN-153 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-ink-illustration-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-ink-illustration-base.png) | [![P711-IN-153 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-ink-illustration-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-ink-illustration-lora.png) | [![P711-IN-153 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-05.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-05.png) |
 
 금발이 Mira 단발로 바뀌며 초록 상의와 미술관 배치가 대체로 남는다. 열린 입이 닫히고 얼굴 방향도 약간 달라 보여 세부 보존은 미흡하다.
 
@@ -340,7 +342,7 @@ Mira 얼굴·헤어로 바뀌며 강·벤치·손짓이 남는다. 입력의 크
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-154 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-oil-painting.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-oil-painting.png) | [![P711-IN-154 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-oil-painting-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-oil-painting-base.png) | [![P711-IN-154 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-oil-painting-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-oil-painting-lora.png) | [![P711-IN-154 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png) |
+| [![P711-IN-154 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-oil-painting.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-oil-painting.png) | [![P711-IN-154 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-oil-painting-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-oil-painting-base.png) | [![P711-IN-154 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-oil-painting-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-oil-painting-lora.png) | [![P711-IN-154 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png) |
 
 유화 얼굴·곱슬머리에서 Mira 얼굴·단발로 변한다. 컵·손·창가의 큰 구도는 남지만 눈썹·입의 긴장감이 완화된다.
 
@@ -348,7 +350,7 @@ Mira 얼굴·헤어로 바뀌며 강·벤치·손짓이 남는다. 입력의 크
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-195 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-clay-render.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-19-clay-render.png) | [![P711-IN-195 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-clay-render-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-clay-render-base.png) | [![P711-IN-195 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-clay-render-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-clay-render-lora.png) | [![P711-IN-195 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-02.png) |
+| [![P711-IN-195 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-clay-render.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-19-clay-render.png) | [![P711-IN-195 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-clay-render-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-clay-render-base.png) | [![P711-IN-195 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-clay-render-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-19-clay-render-lora.png) | [![P711-IN-195 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-02.png) |
 
 점토풍 인물이 목표 쪽 일러스트로 변한다. 강·벤치·손짓과 열린 입은 대체로 남는다. 소매 끝 장식이 추가된다.
 
@@ -356,7 +358,7 @@ Mira 얼굴·헤어로 바뀌며 강·벤치·손짓이 남는다. 입력의 크
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-196 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-ink-illustration.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-20-ink-illustration.png) | [![P711-IN-196 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-ink-illustration-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-ink-illustration-base.png) | [![P711-IN-196 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-ink-illustration-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-ink-illustration-lora.png) | [![P711-IN-196 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-04.png) |
+| [![P711-IN-196 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-ink-illustration.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-20-ink-illustration.png) | [![P711-IN-196 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-ink-illustration-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-ink-illustration-base.png) | [![P711-IN-196 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-ink-illustration-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-20-ink-illustration-lora.png) | [![P711-IN-196 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-04.png) |
 
 전신은 유지되지만 양옆 식물과 회랑 세부가 사라지고 단순한 통로로 바뀐다. 열린 입도 유지되지 않는다.
 
@@ -364,7 +366,7 @@ Mira 얼굴·헤어로 바뀌며 강·벤치·손짓이 남는다. 입력의 크
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-197 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-21-oil-painting.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-21-oil-painting.png) | [![P711-IN-197 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-oil-painting-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-oil-painting-base.png) | [![P711-IN-197 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-oil-painting-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-oil-painting-lora.png) | [![P711-IN-197 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-05.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-05.png) |
+| [![P711-IN-197 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-21-oil-painting.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-21-oil-painting.png) | [![P711-IN-197 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-oil-painting-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-oil-painting-base.png) | [![P711-IN-197 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-oil-painting-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-21-oil-painting-lora.png) | [![P711-IN-197 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-05.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-05.png) |
 
 Mira 단발·얼굴로 바뀌고 초록 상의·미술관의 큰 배치는 남는다. 찌푸린 눈썹과 열린 입이 완화되어 표정 보존이 미흡하다.
 
@@ -372,7 +374,7 @@ Mira 단발·얼굴로 바뀌고 초록 상의·미술관의 큰 배치는 남�
 
 | 입력 | LoRA 미적용 | LoRA 적용 · 1600스텝 | Mira 목표 · 비교 전용 |
 | --- | --- | --- | --- |
-| [![P711-IN-198 입력](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-soft-photo.png)](../../../assets/part-07/chapter-05/sec-10/input-images/bfs-input-22-soft-photo.png) | [![P711-IN-198 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-soft-photo-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-soft-photo-base.png) | [![P711-IN-198 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-soft-photo-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-soft-photo-lora.png) | [![P711-IN-198 목표](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/validation/images/p7-5-10-mira-v2-evaluation-06.png) |
+| [![P711-IN-198 입력](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-soft-photo.png)](../../../assets/part-07/chapter-05/sec-10/training-images/input-images/bfs-input-22-soft-photo.png) | [![P711-IN-198 미적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-soft-photo-base.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-soft-photo-base.png) | [![P711-IN-198 적용](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-soft-photo-lora.png)](../../../assets/part-07/chapter-05/sec-10/bfs-evaluation-control512/bfs-input-22-soft-photo-lora.png) | [![P711-IN-198 목표](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png)](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-10-mira-v2-evaluation-06.png) |
 
 사진풍 짧은 머리가 Mira 단발로 바뀐다. 컵과 창가 구도는 남지만 얼굴 방향·입 모양은 완전히 일치하지 않는다.
 
