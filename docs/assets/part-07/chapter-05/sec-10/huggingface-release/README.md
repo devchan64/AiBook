@@ -17,7 +17,7 @@ tags:
 
 An educational LoRA for **Mira character consistency across different input people and scenes**, trained for AiBook supplementary section P7-5.10. Face, hairstyle and illustration style are the learned identity cues. The concept was inspired by [BFS Head V5](https://huggingface.co/mr2along/BFS). This adapter was trained anew on Qwen-Image-Edit-2511; BFS weights were not used as initialization.
 
-The intended edit changes the input person's face and hair into Mira's identity (including a teal bob) and renders the whole image in the target illustration style. The input expression, head direction, pose, clothing design, framing, props and scene layout should remain. These are training goals, not verified guarantees; visual quality review of this release is pending.
+The intended edit changes the input person's face and hair into Mira's identity (including a teal bob) and renders the whole image in the target illustration style. The input expression, head direction, pose, clothing design, framing, props and scene layout should remain. These are training goals, not guarantees. The 45-input qualitative review found generally consistent face and hair, with clothing-preservation errors in some cases.
 
 ## AiBook manuscript
 
@@ -39,7 +39,7 @@ hf download devchan64/mira-bfs-qwen-image-edit-2511-lora mira_bfs.safetensors \
 
 The main branch provides this release; verify the exact weights using the checksum. SHA-256: `9cddfaec307af146ce5311669c2e0ab42fdf68abe836364fa329e32861e9e37e`. The adapter has rank 16 and alpha 16; it is not a standalone model. See `SHA256SUMS` and `training-settings.json`.
 
-**한국어 안내:** 이 LoRA는 BFS의 얼굴·헤어 편집을 참고하여 Mira의 얼굴·헤어·화풍을 일관되게 표현하도록 학습한 실습용 어댑터입니다. 학습을 다시 실행하지 않고 위 파일을 내려받아 사용할 수 있습니다. 입력 한 장만 전달하고, 출력의 캐릭터 특징과 입력 자세·표정·배경 보존을 따로 검수합니다. 이번 배포는 보강된 366쌍 중 347쌍으로 학습한 1600스텝 모델입니다. 외부 입력 45장 생성은 완료했으며 시각적 품질 판정은 아직 미확정입니다. 누적 3200스텝 재개 학습은 이번 가중치에 포함되지 않습니다. 자세한 학습 흐름은 위의 5.10 원고에서 안내합니다.
+**한국어 안내:** 이 LoRA는 BFS의 얼굴·헤어 편집을 참고하여 Mira의 얼굴·헤어·화풍을 일관되게 표현하도록 학습한 실습용 어댑터입니다. 학습을 다시 실행하지 않고 위 파일을 내려받아 사용할 수 있습니다. 입력 한 장만 전달하고, 출력의 캐릭터 특징과 입력 자세·표정·배경 보존을 따로 검수합니다. 이번 배포는 보강된 366쌍 중 347쌍으로 학습한 1600스텝 모델입니다. 외부 입력 45장 생성은 완료했으며 사용자 검수와 AI 재검토에서는 얼굴·헤어·표정에 큰 특이점은 없고 일부 복장 디자인 변경이 있음을 확인했습니다. 누적 3200스텝 재개 학습은 이번 가중치에 포함되지 않습니다. 자세한 학습 흐름은 위의 5.10 원고에서 안내합니다.
 
 ## Apply with Diffusers
 
@@ -90,7 +90,22 @@ Optimizer/resume state and base-model weights are not distributed here. A contin
 
 All 45 external synthetic inputs were processed with this checkpoint. Input hashes do not overlap the training inputs. Only the input image was passed to the pipeline; no target face was supplied. Settings: LoRA strength 1.0, seed 62294, 20 inference steps, CFG 4.0, 512×512 output and VAE reference, 384×384 vision-language reference, no crop.
 
-[Open the 45-input visual review table](evaluation/README.md). **Generation and file integrity are verified; visual quality judgments are pending.** Inspect Mira face, hair and illustration style separately from preservation of expression, pose, clothing, background and composition. Pay particular attention to head proportions at ±45° and ±90°. This table contains input and adapter output only; it does not establish an improvement over a no-adapter baseline. The 19 held-out pairs have not yet been evaluated with this new checkpoint.
+[Open the 45-input visual review table with per-case notes (Korean)](evaluation/README.md). Generation and file integrity are verified. **Qualitative review on 2026-09-18: face and hair are generally consistent with Mira, and expressions show no major overall anomalies. Some clothing designs change despite the preservation instruction.** This summarizes user review and AI cross-checking; it is not a quantitative benchmark or an acceptance decision for every image.
+
+Small changes in smile intensity or mouth opening remain visible in cases such as 010, 037 and 042. These are expression-preservation differences, not evidence of malformed faces or a general expression failure. Shirt collars and necklines change in 009, 011, 019, 026, 028 and 029; these are clothing-preservation errors, even when color is retained. Large scene layouts generally remain recognizable, but background style conversion is uneven. The full table also records changes in body proportions and props.
+
+**한국어 검수 요약:** 얼굴·헤어는 대체로 양호하고 표정에도 큰 특이점은 없습니다. 일부 웃음 강도 차이는 세부 관찰로 남깁니다. 반면 칼라·목선 변경은 명확한 의상 보존 오류로 구분합니다. 다음 샘플은 양호한 특징과 남아 있는 한계를 함께 보여줍니다.
+
+### Representative review samples
+
+| Case and observation | Input | 1600-step LoRA output |
+| --- | --- | --- |
+| **P712-CAM-008** — Frontal Mira face and teal bob are recognizable; cup-holding pose remains. Body proportions and smile intensity still differ. 정면 얼굴·헤어 표현 사례. | ![008 input](evaluation/man-level-zero-input.png) | ![008 output](evaluation/man-level-zero-lora.png) |
+| **P712-CAM-023** — Common frontal character appearance across a different input person. Joined hands and library layout remain recognizable; neckline details differ. 다른 입력에서도 공통 인상 확인. | ![023 input](evaluation/woman-level-zero-input.png) | ![023 output](evaluation/woman-level-zero-lora.png) |
+| **P712-CAM-009** — Face and hair transform, but the shirt collar is lost and the neckline becomes rounded. 의상 디자인 보존 오류. | ![009 input](evaluation/man-level-plus-45-input.png) | ![009 output](evaluation/man-level-plus-45-lora.png) |
+| **P712-CAM-022** — The smile, waving gesture and existing V-shaped neckline opening remain. The input already has this neckline structure; this is not a neckline-change case. 표정·동작·기존 목선 유지 사례. | ![022 input](evaluation/woman-level-minus-45-input.png) | ![022 output](evaluation/woman-level-minus-45-lora.png) |
+
+These are selected illustrations of the review, not a measured success rate. The table contains input and adapter output only; it does not establish improvement over a no-adapter baseline or the previous adapter. The 19 held-out pairs have not yet been evaluated with this checkpoint. A longer training run must be checked on the same inputs and settings for both character consistency and preservation errors; improvement is not assumed.
 
 Historical evaluation examples from the previous adapter have been removed from the current release. The previous checkpoint remains accessible through Git history.
 
