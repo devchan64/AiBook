@@ -1,9 +1,9 @@
 # P7-5.15 텍스트 모션으로 12개 OpenPose 키프레임 준비하기
 
 > Section ID: `P7-5.15`
-> Version: `v2026.09.13`
+> Version: `v2026.09.18`
 
-정지 pose 한 장은 현재 P7-5.3의 OpenPose 구조 입력으로 만들 수 있다. 걷기처럼 시간에 따라 팔·다리·골반의 관계가 바뀌는 동작은 pose 이미지 12장을 각각 따로 생성하면 접지와 이동 순서가 쉽게 끊긴다. 이 절은 **텍스트에서 먼저 3D 관절 모션을 만들고, 그 시퀀스에서 12개 2D OpenPose 키프레임을 뽑기 위한 실험 조건**을 준비한다. 여기서는 모델 가중치를 아직 내려받거나 실행하지 않는다.
+정지 pose 한 장은 현재 P7-5.3의 OpenPose 구조 입력으로 만들 수 있다. 걷기처럼 시간에 따라 팔·다리·골반의 관계가 바뀌는 동작은 pose 이미지 12장을 각각 따로 생성하면 접지와 이동 순서가 쉽게 끊긴다. 이 절은 **텍스트에서 먼저 3D 관절 모션을 만들고, 그 시퀀스에서 12개 2D OpenPose 키프레임을 뽑기 위한 실험 조건**을 준비한다. 기존 MoMask 준비 조건에 더해, 측면 걷기와 달리기의 실패 관찰을 바탕으로 텍스트·캐릭터 참조 이미지에서 모션 프레임을 만드는 대안을 조사한다. MoMask와 Kimodo는 모두 아직 추론하지 않은 실험군이며, StableAnimator는 모션을 캐릭터 영상으로 바꾸는 미실험 후보이다. 가중치 사전 다운로드와 실제 추론 검증을 구분한다.
 
 ## 1. 키프레임은 완성 이미지가 아니라 시간 순서가 있는 구조 입력이다
 
@@ -24,7 +24,7 @@ OpenPose는 이 경로에서 동작을 새로 만드는 모델이 아니다. 프
 
 | 후보 | 이 실험에서 보는 기능 | 8GB에서의 처리 |
 | --- | --- | --- |
-| MoMask | 텍스트와 포즈 수로 3D 관절 모션 생성 | 첫 실행 후보. batch 1, 48포즈 한 시퀀스만 실행 |
+| MoMask | 텍스트와 포즈 수로 3D 관절 모션 생성 | 미실험 비교군. batch 1, 48포즈 한 시퀀스 조건 |
 | MDM 50-step | text-to-motion의 비교 기준, in-between 편집 | MoMask가 실행 또는 길이 제어에서 막힐 때의 비교 후보 |
 | LLaMA 기반 MotionGPT | text·초기 pose·key pose 조건을 포함한 모션 생성 | 별도 대형 언어 모델 가중치가 필요하므로 8GB 첫 실험에서는 제외 |
 
@@ -60,6 +60,49 @@ MoMask의 예시 기준 모션은 20fps다. 12포즈를 직접 생성하면 약 
 
 생성되는 `experiment-plan.json`에는 아직 `prepared_not_run` 상태만 남는다. MoMask 결과의 실제 배열 모양, peak VRAM, 실행 시간, 카메라 투영 규칙, OpenPose 매핑표는 추론이 끝난 뒤에만 result JSON으로 기록한다.
 
+## 5. 측면 보행의 교대와 달리기의 공중 구간을 확인한다
+
+후속 목표는 **동작 텍스트와 캐릭터 참조 이미지로 로컬 GPU에서 연속된 모션 프레임을 만드는 것**이다. 제작 과정에서 사용자가 보고한 기존 산출물에는 측면 걷기에서 팔다리가 교대하며 겹치는 모습을 만들지 못한 사례와, 달리기에서 양발이 동시에 지면을 떠나는 구간을 만들지 못한 사례가 있었다. 이 기록은 사용자 관찰이다. 해당 원본 영상·프레임과 생성 조건을 이번 조사에서 대조하지 않았으므로 특정 모델의 일반적 한계나 실패 원인으로 확정하지 않는다.
+
+| 비교 동작 | 연속 프레임에서 볼 장면 | 구분할 실패 |
+| --- | --- | --- |
+| 측면 걷기 | 좌우 다리가 번갈아 앞으로 나오고, 겹친 뒤 다시 드러나는 장면 | 다리가 붙음, 좌우가 뒤바뀜, 한쪽 다리만 반복 이동 |
+| 측면 달리기 | 지면을 밀고 양발이 공중에 뜬 뒤 한 발로 착지하는 장면 | 의도한 공중 구간 없음, 발 미끄러짐, 착지 순서 불연속 |
+
+여기서 달리기 과제는 양발이 떠오르는 구간이 뚜렷한 동작으로 정한다. 임의의 달리기 영상에 공중 구간이 없다는 이유만으로 모든 경우를 같은 실패로 판정하지 않는다. 발과 지면의 간격, 골반 높이, 지지하는 발의 이동을 함께 본다. 12장 요약은 짧은 교차·공중 구간을 놓칠 수 있으므로 **전체 프레임으로 먼저 검수한 뒤** 비교표를 만든다.
+
+영상의 자연스러운 외관과 인체 동작의 타당성을 나누는 연구도 있다. HumanScore는 관절 운동과 시간적 안정성, 생체역학적 일관성 등을 평가한다. PhyMotion은 영상에서 복원한 3D 신체를 물리 시뮬레이터에 연결해 관절 운동, 접촉·균형, 동역학을 구분한다. 두 연구는 검수 항목을 설계하는 근거이며, 위 실패 사례의 원인을 입증한 자료는 아니다. [HumanScore 연구 페이지](https://cs.stanford.edu/~xtiange/projects/humanscore/){: target="_blank" rel="noopener noreferrer" } · [PhyMotion 연구 페이지](https://phy-motion.github.io/){: target="_blank" rel="noopener noreferrer" }
+
+## 6. 3D 동작 생성과 캐릭터 영상 생성을 연결할 후보
+
+2026년 9월 18일 조사에서는 아래 후보를 추가했다. 앞의 MoMask 준비 코드는 기존 비교 조건으로 보존한다. MoMask를 포함한 후보들은 추론 전이며, 표의 메모리는 개발자가 공개한 조건이다. 이 저장소의 8GB GPU에서 성공한 실험 결과가 아니다.
+
+| 후보 | 담당 단계와 입력 | 공개 실행 조건과 판단 |
+| --- | --- | --- |
+| Kimodo | 텍스트·자세 제약 → 3D 관절·발 접촉 정보 | 공식 안내상 텍스트 인코더를 CPU로 옮기면 VRAM 3GB 미만. 동작 생성의 우선 검토 후보 |
+| StableAnimator 기본 모델 | 캐릭터 참조 이미지·포즈 시퀀스 → 영상 | 512×512, 16프레임 기본 모델의 8GB 추론 조건 공개. 캐릭터 영상화 후보 |
+| FramePack | 시작 이미지·동작 텍스트 → 영상 | 공식 최소 VRAM 6GB, RTX 30·40·50 계열 안내. 중간 포즈 없이 직접 생성하는 비교 후보 |
+| DART | 텍스트 타임라인 → 연속 3D 모션 | 공식 실험 환경은 RTX 4090. 8GB 최소 조건은 이번 확인 자료에서 찾지 못함 |
+| HY-Motion 1.0 | 텍스트 → 3D 모션 | 공식 최소 VRAM은 기본 26GB·Lite 24GB. 8GB 첫 실행에서는 후순위 |
+
+근거: [Kimodo 공식 구현](https://github.com/nv-tlabs/kimodo){: target="_blank" rel="noopener noreferrer" } · [StableAnimator 공식 구현](https://github.com/Francis-Rings/StableAnimator){: target="_blank" rel="noopener noreferrer" } · [FramePack 공식 구현](https://github.com/lllyasviel/FramePack){: target="_blank" rel="noopener noreferrer" } · [DART 공식 구현](https://github.com/zkf1997/DART){: target="_blank" rel="noopener noreferrer" } · [HY-Motion 공식 구현](https://github.com/Tencent-Hunyuan/HY-Motion-1.0){: target="_blank" rel="noopener noreferrer" }
+
+Kimodo는 프레임별 관절 위치·회전과 좌우 발뒤꿈치·발끝의 접촉 라벨을 출력한다. 접촉 라벨도 모델의 산출물이므로 양발의 라벨이 모두 비접촉인지 확인하는 것만으로 공중 구간을 확정하지 않는다. 지면을 기준으로 발 높이와 움직임도 대조한다. 공식 문서는 모델 자체에서 발 미끄러짐과 제약 오차가 발생할 수 있다고 설명하고 후처리를 권장한다. 따라서 물리적으로 올바른 모션을 보장하는 모델로 소개하지 않는다. [Kimodo 한계와 권장 설정](https://research.nvidia.com/labs/sil/projects/kimodo/docs/key_concepts/limitations.html){: target="_blank" rel="noopener noreferrer" }
+
+StableAnimator의 공개 속도 사례는 RTX 4090에서 512×512·30fps·15초 영상을 약 5분에 생성한 조건이다. 8GB라는 메모리 조건을 같은 실행 속도로 해석하지 않는다. 또 Kimodo 출력을 그대로 받는 연결 기능을 검증한 것은 아니다. 관절 이름·순서를 맞추고, 카메라를 고정하여 포즈 조건 영상을 만드는 변환이 필요하다. 2D 포즈만으로는 겹친 팔다리의 깊이 관계를 충분히 전달하지 못할 수 있으므로, 올바른 3D 동작이 캐릭터 영상에서도 유지되는지 별도로 확인한다.
+
+## 7. 같은 동작을 단계별로 비교한다
+
+우선 검토할 연결은 **동작 텍스트 → Kimodo 3D 모션 → 고정 측면 포즈 시퀀스 → 참조 이미지와 StableAnimator → 캐릭터 프레임**이다. 이는 조사에 따른 실험 제안이며 완성된 파이프라인이 아니다. 텍스트는 동작 생성을, 참조 이미지는 캐릭터 외형 조건을 맡는다. FramePack의 이미지·텍스트 직접 생성은 같은 목표 동작을 비교하는 별도 경로로 둔다.
+
+1. 기존 자산 중 얼굴·의상·발이 모두 보이는 캐릭터 전신 참조를 고른다. 측면 걷기와 공중 구간이 뚜렷한 달리기를 각각 짧은 시퀀스로 정하고, 카메라와 바닥이 보이는 구도를 고정한다.
+2. 3D 모션에서 좌우 교대와 발 접촉·이탈을 먼저 확인한다. 이 단계에서 실패하면 이미지 생성으로 넘기기 전에 모션 조건을 조정한다.
+3. 검수한 모션을 대상 모델의 포즈 형식으로 변환한다. 관절 매핑, 투영 카메라, 프레임률, 캐릭터 비율을 기록하고 바닥 기준과 골반의 상하 이동을 유지한다. 프레임마다 발을 바닥에 다시 맞추는 정규화는 공중 구간을 지울 수 있으므로 피한다.
+4. 캐릭터 영상에서 같은 구간을 대조한다. 3D 모션에는 공중 구간이 있는데 출력에는 없다면 포즈 변환·영상 생성 단계에서 어떤 정보가 사라졌는지 조사한다.
+5. 전체 프레임 PNG와 원래 프레임 번호·시각, 12장 요약, 실행 조건 JSON을 함께 저장한다. 모델·가중치 버전, seed, 해상도, 프레임 수, 실행 시간, 최대 VRAM과 CPU 오프로딩 여부를 기록한다.
+
+같은 참조와 동작을 사용해도 후보별 지원 프레임 수·해상도가 다르면 그 차이를 남긴다. 판단은 캐릭터 외형 유지, 동작 지시 준수, 측면 교대, 공중 구간, 접지와 실행 비용으로 나눈다. 한 번의 성공으로 일반 성능을 결론내리지 않으며, 현재는 이 항목들의 로컬 검증 결과가 없다.
+
 ## 체크리스트
 
 - 텍스트 모션 모델의 3D 관절 시퀀스와 OpenPose의 2D 구조 guide를 서로 다른 단계로 구분했는가?
@@ -68,9 +111,21 @@ MoMask의 예시 기준 모션은 20fps다. 12포즈를 직접 생성하면 약 
 - 첫 실행의 batch, 프레임 수, seed, 모델·가중치 버전, peak VRAM을 result JSON에 남길 준비가 되었는가?
 - body-only 키프레임이 얼굴 identity·착장·화풍의 기준을 대체하지 않는가?
 
+- 사용자 관찰, 공식 구현의 공개 조건, 이 저장소에서 검증한 결과를 구분했는가?
+- 측면 교대와 달리기의 공중 구간을 3D 모션·포즈 변환·캐릭터 영상에서 각각 확인할 수 있는가?
+- 12장 요약 전에 전체 프레임의 접촉·가림 구간을 검수하도록 계획했는가?
+
 ## 출처와 참고 자료
 
 - centersymmetry, [MoMask 공식 구현](https://github.com/centersymmetry/momask){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-27.
 - Guy Tevet et al., [MDM: Human Motion Diffusion Model 공식 구현](https://github.com/GuyTevet/motion-diffusion-model){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-27.
 - Zhang et al., [MotionGPT 구현](https://github.com/qiqiApink/MotionGPT){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-27.
 - CMU Perceptual Computing Lab, [OpenPose JSON output](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/02_output.md){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-27.
+- NVIDIA, [Kimodo 공식 구현](https://github.com/nv-tlabs/kimodo){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-09-18.
+- NVIDIA, [Kimodo Best Practices](https://research.nvidia.com/labs/sil/projects/kimodo/docs/key_concepts/limitations.html){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-09-18.
+- Shuyuan Tu et al., [StableAnimator 공식 구현](https://github.com/Francis-Rings/StableAnimator){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-09-18.
+- lllyasviel, [FramePack 공식 구현](https://github.com/lllyasviel/FramePack){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-09-18.
+- Kaifeng Zhao et al., [DartControl 공식 구현](https://github.com/zkf1997/DART){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-09-18.
+- Tencent Hunyuan, [HY-Motion 1.0 공식 구현](https://github.com/Tencent-Hunyuan/HY-Motion-1.0){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-09-18.
+- Yusu Fang et al., [HumanScore: Benchmarking Human Motions in Generated Videos](https://cs.stanford.edu/~xtiange/projects/humanscore/){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-09-18.
+- Yidong Huang et al., [PhyMotion: Structured 3D Motion Reward for Physics-Grounded Human Video Generation](https://phy-motion.github.io/){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-09-18.

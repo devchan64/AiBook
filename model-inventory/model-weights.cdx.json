@@ -1169,6 +1169,390 @@
           "value": "review-required"
         }
       ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-nvidia-kimodo-soma-rp-v1.1",
+      "publisher": "nvidia",
+      "name": "nvidia/Kimodo-SOMA-RP-v1.1",
+      "version": "6c9233af1180b8151e3c4703477104af5dce9dd5",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://huggingface.co/nvidia/Kimodo-SOMA-RP-v1.1"
+        },
+        {
+          "type": "model-card",
+          "url": "https://huggingface.co/nvidia/Kimodo-SOMA-RP-v1.1/blob/6c9233af1180b8151e3c4703477104af5dce9dd5/README.md"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "[\".gitattributes\", \"LICENSE\", \"README.md\", \"config.yaml\", \"model.safetensors\", \"stats/motion/body/mean.npy\", \"stats/motion/body/std.npy\", \"stats/motion/global_root/mean.npy\", \"stats/motion/global_root/std.npy\", \"stats/motion/local_root/mean.npy\", \"stats/motion/local_root/std.npy\"]"
+        },
+        {
+          "name": "aibook:observed-revision",
+          "value": "6c9233af1180b8151e3c4703477104af5dce9dd5"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment candidate; inference not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required; download only; not approved for publishing generated assets"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded_hash_verified"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/sources/p7-5-15/nvidia--Kimodo-SOMA-RP-v1.1.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-mcgill-nlp-llm2vec-meta-llama-3-8b-instruct-mntp",
+      "publisher": "McGill-NLP",
+      "name": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp",
+      "version": "31474e395ada192e8ed1586db6be79fb3b70c9c0",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://huggingface.co/McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp"
+        },
+        {
+          "type": "model-card",
+          "url": "https://huggingface.co/McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp/blob/31474e395ada192e8ed1586db6be79fb3b70c9c0/README.md"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "[\".gitattributes\", \"README.md\", \"adapter_config.json\", \"adapter_model.safetensors\", \"attn_mask_utils.py\", \"config.json\", \"modeling_llama_encoder.py\", \"special_tokens_map.json\", \"tokenizer.json\", \"tokenizer_config.json\"]"
+        },
+        {
+          "name": "aibook:observed-revision",
+          "value": "31474e395ada192e8ed1586db6be79fb3b70c9c0"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment candidate; inference not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required; download only; not approved for publishing generated assets"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded_hash_verified"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/sources/p7-5-15/McGill-NLP--LLM2Vec-Meta-Llama-3-8B-Instruct-mntp.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-mcgill-nlp-llm2vec-meta-llama-3-8b-instruct-mntp-supervised",
+      "publisher": "McGill-NLP",
+      "name": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised",
+      "version": "baa8ebf04a1c2500e61288e7dad65e8ae42601a7",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://huggingface.co/McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised"
+        },
+        {
+          "type": "model-card",
+          "url": "https://huggingface.co/McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised/blob/baa8ebf04a1c2500e61288e7dad65e8ae42601a7/README.md"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "[\".gitattributes\", \"README.md\", \"adapter_config.json\", \"adapter_model.safetensors\"]"
+        },
+        {
+          "name": "aibook:observed-revision",
+          "value": "baa8ebf04a1c2500e61288e7dad65e8ae42601a7"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment candidate; inference not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required; download only; not approved for publishing generated assets"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded_hash_verified"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/sources/p7-5-15/McGill-NLP--LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-momask-humanml3d",
+      "name": "MoMask HumanML3D pretrained bundle",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://drive.google.com/file/d/1vXS7SHJBgWPt59wupQ5UUzhFObrnGkQ0/view"
+        },
+        {
+          "type": "model-card",
+          "url": "https://github.com/centersymmetry/momask"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "humanml3d_models.zip"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment candidate; not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded_zip_verified"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/download-record.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-meta-llama-meta-llama-3-8b-instruct",
+      "publisher": "meta-llama",
+      "name": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "version": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct"
+        },
+        {
+          "type": "model-card",
+          "url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct/blob/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/README.md"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "[\"LICENSE\", \"README.md\", \"USE_POLICY.md\", \"config.json\", \"generation_config.json\", \"model-00001-of-00004.safetensors\", \"model-00002-of-00004.safetensors\", \"model-00003-of-00004.safetensors\", \"model-00004-of-00004.safetensors\", \"model.safetensors.index.json\", \"original/params.json\", \"special_tokens_map.json\", \"tokenizer.json\", \"tokenizer_config.json\"]"
+        },
+        {
+          "name": "aibook:observed-revision",
+          "value": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment candidate; inference not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required; download only; not approved for publishing generated assets"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "blocked"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/sources/p7-5-15/meta-llama--Meta-Llama-3-8B-Instruct.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-francisring-stableanimator",
+      "publisher": "FrancisRing",
+      "name": "FrancisRing/StableAnimator",
+      "version": "172658c01f49905d09f33c8872cc701e3f6d9ec5",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://huggingface.co/FrancisRing/StableAnimator"
+        },
+        {
+          "type": "model-card",
+          "url": "https://huggingface.co/FrancisRing/StableAnimator/blob/172658c01f49905d09f33c8872cc701e3f6d9ec5/README.md"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "[\"Animation/face_encoder.pth\", \"Animation/glintr100_torch.pth\", \"Animation/pose_net.pth\", \"Animation/unet.pth\", \"DWPose/dw-ll_ucoco_384.onnx\", \"DWPose/yolox_l.onnx\", \"README.md\", \"models/antelopev2/.gitattributes\", \"models/antelopev2/1k3d68.onnx\", \"models/antelopev2/2d106det.onnx\", \"models/antelopev2/genderage.onnx\", \"models/antelopev2/glintr100.onnx\", \"models/antelopev2/scrfd_10g_bnkps.onnx\", \"stable-video-diffusion-img2vid-xt/LICENSE.md\", \"stable-video-diffusion-img2vid-xt/feature_extractor/preprocessor_config.json\", \"stable-video-diffusion-img2vid-xt/image_encoder/config.json\", \"stable-video-diffusion-img2vid-xt/image_encoder/model.safetensors\", \"stable-video-diffusion-img2vid-xt/model_index.json\", \"stable-video-diffusion-img2vid-xt/scheduler/scheduler_config.json\", \"stable-video-diffusion-img2vid-xt/unet/config.json\", \"stable-video-diffusion-img2vid-xt/unet/diffusion_pytorch_model.safetensors\", \"stable-video-diffusion-img2vid-xt/vae/config.json\", \"stable-video-diffusion-img2vid-xt/vae/diffusion_pytorch_model.safetensors\"]"
+        },
+        {
+          "name": "aibook:observed-revision",
+          "value": "172658c01f49905d09f33c8872cc701e3f6d9ec5"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment candidate; inference not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required; download only; not approved for publishing generated assets"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded_hash_verified"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/sources/p7-5-15/FrancisRing--StableAnimator.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-momask-clip",
+      "name": "momask-clip",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "ViT-B-32.pt"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment dependency; not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/artifacts/weight-p7-5-15-momask-clip/download-record.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-facexlib-detection",
+      "name": "facexlib-detection",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/xinntao/facexlib/releases/download/v0.1.0/detection_Resnet50_Final.pth"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "detection_Resnet50_Final.pth"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment dependency; not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-detection/download-record.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-facexlib-parsing",
+      "name": "facexlib-parsing",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/xinntao/facexlib/releases/download/v0.2.0/parsing_bisenet.pth"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "parsing_bisenet.pth"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment dependency; not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-parsing/download-record.json"
+        }
+      ]
+    },
+    {
+      "type": "machine-learning-model",
+      "bom-ref": "weight:p7-5-15-facexlib-parsenet",
+      "name": "facexlib-parsenet",
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth"
+        }
+      ],
+      "properties": [
+        {
+          "name": "aibook:download-selector",
+          "value": "parsing_parsenet.pth"
+        },
+        {
+          "name": "aibook:source-status",
+          "value": "P7-5.15 experiment dependency; not run"
+        },
+        {
+          "name": "aibook:license-review",
+          "value": "review-required"
+        },
+        {
+          "name": "aibook:download-status",
+          "value": "downloaded"
+        },
+        {
+          "name": "aibook:download-record",
+          "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-parsenet/download-record.json"
+        }
+      ]
     }
   ],
   "dependencies": [
