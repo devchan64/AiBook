@@ -15,14 +15,14 @@
 
 [Hugging Face 모델 카드 · 적용 예제와 평가 결과](https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora)
 
-[최종 LoRA 바로 다운로드 · mira_bfs.safetensors](https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/83c28cc630d01f887c401769ab1504fdaa1447a6/mira_bfs.safetensors?download=true)
+[최종 LoRA 바로 다운로드 · mira_bfs.safetensors](https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/2212acc0555e9d1e0c60895cfe058775e327056b/mira_bfs.safetensors?download=true)
 
 브라우저에서 위 파일을 받거나, 저장소 루트의 터미널에서 다음 명령으로 내려받는다. 고정 리비전을 사용하므로 본문의 평가에 사용한 가중치와 같은 파일을 받는다.
 
 ```bash
 mkdir -p .tmp/download/mira-bfs
 curl --fail --location \
-  'https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/83c28cc630d01f887c401769ab1504fdaa1447a6/mira_bfs.safetensors' \
+  'https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/2212acc0555e9d1e0c60895cfe058775e327056b/mira_bfs.safetensors' \
   --output .tmp/download/mira-bfs/mira_bfs.safetensors
 ```
 
@@ -30,9 +30,9 @@ curl --fail --location \
 
 모델 카드의 Diffusers 예제에서 내려받은 폴더를 `load_lora_weights`의 경로로 지정하고, 파일명은 `mira_bfs.safetensors`로 둔다. **512×512 입력 한 장 → Mira로 변환하라는 편집 지시 → LoRA 적용 출력**의 순서로 실습한다. 목표 얼굴 이미지를 별도 참조로 추가하지 않는다.
 
-본문의 평가 조건은 LoRA 강도 1.0, 시드 62294, 추론 20스텝, CFG 4.0, 출력 512×512다. **참조 VAE 처리 크기도 512×512로 맞춘다.** 모델 카드에는 이 설정을 포함한 실행 예제가 있다. 입력과 출력을 나란히 놓고 Mira의 얼굴·헤어·화풍이 나타나는지, 자세·표정·의상·배경이 유지되는지 따로 확인한다. 공개 가중치는 보강 전 학습 산출물이며 현재 데이터셋의 학습 결과로 해석하지 않는다.
+본문의 평가 조건은 LoRA 강도 1.0, 시드 62294, 추론 20스텝, CFG 4.0, 출력 512×512다. **참조 VAE 처리 크기도 512×512로 맞춘다.** 모델 카드에는 이 설정을 포함한 실행 예제가 있다. 입력과 출력을 나란히 놓고 Mira의 얼굴·헤어·화풍이 나타나는지, 자세·표정·의상·배경이 유지되는지 따로 확인한다. 공개 가중치는 현재 366쌍 중 학습 347쌍으로 학습한 1600스텝 산출물이다. 45장 검수에서 얼굴·헤어는 대체로 양호하고 표정에도 큰 특이점은 없다고 판단했다. 일부 복장 변경은 의상 보존 오류로 확인했다.
 
-적용 결과를 확인했다면 아래에서 데이터 준비·학습·평가 과정을 따라간다. 현재 데이터셋은 보강 후 366쌍이며, 공개 어댑터는 보강 전 193쌍으로 학습한 결과다.
+적용 결과를 확인했다면 아래에서 데이터 준비·학습·평가 과정을 따라간다. 현재 데이터셋은 366쌍이며, 공개 어댑터는 학습 347쌍을 사용하고 검증 19쌍을 제외했다. 누적 3200스텝 추가 학습은 이번 배포 가중치에 포함되지 않는다.
 
 ## 실습 목표와 LoRA의 역할
 
@@ -207,7 +207,7 @@ LoRA는 기반 모델의 가중치를 고정하고, 가중치의 변화를 작�
 
 [외부 입력 45장 · 1600스텝 LoRA 시각 검수표](../../../assets/part-07/chapter-05/sec-10/bfs-camera-366-review.md){ .aibook-markdown-preview }
 
-표에는 입력과 LoRA 적용 결과를 나란히 배치했다. 얼굴·헤어·화풍의 변환과 표정·자세·의상·배경 보존을 구분해 살핀다. 특히 45°·90°에서 머리의 앞뒤 길이가 입력 비율에 머무는지 확인한다. 생성 45장과 파일 무결성은 확인했으며 시각적 품질 판정은 별도 검수로 확정한다.
+표에는 입력과 LoRA 적용 결과를 나란히 배치했다. 얼굴·헤어·화풍의 변환과 표정·자세·의상·배경 보존을 구분해 살핀다. 특히 45°·90°에서 머리의 앞뒤 길이가 입력 비율에 머무는지 확인한다. 생성 45장과 파일 무결성을 확인하고 항목별 AI 시각 검수 의견을 표에 기록했다. 사용자 검수와 재검토에서는 **얼굴·헤어는 대체로 양호하고 표정에도 큰 특이점이 없다**고 판단했다. 일부 웃음 강도 차이는 입력 표정 보존의 세부 관찰로 남기며 전체적인 표정 실패로 해석하지 않는다. 반면 009·011·019·022·026·028·029의 목선·칼라 변경은 **의상 보존 오류**로 기록한다. 책의 상태·몸 비율·배경 화풍에 대한 관찰도 얼굴 일관성과 구분해 비교한다. 누적 3200스텝 결과는 같은 입력과 설정으로 검증하며, 별도의 합성 시트 대신 링크된 검수 MD의 원본 이미지와 관리번호별 의견을 기준으로 확인한다.
 
 ## 평가 이후의 데이터 보강과 추가 학습
 

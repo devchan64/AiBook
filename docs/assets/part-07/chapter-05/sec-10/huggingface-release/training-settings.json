@@ -19,9 +19,39 @@
     "save_state_on_train_end": true
   },
   "counts": {
-    "train_pairs": 174,
+    "total_pairs": 366,
+    "train_pairs": 347,
     "validation_pairs": 19,
-    "unique_train_targets": 37,
+    "unique_train_targets": 42,
     "unique_validation_targets": 4
+  },
+  "dataset_manifest_sha256": "5a58994c9b3e969851fc0408bdefa826b5d5e850bcf704e19e75c8a1531ebf55",
+  "source_code_commit": "60a7fe165",
+  "checkpoint_sha256": "9cddfaec307af146ce5311669c2e0ab42fdf68abe836364fa329e32861e9e37e",
+  "evaluation": {
+    "external_inputs": 45,
+    "scale": 1.0,
+    "steps": 20,
+    "cfg": 4.0,
+    "seed": 62294,
+    "output_size": [
+      512,
+      512
+    ],
+    "vae_reference_size": [
+      512,
+      512
+    ],
+    "vl_reference_size": [
+      384,
+      384
+    ],
+    "status": "generated_pending_visual_review",
+    "held_out_19_evaluation": "not_run_for_this_checkpoint"
+  },
+  "continuation": {
+    "planned_cumulative_steps": 3200,
+    "additional_steps": 1600,
+    "status_at_release": "in_progress_not_included"
   }
 }

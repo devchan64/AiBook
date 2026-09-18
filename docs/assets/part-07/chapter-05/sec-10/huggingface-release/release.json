@@ -1,16 +1,20 @@
 {
   "repo_id": "devchan64/mira-bfs-qwen-image-edit-2511-lora",
-  "revision": "83c28cc630d01f887c401769ab1504fdaa1447a6",
+  "revision": "2212acc0555e9d1e0c60895cfe058775e327056b",
   "public": true,
   "license": "apache-2.0",
   "filename": "mira_bfs.safetensors",
   "bytes": 590153704,
-  "sha256": "4606552aecbe5a50880c666ddc89a16138d7bd8e532255888712cb5daab794fb",
-  "download_url": "https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/83c28cc630d01f887c401769ab1504fdaa1447a6/mira_bfs.safetensors",
+  "sha256": "9cddfaec307af146ce5311669c2e0ab42fdf68abe836364fa329e32861e9e37e",
+  "download_url": "https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/2212acc0555e9d1e0c60895cfe058775e327056b/mira_bfs.safetensors",
   "training_steps": 1600,
+  "dataset_pairs": 366,
+  "train_pairs": 347,
+  "validation_pairs": 19,
+  "evaluation_images": 45,
+  "visual_review_status": "pending",
   "anonymous_download_verified": true,
-  "model_card_revision": "9adcb3b5922a09b23549e572e08a2f08a201d89b",
+  "model_card_revision": "2212acc0555e9d1e0c60895cfe058775e327056b",
   "manuscript_section": "P7-5.10",
-  "manuscript_url": "https://devchan64.github.io/AiBook/parts/part-07/chapter-05/section-10",
-  "manuscript_publication_status": "pending"
+  "manuscript_url": "https://devchan64.github.io/AiBook/parts/part-07/chapter-05/section-10"
 }
