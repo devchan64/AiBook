@@ -28,3 +28,7 @@
 [확정 데이터셋 검수표](bfs-paired-dataset-review.md){ .aibook-markdown-preview }
 
 개별 이미지·생성 기록·후보 카탈로그와 학습 패키지는 산출물이다. 기준 파일 4개와 구분하며 중복 복사하지 않는다. sec-12의 외부 평가 입력과 LoRA 평가 코드는 평가용으로 유지한다.
+
+## 생성 출력 경로
+
+새 입력 이미지는 `training-images/input-images/`, 새 목표 이미지는 `training-images/target-images/`에 저장한다. 결과 JSON·카탈로그·상태·잠금 파일은 `generation-records/<규칙 ID>/`에 저장한다. 출력 위치는 생성 JSON의 `storage`에 한 번만 정의하며 `--output-dir` 덮어쓰기는 지원하지 않는다. 규칙의 `legacy_output_dir`은 과거 카탈로그를 읽어 완료 항목을 재사용하는 용도이고 새 출력에는 사용하지 않는다. 생성된 파일을 이 폴더에 저장하는 것만으로 학습 채택이 되지는 않는다.

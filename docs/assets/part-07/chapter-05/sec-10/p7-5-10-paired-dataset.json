@@ -9165,9 +9165,9 @@
   ],
   "generation_rules": {
     "P710-RULE-INPUT-001": {
-      "revision": 2,
+      "revision": 3,
       "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json",
-      "spec_sha256": "ef55896b28651e6e50e04dd83f9761de9ee8e9ca77e6608ab746da8b0cffb0fe",
+      "spec_sha256": "dbf7180e35fd25c9b68c68673fc566b5a2ddace8215c9160f911d8e3d33d962a",
       "description": "기존 입력 후보 생성",
       "previous_revisions": [
         {
@@ -9181,9 +9181,9 @@
       "revision_note": "Consolidated into management-ID generation JSON; original inference conditions retained."
     },
     "P710-RULE-TARGET-001": {
-      "revision": 2,
+      "revision": 3,
       "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json",
-      "spec_sha256": "ef55896b28651e6e50e04dd83f9761de9ee8e9ca77e6608ab746da8b0cffb0fe",
+      "spec_sha256": "dbf7180e35fd25c9b68c68673fc566b5a2ddace8215c9160f911d8e3d33d962a",
       "description": "기존 추가 목표 후보 생성",
       "previous_revisions": [
         {
@@ -9197,9 +9197,9 @@
       "revision_note": "Consolidated into management-ID generation JSON; original inference conditions retained."
     },
     "P710-RULE-INPUT-002": {
-      "revision": 5,
+      "revision": 6,
       "spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json",
-      "spec_sha256": "ef55896b28651e6e50e04dd83f9761de9ee8e9ca77e6608ab746da8b0cffb0fe",
+      "spec_sha256": "dbf7180e35fd25c9b68c68673fc566b5a2ddace8215c9160f911d8e3d33d962a",
       "description": "15방향 얼굴 비율 보강 입력 생성",
       "previous_revisions": [
         {
@@ -9276,7 +9276,7 @@
     "unique_input_images": 366,
     "unique_target_images": 46,
     "generation_spec": "docs/assets/part-07/chapter-05/sec-10/p7-5-10-image-generation.json",
-    "generation_spec_sha256": "ef55896b28651e6e50e04dd83f9761de9ee8e9ca77e6608ab746da8b0cffb0fe",
+    "generation_spec_sha256": "dbf7180e35fd25c9b68c68673fc566b5a2ddace8215c9160f911d8e3d33d962a",
     "selection_field": "rules.P710-RULE-INPUT-002.spec.items[].dataset_usage.use",
     "review_date": "2026-09-18"
   },
@@ -9320,6 +9320,6 @@
         "revision": "7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f"
       }
     },
-    "experiment_note": "BFS 입력·목표 고정 대응의 첫 비교 실행. 1600스텝은 충분한 학습량이라는 결론이 아니며 400스텝마다 보존·변환 품질을 비교한다."
+    "experiment_note": "확정 366쌍 중 학습 347쌍으로 새 LoRA를 1600스텝 학습한다. 검증 19쌍은 학습에서 제외하며 400스텝마다 가중치와 재개 상태를 저장한다."
   }
 }

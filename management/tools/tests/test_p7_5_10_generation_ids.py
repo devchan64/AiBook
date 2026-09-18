@@ -38,7 +38,7 @@ class GenerationIdTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             _, pending = G.generation_plan(Path(folder), path, G.load_spec(path),
                                           {'include_ids': [], 'rule_id': 'P710-RULE-INPUT-002',
-                                           'rule_revision': 5})
+                                           'rule_revision': 6})
             self.assertEqual(pending, [])
 
     def test_result_identity_is_shared_and_pending_is_null(self):
@@ -65,6 +65,25 @@ class GenerationIdTests(unittest.TestCase):
             path.write_text(json.dumps(data))
             with self.assertRaisesRegex(ValueError, 'management IDs'):
                 G.load_spec(path)
+
+    def test_storage_cannot_be_redirected(self):
+        data = json.loads((ASSETS / 'p7-5-10-image-generation.json').read_text())
+        data['storage']['input_images'] = '.tmp/another-image-folder'
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'generation.json'
+            path.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, 'canonical'):
+                G.load_spec(path)
+
+    def test_rules_share_role_directories(self):
+        path = ASSETS / 'p7-5-10-image-generation.json'
+        first = G.load_spec(path, 'P710-RULE-INPUT-001')
+        second = G.load_spec(path, 'P710-RULE-INPUT-002')
+        self.assertEqual(first['_image_dir'], second['_image_dir'])
+        self.assertTrue(first['_image_dir'].endswith('training-images/input-images'))
+        for key in json.loads(path.read_text())['rules']:
+            spec = G.load_spec(path, key)
+            self.assertEqual(Path(spec['output_dir']).parent, ASSETS.relative_to(ROOT) / 'generation-records')
 
 
 if __name__ == '__main__':

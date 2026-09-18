@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """방향별 참조와 JSON 생성 목록으로 Mira 학습 후보를 순차 생성한다.
 
-조작: --spec의 장면·시드·참조를 바꾸고 --output-dir을 새로 지정한다.
+조작: 통합 JSON의 조건·관리번호를 선택한다. 출력 위치는 storage로 통일한다.
 관찰: PNG의 얼굴·헤어·지시 준수와 결과 JSON의 입력·출력 해시를 비교한다.
 --dry-run은 목록만 확인한다. 생성 완료는 학습 후보의 채택을 뜻하지 않는다.
 가중치는 model_weight_manager.py로 준비한 .tmp/download 캐시만 읽는다.
@@ -64,6 +64,16 @@ def load_spec(path, rule_id=None):
     if hashlib.sha256(canonical).hexdigest() != rule["spec_content_sha256"]:
         raise ValueError("Rule content changed: review revision and content hash")
     spec = expand_spec(rule["spec"])
+    storage = document["storage"]
+    expected = {"input_images": "training-images/input-images",
+                "target_images": "training-images/target-images", "records": "generation-records"}
+    base = Path(__file__).resolve().parent
+    for name, suffix in expected.items():
+        if (ROOT / storage[name]).resolve() != base / suffix:
+            raise ValueError("Output storage must use the canonical sec-10 directories")
+    spec["_image_dir"] = storage[rule["output_role"]]
+    spec["output_dir"] = str(Path(storage["records"]) / key)
+    spec["_legacy_output_dir"] = rule["legacy_output_dir"]
     spec["_rule"] = {"rule_id": key, "rule_revision": rule["revision"]}
     spec["_original_spec_sha256"] = rule["legacy_spec_sha256"]
     index = document["management_index"]
@@ -165,8 +175,11 @@ def catalog(out, spec, fingerprint):
     """생성물 전체를 나열한다. 검수와 학습 분할은 별도 목록에서 결정한다."""
     rows = []
     for item in spec["items"]:
-        png = out / (item["id"] + ".png")
+        png = ROOT / spec["_image_dir"] / (item["id"] + ".png")
         record = out / (item["id"] + "-result.json")
+        if not record.exists() and item["id"] in spec.get("_prior_rows", {}):
+            rows.append(spec["_prior_rows"][item["id"]])
+            continue
         if not png.exists() or not record.exists():
             continue
         data = json.loads(record.read_text())
@@ -248,11 +261,20 @@ def generation_plan(out, spec_path, spec, selection=None):
     excluded |= policy_excluded
     # 이관된 완료 묶음은 기존 카탈로그·원본 기록의 해시를 검증하고 그대로 재사용한다.
     catalog_path = out / "candidate-catalog.json"
+    if not catalog_path.exists():
+        catalog_path = ROOT / spec["_legacy_output_dir"] / "candidate-catalog.json"
     if catalog_path.exists():
         saved = json.loads(catalog_path.read_text())
         if saved["fingerprint"]["spec_sha256"] != fingerprint["spec_sha256"]:
             raise ValueError("Completed catalog belongs to a different spec")
         rows = saved["items"]
+        spec["_prior_rows"] = {row["id"]: row for row in rows}
+        if len(spec["_prior_rows"]) != len(rows):
+            raise ValueError("Duplicate completed IDs")
+        for row in rows:
+            image, record = asset_path(row["image"]), asset_path(row["record"])
+            if sha256(image) != row["sha256"] or sha256(record) != row["record_sha256"]:
+                raise ValueError(f"Completed output changed: {row['id']}")
         if len(rows) == len({row["id"] for row in rows}) and ids - policy_excluded <= {row["id"] for row in rows} <= ids:
             for row in rows:
                 image, record = asset_path(row["image"]), asset_path(row["record"])
@@ -275,7 +297,11 @@ def generation_plan(out, spec_path, spec, selection=None):
         key = item["id"]
         if key in excluded:
             continue
-        png, record = out / (key + ".png"), out / (key + "-result.json")
+        if key in spec.get("_prior_rows", {}):
+            completed.append(key)
+            continue
+        png = ROOT / spec["_image_dir"] / (key + ".png")
+        record = out / (key + "-result.json")
         if png.exists() or record.exists():
             if not (png.exists() and record.exists()):
                 raise ValueError(f"Partial output: {key}; no automatic regeneration")
@@ -301,10 +327,6 @@ def main():
         default=ASSETS / "sec-10/p7-5-10-image-generation.json",
     )
     parser.add_argument(
-        "--output-dir", type=Path,
-        help="JSON의 output_dir을 덮어쓸 저장 경로",
-    )
-    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="모델을 로드하지 않고 참조 해시와 생성 순서만 확인",
@@ -319,9 +341,7 @@ def main():
     # 얼굴 외형을 다시 정의하지 않고 목록의 변경 대상과 방향별 참조를 사용한다.
     spec = load_spec(args.spec, args.rule)
     # 실험별 프롬프트·참조·저장 위치는 JSON으로 교체하고 생성기는 공유한다.
-    out = (args.output_dir or ROOT / spec.get(
-        "output_dir", ".tmp/p7-5-11/supplements-v2"
-    )).resolve()
+    out = (ROOT / spec["output_dir"]).resolve()
     if not out.is_relative_to(ROOT):
         raise ValueError("Output directory must be inside the repository")
     assert spec["schema_version"] == 1 and spec["model_id"] == MODEL_ID
@@ -359,7 +379,8 @@ def main():
                           "rule": spec["_rule"],
                           "conditions": [item["identifiers"] for item in pending[:args.limit]],
                           "management_ids": [item["management_id"] for item in pending[:args.limit]],
-                          "output_dir": str(out)}, indent=2))
+                          "output_dir": str(out),
+                          "image_dir": spec["_image_dir"]}, indent=2))
         return
     out.mkdir(parents=True, exist_ok=True)
     with (out / ".lock").open("w") as lock:
@@ -437,7 +458,8 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
                     generator=torch.Generator(device="cuda").manual_seed(item["seed"]),
                 ).images[0]
             assert result.size == (size, size)
-            png = out / (item["id"] + ".png")
+            png = ROOT / spec["_image_dir"] / (item["id"] + ".png")
+            png.parent.mkdir(parents=True, exist_ok=True)
             result.save(png)
             write(
                 out / (item["id"] + "-result.json"),
