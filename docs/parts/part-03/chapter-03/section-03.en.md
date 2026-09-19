@@ -1,95 +1,76 @@
 # P3-3.3 Which Columns Should Be Sketched First to Move a Question into the First Table Draft
 
 > Section ID: `P3-3.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-After receiving a question, what is immediately needed is not to write the finished table all at once, but to separate first, in the first table draft, which [columns](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) identify the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) and which columns play the roles of state, comparison, and result. When the question sentence changes, the column structure of the draft table also changes with it, so if stored records are to be moved into [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), this first sketch has to be clear. What matters in the first table draft is not a complete column list, but this division of roles.
+A first table draft selects columns that answer the question and makes each value’s origin visible. Rather than memorizing column names, distinguish identifiers for a [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), original observations, calculated [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), comparison references, and result statements. These roles are not mandatory columns in every dataset. Retain only what the current question needs.
 
-When drawing the first table draft, it is safer not to try to write every column. Instead, write down the following four groups first.
+## Choose the Question and Calculation Window First
 
-1. columns that identify the sample
-2. candidate [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) columns that describe the sample
-3. [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) or difference columns needed for comparison
-4. result columns that a person reads or that may later become the outcome to predict
+The question is “Is a completed action’s late mean flow lower than the historical reference under the same operating conditions?” The records below are fictional examples created for this section, separate from the preceding section’s CSV. One sample is one action. For this exercise, ‘late’ means observations at seconds 8, 9, and 10 within the action. The mean is the arithmetic mean of those three measurements.
 
-Condensed into a table, those four groups are the following.
+| event_id | operating_mode | flow at 8s | flow at 9s | flow at 10s |
+| --- | --- | ---: | ---: | ---: |
+| A | standard | 2.2 | 2.4 | 2.6 |
+| B | fast | 2.0 | 2.2 | 2.4 |
 
-| Column group | Why it is needed first |
-| --- | --- |
-| Sample-identification columns | Because the table has to reveal what counts as one case |
-| Candidate feature columns | Because values are needed to describe the state of the sample |
-| Comparison columns | Because a difference structure is needed for change relative to the usual state to become visible |
-| Result columns | Because the direction has to be visible: review candidate or target candidate |
+All flow values are in L/min. Assume a reference of 2.8 L/min is supplied, summarizing the same 8-, 9-, and 10-second means from past actions under `standard` conditions. Its identifier in this exercise is `standard_8_10_v1`. No reference for `fast` conditions is supplied. With real data, check the source, selection conditions, and calculation method behind this identifier.
 
-So the first table draft is not `copying over every source column`, but `placing the column groups by role that this problem needs first`.
+## Fill A’s Row from a Blank Template
 
-## The minimum transformation from question to table draft
+Fill the blanks below first. `mean` denotes an average; `delta` is the current value minus the reference value.
 
-For example, if the question is `has one recent action been shakier than usual?`, then the table draft can immediately be sketched as follows.
+| event_id | operating_mode | late_flow_mean | baseline_id | baseline_late_flow_mean | delta_from_baseline | report_sentence |
+| --- | --- | --- | --- | --- | --- | --- |
+| A | ___ | ___ | ___ | ___ | ___ | ___ |
 
-| Column role | Draft example |
-| --- | --- |
-| Sample-identification columns | `event_id` |
-| Candidate feature columns | `flow_mean`, `flow_std`, `late_drop_rate` |
-| Comparison columns | `baseline_diff`, `repeatability_score` |
-| Result columns | `review_needed` or `report_sentence` |
+Separate the roles and evidence for the cells as follows.
 
-When the question changes, the draft changes with it.
+| Role | Records or columns used | Application to A |
+| --- | --- | --- |
+| Identification | `event_id`, `operating_mode` | Take action A and its operating condition from the original record |
+| Observation | `flow` at seconds 8, 9, and 10 | Link 2.2, 2.4, and 2.6 as calculation evidence |
+| Derived feature | `late_flow_mean` | `(2.2+2.4+2.6)/3 = 2.4` |
+| Comparison | `baseline_id`, reference value, `delta_from_baseline` | Find the matching-condition and matching-window reference 2.8; calculate `2.4−2.8 = −0.4` |
+| Result | `report_sentence` | State only the difference established by the comparison |
 
-| Question sentence | What changes first in the draft |
-| --- | --- |
-| Has one recent action been shakier than usual? | the sample is fixed as `one action` |
-| Have the most recent 20 cases changed relative to the prior 200? | `segment aggregate` and comparison columns come to the front before the sample |
-| Which action should a person inspect first? | result columns shift toward `priority_score` and `review_needed` |
-| Can a candidate future result be created? | the result column becomes more clearly a `target` candidate |
+The three observations differ from their mean. The mean 2.4 is calculated from original measurements; its coincidental equality to the 9-second value does not make it a raw measurement. A draft may retain only the mean, but A’s original 8–10-second records and the calculation rule must remain traceable.
 
-In other words, the question does not end as a sentence. It immediately pushes the column structure of the table.
+| event_id | operating_mode | late_flow_mean | baseline_id | baseline_late_flow_mean | delta_from_baseline | report_sentence |
+| --- | --- | ---: | --- | ---: | ---: | --- |
+| A | standard | 2.4 | standard_8_10_v1 | 2.8 | -0.4 | Late mean is 0.4 L/min below the reference under matching conditions |
 
-## Perfect column names are not necessary from the start
+The mean, reference, and difference all have units of L/min. This is a comparison statement about lower flow, not a fault label. Repeatability scores across multiple actions and review priorities are unnecessary for this question, so they do not belong in its first draft.
 
-The reason people often stop here is the thought, `if I do not know the exact column names yet, how can I draw the table?` But at the Part 3 stage, the column names do not need to be fixed perfectly. Roles can be written down first.
+## What to Retain When B Has No Reference
 
-For example, the following is already enough.
+Fill B’s row yourself. Decide whether to copy A’s reference 2.8, enter zero, or leave it unknown, and explain why.
 
-- one sample-identification column
-- one or two features that show level
-- one or two features that show change or instability
-- one difference column relative to the baseline
-- one result column for human review
+B’s mean can be calculated: `(2.0+2.2+2.4)/3 = 2.2`. Its operating condition is `fast`, however, so there is no basis for reusing the `standard` reference. Leave the reference and difference unknown.
 
-Even just this much already gives the outline of what table structure the question requires.
+| event_id | operating_mode | late_flow_mean | baseline_id | baseline_late_flow_mean | delta_from_baseline | report_sentence |
+| --- | --- | ---: | --- | --- | --- | --- |
+| B | fast | 2.2 | unknown | unknown | unknown | Obtain an 8–10-second reference for fast conditions |
 
-## Turning a Question into Identifier, Descriptive, and Outcome Columns {#a-small-diagram}
+`unknown` does not mean zero. An actual file may store a missing-value marker separately from a reason column. Arbitrarily setting the reference to zero creates the unsupported difference `2.2−0 = +2.2`. If a suitable reference is later confirmed to be 2.2, the difference is genuinely **0**, which differs from being unable to calculate the difference.
 
-Problem situation: confirm that when the question changes, the column groups of the first table draft also change with it.
-
-Input: three different questions
-
-Expected output: for each question, the draft columns for `identification`, `feature`, `comparison`, and `result` are sketched differently
-
-Concept to check: the first table draft is not a finished list of column names, but the stage where the role-based column groups required by the question are made visible first
+## Turning a Question into Identification, Description, and Result Columns {#a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-03/p3-3-3-mermaid-01-en.mmd"
 ```
 
-The key in this example is not the list of column names, but seeing `which column group changes first when the question changes`. In comparing one action, `event_id` and `review_needed` appear first. In comparing the recent 20 cases, `window_id` and `report_sentence` are more natural. By contrast, once later learning candidates are being considered, the result column changes into `target_candidate`. So the first table draft is not the process of completing the correct table all at once. It is a sketch that first reveals the sample unit and result direction required by the question.
-
-For a fictional case, suppose completed action A has a late-stage mean of 2.4 L/min and a past baseline of 2.8 L/min under the same operating conditions. Fill one row for the question `Report whether each action's late-stage mean is below its usual level`.
-
-| event_id | late_flow_mean | baseline_late_flow_mean | delta_from_baseline | report_sentence |
-| --- | ---: | ---: | ---: | --- |
-| A | 2.4 | 2.8 | -0.4 | Late-stage mean is 0.4 L/min below the baseline under matching conditions |
-
-The difference is `current − baseline = 2.4 − 2.8 = −0.4`. The identifier, measurement, comparison, and report sentence play different roles in one row. What if B has a measurement but no baseline for its conditions? Leave the baseline and difference empty and record `comparison reference needed`. Filling the baseline with zero would manufacture a comparison with a value that was never observed. This table also provides no evidence yet for a future failure label.
+If the question changes to “Which action has the highest late mean?”, comparing A’s 2.4 with B’s 2.2 answers A without a baseline. Different conditions mean that this does not explain why A is higher. Identifiers, conditions, and means suffice for this first draft, whereas “Is it below usual?” additionally requires a matching reference. Including the evidence needed for the question matters more than adding columns.
 
 ## Checklist
 
-- Did you separate identifier, observation, and comparison-reference columns in your first table?
-- Did you mark the additional data needed for columns you cannot yet fill, rather than filling them with zero?
+- Did you calculate A’s mean 2.4 and reference difference −0.4 from its three observations?
+- Can you distinguish original identifiers and observations from derived means, comparison values, and report statements?
+- Can you explain why B should receive neither A’s reference nor an arbitrary zero?
+- Can you distinguish a calculated difference of zero from an unknown, uncomputable difference?
+- Can you identify unnecessary columns when the question changes to comparing mean levels?
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Used to distinguish input and outcome columns in a draft table. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
-- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it strengthens the point that the role of result columns and descriptive columns should be separated already at the draft stage. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used to compare with another time period, it provides a general basis for why a draft should include separate comparison-role columns such as baseline differences. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label`, `labeled example`, `unlabeled example`. Supports the input/outcome distinction in supervised learning and the distinction from unlabeled examples. [Source](https://developers.google.com/machine-learning/glossary#labeled-example){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-19
+- W3C, `PROV-Overview` (2013). Supports tracing entities, activities, people, processing steps, and versions involved in producing data. [Source](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-19

@@ -1,95 +1,76 @@
 # P3-3.3 질문을 첫 표 초안으로 옮기려면 어떤 열부터 스케치해야 하는가
 
 > Section ID: `P3-3.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-질문을 받은 뒤 바로 필요한 것은 완성된 표를 한 번에 적는 일이 아니라, 첫 표 초안에서 어떤 [열(column)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample)을 식별하고 어떤 열이 상태, 비교, 결과를 맡는지 먼저 나누는 일입니다. 질문 문장이 바뀌면 표 초안의 열 구조도 함께 바뀌므로, 저장된 기록을 [문제 표현 구조(problem-representation structure)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 옮기려면 이 첫 스케치가 분명해야 합니다. 첫 표 초안에서 중요한 것도 완성된 열 목록이 아니라 이런 역할 구분입니다.
+첫 표 초안은 질문에 답할 수 있는 열을 고르고, 각 값이 어디서 왔는지 드러내는 설계입니다. 완성된 열 이름을 외우기보다 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample)을 식별하는 값, 원래 관측값, 계산한 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), 비교 기준, 결과 문장을 구분합니다. 이 역할을 모든 데이터셋의 필수 열로 채울 필요는 없습니다. 현재 질문에 필요한 것만 남깁니다.
 
-처음 표 초안을 그릴 때는 모든 열을 다 적으려 하지 말고, 먼저 아래 네 묶음을 적는 편이 안전합니다.
+## 질문과 계산 구간부터 고르기
 
-1. 샘플을 식별하는 열
-2. 샘플을 설명하는 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 후보 열
-3. 비교를 위해 필요한 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 또는 차이 열
-4. 사람이 읽거나 나중에 맞히고 싶은 결과 열
+질문은 “완료된 동작의 후반 평균 유량이 같은 운전 조건의 과거 기준보다 낮은가?”입니다. 아래는 이 절에서 만든 가상 기록이며 앞 절 CSV와는 별개입니다. 한 샘플은 동작 1회이고, 이 연습의 ‘후반’은 동작 안의 8·9·10초 관측점으로 정합니다. 평균은 이 세 측정값의 산술평균입니다.
 
-이 네 묶음을 표로 줄이면 다음과 같습니다.
+| event_id | operating_mode | 8초 flow | 9초 flow | 10초 flow |
+| --- | --- | ---: | ---: | ---: |
+| A | standard | 2.2 | 2.4 | 2.6 |
+| B | fast | 2.0 | 2.2 | 2.4 |
 
-| 열 묶음 | 왜 먼저 필요한가 |
-| --- | --- |
-| 샘플 식별 열 | 무엇을 한 건으로 볼지 표에서 드러나야 하기 때문 |
-| 특징 후보 열 | 샘플의 상태를 설명할 값이 필요하기 때문 |
-| 비교 열 | 평소 대비 변화가 보이려면 차이 구조가 필요하기 때문 |
-| 결과 열 | 검토 후보인지 목표 라벨 후보(target candidate)인지 방향이 보여야 하기 때문 |
+유량 단위는 모두 L/min입니다. 비교 자료로는 `standard` 조건의 과거 동작에서 같은 8·9·10초 평균을 구해 요약한 기준값 2.8 L/min이 주어졌다고 가정합니다. 이 연습의 기준선 식별자는 `standard_8_10_v1`입니다. `fast` 조건의 기준선은 주어지지 않았습니다. 실제 자료에서는 이 식별자가 가리키는 원본·선정 조건·계산 방법을 확인해야 합니다.
 
-즉 첫 표 초안은 `모든 원천 열을 옮겨 적는 일`이 아니라, `이 문제에 필요한 역할별 열 묶음을 먼저 배치하는 일`입니다.
+## 빈 서식에서 A의 한 행 채우기
 
-## 질문에서 표 초안으로 가는 최소 변환
+먼저 아래 서식의 빈칸을 채워 보세요. `mean`은 평균이며, `delta`는 현재값에서 기준값을 뺀 차이입니다.
 
-예를 들어 질문이 `최근 동작 1회가 평소보다 더 흔들렸는가`라면, 곧바로 표 초안은 아래처럼 스케치할 수 있습니다.
+| event_id | operating_mode | late_flow_mean | baseline_id | baseline_late_flow_mean | delta_from_baseline | report_sentence |
+| --- | --- | --- | --- | --- | --- | --- |
+| A | ___ | ___ | ___ | ___ | ___ | ___ |
 
-| 열 역할 | 초안 예시 |
-| --- | --- |
-| 샘플 식별 열 | `event_id` |
-| 특징 후보 열 | `flow_mean`, `flow_std`, `late_drop_rate` |
-| 비교 열 | `baseline_diff`, `repeatability_score` |
-| 결과 열 | `review_needed` 또는 `report_sentence` |
+각 칸의 역할과 근거는 다음처럼 나눕니다.
 
-질문이 바뀌면 초안도 함께 바뀝니다.
+| 역할 | 사용할 기록이나 열 | A에 적용하는 방법 |
+| --- | --- | --- |
+| 식별 | `event_id`, `operating_mode` | 동작 A와 운전 조건을 원래 기록에서 가져옴 |
+| 관측 | 8·9·10초의 `flow` | 2.2, 2.4, 2.6을 계산 근거로 연결 |
+| 파생 특징 | `late_flow_mean` | `(2.2+2.4+2.6)/3 = 2.4` |
+| 비교 | `baseline_id`, 기준값, `delta_from_baseline` | 조건과 구간이 맞는 2.8을 찾아 `2.4−2.8 = −0.4` 계산 |
+| 결과 | `report_sentence` | 비교로 확인한 차이만 문장으로 표현 |
 
-| 질문 문장 | 초안에서 가장 먼저 달라지는 것 |
-| --- | --- |
-| 최근 동작 1회가 평소보다 흔들렸는가 | 샘플이 `동작 1회`로 잡힌다 |
-| 최근 20건이 이전 200건보다 달라졌는가 | 샘플보다 `구간 집계`와 비교 열이 더 앞에 온다 |
-| 사람이 먼저 볼 동작은 무엇인가 | 결과 열이 `priority_score`, `review_needed` 쪽으로 바뀐다 |
-| 나중에 맞힐 결과 후보를 만들 수 있는가 | 결과 열이 `target` 후보로 더 분명해진다 |
+관측값 세 개와 그 평균은 다릅니다. 평균 2.4는 원래 측정값을 계산한 결과이며, 우연히 9초 값과 같다고 해서 원시 측정값으로 분류하지 않습니다. 초안에는 평균만 남겨도 되지만, 원본의 A·8~10초 기록과 계산 규칙을 다시 찾을 수 있어야 합니다.
 
-즉 질문은 문장으로 끝나지 않고, 곧바로 표의 열 구조를 밀어냅니다.
+| event_id | operating_mode | late_flow_mean | baseline_id | baseline_late_flow_mean | delta_from_baseline | report_sentence |
+| --- | --- | ---: | --- | ---: | ---: | --- |
+| A | standard | 2.4 | standard_8_10_v1 | 2.8 | -0.4 | 같은 조건의 기준선보다 후반 평균이 0.4 L/min 낮음 |
 
-## 처음부터 완벽한 열 이름이 필요하지는 않다
+평균·기준값·차이의 단위는 모두 L/min입니다. 이 결과는 유량이 평소보다 낮다는 비교 문장이며 고장 라벨이 아닙니다. 여러 동작의 반복성 점수나 검토 우선순위는 이 질문에 필요하지 않으므로 첫 초안에 추가하지 않습니다.
 
-여기서 자주 멈추는 이유는 `정확한 열 이름을 아직 모르는데 어떻게 표를 그리지?`라는 생각 때문입니다. 하지만 Part 3 단계에서는 열 이름을 완벽하게 확정할 필요가 없습니다. 먼저 `역할`부터 적으면 됩니다.
+## B의 기준선이 없을 때 남길 값
 
-예를 들어 아래처럼 써도 충분합니다.
+B의 행도 직접 채워 보세요. A의 기준값 2.8을 복사할지, 0을 넣을지, 미확인으로 둘지 결정하고 이유를 적습니다.
 
-- 샘플 식별 열 1개
-- 수준을 보여 주는 특징 1~2개
-- 변화나 흔들림을 보여 주는 특징 1~2개
-- 기준선 대비 차이 열 1개
-- 사람 검토용 결과 열 1개
+B의 평균은 `(2.0+2.2+2.4)/3 = 2.2`이므로 계산할 수 있습니다. 그러나 운전 조건이 `fast`이므로 `standard` 기준선을 그대로 옮길 근거가 없습니다. 기준선과 차이는 미확인으로 남깁니다.
 
-이 정도만 적어도 질문이 어떤 표 구조를 요구하는지 윤곽이 생깁니다.
+| event_id | operating_mode | late_flow_mean | baseline_id | baseline_late_flow_mean | delta_from_baseline | report_sentence |
+| --- | --- | ---: | --- | --- | --- | --- |
+| B | fast | 2.2 | 미확인 | 미확인 | 미확인 | fast 조건·8~10초 기준선 확보 필요 |
+
+표의 `미확인`은 0이 아닙니다. 실제 파일에서는 결측 표시와 사유 열을 구분해 저장할 수 있습니다. 임의로 기준선을 0으로 채우면 `2.2−0 = +2.2`라는 근거 없는 차이가 생깁니다. 반면 나중에 적합한 기준값이 실제로 2.2로 확인되었다면 차이는 **0**이며, 이는 ‘차이를 계산하지 못함’과 다른 결과입니다.
 
 ## 질문을 식별·설명·결과 열로 옮기기 {#_3}
-
-문제 상황: 질문이 바뀌면 첫 표 초안의 열 묶음도 함께 바뀐다는 점을 확인합니다.
-
-입력(input): 서로 다른 질문 3개
-
-기대 출력(output): 각 질문에 따라 `식별`, `특징`, `비교`, `결과` 열 초안이 다르게 스케치됩니다.
-
-확인할 개념: 첫 표 초안은 완성된 열 이름 목록이 아니라, 질문이 요구하는 역할별 열 묶음을 먼저 드러내는 단계다
 
 ```mermaid
 --8<-- "assets/part-03/chapter-03/p3-3-3-mermaid-01-ko.mmd"
 ```
 
-이 예시의 핵심은 열 이름 목록보다 `질문이 달라지면 어느 열 묶음이 먼저 달라지는가`를 보는 데 있습니다. 동작 1회 비교에서는 `event_id`와 `review_needed`가 먼저 보이고, 최근 20건 비교에서는 `window_id`와 `report_sentence`가 더 자연스럽습니다. 반대로 나중의 학습 후보를 생각하면 결과 열이 `target_candidate`로 바뀝니다. 즉 첫 표 초안은 정답 표를 한 번에 완성하는 과정이 아니라, 질문이 요구하는 샘플 단위와 결과 방향을 먼저 드러내는 스케치입니다.
-
-가상 사례로, 완료된 동작 A의 후반 평균이 2.4 L/min이고 같은 운전 조건의 과거 기준선이 2.8 L/min이라고 합시다. `동작별 후반 평균이 평소보다 낮은지 보고한다`는 질문에 맞춰 한 행을 채워 보세요.
-
-| event_id | late_flow_mean | baseline_late_flow_mean | delta_from_baseline | report_sentence |
-| --- | ---: | ---: | ---: | --- |
-| A | 2.4 | 2.8 | -0.4 | 같은 조건의 기준선보다 후반 평균이 0.4 L/min 낮음 |
-
-차이는 `현재 − 기준선 = 2.4 − 2.8 = −0.4`입니다. A를 찾는 열, 측정값 열, 비교 열, 보고 문장이 한 행에서 서로 다른 역할을 합니다. B의 측정값은 있지만 해당 조건의 기준선이 없다면 어떻게 채울까요? 기준선과 차이값은 비워 두고 `비교 기준 확보 필요`라고 적습니다. 기준선을 0으로 채우면 실제로 관측하지 않은 기준과의 차이를 만들어 내기 때문입니다. 이 표에는 미래 고장 여부를 채울 근거도 아직 없습니다.
+새 질문이 “후반 평균이 가장 높은 동작은 무엇인가?”라면 기준선 없이 A의 2.4와 B의 2.2를 비교해 A라고 답할 수 있습니다. 다만 조건이 달라 왜 더 높은지는 알 수 없습니다. 이 질문에는 식별자·조건·평균만으로 첫 초안을 만들 수 있지만, “평소보다 낮은가?”에는 조건에 맞는 기준선이 추가로 필요합니다. 열을 더 많이 넣는 것보다 질문에 필요한 근거를 빠뜨리지 않는 것이 중요합니다.
 
 ## 체크리스트
 
-- 첫 표에 식별자·관측값·비교 기준 열을 나누어 적었는가?
-- 당장 채울 수 없는 열을 0으로 채우지 않고 필요한 자료를 표시했는가?
+- A의 세 관측값에서 평균 2.4와 기준선 차이 −0.4를 직접 계산했는가?
+- 원래 식별값·관측값과 파생 평균·비교값·보고 문장을 구분하는가?
+- B에 A의 기준선이나 0을 넣으면 안 되는 이유를 설명할 수 있는가?
+- 계산된 차이 0과 계산할 수 없어 미확인인 상태를 구분하는가?
+- 질문이 평균 크기 비교로 바뀌면 필요 없어진 열을 고를 수 있는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 표 초안에서 입력 열과 결과 열을 구분하는 용어 기준으로 참고했습니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
-- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 결과 열과 설명 열의 역할을 초안 단계에서부터 구분해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, baseline diff 같은 비교 역할 열을 별도로 두는 초안이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label`, `labeled example`, `unlabeled example`. 지도학습의 입력과 결과 역할 및 라벨 없는 사례의 구분을 확인했다. [원문](https://developers.google.com/machine-learning/glossary#labeled-example){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-19
+- W3C, `PROV-Overview` (2013). 데이터 생성에 관여한 대상·활동·담당자와 처리·버전 이력을 추적하는 근거로 참조했다. [원문](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-19
