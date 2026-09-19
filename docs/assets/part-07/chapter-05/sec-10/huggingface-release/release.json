@@ -14,8 +14,14 @@
   "evaluation_images": 45,
   "visual_review_status": "qualitatively_reviewed",
   "anonymous_download_verified": true,
-  "model_card_revision": "27991f08dff312f31cb948a0aecc7391b7d9c38e",
+  "model_card_revision": "7346b6203835ef105bc3d16cd6d3f24e86fa373e",
   "manuscript_section": "P7-5.10",
   "manuscript_url": "https://devchan64.github.io/AiBook/parts/part-07/chapter-05/section-10",
-  "review_date": "2026-09-18"
+  "review_date": "2026-09-20",
+  "experimental_recommendation": {
+    "cumulative_training_steps": 3200,
+    "lora_strength": 0.75,
+    "weights_in_this_release": false
+  },
+  "documentation_files_updated": 217
 }
