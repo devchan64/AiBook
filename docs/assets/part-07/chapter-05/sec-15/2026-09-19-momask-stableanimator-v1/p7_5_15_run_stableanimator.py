@@ -2,7 +2,7 @@
 """Run the official basic inference script against local models and prepared inputs."""
 from pathlib import Path
 import os,sys,json,runpy,time,traceback,subprocess,hashlib,argparse
-ap=argparse.ArgumentParser();ap.add_argument('--name',default='stableanimator-walk-v1');args=ap.parse_args()
+ap=argparse.ArgumentParser();ap.add_argument('--name',required=True);args=ap.parse_args()
 root=Path(__file__).resolve().parents[6];src=root/'.tmp/download/sources/p7-5-15/StableAnimator';out=root/'docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1'/args.name
 if (out/'result.json').exists():raise SystemExit('Existing result: use another experiment name')
 import torch

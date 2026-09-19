@@ -50,3 +50,7 @@ Hugging Face 파일은 `.tmp/download/huggingface/hub/`의 고정 revision snaps
 - StableAnimator 기본 추론 소스는 기존 환경에서 import가 가능했다. ONNX Runtime의 CUDA 제공자는 `libcublasLt.so.13` 부재로 CPU로 대체 실행되며, 영상 모델은 PyTorch CUDA 경로를 사용한다. 최종 상태는 `docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/stableanimator-walk-v1/result.json`에 기록한다.
 
 - StableAnimator 걷기·달리기 각 32프레임 생성 완료. `stableanimator-{walk,run}-v1/result.json`에 각각 270.36/260.24초, 최대 PyTorch 할당 약 5.51GiB를 기록했다. 판정은 별도 `review.json`: 걷기 부분 성공, 달리기 신체·포즈 유지 실패.
+
+## MoMask v1 폐기 결정
+
+2026-09-19 사용자 지시로 MoMask v1과 파생 StableAnimator 걷기 산출물을 삭제했다. 위 최초 실행의 개수·시간은 당시 이력이다. 현재는 MoMask v2와 파생 달리기를 보존하며 모델 가중치는 삭제하지 않는다. 폐기 기록: `docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/discarded-experiments.json`.

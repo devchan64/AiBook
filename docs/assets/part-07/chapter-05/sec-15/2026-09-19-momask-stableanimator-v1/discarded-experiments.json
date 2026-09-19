@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-19",
+  "decision": "discarded",
+  "scope": "MoMask v1 and its derived StableAnimator walking output",
+  "removed": [
+    {
+      "path": "momask-v1",
+      "file_count": 314,
+      "reason": "User discarded MoMask v1 as failed experiment",
+      "result_sha256": "5a59307818c88f90bee5ab32b6488b37c9e937240ee8d0381483a980a0495428"
+    },
+    {
+      "path": "stableanimator-walk-v1",
+      "file_count": 72,
+      "reason": "Derived from discarded MoMask v1 walk-10107",
+      "result_sha256": "52e6ee1d5ceac0dbe50559b2d7b7ebeae5d583b76794a4f13bedc7a3537cfbdf"
+    }
+  ],
+  "preserved": [
+    "momask-v2",
+    "stableanimator-run-v1"
+  ],
+  "policy": "Do not reuse discarded v1 as a baseline or regenerate it by default. Folder suffix of the containing bundle is a historical bundle identifier, not the retained MoMask version."
+}

@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-19",
+  "user_observation": "v2 walking also forms above the ground and descends.",
+  "decision": "failed_grounded_walking_not_eligible_as_reference",
+  "samples": [
+    {
+      "sample": "walk-10107",
+      "initial_lowest_foot_clearance_m": 0.14648441970348358,
+      "final_lowest_foot_clearance_m": -0.001977860927581787,
+      "initial_pelvis_height_m": 1.1124143600463867,
+      "final_pelvis_height_m": 0.9517680406570435
+    },
+    {
+      "sample": "walk-10108",
+      "initial_lowest_foot_clearance_m": 0.1537318378686905,
+      "final_lowest_foot_clearance_m": 0.0011749528348445892,
+      "initial_pelvis_height_m": 1.128171682357788,
+      "final_pelvis_height_m": 0.9572640657424927
+    },
+    {
+      "sample": "walk-10109",
+      "initial_lowest_foot_clearance_m": 0.14702339470386505,
+      "final_lowest_foot_clearance_m": 0.0011998983100056648,
+      "initial_pelvis_height_m": 1.118456244468689,
+      "final_pelvis_height_m": 0.9562025666236877
+    }
+  ],
+  "method": "Raw joint values; floor is the 1st percentile of all four foot joints over the full clip. Not physical sole-contact ground truth.",
+  "interpretation": "All three walking samples start with lowest foot joints elevated and descend toward the estimated floor. This occurs before StableAnimator, in the recovered MoMask joint sequence; model vs recovery/root handling cause is unresolved.",
+  "retention": "Retained as failure evidence. No deletion requested for v2."
+}

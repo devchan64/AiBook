@@ -20,7 +20,7 @@ def main():
     ap.add_argument('--walk-prompt',default='A person walks forward.')
     ap.add_argument('--run-prompt',default='A person runs forward.')
     ap.add_argument('--seeds',type=int,nargs='+',default=[10107,10108,10109])
-    ap.add_argument('--output',type=Path,default=Path(__file__).parent/'momask-v1')
+    ap.add_argument('--output',type=Path,required=True)
     args=ap.parse_args()
     assert 4<=args.frames<=196 and args.frames%4==0
     out=args.output.resolve();out.mkdir(parents=True,exist_ok=True)

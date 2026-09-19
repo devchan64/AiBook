@@ -2,7 +2,7 @@ from pathlib import Path
 import json,sys,importlib.util,hashlib,argparse
 import numpy as np
 from PIL import Image
-ap=argparse.ArgumentParser();ap.add_argument('--motion',default='momask-v1/walk-10107.npz');ap.add_argument('--start',type=int,default=0);ap.add_argument('--name',default='stableanimator-walk-v1');args=ap.parse_args()
+ap=argparse.ArgumentParser();ap.add_argument('--motion',required=True);ap.add_argument('--start',type=int,default=0);ap.add_argument('--name',required=True);args=ap.parse_args()
 root=Path.cwd();src=root/'.tmp/download/sources/p7-5-15/StableAnimator';out=root/'docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1'/args.name;out.mkdir(exist_ok=True)
 record=json.loads((root/'.tmp/download/sources/p7-5-15/FrancisRing--StableAnimator.json').read_text());snap=root/'.tmp/download/huggingface/hub/models--FrancisRing--StableAnimator/snapshots'/record['revision']
 for a,b in [(src/'models',snap/'models'),(src/'checkpoints',snap)]:
