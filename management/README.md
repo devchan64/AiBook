@@ -46,6 +46,7 @@ P7-5.1~P7-5.7, P7-5.9, P7-5.10, P7-5.15~P7-5.16 Section별 개정 이력은 `rel
 - `authoring/progress-meta-heading-proposal.md`
 - `authoring/part-XX-open-checklist.md`
 - [Part 3 설명 개선안과 근거 검토](authoring/part-03-explanation-improvement-plan.md): AI 이해에 필요한 데이터 취급의 범위, 사례·현상과 지표의 연결, 시작·마무리를 포함한 54개 Section의 진단·수정 방향·우선순위·완료 기준, 공식 자료의 근거와 적용 한계.
+- [P7-5.10 보존 품질 개선 계획](authoring/part-07-p7-5-10-preservation-improvement-plan.md): 3200스텝 검수 후 적용 강도 비교, 학습 쌍 대응 점검, 필요한 재학습의 순서와 비교 기준.
 
 ## 운영 원칙
 

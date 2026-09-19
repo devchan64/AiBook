@@ -8,6 +8,7 @@
 """
 
 import argparse
+import math
 import json
 import time
 import fcntl
@@ -32,6 +33,56 @@ def write(path, value):
     temp.replace(path)
 
 
+def parse_scale(value):
+    scale = float(value)
+    if not math.isfinite(scale) or not 0 <= scale <= 1:
+        raise argparse.ArgumentTypeError("Scale must be finite and between 0 and 1")
+    return scale
+
+
+def output_key(case, scale):
+    # 기존 0·1 파일명은 보존하고 소수 강도마다 별도 결과를 남긴다.
+    suffix = "-base" if scale == 0 else "-lora" if scale == 1 else "-lora-scale-" + repr(scale)
+    return case["id"] + suffix
+
+
+def select_cases(cases, requested):
+    if not requested:
+        return cases
+    aliases = {alias: c["id"] for c in cases for alias in (c["id"], c["management_code"])}
+    unknown = set(requested) - aliases.keys()
+    if unknown:
+        raise ValueError(f"Unknown cases: {sorted(unknown)}")
+    selected = [aliases[x] for x in requested]
+    if len(set(selected)) != len(selected):
+        raise ValueError("Duplicate case selection")
+    return [c for c in cases if c["id"] in selected]
+
+
+def completed_outputs(out, plan):
+    """모델 로드 전에 계획·기존 결과를 확인하며 손상 기록은 재생성하지 않는다."""
+    plan_path = out / "plan.json"
+    if plan_path.exists() and json.loads(plan_path.read_text()) != plan:
+        raise ValueError("Existing plan differs; use a new output directory")
+    completed = []
+    for case in plan["cases"]:
+        for scale in plan["scales"]:
+            key = output_key(case, scale)
+            png, record = out / (key + ".png"), out / (key + "-result.json")
+            if not (png.exists() or record.exists()):
+                continue
+            if not (png.exists() and record.exists() and plan_path.exists()):
+                raise ValueError(f"Incomplete existing output: {key}")
+            data = json.loads(record.read_text())
+            if (data["output_sha256"] != sha256(png)
+                    or data["plan_sha256"] != sha256(plan_path)
+                    or data["checkpoint_sha256"] != plan["checkpoint_sha256"]
+                    or data["case"] != case or data["scale"] != scale):
+                raise ValueError(f"Existing output fingerprint mismatch: {key}")
+            completed.append(key)
+    return completed
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -44,9 +95,9 @@ def main():
         "--checkpoint-sha256", required=True, help="선택한 LoRA 파일의 SHA-256"
     )
     parser.add_argument(
-        "--case", action="append", help="검증 입력 ID를 선택하며 생략하면 19쌍 전체"
+        "--case", action="append", help="입력 ID 또는 관리번호 선택; 생략하면 목록 전체"
     )
-    parser.add_argument("--scales", type=int, nargs="+", choices=[0, 1], default=[0, 1])
+    parser.add_argument("--scales", type=parse_scale, nargs="+", default=[0, 1])
     args = parser.parse_args()
     if bool(args.checkpoint) != bool(args.checkpoint_sha256):
         parser.error("--checkpoint and --checkpoint-sha256 must be provided together")
@@ -85,9 +136,6 @@ def main():
     else:
         rows = [x for x in dataset["items"] if x["split"] == "validation"]
         assert len(rows) == 19
-        if args.case:
-            assert set(args.case) <= {x["id"] for x in rows}
-            rows = [x for x in rows if x["id"] in args.case]
         cases = []
         for item in rows:
             assert sha256(ROOT / item["control_image"]) == item["control_sha256"]
@@ -106,9 +154,7 @@ def main():
                 }
             )
 
-    if args.case:
-        assert set(args.case) <= {case["id"] for case in cases}
-        cases = [case for case in cases if case["id"] in args.case]
+    cases = select_cases(cases, args.case)
     # 입력·지시·시드를 고정하고 어댑터 적용 여부만 바꾼다.
     plan = {
         "model": MODEL_ID,
@@ -129,16 +175,24 @@ def main():
         "runtime": runtime_record(),
     }
     if args.dry_run:
+        completed = completed_outputs(args.output_dir.resolve(), plan)
+        total = len(cases) * len(args.scales)
+        print(json.dumps({"selected_cases": len(cases), "total": total,
+                          "reused": len(completed), "new": total - len(completed)}), file=sys.stderr)
         print(json.dumps(plan, ensure_ascii=False, indent=2))
         return
     out = args.output_dir.resolve()
     out.mkdir(parents=True, exist_ok=True)
     with (out / ".lock").open("w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        if (out / "plan.json").exists():
-            assert json.loads((out / "plan.json").read_text()) == plan
+        completed = completed_outputs(out, plan)
         write(out / "plan.json", plan)
-        state = {"status": "loading", "completed": [], "current": None}
+        state = {"status": "loading", "completed": completed, "current": None,
+                 "total": len(cases) * len(args.scales)}
+        if len(completed) == state["total"]:
+            state["status"] = "generated_pending_visual_review"
+            write(out / "state.json", state)
+            return
         write(out / "state.json", state)
         try:
             import torch
@@ -189,18 +243,10 @@ def main():
                 with Image.open(ROOT / case["reference"]["path"]) as im:
                     ref = im.convert("RGB").resize((512, 512), Image.Resampling.LANCZOS)
                 for scale in plan["scales"]:
-                    key = case["id"] + ("-base" if scale == 0 else "-lora")
+                    key = output_key(case, scale)
                     png = out / (key + ".png")
                     record = out / (key + "-result.json")
-                    if png.exists() or record.exists():
-                        assert png.exists() and record.exists()
-                        assert json.loads(record.read_text())[
-                            "output_sha256"
-                        ] == sha256(png)
-                        assert json.loads(record.read_text())["plan_sha256"] == sha256(
-                            out / "plan.json"
-                        )
-                        state["completed"].append(key)
+                    if key in completed:
                         continue
                     state.update(status="generating", current=key)
                     write(out / "state.json", state)
