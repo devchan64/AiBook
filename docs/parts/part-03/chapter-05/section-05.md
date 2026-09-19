@@ -1,228 +1,80 @@
 # P3-5.5 값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가
 
 > Section ID: `P3-5.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-원천 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계까지 오면, `동작은 있었는데 일부 센서값이 비어 있으면 어떻게 해야 하는가?` `중간 구간 기록이 빠졌는데 이 샘플을 버려야 하는가, 일부만 써야 하는가?` 같은 질문이 바로 생깁니다. 이때 먼저 봐야 할 것은 값을 어떻게 채울지보다, [결측값(missing value)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-missing-value)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 경계와 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 의미를 얼마나 흔드는가입니다.
+[결측값](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-missing-value)을 만나면 먼저 무엇이 빠졌는지 확인합니다. 한 관측이 없는 경우, 구간 평균이 없는 경우, 동작의 끝을 확인하지 못한 경우는 같은 문제가 아닙니다. **샘플을 남기는 판단과 특정 특징을 계산할 수 있는지는 별개**입니다.
 
-값이 빠졌다는 사실은 단순한 청소 문제가 아니라, `이 샘플을 여전히 같은 종류의 사례로 볼 수 있는가`를 다시 묻게 하는 데이터 모델링 신호입니다.
+## 실제 0과 미측정은 평균의 분모부터 다르다
 
-## 결측이 샘플 구조를 흔드는 방식
+관측값이 2·4이고 세 번째 값이 빠졌다면, 관측된 두 값의 평균은 `(2+4)/2 = 3`입니다. 빈칸을 0으로 채우면 `(2+4+0)/3 = 2`가 됩니다. 뒤 계산은 관측하지 않은 값을 0이라고 가정한 것입니다. 반대로 세 번째 값이 실제로 측정된 0이라면 평균 2는 세 관측의 평균입니다.
 
-값이 비어 있다는 사실만 보고 곧바로 `NaN을 채우면 되겠지`라고 생각하면, 샘플 경계가 이미 무너졌는지와 어떤 특징이 뜻을 잃었는지를 놓치기 쉽습니다. 실제로는 아래처럼 훨씬 먼저 정해야 할 질문이 있습니다.
+관측값 평균 3도 누락된 값을 포함한 원래 세 값의 평균을 알아냈다는 뜻은 아닙니다. 따라서 값뿐 아니라 관측 수·누락 수와 채움 여부를 남깁니다. 유량 0을 기록한 경우에도 센서값의 유효성은 별도로 확인하며, 빈칸을 곧 “흐름이 멈춤”으로 읽지 않습니다.
 
-| 지금 보이는 현상 | Part 3에서 먼저 물어야 하는 질문 |
-| --- | --- |
-| 후반 센서 구간이 통째로 비었다 | 이 샘플은 아직 동작 1회 비교 단위로 쓸 수 있는가 |
-| 일부 시점만 누락되었다 | 요약값을 만들어도 같은 구조 비교가 가능한가 |
-| 특정 센서만 자주 비어 있다 | 빠짐 자체가 운영 상태 신호인가 |
+## E01~E03의 빈칸을 서로 다르게 읽기 {#_7}
 
-즉 값이 빠진 샘플은 단순히 `채울 값이 있는 표`가 아니라, `샘플 경계와 특징 의미를 다시 확인해야 하는 사례`입니다. 독자가 처음 표를 볼 때는 먼저 `부분 누락인가`, `구간 누락인가`, `샘플 경계 붕괴인가`를 가르는 편이 이해가 빠릅니다.
+[가상 구간 요약 CSV](../../../assets/part-03/chapter-05/p3_5_5_missing_segments.csv)는 36개 사건의 요약 후보를 담습니다. 평균 유량 단위는 L/min이고, 빈칸은 해당 평균을 얻지 못했다는 뜻입니다. `end_detected=1`은 종료가 확인됨, 0은 확인되지 않음을 뜻합니다. 0만으로 동작이 실제로 끝나지 않았는지, 종료 기록을 놓쳤는지는 구별할 수 없습니다.
 
-## 먼저 구분해야 하는 세 가지
+| event_id | early_flow_mean | mid_flow_mean | late_flow_mean | end_detected |
+| --- | ---: | ---: | ---: | ---: |
+| E01 | 1.10 | 2.40 | 1.80 | 1 |
+| E02 | 1.00 | 2.50 | 미확보 | 1 |
+| E03 | 1.20 | 미확보 | 미확보 | 0 |
 
-값이 비어 있을 때는 복잡한 기법보다 먼저 아래 세 가지를 구분하는 편이 좋습니다.
+이 사례에서는 시작과 사건 연결이 올바르고, 종료가 확인된 사건의 기입된 구간 평균은 검토된 값이라고 가정합니다. 이 가정 아래 “중반−초반 차이를 비교한다”는 질문에서 다음처럼 판단합니다. 후반이 필요한 비교는 따로 구분합니다.
 
-| 먼저 구분할 것 | 질문으로 바꾸면 |
-| --- | --- |
-| 일부 값만 비었는가 | 구간 평균이나 특정 센서 일부만 빠졌는가 |
-| 한 구간이 통째로 비었는가 | 초반·중반·후반 중 한 덩어리가 없는가 |
-| 샘플 의미 자체가 깨졌는가 | 동작 1회 전체를 같은 종류의 사례로 보기 어려운가 |
+| 사건·상태 | 부분 누락 허용 시 | 사용할 수 있는 값 | 계산하거나 확정하지 않을 값 |
+| --- | --- | --- | --- |
+| E01: 세 평균·종료 확인 | 유지 | 중반−초반 1.30, 후반−중반 −0.60 | 시각이 없으므로 시간당 기울기는 미확정 |
+| E02: 종료 확인, 후반 평균 없음 | 앞·중반 비교에 유지 | 중반−초반 1.50 | 후반 평균, 후반−중반 차이 |
+| E03: 종료 미확인 | 완결 동작 비교는 보류 | 남아 있는 1.20은 원기록 추적 단서로 보존 | 전체 길이와 종료 경계에 의존하는 구간 특징 |
 
-이 구분이 필요한 이유는 `무엇을 비어 있음으로 볼 것인가`에 따라 다음 판단이 완전히 달라지기 때문입니다. `일부 값만 비었다`와 `동작의 끝이 사라졌다`는 둘 다 빈칸처럼 보이지만, 뒤에서 내려야 하는 결정은 전혀 같지 않습니다.
+E02를 유지해도 후반 비교에 사용할 수 있게 되는 것은 아닙니다. E03의 1.20도 지울 필요는 없지만, 종료 경계가 필요한 초반 구간 정의였다면 그 값이 유효한 동작 특징인지 다시 확인해야 합니다. “보류”는 원자료 삭제가 아니라 현재 비교에 넣지 않고 원기록을 재확인한다는 뜻입니다.
 
-## 같은 결측처럼 보여도 다른 문제다
+구간 평균의 빈칸만으로 그 구간의 센서 기록이 전부 사라졌다고 단정하지도 않습니다. 일부 관측 부족, 품질 기준 미달, 집계 실패 중 무엇인지 확인하려면 원시 기록과 집계 규칙이 필요합니다.
 
-예를 들어 아래 세 상황은 모두 `값이 없다`로 보이지만 실제 의미는 다릅니다.
+## 유지 정책을 바꾸면 어떤 12건이 빠지는가
 
-| 보이는 문제 | 더 가까운 해석 |
-| --- | --- |
-| 시점 1~2개가 비었다 | 부분 측정 누락 |
-| 후반 20% 구간이 통째로 비었다 | 구조 비교를 흔드는 구간 누락 |
-| `event_end`가 없어 종료 시점 자체를 모른다 | 샘플 경계 붕괴 |
+`keep_partial_samples`를 부분 누락 사건을 현재 비교 후보로 남길지 정하는 정책 이름으로 사용하겠습니다. `True`는 종료가 확인되고 앞·중반 평균이 있으면 그 범위의 비교에 유지, `False`는 세 구간 평균이 모두 있는 사건만 유지한다는 뜻입니다. 종료 미확인 사건은 두 정책 모두 보류합니다. 이는 이 사례의 정책이지 모든 결측 자료에 적용할 보편 규칙이 아닙니다.
 
-첫 번째는 여전히 같은 샘플 구조 안에서 일부 정보가 빠진 경우일 수 있습니다. 두 번째는 후반 하강률 같은 특징의 의미를 직접 흔듭니다. 세 번째는 아예 동작 1회의 시작과 끝이 닫히지 않아 샘플 자체를 다시 봐야 할 수 있습니다.
+| CSV의 상태 | 사건 수 | True에서 유지 | False에서 유지 |
+| --- | ---: | ---: | ---: |
+| 세 평균·종료 확인 | 12 | 12 | 12 |
+| 종료 확인, 후반 평균 없음 | 12 | 12 | 0 |
+| 종료 미확인, 중·후반 평균 없음 | 12 | 0 | 0 |
+| 합계 | 36 | 24 | 12 |
 
-## 그래서 지금 단계에서 무엇을 먼저 결정해야 하는가
+원본을 바꾸지 말고, True에서 False로 바꿀 때 새로 제외되는 사건을 찾아 보세요. 답은 **E02, E05, E08, E11, E14, E17, E20, E23, E26, E29, E32, E35**입니다. E03처럼 종료를 확인하지 못한 12건은 이미 보류되어 있었으므로 정책 변경으로 새로 빠지는 사건이 아닙니다.
 
-복잡한 결측치 보정 기법보다 먼저 아래 네 가지를 적어 두는 편이 더 중요합니다.
+정책을 바꾸면 유지 사건은 24→12건이 됩니다. 그런데 **후반 평균을 이용한 비교의 대상은 두 정책 모두 12건**입니다. True에서 추가로 남긴 12건에는 후반 값이 없기 때문입니다. 샘플 유지 수를 모든 특징의 계산 분모로 그대로 쓰면 안 됩니다.
 
-| 먼저 적을 판단 | 왜 필요한가 |
-| --- | --- |
-| 이 샘플을 유지할 것인가 | 같은 종류의 사례로 비교 가능한지 보기 위해 |
-| 어느 특징을 만들지 말아야 하는가 | 구간 누락 때문에 뜻이 깨지는 특징을 막기 위해 |
-| 빠짐 자체를 표시 열로 남길 것인가 | 누락이 운영 신호일 수 있기 때문 |
-| 원시 로그 재확인이 필요한가 | 단순 빈칸이 아니라 샘플 경계 문제일 수 있기 때문 |
+## 제외 정책과 운영 조건의 관계는 따로 확인한다
 
-즉 여기서의 관심사는 `어떻게 채울까`보다 먼저 `이 샘플을 지금 어떤 상태로 분류할까`에 가깝습니다. 판단 순서는 보통 `샘플 유지 여부 -> 만들지 말아야 할 특징 -> 빠짐 자체를 표시 열로 남길지`로 이어집니다.
+이 CSV로 확인한 것은 누락 상태별 건수입니다. 장비·주야간·부하·수집 기간 열이 없어 어떤 운영 조건이 더 많이 제외되는지는 알 수 없습니다. `event_id`로 조건 자료를 연결한 뒤 제외 전후의 조건별 건수와 비율을 비교해야 합니다. E01 같은 번호 순서에서 조건을 추정하지 않습니다.
 
-이 판단도 표 안에 남아야 합니다. `keep_sample`, `missing_scope`, `avoid_features`, `missing_indicator`, `raw_log_recheck_needed` 같은 열을 두면 빈칸을 어떤 정책으로 처리했는지 다시 볼 수 있습니다. 특히 샘플을 유지하되 특정 특징만 만들지 않기로 했다면, 그 이유가 `late_segment_missing`인지 `end_detected=0`인지 같이 남겨야 뒤에서 결측 처리가 단순 전처리인지 샘플 경계 문제인지 구분할 수 있습니다.
+가령 별도 가정으로 후반 평균이 없는 12건이 모두 야간이었다면, 엄격한 정책에서 그 야간 사건 12건이 빠집니다. 다른 야간 사건이 남아 있는지는 조건 자료를 더 봐야 합니다. 이 가정은 “결측 사건 제외가 비교 범위를 바꿀 수 있다”는 연습이며 실제 CSV의 야간 분포를 말하는 것이 아닙니다.
 
-## 결측 위치에 따라 샘플 처리 나누기 {#_5}
+## 누락 표시는 기록이며 자동으로 유효한 특징은 아니다 {#_5}
 
-<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="도식: 좌우로 스크롤하여 확인" markdown="1">
-<div class="aibook-diagram-canvas" markdown="1">
+`late_mean_missing`, `end_detected`, `keep_sample`, `exclusion_reason`을 남기면 무엇이 비었고 왜 비교에서 빠졌는지 추적할 수 있습니다. 누락 원인이 통신·센서·운영 조건과 관련되는지는 별도 조사 대상입니다. 빈칸만으로 고장 원인을 알 수는 없습니다.
+
+누락 표시를 모델 입력으로 쓰려면 예측 시점에 알 수 있는 정보인지, 목표 결과가 나온 뒤 생긴 표시인지, 학습과 적용 환경에서 같은 의미인지 확인해야 합니다. 표시 열을 만들었다는 사실만으로 예측에 유용하거나 성능을 높인다고 확정하지 않습니다.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-ko.mmd"
 ```
 
-</div>
-</div>
-
-이 도식은 `비어 있음`을 하나의 상태로 보지 않고, 누락 위치와 샘플 경계 상태에 따라 판단이 갈라진다는 점을 보여 줍니다. 즉 이 절의 예시는 값 자체보다 `유지`, `특징 제외`, `구조 붕괴`로 나뉘는 판단 구조를 먼저 드러내는 데 있습니다.
-
-결측을 0으로 바꾸기 전에 0의 뜻부터 확인해야 합니다. 유량 0은 실제로 흐름이 멈춘 측정이고, 결측은 측정하지 못했다는 상태입니다. 관측값이 2와 4이고 세 번째 값이 빠졌다면 관측값 평균은 3입니다. 빈칸을 0으로 채운 평균 2는 다른 가정을 넣은 결과입니다. 또한 누락 샘플을 제외하면 특정 운전 조건만 사라질 수 있으므로 제외 전후의 조건별 건수도 함께 남깁니다.
-
-## 빠짐 자체를 왜 열로 남길 수 있는가
-
-흔히 `빈칸은 없애야 한다`고만 생각하지만, 실제로는 빠짐 자체가 의미를 가질 수 있습니다.
-
-| 빠짐 상태 | 왜 표시 열로 남길 수 있는가 |
-| --- | --- |
-| 특정 센서가 특정 조건에서만 자주 비어 있다 | 운영 모드나 통신 상태 신호일 수 있기 때문 |
-| 종료 직전 구간이 자주 비어 있다 | 이벤트 종료 감지 실패와 연결될 수 있기 때문 |
-| 특정 기간에만 비어 있다 | 시스템 변경이나 유지보수 상태와 연결될 수 있기 때문 |
-
-따라서 Part 3에서는 `missing_sensor_flag`, `late_segment_missing` 같은 표시 열을 둘 가치가 있는지도 함께 볼 수 있습니다. 이것은 아직 모델 입력으로 확정한다는 뜻이 아니라, 빠짐을 그냥 지워 버리지 않고 구조 정보로 남겨 둘지 판단한다는 뜻입니다.
-
-이 판단을 먼저 해 두면 `채울 수 있는 값`과 `샘플 구조를 이미 무너뜨린 누락`을 섞지 않게 됩니다. 핵심은 처리 기법 이름보다 먼저, 현재 샘플이 아직 같은 비교 단위인지와 빠짐 자체를 구조 정보로 남길지 구분하는 데 있습니다.
-
-## 결측 위치별로 샘플 유지 여부 판단하기 {#_7}
-
-문제 상황: 값이 비어 있는 샘플이 모두 같은 상태가 아니라, 일부 특징만 피하면 되는 경우와 샘플 구조 자체가 무너진 경우가 갈린다는 점을 확인합니다.
-
-입력(input): [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview } 파일. 한 행은 동작 1회의 요약 행이고, 빈 값은 해당 구간 평균이 만들어지지 않았다는 뜻입니다. 부분 누락 샘플 유지 정책은 `keep_partial_samples`로 조작합니다.
-
-기대 출력(output): `late_segment_missing`, `sample_structure_broken`, `keep_sample`, `avoid_features`가 함께 정리된 출력. `keep_partial_samples`를 바꾸면 일부 구간만 빠진 샘플의 유지 여부가 달라진다.
-
-확인할 개념: 결측은 채우기 전에 먼저 `샘플 유지`, `특징 제외`, `구조 붕괴` 중 어디에 속하는지 분류해야 한다. 부분 누락을 허용할지 여부는 명시적인 정책으로 남겨야 한다.
-
-```python
-# 값이 빠지거나 구간이 비어 있는 샘플을 집계 전에 점검하고 표시하는 예제입니다.
-import csv
-from collections import Counter
-from pathlib import Path
-
-keep_partial_samples = True
-preview_count = 9
-
-data_path = Path("docs/assets/part-03/chapter-05/p3_5_5_missing_segments.csv")
-
-def parse_optional_float(value):
-    return None if value == "" else float(value)
-
-with data_path.open(newline="", encoding="utf-8") as file:
-    summary = []
-    for row in csv.DictReader(file):
-        early = parse_optional_float(row["early_flow_mean"])
-        mid = parse_optional_float(row["mid_flow_mean"])
-        late = parse_optional_float(row["late_flow_mean"])
-        end_detected = int(row["end_detected"])
-        late_segment_missing = int(late is None)
-        sample_structure_broken = int(end_detected == 0)
-
-        if sample_structure_broken:
-            keep_sample = "no"
-            avoid_features = "all event-level features"
-        elif late_segment_missing and not keep_partial_samples:
-            keep_sample = "no"
-            avoid_features = "late_drop features"
-        elif late_segment_missing:
-            keep_sample = "yes"
-            avoid_features = "late_drop features"
-        else:
-            keep_sample = "yes"
-            avoid_features = "none"
-
-        summary.append(
-            {
-                "event_id": row["event_id"],
-                "early_flow_mean": early,
-                "mid_flow_mean": mid,
-                "late_flow_mean": late,
-                "late_segment_missing": late_segment_missing,
-                "sample_structure_broken": sample_structure_broken,
-                "keep_sample": keep_sample,
-                "avoid_features": avoid_features,
-            }
-        )
-
-def fmt(value):
-    return "missing" if value is None else f"{value:.2f}"
-
-print("1) missingness flags")
-for row in summary[:preview_count]:
-    print(
-        f'{row["event_id"]}: '
-        f'late={fmt(row["late_flow_mean"]):<7} '
-        f'late_missing={row["late_segment_missing"]} '
-        f'boundary_broken={row["sample_structure_broken"]}'
-    )
-print(f"... {len(summary) - preview_count} more event summaries")
-print()
-print("2) sample decision")
-for row in summary[:preview_count]:
-    print(
-        f'{row["event_id"]}: keep={row["keep_sample"]:<3} '
-        f'avoid={row["avoid_features"]}'
-    )
-print()
-print("3) decision counts")
-for decision, count in sorted(Counter(row["keep_sample"] for row in summary).items()):
-    print(f"keep_sample={decision}: {count}")
-for feature_group, count in sorted(Counter(row["avoid_features"] for row in summary).items()):
-    print(f"avoid={feature_group}: {count}")
-```
-
-예상 출력:
-
-```text
-1) missingness flags
-E01: late=1.80    late_missing=0 boundary_broken=0
-E02: late=missing late_missing=1 boundary_broken=0
-E03: late=missing late_missing=1 boundary_broken=1
-E04: late=1.75    late_missing=0 boundary_broken=0
-E05: late=missing late_missing=1 boundary_broken=0
-E06: late=missing late_missing=1 boundary_broken=1
-E07: late=1.82    late_missing=0 boundary_broken=0
-E08: late=missing late_missing=1 boundary_broken=0
-E09: late=missing late_missing=1 boundary_broken=1
-... 27 more event summaries
-
-2) sample decision
-E01: keep=yes avoid=none
-E02: keep=yes avoid=late_drop features
-E03: keep=no  avoid=all event-level features
-E04: keep=yes avoid=none
-E05: keep=yes avoid=late_drop features
-E06: keep=no  avoid=all event-level features
-E07: keep=yes avoid=none
-E08: keep=yes avoid=late_drop features
-E09: keep=no  avoid=all event-level features
-
-3) decision counts
-keep_sample=no: 12
-keep_sample=yes: 24
-avoid=all event-level features: 12
-avoid=late_drop features: 12
-avoid=none: 12
-```
-
-이 예시의 핵심은 값을 채우는 코드가 아니라, `부분 구간 누락`과 `샘플 구조 붕괴`를 같은 빈칸으로 처리하지 않는다는 점입니다. 여기서 조작할 값은 `keep_partial_samples`입니다. `True`이면 `E02` 같은 행은 샘플은 유지하되 후반 하강 특징은 보수적으로 뺍니다. `False`로 바꾸면 부분 구간 누락이 있는 12건도 비교 후보에서 제외됩니다. 반면 `E03` 같은 행은 샘플 경계 자체가 흔들려 정책과 무관하게 동작 1회 비교 샘플로 바로 쓰기 어렵습니다. 1단계에서 누락 위치를 구분하고, 2단계에서 그 차이가 바로 `샘플 유지 여부`와 `만들지 말아야 할 특징` 판단으로 이어집니다.
-
-여기서 마지막으로 확인할 것은 세 가지입니다. 이 샘플이 아직 같은 비교 단위인지, 누락 때문에 만들면 안 되는 특징을 구분했는지, 빠짐 자체를 표시 열로 남길지 정했는지입니다. 이 세 조건이 함께 서야 빈칸은 단순 청소 대상이 아니라, 샘플 구조 판단이 섞인 데이터 모델링 항목으로 읽히게 됩니다.
-
-값이 빠졌다는 사실은 단순 [전처리(preprocessing)](../../../reference/concept-glossary-parts/09-jieut.md#preprocessing) 문제가 아니라, 이 샘플이 아직 같은 비교 단위인지와 빠짐 자체를 구조 정보로 남길지 다시 묻게 하는 데이터 모델링 신호입니다. 따라서 결측을 다룬다는 말은 빈칸을 메우는 일보다 먼저, 어떤 샘플은 유지하고 어떤 샘플은 비교에서 물려야 하는지 경계를 다시 그리는 일에 가깝습니다.
+마지막으로 “E02를 유지했으니 후반 값도 0으로 넣어 비교한다”를 고쳐 보세요. 답은 “E02는 앞·중반 비교 후보로 유지하고, 후반 평균과 그 차이는 미확보로 남긴다. 후반이 필요한 비교에서는 제외하며 사유와 해당 비교의 분모를 기록한다”입니다.
 
 ## 체크리스트
 
-- 실제 0과 결측을 다르게 처리한 평균을 계산했는가?
-- 불완전 샘플 제외로 어떤 운영 조건이 덜 남을지 확인했는가?
+- 관측 2·4의 평균 3과 0을 넣은 평균 2가 다른 질문임을 설명하는가?
+- E02의 후반 평균 미확보와 E03의 종료 미확인을 구별하는가?
+- 유지 정책 변경으로 새로 제외되는 12건의 공통 상태를 확인했는가?
+- 유지 사건 24건과 후반 비교 가능 사건 12건의 분모를 구분하는가?
+- 운영 조건별 제외 영향을 확인할 추가 자료가 무엇인지 적었는가?
+- 누락 표시의 기록 가치와 모델 입력으로서의 적합성을 구별하는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 결측 위치에 따른 샘플 유지 판단은 이 절의 사례에 적용한 설계 기준입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
-- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering은 원시 데이터를 학습과 비교에 더 유용한 형태로 바꾸는 과정이므로, 구간 누락 때문에 뜻이 깨진 특징은 만들지 말아야 한다는 이 절의 판단을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- W3C, `PROV-Overview`. provenance framework가 derivation과 processing steps를 설명 가능하게 남겨야 한다고 정리하므로, 누락 위치와 샘플 구조 붕괴 여부를 별도 정보로 남겨야 나중에 품질과 재현성을 다시 판단할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- scikit-learn developers, `Imputation of missing values`. 결측값이 있는 행이나 열을 버릴 수 있지만 가치 있는 데이터 손실이 생길 수 있고, `MissingIndicator`로 결측 여부를 이진 행렬로 표시할 수 있으며 결측이 있었던 정보를 보존하는 일이 유용할 수 있다고 설명하므로, 빠짐 자체를 표시 열로 남길지 먼저 판단해야 한다는 이 절의 설명을 보강합니다. [https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" }. 불완전한 행 제거로 정보가 사라질 수 있고, 결측 표시로 원래 누락 여부를 보존할 수 있음을 설명합니다. 본문의 유지·보류 정책과 숫자 사례는 자체 가상 설계입니다. / 확인일: 2026-09-19

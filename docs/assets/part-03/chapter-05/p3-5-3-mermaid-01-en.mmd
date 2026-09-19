@@ -1,10 +1,4 @@
-```mermaid
 flowchart TD
-    R[Raw time series exists]
-    S[Decide sample boundary]
-    G[Decide segment and length rule]
-    L[Define learning objective]
-    I[Choose input structure]
-
-    R --> S --> G --> L --> I
-```
+    S["Specify sample, available times, and target"] --> R["Same observations<br/>A: 1, 3, 3, 1 / B: 3, 1, 1, 3"]
+    R --> V["Summary: mean, maximum<br/>A = B = 2, 3"]
+    R --> Q["Sequence: 4 steps × 1 value<br/>A and B retain different orders"]

@@ -1,7 +1,6 @@
-```mermaid
 flowchart TD
-    H[People define the input structure] --> M[The model receives the input]
-    M --> Q{Does this model learn internal representations?}
-    Q -->|Yes| R[Use learned representations]
-    Q -->|No| F[Learn relationships using the supplied features]
-```
+    Q["Problem, sample, prediction time, input scope"] --> R["Same raw measurements"]
+    R --> A["Choose summary features"]
+    A --> B["Learn relationships from supplied features"]
+    R --> C["Prepare ordered values"]
+    C --> D["Learn neural-network representations"]

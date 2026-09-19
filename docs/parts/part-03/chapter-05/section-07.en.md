@@ -1,9 +1,7 @@
 # P3-5.7 Rules for Folding Multiple Follow-Up Events
 
 > Section ID: `P3-5.7`
-> Version: `v2026.09.15`
-
-The final table should also keep the folding rule traceable. For example, if you leave `folding_rule`, `severity_cutoff`, `follow_up_window_days`, `source_event_count`, and `target_candidate_name` in a memo, you can explain again what event range and threshold produced `any_failure=1`. Even from the same follow-up event log, `first_event` and `worst_event` are different columns, so do not freeze one column name as if it were the actual target label.
+> Version: `v2026.09.19`
 
 _Subtitle: By what rule should multiple events after the same sample be folded into one table structure?_
 
@@ -46,6 +44,8 @@ Leaving the notes below first reduces later confusion.
 | Which of `any`, `first`, `worst`, `count` was used | To explain again what the result column means |
 | Whether the folded result is for reporting or a prediction candidate | To avoid mixing comparison reports with target candidates |
 
+The final table should also keep the folding rule traceable. For example, if you leave `folding_rule`, `severity_cutoff`, `follow_up_window_days`, `source_event_count`, and `target_candidate_name` in a memo, you can explain again what event range and threshold produced `any_selected_event=1`. Even from the same follow-up event log, `first_event` and `worst_event` are different columns, so do not freeze one column name as if it were the actual target label.
+
 Before folding events into a result, define the observation period and deduplication rules. For `failure within 7 days`, a failure on day 9 is excluded. If a transmission retry stores the same event twice, compare event identifiers so that `count` does not count it twice. Define `first` using occurrence-time order, and establish tie-breaking rules for events at the same time or with the same severity.
 
 The example below assumes follow-up is complete for the entire sample roster, the event log is already restricted to the analysis period, and there are no duplicates. Only under those assumptions can S30, which has no events, be assigned 0. A sample still under observation must remain `pending` even if no event has occurred.
@@ -54,13 +54,29 @@ Small example:
 
 Problem situation: check that when several follow-up events exist after the same sample, different folding rules such as `first`, `worst`, `count`, and `any` create different result columns.
 
-Input: the sample roster [p3_5_7_sample_roster.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_sample_roster.csv){ .csv-preview }, the follow-up event log [p3_5_7_follow_up_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv){ .csv-preview }, the event severity table [p3_5_7_event_severity.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_event_severity.csv){ .csv-preview }, and candidate severity thresholds for failure, `failure_severity_cutoffs`
+Input: the sample roster [p3_5_7_sample_roster.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_sample_roster.csv){ .csv-preview }, the follow-up event log [p3_5_7_follow_up_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv){ .csv-preview }, the event severity table [p3_5_7_event_severity.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_event_severity.csv){ .csv-preview }, and candidate severity thresholds for selection, `severity_cutoffs`
 
-The first CSV has one row for each sample that must remain in the final result table. The second CSV has one row for each follow-up event that actually occurred after a sample. The third CSV turns event names into severity numbers so that the `worst` and `any_failure` rules can be calculated.
+The first CSV has one row for each sample that must remain in the final result table. The second CSV has one row for each follow-up event that actually occurred after a sample. The third CSV turns event names into severity numbers so that the `worst` and `any_selected_event` rules can be calculated.
 
-Expected output: output showing that even for the same source event, `first_event`, `worst_event`, `event_count`, `event_sequence`, and `any_failure` are created differently. If `failure_severity_cutoffs` changes, the number and list of failure-candidate samples also change.
+Expected output: output showing that even for the same source event, `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`, and `any_selected_event` are created differently. If `severity_cutoffs` changes, the number and list of selected samples also change.
 
 Concept to check: when folding several follow-up events into one result column, we should first specify by what folding rule and [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-threshold) they were folded, so the meaning of the table structure does not drift
+
+## Fold S01, S02, and S30 by Hand
+
+The CSV files below are fictional data created for this example. The observation period is days 1–7 after each sample, inclusive, and follow-up is assumed complete for all 36 roster entries. `days_after_sample` gives a day index, not a precise occurrence time. The CSV has neither completion flags nor individual follow-up event IDs, so completeness and absence of duplicates cannot be verified from these files alone.
+
+| sample_id | Records within the period | first_event | worst_event | event_count | any_failure |
+| --- | --- | --- | --- | ---: | ---: |
+| S01 | day 1 review → day 3 warning → day 5 failure | review | failure | 3 | 1 |
+| S02 | day 2 review → day 4 warning | review | warning | 2 | 0 |
+| S30 | none; follow-up assumed complete | none | none | 0 | 0 |
+
+`any_failure` indicates whether any record has event type `failure` or `critical_failure`. This is the example's type mapping and does not change with the severity threshold. `count` counts all follow-up events in the period, not just failures. `first` hides later failures, while `worst` hides the earlier sequence of warnings and reviews; retain `event_sequence` when that order matters.
+
+Severity is an ordinal ranking defined for this example. review=2, warning=3, and failure=4 specify an order; they do not mean failure is twice as severe as review. `any_selected_event` asks **whether an event reaches the selected severity threshold**, a different question from `any_failure`. S02 changes from 0 at threshold 4 to 1 at threshold 3, yet still has no failure record.
+
+The example includes only days 1–7 and orders `first` by day index. Same-day ties use CSV row order, which does not establish actual chronological order. `worst` uses descending severity, ascending day index, then original row order. Operational data needs more precise occurrence times and event IDs to define tie handling and deduplication.
 
 ```python
 # This example folds multiple follow-up events after the same sample into a table structure and chooses a representative label.
@@ -72,8 +88,10 @@ sample_roster_path = Path("docs/assets/part-03/chapter-05/p3_5_7_sample_roster.c
 follow_up_events_path = Path("docs/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv")
 event_severity_path = Path("docs/assets/part-03/chapter-05/p3_5_7_event_severity.csv")
 
-selected_failure_severity_cutoff = 4
-failure_severity_cutoffs = [4, 3, 2]
+selected_severity_cutoff = 4
+severity_cutoffs = [4, 3, 2]
+follow_up_window_days = 7
+failure_types = {"failure", "critical_failure"}
 preview_row_count = 12
 
 def read_csv(path):
@@ -89,7 +107,8 @@ for row in follow_ups:
     row["days_after_sample"] = int(row["days_after_sample"])
     row["severity"] = severity_by_type[row["event_type"]]
 
-ordered_events = sorted(follow_ups, key=lambda row: (row["sample_id"], row["days_after_sample"]))
+period_events = [row for row in follow_ups if 1 <= row["days_after_sample"] <= follow_up_window_days]
+ordered_events = sorted(period_events, key=lambda row: (row["sample_id"], row["days_after_sample"]))
 events_by_sample = defaultdict(list)
 for row in ordered_events:
     events_by_sample[row["sample_id"]].append(row)
@@ -117,18 +136,19 @@ for sample in sample_roster:
             "worst_severity": worst_severity,
             "event_count": len(events),
             "event_sequence": event_sequence,
-            "any_failure": int(worst_severity >= selected_failure_severity_cutoff),
+            "any_failure": int(any(row["event_type"] in failure_types for row in events)),
+            "any_selected_event": int(any(row["severity"] >= selected_severity_cutoff for row in events)),
         }
     )
 
 cutoff_results = []
-for cutoff in failure_severity_cutoffs:
-    failed = [row for row in folded if row["worst_severity"] >= cutoff]
+for cutoff in severity_cutoffs:
+    selected = [row for row in folded if row["event_count"] > 0 and row["worst_severity"] >= cutoff]
     cutoff_results.append(
         {
-            "failure_severity_cutoff": cutoff,
-            "failure_sample_count": len(failed),
-            "failure_samples": ",".join(row["sample_id"] for row in failed) or "none",
+            "severity_cutoff": cutoff,
+            "selected_sample_count": len(selected),
+            "selected_samples": ",".join(row["sample_id"] for row in selected) or "none",
         }
     )
 
@@ -147,28 +167,28 @@ for row in severity_table[:preview_row_count]:
     print(f"{row['event_type']:>16} {int(row['severity']):>9}")
 print(f"... {len(severity_table) - preview_row_count} more severity rules")
 print()
-print("3) folded result when failure_severity_cutoff = 4")
+print(f"3) folded result when severity_cutoff = {selected_severity_cutoff}")
 print(
     "sample_id      first_event      worst_event  worst_severity  event_count"
-    "             event_sequence  any_failure"
+    "             event_sequence  any_failure  any_selected_event"
 )
 for row in folded[:preview_row_count]:
     print(
         f"{row['sample_id']:>9} {row['first_event']:>16} {row['worst_event']:>16} "
         f"{row['worst_severity']:>15} {row['event_count']:>12} "
-        f"{row['event_sequence']:>26} {row['any_failure']:>12}"
+        f"{row['event_sequence']:>26} {row['any_failure']:>12} {row['any_selected_event']:>19}"
     )
 print(f"... {len(folded) - preview_row_count} more folded samples")
 print()
-print("4) sensitivity by failure_severity_cutoff")
+print("4) sensitivity by severity_cutoff")
 print(
-    " failure_severity_cutoff  failure_sample_count"
-    "                                                                     failure_samples"
+    " severity_cutoff  selected_sample_count"
+    "                                                                     selected_samples"
 )
 for row in cutoff_results:
     print(
-        f"{row['failure_severity_cutoff']:>24} {row['failure_sample_count']:>21} "
-        f"{row['failure_samples']:>83}"
+        f"{row['severity_cutoff']:>24} {row['selected_sample_count']:>21} "
+        f"{row['selected_samples']:>83}"
     )
 ```
 
@@ -207,44 +227,52 @@ critical_failure         5
    slow_recovery         2
 ... 24 more severity rules
 
-3) folded result when failure_severity_cutoff = 4
-sample_id      first_event      worst_event  worst_severity  event_count             event_sequence  any_failure
-      S01           review          failure               4            3 review > warning > failure            1
-      S02           review          warning               3            2           review > warning            0
-      S03          revisit          revisit               1            1                    revisit            0
-      S04          warning          warning               3            1                    warning            0
-      S05          revisit           review               2            2           revisit > review            0
-      S06 minor_adjustment minor_adjustment               1            1           minor_adjustment            0
-      S07          warning          failure               4            2          warning > failure            1
-      S08           review           review               2            1                     review            0
-      S09          revisit          revisit               1            1                    revisit            0
-      S10          warning          warning               3            1                    warning            0
-      S11       inspection       inspection               2            1                 inspection            0
-      S12           review          warning               3            2           review > warning            0
+3) folded result when severity_cutoff = 4
+sample_id      first_event      worst_event  worst_severity  event_count             event_sequence  any_failure  any_selected_event
+      S01           review          failure               4            3 review > warning > failure            1                   1
+      S02           review          warning               3            2           review > warning            0                   0
+      S03          revisit          revisit               1            1                    revisit            0                   0
+      S04          warning          warning               3            1                    warning            0                   0
+      S05          revisit           review               2            2           revisit > review            0                   0
+      S06 minor_adjustment minor_adjustment               1            1           minor_adjustment            0                   0
+      S07          warning          failure               4            2          warning > failure            1                   1
+      S08           review           review               2            1                     review            0                   0
+      S09          revisit          revisit               1            1                    revisit            0                   0
+      S10          warning          warning               3            1                    warning            0                   0
+      S11       inspection       inspection               2            1                 inspection            0                   0
+      S12           review          warning               3            2           review > warning            0                   0
 ... 24 more folded samples
 
-4) sensitivity by failure_severity_cutoff
- failure_severity_cutoff  failure_sample_count                                                                     failure_samples
+4) sensitivity by severity_cutoff
+ severity_cutoff  selected_sample_count                                                                     selected_samples
                        4                     5                                                                 S01,S07,S13,S19,S25
                        3                    12                                     S01,S02,S04,S07,S10,S12,S13,S16,S19,S22,S25,S28
                        2                    21 S01,S02,S04,S05,S07,S08,S10,S11,S12,S13,S16,S17,S18,S19,S21,S22,S24,S25,S26,S28,S29
 ```
 
-The key point in this example is that even while looking at the same source event, `first_event`, `worst_event`, `event_count`, `event_sequence`, and `any_failure` can become different result columns. For S01, the first follow-up event is `review`, but the most severe event is `failure`. For S02, the first event is `review`, but the most severe event is `warning`. Samples like S30 have no follow-up events, but they still exist in the sample roster, so they are folded as `none` and 0 and remain in the final table. The values to manipulate here are `selected_failure_severity_cutoff` and `failure_severity_cutoffs`. With the threshold at 4, only S01, S07, S13, S19, and S25, which have `failure`, become failure candidates. If the threshold is lowered to 3, samples whose worst event is `warning` also enter the failure-candidate set. If it is lowered to 2, samples whose worst event is `review` or `inspection` are included too. In other words, unless the folding rule and threshold are written down, the same follow-up event log can be read with different [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) meanings from table to table.
+The selected-sample counts are 5 at threshold 4, 12 at threshold 3, and 21 at threshold 2. Lowering 4 to 3 adds **S02, S04, S10, S12, S16, S22, S28**, seven samples whose worst recorded event is warning. No new failures occurred: the selection scope widened. The number of samples with recorded failure types stays five.
+
+Before running the code, predict the two indicators for S02 when `selected_severity_cutoff` becomes 3. The answer is `any_selected_event=1` and `any_failure=0`. Next, suppose S01's failure occurred on day 9 instead of day 5. Its seven-day results become first=review, worst=warning, count=2, any_failure=0. The event falls outside the observation period; it has not been deleted from the source history.
+
+If S30's follow-up is still incomplete, its results cannot be finalized as none and zero. This code assumes a completed fictional roster; real incomplete data needs completion status and separate `pending` handling. Do not mix these future outcomes into prediction inputs at the sample time. Decide whether a result column is a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) only after defining the prediction time and target.
+
 
 ## Combining Follow-Up Events into Sample-Level Outcomes {#a-small-diagram}
 
 This section compresses one point: `several follow-up events` do not automatically become one result column. The same event list turns into different representative result columns depending on whether it is folded by `any`, `first`, `worst`, or `count`.
 
+```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-7-mermaid-01-en.mmd"
+```
 
 ## Checklist
+
+- Can you explain why lowering 4 to 3 for S02 changes selection rather than creating a failure?
 
 - Did you specify the observation period, deduplication, and representative-label selection rules for follow-up events?
 - Did you distinguish zero follow-up events from incomplete observation?
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `label` and `labeled example`. Because result information first has to be fixed to a given example, it supports the judgment in this section that when several follow-up events are folded into one result column, we should first specify which rule among `any`, `first`, `worst`, and `count` was used. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it shows that result columns with unclear construction rules are easy to confuse with prediction candidates, it reinforces the explanation that the folding rule should be written first to fix the meaning of the table structure. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, `PROV-Overview`. Because it explains that a provenance framework should leave derivation and activity context traceable, it provides the higher-level frame that we should also be able to trace by what rule several follow-up events were folded into one representative result column. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary#label){: target="_blank" rel="noopener noreferrer" }. Used for the definitions of label and labeled example. The any/first/worst/count rules, severity rankings, and failure-type mapping are designed for this example. / 2026-09-19
+- W3C, [PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. Provides the general basis for tracking data generation and derivation; it does not prescribe the aggregation rules in this section. / 2026-09-19

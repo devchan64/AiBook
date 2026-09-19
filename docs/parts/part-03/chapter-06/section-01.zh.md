@@ -1,152 +1,48 @@
 # P3-6.1 应该用什么特征把可比较的结构留下来
 
 > Section ID: `P3-6.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 第一次学习[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)时，人们常常会把它理解成 `列越多越好吗？` 但特征并不是简单地往里塞更多数值。特征是把样本所具有的结构，重新表达成可以用于比较和预测的值。所以，好的特征与其说是“更多”，不如说应该先让 `它到底想展示什么` 变得清楚。如果前一节已经把原始日志变成了[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)，那么现在就要决定：这张汇总表里到底该留下什么结构。
 
 所谓“设计特征”，不是把汇总表里的数字原样照用，而是重新选择：要用什么数字表达，来保留我们想比较的结构。所以，只有先决定想保留什么结构，平均值、斜率、波动性这样的特征候选才会真正有意义。这里还会再分出一个判断。把同一个结构转换成平均值、差值、斜率、token、比率这样的不同表达，是[变量变换(variable transformation)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-variable-transformation)；而从这些已经变换出来的表达里，再决定究竟保留哪些项目，则是[特征选择(feature selection)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature-selection)。
 
-| 视角 | 现在问的问题 | 代表例子 |
-| --- | --- | --- |
-| 变量变换 | 同一个结构要转换成什么表达？ | 平均值、区间差值、斜率、比率、token |
-| 特征选择 | 转换出来的表达里，哪些真正要留下来？ | 整体水平特征、后段崩塌检测特征、波动性特征 |
 
-假设把自动执行的一次动作视为一条样本。可以把长度和顺序对齐后的全部时点传感器值保留为向量或序列。这里为了方便人比较动作，选择能体现重要方面的汇总值。例如，下面这些值通常可以作为起点。
+原始测量值本身也可以直接作为特征。这里讨论从汇总值中选择并表达比较信息的情况。
 
-- 平均值(mean)
-- 斜率(slope)
-- 波动性(variability)
-- 最大值或最小值
-- 特定区间的变化率
+## 这些特征的计算对象与单位
 
-为什么这些值会经常出现？第一，它们能在不过度粗暴丢弃原始曲线的前提下，比较容易转成可比较的数字。第二，即使是人来读，也更容易说明成 `这次动作平均值差不多，但后段下降更陡` 这样的句子。第三，即使平均值相同，只要波动性或斜率不同，也可能显露出真实的结构差异。
+以下是虚构动作 A、B 的区间均值，单位为 L/min。**计算对象是前段、中段、后段三个均值，而非全部原始测量值。** 如果各区间的观测数或时长不同，这三个均值的简单平均可能不同于全部观测的平均或时间平均。
 
-也就是说，好的特征更接近 `合适的问题`，而不是 `很多数值`。平均值展示整体水平，斜率展示方向和变化速度，波动性展示摆动幅度。之所以需要不同特征，也是因为每个值能显露出的结构不同。对于同一张汇总表，先做什么变换、再从中保留什么，正是变量变换和特征选择的核心。
+| 动作 | 前段均值 | 中段均值 | 后段均值 |
+| --- | ---: | ---: | ---: |
+| A | 1.8 | 2.2 | 2.6 |
+| B | 2.1 | 2.2 | 2.3 |
 
-| 动作 | 平均值 | 斜率 | 波动性 | 可以读出的结构 |
-| --- | --- | --- | --- | --- |
-| A | 相近 | 平缓 | 低 | 相对稳定 |
-| B | 相近 | 陡 | 高 | 不稳定或变化较大 |
+给前段、中段、后段分配索引 0、1、2。前段到后段的索引间隔为 `2−0=2`。因此把 A 的差值 `2.6−1.8=0.8 L/min` 除以 2，得到的斜率是**每索引间隔 0.4 L/min**，不是每秒变化量。如果代表时刻相隔 20 秒，时间斜率才是 `0.8/20=0.04 L/min/s`。没有时刻资料就不能假设相隔 20 秒。
 
-问题情境：当两次动作的整体水平相近，但上升幅度和波动程度不同时，确认应该留下哪些特征。
+| 动作 | 三个区间均值的平均：L/min | 后段−前段：L/min | 每索引间隔的斜率 | 三个区间均值的标准差：L/min |
+| --- | ---: | ---: | ---: | ---: |
+| A | 2.2 | 0.8 | 0.4 | 0.4 |
+| B | 2.2 | 0.2 | 0.1 | 0.1 |
 
-输入(input)：只保留了分段平均值的动作汇总表，以及想先看的结构 `feature_focus`
+标准差概括数值偏离平均值的程度。这里采用样本标准差：把三个值的离差平方和除以 `3−1=2`，再开平方根。A 相对 2.2 的差为 −0.4、0、0.4，因此 `sqrt((0.16+0+0.16)/2)=0.4`；B 用同样方法得到 0.1。采用这一计算规则并不保证三个均值在统计上独立。
 
-期望输出(output)：从同一张汇总表中分别计算出水平、区间差值、斜率、波动性的特征表。改变 `feature_focus` 时，优先留下的特征也会改变。
+## 区间均值之间的离散与区间内部波动不同
 
-要确认的概念：特征不是把已有列直接罗列出来，而是把想比较的结构计算后再附着上去的表达。特征选择会随着问题焦点改变。
+假设每个区间中，X 的测量为 `[2, 2]`，Y 为 `[0, 4]`。两个动作的区间均值都是 `[2, 2, 2]`，**这三个均值的标准差都为 0**。但每个区间内部的最大值减最小值，X 为 0，Y 为 4。只保留区间均值就无法恢复这个差异。
 
-```python
-# 这个例子从区段汇总值中生成并选择符合比较目的的特征。
-from statistics import mean, stdev
+因此，表中 A 的标准差较大，只说明区间均值彼此更分散，并不意味着传感器噪声更大或运行不稳定。把前段和后段交换，标准差也不变；要区分上升与下降，还应读取带符号的差值。
 
-feature_focus = "change"
+问题是“三个区间的水平是否相似”时选择均值，问题是“从前段到后段改变了多少”时选择后段减前段。前一问题中 A、B 都为 2.2，后一问题中 A 为 0.8、B 为 0.2。索引间隔固定为 2 时，斜率就是差值的一半，同时保留两列不会增加独立的新信息。若关心区间内部波动，则需要原始值或额外的区间内部离散指标。
 
-segment_summary = [
-    {"event_id": "A", "early_flow_mean": 1.8, "mid_flow_mean": 2.2, "late_flow_mean": 2.6},
-    {"event_id": "B", "early_flow_mean": 2.1, "mid_flow_mean": 2.2, "late_flow_mean": 2.3},
-]
+## 改变特征组合的小型预测实验
 
-feature_table = []
-for row in segment_summary:
-    segment_values = [row["early_flow_mean"], row["mid_flow_mean"], row["late_flow_mean"]]
-    late_minus_early = row["late_flow_mean"] - row["early_flow_mean"]
-    feature_table.append(
-        {
-            **row,
-            "overall_mean": mean(segment_values),
-            "late_minus_early": late_minus_early,
-            "early_to_late_slope": late_minus_early / 2,
-            "segment_variability": stdev(segment_values),
-        }
-    )
+把动作 A～H 的区间均值转换成不同特征组合，输入同一种决策树算法。这里 `overall_mean` 是三个区间均值的简单平均，`segment_variability` 是上面计算的样本标准差。在安装了 pandas 与 scikit-learn 的 Python 环境中运行。
 
-focus_map = {
-    "level": ["overall_mean"],
-    "change": ["late_minus_early", "early_to_late_slope"],
-    "stability": ["segment_variability"],
-}
-focus_columns = focus_map[feature_focus]
+这是为展示输入信息损失而设计的 8 个虚构事件。`review_needed` 是例子赋予的值，不是经过验证的实际检查标准。训练事件 A～F 共 6 个，三个区间均值的平均都为 2.2，因此仅凭均值难以区分不同标签。测试只有 G、H 两个事件，准确率 0.5 与 1.0 分别表示答对 1/2 和 2/2，不能据此断言增加特征通常会提高性能。
 
-print("1) segment means before feature design")
-print("  event_id  early_flow_mean  mid_flow_mean  late_flow_mean")
-for index, row in enumerate(segment_summary):
-    print(
-        f"{index}        {row['event_id']}              {row['early_flow_mean']:.1f}"
-        f"            {row['mid_flow_mean']:.1f}             {row['late_flow_mean']:.1f}"
-    )
-print()
-print("2) designed features for comparison")
-print(
-    "  event_id  overall_mean  late_minus_early  early_to_late_slope"
-    "  segment_variability"
-)
-for index, row in enumerate(feature_table):
-    print(
-        f"{index}        {row['event_id']}           {row['overall_mean']:.1f}"
-        f"               {row['late_minus_early']:.1f}"
-        f"                  {row['early_to_late_slope']:.1f}"
-        f"                  {row['segment_variability']:.1f}"
-    )
-print()
-print(f"3) selected features when feature_focus = {feature_focus}")
-if focus_columns == ["overall_mean"]:
-    print("  event_id  overall_mean")
-    for index, row in enumerate(feature_table):
-        print(f"{index}        {row['event_id']}           {row['overall_mean']:.1f}")
-elif focus_columns == ["late_minus_early", "early_to_late_slope"]:
-    print("  event_id  late_minus_early  early_to_late_slope")
-    for index, row in enumerate(feature_table):
-        print(
-            f"{index}        {row['event_id']}               {row['late_minus_early']:.1f}"
-            f"                  {row['early_to_late_slope']:.1f}"
-        )
-else:
-    print("  event_id  segment_variability")
-    for index, row in enumerate(feature_table):
-        print(f"{index}        {row['event_id']}                  {row['segment_variability']:.1f}")
-print()
-print("4) feature_focus comparison")
-for focus_name, columns in focus_map.items():
-    print(f"- {focus_name}: {columns}")
-```
-
-期望输出：
-
-```text
-1) segment means before feature design
-  event_id  early_flow_mean  mid_flow_mean  late_flow_mean
-0        A              1.8            2.2             2.6
-1        B              2.1            2.2             2.3
-
-2) designed features for comparison
-  event_id  overall_mean  late_minus_early  early_to_late_slope  segment_variability
-0        A           2.2               0.8                  0.4                  0.4
-1        B           2.2               0.2                  0.1                  0.1
-
-3) selected features when feature_focus = change
-  event_id  late_minus_early  early_to_late_slope
-0        A               0.8                  0.4
-1        B               0.2                  0.1
-
-4) feature_focus comparison
-- level: ['overall_mean']
-- change: ['late_minus_early', 'early_to_late_slope']
-- stability: ['segment_variability']
-```
-
-输出的第 1 步，还只是带有区间平均值的汇总表。到了第 2 步，`overall_mean`、`late_minus_early`、`early_to_late_slope`、`segment_variability` 才被新加上去。`overall_mean` 展示整体水平，`late_minus_early` 展示前后段差异，`early_to_late_slope` 把这种差异除以区间距离后，变成一个简单斜率表达，`segment_variability` 则展示各区间之间的波动程度。这里可以操作的值是 `feature_focus`。设为 `"change"` 时，会优先留下变化特征；改成 `"level"` 时，会优先留下整体水平特征；改成 `"stability"` 时，会优先留下波动性特征。第 4 步说明，即使是同一张特征表，只要问题焦点改变，真正留下的列组合也会改变。也就是说，特征不是把原本写着的值再展示一遍，而是从同一张汇总表中，计算并附着上想比较的结构，再按当前问题选择的结果。
-
-同样的差异也会出现在真实模型输入里。下面的例子比较两种模型输入：一种只保留整体平均值，另一种把变化和变动性特征也一起保留。两个模型都使用同一个决策树分类器，但只要输入特征不同，测试预测就会改变。
-
-问题场景：想比较平均值相近但区段变化不同的动作，在只看平均特征和同时看结构特征时预测会有什么差异。
-
-输入(input)：包含 `early`、`mid`、`late` 区段平均值和 `review_needed` 标签的小型动作表。
-
-期望输出(output)：`mean_only` 特征组与 `structure_features` 特征组的准确率和测试预测。
-
-要确认的概念：特征选择是在决定模型能看到什么结构；如果只保留平均值，就可能漏掉变化或变动性结构。
+把输入改成仅有 `overall_mean` 与 `late_minus_early` 两列，再运行实验。这一设置也能正确预测两个测试事件，但更多资料上的性能仍需要单独评估。要区分区间内部波动，仍需这些特征无法恢复的原始信息。
 
 ```python
 # 这个例子比较只保留平均值的模型，以及加入变化/变动性特征的模型预测差异。
@@ -191,8 +87,6 @@ for name, columns in feature_sets.items():
     print(name, "predictions:", comparison)
 ```
 
-期望输出：
-
 ```text
 mean_only accuracy: 0.5
 mean_only predictions: [('G', 0, 1), ('H', 0, 0)]
@@ -200,68 +94,22 @@ structure_features accuracy: 1.0
 structure_features predictions: [('G', 1, 1), ('H', 0, 0)]
 ```
 
-如果只看整体平均值，`G` 很难和稳定动作区分开。但如果同时看 `late_minus_early` 和 `segment_variability`，后段下降的结构和区段波动就会显现出来。所以即使用同一个模型，只看平均值时会漏掉 `G`，看到结构特征时就能预测正确。这个输出说明：特征不是单纯多加一列，而是在选择让模型能看到什么结构。
-
-`segment_variability` 描述区段均值之间的差异。传感器在一个区段内波动多少，需要用原始时点值另外计算。即使每个区段均值都是 2，各区段取值为 2、2 的动作，与取值为 0、4 的动作，其区段内波动也不同。因此，不能因为区段均值的标准差为 0，就断言动作没有波动。
-
-如果把这些特征按更小的层次来读，每个值承担的角色会更清楚。
-
-| 特征类型 | 代表例子 | 主要展示什么 |
-| --- | --- | --- |
-| 水平特征 | 平均值、最大值 | 整体规模 |
-| 变化特征 | 区间差值、斜率 | 方向与速度 |
-| 稳定性特征 | 标准差、波动性 | 摆动程度 |
-
-这张表会再次提醒前面说过的两条分岔。把结构转成平均值、差值、斜率、波动性这一阶段，是变量变换；从里面决定当前问题真正要留下哪些值，这一阶段是特征选择。数值特征是概括结构的第一步，而 token 化表达，则是把这种结构进一步转换成人更容易读的[中间表示(intermediate representation)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation)的下一步。
-
-设计特征时，应该持续检查下面这些问题。
-
-- 这个值展示了动作的哪一个方面？
-- 它是否补足了平均值单独看不到的结构？
-- 人在阅读时也能解释它吗？
-- 它和样本单位匹配得好吗？
-
-如果把这些问题稍微压缩成更实务的形式，那么“想先看什么结构”和“应当先想到什么特征”之间，可以像下面这样去选。
-
-| 想先看的结构 | 优先想到的特征 |
-| --- | --- |
-| 整体水平是否相近 | 平均值、最大值 |
-| 前段和后段差了多少 | 区间差值、斜率 |
-| 波动有多大 | 标准差、波动性 |
-| 是否在某个时点剧烈变化 | 最大值时点、变化率 |
-
-这张表的重点不是 `多背几个特征名`，而是先决定想看什么结构，再附上最能直接显露该结构的特征。
-
-人们还会再卡住一个地方：即使说“先看结构，再选特征”，这句话本身仍然可能显得抽象。所以，如果再更短地写一次“如何把真实问题转成特征设计”，可以得到下面这样的对应。
-
-| 现场最先冒出来的问题 | 优先做出的特征 | 为什么这个特征要先出现 |
-| --- | --- | --- |
-| 这次动作的整体水平是否比平时更低 | 平均值、中位数 | 因为可以先确认整体规模差异 |
-| 前段还好，但后段是不是崩掉了 | `late_minus_early`、分段斜率 | 因为可以直接显露是哪一段结构变了 |
-| 结果看起来差不多，但过程是不是更抖了 | 标准差、分段波动性 | 因为能单独看到被平均值掩盖的不稳定 |
-| 峰值是不是来得太晚，或者消失得太早 | 最大值时点、下降开始时点 | 因为时序差异可能会极大改变运行意义 |
-
-所以，特征不是从 `列候选清单` 里挑，而是在做“现在到底在问什么”到数字表达之间的翻译。如果问题在 `整体水平`，那水平特征就应该先出来；如果问题在 `形状变化`，那区间差值和斜率这样的变化特征就应该先出来。只有这层连接定住了，后面的基准线比较里，才能再次解释 `为什么偏偏保留了这个特征。`
-
-这一节与其说是特征列表介绍，不如说更接近于：应该用什么问题来引导 `结构的数值表示(numeric representation of structure)`。
-
 ## 保留符合比较问题的特征 {#_1}
 
-这一节的顺序是：先定 `要比较的结构`，再把它转换成平均值、差值、斜率、波动性这样的表达，最后才决定哪些特征真正留下来。特征不是简单加列，而是把结构重新翻译成数值形式。
-
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-1-mermaid-01-zh.mmd"
-
-因此，特征并不是 `再多加几列`，而是把想比较的结构重新翻译成水平、变化、稳定性这样的数值表达。
+```
 
 ## 检查清单
 
-- 你是否计算了一个能揭示均值所掩盖差异的特征？
-- 你是否区分了区段均值之间的波动与区段内部测量值的波动？
+- 能否区分斜率分母 2 与实际时间间隔？
+- 能否指出标准差的三个计算值及其单位？
+- 能否解释均值 [2, 2, 2] 为何不能恢复区间内部波动？
+- 能否避免把两个测试事件的准确率推广为一般性能？
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此支持这样一点：应该先决定想展示什么结构，再把这个结构转成输入变量。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为决定哪些变换有助于模型训练的过程，因此强化了这一点：特征设计不是保留原始值不动，而是把结构转换成可比较的数字表达。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. 它把基准时段解释为比较其他时段的参考，因此提供了一般依据：水平/变化/稳定性特征也应被选成便于在基准线比较中读取的结构。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 该资料把平均值、中位数、众数作为代表性位置尺度来说明，并展示在偏斜分布或厚尾分布中平均值和中位数可能提供不同信息。因此，它强化了这一节的说明：即使要把整体水平留下成一个数字，也应先决定想看的结构。 [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Scale`. 该资料说明了多种用于描述变动性(variability)或分散程度(spread)的数值尺度，并指出选择哪种尺度估计量取决于想强调哪一部分分散。因此，它支持这一节的说明：稳定性特征应作为不同于平均值的结构被保留下来。 [https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此支持这样一点：应该先决定想展示什么结构，再把这个结构转成输入变量。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-19
+- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为决定哪些变换有助于模型训练的过程，因此强化了这一点：特征设计不是保留原始值不动，而是把结构转换成可比较的数字表达。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-19
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 该资料把平均值、中位数、众数作为代表性位置尺度来说明，并展示在偏斜分布或厚尾分布中平均值和中位数可能提供不同信息。因此，它强化了这一节的说明：即使要把整体水平留下成一个数字，也应先决定想看的结构。 [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-19
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Scale`. 该资料说明了多种用于描述变动性(variability)或分散程度(spread)的数值尺度，并指出选择哪种尺度估计量取决于想强调哪一部分分散。因此，它支持这一节的说明：稳定性特征应作为不同于平均值的结构被保留下来。 [https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-19

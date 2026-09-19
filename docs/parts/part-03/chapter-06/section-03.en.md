@@ -1,103 +1,62 @@
 # P3-6.3 How Should We Distinguish Human-Made Features from Representations Learned by the Model
 
 > Section ID: `P3-6.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-Once we place [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) together with [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation), it becomes important to read clearly where `the human act of deciding the input structure` separates from `the model's act of learning a representation inside that input`. If this distinction becomes blurred, Part 3's feature design can look like outdated preprocessing, or the opposite misunderstanding can arise that the model will decide the structure of the problem for us. The key point is that the two are not in competition. The features and intermediate representations that people make in Part 3 are the act of first deciding `in what input structure the problem will be read`. The representation learned by the model is the act of learning `what patterns inside that input structure better separate useful cases`.
+A model can receive raw measurements in order without handcrafted summaries. What must be specified is the sample unit, the information available by the prediction time, and the question to answer. **Input boundaries are necessary; computing means, slopes, and tokens is optional.**
 
-The distinction the reader should hold first is simple. People build the input, and the model learns a representation inside that input. Split as briefly as possible, it looks like this.
+## Two Input Paths from the Same Raw Values
 
-| Distinction | What it does |
-| --- | --- |
-| Human-made features | Leave the comparison axes that fit the question as numerical columns |
-| Human-made intermediate representations | Re-bundle order and structure into an input that is easier to read |
-| Model-learned representations | Combine useful patterns on its own inside the given input |
+Consider a fictional completed action with four sensor observations `[1, 3, 3, 1]`, measured at regular intervals. At action completion, we use these four values to predict whether later inspection will be needed. Both paths use the same data and prediction time.
 
-So Part 3's responsibility is not `the model will learn a representation, so we can leave things loosely defined`. It is `let us first design the input unit that the model can read`.
-
-## Why Do Humans Build Features First
-
-The reason people build features first is not simply that it is an old-fashioned method. We still have to decide at the level of problem structure what we want to compare now, what difference should matter operationally, and what should still remain in a comparison report.
-
-For example, questions such as `does it collapse sharply in the late phase?`, `has variability grown?`, and `has the difference from the baseline widened?` can already be decided even before a model appears. Only when such questions exist can we explain why features such as averages, slopes, variability, and segment differences are necessary.
-
-| The question fixed first | The feature a person leaves first |
-| --- | --- |
-| Has the overall level changed? | Average, median |
-| Does the structure collapse in the late phase? | Segment difference, decline rate |
-| Does it fluctuate more even when the result looks similar? | Standard deviation, variability |
-| Is the change from the baseline large? | Difference-from-baseline values |
-
-Without this stage, even if we later use any learning structure, `what we are trying to predict` and `what difference we regard as important` become weak.
-
-## Why Is an Intermediate Representation Needed
-
-An intermediate representation is the bridge between numerical features and the raw log. A token sequence such as `UP, FLAT, DOWN` or a segment-wise expression is still a human-defined representation, but it already has the property of being `an input with order`. So it can preserve structure more directly when numerical features alone may miss it. Here too, the center is not the expectation that the model will create the representation by itself. It is the fact that the human decides once more what input shape will be passed forward.
-
-| The input structure built in Part 3 | What now remains more clearly |
-| --- | --- |
-| One-action summary vector | The overall level and representative-value differences |
-| Segment-wise feature vector | Segment-by-segment changes and fluctuation differences |
-| Tokenized segment sequence | The outline of order and repeated patterns |
-
-The important point here is that `an intermediate representation is not itself deep-learning representation learning`. An intermediate representation is an input reconstruction made by a human. Representation learning is the later step where the model learns a more useful internal representation inside that input. In other words, the boundary to hold first in this section is the difference between `the human builds the input` and `the model interprets that input`.
-
-## Where Do Input Specification and Representation Learning Separate
-
-The boundary splits at `does a human first decide what to provide as the input?` versus `does the model itself combine internal patterns inside the given input?`
-
-| Question | What is decided first in input specification | What happens later in representation learning |
+| Aspect | Path using summary features | Path preserving ordered values |
 | --- | --- | --- |
-| What counts as one sample? | Decide whether it is one full action or a recent range | Build an internal representation from the already fixed sample unit |
-| What values will be given as input? | Choose an input form such as averages, slopes, or token sequences | Learn useful combinations inside that input |
-| How will the raw log be rewritten? | Reconstruct it as a table, vector, or sequence | Capture deeper patterns inside the reconstructed input |
+| Human-specified input | Mean 2, last−first 0 | [1, 3, 3, 1], with order and measurement interval |
+| Information retained | Overall level and endpoint difference | Position-specific values rising in the middle |
+| Example of learning | Learn the relationship between these two features and the outcome | A sequence-processing neural network learns internal values that distinguish patterns across positions |
+| Further human decisions | Summary rules, units, missing-data handling | Length, order, intervals, missing-data handling, and input format |
 
-So features and intermediate representations decide `what the input will be`, while representation learning learns `what matters inside that input`.
+The second path does not require computing means or tokens first. It still requires more than supplying an arbitrary file: specify units, order, and valid observation boundaries, then prepare the array format the model accepts. A combined design can also supply both sequences and summary features.
 
-In this section, `intermediate representation` means human-defined segment or symbolic representations. In other contexts, learned representations inside neural networks are also called intermediate representations. Nor does every model learn a new internal representation: some learn only the relationship between human-made features and an outcome. Handcrafted features and representation learning are not two mandatory stages that every task must pass through in sequence.
+`[3, 1, 1, 3]` also has mean 2 and last−first 0. A model receiving only those two summaries cannot distinguish the actions from its inputs. Ordered inputs remain different, preserving information for distinguishing them. Whether a model learns to use it effectively depends on data, learning objective, and model. Information availability and useful performance are separate judgments.
 
-## Two Common Misunderstandings
+## Distinguish Specified Calculations from Learned Calculations
 
-The first is the misunderstanding that `if it is deep learning, feature design is unnecessary`. Deep learning can reduce the need for humans to hand-build every feature, but it does not decide sample boundaries and input range on our behalf. Decisions such as whether one full action is one sample, whether a recent range is one sample, and whether to leave the full time series uncut are still the human's responsibility.
+A mean formula or fixed `UP/FLAT/DOWN` boundaries are explicit human rules. Representation learning instead transforms inputs into internal values through parameters adjusted during learning. People specify objectives and model structure, but need not manually name each internal value “late decline,” for example. Learned values are not guaranteed to be as directly interpretable as handcrafted features.
 
-The second is the misunderstanding that `if we built features, deep learning is unnecessary`. Human-made features can be a good starting point, but longer sequence dependencies or more complex patterns may be captured better later by representations learned by the model. So feature design and representation learning are closer to sequential stages than to substitutes.
+Not every model learns new internal representations. Some learn outcome relationships from supplied features. Conversely, models that learn internal representations can receive handcrafted features. Who summarized the input and what the model learns are separate questions.
 
-| Misunderstanding | More accurate statement |
-| --- | --- |
-| If it is deep learning, feature design is unnecessary | Defining the sample and designing the input structure are still needed first |
-| If features were built, representation learning is unnecessary | Human-made features are the starting point, and deeper patterns can still be learned later |
+In the previous section, “intermediate representation” meant segments or tokens built with human-defined rules. Elsewhere, it can mean learned values inside a neural network. Check whether the term refers to **input created by fixed rules or internal values adjusted through learning**. The later deep-learning Part explains the learning mechanisms.
 
-## Tying It Again into One Scene
+## Images and Documents Also Need Input Boundaries
 
-Suppose we have the raw log for one full action.
+| Data | Examples of human boundary decisions | Possible input paths |
+| --- | --- | --- |
+| Sensor action | Completed action or latest 30 seconds; which sensors | Summary features or ordered measurements |
+| Image | Whole photo or crop; capture time and subject | Color summaries or a prepared pixel array |
+| Document | Whole document or paragraph; which version is available | Word-count summaries or ordered text tokens |
 
-1. In Part 3, we first define one full action as one sample.
-2. We leave averages, slopes, variability, and segment differences as features.
-3. If needed, we also create an intermediate representation as a segment sequence such as `UP, FLAT, DOWN`.
-4. The tables and sequences built this way become the inputs that the model will read in the later learning stage.
-5. After that, the model can learn longer dependencies or more complex combinations inside that input.
+Text tokens are language-processing units used for model input, not the slope-token rules of the preceding section. Neither path should include outcomes produced after prediction time. Learning internal representations also cannot faithfully restore missing records or details discarded before input.
 
-Looking at this order makes it clear that feature design is not an outdated preparation step from before deep learning. It is the input-definition stage that is needed first no matter what learning method is used. So the conclusion of this section is not the opposition of `human-made features vs deep learning`, but the question of where [input specification](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) and [representation learning](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representation-learning) separate. Feature design should be read not as obsolete manual labor but as the act of first specifying the input structure on which the later learning stage depends.
+## Human Decisions in Both Paths {#a-small-diagram}
 
-## The Relationship Between Handcrafted Features and Learned Representations {#a-small-diagram}
-
-The boundary in this section is simple. Humans first design the `input` through features and intermediate representations, and only after receiving that input does the model learn internal representations. They are not competing choices, but consecutive stages.
-
-<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
-<div class="aibook-diagram-canvas" markdown="1">
-
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-3-mermaid-01-en.mmd"
+```
 
-</div>
-</div>
+Correct this statement: “Deep learning requires making means, converting them to tokens, and then feeding a neural network.” The answer is: “First specify the sample, prediction time, and input scope, then choose suitable summaries, ordered raw values, or tokens.” Omitting handcrafted summaries does not remove the need for an input specification.
+
+If both arrays are reduced to the single mean 2, can a larger neural network recover the original order? That input alone cannot determine which array it was. Preserve necessary order information when designing the input.
 
 ## Checklist
 
-- Can you explain the difference between human-defined summary rules and learned representations?
-- Did you list input boundaries that people must define even when using representation learning?
+- Can you separate required input boundaries from optional handcrafted summaries?
+- Can you express the same raw values through both paths and explain what each loses?
+- Can you distinguish fixed calculation rules from learned internal calculations?
+- Can you define input scope for an image and a document?
+
+Related concepts: [input specification](/AiBook/en/reference/concept-glossary-alpha/m/#model-input), [representation learning](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representation-learning).
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `feature`. Because it explains a feature as an input variable used for prediction, it provides a basis for distinguishing the stage where people first decide what should remain as input variables from the later learning stage. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains feature engineering as the process of turning raw data into a form more useful for learning, it reinforces the point that Part 3's feature design and intermediate-representation design belong to the input-definition stage. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- TensorFlow, `Subword tokenizers`. Because it shows the preprocessing stage in which tokenized sequences are used as model input in the form of token IDs, it supports the explanation that the segment sequences built in Part 3 are `input reconstructions before entering the model`, not `already learned internal representations`. This connection is an interpretation that generalizes the official preprocessing explanation into a time-series example. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }. Used for feature, feature engineering, and representation terminology. The arrays and input paths are illustrative examples created here. / 2026-09-19

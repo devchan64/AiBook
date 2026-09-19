@@ -1,199 +1,71 @@
 # P3-5.2 요약 표는 평균 밖의 패턴을 어떻게 남기는가
 
 > Section ID: `P3-5.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-같은 [평균(mean)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-mean)을 가진 두 동작이 항상 같은 구조를 뜻하지는 않습니다. 평균은 전체 수준을 한눈에 요약하는 데는 유용하지만, 시간에 따라 어떻게 움직였는지까지 모두 보여 주지는 못합니다. 그래서 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계에서는 `평균이 같다`는 사실만으로 안심하지 않고, 평균 밖의 패턴 차이를 어떻게 남길지 함께 고민해야 합니다.
+[평균(mean)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-mean)은 값의 수준을 요약하지만, 어느 구간이 높았는지와 어떤 순서로 바뀌었는지는 보존하지 않습니다. 앞 절의 요약 표에서 초반·중반·후반 평균을 따로 남긴 이유도 여기에 있습니다. 같은 평균인 사례를 구간별 수치로 비교하고, 그 수치로 말할 수 없는 것까지 구분해 보겠습니다.
 
-여기서는 요약 표 변환 절차 자체를 다시 설명하지 않습니다. 대신 앞 절에서 만든 요약 표가 평균만 남기는 표가 아니라, 뒤의 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 설계와 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교로 이어질 패턴 차이까지 남겨야 한다는 점에 집중합니다.
+## 같은 2.40을 만드는 서로 다른 세 구간
 
-예를 들어 두 번의 자동 동작이 모두 평균 유량 2.4를 기록했다고 하겠습니다. 하나는 초반에 빠르게 올라갔다가 중반에 안정적으로 유지되고 후반에 천천히 떨어졌을 수 있습니다. 다른 하나는 초반에 거의 움직이지 않다가 후반에 급격히 올라갔다가 바로 떨어졌을 수 있습니다. 평균값 하나만 보면 둘이 비슷해 보이지만, 실제 운영 의미는 전혀 다를 수 있습니다.
+[가상 구간 요약 CSV](../../../assets/part-03/chapter-05/p3_5_2_segment_patterns.csv)는 36개 동작의 초반·중반·후반 평균 유량을 담습니다. 한 행은 동작 1회이고 단위는 L/min입니다. `pattern_family`는 자료를 만들 때 붙인 유형 이름이며 실제 고장 라벨이나 판정 정답이 아닙니다. 먼저 E01·E02·E03만 비교합니다.
 
-이 차이를 드러내기 위해서는 평균 외에 구조를 보여 주는 값을 함께 남겨야 합니다. 예를 들면 다음과 같습니다.
+| event_id | early_flow_mean | mid_flow_mean | late_flow_mean | 세 구간의 단순 평균 |
+| --- | ---: | ---: | ---: | ---: |
+| E01 | 1.80 | 2.90 | 2.50 | 2.40 |
+| E02 | 2.40 | 2.40 | 2.40 | 2.40 |
+| E03 | 2.70 | 2.70 | 1.80 | 2.40 |
 
-- 초반 평균
-- 중반 평균
-- 후반 평균
-- 구간별 기울기
-- 최대값이 나온 시점
-- 하강 시작 시점
+E01은 `(1.80+2.90+2.50)/3 = 7.20/3 = 2.40`입니다. E02·E03도 합계가 7.20이므로 같은 값이 됩니다. **이 값은 세 구간을 같은 비중으로 평균한 값**입니다. 입력에는 구간 길이나 관측 수가 없으므로 이를 검증된 동작 전체 평균이라고 부르지 않습니다.
 
-| 동작 | 평균 유량 | 초반 기울기 | 후반 기울기 | 해석 |
-| --- | --- | --- | --- | --- |
-| A | 2.4 | 큼 | 완만한 하강 | 비교적 안정적 |
-| B | 2.4 | 거의 없음 | 급격한 하강 | 후반 불안정 가능성 |
+## 구간 평균의 위치를 그래프로 비교하기 {#_1}
 
-이 표를 읽을 때도 순서가 있습니다. 먼저 `평균이 같은가`를 보고, 그다음 `구간 평균이 어떻게 다른가`를 보고, 마지막으로 `기울기나 시점 정보가 어떤 해석을 가능하게 하는가`를 봐야 합니다. 이렇게 읽으면 평균은 같지만 구조는 다르다는 문장이 더 분명해집니다.
+![E01·E02·E03의 초반·중반·후반 평균 유량 비교](../../../assets/part-03/chapter-05/p3-5-2-patterns-ko.png)
 
-| 읽는 층위 | 먼저 보는 값 | 알 수 있는 것 |
-| --- | --- | --- |
-| 전체 수준 | 전체 평균 | 대략 비슷한 규모인가 |
-| 구간 구조 | 초반/중반/후반 평균 | 어느 구간이 달라졌는가 |
-| 형태 변화 | 기울기, 최대값 시점, 하강 시작 시점 | 어떤 모양 차이가 있었는가 |
+세로축은 구간 평균 유량이고 가로축은 구간 순서입니다. 점 사이의 선은 비교를 위한 연결선으로, 실제 센서 궤적이나 같은 길이의 시간 간격을 뜻하지 않습니다. E01은 중반 평균이 가장 높고, E02는 세 평균이 같으며, E03은 후반 평균이 앞 두 구간보다 낮습니다.
 
-즉 평균은 출발점일 뿐입니다. 평균이 같다고 구조도 같다고 말할 수는 없고, 평균이 다르다고 해서 어느 구간에서 달라졌는지도 자동으로 알 수는 없습니다. 요약 표는 바로 이 층위를 나눠 보여 주는 표여야 합니다.
+E02의 선이 수평이라고 실제 유량이 계속 일정했다고 단정할 수는 없습니다. 예를 들어 한 구간의 두 관측이 1.40·3.40이어도 평균은 2.40입니다. 일정한 2.40·2.40과 구간 평균이 같아도 내부 흔들림은 다릅니다. 마찬가지로 E03처럼 평균이 한 방향으로 내려가는 모양 자체가 곧 불안정이나 고장을 뜻하지 않습니다.
 
-여기서는 `평균만 보면 놓치는 것`을 따로 적어 두면 요약 표가 무엇을 더 보여 줘야 하는지 분명해집니다.
+## 구간 차이와 시간당 기울기는 단위부터 다르다
 
-| 평균만 보면 놓치는 것 | 함께 남겨야 할 값 |
-| --- | --- |
-| 변화가 초반에 일어났는지 후반에 일어났는지 | 구간 평균 |
-| 올라가는 속도와 내려가는 속도가 다른지 | 구간별 기울기 |
-| 최고점이 언제 나왔는지 | 최대값 시점 |
-| 안정적으로 유지되었는지 급하게 흔들렸는지 | 변동성, 하강 시작 시점 |
+두 파생 열을 `mid_minus_early = 중반−초반`, `late_minus_mid = 후반−중반`으로 정의하겠습니다. 둘 다 평균 유량의 차이이므로 단위는 L/min입니다.
 
-따라서 요약 표에는 전체 평균 옆에 `early_mean`, `mid_mean`, `late_mean`, `rise_slope`, `drop_slope`, `peak_segment`처럼 패턴을 되짚을 열을 함께 둡니다. 이 열들은 평균을 꾸미는 보조 설명이 아니라, 나중에 `평균은 같지만 후반 하강이 다르다`는 비교 문장을 만들기 위한 근거입니다. 어떤 패턴 기준을 썼는지도 `pattern_note`나 파생 규칙 메모로 남겨야, 같은 원시 로그를 다시 요약할 때 같은 판단을 재현할 수 있습니다.
+| event_id | mid_minus_early | late_minus_mid | 수치가 뒷받침하는 문장 |
+| --- | ---: | ---: | --- |
+| E01 | +1.10 | −0.40 | 중반 평균이 초반보다 높고, 후반은 중반보다 0.40 낮다 |
+| E02 | 0.00 | 0.00 | 세 구간 평균이 같다 |
+| E03 | 0.00 | −0.90 | 초반·중반 평균은 같고, 후반이 0.90 낮다 |
 
-여기에 한 가지를 더 붙여야 합니다. 평균은 [이상치(outlier)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-outlier)와 [분포 치우침(skewness)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)도 쉽게 가립니다. 예를 들어 대부분의 동작은 비슷한 범위에 있는데 일부 사례만 매우 큰 값으로 튀면, 평균은 올라가지만 `대부분의 동작이 실제로 어떤 수준이었는가`는 흐려질 수 있습니다. 반대로 값 대부분이 한쪽에 몰리고 소수 사례만 반대쪽으로 길게 늘어지면, 평균은 그 비대칭 구조를 잘 보여 주지 못합니다.
+E01의 −0.40만으로 하강 속도를 알 수는 없습니다. 별도 가정으로 두 평균의 대표 시각이 10초 떨어져 있다면 차이를 시간으로 나눈 값은 `−0.40/10 = −0.04 L/min/s`입니다. 20초 떨어져 있다면 −0.02입니다. 이는 두 요약점 사이의 평균 변화율이며, 구간 안의 순간 기울기나 실제 하강 시작 시점은 원시 시각·관측으로 확인해야 합니다.
 
-| 평균만으로는 잘 안 보이는 것 | 왜 놓치기 쉬운가 | 함께 남겨야 할 값 |
-| --- | --- | --- |
-| 일부 극단값의 영향 | 소수 사례가 평균을 크게 움직일 수 있음 | 최소값, 최대값, 분위수 |
-| 한쪽으로 긴 꼬리 | 평균은 분포 비대칭을 한 숫자로 눌러 버림 | 중간값, 분위수, 구간별 빈도 |
-| 대부분은 안정적이지만 일부만 크게 흔들리는 구조 | 평균은 대표 사례와 드문 사례를 분리하지 못함 | 표본 수, 이상치 메모, 변동성 |
+연습으로 후반 평균이 중반보다 `pattern_change_threshold` 이상 낮은 사건을 골라 보세요. 규칙은 `late_minus_mid <= −기준값`입니다. 위 세 사건에서 기준 0.30이면 E01·E03, 0.50이면 E03만 선택됩니다. 기준 0.90에서도 E03은 포함됩니다. 기준은 L/min 단위의 설명용 규칙이며 고장 임계값이 아닙니다. 선택 목록이 달라져도 관측값은 그대로입니다.
 
-아래 간단한 예제는 평균은 같지만 패턴은 다른 경우를 숫자로 확인하는 방법입니다.
+## 길이가 다른 구간을 전체 평균으로 합치려면
 
-문제 상황: 전체 평균은 같아 보여도 구간별 흐름이 다르면 다른 운영 구조로 읽어야 한다는 점을 확인합니다.
+관측점 전체의 평균을 구하려면 각 구간의 관측 수로 가중합니다. 예를 들어 E01의 구간 평균이 각각 2·2·6개 관측에서 나왔다면 `(2×1.80+2×2.90+6×2.50)/10 = 2.44 L/min`입니다. 관측 수가 같을 때는 단순 평균 2.40과 일치하지만, 이 가정에서는 후반이 더 큰 비중을 받습니다.
 
-입력(input): [`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){ .csv-preview } 파일. 한 행은 동작 1회의 요약 행이고, `early_flow_mean`, `mid_flow_mean`, `late_flow_mean`은 세 구간 평균입니다. 패턴 변화로 볼 최소 차이는 `pattern_change_threshold`로 조작합니다.
+시간 전체의 평균을 구하려면 각 구간 평균이 그 구간의 시간 평균이라는 전제 아래 구간 길이로 가중합니다. E01의 세 구간이 10·10·40초라면 `(10×1.80+10×2.90+40×2.50)/60 = 2.45 L/min`입니다. 세 구간이 전체 동작을 겹침·누락 없이 덮는다고 가정한 계산입니다. 불규칙한 측정점의 단순 평균을 시간 평균으로 간주해서는 안 됩니다.
 
-기대 출력(output): 같은 `overall_mean` 아래에서도 구간 차이와 `pattern_note`가 달라지는 출력. `pattern_change_threshold`를 바꾸면 어느 정도 차이를 패턴으로 읽을지도 달라진다.
+위 관측 수와 시간은 CSV에 없는 별도의 연습 조건입니다. 요약 표를 전달할 때는 구간별 관측 수 또는 시간 길이, 평균 계산 방식도 함께 남겨야 목적에 맞는 전체 평균을 재계산할 수 있습니다.
 
-확인할 개념: 평균 하나만으로는 패턴 차이를 다 설명할 수 없으므로 구간별 차이와 해석 메모를 함께 남겨야 한다. 패턴 판정 기준을 명시해야 평균 밖 구조를 재현 가능하게 읽을 수 있다.
+## 극단값의 영향은 중앙값과 함께 읽는다
 
-```python
-# 평균만으로 놓치는 early, mid, late 구간 패턴을 요약표에 남기는 예제입니다.
-import csv
-from collections import Counter
-from pathlib import Path
+지금까지는 한 동작 안의 구간 순서를 보았습니다. 이번에는 서로 다른 다섯 동작의 평균 유량이 `2, 2, 2, 2, 12 L/min`이라고 해 보겠습니다. 이 다섯 값의 평균은 `20/5 = 4`이지만, 대부분은 2입니다.
 
-pattern_change_threshold = 0.30
-preview_count = 8
+**중앙값(median)**은 값을 작은 순서로 정렬했을 때 가운데 있는 값입니다. 다섯 값에서는 세 번째인 2이며, 개수가 짝수이면 가운데 두 값의 평균을 사용합니다. 위 사례에서 최대값 12를 22로 바꾸면 평균은 `30/5 = 6`, 중앙값은 여전히 2입니다. 평균과 중앙값을 함께 보면 큰 값 하나가 전체 수준 요약에 얼마나 영향을 주었는지 알 수 있습니다.
 
-data_path = Path("docs/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv")
+중앙값만 남겨 12나 22를 무시하는 것도 충분하지 않습니다. 큰 값이 실제 사건인지 기록 오류인지 원자료에서 확인하고, 건수와 최대값도 함께 남깁니다. 이 비교는 여러 동작의 값 분포를 보는 것이며, 한 동작의 시간 순서를 되살리는 방법은 아닙니다.
 
-with data_path.open(newline="", encoding="utf-8") as file:
-    summary = []
-    for row in csv.DictReader(file):
-        numeric = {
-            key: float(row[key])
-            for key in ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-        }
-        overall_mean = sum(numeric.values()) / len(numeric)
-        mid_minus_early = round(numeric["mid_flow_mean"] - numeric["early_flow_mean"], 2)
-        late_minus_mid = round(numeric["late_flow_mean"] - numeric["mid_flow_mean"], 2)
-
-        if (
-            mid_minus_early > pattern_change_threshold
-            and late_minus_mid <= -pattern_change_threshold
-        ):
-            pattern_note = "mid peak then drop"
-        elif (
-            abs(mid_minus_early) <= pattern_change_threshold
-            and abs(late_minus_mid) <= pattern_change_threshold
-        ):
-            pattern_note = "flat across segments"
-        elif late_minus_mid <= -pattern_change_threshold:
-            pattern_note = "late decline after high early/mid"
-        else:
-            pattern_note = "other segment pattern"
-
-        summary.append(
-            {
-                **row,
-                **numeric,
-                "overall_mean": overall_mean,
-                "mid_minus_early": mid_minus_early,
-                "late_minus_mid": late_minus_mid,
-                "pattern_note": pattern_note,
-            }
-        )
-
-print("1) the same overall mean is not enough")
-for row in summary[:preview_count]:
-    print(
-        f'{row["event_id"]}: overall={row["overall_mean"]:.2f} '
-        f'early={row["early_flow_mean"]:.2f} '
-        f'mid={row["mid_flow_mean"]:.2f} '
-        f'late={row["late_flow_mean"]:.2f}'
-    )
-print(f"... {len(summary) - preview_count} more event summaries")
-print()
-print(f"2) pattern counts when threshold = {pattern_change_threshold:.2f}")
-for note, count in sorted(Counter(row["pattern_note"] for row in summary).items()):
-    print(f"{note}: {count}")
-print()
-print("3) derived pattern columns for the preview rows")
-for row in summary[:preview_count]:
-    print(
-        f'{row["event_id"]}: '
-        f'mid_minus_early={row["mid_minus_early"]:.2f} '
-        f'late_minus_mid={row["late_minus_mid"]:.2f} '
-        f'-> {row["pattern_note"]}'
-    )
-```
-
-예상 출력:
-
-```text
-1) the same overall mean is not enough
-E01: overall=2.40 early=1.80 mid=2.90 late=2.50
-E02: overall=2.40 early=2.40 mid=2.40 late=2.40
-E03: overall=2.40 early=2.70 mid=2.70 late=1.80
-E04: overall=2.40 early=1.90 mid=2.80 late=2.50
-E05: overall=2.40 early=2.35 mid=2.45 late=2.40
-E06: overall=2.40 early=2.75 mid=2.65 late=1.80
-E07: overall=2.40 early=1.70 mid=2.90 late=2.60
-E08: overall=2.40 early=2.45 mid=2.35 late=2.40
-... 28 more event summaries
-
-2) pattern counts when threshold = 0.30
-flat across segments: 12
-late decline after high early/mid: 12
-mid peak then drop: 12
-
-3) derived pattern columns for the preview rows
-E01: mid_minus_early=1.10 late_minus_mid=-0.40 -> mid peak then drop
-E02: mid_minus_early=0.00 late_minus_mid=0.00 -> flat across segments
-E03: mid_minus_early=0.00 late_minus_mid=-0.90 -> late decline after high early/mid
-E04: mid_minus_early=0.90 late_minus_mid=-0.30 -> mid peak then drop
-E05: mid_minus_early=0.10 late_minus_mid=-0.05 -> flat across segments
-E06: mid_minus_early=-0.10 late_minus_mid=-0.85 -> late decline after high early/mid
-E07: mid_minus_early=1.20 late_minus_mid=-0.30 -> mid peak then drop
-E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
-```
-
-아래 계산은 세 구간을 같은 무게로 취급한 평균입니다. 구간 길이와 측정점 수가 같다는 가정에서 전체 평균과 일치합니다. 길이가 다른 구간의 평균을 단순히 더해 3으로 나누면 동작 전체의 시간 평균과 다를 수 있습니다.
-
-모든 동작의 `overall_mean`은 2.4입니다. 하지만 2단계를 보면 같은 평균 아래에서도 `flat across segments`, `mid peak then drop`, `late decline after high early/mid`가 각각 12건씩 나뉩니다. 여기서 조작할 값은 `pattern_change_threshold`입니다. 값을 낮추면 더 작은 구간 차이도 패턴 변화로 잡히고, 값을 높이면 완만한 차이는 평평한 흐름으로 남을 수 있습니다. 3단계의 `pattern_note`는 이 차이를 한 문장으로 다시 접은 결과입니다. 따라서 평균만 보면 같은 사례처럼 보이지만, 구간 평균과 구간 차이를 함께 보면 서로 다른 동작 구조라는 점이 드러납니다.
-
-이 예제도 같은 순서로 읽으면 됩니다.
-
-1. `overall_mean`이 같은지 본다.
-2. 세 구간 평균이 모두 같은지, 어느 한 구간만 다른지 본다.
-3. 평균은 같지만 구조는 다른 사례가 운영 해석에서 왜 중요해지는지 한 문장으로 적어 본다.
-
-예를 들어 A는 `중반에 높고 후반에 조금 내려가는 동작`, B는 `처음부터 끝까지 거의 같은 수준의 동작`이라고 요약할 수 있습니다. 이 한 문장 요약이 가능해야 숫자 표가 실제 구조 해석으로 이어집니다. 여기서 다시 확인할 것은 평균을 버리자는 뜻이 아니라, 평균만 남기면 구조 해석이 멈춘다는 점입니다. 그래서 평균이 같을 때도 구간 평균, 구간별 기울기, 최대값 시점, 하강 시작 시점 같은 값이 함께 남아 있어야 합니다.
-
-이 차이는 나중에 기준선 비교에서도 그대로 중요해집니다. 최근 구간 평균이 평소와 같아 보여도, 후반 하강 패턴이 더 강해졌다면 이미 상태 변화가 시작되었을 수 있기 때문입니다. 따라서 `같은 평균, 다른 패턴`을 읽는 감각은 단지 특징 하나를 더 보는 요령이 아니라, 뒤에서 `최근 구조가 평소와 달라졌는가`를 읽기 위한 준비 단계입니다.
-
-## 전체 평균에서 구간 패턴으로 {#_1}
-
-이 절의 읽기 순서는 단순합니다. 먼저 `전체 평균이 같은가`를 확인하고, 그다음 `구간 평균`과 `기울기/시점`을 따라가면 마지막에 `패턴 해석`이 남습니다. 즉 평균은 시작점일 뿐, 구조 해석은 그 다음 층위에서 닫힙니다.
-
---8<-- "assets/part-03/chapter-05/p3-5-2-mermaid-01-ko.mmd"
-
-평균이 같다는 이유로 두 동작을 같은 범주로 묶어 버리면, 실제로는 후반 하강이 급한 사례를 놓칠 수 있습니다. 그래서 요약 표에서는 `평균이 같아도 구조는 다를 수 있다`는 점이 드러나야 합니다. 이 생각이 나중의 특징 설계, 세그먼트 표현, 기준선 비교로 자연스럽게 이어집니다.
+마지막으로 “E01과 E03은 평균 2.40이므로 같은 동작이다”를 고쳐 보세요. 답은 “세 구간의 단순 평균은 같지만 E01의 중반−초반 차이는 +1.10, E03은 0이며, 후반−중반 차이도 −0.40과 −0.90으로 다르다. 전체 시간 평균과 고장 여부는 추가 근거가 필요하다”입니다.
 
 ## 체크리스트
 
-- 평균이 같아도 구간 순서가 다른 사례를 만들었는가?
-- 구간별 길이가 다를 때 전체 평균을 어떻게 계산할지 설명했는가?
+- E01·E02·E03이 모두 2.40이 되는 계산과 다른 구간 차이를 설명하는가?
+- 수평인 구간 평균과 구간 내부의 일정한 관측값을 구별하는가?
+- L/min 단위 구간 차이와 L/min/s 단위 변화율을 구별하는가?
+- 구간별 관측 수와 시간 길이에 따라 2.44·2.45를 계산할 수 있는가?
+- 다섯 동작의 평균 4와 중앙값 2가 서로 무엇을 보여 주는지 설명하는가?
+- 패턴 규칙의 선택 결과를 불안정·고장 판정으로 단정하지 않는가?
 
 ## 출처와 참고 자료
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 시간 흐름 안에서 신호와 패턴을 읽는 관점을 제공하므로, 평균 하나만으로는 구조 변화를 다 설명할 수 없고 구간별 변화와 모양 차이를 함께 남겨야 한다는 이 절의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 치우친 분포에서는 평균과 중간값이 같지 않을 수 있고, 극단값이 평균을 왜곡할 수 있다고 설명하므로, 평균만 남기면 이상치와 분포 치우침을 놓칠 수 있어 중간값, 분위수, 최소·최대값 같은 값을 함께 봐야 한다는 이 절의 설명을 직접 보강합니다. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 원시 데이터를 더 유용한 입력 표현으로 바꾸는 과정으로 설명하므로, 요약 표가 평균만 남기는 표가 아니라 구간 평균, 기울기, 시점 같은 구조 정보를 함께 남겨야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- W3C, `PROV-Overview`. provenance framework가 derivation과 processing steps를 설명 가능하게 남겨야 한다고 정리하므로, 전체 평균 외에 어떤 구간 요약과 파생값을 남겼는지 재구성 가능해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- NIST/SEMATECH, [Measures of Location](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" }. 평균·중앙값의 정의와 극단값에 대한 반응 차이의 근거입니다. CSV, 그래프, 가중 평균 계산 및 임계값 연습은 자체 가상 사례입니다. / 확인일: 2026-09-19

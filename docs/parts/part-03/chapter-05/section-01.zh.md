@@ -1,202 +1,91 @@
 # P3-5.1 如何把原始日志转换成可比较的表
 
 > Section ID: `P3-5.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-转成实际列设计时，原始日志中要用 `event_id`、`timestamp`、`progress_bin`、传感器值等留下记录发生的位置；摘要表中要放 `event_id`、`early_flow_mean`、`mid_flow_mean`、`late_flow_mean` 等用于比较一次动作的列；聚合表中需要 `window`、`event_count`、`baseline_gap` 等显示多个动作被再次分组的列。即使三张表都来自同一源数据，各表的第一列和派生列也必须指向不同 表示层级，后面比较 标准 和特征候选才不会混在一起。
+把一次动作定义为[样本](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)后，可以按问题用不同方式表示同一批记录。动作内的细节看原始记录，动作间的区段均值差异看摘要表，多次动作的近期状态看汇总表。**摘要表只是帮助比较的一种表示，也可以直接比较原始时间序列，或把它们作为模型输入。**
 
-第一次看到原始日志时，数据往往显得非常丰富。因为按时间顺序积累了很多数值，可能还有多个传感器，也可能同时包含控制参数。但这种丰富，并不自动意味着我们已经拥有了可比较的数据集。在样本 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample) 单位定下来之后，仍然需要一个把原始日志转换成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)和聚合表的过程。原始日志、汇总表、聚合表各自承担不同角色，而且[每一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/y/#sample-unit)所代表的对象也不同。
+## 从已分配区段的 36 个观测开始
 
-`原始日志 -> 汇总表 -> 聚合表`，是把同一条时间序列重新表达成适合不同问题的表结构的顺序。只要这个顺序能被看见，后面的 [baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline) 比较和 [intermediate representation](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation) 设计究竟接在什么层级上，也会更清楚。
+[虚构流量 CSV](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv) 包含 A～F 六次动作的 36 个观测，`flow` 单位为 L/min。每次动作的 `early`、`mid`、`late` 各有两个观测；A、B、C 属于 `baseline`，D、E、F 属于 `recent`。
 
-以自动执行的一次动作作为例子。原始日志里，在动作进行中的每一个时点，都会留下包含传感器值和控制值的一行记录。到了汇总表，一次完整的自动动作才会变成一行。到了聚合表，一行又可能表示把多个动作重新汇总后的结果，比如最近 20 次的平均值，或者平时某个区间的平均值。
+这个输入**已经分配好动作 ID、进度区段和比较分组**。本节使用这些分配计算均值，不重新计算区段边界。区段划分标准见 [P3-5.4](section-04.zh.md)。CSV 没有时间戳或原始进度值，因此仅凭此文件无法验证区段分配是否合理，也无法确定动作时长。
 
-| 表的类型 | 一行代表什么 | 主要回答的问题 |
-| --- | --- | --- |
-| 原始日志 | 动作过程中的一个时点记录 | 现在测到了什么？ |
-| 汇总表 | 对一次完整动作做出的样本汇总 | 这次动作是什么结构？ |
-| 聚合表 | 由多个动作构成的近期或基准线汇总 | 最近的变化和以往状态不同吗？ |
+先看 A 的六个观测。`(event_id, progress_bin)` 是收集观测的分组依据；每个组合出现两次，所以并非单个观测的唯一标识符。
 
-这不只是表名不同而已。原始日志擅长保留细节流程，但很难直接比较完整动作。汇总表让动作之间的比较更容易，但大多数瞬时波动会被压缩掉。聚合表让人更快读出近期状态，但单个动作的特殊形状可能会被抹平。
+| event_id | window | progress_bin | flow |
+| --- | --- | --- | ---: |
+| A | baseline | early | 0.70 |
+| A | baseline | early | 0.90 |
+| A | baseline | mid | 2.00 |
+| A | baseline | mid | 2.10 |
+| A | baseline | late | 1.70 |
+| A | baseline | late | 1.80 |
 
-所以，这一节里的表转换，与其说是 `做出一张表`，不如说更接近 `把数值型信息和类别型状态一起整理成可探索的结构`。数值探索要到汇总表能够比较水平、变化和波动性时才真正开始；类别探索也要把状态标签、缺失标记、重叠情况、不可比较原因等一起整理出来，才算真正开始。
+## 先平均同一次动作、同一区段的观测
 
-| 探索视角 | 在表里先要留下什么 | 后面小节会继续读什么 |
-| --- | --- | --- |
-| 数值探索 | 区间平均值、变化率、波动性 | 超出平均值的模式、近期对基准线的差异 |
-| 类别探索 | 状态标签、缺失标记、重叠/不可比较标记 | 样本坍塌的区分、可比较性判断 |
+A 的前段均值为 `(0.70 + 0.90)/2 = 0.80 L/min`，中段为 `(2.00 + 2.10)/2 = 2.05`，后段为 `(1.70 + 1.80)/2 = 1.75`。这三个值分别描述 A 的不同区段，不是三个全程均值。
 
-因此，把 `汇总` 理解成简单压缩是不够的。一条动作汇总行，是把原始时间序列中的多行记录，改写成人和模型都更容易处理的一行。关键不在于再次重定义样本单位，而在于在已经定好的样本单位之上，做出可比较的表。它能让比较更容易，但并不会替代原始时间序列里的所有上下文。
+对其他动作使用相同计算，得到下表。一行代表一次动作，可通过 `event_id` 找回原来的观测组。每个均值的分母是该动作、该区段的两个观测。
 
-所以，读表时最先该问的，不是 `列是什么`，而是 `这一行是什么`。原始日志中的一行，通常还不是一条完整样本。只有变成汇总表里的一行时，完整动作才算真正能被读作可比较的样本。聚合表则更进一步，把多个样本重新组合成一个比较结构。
+| event_id | window | early_flow_mean | mid_flow_mean | late_flow_mean |
+| --- | --- | ---: | ---: | ---: |
+| A | baseline | 0.80 | 2.05 | 1.75 |
+| B | baseline | 0.80 | 2.15 | 1.65 |
+| C | baseline | 0.80 | 2.00 | 1.85 |
+| D | recent | 0.95 | 2.45 | 1.85 |
+| E | recent | 1.05 | 2.65 | 1.95 |
+| F | recent | 1.00 | 2.55 | 1.75 |
 
-从原始日志走到汇总表，不只是把行数减少而已。在这一阶段，我们还要一起决定 `要怎么切区间`、`要计算哪些变化率`、`哪些传感器值应当留下来作为代表值`。例如，一次动作的汇总表中，可能会包含总动作时长、前段平均压力、中段平均流量、后段下降率、控制跟随误差等列。这些值并不是原始日志里本来就以单行形式存在的值，而是把多个时点的值重新表达成更适合人类比较的结果。
+例如，这张表可以直接比较 A 与 D 的中段均值。但均值相同，不代表区段内的变化形状相同。A 前段的 0.70、0.90 与 B 前段的 0.80、0.80 均值都是 0.80，观测值却不同。要看变化顺序或瞬间峰值，还需检查原始记录。
 
-下面的图，把这个转换压缩成了最短的形式。
+## 再次平均动作均值，得到比较分组的均值
+
+现在收集同一 `window` 内各动作的同一列。基准前段均值为 `(A 的 0.80 + B 的 0.80 + C 的 0.80)/3 = 0.80`，近期前段均值为 `(D 的 0.95 + E 的 1.05 + F 的 1.00)/3 = 1.00`。**前一次的分母 2 是观测数，这次的分母 3 是动作数**，每次动作占相同权重。
+
+| window | member_events | event_count | early_flow_mean | mid_flow_mean | late_flow_mean |
+| --- | --- | ---: | ---: | ---: | ---: |
+| baseline | A, B, C | 3 | 0.80 | 2.07 | 1.75 |
+| recent | D, E, F | 3 | 1.00 | 2.55 | 1.85 |
+
+虽然均值列与前表同名，此时描述的却是三次动作而非一次动作。转交为其他文件时，也应保留一行的含义与计算规则。基准中段均值为 `(2.05 + 2.15 + 2.00)/3 = 2.0666…`，仅在表中四舍五入为 2.07。
+
+前段的近期减基准差值为 `1.00−0.80 = +0.20 L/min`。这是六次虚构动作中的均值差异，不能直接当作故障或长期变化的证据。每组实际只有三次动作，也不能称作“最近 20 次”。
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-1-mermaid-01-zh.mmd"
 ```
 
-在这条流程里，`Segment by progress` 这一步尤其重要。我们并不是直接对原始日志整体求平均，而是先把动作切成前段、中段、后段这样的可比较区间，然后才会得到汇总值。`Aggregate across events` 则是下一步。对一次动作做汇总，和对近期区间再做聚合，不是同一件事，后者是再往上做一次组合。
+36 个观测→6 行动作→2 行汇总的转换没有重新定义动作样本，而是在不同层级汇总相同的六次动作。如果汇总值异常，可以沿着 `window → event_id → progress_bin 的观测` 回查哪个值发生了变化。
 
-所以，看到这些表时，最好先确认 `现在我手里的这张表，在这三种表里属于哪一种起点`，这样才不容易把不同表混在一起读。
+## 改变一个值，追踪两步计算的影响
 
-| 现在手里的表 | 首先要做什么 | 仅靠这张表仍然困难的事 |
-| --- | --- | --- |
-| 原始日志 | 确定动作边界和区间标准 | 直接比较不同动作 |
-| 汇总表 | 比较动作与动作之间的差异 | 读取近期反复变化的趋势 |
-| 聚合表 | 看近期状态与基准线的差异 | 查看单个动作的细节形状 |
+保持原始 CSV 不变，假设把 A 前段的 0.90 改为 1.50。请计算 A 的前段均值、基准前段均值，以及近期减基准的差值。
 
-聚合表的角色还会再变一次。这里的重点不再是单个动作的形状，而是 `最近 20 次的平均值`、`最近 20 次的波动性`、`相对基准线的差异`、`同方向变化重复了多少次` 这样的组合走势。也就是说，如果汇总表更接近 `读案例`，那么聚合表就更接近 `读状态`。
+A 变为 `(0.70 + 1.50)/2 = 1.10`，基准变为 `(1.10 + 0.80 + 0.80)/3 = 0.90`，差值为 `1.00−0.90 = +0.10 L/min`。原始值增加 0.60，在动作均值中体现为增加 0.30，在三动作汇总中体现为增加 0.10。近期组与中段、后段值不变。沿着受影响的列，可以把汇总结果追溯到具体观测。
 
-下面的例子展示原始日志如何先变成动作级汇总表，再进一步变成近期/基准线聚合表。这里假设我们把动作按三个进度区间切开，计算区间平均值，并比较 3 个 `baseline` 动作和 3 个 `recent` 动作。
+## 选择让测量点等权，还是让动作等权
 
-问题情境：一次性查看原始日志如何先变成 `动作级汇总表`，再变成 `近期/基准线聚合表`。
+前面的每次动作、每个区段都有两个观测，因此直接汇集观测求平均也会得到相同结果。观测数不同时则会不同。另设一个虚构案例：X 有两个值为 10 的测量点，Y 有六个值为 20 的测量点。
 
-输入：[`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){ .csv-preview }。一行是一次动作某个进程区段中测得的 `flow` 记录；`window` 表示基准区间或近期区间。
+| 问题 | 计算 | 结果 | 各动作的权重 |
+| --- | --- | ---: | --- |
+| 每次动作等权，比较两次动作的平均水平 | (10+20)/2 | 15 | X:Y = 1:1 |
+| 计算全部八个测量点的均值 | (2×10+6×20)/8 | 17.5 | X:Y = 2:6 |
 
-期望输出(output)：`raw`、`summary`、`aggregate` 三张表分别具有不同的行含义与比较角色
+第二种计算中，Y 的权重是 X 的三倍，这就是加权的含义。不是测量点均值错误、动作均值总是正确，而是需要根据问题选择分母和权重。如果测量间隔不规则，也不能直接把测量点均值当作时间均值。
 
-要确认的概念：把原始日志变成可比较的表，意味着把同一份记录逐步改写成汇总表与聚合表
-
-```python
-# 这个例子把原始日志行转换为按事件汇总表和按区间聚合表。
-import csv
-from collections import defaultdict
-from pathlib import Path
-
-data_path = Path("docs/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv")
-
-with data_path.open(newline="", encoding="utf-8") as file:
-    raw = [
-        {**row, "flow": float(row["flow"])}
-        for row in csv.DictReader(file)
-    ]
-
-event_segments = defaultdict(lambda: {"window": None, "segments": defaultdict(list)})
-for row in raw:
-    event = event_segments[row["event_id"]]
-    event["window"] = row["window"]
-    event["segments"][row["progress_bin"]].append(row["flow"])
-
-summary = []
-for event_id in sorted(event_segments):
-    event = event_segments[event_id]
-    summary.append(
-        {
-            "event_id": event_id,
-            "window": event["window"],
-            "early_flow_mean": sum(event["segments"]["early"]) / len(event["segments"]["early"]),
-            "mid_flow_mean": sum(event["segments"]["mid"]) / len(event["segments"]["mid"]),
-            "late_flow_mean": sum(event["segments"]["late"]) / len(event["segments"]["late"]),
-        }
-    )
-
-window_groups = defaultdict(list)
-for row in summary:
-    window_groups[row["window"]].append(row)
-
-aggregate = []
-for window in sorted(window_groups):
-    rows = window_groups[window]
-    aggregate.append(
-        {
-            "window": window,
-            "event_count": len(rows),
-            "early_flow_mean": sum(row["early_flow_mean"] for row in rows) / len(rows),
-            "mid_flow_mean": sum(row["mid_flow_mean"] for row in rows) / len(rows),
-            "late_flow_mean": sum(row["late_flow_mean"] for row in rows) / len(rows),
-        }
-    )
-
-print("1) raw log rows before comparison")
-for row in raw[:6]:
-    print(
-        f'{row["event_id"]} {row["window"]:<8} '
-        f'{row["progress_bin"]:<5} flow={row["flow"]:.2f}'
-    )
-print(f"... {len(raw) - 6} more raw log rows")
-print()
-print("2) per-event summary table for direct comparison")
-for row in summary:
-    print(
-        f'{row["event_id"]} {row["window"]:<8} '
-        f'early={row["early_flow_mean"]:.2f} '
-        f'mid={row["mid_flow_mean"]:.2f} '
-        f'late={row["late_flow_mean"]:.2f}'
-    )
-print()
-print("3) recent-vs-baseline aggregate table built from event summaries")
-for row in aggregate:
-    print(
-        f'{row["window"]:<8} events={row["event_count"]} '
-        f'early={row["early_flow_mean"]:.2f} '
-        f'mid={row["mid_flow_mean"]:.2f} '
-        f'late={row["late_flow_mean"]:.2f}'
-    )
-```
-
-期望输出：
-
-```text
-1) raw log rows before comparison
-A baseline early flow=0.70
-A baseline early flow=0.90
-A baseline mid   flow=2.00
-A baseline mid   flow=2.10
-A baseline late  flow=1.70
-A baseline late  flow=1.80
-... 30 more raw log rows
-
-2) per-event summary table for direct comparison
-A baseline early=0.80 mid=2.05 late=1.75
-B baseline early=0.80 mid=2.15 late=1.65
-C baseline early=0.80 mid=2.00 late=1.85
-D recent   early=0.95 mid=2.45 late=1.85
-E recent   early=1.05 mid=2.65 late=1.95
-F recent   early=1.00 mid=2.55 late=1.75
-
-3) recent-vs-baseline aggregate table built from event summaries
-baseline events=3 early=0.80 mid=2.07 late=1.75
-recent   events=3 early=1.00 mid=2.55 late=1.85
-```
-
-从这个输出可以看到，原始日志包含 36 条时点记录；到了第 2 步，6 次完整动作才分别变成一行；第 3 步则把这些样本再次汇总成 `baseline` 和 `recent` 聚合结果。这里重要的，不只是行数减少了，而是 `前段`、`中段`、`后段` 这样的比较单位进入了汇总表的列结构，并且这张汇总表又成了后续近期状态比较表的原料。如果改动 CSV 里的数值，动作级汇总值和近期/基准线聚合值都会一起变化，因此读者可以直接确认判断究竟在哪个表示层发生变化。
-
-看完这个例子之后，可以用下面几个问题来检查，刚才发生的到底只是压缩，还是表示层的转换。
-
-1. 现在减少的只是行数，还是连样本级表示都重新定义了？
-2. `early`、`mid`、`late` 是原始日志里本来就有的列，还是为了比较新造出来的区间？
-3. 如果下一步想做最近 20 次的平均值，现在更直接的起点是这张表，还是原始日志？
-
-只要能回答这些问题，`原始日志 -> 汇总表 -> 聚合表` 就更容易被读成不是简单的压缩顺序，而是为了不同判断问题而发生的一连串表示转换。
-
-同样的流程，也可以更短地这样判断。
-
-| 现在需要的判断 | 更直接的起点 |
-| --- | --- |
-| 比较单个动作的结构 | 汇总表 |
-| 比较近期状态与平时状态 | 聚合表 |
-| 检查异常变化发生的具体时点 | 原始日志 |
-
-这张表的重要性，不是说 `只要做出一张好表就结束了`，而是说：不同的问题，需要向上或向下切换到不同的表去读。
-
-### 动作均值的平均与全部测量点的平均并不相同
-
-假设一份虚构日志中，A 的两个测量点都是 10，B 的六个测量点都是 20。把每次动作视为同等的一条记录，平均为 `(10+20)/2 = 15`；把八个测量点视为同等权重，平均为 `(2×10+6×20)/8 = 17.5`。第二种计算中，B 的权重是 A 的三倍。计算方式取决于问题是在问每次动作的状态，还是每个测量点的水平。如果测量间隔还不规则，也不能直接把测量点平均理解为时间平均。
-
-另一个重要点是，这三种表并不是互相竞争的。做出了汇总表，并不意味着原始日志就不需要了。做出了聚合表，也不意味着动作级表失去价值。恰恰相反，如果在聚合表里看到了异常变化，就应该重新回到汇总表和原始日志去检查。为了比较而增加的表示层越多，重新回看原始时间序列的过程也越重要。
-
-因此，`原始日志 -> 汇总表 -> 聚合表` 不是简单的压缩顺序，而是把同一条时间序列依次改写到记录层、样本层、状态层的一套连续设计。关键不在于表一张张增加，而在于：有些问题以原始记录为更直接的依据，有些问题以样本汇总为更直接的依据，还有些问题以状态聚合为更直接的依据。
+如果为 X 再采集四个值为 10 的观测，两种均值会怎样？动作均值仍为 15，测量点均值也变成 `(6×10+6×20)/12 = 15`。动作本身的水平未变，改变的是测量点数量的比重。不能把 17.5 降到 15 解释成 Y 的状态改善。
 
 ## 检查清单
 
-- 你是否分别计算了动作均值的平均与全部时点的平均？
-- 你能否解释两种平均中各动作权重为何不同？
+- 能否说明 early/mid/late 是输入中已分配的区段，而非本次汇总新建的区段？
+- 能否从 A 的两个前段观测追踪到动作均值和基准均值？
+- 能否区分 36 个观测、6 次动作、2 条汇总各自在计数什么？
+- 是否算出了 A 的一个观测改变后受影响的列与分组？
+- 能否按问题选择 15 或 17.5，并解释各动作的权重？
+- 是否记录摘要丢失的信息，以及返回原始记录的路径？
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`. provenance framework 说明处理步骤、可复现性、版本和派生关系都应可表示，因此它为“原始日志是如何经过处理变成汇总表和聚合表”的分层记录提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 将时点记录汇总为动作表的规则是本节自行设计的例子。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
-- U.S. Bureau of Labor Statistics, `Base period`. 它把基准时段说明为比较其他时段的参考，因此为“比较近期状态和基准线状态时，需要像聚合表这样的独立表示层”提供了一般依据。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C，[PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }。为记录处理过程与派生关系提供一般依据。本节的 CSV、区段分配、计算和练习是自行设计的虚构案例，并非 W3C 规定的表转换程序。/ 查阅日期：2026-09-19

@@ -1,7 +1,7 @@
 # P3-6.5 How Should We Read and Keep Features Together When Their Units and Scales Differ
 
 > Section ID: `P3-6.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
 Once we build a few [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), another confusion easily returns. `Is the column with the larger value more important?` `Can seconds and pressure units stay in the same table?` `Can a column with an average of 200 and another with 0.2 simply be compared side by side?` What is needed first here is the sense to distinguish unit, range, size of variation, and change relative to the [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) before looking at the size of the numbers.
 
@@ -11,10 +11,10 @@ For example, suppose the following columns appear together in a one-action summa
 
 | Column name | Example value | Meaning |
 | --- | ---: | --- |
-| `duration_seconds` | 48 | Duration of the action |
-| `pressure_mean` | 101.2 | Average pressure |
-| `flow_std` | 0.18 | Flow variability |
-| `late_drop_rate` | -0.42 | Late-phase decline rate |
+| `duration_seconds` (s) | 48 s | Duration of the action |
+| `pressure_mean` (kPa) | 101.2 kPa | Average pressure |
+| `flow_std` (L/min) | 0.18 L/min | Flow variability |
+| `late_drop_rate` (L/min/s) | -0.42 L/min/s | Late-phase decline rate |
 
 All four values are numerical, but they do not describe the same kind of magnitude.
 
@@ -43,10 +43,10 @@ Several features can certainly be placed in the same sample table. But the readi
 
 | Feature column | How it should be read first |
 | --- | --- |
-| `duration_seconds` | Check whether it became longer than usual |
-| `pressure_mean` | Check the level difference from the baseline |
-| `flow_std` | Check whether the fluctuation increased |
-| `late_drop_rate` | Check whether the late-phase structure collapsed more steeply |
+| `duration_seconds` (s) | Check whether it became longer than usual |
+| `pressure_mean` (kPa) | Check the level difference from the baseline |
+| `flow_std` (L/min) | Check whether the fluctuation increased |
+| `late_drop_rate` (L/min/s) | Check whether the late-phase structure collapsed more steeply |
 
 So comparison should happen not `between numbers`, but `between the same column playing the same role`. Rather than directly comparing `duration_seconds` and `pressure_mean`, we should compare `this duration_seconds` with the usual duration_seconds, and `this pressure_mean` with the usual pressure_mean.
 
@@ -76,10 +76,10 @@ For example, it can be written like this.
 
 | Column | Unit/meaning | Structural role | Comparison |
 | --- | --- | --- | --- |
-| `duration_seconds` | Seconds | Duration | Is it longer than usual? |
-| `pressure_mean` | kPa | Mean level | Is the difference from baseline large? |
-| `flow_std` | L/min | Variability | Is variation greater than usual? |
-| `late_drop_rate` | L/min/s | Rate of late flow change | Has the late slope become steeper? |
+| `duration_seconds` (s) | Seconds | Duration | Is it longer than usual? |
+| `pressure_mean` (kPa) | kPa | Mean level | Is the difference from baseline large? |
+| `flow_std` (L/min) | L/min | Variability | Is variation greater than usual? |
+| `late_drop_rate` (L/min/s) | L/min/s | Rate of late flow change | Has the late slope become steeper? |
 
 If we have this table, then `what kind of number this is` and `how it should be read` become fixed together.
 
@@ -87,7 +87,7 @@ If we have this table, then `what kind of number this is` and `how it should be 
 
 In this section, it is more appropriate to fix how to read numerical columns in a table than to print two fixed rows with Python. For example, consider the working table below.
 
-| event_id | `duration_seconds` | `pressure_mean` | `flow_std` | `late_drop_rate` |
+| event_id | `duration_seconds` (s) | `pressure_mean` (kPa) | `flow_std` (L/min) | `late_drop_rate` (L/min/s) |
 | --- | ---: | ---: | ---: | ---: |
 | A | 48 | 101.2 | 0.18 | -0.42 |
 | B | 44 | 100.9 | 0.05 | -0.10 |
@@ -95,7 +95,7 @@ In this section, it is more appropriate to fix how to read numerical columns in 
 
 If we look only at absolute values, `pressure_mean` appears largest. But when we read the values as changes from the baseline, a different picture appears.
 
-| event_id | `duration_delta` | `pressure_delta` | `flow_std_delta` | `late_drop_delta` |
+| event_id | `duration_delta` (s) | `pressure_delta` (kPa) | `flow_std_delta` (L/min) | `late_drop_delta` (L/min/s) |
 | --- | ---: | ---: | ---: | ---: |
 | A | 3 | 0.2 | 0.15 | -0.30 |
 | B | -1 | -0.1 | 0.02 | 0.02 |
@@ -104,10 +104,10 @@ What matters in this table is not the absolute size of the numbers, but the role
 
 | Column name | Role | How to compare first |
 | --- | --- | --- |
-| `duration_seconds` | duration | difference from baseline |
-| `pressure_mean` | level | difference from baseline |
-| `flow_std` | variability | difference from baseline |
-| `late_drop_rate` | change | difference from baseline |
+| `duration_seconds` (s) | duration | difference from baseline |
+| `pressure_mean` (kPa) | level | difference from baseline |
+| `flow_std` (L/min) | variability | difference from baseline |
+| `late_drop_rate` (L/min/s) | change | difference from baseline |
 
 So the first thing to read is not `larger number`, but `how do we compare the same column playing the same role?`
 
@@ -128,6 +128,29 @@ Input: A small feature table containing duration, pressure change, flow-variabil
 Expected output: The nearest `event_id` and prediction before and after scaling.
 
 Concept to check: Even if features sit in the same table, when a model compares them by distance, scaling can change both the neighbor and the prediction.
+
+## Unit Conversion and Standardization Do Different Jobs
+
+A's flow-standard-deviation difference is `0.18−0.03=0.15 L/min`. With the same observation scope and calculation rule, spread increased by 0.15 L/min from baseline. This cannot be compared in magnitude with a pressure difference of 0.2 kPa to rank importance. Operational significance requires tolerances, measurement error, and other context. Here `flow_std` means the standard deviation of raw flow observations within an action, not of segment means.
+
+Writing 48 seconds as 0.8 minutes converts units of the same physical quantity. Standardization instead changes the numerical scale using training statistics: `z=(value−training mean)/training standard deviation`. The resulting z is dimensionless, but physical meanings and importance do not become identical across features.
+
+## Changing the Scale Changes the Nearest Case
+
+The code uses four fictional training records designed separately from the preceding comparison table. Reused IDs A and B do not denote the same records. The 0/1 values in `review_needed` are example labels; the new sample's true label is not supplied. One-nearest-neighbor classification selects the closest training case across three columns and uses its label. Distance is the square root of the sum of squared column differences.
+
+On the original scales, the new sample differs from A by `(0 seconds, 0.05 kPa, 0.12 L/min)`. Ignoring units and calculating numerically gives `sqrt(0²+0.05²+0.12²)=0.13`. Differences from B are `(−4 seconds, −0.05 kPa, −0.01 L/min)`, giving about 4.0003. This sum mixes different physical units, so it is not a physical distance.
+
+Training durations 44, 48, 43, and 49 seconds have mean 46 seconds and standard deviation about 2.5495 seconds. StandardScaler uses the convention of dividing squared deviations by the training count, four. The new value 44 becomes `(44−46)/2.5495≈−0.7845`; B's 48 becomes about 0.7845. The new sample is placed on the existing training scale, not used to create its own scale.
+
+| Training event | Distance on original numeric scales | Distance after standardizing three columns |
+| --- | ---: | ---: |
+| A | 0.1300 | 1.7674 |
+| B | 4.0003 | 1.6376 |
+| C | 1.0389 | 2.9301 |
+| D | 5.0023 | 2.3932 |
+
+Standardized distance is measured in dimensionless coordinates. **The nearest event changes from A to B, changing the prediction from 0 to 1. Without the true label, this is not evidence of improvement.** Run the code, then change only the query's `flow_std_delta` from 0.14 to 0.02. Both methods then select A and predict 0. Run in Python with pandas and scikit-learn installed.
 
 ```python
 # This example checks how a distance-based model reads features with different units and ranges.
@@ -184,7 +207,9 @@ So a feature table should be understood not as a competition chart of raw magnit
 
 The sequence in this section is that even when different units and scales sit in one table, we should read them by column role and compare each one against its own baseline. Before raw magnitude, the first question is `what does this column measure?`
 
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-5-mermaid-01-en.mmd"
+```
 
 ## Checklist
 
@@ -197,4 +222,6 @@ The sequence in this section is that even when different units and scales sit in
 - Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains the process of turning raw data into a more useful form for learning, it reinforces this section's explanation that features with different roles such as duration, level, variability, and rate of change should be read separately. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general idea that comparison works by placing the same item next to a reference point, it can support the explanation that instead of directly comparing different features with one another, we should read each column through its change from the baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 
-- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }. Checked the principle of estimating preprocessing parameters from training data alone. Checked: 2026-09-15.
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }. Checked the principle of estimating preprocessing parameters from training data alone. Checked: 2026-09-15.
+
+- [scikit-learn StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html){: target="_blank" rel="noopener noreferrer" }. Used for the transformation defined by training means and standard deviations, reuse on new data, and the standard-deviation convention. / 2026-09-20
