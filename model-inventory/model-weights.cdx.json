@@ -1415,10 +1415,6 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/sources/p7-5-15/FrancisRing--StableAnimator.json"
-        },
-        {
-          "name": "aibook:source-status",
-          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     },
@@ -1481,10 +1477,6 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-detection/download-record.json"
-        },
-        {
-          "name": "aibook:source-status",
-          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     },
@@ -1514,10 +1506,6 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-parsing/download-record.json"
-        },
-        {
-          "name": "aibook:source-status",
-          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     },
@@ -1547,10 +1535,6 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-parsenet/download-record.json"
-        },
-        {
-          "name": "aibook:source-status",
-          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     }
