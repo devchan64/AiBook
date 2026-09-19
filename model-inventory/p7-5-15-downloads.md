@@ -62,3 +62,7 @@ Hugging Face 파일은 `.tmp/download/huggingface/hub/`의 고정 revision snaps
 ## 실험 묶음 최종 폐기
 
 2026-09-19 사용자 지시로 MoMask v3와 기존 MoMask·StableAnimator 묶음을 실패로 폐기하고 폴더 전체를 삭제했다. 위 실행 경로·수치는 삭제 전 이력이며 현재 자산 경로가 아니다. 가중치는 보존했다. 후속 framing-v2는 원 입력 삭제로 실행 불가 상태다. [폐기 기록](../management/authoring/part-07-p7-5-15-discarded-experiments.md).
+
+## MoMask v4 새 실험
+
+2026-09-19 기존 가중치로 새 프롬프트 두 조건·3시드 총 6개 모션을 생성했다. 추가 다운로드 없음. 자산은 `docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-v4/`에 모았다. 원 관절·실행 해시·공통 구도 영상·높이/이동/발 속도 진단을 보관한다. 기존 두 실험 묶음의 폐기는 유지한다.

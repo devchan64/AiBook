@@ -1331,8 +1331,8 @@
           "value": ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/download-record.json"
         },
         {
-          "name": "aibook:source-status",
-          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
+          "name": "aibook:source-files",
+          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-v4/run.py"
         }
       ]
     },
@@ -1450,8 +1450,8 @@
           "value": ".tmp/download/artifacts/weight-p7-5-15-momask-clip/download-record.json"
         },
         {
-          "name": "aibook:source-status",
-          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
+          "name": "aibook:source-files",
+          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-v4/run.py"
         }
       ]
     },

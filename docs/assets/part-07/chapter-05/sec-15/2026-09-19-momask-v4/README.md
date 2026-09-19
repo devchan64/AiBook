@@ -1,0 +1,52 @@
+# P7-5.15 MoMask v4: 실제 전진과 접지 상태를 함께 보는 걷기
+
+2026-09-19 실행 완료. 새 프롬프트 두 조건 × 시드 3개, 총 6개 모션. **짧은 전진 지시에서는 지면 근처에서 시작해 약 2.55~3.02m 이동했다.** 시작·종료 정지와 잔여 발 움직임이 있어 완전한 지속 보행 성공으로 판정하지 않는다.
+
+## 설계 개선
+
+- `travel`: `A person walks in a straight line across the room.`
+- `grounded_travel`: `A person walks in a straight line across the room, starting with both feet on the floor and continuously moving forward.`
+- 두 조건 사이에서 프롬프트만 변경했다. 96프레임·20fps, 시드 10107/10108/10109, mask 18 steps·CFG 4, residual CFG 5, temperature 1, top-k threshold 0.9, batch 1을 유지한다.
+- 공식 생성·역정규화·원 관절 복원 경로를 대조했다. 루트 속도와 회전을 별도로 적분한 결과도 복원 골반 궤적과 1e-5m 이내에서 일치했다. 루트 이동을 제거하는 처리는 없다. BVH/IK·발 높이 보정·인위적 전진 이동은 적용하지 않는다.
+- 클립마다 달라지던 화면 폭을 개선해 **6개 결과에 같은 고정 세계 좌표 화면 범위**를 적용했다. 확대·축소나 추적 카메라로 전진 여부를 판단하지 않는다.
+- 추론 전에 초기 최저 발 높이 ≤4cm, 골반 수평 순이동 ≥1m를 탐색용 선별 기준으로 정했다. 생체역학적 합격 기준이 아니며 별도 육안·접촉 검수가 필요하다.
+- 과거 폐기된 산출물을 복구하거나 기준군으로 재사용하지 않았다. 모델 가중치와 공식 생성 방식을 재사용했다.
+
+## 결과
+
+| 조건·시드 | 초기 발 높이(cm) | 수평 순이동(m) | 양발 4cm 초과 프레임 | 발목 앞뒤 교대 | 초기 높이·이동 선별 |
+| --- | --- | --- | --- | --- | --- |
+| grounded_travel-10107 | 0.6 | 0.03 | 4 | 8 | 미통과 |
+| grounded_travel-10108 | -0.8 | 0.03 | 3 | 8 | 미통과 |
+| grounded_travel-10109 | 0.2 | 0.11 | 0 | 8 | 미통과 |
+| travel-10107 | 0.2 | 2.91 | 0 | 4 | 통과 |
+| travel-10108 | 0.2 | 3.02 | 0 | 4 | 통과 |
+| travel-10109 | 0.2 | 2.55 | 0 | 3 | 통과 |
+
+`travel` 세 결과는 초기 부유가 작고 실제로 전진했다. 다만 첫 약 1.2초는 정지에 가깝고 후반에도 멈춘다. 골반 속도 0.1m/s를 넘는 구간은 시드별 약 23~24번부터 81~85번 부근까지다. 처음부터 끝까지 지속되는 걷기로 해석하지 않는다.
+
+`grounded_travel` 세 결과는 바닥과 지속 이동 설명을 덧붙였지만 수평 순이동이 약 2.7~10.8cm에 그쳐 제자리 걷기에 가깝다. 긴 프롬프트가 항상 더 잘 제어한다는 근거는 얻지 못했다. 어느 추가 단어가 영향을 주었는지는 이 두 조건만으로 분리할 수 없다.
+
+접촉을 직접 알 수 없어 발목·발끝 중 낮은 관절이 추정 바닥 2.5cm 이내인 연속 프레임을 골라 발끝 수평 속도를 계산했다. `travel`의 실제 이동 구간에서 중앙값은 약 0.079~0.127m/s다. 지지 발이 완전히 고정됐다고 판정할 수 없으며, 이 수치는 착지·이탈도 섞인 높이 기반 대리지표다. `grounded_travel`의 전체 근접 구간 중앙값은 약 1.20~1.31m/s로 컸다. 바닥은 클립 전체 발 관절 높이의 1백분위수이므로 실제 신발 밑창·지면 측정이 아니다.
+
+전체 576프레임을 수치 분석하고 여섯 결과의 12장 요약을 육안 확인했다. 연속 영상과 전체 PNG도 보관한다. `travel`을 후속 검수 후보로 두며 캐릭터 영상화는 이번 실험에 포함하지 않았다.
+
+GPU는 RTX 5070 Laptop, 최대 PyTorch 할당 약 0.89GiB였다. 모델 로딩 약 6.35초, 첫 모션 약 1.20초·이후 모션 약 0.089~0.102초이며 초기 실행 비용과 렌더링 비용을 구분한다.
+
+## 실행·검수 자료
+
+[계획](plan.json) · [실행 기록](results/result.json) · [진단 수치](metrics.json) · [검수 판정](review.json) · [공통 카메라·높이 진단](results/diagnostics.json) · [위에서 본 골반 경로](root-paths.png)
+
+[실행 코드](run.py) · [공통 구도 렌더링](render.py) · [관절 복원·이동·발 속도 분석](analyze.py)
+
+- **grounded_travel-10107**: [20fps 영상](results/grounded_travel-10107-side.mp4) · [12장 요약](results/grounded_travel-10107-contact-sheet.png) · [발 높이](results/grounded_travel-10107-clearance.png) · [원 관절](results/grounded_travel-10107.npz) · [연속 PNG 첫 장](results/grounded_travel-10107-frames/000.png)
+
+- **grounded_travel-10108**: [20fps 영상](results/grounded_travel-10108-side.mp4) · [12장 요약](results/grounded_travel-10108-contact-sheet.png) · [발 높이](results/grounded_travel-10108-clearance.png) · [원 관절](results/grounded_travel-10108.npz) · [연속 PNG 첫 장](results/grounded_travel-10108-frames/000.png)
+
+- **grounded_travel-10109**: [20fps 영상](results/grounded_travel-10109-side.mp4) · [12장 요약](results/grounded_travel-10109-contact-sheet.png) · [발 높이](results/grounded_travel-10109-clearance.png) · [원 관절](results/grounded_travel-10109.npz) · [연속 PNG 첫 장](results/grounded_travel-10109-frames/000.png)
+
+- **travel-10107**: [20fps 영상](results/travel-10107-side.mp4) · [12장 요약](results/travel-10107-contact-sheet.png) · [발 높이](results/travel-10107-clearance.png) · [원 관절](results/travel-10107.npz) · [연속 PNG 첫 장](results/travel-10107-frames/000.png)
+
+- **travel-10108**: [20fps 영상](results/travel-10108-side.mp4) · [12장 요약](results/travel-10108-contact-sheet.png) · [발 높이](results/travel-10108-clearance.png) · [원 관절](results/travel-10108.npz) · [연속 PNG 첫 장](results/travel-10108-frames/000.png)
+
+- **travel-10109**: [20fps 영상](results/travel-10109-side.mp4) · [12장 요약](results/travel-10109-contact-sheet.png) · [발 높이](results/travel-10109-clearance.png) · [원 관절](results/travel-10109.npz) · [연속 PNG 첫 장](results/travel-10109-frames/000.png)

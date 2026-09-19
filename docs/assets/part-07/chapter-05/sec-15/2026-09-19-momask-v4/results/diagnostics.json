@@ -1,0 +1,157 @@
+{
+  "camera_bounds": {
+    "z": [
+      -0.7724644541740417,
+      3.440633535385132
+    ],
+    "y": [
+      -0.1459973907098174,
+      2.1
+    ]
+  },
+  "method": "Common fixed world camera for every sample. Raw joints; floor=1st percentile of all four foot joint heights over entire clip. Threshold sensitivity only, not a physical contact ground truth. Fixed side projection z/y; no camera tracking.",
+  "samples": [
+    {
+      "sample": "travel-10107",
+      "floor_estimate_m": 0.008221949450671673,
+      "ankle_fore_aft_sign_changes": 4,
+      "both_feet_above_threshold_frames": {
+        "0.02": [],
+        "0.04": [],
+        "0.06": []
+      },
+      "max_minimum_foot_clearance_m": 0.01751800626516342,
+      "pelvis_vertical_range_m": 0.07023078203201294
+    },
+    {
+      "sample": "travel-10108",
+      "floor_estimate_m": 0.006047470960766077,
+      "ankle_fore_aft_sign_changes": 4,
+      "both_feet_above_threshold_frames": {
+        "0.02": [
+          57
+        ],
+        "0.04": [],
+        "0.06": []
+      },
+      "max_minimum_foot_clearance_m": 0.023459050804376602,
+      "pelvis_vertical_range_m": 0.06352049112319946
+    },
+    {
+      "sample": "travel-10109",
+      "floor_estimate_m": 0.007215634919703007,
+      "ankle_fore_aft_sign_changes": 3,
+      "both_feet_above_threshold_frames": {
+        "0.02": [],
+        "0.04": [],
+        "0.06": []
+      },
+      "max_minimum_foot_clearance_m": 0.01633545383810997,
+      "pelvis_vertical_range_m": 0.06125682592391968
+    },
+    {
+      "sample": "grounded_travel-10107",
+      "floor_estimate_m": 0.01660166308283806,
+      "ankle_fore_aft_sign_changes": 8,
+      "both_feet_above_threshold_frames": {
+        "0.02": [
+          4,
+          5,
+          27,
+          48,
+          49,
+          70,
+          71,
+          82,
+          83,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "0.04": [
+          5,
+          91,
+          92,
+          93
+        ],
+        "0.06": []
+      },
+      "max_minimum_foot_clearance_m": 0.059244554489851,
+      "pelvis_vertical_range_m": 0.07060641050338745
+    },
+    {
+      "sample": "grounded_travel-10108",
+      "floor_estimate_m": 0.02096886932849884,
+      "ankle_fore_aft_sign_changes": 8,
+      "both_feet_above_threshold_frames": {
+        "0.02": [
+          4,
+          5,
+          6,
+          7,
+          26,
+          27,
+          28,
+          29,
+          49,
+          50,
+          51,
+          54,
+          55,
+          56,
+          59,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "0.04": [
+          27,
+          91,
+          92
+        ],
+        "0.06": []
+      },
+      "max_minimum_foot_clearance_m": 0.0535065233707428,
+      "pelvis_vertical_range_m": 0.07341742515563965
+    },
+    {
+      "sample": "grounded_travel-10109",
+      "floor_estimate_m": 0.015604861080646515,
+      "ankle_fore_aft_sign_changes": 8,
+      "both_feet_above_threshold_frames": {
+        "0.02": [
+          4,
+          5,
+          24,
+          25,
+          26,
+          27,
+          90,
+          91,
+          92
+        ],
+        "0.04": [],
+        "0.06": []
+      },
+      "max_minimum_foot_clearance_m": 0.03317601606249809,
+      "pelvis_vertical_range_m": 0.06347978115081787
+    }
+  ]
+}
