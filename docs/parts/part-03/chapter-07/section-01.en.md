@@ -1,76 +1,63 @@
 # P3-7.1 What Should We Compare the Structure We Kept Against So That Change Becomes Visible
 
 > Section ID: `P3-7.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-When people hear the word [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), they often think first of model evaluation or performance comparison. That is understandable, because the phrase [baseline model](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline-model) also appears often in machine learning. But the baseline discussed in this Part comes earlier than that. Here, a baseline is part of the data-representation structure that decides `what should the current state be compared against` before model-performance comparison begins. If the previous chapter preserved structure through features and intermediate representations, then we now have to decide what that structure should be compared against so that change becomes visible.
+A current value alone cannot tell us whether it rose or fell relative to the past. Here a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is the reference value paired with it. This section connects recent and baseline tables to create **difference columns and review statements**. The distinction from a baseline model for performance evaluation is discussed in [P3-7.3](section-03.en.md).
 
-To establish a baseline is not to write down one more current value. It is to decide what usual structure the current structure has to meet before change can be seen. Even when the recent value is the same, the interpretation sentence changes according to what we choose as the baseline, so the comparison structure itself has to be designed first. If the previous chapter built a feature table that contains level, change, and stability, we now enter the stage of deciding what usual range that table must meet before it becomes a comparison table.
+## Align Conditions Before Joining Recent and Historical Tables
 
-For example, suppose we want to know whether actions carried out during the most recent 30 minutes differ from usual. In that case, recent actions alone are not enough. Even if a recent value is 2.3, that number by itself does not tell us whether it was always around 2.3, or whether usual behavior used to be 2.8 and only now has become 2.3. In other words, change becomes visible not from one absolute value alone, but only when a comparison reference appears.
+This is a fictional aggregation example. The recent period is 2026-09-20 from 09:00 inclusive to 09:30 exclusive; the reference period covers the same daily half-hour from September 13 through 19. Include actions completed within each interval. Assume equipment and operating conditions other than process type match, as do sensor location, units, middle-segment definition, and missing-data rules.
 
-| Comparison method | What becomes visible | What is easy to miss |
-| --- | --- | --- |
-| Look only at the current value | Is the current number large or small? | Has it changed compared with usual? |
-| Look only at the recent range | The rough state of the most recent few cases | Is the recent state inside the normal range, or different from usual? |
-| Recent range vs baseline | The direction and magnitude of recent change | The cause itself |
+First calculate each action's middle-segment mean flow, then average actions equally within each group. Units are **L/min**. This is not a pooled average of all raw measurement points, and the numbers below cannot reconstruct raw logs or their spread.
 
-As this table shows, a baseline is not a device that immediately fixes whether something is `abnormal or not`. Instead, it lets us read `how different the recent range is from the usual structure`. That is why a baseline is not an appendix to the evaluation stage, but part of data modeling itself, because it helps decide what tables and what columns should exist in the first place.
+| Recent table: process_type | recent_mid_flow (L/min) | recent_count (actions) |
+| --- | ---: | ---: |
+| type-A | 2.10 | 20 |
+| type-B | 2.30 | 18 |
 
-It is also important here not to mix up `baseline` and `baseline model`.
+| Baseline table: process_type | baseline_mid_flow (L/min) | baseline_count (actions) |
+| --- | ---: | ---: |
+| type-A | 2.45 | 100 |
+| type-B | 2.28 | 90 |
 
-| Distinction | What it means in this Part | What is not yet covered here |
-| --- | --- | --- |
-| Baseline | The comparison reference that decides what the recent range should be compared against | Model-performance competition |
-| Baseline model | The starting model later used for model-performance comparison | The design of the current comparison table itself |
+The baseline uses records collected before the recent period starts. This period is chosen to answer a question about earlier actions at the same time of day. Older records or changed operating conditions require checking whether the reference still answers that question.
 
-So the current baseline is closer not to `setting up one model`, but to `preparing together the usual structure against which recent values will be compared`. The moment a baseline is introduced, the dataset stops being a simple record table and becomes `a table where comparison is possible`. The center here is not to define the word baseline at length again, but to decide what comparison structure should be designed now so that change becomes visible.
+## Joining by Process Type Creates a Difference Column
 
-That comparison structure can be read like this.
+Join the tables by `process_type` and calculate `diff = recent_mid_flow − baseline_mid_flow`. Each type has one baseline row here. If type alone does not identify matching conditions in real data, include equipment, operating mode, measurement definitions, or other necessary join conditions.
+
+| process_type | Recent (L/min) | Baseline (L/min) | diff (L/min) | Recent/baseline actions |
+| --- | ---: | ---: | ---: | --- |
+| type-A | 2.10 | 2.45 | −0.35 | 20 / 100 |
+| type-B | 2.30 | 2.28 | +0.02 | 18 / 90 |
+
+For A, `2.10−2.45=−0.35 L/min`, giving “The recent actions' middle-segment mean flow is 0.35 L/min below the selected historical reference.” For B, `2.30−2.28=+0.02 L/min`. This table alone cannot establish whether a difference is acceptable, random variation, or a failure. A small difference and a normal state are different judgments.
+
+If a new type has no reference, do not replace its baseline with zero and subtract. Mark the comparison unavailable and obtain a suitable reference. If several baseline rows match, choose the intended period and conditions rather than accidentally multiplying a recent row through the join.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-07/p3-7-1-mermaid-01-en.mmd"
 ```
 
-The recent window and the baseline window first exist separately, and they meet for the first time in the `Comparison table`. What a person actually reads is not one recent value or one baseline value, but the `Difference columns` created when the two meet. The final `Human review sentence` means not a fixed cause, but a comparison sentence that a person should review.
+## Changing the Baseline Changes the Comparison Question
 
-If we place the recent range and the baseline side by side as in the table below, the difference becomes more visible.
+Reversing A's subtraction gives `2.45−2.10=+0.35`. That is a column with the opposite definition, not an arithmetic error. Record “recent−baseline” alongside the name `diff`.
 
-| process_type | recent_mid_flow | baseline_mid_flow | diff | recent_count |
-| --- | --- | --- | --- | --- |
-| type-A | 2.10 | 2.45 | -0.35 | 20 |
-| type-B | 2.30 | 2.28 | 0.02 | 18 |
+Comparing the same recent value 2.10 with a reference of 2.00 L/min from another historical period gives `+0.10 L/min`. Here 2.00 is hypothetical, not calculated from the reference period above. Actual use would require separately reporting its period, conditions, aggregation rule, and count.
 
-If we look only at `2.10` or `2.30` by themselves, it is hard to say much. But when they are placed next to a baseline under the same conditions, sentences such as `type-A became lower than usual` and `type-B is almost the same` become possible.
+Choosing a baseline to obtain a desired sign changes the question about differences from a selected past period while presenting it as the same conclusion. If both references are used, identify their respective populations and report the differences separately. A baseline is not a number selected after seeing which result looks preferable.
 
-What should be read first here is `diff`. But even that difference value can be calculated only when a baseline exists. So the baseline is not extra information added after comparison. It is the premise needed from the beginning in order to build comparison columns.
+Check the arithmetic: adding baseline 2.45 to A's −0.35 recovers the recent value 2.10. For B, `0.02+2.28=2.30`. Values, signs, and units must agree for someone to reproduce the review statement.
 
-If we read this comparison table in the order below, it becomes clearer that the baseline is the premise of the comparison columns.
-
-1. First check what is difficult to say when we look at the recent value and the baseline value separately.
-2. Then check what comparison sentence becomes possible the moment `diff` appears.
-3. At the same time, write down that this table alone still cannot fix the cause.
-
-Once we go through this order, it becomes clearer that the baseline is not just a reference number, but a structure required to make comparable columns and comparison sentences.
-
-The situations where a baseline is especially needed can be summarized more briefly like this.
-
-| What we want to inspect now | Why a baseline is needed |
-| --- | --- |
-| Has the recent average changed from usual? | Because the current value alone cannot tell us the direction of change |
-| Has recent variability grown? | Because we need to distinguish whether fluctuation was always large or only recently became larger |
-| Did only one certain process type change? | Because comparing inside the same condition group reduces misreading |
-
-The key point of this table is that the baseline is not `an extra reference number`, but `the premise of comparison needed to speak about whether change exists`.
-
-Check type-A in the table yourself. Defining the difference as `recent − baseline` gives `2.10 − 2.45 = −0.35`. A negative sign means the recent value is lower. Reversing the subtraction gives +0.35, so record the calculation direction as well as the column name.
-
-Comparing the same recent value, 2.10, with [a baseline of 2.00](/AiBook/en/reference/concept-glossary-alpha/b/#baseline) gives +0.10. The original comparison shows a decrease; the new one shows an increase. Before deciding which comparison to use, identify the period and conditions represented by each baseline. Do not choose a baseline to obtain a preferred sign. If both comparisons are reported, label each with its period and conditions so their different meanings remain visible.
+The 2.8 L/min baseline in [P3-7.2](section-02.en.md) belongs to a separate fictional example using late-segment means and 200 historical actions. Do not combine it with this middle-segment table as if it were the same dataset.
 
 ## Checklist
 
-- Did you check that recent values and baseline values use matching conditions, periods, and units?
-- Did you verify the sign of the difference using the original two values?
+- Can you explain the periods, inclusion conditions, units, and aggregation units of both tables?
+- Did you join recent and reference rows with matching conditions?
+- Can you check the sign and L/min units of recent−baseline?
+- Can you explain how changing the reference changes the population and question?
 
 ## Sources and Further Reading
 

@@ -1,11 +1,8 @@
 flowchart TD
-    A[Comparison table]
-    A --> B[1. Check recent_count]
-    B --> C[2. Check baseline condition]
-    C --> D[3. Read diff and ratio]
-    D --> E[4. Check variability and pattern]
-    E --> F[5. Write review sentence]
-
-    B --> G[Few cases?<br/>lower confidence]
-    D --> H[Large diff?<br/>possible change]
-    E --> I[Repeated pattern?<br/>stronger review reason]
+    A["Check conditions and observation counts"] --> B["Mean difference and relative change"]
+    A --> C["Spread of per-action late means"]
+    A --> D["Decline-rule count and proportion"]
+    B --> E["Record numbers and interpretation limits"]
+    C --> E
+    D --> E
+    E --> F["Separately check order, source records, and response rules"]
