@@ -1,0 +1,78 @@
+{
+  "section_id": "P7-5.15",
+  "status": "generated_not_visually_reviewed",
+  "source_revision": "94a6636c9c463b7a9414c3401a6f1b67e6c51824",
+  "runner_sha256": "66726fa83c18974b705f02affd8f13f8a69efbf05061d1abd5382c0cd674c5ac",
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "torch": "2.11.0+cu128",
+  "numpy": "2.0.2",
+  "fps": 20,
+  "frames": 48,
+  "batch_size": 1,
+  "mask_steps": 18,
+  "mask_guidance": 4,
+  "residual_guidance": 5,
+  "temperature": 1,
+  "topk_filter_threshold": 0.9,
+  "postprocessing": "none: raw recover_from_ric, no BVH IK, no per-frame ground alignment",
+  "load_seconds": 4.3660580379655585,
+  "weights": {
+    ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/length_estimator/model/finest.tar": "90512e0e893186e3b09b24b006bfbf51f1ad71ac4c6626c9b1309373db675d12",
+    ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/rvq_nq6_dc512_nc512_noshare_qdp0.2/model/net_best_fid.tar": "fd42f54df6d4ecf1226959b5a7de3f849a04e76bfb9d8dde0a588f98de180088",
+    ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/t2m_nlayer8_nhead6_ld384_ff1024_cdp0.1_rvq6ns/model/latest.tar": "80776600ae3398ca9cebe250b42fe3cd5c25d0b950fc8f57118673bec1ec860e",
+    ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/tres_nlayer8_ld384_ff1024_rvq6ns_cdp0.2_sw/model/net_best_fid.tar": "2541adf3b1028b27b95cbe2a6e7866b70dc171f2d08f96d4fb741c49ac010f8d",
+    ".tmp/download/artifacts/weight-p7-5-15-momask-clip/ViT-B-32.pt": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af"
+  },
+  "samples": [
+    {
+      "action": "walk",
+      "prompt": "A person walks forward.",
+      "seed": 10107,
+      "file": "walk-10107.npz",
+      "sha256": "5ba80e111fda367c03abe36f506e103fd9b171e49ef47b2e875a2b14ab359363",
+      "seconds": 0.8785368290264159
+    },
+    {
+      "action": "walk",
+      "prompt": "A person walks forward.",
+      "seed": 10108,
+      "file": "walk-10108.npz",
+      "sha256": "e0a82f57fbbfb6c6e57e8517bc4b670bf8259580994a10168ef83790eca8ed06",
+      "seconds": 0.06902324000839144
+    },
+    {
+      "action": "walk",
+      "prompt": "A person walks forward.",
+      "seed": 10109,
+      "file": "walk-10109.npz",
+      "sha256": "977c2272c08bd4c8187c390f19e6f0f7ebfd2f42bc6f2bf1da9c6e19c5c052c1",
+      "seconds": 0.06793493300210685
+    },
+    {
+      "action": "run",
+      "prompt": "A person runs forward.",
+      "seed": 10107,
+      "file": "run-10107.npz",
+      "sha256": "b30f73764137705b982569a751dd3c0399a355962aa6e8919d7292186e839104",
+      "seconds": 0.06753438606392592
+    },
+    {
+      "action": "run",
+      "prompt": "A person runs forward.",
+      "seed": 10108,
+      "file": "run-10108.npz",
+      "sha256": "8970a3c04b575621ec42e66ab7d71faf8263e0816c202b733cb8b6d14f444fd6",
+      "seconds": 0.06736113200895488
+    },
+    {
+      "action": "run",
+      "prompt": "A person runs forward.",
+      "seed": 10109,
+      "file": "run-10109.npz",
+      "sha256": "96d3006d88495a2faa8c6762eda5337e920006442e7573f52285e8dc9d8d2f36",
+      "seconds": 0.06857074808795005
+    }
+  ],
+  "peak_allocated_bytes": 954738176,
+  "peak_reserved_bytes": 973078528
+}

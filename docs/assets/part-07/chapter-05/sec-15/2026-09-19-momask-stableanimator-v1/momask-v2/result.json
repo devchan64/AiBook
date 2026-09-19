@@ -1,0 +1,78 @@
+{
+  "section_id": "P7-5.15",
+  "status": "generated_not_visually_reviewed",
+  "source_revision": "94a6636c9c463b7a9414c3401a6f1b67e6c51824",
+  "runner_sha256": "e247dd662134ee797e4091042ed199c5c0d8592ff815c9c15bbbbb08a6be26d5",
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "torch": "2.11.0+cu128",
+  "numpy": "2.0.2",
+  "fps": 20,
+  "frames": 96,
+  "batch_size": 1,
+  "mask_steps": 18,
+  "mask_guidance": 4,
+  "residual_guidance": 5,
+  "temperature": 1,
+  "topk_filter_threshold": 0.9,
+  "postprocessing": "none: raw recover_from_ric, no BVH IK, no per-frame ground alignment",
+  "load_seconds": 3.0350556039484218,
+  "weights": {
+    ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/length_estimator/model/finest.tar": "90512e0e893186e3b09b24b006bfbf51f1ad71ac4c6626c9b1309373db675d12",
+    ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/rvq_nq6_dc512_nc512_noshare_qdp0.2/model/net_best_fid.tar": "fd42f54df6d4ecf1226959b5a7de3f849a04e76bfb9d8dde0a588f98de180088",
+    ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/t2m_nlayer8_nhead6_ld384_ff1024_cdp0.1_rvq6ns/model/latest.tar": "80776600ae3398ca9cebe250b42fe3cd5c25d0b950fc8f57118673bec1ec860e",
+    ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/tres_nlayer8_ld384_ff1024_rvq6ns_cdp0.2_sw/model/net_best_fid.tar": "2541adf3b1028b27b95cbe2a6e7866b70dc171f2d08f96d4fb741c49ac010f8d",
+    ".tmp/download/artifacts/weight-p7-5-15-momask-clip/ViT-B-32.pt": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af"
+  },
+  "samples": [
+    {
+      "action": "walk",
+      "prompt": "A person walks steadily forward on flat ground.",
+      "seed": 10107,
+      "file": "walk-10107.npz",
+      "sha256": "255dba98ffc0fefb4e41412a9250f0b65aef25c0a3c674b53a7a69504d34f7e1",
+      "seconds": 0.41705470893066376
+    },
+    {
+      "action": "walk",
+      "prompt": "A person walks steadily forward on flat ground.",
+      "seed": 10108,
+      "file": "walk-10108.npz",
+      "sha256": "004e5de7c6acf37368285e160edb536cf21f1f831ddcc72c1331b010c93407ac",
+      "seconds": 0.07701467501465231
+    },
+    {
+      "action": "walk",
+      "prompt": "A person walks steadily forward on flat ground.",
+      "seed": 10109,
+      "file": "walk-10109.npz",
+      "sha256": "07d63c0f7b5dd27632e1204728c2bb9f511081a3319be47d65cef4cade93c256",
+      "seconds": 0.07711366505827755
+    },
+    {
+      "action": "run",
+      "prompt": "A person runs steadily forward on flat ground.",
+      "seed": 10107,
+      "file": "run-10107.npz",
+      "sha256": "421563fe500d594c17b8aeed8bd4dc050d79b78d26bd61c96e8ddf45410a1da6",
+      "seconds": 0.07710302993655205
+    },
+    {
+      "action": "run",
+      "prompt": "A person runs steadily forward on flat ground.",
+      "seed": 10108,
+      "file": "run-10108.npz",
+      "sha256": "e26993cd7ea2bd9df68bb9a675eafce28338d4f06a332577df1fe7276b8fa7d1",
+      "seconds": 0.07728975696954876
+    },
+    {
+      "action": "run",
+      "prompt": "A person runs steadily forward on flat ground.",
+      "seed": 10109,
+      "file": "run-10109.npz",
+      "sha256": "91864aa1b5130ee1a6ba0d07caf550cf76ddbe609ad793a221d2799459068d8e",
+      "seconds": 0.0773036009632051
+    }
+  ],
+  "peak_allocated_bytes": 955365376,
+  "peak_reserved_bytes": 975175680
+}

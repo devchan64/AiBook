@@ -1,0 +1,76 @@
+{
+  "review_date": "2026-09-19",
+  "method": "Visual inspection of all 32 frames in a contact sheet; not a biomechanical or identity metric",
+  "decision": "failed_pose_and_appearance_preservation",
+  "observations": [
+    "Early frames show a running-like pose.",
+    "Later frames change clothing and body structure; lower body disappears near the end.",
+    "At output frames 8,16,22,23,29,30, corresponding body pose inputs still contain legs.",
+    "No visible ground reference; airborne-phase preservation cannot be established."
+  ],
+  "source_frames": [
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67
+  ],
+  "runtime_notes": {
+    "dtype": "float16",
+    "video_model_cpu_offload": false,
+    "onnx_face_provider": "CPU fallback; CUDA provider missing libcublasLt.so.13",
+    "model_fps_condition": 7,
+    "official_gif_playback_fps": 8,
+    "review_mp4_playback_fps": 20,
+    "torch_cpu_threads": "default for walking; 4 for running"
+  },
+  "limitation": "No controlled baseline; one character and one image-generation seed.",
+  "source_airborne_proxy": {
+    "threshold_m": 0.04,
+    "motion_frame_indices": [
+      44,
+      52,
+      58,
+      59,
+      65,
+      66
+    ],
+    "output_frame_indices": [
+      8,
+      16,
+      22,
+      23,
+      29,
+      30
+    ],
+    "meaning": "both ankle/toe minimum heights above estimated floor; not true contact labels"
+  },
+  "selection_note": "Selected moving interval 36..67 from 96-frame run-10109; not a sustained-running success for the full source clip."
+}

@@ -1319,10 +1319,6 @@
           "value": "humanml3d_models.zip"
         },
         {
-          "name": "aibook:source-status",
-          "value": "P7-5.15 experiment candidate; not run"
-        },
-        {
           "name": "aibook:license-review",
           "value": "review-required"
         },
@@ -1333,6 +1329,10 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/download-record.json"
+        },
+        {
+          "name": "aibook:source-files",
+          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_momask.py"
         }
       ]
     },
@@ -1405,10 +1405,6 @@
           "value": "172658c01f49905d09f33c8872cc701e3f6d9ec5"
         },
         {
-          "name": "aibook:source-status",
-          "value": "P7-5.15 experiment candidate; inference not run"
-        },
-        {
           "name": "aibook:license-review",
           "value": "review-required; download only; not approved for publishing generated assets"
         },
@@ -1419,6 +1415,10 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/sources/p7-5-15/FrancisRing--StableAnimator.json"
+        },
+        {
+          "name": "aibook:source-files",
+          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_stableanimator.py"
         }
       ]
     },
@@ -1438,10 +1438,6 @@
           "value": "ViT-B-32.pt"
         },
         {
-          "name": "aibook:source-status",
-          "value": "P7-5.15 experiment dependency; not run"
-        },
-        {
           "name": "aibook:license-review",
           "value": "review-required"
         },
@@ -1452,6 +1448,10 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/artifacts/weight-p7-5-15-momask-clip/download-record.json"
+        },
+        {
+          "name": "aibook:source-files",
+          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_momask.py"
         }
       ]
     },
@@ -1471,10 +1471,6 @@
           "value": "detection_Resnet50_Final.pth"
         },
         {
-          "name": "aibook:source-status",
-          "value": "P7-5.15 experiment dependency; not run"
-        },
-        {
           "name": "aibook:license-review",
           "value": "review-required"
         },
@@ -1485,6 +1481,10 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-detection/download-record.json"
+        },
+        {
+          "name": "aibook:source-files",
+          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_stableanimator.py"
         }
       ]
     },
@@ -1504,10 +1504,6 @@
           "value": "parsing_bisenet.pth"
         },
         {
-          "name": "aibook:source-status",
-          "value": "P7-5.15 experiment dependency; not run"
-        },
-        {
           "name": "aibook:license-review",
           "value": "review-required"
         },
@@ -1518,6 +1514,10 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-parsing/download-record.json"
+        },
+        {
+          "name": "aibook:source-files",
+          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_stableanimator.py"
         }
       ]
     },
@@ -1537,10 +1537,6 @@
           "value": "parsing_parsenet.pth"
         },
         {
-          "name": "aibook:source-status",
-          "value": "P7-5.15 experiment dependency; not run"
-        },
-        {
           "name": "aibook:license-review",
           "value": "review-required"
         },
@@ -1551,6 +1547,10 @@
         {
           "name": "aibook:download-record",
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-parsenet/download-record.json"
+        },
+        {
+          "name": "aibook:source-files",
+          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_stableanimator.py"
         }
       ]
     }

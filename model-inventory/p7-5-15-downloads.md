@@ -41,3 +41,12 @@ Hugging Face 파일은 `.tmp/download/huggingface/hub/`의 고정 revision snaps
 - MoMask `gen_t2m.py`의 RVQ·masked/residual transformer·길이 예측기·정규화 통계·CLIP은 확보했다. 해당 생성 경로에는 KIT 가중치나 정량 평가용 evaluator·GloVe가 필수는 아니다. BVH 템플릿 등 저장소 동봉 자료는 코드 환경 준비 때 함께 확보해야 한다.
 - Kimodo의 LLM2Vec 어댑터가 참조하는 Meta Llama 3 기반 모델은 재확인 시에도 접근이 거부됐다. 본체·어댑터만으로 완전한 로컬 텍스트 추론 준비가 끝난 것은 아니다. SOMA 관절·기본 스키닝 자료는 Kimodo 저장소의 assets를 사용하며, 별도 고급 SOMA layer 렌더링 의존성은 이번 기본 관절·포즈 경로에 채택하지 않았다.
 - 이번 확인은 모델 파일 의존성 대조다. 세 구현의 소스 설치, Python 패키지 설치, 로컬 경로 연결 및 모델 로딩 검증은 아직 수행하지 않았다.
+
+## 2026-09-19 최초 실행
+
+- 공식 MoMask·StableAnimator 소스를 `.tmp/download/sources/p7-5-15/`에 확보하고 기존 `.venv`의 패키지를 재사용했다. 모델 가중치는 중복 복사하지 않고 로컬 링크로 연결했다.
+- MoMask의 48·96프레임 걷기/달리기 12개를 RTX 5070 Laptop GPU에서 생성했다. 실행 리비전·모델 해시·프레임·메모리 기록은 `docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/momask-v*/result.json`에 있다. 공식 BVH 경로는 NumPy 비호환으로 제외했고 생성 함수와 원 관절 복원을 사용했다.
+- Kimodo의 Llama 기반 모델 접근은 다시 확인했으나 여전히 `GatedRepoError`다. 다른 배포본으로 대체하지 않았다.
+- StableAnimator 기본 추론 소스는 기존 환경에서 import가 가능했다. ONNX Runtime의 CUDA 제공자는 `libcublasLt.so.13` 부재로 CPU로 대체 실행되며, 영상 모델은 PyTorch CUDA 경로를 사용한다. 최종 상태는 `docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/stableanimator-walk-v1/result.json`에 기록한다.
+
+- StableAnimator 걷기·달리기 각 32프레임 생성 완료. `stableanimator-{walk,run}-v1/result.json`에 각각 270.36/260.24초, 최대 PyTorch 할당 약 5.51GiB를 기록했다. 판정은 별도 `review.json`: 걷기 부분 성공, 달리기 신체·포즈 유지 실패.
