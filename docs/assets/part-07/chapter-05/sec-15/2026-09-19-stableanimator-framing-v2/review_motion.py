@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 from PIL import Image,ImageDraw
 import imageio.v2 as imageio
 base=Path(__file__).resolve().parent
+if json.loads((base/'plan.json').read_text())['status'] == 'blocked_source_discarded':
+ raise SystemExit('Source experiment discarded; historical review assets retained.')
 j=np.load(base.parent/'2026-09-19-momask-stableanimator-v1/momask-v2/run-10109.npz')['joints'][36:68]
 chains=[([0,1,4,7,10],'#2474d2'),([0,2,5,8,11],'#d64040'),([0,3,6,9,12,15],'#666666'),([9,13,16,18,20],'#2474d2'),([9,14,17,19,21],'#d64040')]
 fig,axs=plt.subplots(4,8,figsize=(20,10))

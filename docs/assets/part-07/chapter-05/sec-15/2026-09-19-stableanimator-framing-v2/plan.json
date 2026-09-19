@@ -1,6 +1,6 @@
 {
   "experiment_id": "P7-5.15-framing-v2",
-  "status": "prepared_not_run",
+  "status": "blocked_source_discarded",
   "source_motion": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/momask-v2/run-10109.npz",
   "source_motion_sha256": "91864aa1b5130ee1a6ba0d07caf550cf76ddbe609ad793a221d2799459068d8e",
   "source_frames": [
@@ -4938,5 +4938,5 @@
   ],
   "primary_question": "Does framing affect failure to preserve the reference character?",
   "motion_review": "motion-review.json",
-  "execution_readiness": "Inputs verified; user did not observe the suspected foot alternation issue in continuous video. Ready for framing comparison; no image inference executed."
+  "execution_readiness": "Source motion, reference and baseline experiment discarded by user. Preparation artifacts retained for history only; new inputs and plan required."
 }

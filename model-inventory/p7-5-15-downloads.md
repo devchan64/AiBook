@@ -54,3 +54,11 @@ Hugging Face 파일은 `.tmp/download/huggingface/hub/`의 고정 revision snaps
 ## MoMask v1 폐기 결정
 
 2026-09-19 사용자 지시로 MoMask v1과 파생 StableAnimator 걷기 산출물을 삭제했다. 위 최초 실행의 개수·시간은 당시 이력이다. 현재는 MoMask v2와 파생 달리기를 보존하며 모델 가중치는 삭제하지 않는다. 폐기 기록: `docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/discarded-experiments.json`.
+
+## MoMask v3 실행
+
+2026-09-19 기존 MoMask 가중치를 재사용해 96프레임 걷기 3개를 생성했다. 추가 다운로드 없음. v2와 가중치 해시·소스·환경·생성 설정을 대조했다. 자산은 `docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-v3/`에 모았다. 부유·하강은 개선됐지만 전진 이동 부족으로 완전한 성공으로 판정하지 않는다.
+
+## 실험 묶음 최종 폐기
+
+2026-09-19 사용자 지시로 MoMask v3와 기존 MoMask·StableAnimator 묶음을 실패로 폐기하고 폴더 전체를 삭제했다. 위 실행 경로·수치는 삭제 전 이력이며 현재 자산 경로가 아니다. 가중치는 보존했다. 후속 framing-v2는 원 입력 삭제로 실행 불가 상태다. [폐기 기록](../management/authoring/part-07-p7-5-15-discarded-experiments.md).

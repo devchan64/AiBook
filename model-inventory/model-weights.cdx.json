@@ -1331,8 +1331,8 @@
           "value": ".tmp/download/artifacts/weight-p7-5-15-momask-humanml3d/download-record.json"
         },
         {
-          "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_momask.py"
+          "name": "aibook:source-status",
+          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     },
@@ -1417,8 +1417,8 @@
           "value": ".tmp/download/sources/p7-5-15/FrancisRing--StableAnimator.json"
         },
         {
-          "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_stableanimator.py"
+          "name": "aibook:source-status",
+          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     },
@@ -1450,8 +1450,8 @@
           "value": ".tmp/download/artifacts/weight-p7-5-15-momask-clip/download-record.json"
         },
         {
-          "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_momask.py"
+          "name": "aibook:source-status",
+          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     },
@@ -1483,8 +1483,8 @@
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-detection/download-record.json"
         },
         {
-          "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_stableanimator.py"
+          "name": "aibook:source-status",
+          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     },
@@ -1516,8 +1516,8 @@
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-parsing/download-record.json"
         },
         {
-          "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_stableanimator.py"
+          "name": "aibook:source-status",
+          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     },
@@ -1549,8 +1549,8 @@
           "value": ".tmp/download/artifacts/weight-p7-5-15-facexlib-parsenet/download-record.json"
         },
         {
-          "name": "aibook:source-files",
-          "value": "docs/assets/part-07/chapter-05/sec-15/2026-09-19-momask-stableanimator-v1/p7_5_15_run_stableanimator.py"
+          "name": "aibook:source-status",
+          "value": "Experiment source discarded by user on 2026-09-19; model weights retained."
         }
       ]
     }

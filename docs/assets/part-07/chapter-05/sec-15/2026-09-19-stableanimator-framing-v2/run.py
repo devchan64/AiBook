@@ -22,6 +22,8 @@ def main():
     parser.add_argument('--execute', action='store_true')
     args = parser.parse_args()
     plan = json.loads((BASE / 'plan.json').read_text())
+    if plan['status'] == 'blocked_source_discarded':
+        raise SystemExit('Source experiment discarded; new inputs and plan required.')
     condition = next(c for c in plan['conditions'] if c['id'] == args.condition)
     out = BASE / args.condition
     if (out / 'result.json').exists() or (out / 'output').exists():
