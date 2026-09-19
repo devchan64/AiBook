@@ -1,7 +1,7 @@
 # P3-2.2 데이터셋 후보 안에는 어떤 구조가 들어가는가
 
 > Section ID: `P3-2.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 앞 절에서 본 것처럼 저장된 데이터셋도 현재 질문에 맞는 재구성이 필요할 수 있습니다. 그렇다면 질문은 곧바로 이어집니다. [데이터셋 후보(dataset candidate)](../../../reference/concept-glossary-parts/03-digeut.md#dataset)를 다시 만든다면 그 안에는 어떤 구조가 들어가야 하는가 하는 질문입니다. Part 3에서는 이 질문에 답하기 위해 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)를 함께 봅니다. 이 용어들은 각각 따로 외우는 목록보다, 하나의 데이터셋 설계 구조로 읽어야 더 정확합니다. 무엇을 한 건의 샘플로 볼지 정해야 특징을 만들 수 있고, 특징이 있어야 무엇을 기준선과 비교할지 정할 수 있으며, 그 비교가 있어야 어떤 출력 구조를 만들 것인지도 결정할 수 있습니다.
 
@@ -9,14 +9,14 @@
 
 아래 네 요소는 이 책의 상태 비교 사례를 설계하는 틀입니다. 모든 데이터셋에 기준선 열과 출력 열이 있어야 한다는 뜻은 아닙니다. 예를 들어 라벨 없는 이미지 모음에도 데이터셋이라는 말을 쓰며, 특징은 직접 측정한 값이나 범주일 수도 있어 반드시 요약 계산으로 만들어야 하는 것은 아닙니다.
 
-자동으로 실행되는 동작 1회를 예로 들어 보겠습니다. 샘플은 `이번 동작 전체를 한 건으로 본 것`일 수 있습니다. 특징은 그 동작에서 계산해 남긴 `총 시간`, `중반 평균`, `후반 하강률`, `추종 오차` 같은 값일 수 있습니다. 기준선은 최근이 아닌 평소 구간의 대표값이나 비교 집단일 수 있습니다. 출력 구조는 최종적으로 사람이나 모델이 읽게 될 결과 형식으로, 예를 들면 `검토 필요`, `주의`, `정상 범위`, `예측 대상 라벨 후보` 같은 구조가 될 수 있습니다.
+동작 1회를 샘플로 보면, 그 동작의 측정 유량이나 운전 모드는 원래 기록에서 가져올 수 있고 평균·기울기는 기록에서 계산할 수 있습니다. 이 절에서는 유량의 평균과 마지막 구간 기울기를 특징으로 사용하고, 같은 조건의 과거 동작을 기준선으로 삼습니다. 출력은 정한 규칙에 따른 `review` 또는 `no_flag`이며, 실제 고장 여부를 확인한 라벨은 아닙니다.
 
 이 관계를 표로 먼저 정리합니다.
 
 | 구성요소 | 여기서 뜻하는 것 | 지금 단계에서 묻는 질문 |
 | --- | --- | --- |
 | 샘플 | 비교나 학습의 기본 단위가 되는 한 건 | 무엇을 한 행으로 볼 것인가 |
-| 특징 | 샘플을 설명하기 위해 계산해 남긴 값 | 어떤 값을 남겨야 비교가 쉬운가 |
+| 특징 | 샘플을 나타내는 관측값·범주 또는 계산한 값 | 어떤 값을 남겨야 비교가 쉬운가 |
 | 기준선 | 최근과 비교할 평소 구조 또는 기준 집단 | 무엇과 비교해야 변화가 보이는가 |
 | 출력 구조 | 사람이 읽거나 모델이 이어받을 결과 형식 | 최종적으로 어떤 판단을 만들 것인가 |
 
@@ -27,24 +27,31 @@
 실제로는 아래 순서로 질문이 이어집니다.
 
 1. 지금 비교하려는 대상은 한 시점인가, 동작 1회인가, 최근 구간인가
-2. 그 대상을 설명하려면 어떤 숫자를 남겨야 하는가
-3. 그 숫자는 무엇과 비교해야 의미가 생기는가
+2. 그 대상을 설명하려면 어떤 값이나 범주를 남겨야 하는가
+3. 이 사례에서는 그 값을 무엇과 비교해 변화를 읽을 것인가
 4. 마지막 결과를 사람이 읽을 문장으로 낼지, 모델이 받을 라벨 후보로 낼지
 
 이 네 질문은 각각 샘플, 특징, 기준선, 출력 구조에 대응합니다. 그래서 용어가 흐릿더라도 질문 순서를 따라가면 현재 어떤 데이터셋 설계 단계에 있는지 다시 확인할 수 있습니다.
 
-아래 표는 네 요소가 한 행 안에서 어떻게 이어지는지 더 구체적으로 보여 줍니다. 같은 동작 1회라도 먼저 샘플을 한 건으로 세우고, 그 위에 특징을 적고, 그 특징을 평소 기준선과 비교한 뒤, 마지막에 사람이 읽을 출력으로 마무리합니다.
+아래 표는 뒤의 Python 예제와 같은 가상 CSV에서 계산한 최근 동작 R1·R2·R3입니다. 각 동작에는 0~5초의 유량 기록 6개가 있고, 마지막 구간은 모두 4~5초입니다. 유량과 평균의 단위는 L/min, 기울기와 기울기 차이의 단위는 L/min/s입니다. 표시는 소수 둘째 자리까지 반올림하지만 계산과 규칙 적용에는 반올림 전 값을 사용합니다.
 
 | sample_id | mean_flow | late_drop_rate | baseline_mean_flow | baseline_late_drop_rate | baseline_gap | output |
-| --- | --- | --- | --- | --- | --- | --- |
-| A | 0.74 | -0.32 | 0.92 | -0.05 | -0.27 | `검토 필요` |
-| B | 0.89 | -0.08 | 0.92 | -0.05 | -0.03 | `정상 범위` |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| R1 | 0.83 | -0.32 | 0.94 | -0.05 | -0.27 | `review` |
+| R2 | 0.90 | -0.08 | 0.94 | -0.05 | -0.03 | `no_flag` |
+| R3 | 0.94 | -0.40 | 0.94 | -0.05 | -0.35 | `review` |
 
-여기서는 유량을 L/min, 후반 하강률을 마지막 두 측정점 사이의 유량 변화량/초로 두고, `baseline_gap = late_drop_rate−baseline_late_drop_rate`로 계산합니다. 가상 규칙은 `baseline_gap <= −0.20`이면 검토 대상으로 삼는 것입니다. 예제의 `정상 범위`는 이 규칙에 걸리지 않았다는 뜻일 뿐, 고장이나 원인이 없다는 확정 라벨이 아닙니다. 경계값 −0.20도 검토 대상에 포함합니다. −0.21, −0.20, −0.19를 대입하면 앞의 두 값만 규칙에 걸립니다.
+기준선 동작 B1·B2·B3의 마지막 기울기는 각각 −0.04, −0.06, −0.04 L/min/s입니다. 같은 조건의 평소 동작으로 가정한 이 세 값의 평균은 `(-0.04−0.06−0.04)/3 = −0.046666… L/min/s`이고, 표에서는 −0.05로 표시됩니다. 기준선 평균 유량도 세 동작의 평균 유량을 다시 평균한 값이며, 반올림하면 0.94 L/min입니다.
 
-이 표를 읽는 순서는 왼쪽에서 오른쪽으로 자연스럽게 이어집니다. `sample_id`는 무엇을 한 건의 샘플로 셌는지를 고정합니다. `mean_flow`와 `late_drop_rate`는 그 샘플을 설명하는 특징입니다. `baseline_mean_flow`와 `baseline_late_drop_rate`는 평소 기준선입니다. `baseline_gap`은 현재 샘플의 후반 하강률이 기준선보다 얼마나 더 떨어졌는지를 적어 둔 비교 결과입니다. 그리고 이 비교 결과가 충분히 크면 `output`에서 `검토 필요` 같은 운영 판단이 만들어집니다.
+R1의 마지막 구간은 4초의 0.92에서 5초의 0.60 L/min으로 바뀝니다. 따라서 기울기는 `(0.60−0.92)/(5−4) = −0.32 L/min/s`입니다. 기준선 차이는 **현재 기울기에서 기준선 기울기를 뺀 값**입니다.
 
-즉 `검토 필요`라는 출력은 표 맨 끝에서 갑자기 붙는 문구가 아닙니다. 앞 열들에서 이미 `무엇을 비교할지`, `무엇이 평소와 다른지`가 정리되어 있어야만 마지막 출력 열도 설명할 수 있습니다. 이런 이유로 샘플, 특징, 기준선, 출력 구조는 같은 표 안에 들어 있더라도 서로 독립된 목록이 아니라 앞에서 뒤로 이어지는 설계 흐름입니다.
+- 표시된 값으로 읽기: `−0.32−(−0.05) = −0.27 L/min/s`
+- 반올림 전 계산: `−0.32−(−0.046666…) = −0.273333… L/min/s`
+- 해석: 두 기울기 모두 하강을 나타내지만 R1이 평소 기준보다 약 0.27 L/min/s 더 가파르게 내려갑니다. 유량 자체가 음수라는 뜻이 아닙니다.
+
+이 차이에 `baseline_gap <= −0.20 L/min/s`라는 가상 검토 규칙을 적용하면 R1·R3은 `review`, R2는 `no_flag`가 됩니다. 정확히 −0.20도 포함하므로 −0.21·−0.20·−0.19 가운데 앞의 두 값만 검토 대상입니다. `no_flag`는 이 규칙이 걸리지 않았다는 뜻이며 정상 확정이나 고장 없음 라벨이 아닙니다.
+
+`sample_id`는 대상을 가리키고, `mean_flow`·`late_drop_rate`는 대상의 특징, `baseline_gap`은 비교 결과, `output`은 검토 규칙의 결과입니다. 검토 임계값을 바꾸어도 관측값이나 기울기·기준선 차이는 바뀌지 않습니다. 같은 숫자를 보고 사람이 무엇을 먼저 확인할지 정하는 정책이 바뀝니다. 이 절에서는 역할 표와 계산으로 이 차이를 읽고, 기울기의 시간축 모양은 앞 절의 차트와 연결합니다.
 
 ## 샘플·특징·기준선·출력의 연결 {#_1}
 
@@ -56,7 +63,7 @@
 
 문제 상황: 동작 1회를 샘플 1건으로 잡은 뒤, 특징을 적고, 평소 기준선과 비교해, 마지막 운영 출력을 만드는 흐름을 표로 확인합니다.
 
-입력(input): `baseline` 기간과 `recent` 기간이 함께 들어 있는 시점별 유량 로그 [p3_2_2_event_flow_log.csv](../../../assets/part-03/chapter-02/p3_2_2_event_flow_log.csv){ .csv-preview }, 검토 후보로 보낼 기준 후보 `review_gap_thresholds`
+입력(input): `baseline` 기간과 `recent` 기간이 함께 들어 있는 시점별 유량 로그 [p3_2_2_event_flow_log.csv](../../../assets/part-03/chapter-02/p3_2_2_event_flow_log.csv), 검토 후보로 보낼 기준 후보 `review_gap_thresholds`
 
 입력 파일의 한 행은 한 샘플의 특정 초(`second`)에서 측정한 유량(`flow`)입니다. `sample_id`는 동작 1회를 가리키고, `period`는 그 샘플이 평소 기준선을 만들 `baseline` 구간인지 최근 비교 대상인 `recent` 구간인지를 구분합니다.
 
@@ -64,8 +71,10 @@
 
 확인할 개념: 출력 구조와 기준선은 미리 적어 둔 결과 열이 아니라, 원시 로그를 샘플 단위로 묶고 특징을 계산한 뒤 기간별 역할을 나누어 생성된다. 출력 기준을 여러 값으로 비교해야 운영 판단이 기준에 얼마나 민감한지 확인할 수 있다.
 
+이 CSV의 각 동작은 결측 없이 1초 간격으로 측정되며, 기준선·최근 동작의 운전 조건이 같다고 가정합니다. 코드는 시간 간격을 확인한 뒤 마지막 두 유량값의 차이를 1초당 기울기로 사용합니다. 운전 조건의 일치 자체를 검증하는 자료는 이 CSV에 없으므로, 실제 데이터에서는 별도 확인해야 합니다.
+
 ```python
-# 데이터셋 후보에서 샘플, 특징, 라벨, 기준선 열의 역할을 확인하는 예제입니다.
+# 샘플의 특징, 기준선 차이, 검토 규칙의 결과를 구분합니다. 실제 고장 라벨은 없습니다.
 import pandas as pd
 
 pd.set_option("display.max_columns", None)
@@ -76,6 +85,10 @@ selected_review_gap_threshold = -0.20
 review_gap_thresholds = [-0.36, selected_review_gap_threshold, 0.0]
 
 event_log = pd.read_csv(event_log_path)
+event_log = event_log.sort_values(["sample_id", "second"])
+intervals = event_log.groupby("sample_id")["second"].diff().dropna()
+if not intervals.eq(1).all():
+    raise ValueError("This example requires 1-second observation intervals.")
 
 print("1) raw input shape and first rows")
 print("shape:", event_log.shape)
@@ -132,22 +145,22 @@ threshold_results = []
 for threshold in review_gap_thresholds:
     output_table = comparison_table.copy()
     output_table["output"] = output_table["baseline_gap"].apply(
-        lambda gap: "검토 필요" if gap <= threshold else "정상 범위"
+        lambda gap: "review" if gap <= threshold else "no_flag"
     )
     if threshold == selected_review_gap_threshold:
         selected_output_table = output_table.copy()
     threshold_results.append(
         {
             "review_gap_threshold": threshold,
-            "review_count": int((output_table["output"] == "검토 필요").sum()),
+            "review_count": int((output_table["output"] == "review").sum()),
             "review_samples": ",".join(
-                output_table.loc[output_table["output"] == "검토 필요", "sample_id"]
+                output_table.loc[output_table["output"] == "review", "sample_id"]
             )
             or "none",
         }
     )
 
-print("6) final output structure when review_gap_threshold = -0.20")
+print(f"6) final output structure when review_gap_threshold = {selected_review_gap_threshold:.2f}")
 print(selected_output_table.round(2))
 print()
 print("7) threshold sensitivity")
@@ -195,10 +208,10 @@ shape: (36, 4)
 5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35
 
 6) final output structure when review_gap_threshold = -0.20
-  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap output
-3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27  검토 필요
-4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  정상 범위
-5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35  검토 필요
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap   output
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27   review
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  no_flag
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35   review
 
 7) threshold sensitivity
    review_gap_threshold  review_count review_samples
@@ -221,31 +234,27 @@ shape: (36, 4)
 
 이 표를 보면 `데이터셋 후보`가 단순히 열이 많은 표를 뜻하는 것이 아니라, 같은 행 안에 `샘플`, `설명 값`, `비교 결과`, `결과 형식`이 서로 역할을 나눠 들어 있는 구조라는 점이 드러납니다.
 
-여기서 한 번 더 중요한 차이를 짚어 둘 필요가 있습니다. 출력 구조는 아직 `정답 라벨이 확정된 학습 데이터`를 뜻하지 않을 수도 있습니다. `검토 필요`, `정상 범위` 같은 출력과 `yes/no` 같은 지도학습 라벨은 비슷해 보일 수 있지만, 실제로는 다를 수 있습니다.
+`review`와 `no_flag`는 이 예제의 규칙이 만든 결과입니다. 실제 고장을 확인한 정답 라벨로 쓰려면 점검 기록과 고장 판정 기준 등 별도 근거가 필요합니다. 이 CSV에는 그런 근거가 없습니다.
 
-| 출력 구조가 뜻하는 것 | 지금 단계에서의 읽기 |
+| 구분 | 이 사례에서 확인할 수 있는 것 |
 | --- | --- |
-| `검토 필요`, `주의`, `정상 범위` | 사람이 먼저 확인할 운영용 결과 |
-| `정상/비정상` 같은 고정 라벨 | 나중에 예측 문제로 넘길 수 있는 목표 라벨 후보 |
+| 규칙 결과 | 정한 임계값에 따라 검토 대상으로 골랐는가 |
+| 실제 고장 라벨 | 별도 점검으로 고장 여부를 확인했는가. 현재 CSV만으로는 알 수 없음 |
 
-이 구분을 먼저 두면 뒤에서 `출력 구조`를 말할 때도 곧바로 `라벨이 이미 완성되었다`고 오해하지 않게 됩니다.
+열의 역할도 사용 목적에 따라 달라질 수 있습니다. 예를 들어 이후 모델에서는 `baseline_gap`을 입력 특징으로 사용할 수 있습니다. 여기서는 계산 과정을 배우기 위해 원래 특징, 기준선과의 비교 결과, 검토 규칙의 결과를 구분합니다. 숫자로 된 열이라는 이유만으로 모두 같은 역할을 맡는 것은 아닙니다.
 
-이 흐름을 더 짧게 기억하면 다음 순서로 정리할 수 있습니다.
-
-1. 무엇을 샘플 1건으로 볼지 정한다.
-2. 그 샘플을 설명할 특징을 남긴다.
-3. 최근과 평소를 비교할 기준선을 만든다.
-4. 사람이 읽거나 모델이 이어받을 출력 구조를 정한다.
-
-이 네 단계는 뒤에서 각각 다른 장으로 펼쳐지지만, 실제로는 하나의 연속된 판단입니다. 따라서 어떤 장을 읽더라도 `지금 이 설명이 샘플, 특징, 기준선, 출력 구조 중 어느 단계에 속하는가`를 함께 떠올리면 길을 잃지 않게 됩니다. `샘플을 정해야 특징이 생기고, 특징을 정해야 비교 구조가 생기고, 비교 구조가 생겨야 출력 구조가 정리된다`는 관계를 붙잡으면, 데이터셋 후보는 파일 하나의 이름이 아니라 이 네 구조가 서로 맞물리도록 설계된 표라는 점도 더 선명해집니다. 더 넓게 보면 이 절은 `example 단위`, `설명 변수`, `비교 기준`, `결과 형식`이 한 데이터 문제 안에서 어떤 순서로 맞물리는지 정리하는 최소 계약을 세웁니다. 따라서 데이터셋 후보는 `열이 많은 표`가 아니라, 하나의 example 안에 설명 값, 비교 기준, 결과 형식이 서로 역할을 나눠 들어 있는 구조로 읽어야 합니다.
+샘플을 정하고, 설명할 값을 고르고, 비교 기준과 출력 규칙을 정했다면 한 행을 원래 기록까지 거슬러 설명해 보세요. R1의 두 측정값으로 기울기를 구하고, B1·B2·B3에서 구한 기준선 기울기와 검토 임계값을 적용해 차이와 `review` 결과까지 재현할 수 있으면 이 사례의 구조를 읽은 것입니다.
 
 ## 체크리스트
 
-- 표에서 샘플·특징·라벨·기준선 역할을 각각 짚었는가?
-- 라벨이 없는 데이터셋도 가능하다는 점과 이 사례의 비교 구조를 구분했는가?
+- 측정값이나 운전 모드 같은 원래 값도 특징이 될 수 있음을 설명할 수 있는가?
+- CSV에서 R1의 4초·5초 값을 찾아 기울기 −0.32를 계산하고, 기준선 기울기를 빼서 차이를 재현할 수 있는가?
+- −0.32−(−0.05)가 음수인 이유와 그 단위가 뜻하는 것을 말할 수 있는가?
+- −0.21·−0.20·−0.19를 검토 규칙에 넣었을 때 어느 값이 포함되는지 확인했는가?
+- 임계값만 바꿨을 때 변하는 열과 그대로인 열을 구분하고, `review`를 실제 고장 라벨로 읽지 않는가?
 
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `example`, `labeled example`, `feature`, `label`. example 안에서 feature와 label이 어떤 역할을 맡는지 분리해 설명하므로, 샘플-특징-기준선-출력 구조를 한 표 안의 역할 구분으로 읽는 이 절의 전개를 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 기준 구간(reference period)이라는 일반 개념을 제공하므로, 현재 샘플의 값이 기준선과 비교되어야 의미를 얻는다는 이 절의 `baseline` 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 기준 구간(reference period)이라는 일반 개념을 제공하므로, 이 사례에서 평소와의 차이를 읽기 위한 참조값의 역할을 보강합니다. 모든 특징이 기준선 비교를 거쳐야만 의미를 갖는다는 뜻은 아닙니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - W3C, `PROV-Overview`. derivation, processing steps, reproducibility를 함께 다루므로, 출력 구조가 앞선 샘플 설정, 특징 계산, 기준선 비교의 파생 결과라는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

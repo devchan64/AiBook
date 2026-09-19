@@ -1,7 +1,7 @@
 # P3-2.3 第一次拿到新表时，应该先写下什么
 
 > Section ID: `P3-2.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 第一次拿到一张新表时，很多人很容易立刻想到均值、分布、模型候选。但在这之前更应该先写下来的，是 `这张表的一行表示什么`、`什么能被归到一起`、`还有什么仍然缺着`。只有把这三点先整理出来，才能分清：现在手上的，到底已经是可以直接比较的样本表，还是仍然需要重新归组的原始记录。与其一看到新表就先决定它是不是 `训练数据集`，不如先把这三点写下来，这对解释会更有帮助。这样一来，后面的样本设计和数据集重设计也会少很多抽象感。
 
@@ -53,7 +53,7 @@
 
 ## 从行含义到可比性的检查 {#_3}
 
-第一次读一张新表时，更安全的顺序是：`确认行的含义 -> 确认归组标准 -> 检查格式/质量 -> 判断是否需要重新归组`。
+第一次读一张新表时，更安全的顺序是：`确认行的含义 -> 确认归组标准 -> 检查格式/质量 -> 判断应重组还是核对原始记录`。
 
 ```mermaid
 --8<-- "assets/part-03/chapter-02/p3-2-3-mermaid-01-zh.mmd"
@@ -66,15 +66,15 @@
 - 一行表示 `_____`。
 - 把同一个对象归在一起的键是 `_____`。
 - 表示时间或流程顺序的列是 `_____`。
-- 这张表可以直接比较 / 还需要重新归组。
+- 比较问题是 `_____`，所需的重组及尚未确认的条件是 `_____`。
 - 回头核对奇怪案例的原始证据是 `_____`。
 
-例如，对于自动动作日志，可以这样写。
+例如，要用下面的 CSV 比较各次动作的平均流量，可以这样写。
 
 - 一行表示 `动作中的某一个时点测量值`。
 - 把同一个对象归在一起的键是 `event_id`。
 - 时间列是 `elapsed_seconds`。
-- 这张表还不是能直接比较的样本表，仍然需要重新归组。
+- 比较动作均值需要按 `event_id` 归组；是否完整观测动作、运行条件是否一致，尚未确认。
 - 回头核对奇怪案例的原始证据，是按 `event_id` 保存的原始日志。
 
 一旦有了这五行备忘录，Chapter 3 里那句 `按问题重设计数据集`，读起来也会少很多抽象感。
@@ -84,18 +84,34 @@
 - 格式一致性：先看 `event_id` 是否能用一致格式把同一个动作归在一起，`elapsed_seconds` 是否真能读出时间顺序。
 - 第一次质量检查：检查有没有某些 `event_id` 的行数异常地多或少，时间是否倒退或缺段，以及在比较前是否已有需要单独标记的缺失值。
 
-## 用各列值分布检查读表备忘录 {#_5}
+## 顺序错误与需要核对原始记录的情况
+
+下面复制并修改后文 CSV 中 A 的前三条记录作对照。原始 `(时间, 流量)` 为 `(0, 0.80), (1, 0.92), (2, 1.05)`，单位分别为秒和 L/min。假定这个小区段每秒采样一次。原始 CSV 保持不变。
+
+| 对副本的改动 | 发生了什么变化 | 下一步行动 |
+| --- | --- | --- |
+| 不改：0→1→2 秒 | 顺序和间隔符合本区段的假设 | 继续检查其他质量项目 |
+| 仅把行顺序倒为 2→1→0 秒 | 时刻与测量值不变，只改变存储顺序 | 确认时间含义后，对副本排序 |
+| 再追加一条完全相同的 1 秒记录 | 同一事件、时刻和测量值重复 | 核对是否重复采集，再决定处理规则 |
+| 追加一条流量改为 9.00 的 1 秒记录 | 同一事件、时刻出现 0.92 与 9.00 两个冲突值 | 暂缓该事件的汇总，核对原始记录 |
+| 删除 1 秒记录：0→2 秒 | 时间递增，但预期间隔中出现空缺 | 核对是否漏记，不随意填入 0 |
+
+`event_id` 重复是把同一事件的多个时点记录归组所必需的。这里怀疑重复的依据是 `(event_id, elapsed_seconds)` 组合重复。如果实际日志包含多个传感器，应先确认键中是否还需要传感器标识。排序只改变顺序，不能选出正确的冲突值，也不能恢复缺失的测量值。
+
+原始证据备忘录应保留文件路径、版本或采集时间、原始行号和事件标识。派生表的处理历史应记录哪些行被排序、排除或暂缓处理，以及原因。例如，A 的 1 秒流量出现冲突时，应同时核对原始 CSV 的数据行 2（含表头的文件行 3）与新增冲突行。保留原始文件，才能对照处理前后的记录。
+
+## 分别检查行数、时间顺序与重复记录 {#_5}
 
 问题情境：第一次拿到一张新日志表时，检查它能不能直接被读成样本比较表。
 
-输入(input)：保存在 [p3_2_3_first_table_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_3_first_table_log.csv){ .csv-preview } 里的原始日志表，以及把事件看作可比较候选所需的最少行数 `minimum_rows_per_event`
+输入(input)：保存在 [p3_2_3_first_table_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_3_first_table_log.csv) 里的原始日志表，以及用于观测点数量条件的最少行数 `minimum_rows_per_event`
 
-期望输出(output)：即使是同一张表，只要先检查 `行的含义`、`归组标准`、`时间/顺序列`，就会显露出它还不是能直接比较的表。改变 `minimum_rows_per_event` 后，哪些事件拥有足够记录、能作为候选也会跟着改变。
+期望输出(output)：确认哪些事件通过行数条件，再通过改变同一组三条记录的顺序、重复情况、数值或缺失情况，区分应排序还是核对原始记录。
 
-要确认的概念：第一次读表时，在计算之前，必须先确认 `这一行是一整条样本`，还是 `只是样本记录的一部分`。同时设置重复行数阈值后，结构检查就不只是输出信息，而会连到可比较性判断。
+要确认的概念：一行不一定是一个事件。通过行数条件并不证明完整观测了动作或具备可比性；即使时间有序，也要单独检查重复、缺口和条件差异。
 
 ```python
-# 这个例子在第一次拿到新的 CSV 表时，先检查列名和值的分布。
+# 检查行数条件与时间顺序，再比较副本中重复、冲突和缺失情况的下一步行动。
 import csv
 from collections import defaultdict
 from pathlib import Path
@@ -145,13 +161,45 @@ print()
 
 print("4) after regrouping into one row per event")
 for event_id, event_rows in sorted(events.items()):
-    duration = max(row["elapsed_seconds"] for row in event_rows)
+    times = [row["elapsed_seconds"] for row in event_rows]
+    observed_span = max(times) - min(times)
     mean_flow = sum(row["flow"] for row in event_rows) / len(event_rows)
     peak_pressure = max(row["pressure"] for row in event_rows)
     enough_rows = len(event_rows) >= minimum_rows_per_event
     print(
-        f"{event_id}: duration={duration}s, mean_flow={mean_flow:.2f}, "
+        f"{event_id}: observed_span={observed_span}s, mean_flow={mean_flow:.2f}, "
         f"peak_pressure={peak_pressure:.1f}, enough_rows={enough_rows}"
+    )
+
+print()
+print("5) controlled changes to A's first three records")
+base_records = [dict(row) for row in events["A"][:3]]
+cases = {
+    "original": base_records,
+    "reversed": list(reversed(base_records)),
+    "duplicate": base_records + [dict(base_records[1])],
+    "conflict": base_records + [dict(base_records[1], flow=9.0)],
+    "missing": [base_records[0], base_records[2]],
+}
+for name, records in cases.items():
+    times = [row["elapsed_seconds"] for row in records]
+    ordered = all(a < b for a, b in zip(times, times[1:]))
+    same_time = defaultdict(set)
+    for row in records:
+        same_time[row["elapsed_seconds"]].add((row["flow"], row["pressure"]))
+    duplicate_time = len(times) != len(same_time)
+    conflicting_values = any(len(values) > 1 for values in same_time.values())
+    unique_times = sorted(same_time)
+    gap = any(b - a != 1 for a, b in zip(unique_times, unique_times[1:]))
+    if conflicting_values or duplicate_time or gap:
+        next_action = "check_source"
+    elif not ordered:
+        next_action = "sort_copy"
+    else:
+        next_action = "continue_checks"
+    print(
+        f"{name}: ordered={ordered}, duplicate_time={duplicate_time}, "
+        f"conflict={conflicting_values}, gap={gap}, next={next_action}"
     )
 ```
 
@@ -180,21 +228,35 @@ A at 7s: flow=1.6
 ... 28 more time-point rows
 
 4) after regrouping into one row per event
-A: duration=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
-B: duration=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
-C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
+A: observed_span=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
+B: observed_span=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
+C: observed_span=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
+
+5) controlled changes to A's first three records
+original: ordered=True, duplicate_time=False, conflict=False, gap=False, next=continue_checks
+reversed: ordered=False, duplicate_time=False, conflict=False, gap=False, next=sort_copy
+duplicate: ordered=False, duplicate_time=True, conflict=False, gap=False, next=check_source
+conflict: ordered=False, duplicate_time=True, conflict=True, gap=False, next=check_source
+missing: ordered=True, duplicate_time=False, conflict=False, gap=True, next=check_source
 ```
 
-这个例子真正展示的，并不只是找到了 `event_id` 和 `elapsed_seconds` 这两个列名。第 1 步和第 2 步里首先要读出来的是：`总行数 36` 大于 `event_id 数 3`，而且同一个 `event_id` 会在多行里重复出现。这里可以操作的值是 `minimum_rows_per_event`。如果把它设为 `12`，A 和 B 会成为拥有足够记录的候选，但 C 仍然是记录不足的候选。如果把它降到 `6`，C 也会成为候选；不过，用更短记录算出来的均值能不能用同样权重参与比较，还需要重新检查。只有读到这个信号，我们才能走到这样的解释：`当前这一行不是一整条样本，而只是样本记录的一部分`。所以，如果像第 3 步那样立刻把每一行拿来比较，我们仍然得不到一张真正比较 `A 整个动作`、`B 整个动作` 和 `C 整个动作` 的表。反过来，只有像第 4 步那样按 `event_id` 重新归组之后，一次动作才会变成一行，也只有这时，像平均流量、峰值压力这样可比较的列才会出现在其上。
+第 1、2 步的 `has_time_order` 只检查**从文件读入的顺序是否在每个事件内严格递增**。时刻重复或顺序倒置都会得到 `no`，但原因不同。即使像 0→2 秒那样缺少中间记录，也能通过递增检查。
 
-如果再从格式与质量的视角重读同样结果，会更清楚。`event_id` 会重复，说明从格式一致性角度看，`确实存在一个可以把一条样本归组起来的键`。而 `rows per event` 彼此不同，则说明从第一次质量检查角度看，`不同样本的记录长度并不一样`。这种差别必须在早期就写下来，这样以后比较均值时，我们才能同时读到 `为什么有些样本是建立在更少证据之上的`。
+`minimum_rows_per_event` 为 12 时，A、B 通过行数条件；降到 6 时，A、B、C 都通过。`enough_rows=True` 只表示这个条件成立。重复行也计入行数，因此它不能证明有足够的独立观测点或已观测完整动作。动作开始与结束记录、采样间隔和运行条件仍需分别确认。
 
-之所以要先写下格式一致性和第一次质量检查，是为了避免一拿到新表就先贴上均值或模型名字，而是先看清楚 `现在手上的行到底是什么`，以及 `还有什么在阻碍比较`。只有在键格式、时间顺序、重复长度、缺失值和孤立行等问题先被整理出来之后，后面重新归组样本、构造可比较列时，才能用同一套稳定标准去读这张表。
+第 4 步的 `observed_span` 是最后观测时刻减去首次观测时刻。A 的 `17s` 表示观测覆盖 0~17 秒，不表示动作在 17 秒时结束。平均流量和峰值压力也只是现有记录的摘要，并非可以立即比较的判定。
+
+第 5 步仅复制 A 的前三条记录进行实验。`reversed` 只改变顺序，因此得到 `sort_copy`；重复、冲突和缺失情况得到 `check_source`。冲突情况应暂缓汇总，直到核对原始记录。`gap` 检查的是本实验每秒采样一次的假设，不检查区段开始之前、结束之后的漏记或单元格缺失值。`continue_checks` 也不表示所有质量检查都已通过。
+
+请把 `conflict` 中新增的流量从 9.0 改为原始值 0.92。虽然 `conflict` 变为 False，但 `duplicate_time` 仍为 True，因此仍需核对原始记录。再把 `missing` 中缺少的 1 秒记录补回，`gap` 就会变为 False。即使同样出现顺序异常信号，也应分别写出原因和下一步行动。
 
 ## 检查清单
 
-- 你是否确认了 CSV 一行的含义及每个 event_id 的记录数量？
-- 你是否区分了存在时间列与记录实际有序，并解释了改变最低记录数的结果？
+- 是否用五行写下了新表的行含义、标识符、时间列、比较条件和原始证据？
+- 能否区分事件标识重复与同一事件、时刻组合重复？
+- 能否针对逆序、冲突值和缺失记录，说明排序、暂缓汇总或核对原始记录的选择及理由？
+- 是否区分了行数条件通过、观测区段长度与完整动作观测的证据？
+- 是否记录了原始文件与行位置，并保留派生表的处理历史？
 
 ## 来源与参考资料
 
