@@ -1,0 +1,29 @@
+{
+  "source": "docs/assets/part-07/chapter-05/sec-03/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png",
+  "source_sha256": "28e7aafb9a96ca0bdc9c7dda7dceb01c0cfd92e2efbe2eb75de7508779feb05e",
+  "crop": [
+    140,
+    110,
+    844,
+    814
+  ],
+  "resize": null,
+  "output_size": [
+    704,
+    704
+  ],
+  "identity_rgb": [
+    0,
+    0,
+    255
+  ],
+  "reference_order": [
+    "reference-native-704.png",
+    "reference-closeup-704.png"
+  ],
+  "mask_method": "same largest component RGB-background separation as baseline, threshold 35 and hole filling",
+  "hashes": {
+    "reference-closeup-704.png": "281f41d2944ed612dd95721839faa010f41b8e6c5072c6f2b62becdb7e91c1e0",
+    "reference-closeup-mask.png": "dd778155f9ea9d5ecd0c7f37142d8bb6abdc615bc8cd55d208f5ef8ebf30a12b"
+  }
+}

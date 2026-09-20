@@ -1,0 +1,25 @@
+[
+  {
+    "repo": "Comfy-Org/Wan_2.1_ComfyUI_repackaged",
+    "revision": "617a7633e636506f850e043bc4605f290a466a8e",
+    "gated": false,
+    "snapshot": ".tmp/download/huggingface/hub/models--Comfy-Org--Wan_2.1_ComfyUI_repackaged/snapshots/617a7633e636506f850e043bc4605f290a466a8e",
+    "files": [
+      {
+        "path": "README.md",
+        "bytes": 3724,
+        "sha256": "56072c73cfd706f1160a400aac8820ab95ff3976e4ded03ffc3a5481fcb214bc"
+      },
+      {
+        "path": "split_files/clip_vision/clip_vision_h.safetensors",
+        "bytes": 1264219396,
+        "sha256": "64a7ef761bfccbadbaa3da77366aac4185a6c58fa5de5f589b42a65bcc21f161"
+      },
+      {
+        "path": "split_files/vae/wan_2.1_vae.safetensors",
+        "bytes": 253815318,
+        "sha256": "2fc39d31359a4b0a64f55876d8ff7fa8d780956ae2cb13463b0223e15148976b"
+      }
+    ]
+  }
+]

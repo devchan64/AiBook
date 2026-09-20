@@ -83,3 +83,73 @@ Hugging Face 파일은 `.tmp/download/huggingface/hub/`의 고정 revision snaps
 ## StableAnimator 실험 최종 폐기
 
 2026-09-19 사용자 지시로 v4 정면·측면 실험도 캐릭터 외형·팔다리 구조 유지 실패로 폐기하고 자산 폴더 전체를 삭제했다. 위 v1~v4 실행·보관 경로는 과거 이력이며 현재 활성 자산이 아니다. 모델 인벤토리의 v4 실행 소스 참조를 제거했다. MoMask v4, 공용 참조 원본과 다운로드 가중치는 유지한다. [폐기 기록](../management/authoring/part-07-p7-5-15-discarded-experiments.md).
+
+
+## Champ v1 깊이 조건 실험 준비
+
+2026-09-19 `fudan-generative-ai/champ` revision `109dd04e551b60e076fed083d959de1c3180c477`의 추론 가중치와 공식 입력 예제 일부를 다운로드하고 SHA-256을 기록했다. 기록과 실행 소스는 `docs/assets/part-07/chapter-05/sec-15/2026-09-19-champ-v1/`에 모았다. 기존 환경은 유지하고 Diffusers 0.24.0을 `.tmp/experiments/p7-5-15/champ-deps/`에 분리했다. 공식 입력 16프레임의 첫 추론은 메모리 부족, 참조 처리 후 CPU 오프로딩을 적용한 재시도는 생성 완료했다. MoMask 연결은 별도 검수 대상이다. DWPose 가중치만 기존 StableAnimator 다운로드 묶음에서 재사용하며 StableAnimator 영상 모델은 실행하지 않는다.
+
+Champ v1의 MoMask v4 연결 32프레임도 생성·검수 완료했다. 약 219.84초, 최대 할당 5.64GiB. 가로 이동·큰 외형은 유지됐지만 후반 소매·손 변화로 전체 캐릭터 보존은 실패했다. 정확한 팔 대응과 깊이 단독 효과는 미검증이다. 판정은 자산 폴더 `review.json`에 보존한다.
+
+추가 사용자 검수에서 발·손 교대와 대응의 부정확성이 확인되어 Champ v1을 해당 목표 실패로 갱신했다. 가로 이동 유지는 보행 정확성 성공을 뜻하지 않는다. 조건/출력 10~21번 확대 비교와 판정을 자산 폴더에 추가하고 기존 결과는 보존했다.
+
+## 2026-09-19 Champ 순차 비교 / DisPose 준비
+
+기록: `docs/assets/part-07/chapter-05/sec-15/2026-09-19-champ-sequential-v2/README.md`.
+
+Champ는 기존 가중치를 재사용하여 직접 관절 투영, 목·손목 연결 보정, 팔 길이 근사 보정을 순서대로 실행했다. 3개 실행 모두 32프레임 생성 완료, 육안 검토에서 교차 부위와 의상 유지 문제 잔존. 가중치 추가 다운로드 없음.
+
+DisPose 비교를 위해 BOM 등록 후 아래 공식 저장소의 선택 파일을 받았다. revision·파일별 SHA-256은 위 자산 폴더의 `04-dispose/download-record.json`에 있다.
+
+| 저장소 | 선택 파일 | 상태 |
+| --- | --- | --- |
+| `lihxxx/DisPose` | `DisPose.pth` | 다운로드 및 SHA-256 기록 완료 |
+| `tencent/MimicMotion` | `MimicMotion_1-1.pth` | 다운로드 및 SHA-256 기록 완료 |
+| `MyNiuuu/MOFA-Video-Hybrid` | CMP `ckpt_iter_42000.pth.tar` | 다운로드 및 SHA-256 기록 완료 |
+| `stabilityai/stable-video-diffusion-img2vid-xt-1-1` | VAE/CLIP FP16 및 설정 | HTTP 403 GatedRepoError, 현재 계정 접근 권한 없음 |
+| `stable-diffusion-v1-5/stable-diffusion-v1-5` | DIFT용 FP16 구성 요소 | 앞선 의존성 차단으로 미시작 |
+
+DisPose 추론은 미실행이다. 모델 성능 실패와 다운로드 접근 차단을 구분한다. 로컬 인증 유효성을 확인한 재시도에서도 403이 지속되었다. 사용자가 접근 승인이 필요한 대안을 진행하지 않도록 지시하여 DisPose를 실험 대상에서 제외했다. 이후 다운로드·추론은 재개하지 않으며, 이미 받은 가중치는 캐시에 보존한다. 기존 환경을 바꾸지 않도록 diffusers 0.27.0/decord는 `.tmp/experiments/p7-5-15/dispose-deps/`에 별도 설치했다.
+
+## 2026-09-19 VACE 1.3B 대체 실험
+
+DisPose 제외 후 [Wan-AI/Wan2.1-VACE-1.3B-diffusers](https://huggingface.co/Wan-AI/Wan2.1-VACE-1.3B-diffusers)를 선택했다. Hugging Face API의 `gated=false`를 확인하고 `token=False`로 익명 다운로드했다. 별도 접근 승인이나 SVD 가중치를 요구하지 않는다.
+
+- revision: `ec4d2cb062b548996b179d493fdd05340de702a1`
+- 범위: text encoder, transformer, VAE, tokenizer, scheduler 및 설정 파일. 가중치 약 19.02GB.
+- 보관: `.tmp/download/huggingface/hub/` 표준 캐시.
+- 파일별 SHA-256: `docs/assets/part-07/chapter-05/sec-15/2026-09-19-vace-v1/download-record.json`.
+- 실행·평가: 같은 폴더의 `plan.json`, 조건별 `result.json` 및 사후 `review.json`으로 구분한다.
+- [공식 구현](https://github.com/ali-vilab/VACE), [입력 구성 안내](https://github.com/ali-vilab/VACE/blob/main/UserGuide.md). 모델 카드의 라이선스 표기는 Apache-2.0이다.
+
+VACE 실행 결과: 깊이+참조 및 포즈+참조 각각 33프레임 생성·검토 완료(총 66). 두 조건 모두 손·발 대응/캐릭터 유지 기준 미달로 채택하지 않음. 실행 가능 여부와 품질 판정을 구분하며 상세 근거는 자산 폴더의 `summary.json`, 조건별 `review.json`에 보존했다.
+
+## 2026-09-19 SCAIL 최종 결과와 다운로드 근거
+
+SCAIL-v1은 개별 프레임 품질 부족으로 사용자 지시에 따라 폐기했다. 결과 요약만 `docs/assets/part-07/chapter-05/sec-15/2026-09-19-scail-v1/README.md`에 남기고, 재사용 입력은 `2026-09-19-scail2-v1/`로 이관했다. 공용 가중치 캐시는 유지한다.
+
+Q4와 Wan VAE/vision의 다운로드 revision·SHA-256은 `download-record.json`에 있다. Q6의 다운로드 기록은 `evidence/history.json`의 `records["q6-download-record.json"]`에 보존했다. Q6 비교에서는 안개 개선이 확인되지 않았다. 실제 가중치는 `.tmp/download/` 공용 캐시에 보존한다. 모두 익명 다운로드했으며 native SCAIL 경로에서는 준비한 CLIP vision 가중치를 사용하지 않았다.
+
+출처: [SCAIL 공식 구현](https://github.com/zai-org/SCAIL), [Q4/Q6 배포](https://huggingface.co/vantagewithai/SCAIL-Preview-GGUF).
+
+### SCAIL-2 후속 실험 — 2026-09-19
+
+공개 `vantagewithai/SCAIL-2-GGUF-ComfyUI`의 Q4_K_M 11,456,036,512바이트를 익명 다운로드했다. Revision `8d99a4251592b5e834169bf9faeebeb36c553e07`, SHA-256 `b620205b2a757a872a80fc63c55b3665d49ae533ae6d8026cf04f93e73f285e2`. 기존 Wan VAE와 UMT5 임베딩을 재사용하고 SAM3는 사용하지 않는다. 기본 모델이며 DPO LoRA는 이번 다운로드·실행에 포함하지 않았다. 실행 조건과 결과는 `docs/assets/part-07/chapter-05/sec-15/2026-09-19-scail2-v1/README.md`에 기록한다.
+
+### SCAIL-2 DPO — 2026-09-20
+
+SCAIL-2 기본 실험은 사용자 지시로 폐기하고 기존 경로에 결과 요약만 남겼다. 입력·코드·다운로드 근거는 `docs/assets/part-07/chapter-05/sec-15/2026-09-20-scail2-dpo-v1/`로 이관했다. 공식 공개 `zai-org/SCAIL-2`의 `model/bias-aware-dpo-lora.pt`를 익명 다운로드하고 공식 변환 코드로 800개 tensor를 변환했다. 원본 SHA-256 `cf29934c72fee6b24c3a5a82e8a9a4f3f4e93d76d988c9a20fac4e2b19e8fa09`, 변환 SHA-256 `9c317e5c1f8174ea2799b7ca1a81a36fbd80c5f0787379d9103ced3fe3b94785`. 세부 revision과 키 목록은 `dpo-record.json`에 기록한다.
+
+### SCAIL-2 DPO 704p — 2026-09-20
+
+512p DPO 결과는 사용자 지시로 요약 후 폐기했다. 재사용 입력·코드·모델 근거는 `docs/assets/part-07/chapter-05/sec-15/2026-09-20-scail2-704-v1/`로 이관했다. 신규 모델 다운로드 없이 같은 Q4·DPO 가중치로 704×704 해상도 실험을 진행한다.
+
+### SCAIL-2 원본 참조 704p — 2026-09-20
+
+704p 결과는 사용자 평가인 품질 향상·실사용 불가를 요약으로 남긴 뒤 폐기했다. 다음 실험 입력·코드·공용 가중치 근거는 `docs/assets/part-07/chapter-05/sec-15/2026-09-20-scail2-native-ref-v1/`로 이관했다. 새 모델 다운로드 없이 원본에서 직접 만든 704p 참조의 영향을 확인한다.
+
+### SeedVR2 복원 — 2026-09-20
+
+사용자가 1순위 SeedVR2 복원 실험을 선택했다. `AInVFX/SeedVR2_comfyUI`의 3B Q8_0 및 `numz/SeedVR2_comfyUI`의 FP16 VAE를 익명 다운로드하고 구현에 등록된 SHA-256과 대조했다. 세부 revision·바이트 수·해시는 `docs/assets/part-07/chapter-05/sec-15/2026-09-20-seedvr2-v1/README.md`에 기록했다. 가중치는 공용 캐시에 두고 현재 SCAIL-2 704p 원본은 보존한다.
+
+2026-09-20 최종 정리: MoMask v4와 SCAIL-2 전신 기준의 시각 결과·원 모션을 요약 후 폐기했다. 현재 보존 결과는 scail2-multiref-v1이며 재사용 포즈·마스크·참조·가중치 근거는 해당 폴더로 이관했다. 앞의 경로·보관 설명은 당시 이력이다. 공용 모델 가중치는 삭제하지 않았다.

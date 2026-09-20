@@ -29,24 +29,9 @@
 
 접촉을 직접 알 수 없어 발목·발끝 중 낮은 관절이 추정 바닥 2.5cm 이내인 연속 프레임을 골라 발끝 수평 속도를 계산했다. `travel`의 실제 이동 구간에서 중앙값은 약 0.079~0.127m/s다. 지지 발이 완전히 고정됐다고 판정할 수 없으며, 이 수치는 착지·이탈도 섞인 높이 기반 대리지표다. `grounded_travel`의 전체 근접 구간 중앙값은 약 1.20~1.31m/s로 컸다. 바닥은 클립 전체 발 관절 높이의 1백분위수이므로 실제 신발 밑창·지면 측정이 아니다.
 
-전체 576프레임을 수치 분석하고 여섯 결과의 12장 요약을 육안 확인했다. 연속 영상과 전체 PNG도 보관한다. `travel`을 후속 검수 후보로 두며 캐릭터 영상화는 이번 실험에 포함하지 않았다.
+전체 576프레임을 수치 분석하고 여섯 결과의 12장 요약을 육안 확인했다. 연속 영상과 전체 PNG는 2026-09-20 사용자 지시로 폐기했다. `travel`을 후속 검수 후보로 두며 캐릭터 영상화는 이번 실험에 포함하지 않았다.
 
 GPU는 RTX 5070 Laptop, 최대 PyTorch 할당 약 0.89GiB였다. 모델 로딩 약 6.35초, 첫 모션 약 1.20초·이후 모션 약 0.089~0.102초이며 초기 실행 비용과 렌더링 비용을 구분한다.
 
-## 실행·검수 자료
 
-[계획](plan.json) · [실행 기록](results/result.json) · [진단 수치](metrics.json) · [검수 판정](review.json) · [공통 카메라·높이 진단](results/diagnostics.json) · [위에서 본 골반 경로](root-paths.png)
-
-[실행 코드](run.py) · [공통 구도 렌더링](render.py) · [관절 복원·이동·발 속도 분석](analyze.py)
-
-- **grounded_travel-10107**: [20fps 영상](results/grounded_travel-10107-side.mp4) · [12장 요약](results/grounded_travel-10107-contact-sheet.png) · [발 높이](results/grounded_travel-10107-clearance.png) · [원 관절](results/grounded_travel-10107.npz) · [연속 PNG 첫 장](results/grounded_travel-10107-frames/000.png)
-
-- **grounded_travel-10108**: [20fps 영상](results/grounded_travel-10108-side.mp4) · [12장 요약](results/grounded_travel-10108-contact-sheet.png) · [발 높이](results/grounded_travel-10108-clearance.png) · [원 관절](results/grounded_travel-10108.npz) · [연속 PNG 첫 장](results/grounded_travel-10108-frames/000.png)
-
-- **grounded_travel-10109**: [20fps 영상](results/grounded_travel-10109-side.mp4) · [12장 요약](results/grounded_travel-10109-contact-sheet.png) · [발 높이](results/grounded_travel-10109-clearance.png) · [원 관절](results/grounded_travel-10109.npz) · [연속 PNG 첫 장](results/grounded_travel-10109-frames/000.png)
-
-- **travel-10107**: [20fps 영상](results/travel-10107-side.mp4) · [12장 요약](results/travel-10107-contact-sheet.png) · [발 높이](results/travel-10107-clearance.png) · [원 관절](results/travel-10107.npz) · [연속 PNG 첫 장](results/travel-10107-frames/000.png)
-
-- **travel-10108**: [20fps 영상](results/travel-10108-side.mp4) · [12장 요약](results/travel-10108-contact-sheet.png) · [발 높이](results/travel-10108-clearance.png) · [원 관절](results/travel-10108.npz) · [연속 PNG 첫 장](results/travel-10108-frames/000.png)
-
-- **travel-10109**: [20fps 영상](results/travel-10109-side.mp4) · [12장 요약](results/travel-10109-contact-sheet.png) · [발 높이](results/travel-10109-clearance.png) · [원 관절](results/travel-10109.npz) · [연속 PNG 첫 장](results/travel-10109-frames/000.png)
+2026-09-20 사용자 지시로 요약 외 모션 배열·영상·프레임·코드·상세 기록을 삭제했다. 후속 multiref 실행에 사용한 렌더링 포즈·마스크는 해당 실험의 입력으로 보존한다. 원 모션 재검수는 불가능하며 동일 조건 자동 재생성에서 제외한다. 결론은 P7-5.15 원고에 반영했다.

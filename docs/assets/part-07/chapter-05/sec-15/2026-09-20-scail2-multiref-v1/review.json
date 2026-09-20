@@ -1,0 +1,15 @@
+{
+  "status": "documented_quality_unapproved",
+  "review_date": "2026-09-20",
+  "user_request": "이번 결과를 원고에 반영한다.",
+  "method": "Five frame pairs 000/008/016/024/032 at matching display size; native-size output frame 016",
+  "observations": [
+    "표본에서 전진 이동과 짧은 머리·흰 상의·짙은 바지의 큰 특징 유지",
+    "016 원본 크기에서 얼굴·손 디테일이 흐리고 신발 경계가 부드러움"
+  ],
+  "limits": [
+    "디테일 개선과 캐릭터 동일성 개선을 확정하지 않음",
+    "표본 검수로 전체 영상의 깜박임·손발 교대 통과를 판정하지 않음"
+  ],
+  "decision": "원고에 조건·결과·비교 근거 보존. 사용자 품질 승인으로 해석하지 않음"
+}

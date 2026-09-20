@@ -1,0 +1,36 @@
+{
+  "source": "docs/assets/part-07/chapter-05/sec-03/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png",
+  "source_sha256": "28e7aafb9a96ca0bdc9c7dda7dceb01c0cfd92e2efbe2eb75de7508779feb05e",
+  "crop": [
+    340,
+    140,
+    630,
+    1320
+  ],
+  "crop_resize": [
+    110,
+    448
+  ],
+  "paste": [
+    41,
+    184,
+    151,
+    632
+  ],
+  "canvas": [
+    704,
+    704
+  ],
+  "resample": "Pillow LANCZOS directly from source crop",
+  "output_sha256": "fcb34e4e2a9124d531f3fe2e5aad0b1071cbbe93be6044b9ef34ed8236e62726",
+  "previous_resize": [
+    80,
+    326
+  ],
+  "previous_canvas": [
+    512,
+    512
+  ],
+  "mask": "unchanged 512 reference-mask.png, internally upscaled nearest-exact by same ComfyUI node",
+  "limitation": "Rounding 41.25,184.25,448.25 to integer coordinates yields subpixel alignment difference; this changes the reference preprocessing, not output resolution"
+}
