@@ -1,86 +1,64 @@
-# P3-8.1 What Controls Interpretation Strength
+# P3-8.1 What Adjusts Interpretation Strength?
 
 > Section ID: `P3-8.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Having a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) does not mean every difference should be read with the same strength. In operational data, sample sizes are often small, and it may be unclear whether the same change repeats. At the interpretation stage, you need to ask not only `what changed` but also `how strongly that difference can be trusted`.
+Calculating that a recent mean is below baseline differs from claiming that conditions have persistently worsened. What we can say depends on how many events were observed, under which conditions, and whether one event was counted repeatedly. This is why we examine [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary).
 
-When the sample size is small, values such as the mean, variability, and representative pattern can shift easily. A difference of `0.3` between the recent mean and the baseline mean may look impressive if it comes from only two recent cases. That same difference of `0.3` carries a different weight if it comes from twenty recent cases. Even when the numeric gap is the same, interpretation strength should change depending on how many observations produced it.
+## What does dividing 17 by 20 tell us?
 
-The important point here is not `if data is small, say nothing`. A more accurate rule is `the smaller the data, the less confidently you should speak`. In other words, you do not stop interpreting. You adjust the strength of interpretation.
+The following flow-rate example is fictional and constructed for this book. Each window contains distinct completed operations, with all required measurements assumed available. Recent and baseline data use the same equipment, operating conditions, and measurement definitions. We average the per-operation late-period means with equal weights. `diff` subtracts the baseline late-period mean from the recent one.
 
-Repeatability matters for the same reason. A change that jumps sharply once and a change that moves slightly in the same direction many times can have different operational meaning. Sometimes a weak decline that repeats across several recent windows matters more than a single abrupt drop. Operators often want to see not just `one unusual case` but also `signs that the state is changing`.
+As in [P3-7.2](../chapter-07/section-02.en.md), `same_direction_count` counts operations for which **late-period mean − early-period mean ≤ −0.30 L/min**. Equality qualifies, and each operation is counted once. `repeat_ratio` divides this count by the total operation count. A difference from baseline and a decline within an operation compare different things: a negative `diff` alone cannot determine this ratio.
 
-Interpretation therefore needs at least two axes together. One is `how much was observed`, and the other is `how often the change repeated in the same direction`. If you look only at sample size, you can miss signals. If you look only at repeatability, you can overread coincidence. In operational data, it is important to read both axes together.
+| Window | diff (L/min) | event_count | same_direction_count | repeat_ratio |
+| --- | ---: | ---: | ---: | ---: |
+| W1 | -0.30 | 2 | 1 | 0.50 |
+| W2 | -0.30 | 4 | 4 | 1.00 |
+| W3 | -0.30 | 20 | 17 | 0.85 |
 
-| Situation | What to be careful about when interpreting |
+For W3, `17 ÷ 20 = 0.85`, or 85%. This means **17 of the 20 observed operations met the defined decline condition**. It is neither an 85% failure probability nor 85% certainty that the process state changed. W1 is `1 ÷ 2 = 50%`; W2 is `4 ÷ 4 = 100%`.
+
+W2's 100% does not automatically make its evidence stronger than W3's. Reclassifying one of the same four operations changes W2 to `3 ÷ 4 = 75%`; reclassifying one in W3 changes it to `16 ÷ 20 = 80%`. This calculation shows greater movement with a smaller denominator. It does not establish that 20 observations are sufficient.
+
+## Keep observation coverage and order alongside the ratio
+
+Check whether the four operations came from one day and one material batch or covered multiple days and batches. Even 20 operations may reflect narrow conditions if they came from one batch. Distinct operations can share material or environmental influences, so they need not provide independent evidence. Twenty overlapping windows cut from one operation must not be counted as 20 operations.
+
+Furthermore, `17/20` contains no occurrence order. It does not show whether the 17 qualifying operations came first or were interspersed among the other three. Do not rewrite it as **17 consecutive declines** or **worsening over time**. Those claims require a separate examination of time-ordered records.
+
+| Statement directly supported by the table | Information still needed |
 | --- | --- |
-| Small sample size and weak repetition | Treat coincidence as more plausible |
-| Small sample size but repeated same-direction change | Hold back strong conclusions, but watch carefully |
-| Enough sample size and repeated change | Read it as a more trustworthy change signal |
+| One of W1's two operations met the decline condition | Does the pattern recur in further observations? |
+| All four observed operations in W2 met the condition | Which dates, materials, and operating ranges do these four cover? |
+| Seventeen of W3's 20 operations met the condition | What are the dependencies, occurrence order, and baseline proportion meeting the same condition? |
 
-If you restate this table in a more operational way, it leads to sentences like these.
-
-- Few samples and weak repetition: lower confidence in a claim of persistent state change.
-- Few samples but repeated occurrences: raise a human-review candidate rather than automatically confirming it.
-- Sufficient samples and repetition: consider a stronger warning or further analysis.
-
-The point here is to keep a rule for `when not to speak too strongly yet` so that interpretation strength can be adjusted. Readers should be able to see immediately why the same `diff` leads to different operational sentences. That makes the later explanations of warnings, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-design) less unstable.
-
-| Observation state | Sentence that speaks too strongly too early | Safer sentence |
-| --- | --- | --- |
-| Only the most recent 2 cases differ | The state has definitely changed | A difference appears in a small number of recent cases, so more observation is needed |
-| Weak repeatability | The cause is clear | The repeated signal is weak, so cause confirmation is deferred |
-| Sample size and repeatability are both mid-level | Confirm it immediately as an automatic alert | Raise review priority, but defer confirmed diagnosis |
-
-What matters here is not `do we stop judging` but `how do we adjust judgment strength`. Without this perspective, readers will struggle later to understand why some bluntness is necessary when warnings, thresholds, the review queue, and evaluation are introduced.
-
-You can see why the same difference value leads to different interpretation strength directly through a small judgment table.
-
-Problem situation: all three windows have the same `-0.3` difference between the recent mean and the baseline mean, but the sample size and repeatability differ.
-
-| window_id | diff | event_count | same_direction_count | repeat_ratio | More natural interpretation strength |
-| --- | ---: | ---: | ---: | ---: | --- |
-| few-and-weak | -0.3 | 2 | 1 | 0.50 | record only |
-| few-but-repeated | -0.3 | 4 | 4 | 1.00 | review candidate |
-| enough-and-repeated | -0.3 | 20 | 17 | 0.85 | stronger warning |
-
-This table is illustrative and assumes similar comparison conditions and variation. Twenty cases is not a universal sufficiency threshold. Twenty overlapping windows cut from one event provide different evidence from twenty separate events. Here, `repeat_ratio` is the number of events moving in the same direction divided by the total number of events; it does not guarantee consecutive repetition over time.
-
-What matters in this example is that all three windows share the same `diff`. What changes is `event_count`, `repeat_ratio`, and the interpretation strength produced by their combination. The first case shows a difference, but the sample size is so small that it stays near a record-only level. The second still has a small sample size, but repeatability is clear enough to make it a review candidate. The third has both enough observations and enough repeatability, so it can be read as a stronger change signal.
-
-This makes the benefit of adjusting interpretation strength clearer. First, it reduces over-alerting by keeping weak-sample signals from being promoted immediately to strong warnings. Second, it preserves weak but repeated signals as `review candidates` instead of throwing them away, which helps human review time get used more carefully. Third, when strong warnings are attached only after both sample size and repeatability are sufficient, it becomes easier later to explain why the same `diff` splits into `record`, `review`, and `strong warning`.
-
-The core of this section is therefore not `how to calculate a difference value` but `how to decide what sentence strength should describe the same difference`.
-
-If you compress the judgment further, it can be summarized like this.
-
-| Observation condition | More natural interpretation strength |
-| --- | --- |
-| Small sample size + weak repetition | Keep it close to a record level |
-| Small sample size + repeated change | Send it to a review candidate |
-| Enough sample size + repeated change | Read it as a stronger change signal |
-
-The key point of this table is not to stop interpreting. It is that even the same difference should be reported with different strength depending on the observation conditions.
-
-A small sample does not automatically call for a weaker operational response. Even one observation may justify immediate checking if it exceeds a separately defined allowable limit. `How certain are we that the change persists?` and `How urgent is verification?` are different judgments.
+Without the baseline proportion meeting the decline condition, the table cannot show that such operations became more frequent than before. Causes and safety status are also absent from this ratio.
 
 ## Matching Interpretation Strength to Sample Counts and Repetition {#a-small-diagram}
+
+Write the interpretation and the operational action separately. For W3, one statement is: “Within-operation decline occurred in 17 of 20 observed operations, but coverage and time order need examination before claiming a persistent state change.” Choose the next action using separately established limits, consequences, and response procedures.
+
+For example, assuming valid measurements and no separate limit violation, a fictional team might send W2 and W3 for human review. This is that team's policy example, not a warning grade automatically implied by four operations, 20 operations, or 85%. Conversely, a single observation exceeding an established limit may require immediate checking under the response procedure. Low confidence in persistence does not automatically imply low urgency.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-en.mmd"
 ```
 
-This section can be regrouped not as a matter of intuition from one domain, but as a question of how to read [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary).
+Introducing this distinction does not establish that false alarms decrease or review time is saved. Those effects require separate evaluation of actual alarm outcomes, missed cases, and time spent reviewing.
 
-You therefore need to decide not only `is there a difference` but also `with what strength can that difference be stated`.
+## Check your understanding
+
+Find the unsupported parts of this statement: “W2 is a more certain failure than W3 because it is 100%; W3 deserves a strong warning because it worsened 17 times in a row.”
+
+Explanation: 100% is the proportion of four observed operations meeting a condition, not a failure diagnosis. Evidence strength cannot be ranked without checking coverage and dependence for the four and 20 observations. The fraction 17/20 contains no order, so it cannot establish consecutive worsening. Warning grades require separate operational rules.
 
 ## Checklist
 
-- Did you check sample count, independence, and repetition evidence separately?
-- Did you write separate statements for interpretive confidence and operational urgency?
+- Can you calculate 17/20 and explain its numerator, denominator, and decline condition?
+- When comparing 4/4 and 17/20, can you identify missing information about coverage, dependence, and time order?
+- Can you write separate statements describing the observations and choosing operational action?
 
-## Sources and References
+## Sources and references
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It explains a structure that compares current performance with past performance and emphasizes the need for samples obtained under essentially the same conditions, which supports the general claim in this section that interpretation strength should depend on sample size and repeatability rather than on the difference value alone. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. It provides the general reference idea that comparisons are read in relation to a reference point, which supports this section's explanation that the same diff should be described differently under different observation conditions. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [NIST/SEMATECH, What are Variables Control Charts?](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } — Reference for sampling conditions, control versus specification limits, and the relationship between signaling rules and false alarms. The fictional values and review policy above are our own examples, not NIST warning criteria. Accessed: 2026-09-20.

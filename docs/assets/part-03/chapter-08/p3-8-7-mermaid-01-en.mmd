@@ -1,9 +1,6 @@
-```mermaid
 flowchart TD
-    S[Current review rule or action]
-    I[Intervention happens]
-    D[Later data changes]
-    M[Interpretation must separate natural progression and intervention effect]
-
-    S --> I --> D --> M
-```
+    A["Signal: Sep 1, 09:00"] --> B["Review: 09:05"]
+    B --> C["Action starts: 09:10"]
+    C --> D["Confirm through Sep 8, 09:00"]
+    D --> E["Observed outcome: 0"]
+    A -.-> F["Same event without action: unobserved"]

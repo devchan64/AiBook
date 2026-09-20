@@ -1,77 +1,55 @@
-# P3-8.4 保守解读与运营列
+# P3-8.4 保守解释与运行列
 
 > Section ID: `P3-8.4`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_副标题: 解读句子如何变成 warning 列和 review queue 标准？_
+仅凭“需要复核”这句话，无法计算优先级分数。要从相同观察生成相同的[运行输出](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)，必须规定输入值、适用条件与判定规则。句子说明观察及其局限，运行列则保存明确政策的应用结果。
 
-读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)之后，往往会留下类似`最近区间相对基线后段下降更大，因此提高复核优先级`这样的保守解读句子。接下来需要做的判断，是如何把这句话转成 `warning_level`、`review_needed`、`priority_score` 这样的结构化运营列。保守解读句子不是终点，而是在转成[复核候选队列（review queue）](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)这类[输出结构](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)之前，最后一层人工解读。如果把比较表直接改写成结构化运营输出，中间的判断理由可能会丢失；但如果只留下句子，又很难按同一标准去排运营优先级、检索、或重新排序。
-
-| 层级 | 主要形式 | 作用 |
+| 层次 | 保留内容 | 本例中的作用 |
 | --- | --- | --- |
-| [比较结果](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure) | 差值、[基线（baseline）](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、重复性 | 显示哪里发生了变化 |
-| 保守解读句子 | `需要继续观察`、`提高复核优先级` | 整理给人阅读的判断强度 |
-| 结构化运营输出 | `warning_level`、`review_needed`、`priority_score` | 让运营中可再次排序、搜索和后续处理 |
+| 比较结果 | 差值、次数、规则满足比例 | 保存观察内容 |
+| 解释句 | 观察、不确定性、核查行动 | 帮助人理解含义与局限 |
+| 运行输出 | 警告标记、复核标记、优先等级 | 按既定政策检索、分类与后续处理 |
 
-把这三个层级分开，就会形成`数字 -> 句子 -> 运营列`的流程。
+## 固定输入条件与计算规则
 
-## 为什么要先经过句子阶段
+下面是练习生成运行列的独立虚拟汇总。A、B、C为比较区间标识。`diff`是近期各动作后段均值的平均值减去基线对应平均值，单位为L/min。`event_count`是近期已完成动作数。下降条件与[P3-7.2](../chapter-07/section-02.zh.md)相同，为`后段均值−前段均值 ≤ −0.30 L/min`，每次动作只计一次。
 
-在直接生成运营列之前，先经过句子阶段，原因很简单。
+| window_id | diff (L/min) | event_count | decline_count | decline_ratio |
+| --- | ---: | ---: | ---: | ---: |
+| A | -0.35 | 20 | 14 | 14/20=0.70 |
+| B | -0.35 | 3 | 1 | 1/3≈0.333 |
+| C | -0.10 | 10 | 2 | 2/10=0.20 |
 
-- 哪些差异只保留在`记录`级别
-- 哪些差异要升成`复核候选`
-- 哪些差异要升成`强告警`
+`decline_ratio=decline_count/event_count`。A的70%是满足规定下降条件的比例，不是故障概率或置信分数。相对基线的差值与动作内部下降比例也是不同的比较。
 
-这些判断通常不是单靠一个数字，而是要把样本量、重复性和比较条件形成的[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)一起读完之后才能定下来。因此，句子不是装饰，而是把数字翻译成运营判断的中间阶段。
+这里假定所需测量齐备，基线与近期的类型、运行条件、单位和区段定义相同。总次数为正整数，下降次数在0与总次数之间。另行检查允许限值后，也假定没有超限。测量缺失、比较条件不一致、超限或是否超限尚不明确的行，不适用下列政策。这些行应转入数据核查或已有响应程序，不能套用政策最后一行将其当作正常。
 
-## 把一个场景重新看成三个阶段
+## 连接数值与运行决定的政策
 
-例如，假设最近区间被读成下面这样。
+假设一个虚拟团队制定了以下复核分配政策`review-v1`。仅对满足适用条件的行，**从上到下应用第一条匹配规则**。0.30与0.60是本练习选定的政策值，不是经过统计验证的边界，也不是真实设备的安全标准。
 
-1. 最近 20 条里，后段下降比基线更大。
-2. 同时还存在重复性，因此它更接近状态变化候选，而不是一次性事件。
-3. 暂缓原因确认，并提高复核优先级。
+| 规则 | 输入条件 | warning_level | review_needed | priority_band |
+| --- | --- | --- | ---: | --- |
+| R1 | diff ≤ −0.30且decline_ratio ≥ 0.60 | caution | 1 | first |
+| R2 | 不满足R1且diff ≤ −0.30 | caution | 1 | standard |
+| R3 | 不满足以上两条规则 | watch | 0 | none |
 
-把这三句话转成运营列之后，可以变成下面这样。
-
-| 句子阶段所说的内容 | 结构化列示例 |
-| --- | --- |
-| 差异很明确，但暂缓原因确认 | `warning_level = caution` |
-| 值得由人工重新看一遍 | `review_needed = 1` |
-| 比其他案例更值得先看 | `priority_score = 0.82` |
-
-也就是说，句子不会只停留在自由叙述，它可以被压缩成后面会反复使用的列名。
-
-## 为什么保守解读和运营列不是同一件事
-
-这里要注意的一点是，不能误以为句子和列之间存在自动的一一对应关系。
-
-| 保守句子 | 它并不立刻等于 | 原因 |
-| --- | --- | --- |
-| `需要继续观察` | 立刻等于 `review_needed = 1` | 因为继续观察也可能仍停留在记录级别 |
-| `提高复核优先级` | 立刻等于`原因确认` | 因为复核和诊断是不同层级 |
-| `强变化信号` | 立刻等于`自动处置` | 因为还需要运营策略和安全标准 |
-
-所以，句子负责整理强度，但在变成真正的运营列和策略之前，还需要再做一次结构化。
+`caution`是该政策的复核标记，不是故障诊断。`first`只表示在此政策内先于`standard`复核，不表示原因更确定。`watch`与`review_needed=0`表示**本规则不将该行放入复核队列**，并非安全保证或取消所有后续核查。两个边界都包含等号。判定使用原始分数，而非显示时的四舍五入值。
 
 ## 比较解释句与运行列的作用 {#_4}
 
-| window_id | diff | event_count | repeatability | conservative_sentence |
-| --- | ---: | ---: | --- | --- |
-| A | -0.35 | 20 | high | 提高复核优先级，暂不确认原因 |
-| B | -0.35 | 3 | low | 可以看到差异，但样本少，需要进一步观察 |
+沿着A完整推导：`−0.35 ≤ −0.30`且`14/20=0.70 ≥ 0.60`，因此匹配R1，保存`warning_level=caution`、`review_needed=1`、`priority_band=first`。解释时可写：“近期20次动作的后段均值比基线低0.35 L/min，其中14次满足下降条件。原因尚未确认。按照review-v1的R1，将该区间分配为优先复核对象。”
 
-把这些句子转成结构化运营列之后，可以变成下面这样。
+| window_id | warning_level | review_needed | priority_band | rule_id |
+| --- | --- | ---: | --- | --- |
+| A | caution | 1 | first | R1 |
+| B | caution | 1 | standard | R2 |
+| C | watch | 0 | none | R3 |
 
-| window_id | warning_level | review_needed | priority_score |
-| --- | --- | ---: | ---: |
-| A | caution | 1 | 0.82 |
-| B | watch | 0 | 0.41 |
+B满足差值条件，但`1/3 < 0.60`，因此应用R2。不能因近期只有三次就将其排除在复核之外。C满足`−0.10 > −0.30`，因此应用R3。每个输出行均保存`policy_version=review-v1`，并通过`window_id`定位原比较行。还需保留基线版本与所用输入，才能重新核对政策应用过程。
 
-`priority_score` 中的 0.82 和 0.41 是用来展示输出格式的虚构值，既不是从前面的语句计算出来的数值，也不是故障概率。如果要使用实际分数，必须说明对哪些列应用了哪些权重和条件。没有计算规则时，只保留`高/低`等判断等级更容易复现。
-
-之所以这两张表都需要，是因为第一张表留下了`为什么做出这个判断`，而第二张表留下了`运营里可以再次使用的格式`。
+若另一政策把R1的比例边界改为0.80，同一个A就会匹配R2而非R1。观察值与原因的不确定性没有变化，只有分配等级改变。因此政策改变时也要记录新版本，不能从句子中的“需要复核”任意提取等级。
 
 ## 从解释句到警告列与复核队列 {#_5}
 
@@ -79,14 +57,20 @@ _副标题: 解读句子如何变成 warning 列和 review queue 标准？_
 --8<-- "assets/part-03/chapter-08/p3-8-4-mermaid-01-zh.mmd"
 ```
 
-这张图显示的是，即使差值相同，也不会直接进入同样的运营列。要先读取比较结果，再通过人工句子调节解读强度，之后才压缩成 `warning_level`、`review_needed`、`priority_score` 这样的运营列。也就是说，像 `warning_level` 这样的列，并不是突然冒出来的实现物，而是把观测结果经过人工解读之后，再压缩成更容易在运营里复用的格式。这里首先要固定的顺序，同样是先读`哪里变了`，再用句子调节`可以说得多强`，最后再压缩成运营列。
+写句子是向读者展开说明判断的步骤。实际系统不必先生成自然语言，再重新理解这段语言。它可以直接对验证后的输入应用政策，生成运行列，并从同一输入、政策和输出生成说明。无论哪种实现，都应区分并追踪观察事实与政策决定的行动。
+
+## 自己应用规则
+
+D满足全部适用条件，且`diff=−0.30`、`event_count=5`、`decline_count=3`。review-v1会输出什么？如果只把下降次数改为2，又会怎样？
+
+解析：最初`3/5=0.60`，两个边界都包含等号，因此应用R1，输出`caution·1·first`。改为2次后，`2/5=0.40`，应用R2，输出`caution·1·standard`。这是政策分配结果，不是对五次观察的代表性或故障的认证。如果测量缺失导致比例无法计算，应重新检查适用条件，而不是转入R3。
 
 ## 检查清单
 
-- 你是否根据区间标识和 event_count 解释了解释强度？
-- 你是否写明了输出列的用途，而没有把虚构优先级分数当作概率？
+- 能否将同一政策应用于A、B、C和边界案例D，得到相同运行列？
+- 能否区分观察比例、政策等级与故障概率，并说明保留规则ID和政策版本的原因？
+- 能否避免将不适用的行当作正常，并解释自然语言并非必需计算步骤？
 
 ## 来源与参考资料
 
-- Google for Developers, `Thresholds and the confusion matrix`。它说明模型的 raw score 会经过 threshold 才连接到最终分类，因此为本节提供了一般性依据：人工解读句子应当与 `warning_level`、`review_needed`、`priority_score` 这类结构化运营列分开来看。 [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- W3C, `PROV-Overview`。它提供了一种追踪观测结果如何经过中间判断而派生出来的 provenance 视角，因此可用于解释本节在比较结果、保守句子和结构化运营列之间所做的层级区分。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- [W3C, PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } — 参考其保留输入、处理活动与派生结果来源路径的观点。数值、规则与等级是本书自行构造的虚拟政策，并非W3C警告标准。查阅日期：2026-09-20。

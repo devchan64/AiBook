@@ -1,65 +1,51 @@
-# P3-8.3 In What Order and With What Wording Should Conservative Interpretation Sentences Be Written
+# P3-8.3 In What Order and Wording Should Conservative Interpretations Be Written?
 
 > Section ID: `P3-8.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-A conservative interpretation sentence should separate `what changed`, `how strongly it can be stated`, and `what a person should do next` inside one sentence. The key question here is what order and wording should be used after reading a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) so that you avoid both exaggeration and a sentence so weak that it leaves no information. More important than inventing a new boundary is deciding how to place already confirmed [comparison results](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) and [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) in the sentence.
+“An anomaly is suspected; review is needed” does not tell readers what was compared or what to check. Conservative writing does not blur observed numbers. It states the established [comparison result](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) precisely and separates what remains unknown from the next checking action.
 
-The safest default order is as follows.
+## Extract the information needed from one comparison row
 
-1. State the comparison result first.
-2. Then attach the condition that lowers or raises interpretation strength.
-3. End with the [next action](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) that a person should take.
-4. Do not write cause confirmation unless separate evidence exists.
+Take type-A from the fictional aggregate in [P3-7.2](../chapter-07/section-02.en.md): 200 past baseline operations and 20 recent completed operations. We retain the assumptions of matching type, operating conditions, and measurement definitions, with all required measurements available. These are summary values for a writing exercise, not results calculated from actual raw logs.
 
-Compressed into a shorter rule, this becomes `comparison result -> confidence strength -> next action`.
-
-| Sentence order | Why it should come first |
+| Information to include | Value and meaning for type-A |
 | --- | --- |
-| Comparison result | Because the actually observed difference should be stated first |
-| Confidence-strength condition | Because wording strength should be adjusted by sample size and repeatability |
-| Next action | Because the operational next step for a person should remain in the sentence |
-| Excluding cause confirmation | Because you should not write evidence that is not there yet |
+| Comparison population | 200 past and 20 recent operations under matching conditions |
+| Late-period mean difference | Recent 2.2−baseline 2.8=−0.6 L/min |
+| Between-operation spread | Standard deviation of per-operation late-period means: 0.2→0.4 L/min |
+| Within-operation decline | Late-period mean−early-period mean ≤ −0.30 L/min in 14/20 operations, or 70% |
 
-## Safe Sentences and Risky Sentences
+The overall mean weights each operation's late-period mean equally. The decline rule includes the boundary and counts each operation once. “The mean is 0.6 lower” and “14 operations met the rule” are different observations; neither should be substituted for the other.
 
-Even for the same observation, interpretation strength changes a great deal depending on the wording.
+## Write observations, uncertainty, and checking actions separately
 
-| Observation state | Risky sentence | Safer sentence |
+There is no need to squeeze all conditions into one sentence. Separating the report into three parts makes each role easier to check.
+
+1. **Observation:** Compared with 200 past operations under matching conditions, the late-period mean for 20 recent type-A operations was 0.6 L/min lower, from 2.8 to 2.2 L/min; the standard deviation of per-operation late-period means rose from 0.2 to 0.4 L/min. Fourteen of the 20 operations met the within-operation decline rule.
+2. **Uncertainty:** This aggregate lacks occurrence order and the baseline decline count, so it cannot establish consecutive declines or an increased decline proportion; the cause is also unverified.
+3. **Checking action:** The reviewer will compare time-ordered raw records for the 20 recent operations with per-operation setting histories and check the baseline decline count calculated using the same rule.
+
+The first part uses two sentences for readability. What matters is separating the three roles, not the number of sentences. “Will check” describes work to do, not a report that checking is complete. In an actual report, add comparison periods, equipment, baseline version, and raw-record location so another person can find the same evidence. Do not invent dates or versions missing from this fictional table.
+
+## Restore missing evidence instead of merely changing adjectives
+
+| Wording to revise | Revised wording | Reason |
 | --- | --- | --- |
-| A difference appears in a few recent cases | The state has definitely changed | A difference appears in a small number of recent cases, so more observation is needed |
-| A decline pattern appears repeatedly | A sensor abnormality occurred | A repeated decline pattern appears, so the review priority is raised |
-| The difference is large but the sample size is small | Confirm the alert immediately | The difference is large, but the warning strength stays conservative because the sample size is small |
-| The change from baseline is large and repeated | The cause is obvious | The change signal is strong enough to make human checking more worthwhile |
+| Flow has deteriorated sharply | The late-period mean for 20 recent operations was 0.6 L/min below that of 200 baseline operations | Preserves population, counts, and units without adding a deterioration judgment |
+| Seventy percent of recent operations failed | Fourteen of 20 recent operations met the defined within-operation decline rule | Separates meeting a rule from a failure diagnosis |
+| Decline may have continued consecutively | Fourteen operations met the rule; their occurrence order is unverified | Adding “may” does not supply evidence of consecutiveness |
+| Further checking is needed | Compare time-ordered raw records for the 20 recent operations with setting histories | Specifies what to inspect and what to do |
 
-The point of this table is not `speak weakly`. It is `state only the level directly supported by the evidence with precision`.
+“Suspected” and “possible” do not replace evidence. In particular, “sensor failure is possible” can focus attention on one cause without explaining why that candidate was selected. When proposing a candidate, include its basis and records that would help distinguish it. The example in [P3-8.2](section-02.en.md) shows how to examine candidates.
 
-## Fix the Sentence Skeleton First
+## Separate small-sample limitations from necessary action
 
-If you try to write a sentence immediately after reading the comparison table, cause claims can easily slip in. At this stage, it is safer to fix the skeleton below first.
+Type-B in the same P3-7.2 example has three recent operations and 200 baseline operations. Its late-period mean fell from 2.8 to 1.9 L/min, and one recent operation met the decline rule. Instead of “only three operations, so postpone action,” write:
 
-The safe default skeleton is as follows. The recent window shows [what kind of difference] from the [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and given [the sample-size/repeatability condition], [the review strength or next action] is appropriate.
+> The late-period mean for three recent type-B operations was 0.9 L/min below that of 200 baseline operations, and 1/3 operations met the decline rule. Three observations provide limited evidence for a persistent state change or its cause. Check the three operations' original measurements and separately established limits and response procedures immediately.
 
-If you insert actual values into that skeleton, it turns into sentences like these.
-
-- The recent window shows a larger late-stage drop rate than the baseline, and because there are only 4 recent cases, more observation is needed without confirming the cause.
-- The recent window shows both a lower average and higher variability than the baseline, and because the same-direction change repeats across 20 recent cases, the review priority is raised.
-- The recent window shows only a small difference from the baseline and weak repeatability, so it remains at a record level.
-
-All three sentences first state the comparison result, then attach the strength condition, and end with the next action. By contrast, sentences such as `A sensor abnormality occurred` or `The failure has been confirmed` pull in evidence that is not yet present.
-
-## Sentence Ladder by Interpretation Strength
-
-If the previous section's levels of `record`, `review candidate`, and `strong warning` are moved into actual sentence endings, they can be organized like this.
-
-| Interpretation strength | More natural sentence ending |
-| --- | --- |
-| Record level | Keep it in the record and continue observing |
-| Review-candidate level | It is worth a person reviewing first |
-| High review priority | Raise the review priority |
-| Not cause confirmation | Defer cause confirmation |
-
-This table does not mean `every state always gets this label`. Its role is to keep the sentence from sliding into excessively strong confirmatory wording by fixing default endings in advance.
+The last sentence neither reports a verified limit violation nor orders an automatic shutdown. It calls for checking whether a violation occurred and applying the existing procedure accordingly. The table supplies no allowable limits, so it does not establish a new warning grade. **Limited evidence of persistence** can coexist with **performing necessary checks**.
 
 ## Connecting Observations, Comparisons, and Limits in an Interpretation {#a-small-diagram}
 
@@ -67,16 +53,20 @@ This table does not mean `every state always gets this label`. Its role is to ke
 --8<-- "assets/part-03/chapter-08/p3-8-3-mermaid-01-en.mmd"
 ```
 
-This diagram shows that the order of sentence construction is itself the key point. If you state the comparison result first, then add the strength condition, and close with the next action, both exaggeration and empty vagueness are reduced. The issue here is not `how to write weak sentences`, but `how to place a sentence in the order directly supported by the evidence`. When that order is fixed, report sentences keep the comparison basis and avoid dragging in a cause judgment that does not yet exist.
+This sequence is a writing framework for communicating an evidence assessment. It does not automatically choose “observe only” or “strong warning” from the sample count.
 
-Few samples do not automatically mean action should be delayed. Even with low confidence that a change persists, an observation exceeding a separate safety limit can be checked under the established operating procedure. Record `insufficient evidence of repeated change` and `immediate checking required` in separate fields.
+## Write your own version
+
+Revise this report about type-A: “Twenty operations are sufficient and 70% failed consecutively, so replace the sensor.” Include the comparison difference, operation counts, and rule count, then separately state what is unverified and which records to inspect next.
+
+Example answer: “Against 200 past operations under matching conditions, the late-period mean for 20 recent type-A operations was 0.6 L/min lower, and 14/20 operations met the decline rule. Twenty operations alone do not guarantee representativeness; occurrence order, whether any failure occurred, and the cause remain unverified. Compare time-ordered raw operation records with setting histories and check additional measurement records needed to assess sensor condition.” This removes the unsupported consecutive-failure claim and sensor-replacement decision while retaining checking work.
 
 ## Checklist
 
-- Did you write a review statement in the order of observations, uncertainty, and next checks?
-- Did you check that describing a small sample does not automatically postpone necessary action?
+- Have you included comparison populations, counts, units, and the rule count?
+- Have you expressed uncertainty as specific missing information rather than vague qualifiers?
+- Have you named records and checking tasks without postponing necessary action solely because the sample is small?
 
-## Sources and References
+## Sources and references
 
-- W3C, `PROV-Overview`. It offers a provenance perspective that separates an observed result from the path of evidence behind it, which supports this section's claim that comparison result, confidence-strength condition, and next action should be written as separate levels within a single sentence. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It provides a control-chart context in which comparison signals are read without jumping immediately to functional judgment or confirmed cause, which supports the boundary awareness in this section that conservative interpretation sentences should follow the order `comparison result -> strength condition -> next action`. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [W3C, PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } — Reference for recording entities, activities, agents, and the provenance of data. The observation–uncertainty–checking-action framework is this book's educational construction, not a W3C reporting-sentence rule. Accessed: 2026-09-20.
