@@ -1,9 +1,12 @@
 flowchart TD
-    A[Choose feature columns and target candidate] --> B{Are all feature values available at prediction time?}
-    B -- No --> C[Remove future-only columns]
-    B -- Yes --> D[Check whether the same inputs can be rebuilt in operations]
-    C --> D
-    D --> E{Are cutoff and horizon written explicitly?}
-    E -- No --> F[Fix the time boundary before training]
-    E -- Yes --> G[Close the prediction-time input/result contract]
-    F --> G
+    A["09:58 feature available"]
+    B["09:59 sensor measurement occurs"]
+    C["09/01 10:00 cutoff and prediction"]
+    D["10:02 measurement arrives; exclude from cutoff inputs"]
+    E["09/03 14:00 failure occurs"]
+    F["09/08 10:00 outcome window ends"]
+    G["09/08 10:10 outcome table updated"]
+    H["Join historical inputs and later outcome as separate columns"]
+    A --> B --> C --> D --> E --> F --> G
+    A -.-> H
+    G --> H

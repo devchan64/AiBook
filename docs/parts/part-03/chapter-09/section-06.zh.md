@@ -1,78 +1,58 @@
 # P3-9.6 检查标签一致性
 
 > Section ID: `P3-9.6`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_副标题: 当同一事件因人或时期不同而被贴上不同标签时，应该先确认什么？_
+同一事件出现不同标签时，应该重新检查哪些判断？[标签一致性](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-label-consistency)关注的是：面对相同对象、信息和标准，判断是否一致。所有人也可能给出同一个错误答案，因此一致程度和正确与否需要分别检查。
 
-即使已经出现了标签候选列，也不能立刻说这就是一个稳定的学习问题。在现实数据里，同一个事件可能会被两个复核者写成不同结果，上个月还被看作“注意”的状态，这个月也可能被记成“正常”。所以，在读取目标标签候选(target candidate)时，不能只看“有没有列”，还要一起看[标签一致性(label consistency)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-label-consistency)，也就是“在同一个事件和相似条件下，是否会重复出现相同含义的判断”。
+## 区分 12 个事件与 36 条复核记录
 
-## 为什么还要一起检查标签一致性
+[复核记录 CSV](/AiBook/assets/part-03/chapter-09/p3_9_6_label_reviews.csv){ .csv-preview }是本节的教学案例。一行表示某位复核者在某个月对一个 `event_id` 作出的判断。A～L 是这个文件内部的事件 ID，不与前文的比较窗口 A～C 关联。
 
-这个问题是用来判断：当前标签候选能不能直接作为目标标签。即使样本边界和结果列都已经设好，只要判断含义不能重复，就很难把它读成一个稳定的学习问题。
+kim 和 lee 在 4 月各复核了这 12 个事件一次，park 在 5 月也各复核了一次。因此共有 12 个事件和 `12 × 3 = 36 条复核记录`。`review_needed` 表示判断为需要复核，`normal` 表示判断为正常；两者都不是经过独立核实的故障结果。下表的 R 和 N 是这两个字符串的简写。
 
-| 已经设好的结构 | 为什么在这里还要重新检查 |
-| --- | --- |
-| 样本单位 | 因为即使样本标准相同，标签也可能摇摆 |
-| 目标标签候选列 | 因为就算有列，如果附着标准因人而异，也很难立刻直接使用 |
-| 比较报告和复核队列 | 因为当复核过程积累成标签候选时，也要一起看判断是否一致 |
+| event_id | kim · 4 月 | lee · 4 月 | park · 5 月 |
+| --- | --- | --- | --- |
+| A | R | N | R |
+| B | N | N | N |
+| C | R | R | R |
+| D | N | N | R |
+| E | R | R | R |
+| F | N | R | N |
+| G | R | N | N |
+| H | N | N | N |
+| I | R | R | N |
+| J | R | R | R |
+| K | N | N | N |
+| L | R | N | R |
 
-所以，这里真正要确认的不是`标签候选列是否存在`，而是`这个标签候选是否真的会以同样含义重复出现`。
+核心列是 `event_id`、`review_month`、`reviewer` 和 `review_label`。CSV 中的 `diff`、`repeatability` 不参与本次计数，也不能仅凭这些列的数值或措辞认定哪个标签正确。
 
-## 为什么同一个事件也会被贴上不同标签
+## 分母究竟在数什么
 
-标签候选会摇摆，原因大多会落在下面几类里。
+至少出现两种不同标签的事件有 A、D、F、G、I、L，共 6 个。**存在分歧的事件比例为 `6 / 12 = 50%`**。每个事件只计一次，因此分母不是 36 条复核记录。这个数也不是复核者两两比较的一致率或模型准确率。
 
-| 摇摆的原因 | 实际上会发生什么 |
-| --- | --- |
-| 复核者标准不同 | 同样的模式，有人看成 `review_needed`，有人看成 `normal` |
-| 判断标准会随时间变化 | 过去会被当成告警的模式，在新规则下可能被当成正常 |
-| 依据句子太弱 | 没留下足够理由，之后就难以重新对齐判断 |
-| 边界案例很多 | 非常接近基线的案例，更容易被不同人贴成不同结果 |
+A 的 R·N·R 即使有两个判断相同，仍计作一个存在分歧的事件。若要比较复核者对，需要分别计算 kim–lee、kim–park、lee–park，这是另一种计算。本节先用事件比例找出需要重新检查的对象。
 
-因此，标签候选的问题不只是`对不对`，还包括`同一套规则是否在重复`。
+| 月份 | R 记录数 | N 记录数 | 复核记录总数 | R 比例 |
+| --- | ---: | ---: | ---: | ---: |
+| 2026-04 | 12 | 12 | 24 | 12 / 24 = 50% |
+| 2026-05 | 6 | 6 | 12 | 6 / 12 = 50% |
+
+R 记录从 12 条降到 6 条，但全部复核记录也减半了。两个月的 R 比例均为 50%，所以不能说“需要复核的比例下降了”。月度比例相同也不表示每个事件的判断相同：D 从 N·N 变为 R，I 从 R·R 变为 N。
 
 ## 标签分歧的原因与复查项目 {#_3}
 
-| event_id | diff | repeatability | reviewer | review_label |
-| --- | ---: | --- | --- | --- |
-| A | -0.34 | high | kim | review_needed |
-| A | -0.34 | high | lee | normal |
-| B | -0.08 | low | kim | normal |
-| B | -0.08 | low | lee | normal |
-| C | -0.29 | medium | kim | review_needed |
-| C | -0.29 | medium | lee | review_needed |
+这个文件在两个月使用了相同的 12 个事件，但复核者发生了变化。文件没有记录各复核者看到的信息及使用的标准版本，因此不能把差异确定为时间效应或标准变更的结果。其他数据还可能改变事件构成，所以也要检查比较对象清单。
 
-在这张表里，`A` 是同一个事件，但 `kim` 写成了 `review_needed`，`lee` 却写成了 `normal`。`B` 和 `C` 则是一致的。看到这种状态，人们很容易想成：`反正也有标签列了，那是不是可以直接升成学习问题？` 但实际上，更应该先看的是：像 `A` 这样的事件到底有多少。
+| 先查找的记录 | 要确认的问题 | 下一步行动 |
+| --- | --- | --- |
+| A 的 kim、lee 原始判断 | 同月是否在看到相同信息后作出了不同判断？ | 对照当时提供的资料及判断理由 |
+| D、I 的 4 月与 5 月原始判断 | 复核者、信息、标准中哪些发生了变化？ | 使用相同资料包及明确标准重新判断 |
+| 标签定义与标准版本 | 两人使用 R、N 时含义是否相同？ | 记录边界案例及适用标准 |
+| 单独的确认检查记录 | 判断本身是否正确？ | 独立核实所需的实际结果 |
 
-关键不在于标签候选列是否存在，而在于`在同样条件下，同样判断会重复多少次`。
-
-## 在当前阶段，先写下什么会比较好
-
-在这个阶段，还不必先上复杂统计指标，先留下下面这些备注就已经足够。
-
-| 先写下的备注 | 为什么需要 |
-| --- | --- |
-| 在同一事件的重复复核中，是否有经常分裂的标签 | 为了先看一致性低的区域 |
-| 是否存在标准改变的时点 | 为了留下标签含义随时期变化的可能性 |
-| 当前标签候选是直接作为 target，还是继续保留更多 comparison report 比重 | 为了留下推迟当前问题类型判断的理由 |
-
-这些备注并不是完美的质量认证，而是把`标签可能会摇摆`这个事实，不隐瞒地保留在当前判断记录里。
-
-## 什么时候不适合直接提升成 target
-
-如果下面这些场景反复出现，那么比起把目标标签候选原封不动地直接作为结果列，更安全的做法是先再整理一步。
-
-| 看见的信号 | 更自然的下一步动作 |
-| --- | --- |
-| 同一事件在不同复核者之间经常出现不同标签 | 更长时间地保留 comparison report 和 review queue |
-| 某个日期之后标签标准突然改变 | 按时期拆开阅读，或者留下规则变更备注 |
-| 有自由备注，但共同判断列很弱 | 先加强复核备注整理规则 |
-| 边界案例经常出现分裂 | 比起`确认标签`，先把`需要复核`作为目标更自然 |
-
-因此，与其把不稳定的原因分类硬抬成预测问题，不如先把更简单、更容易重复的判断列拿来做目标候选，这会更符合当前的问题类型判断。
-
-留下这些备注之后，就可以先检查的不是`有没有列`，而是`这个列是否以相同含义在重复`。所以在当前阶段，比起把问题类型继续加重，更重要的判断是：不要把含义还在摇摆的标签候选原样留下。
+重新判断时，应固定事件 ID、所提供的信息及标准版本，也可以让复核者在看到彼此答案前先留下判断。如需协调分歧后给出最终标签，还应记录负责人和协调理由。保留原始判断，将新判断与之关联，才能解释修改过程。多数票本身不能确认是否实际发生故障。
 
 ## 从标签分歧到重新检查判断标准 {#_5}
 
@@ -80,150 +60,19 @@ _副标题: 当同一事件因人或时期不同而被贴上不同标签时，�
 --8<-- "assets/part-03/chapter-09/p3-9-6-mermaid-01-zh.mmd"
 ```
 
-## 按事件、复核者与期间检查标签差异 {#python}
+这个流程不是删除分歧来提高一致率，而是检查产生差异的条件，并获取符合任务目的的结果依据。判断一致的事件也不能自动免除正确性检查。
 
-问题场景：当不同复核者对同一个事件给出不同标签时，即使已经有标签候选列，也不意味着它可以立刻被读成稳定目标标签。
+## 改变比较范围后亲自验算 {#python}
 
-输入：重复复核记录 [p3_9_6_label_reviews.csv](/AiBook/assets/part-03/chapter-09/p3_9_6_label_reviews.csv){ .csv-preview }。这张表的一行表示某个复核者在某个月对某个事件留下的一条标签记录。核心列是 `event_id`、`review_month`、`reviewer`、`review_label`。
+练习：遮住 park 的 5 月列，只比较 4 月。事件数、复核记录数、分歧事件清单及比例会如何变化？能否据此认为 4 月的标准更准确？
 
-预期输出：并排展示每个事件的复核次数、标签种类数、真正发生不一致的事件列表，以及按月份统计的标签分布
-
-要确认的概念：比起是否存在候选列，更重要的是相同事件和相似条件下，相同含义的判断是否在重复
-
-```python
-# 这个例子检查同一事件的多个复核标签之间的不一致以及按月分布。
-import pandas as pd
-
-label_variety_threshold = 1
-preview_row_count = 8
-
-reviews_path = "docs/assets/part-03/chapter-09/p3_9_6_label_reviews.csv"
-reviews = pd.read_csv(reviews_path)
-
-label_variety = reviews.groupby("event_id")["review_label"].nunique()
-disagreed_events = label_variety[label_variety > label_variety_threshold]
-
-review_summary = pd.DataFrame(
-    {
-        "review_count": reviews.groupby("event_id").size(),
-        "label_variety": label_variety,
-    }
-)
-
-monthly_labels = (
-    reviews.groupby(["review_month", "review_label"])
-    .size()
-    .unstack(fill_value=0)
-    .reset_index()
-)
-
-disagreement_detail = (
-    reviews[reviews["event_id"].isin(disagreed_events.index)]
-    .sort_values(["event_id", "review_month", "reviewer"])
-    [["event_id", "review_month", "reviewer", "review_label"]]
-)
-
-print("1) review record preview:")
-print(reviews.head(preview_row_count).to_string(index=False))
-print(f"... {len(reviews) - preview_row_count} more review records")
-print()
-print("2) reviews per event:")
-print(review_summary)
-print()
-print("3) label variety by event:")
-print(label_variety)
-print()
-print("4) events with disagreement:")
-print(disagreed_events.index.tolist())
-print()
-print("5) disagreement detail:")
-print(disagreement_detail.head(12).to_string(index=False))
-print(f"... {len(disagreement_detail) - 12} more disagreement records")
-print()
-print("6) labels by review month:")
-print(monthly_labels.to_string(index=False))
-```
-
-预期输出：
-
-```text
-1) review record preview:
-event_id review_month reviewer  diff repeatability  review_label
-       A      2026-04      kim -0.34          high review_needed
-       A      2026-04      lee -0.34          high        normal
-       A      2026-05     park -0.34          high review_needed
-       B      2026-04      kim -0.08           low        normal
-       B      2026-04      lee -0.08           low        normal
-       B      2026-05     park -0.08           low        normal
-       C      2026-04      kim -0.29        medium review_needed
-       C      2026-04      lee -0.29        medium review_needed
-... 28 more review records
-
-2) reviews per event:
-          review_count  label_variety
-event_id
-A                    3              2
-B                    3              1
-C                    3              1
-D                    3              2
-E                    3              1
-F                    3              2
-G                    3              2
-H                    3              1
-I                    3              2
-J                    3              1
-K                    3              1
-L                    3              2
-
-3) label variety by event:
-event_id
-A    2
-B    1
-C    1
-D    2
-E    1
-F    2
-G    2
-H    1
-I    2
-J    1
-K    1
-L    2
-Name: review_label, dtype: int64
-
-4) events with disagreement:
-['A', 'D', 'F', 'G', 'I', 'L']
-
-5) disagreement detail:
-event_id review_month reviewer  review_label
-       A      2026-04      kim review_needed
-       A      2026-04      lee        normal
-       A      2026-05     park review_needed
-       D      2026-04      kim        normal
-       D      2026-04      lee        normal
-       D      2026-05     park review_needed
-       F      2026-04      kim        normal
-       F      2026-04      lee review_needed
-       F      2026-05     park        normal
-       G      2026-04      kim review_needed
-       G      2026-04      lee        normal
-       G      2026-05     park        normal
-... 6 more disagreement records
-
-6) labels by review month:
-review_month  normal  review_needed
-     2026-04      12             12
-     2026-05       6              6
-```
-
-这个例子的目的不是制作模型输入，而是先确认：`同一个事件被复核了多少次，其中哪些地方发生了标签分裂。` 当你先看每个事件的复核次数，再数标签种类数，最后查看真正不一致的事件列表和详细记录时，就会更清楚为什么这一节要求先看`标签含义是否在重复`，而不是先看`有没有标签列`。输出中，12 个事件里 `A`、`D`、`F`、`G`、`I`、`L` 这类标签种类数为 2 的事件会被单独显示出来。再一起看月度标签分布，也可以记录按时期发生规则变化的可能性。这里重要的，不是某个团队的备注习惯，而是确认`标签含义稳定性（label meaning stability）`。在阅读目标标签候选时，要一起确认：当前标签候选是否以相对相同的含义重复出现、能否记录标准改变的时点，以及是否避免把不稳定标签直接作为结果列。只有这样，目标标签候选表才不只是一个列清单，而会变成把`标签含义稳定性`也包含进来的结构。
-
-两位复核者即使给出相同标签，也可能都错了。一致率不是准确率。每月阳性比例改变时，也需要区分实际案例构成变化与判定标准变化。对同一批固定案例，用相同信息重新判定，再结合标准版本比较，有助于分开检查这两种影响。
+解答：仍有 12 个事件，复核记录变为 24 条。kim 与 lee 判断不同的是 A、F、G、L，共 4 个事件，比例为 `4 / 12 ≈ 33.3%`。D 和 I 的两个 4 月判断一致，因此不再列入分歧清单。从 50% 降到 33.3% 是纳入比较的判断改变所致，不是准确性改善的证据。这里仅改变比较范围，不修改原始 CSV。
 
 ## 检查清单
 
-- 你是否找出了复核者意见不一致的案例，并写出重新判定规则？
-- 你能否解释高一致率为什么不保证高准确率？
+- 能否区分 12 个事件、36 条复核记录、6 个分歧事件，并说明各自的分母？
+- 能否同时说明月度 R 比例为 50% 和个别事件判断发生变化这两件事？
+- 能否选择需要复查的原始判断，固定信息和标准，并区分一致与正确？
 
 ## 来源与参考资料
 

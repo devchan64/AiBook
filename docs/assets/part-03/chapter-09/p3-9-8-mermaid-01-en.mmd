@@ -1,7 +1,7 @@
 flowchart TD
-    A[The model outputs one score or rank] --> B[Interpret the output type]
-    B --> C[Apply the policy rule]
-    C --> D{What action follows?}
-    D --> E[Register in review queue]
-    D --> F[Hold or defer]
-    D --> G[Trigger automatic action]
+    A["D 0.95 · A 0.82 · B 0.80 · C 0.79"] --> B{"Score at least 0.80?"}
+    B -- "Yes" --> C["Descending score; ascending ID for ties"]
+    B -- "No" --> D["C: below threshold; excluded from this assignment"]
+    C --> E["Capacity 2: assign D and A today"]
+    C --> F["B: eligible; waiting for capacity"]
+    E --> G["Verify actual review completion in separate records"]

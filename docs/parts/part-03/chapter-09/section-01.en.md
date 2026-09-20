@@ -1,80 +1,66 @@
-# P3-9.1 How Far Should the Current Problem Be Raised
+# P3-9.1 How Far Should the Current Problem Be Taken?
 
 > Section ID: `P3-9.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-When looking at real records, the first reaction is often "we have event records and at least some result notes, so shouldn't we raise this straight to a [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) problem?" But with real records, that move is often too fast. Some problems can truly become prediction problems, but others are more honestly left as `problems of choosing review candidates well`, and that also fits the current data state better. Once [interpretation boundaries](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) are set, the next step is to decide how far the current problem should be raised among [alert](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), [review candidate](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and [label prediction](/AiBook/en/reference/concept-glossary-alpha/l/#label-prediction).
+First decide whether you need to explain a change, order human review, or predict an unknown outcome. Choose the [output](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) for that purpose. Prediction does not require first building alerts and then a review queue. A question with established outcome labels and evaluation conditions can proceed directly to prediction design; if explaining change is the purpose, a comparison report can itself be a complete deliverable.
 
-The first judgment to hold is `how far does the current data honestly support`. An alert can begin with comparison structure and difference values alone. A review candidate needs additional priority criteria. Label prediction requires a relatively stable [target label](/AiBook/en/reference/concept-glossary-alpha/t/#target) and an evaluation setup as well.
+## Choose among three questions in parallel
 
-| Category | Meaning at this stage | Required evidence level |
+| Question to answer now | Suitable output | Evidence to check first |
 | --- | --- | --- |
-| Alert | A notice that something different from the usual state appears and should be seen first | Comparison structure and difference value |
-| Review candidate | A case that is worth human rechecking in practice | Change signal + judgment context + priority judgment |
-| Label prediction | A problem of matching an already defined target label | Relatively stable labels and a learning structure |
+| What differs from a reference under matching conditions? | Comparison report, with an alert if needed | Comparison populations, units, aggregation, baseline, and alert conditions |
+| Which cases should people inspect first today? | Review candidates in an ordered queue | Inclusion criteria, sorting and tie-break rules, and capacity |
+| Can inputs available at a defined time predict an unknown outcome? | Target-outcome prediction | Target definition, input availability time, outcome labels, and evaluation data separate from training |
 
-An alert is the lightest. If a difference from the baseline is visible, it can be made. A review candidate is one step heavier. A change must be visible, and it must also be worth human rechecking. Label prediction is the heaviest. The target label must be clear, the label must attach relatively stably, and the learning and evaluation structure must be ready.
+These are not levels of completion. A report communicates observed differences, a queue assigns checking work, and prediction estimates a defined outcome. One workflow may use more than one, but each output retains its own purpose and supporting evidence.
 
-You should not read this difference only as `is the problem simple or complex`. The more important question is `what can be said honestly in the current data state`. Alerts can begin from comparison structure alone, but label prediction needs much stronger commitments. Raising a problem upward is therefore not automatically better. It means changing it into a problem that demands stronger evidence.
+## Different purposes yield different answers from operational records
 
-The last stage is often the hardest in real problems. For example, a judgment column such as `review needed` may be possible, while confirmed labels such as `actual cause` or `detailed state type` may still be weak. One symptom can arise from many causes, and sometimes a person records the reason only later. If you force such a situation into a classification problem, you end up building a complicated problem frame before label quality is ready.
+The following three requests are fictional. For the first, assume late-period means of 2.8 and 2.2 L/min from 200 past and 20 recent operations under matching conditions. Their difference is `2.2−2.8=−0.6 L/min`. This is an observed comparison, not a prediction of future failure or its cause.
 
-At this stage, the following three questions should be checked immediately.
-
-- Is what you need right now automatic matching, or review prioritization?
-- Are labels actually sufficient?
-- Is a comparison report more realistic than a classification problem?
-
-Written more directly, the difference looks like this.
-
-| Stage | Example input | Example output | What must be in place first | What this stage alone does not establish |
-| --- | --- | --- | --- | --- |
-| Warning | Recent-period difference from baseline | `Caution` | Comparison structure and differences | A cause label |
-| Review candidate | Difference + repetition + judgment conditions | `Check first` | Warning + repetition + priority criteria | A stable target label |
-| Label prediction | Event-level feature table | `Normal/abnormal` or a specific state | Relatively stable target labels and evaluation structure | Grounds for starting with complex classification without enough labels |
-
-So you do not move to a higher learning problem simply because `you want to raise it`. You move upward only when enough evidence has accumulated at the lower stage.
-
-If you judge `where to stop right now` like the table below, forced problem escalation decreases.
-
-| Current confirmed state | Output at this stage | Stage not yet raised |
+| Request | Output choice and reason | Checks still needed |
 | --- | --- | --- |
-| Only the difference from baseline is stable | Alert | Review candidate, label prediction |
-| Difference plus repeatability and priority rules exist | Review candidate | Label prediction |
-| Target labels are relatively stable and an evaluation setup exists | Label prediction | None |
+| “Report how recent flow differs from baseline” | Comparison report containing the −0.6 L/min mean difference and counts | Baseline suitability and coverage; issuance rules if an alert is also requested |
+| “We have candidates A, B, and C, but can inspect only two today” | First two entries of a queue produced by a sorting policy | Candidate inclusion, ordering, tie-breaks, and handling of remaining cases |
+| “At operation completion, predict whether failure will occur within seven days” | Prediction design targeting that outcome | Inputs at completion, seven-day outcome definition and complete labels, and data for evaluating new cases |
 
-In practice, this usually becomes the following order.
+Applying `queue-v1` from [P3-8.5](../chapter-08/section-05.en.md) to the second request gives A→C→B, so A and C are assigned first. B is left out of this allocation, not diagnosed as normal. Explicit operational rules can create this queue without failure-cause labels. A previously issued alert is not a prerequisite either.
 
-1. Compare the recent window with the baseline and create an alert signal.
-2. Add repeatability, sample size, and judgment context to choose review candidates.
-3. If relatively stable judgment labels accumulate through that process, consider a prediction problem.
+For the third request, outcome labels belong to historical training and evaluation cases. A new operation's seven-day outcome is still unknown when making its prediction. Having past labels differs from already knowing the answer for a new event. If only selected reviewed events have labels, check the selection problem in [P3-8.6](../chapter-08/section-06.en.md).
 
-Prediction is therefore not the starting point. It becomes worth considering only after the evidence and structure from earlier stages are sufficiently organized. For some problems, it can remain more honest to leave them as a comparison report and a review queue all the way through. There is no need to force a judgment that is already well supported by comparison structure alone upward into a label-prediction problem.
+## Alerts also require a policy
 
-These three outputs are not mandatory grades that every project must pass through in order. A problem with consistently collected outcome labels can be designed for supervised learning without first running comparison reports or review queues. Predicting a label also does not prove a cause. Here, the purpose is to distinguish which outputs the current example has enough evidence to support.
+Separate a calculated difference from issuing an alert. A difference of −0.6 L/min alone does not automatically imply `warning=1`. Define issuance conditions, recipients, and handling of missing measurements and duplicate alerts. If alerts trigger action, also check the consequences of false and missed alerts and the responsibilities and procedures for responding.
+
+Alerts are not invariably lightweight, nor predictions invariably heavyweight. An alert that stops equipment may require stringent operational rules, while another task may provide predictions for reference only. Match validation to purpose and error consequences rather than the output's name. [P3-8.4](../chapter-08/section-04.en.md) illustrates reproducible policies.
+
+## Prediction targets extend beyond cause classification
+
+A prediction [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) is the outcome to estimate. It may be a category, such as failure within seven days, or a number, such as the next operation's duration. Predicting categories is classification; predicting continuous numeric values is regression. Classifying a failure's cause is one possible target, not a requirement for every prediction task.
+
+For example, if historical inputs available at operation start are linked to durations confirmed after completion and evaluation data are ready, duration prediction need not begin with an alert system. Check the input–outcome linkage, outcome definition, and evaluation on cases not used for training. Labels alone do not establish predictive performance or deployment readiness.
 
 ## Boundaries Between Comparison Reports, Review Queues, and Prediction Problems {#a-small-diagram}
-
-<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
-<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-1-mermaid-01-en.mmd"
 ```
 
-</div>
-</div>
+If prediction is the purpose but the outcome window or label definition is unclear, document those gaps and improve outcome definition and collection. A report or queue may be useful as a separate deliverable, but it does not thereby answer the original prediction question. Conversely, a report that fulfills its purpose is not incomplete merely because it was not converted into prediction.
 
-This diagram shows that the judgment of raising a problem upward is not `always move one stage higher`, but a branch that asks what level of evidence currently exists. It is not about listing label names, but about separating, step by step, whether to stop at `alert`, whether to go to `review candidate`, or whether to raise it to `label prediction`. The key is that `an alert is a change signal, a review candidate is review prioritization, and label prediction is a stronger problem setup than both`. How far the current problem should be raised must be judged not by `is it more advanced`, but by `how far does the current data honestly support`.
+## Choose an output for the purpose
+
+① You want the next operation's duration in advance and have historical input–outcome pairs plus separate evaluation data. ② You want only the difference between recent and baseline means under matching conditions. ③ You need to inspect two of three candidates first and have no cause labels. Choose an output for each and name something that is not a mandatory prerequisite.
+
+Explanation: ① Can proceed to duration-prediction design without first building an alert system. ② Calls for a comparison report, not mandatory future-outcome prediction. ③ Calls for a review queue with explicit inclusion and sorting rules; confirmed cause labels are not mandatory. However, its label-free queue rank cannot be called an actual failure probability.
 
 ## Checklist
 
-- Did you distinguish warnings, review candidates, and confirmed outcomes?
-- Did you separate outputs supported by your data from those still lacking evidence?
+- Can you justify your choice among explaining change, ordering review, and predicting an outcome?
+- Have you identified the required evidence and specific gaps for the chosen output?
+- Have you avoided treating prediction as a mandatory final stage or alerts as requiring no validation?
 
-## Sources and References
+## Sources and references
 
-- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, base period. Used to check the idea that a base period or point in time can serve as a reference for comparison. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. Used to check the idea that an initial measurement can serve as a comparison point for later change. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google, *Machine Learning Glossary*, `label`, `labeled example`, `proxy labels`. Used to check what labels and proxy labels mean and why proxy labels need care. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- NIST/SEMATECH, *e-Handbook of Statistical Methods: What are Variables Control Charts?*, signal detection and process monitoring. Used to check the statistical monitoring view in which baselines and variation support signal detection. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [Google, Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } — Reference for label, classification model, and regression model definitions. The output-choice table and requests are this book's educational examples, not a standard prescribing mandatory development stages. Accessed: 2026-09-20.

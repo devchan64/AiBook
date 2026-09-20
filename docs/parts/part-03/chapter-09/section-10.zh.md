@@ -1,67 +1,78 @@
 # P3-9.10 如何区分标签确认延迟与观察未完成
 
 > Section ID: `P3-9.10`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-在运营表中，最好分别留下 `label_observed_at`、`observation_cutoff`、`label_status`、`negative_is_complete`、`pending_reason`。这样从 target 候选 阶段开始，0 这个值就能区分为充分观察后赋予的值，还是仍在等待中的临时状态。
+[P3-9.9](section-09.zh.md)区分了复核请求与实际故障结果。即使把实际故障设为目标，仍会有结果尚未确认的行。仅凭“还没看到故障记录”，不能把[训练标签](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)填为 0。需要分别检查观察期间是否结束，以及已收到的记录是否核实完毕。
 
-_副标题: 延迟确认的标签与尚未确认的 0 标签应该如何区分？_
+## 输入截止时间与结果窗口终点不同
 
-在选择目标标签候选(target candidate)时，必须区分`结果什么时候才算确认`，以及`是否已经观察得足够久，以至于可以贴 0 标签`。如果把这两件事混在一起，最近事件就会过早地看起来像 0，或者还处于临时状态的值会被误读成确认[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)。[标签确认延迟(delayed label confirmation)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)和[观察未完成的负例(incomplete negative)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)，是两种不同问题，所以必须先分开。
+本节 A、B、C 是另设的虚构设备样本，与前文同名字母无关。它们都在 `2026-09-01 10:00 KST` 进行预测。如 [P3-9.7](section-07.zh.md) 所述，输入使用截至当时可用的信息，后续结果另行收集。
 
-| 区分 | 中心问题 |
+目标是 `failure_within_7d`。结果窗口为**9 月 1 日 10:00 及之后、9 月 8 日 10:00 之前**，包含起点、不包含终点。按照 `failure-v1`，只计入设备自身异常导致计划动作未能完成、且维修记录已确认原因的故障，排除计划停机。
+
+| 要检查的边界 | 本例中的含义 |
 | --- | --- |
-| [标签确认延迟(delayed label confirmation)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) | 结果已经出现了，但它什么时候才真正确认为答案？ |
-| [观察未完成的负例(incomplete negative)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) | 到底有没有看得足够久，足以说没有发生结果？ |
+| 输入截止时间 `cutoff_at` | 9 月 1 日 10:00。之后确认的标签不能放入当时的输入 |
+| 结果窗口终点 | 9 月 8 日 10:00。根据故障发生时间判断是否在窗口内 |
+| 当前判定时刻 | 记录标签状态时，使用了截至何时已经确认的记录？ |
+| 实际追踪范围 | 结果期间观察到了哪里，中间是否存在遗漏？ |
 
-例如，如果 target 设成`接下来 7 天内是否 failure`，就必须把下面两行一起写出来。
+七天等于 `7 × 24 = 168 小时`。日历到达 9 月 8 日 10 时，与已经核实这段期间的全部记录，是两件不同的事。
 
-- 结果观察 horizon 是 7 天
-- 在贴 0 之前，是否真的完整观察了这 7 天
+## C 在 9 月 3 日未确认，9 月 4 日为 1
 
-| 先写下的备注 | 为什么需要 |
-| --- | --- |
-| 目标标签通常在什么时候确认 | 为了知道答案收集的延迟 |
-| 确认前是否存在临时状态 | 为了把 `pending` 和确认状态分开 |
-| 给 0 贴标签所需的最小追踪期 | 为了不把已确认负例和未完成观察混在一起 |
+下表列出各判定时刻可知的依据。`?` 表示结果未确认，不是让模型预测的第三类结果。本节的目标结果是已确认的 0 或 1。
 
-### 尚未满七天的无故障记录，还不能标为 0
+| 样本 | 当前判定时刻 | 当时已知依据 | `label_status` | 结果值 |
+| --- | --- | --- | --- | ---: |
+| A | 9 月 3 日 10:00 | 截至此时没有故障记录，其余期间尚未观察 | 观察未完成 | ? |
+| B | 9 月 8 日 11:00 | 完整追踪七天且无遗漏，报告与维修记录核实完毕，期间没有故障 | 阴性已确认 | 0 |
+| C | 9 月 3 日 10:00 | 已收到 9 月 2 日 14:00 异常报告，但是否符合故障定义仍在核实 | 等待确认 | ? |
+| C | 9 月 4 日 15:00 | 维修记录确认 9 月 2 日 14:00 的事件属于目标故障 | 阳性已确认 | 1 |
 
-假设虚构事件 A、B、C 都从 9 月 1 日 10 点开始，目标是之后 7 天内是否失败。
+A 只观察了 48 小时，不能据此说 168 小时内都没有故障。B 的 0 有两个依据：追踪完整、记录核实完毕。不能仅因记录为空就按 B 的情况处理。
 
-| 样本 | 当前已确认的依据 | 标签状态 | 结果值 |
-| --- | --- | --- | --- |
-| A | 追踪至 9 月 3 日，没有失败记录 | 追踪期间未完成 | 留空 |
-| B | 无遗漏地追踪至 9 月 8 日 10 点，没有失败 | 阴性已确认 | 0 |
-| C | 9 月 2 日发生失败，9 月 4 日完成确认 | 阳性已确认 | 1 |
+C 的故障发生于 9 月 2 日 14:00，确认于 9 月 4 日 15:00。后来确认为故障，不表示 9 月 3 日当时也已有确认标签；应保留当时等待确认的历史状态。反过来，9 月 4 日已经确认窗口内至少发生一次故障，因此无需等满七天即可将 C 确认为 1。这取决于目标是“期间内至少发生一次故障”。
 
-只要确认了期间内的失败，C 就可以标为 1，无需等待完整七天。A 的观察时间还不足以得出没有失败的结论。B 也不是仅因日期已过去就为 0，而是需要无遗漏地完成追踪的依据。失败发生日期与系统确认日期也应分别保留。
+## 计数为零也需要观察范围
+
+[P3-5.7](../chapter-05/section-07.zh.md)的后续事件聚合可以把至少一次故障汇总为 1。但目前收集到的故障记录为零，并不等于整个窗口都没有故障。报告可能尚未到达，追踪也可能存在空缺。
+
+要确认为 0，必须完成规定期间的全部观察，没有追踪遗漏或待处理报告，并通过必要的故障及维修记录确认期间内没有目标故障。即使日期已经过去，依据不足时仍应保留 `?`，并写明缺少的记录。这里确认的 0 也只表示这七天没有故障，不表示以后永远不会故障。
 
 ## 分别确认结果与观察是否完成 {#_1}
-
-如果读完表格以后，`还没确认`和`完整观察后贴 0`还是容易混在一起，就再顺着下面的顺序看一遍。
-
-<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
-<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-10-mermaid-01-zh.mmd"
 ```
 
-</div>
-</div>
+先检查期间内是否已确认目标故障；若尚未确认，再检查完整期间的观察和记录核实是否都已完成。因此 C 可以在窗口结束前成为 1，而 A 不会仅因当前没有故障记录就成为 0。
 
-所以，这里真正重要的不是`把 0 和 1 切得更细的技术`，而是一种观察完结性区分：不要把还没确认的标签，与已经充分观察到的负例混成同一个值。这一节把`结果确认延迟`、`观察期未完成`、`状态备注`区分开来，使得标签是否已经确认，本身就成为一个数据建模条件。
+| 应保留的记录 | 具体内容 |
+| --- | --- |
+| 样本与结果定义 | 设备 ID、预测时点、`failure-v1`、窗口起止及端点包含规则 |
+| 发生与确认时刻 | C：`failure_occurred_at=2026-09-02 14:00 KST`，`label_observed_at=2026-09-04 15:00 KST` |
+| 追踪范围与依据 | A 仅追踪到 9 月 3 日 10 时；B 已完成整个窗口的追踪与记录核实。保留原始记录 ID 和遗漏区间 |
+| 状态与未确认原因 | `label_status`、`pending_reason`；区分期间未完成与报告等待核实 |
+| 确认 0 的依据 | `negative_is_complete`：B 为真；A 和确认前的 C 为假；阳性已确认的 C 不适用 |
+| 判定历史 | 保留每次判定时的状态，并关联后续确认的理由与依据 |
+
+这里将 `label_observed_at` 定义为确认标签在系统中变得可用的时刻；尚未确认时留空。分开发生和确认时刻，才能在事后构建训练表时，避免把当时未知的结果混入输入。
+
+## 亲自判断终点与记录遗漏
+
+练习：① 如果 B 缺少 9 月 6 日记录，且无法通过其他依据补全，9 月 8 日 11 时还能保留 0 吗？② 故障恰好发生于 9 月 8 日 10 时，是否属于本窗口的阳性？③ 如果 C 的故障直到 9 月 9 日才确认，会变成窗口外故障吗？
+
+解答：① 未能核实完整期间，应保留 `?` 和遗漏原因。② 终点不包含，因此不属于本窗口的阳性。但这并不自动得到 0，仍须完整核实终点之前的窗口。③ 发生时刻仍是 9 月 2 日，所以属于窗口内故障；可在 9 月 9 日确认为 1，并保留此前等待确认的状态。
 
 ## 检查清单
 
-- 你是否根据 A、B、C 的观察结束日期和结果到达日期，判断了能否确认标签？
-- 你能否解释为什么不能用阴性标签填充尚未完成的观察？
+- 能否用发生与确认时刻解释同一个 C 为什么从 `?` 变为 1？
+- 能否区分 A 的故障记录零条与 B 的确认结果 0？
+- 能否应用端点包含规则及追踪、核实完成条件，不把未确认填成 0？
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`。用于确认术语依据：标签是一个样本的答案或结果部分，而 proxy label 是在数据集中无法直接取得标签时用来近似实际标签的数据。本节对`观察未完成的负例`的解释，是把 proxy label 的说明扩展到运营观察完结性的语境里来使用。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*。用于确认 provenance 视角下应保留处理步骤、可复现性、版本管理和派生关系。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- Corbin, Baiocchi, Chen, *Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection*, 2023。用于区分`已确认的 0`和`尚未观察到的状态`：如果预测时点之后缺少足够的追踪记录，部分样本的 class label 可能仍然无法被观察到。 [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-
-- [NIST Censoring](https://www.itl.nist.gov/div898/handbook/apr/section1/apr131.htm){ target="_blank" rel="noopener noreferrer" }。用于确认截至观察结束尚未观察到事件的记录与最终阴性结果之间的区别。确认日期：2026-09-15。
+- NIST/SEMATECH，[Censoring](https://www.itl.nist.gov/div898/handbook/apr/section1/apr131.htm){: target="_blank" rel="noopener noreferrer" }。用于区分规定的测试期间及期间内的故障记录。本节七天二元标签和确认状态表是教学应用案例。确认日：2026-09-20。
+- W3C，[PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }。参考其追踪原始记录、处理、版本及派生关系的观点。确认日：2026-07-20。

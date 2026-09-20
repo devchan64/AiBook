@@ -1,80 +1,66 @@
-# P3-9.1 现在的问题应该提升到哪一层
+# P3-9.1 当前问题应该推进到哪里？
 
 > Section ID: `P3-9.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-看现实记录时，人们常常会先反应成：“既然有事件记录，也多少有一点结果备注，那是不是可以直接提升成[分类](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)问题？”但在现实记录里，这个想法往往太快了。有些问题确实可以做成预测问题，但也有些问题更诚实的做法，是先把它留在`更好地挑出复核候选`这一层，而且这也更符合当前的数据状态。既然[解释边界](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)已经立住，下一步就要决定：当前问题应该提升到 [告警(alert)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)、[复核候选(review candidate)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)、[标签预测(label prediction)](/AiBook/zh/reference/concept-glossary-pinyin/b/#label-prediction) 中的哪一层。
+先确定当前需要的是解释变化、安排人工复核顺序，还是预测未知结果，再据此选择[产出](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)。并不是必须先建立告警，再经过复核队列，才能开始预测。如果一个问题已有结果标签与评估条件，可以直接设计预测问题；如果目的只是解释变化，比较报告本身就可以是完整产出。
 
-首先要抓住的判断是：`当前数据究竟诚实地支撑到哪里。` alert 仅凭比较结构和差值就可以开始；review candidate 还需要优先级标准；label prediction 则需要相对稳定的[目标标签](/AiBook/zh/reference/concept-glossary-pinyin/m/#target)和评估结构。
+## 从三个问题并列选择
 
-| 区分 | 在当前阶段的含义 | 所需证据强度 |
+| 当前要回答的问题 | 合适产出 | 首先检查的依据 |
 | --- | --- | --- |
-| alert | 看到了和平时不同的变化，因此先提醒去看 | 比较结构和差值 |
-| review candidate | 实际上值得人工重新确认的案例 | 变化信号 + 判断语境 + 优先级判断 |
-| label prediction | 去预测已经定义好的目标标签 | 相对稳定的标签和学习结构 |
+| 与相同条件的参照相比，什么发生了变化？ | 比较报告，必要时附告警 | 比较对象、单位、汇总、基线及告警发布条件 |
+| 今天人工应该先检查哪些案例？ | 带顺序的复核候选队列 | 纳入标准、排序与并列规则、处理能力 |
+| 能否用指定时点可用的输入预测未知结果？ | 目标结果预测 | 目标定义、输入可用时点、结果标签及与训练分开的评估资料 |
 
-alert 是最轻的一层。只要看见了与基线不同的变化，就可以做出来。review candidate 要更重一层，不仅要有变化，还要值得由人工再次确认。label prediction 最重。它要求要预测什么的目标标签足够明确，这个标签能相对稳定地附着，而且学习与评估结构也已经准备好。
+这三者不是完成度等级。报告传达观察差异，队列分配核查工作，预测估计定义好的结果。同一业务可以同时使用多个产出，但各自的作用与依据应分别保留。
 
-不能把这种差别只读成`问题简单还是复杂`。更重要的问题是：`在当前数据状态下，什么话可以诚实地说。` alert 仅凭比较结构也能启动，但 label prediction 需要比这更强得多的前提。因此，把问题往上提，并不是越高越好，而是意味着它变成了一个需要更强证据的问题。
+## 目的不同，运行记录对应的答案也不同
 
-现实问题里最困难的，往往正是最后这一层。比如，像`需要复核`这样的判断列可以做出来，但像`真实原因`或`细分状态类型`这样的确认标签却可能很弱。一个征兆可能来自多个原因，人也可能是在很后面才补写原因。在这种情况下，如果硬要把问题做成分类问题，就会先把复杂的问题框架搭起来，而标签质量其实还没准备好。
+下面是三个自行构造的请求。第一个请求假定同条件下过去200次与近期20次动作的后段均值分别为2.8和2.2 L/min，差值为`2.2−2.8=−0.6 L/min`。这是当前观察到的比较值，不是未来故障或原因的预测。
 
-在当前阶段，下面三个问题要立刻确认。
-
-- 现在真正需要的是自动匹配，还是复核优先级？
-- 标签实际上够不够？
-- 与其做分类问题，比较报告是不是更现实？
-
-把这种差别写得更实务一些，会变成下面这样。
-
-| 阶段 | 输入示例 | 输出示例 | 首先需要具备 | 仅凭此阶段不能确定的事项 |
-| --- | --- | --- | --- | --- |
-| 警告 | 近期区间与基准线的差异 | `注意` | 比较结构和差值 | 原因标签 |
-| 复核候选 | 差值 + 重复性 + 判断条件 | `优先确认` | 警告 + 重复性 + 优先级标准 | 稳定的目标标签 |
-| 标签预测 | 事件级特征表 | `正常/异常`或特定状态 | 比较稳定的目标标签与评估结构 | 在标签不足时就建立复杂分类问题的依据 |
-
-所以，并不是因为`想把问题提升到更高层`，就立刻往上走。只有当下面一层的证据积累够了，才提升到下一层。
-
-如果像下面这样判断`现在该停在哪里`，就能减少勉强的问题类型上提。
-
-| 当前已确认的状态 | 在这一层的产物 | 还不提升的层 |
+| 请求 | 选择的产出及理由 | 仍需确认的事项 |
 | --- | --- | --- |
-| 只稳定地看到相对基线的差异 | alert | review candidate、label prediction |
-| 差异之外还有重复性和优先级标准 | review candidate | label prediction |
-| 目标标签相对稳定，评估结构也存在 | label prediction | 无 |
+| “报告近期流量与基线差多少” | 包含−0.6 L/min均值差与次数的比较报告 | 基线适用性与观察范围；如需通知，还要发布规则 |
+| “候选有A、B、C，今天只能检查两个” | 按排序政策生成队列并取前两项 | 候选纳入标准、排序、并列处理与剩余案例处理方式 |
+| “在动作结束时预测未来七天是否故障” | 以该结果为目标的预测问题设计 | 结束时输入、七天结果定义与完整标签、评估新案例的资料 |
 
-把这张表放到真实判断流程里，通常会变成下面这个顺序。
+对第二个请求应用[P3-8.5](../chapter-08/section-05.zh.md)的`queue-v1`，顺序为A→C→B，因此先安排A与C。B只是未进入本次分配，不是被判为正常。明确的运行规则可以在没有故障原因标签时生成队列，也不必先有告警发布记录。
 
-1. 先比较最近区间和基线，做出 alert 信号。
-2. 再加上重复性、样本量和判断语境，选出 review candidate。
-3. 如果在这个过程中积累起相对稳定的判断标签，再考虑 prediction problem。
+第三个请求中的结果标签用于历史案例的训练与评估。实际预测的新动作，其七天结果在预测时仍然未知。有过去标签与已经知道新事件答案是不同的事。如果只有部分已复核事件有标签，还需检查[P3-8.6](../chapter-08/section-06.zh.md)的选择问题。
 
-也就是说，预测问题不是起点，而是在前面几层的证据和结构都足够清楚之后，才值得讨论的事情。有些问题，最终一直停留在 comparison report 和 review queue，反而会更诚实。只凭比较结构就已经能很好支撑的判断，没有必要硬抬成 label prediction 问题。
+## 告警同样需要政策
 
-这三种输出并不是每个项目都必须依次通过的等级。如果一个问题已经持续收集到一致的结果标签，就可以不先运行比较报告或复核队列，直接设计监督学习。另外，预测标签也不等于证明原因。这里要区分的是：当前案例具备支持哪种输出的依据。
+应区分计算出的差异与发布告警。仅凭−0.6 L/min这个差值，不会自动决定`warning=1`。需要规定发布条件、接收者，以及测量缺失和重复告警的处理。若与实际处置相连，还需确认误报、漏报的影响及响应责任和程序。
+
+不能一概认定告警最轻、预测最重。导致设备停止的告警可能需要严格运行规则，而有些业务只提供供参考的预测值。验证要求应匹配使用目的与错误影响，而非产出名称的等级。政策复现方式可参考[P3-8.4](../chapter-08/section-04.zh.md)。
+
+## 预测目标不限于原因分类
+
+预测的[目标](/AiBook/zh/reference/concept-glossary-pinyin/m/#target)是要估计的结果。既可以是“七天内是否故障”这样的类别，也可以是“下一次动作耗时”这样的数值。预测类别属于分类，预测连续数值属于回归。故障原因分类只是可能的目标之一，并非所有预测的必要条件。
+
+例如，历史动作开始时可用的输入已与结束后确认的耗时关联，评估资料也已准备好，那么设计耗时预测前不必先建立告警系统。但仍需检查输入与结果的关联、结果定义，以及未用于训练案例上的评估条件。有标签本身不保证预测性能或部署就绪。
 
 ## 比较报告、复核队列与预测问题的边界 {#_1}
-
-<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
-<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-1-mermaid-01-zh.mmd"
 ```
 
-</div>
-</div>
+如果目的是预测，但结果时段或标签定义不明确，就应记录缺失条件并完善定义与结果收集。比较报告或队列若当前有用，可以作为独立产出，但不能因此声称回答了原来的预测问题。反过来，满足目的的报告也不会因为没有转成预测而成为未完成品。
 
-这张图说明，把问题往上提，并不是`无条件上升一层`，而是一个要问当前证据到底到了哪一层的分支判断。它不是在列标签名称，而是在一层层判断：是停在`alert`，还是走到`review candidate`，还是再提升成`label prediction`。关键在于：`alert 是变化信号，review candidate 是复核优先级，而 label prediction 是比它们都更强的问题设定。` 现在的问题能提升到哪一层，判断标准不应该是`是不是更高级`，而应是`当前数据究竟诚实地支撑到哪里`。
+## 按目的选择产出
+
+①想提前知道下一次动作耗时，已有历史输入、结果标签与独立评估资料。②只想报告同条件下近期与基线均值差。③需要优先检查三个候选中的两个，但没有原因标签。请分别选择产出，并各指出一项并非必要前置步骤的内容。
+
+解析：①可以设计耗时预测，不必先建立告警系统。②适合比较报告，不必预测未来结果。③适合明确纳入与排序政策的复核队列，不必先有确认原因标签。但不能把没有结果标签的队列名次称为实际故障概率。
 
 ## 检查清单
 
-- 你是否区分了警告、复核候选和已确认结果？
-- 你是否区分了资料足以支持的输出与依据仍不足的输出？
+- 能否说明为何在解释变化、复核顺序与结果预测之间选择当前产出？
+- 是否具体记录了所选产出的必要依据与缺失条件？
+- 是否避免把预测当作必需的最终阶段，或把告警当作无需验证的产出？
 
 ## 来源与参考资料
 
-- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, base period。用于确认基准时期或时间点可以作为比较参照这一用法。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline。用于确认初始测量值可以作为后续变化的比较基准这一说明。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- Google, *Machine Learning Glossary*, `label`, `labeled example`, `proxy labels`。用于确认标签和代理标签的含义，以及为什么要谨慎处理代理标签。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- NIST/SEMATECH, *e-Handbook of Statistical Methods: What are Variables Control Charts?*, signal detection and process monitoring。用于确认基线与变动可支持统计过程监控和信号检测这一视角。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- [Google, Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } — 参考label、classification model与regression model的定义。目的与产出的选择表及请求案例由本书自行设计，并非规定必需开发阶段的标准。查阅日期：2026-09-20。

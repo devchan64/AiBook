@@ -1,53 +1,54 @@
-# P3-9.2 为什么有些问题应该一直保留为比较报告
+# P3-9.2 为什么有些问题应始终保留为比较报告？
 
 > Section ID: `P3-9.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-把所有现实问题都硬塞进[标签预测(label prediction)](/AiBook/zh/reference/concept-glossary-pinyin/b/#label-prediction)里，并不是好的数据建模。有些情况下，[比较报告](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)更诚实，也更符合当前数据状态。尤其是在原因标签很弱，或者判断者真正想看的不是`正确分类`，而是`现在先把该看的对象挑出来`时，更是如此。这里也要一起整理这样一种可能：有些问题不往上提升，反而一直保留成比较报告会更正确。
+回答“当前流量与参照差多少”，需要观察值与比较依据，不一定要附加未来故障预测。[比较报告](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)传达观察差异及其局限。只要满足这个问题，不转成预测也可以是完整结果，并可在目的不变时持续使用。
 
-在这个位置，人们很容易先想到`输入 -> 正确标签 -> 自动判别`这种结构，于是会觉得现实问题也都该放进这个框架里。但在现实数据里，`应该先展示什么`往往比`应该自动判对什么`更重要。如果把这样的事情硬改成分类问题，就很容易在标签质量还很弱时，先做出一种被夸大的自动化。
+## 一行报告能够确认什么？
 
-通常来说，下面这些情况更适合 comparison report。
+复用[P3-8.4](../chapter-08/section-04.zh.md)的虚拟A行。一行是汇总近期20次已完成动作的比较区间。沿用当时的适用假设：所需测量齐备，基线与近期的类型、运行条件、单位及区段定义相同，且没有另行规定的允许限值违规。
 
-- 重要的是先展示最近变化相对平时的方向
-- 比起确认标签，复核优先级更有实际价值
-- 变化原因还不能自动定性
-- 人的后续确认本来就是判断流程的一部分
-
-例如，只要把最近区间均值、波动性、模式差异、相对基线的差值、以及是否需要复核整理清楚，就已经可能很有帮助。在这种情况下，真正重要的不是`匹配到了什么`，而是`先展示了什么`。因此，好的比较报告并不是简单的中间产物，它本身就会成为一种真实的后续判断形式。
-
-反过来，如果要进入预测问题，至少需要下面这些条件。
-
-- [目标标签](/AiBook/zh/reference/concept-glossary-pinyin/m/#target)定义得相对稳定
-- 样本单位和标签单位是对齐的
-- 样本结构已经整理到足以设计训练/评估切分和评估方式
-
-两种做法的差别可以整理成下面这样。
-
-| 区分 | 比较报告 | 预测问题 |
+| 字段 | A行的值 | 含义 |
 | --- | --- | --- |
-| 中心问题 | 相对基准，什么变了、变了多少？ | 能从输入多好地预测已定义的结果？ |
-| 所需标签 | 标签较弱也可以开始 | 应相对稳定 |
-| 输出 | 比较值和比较语句 | 预测值和评估结果 |
-| 人的作用 | 后续确认的核心 | 评估与例外处理的核心 |
+| window_id | A | 比较区间标识 |
+| diff | −0.35 L/min | 近期各动作后段均值的平均值−基线对应平均值 |
+| event_count | 20 | 近期不同的已完成动作数 |
+| decline_count | 14 | 后段均值−前段均值 ≤ −0.30 L/min的动作数 |
+| decline_ratio | 14/20=0.70 | 满足该下降条件的比例 |
+| cause_label | 未确认 | 尚未获得确认原因记录 |
 
-这张表说明，比较报告并不是`因为还做不了预测，所以暂时拿来用的过渡物`。它从一开始就是另一种问题设定。比较报告让人读状态、决定下一步动作；预测问题则是用来自动匹配相对稳定的目标标签。
+下降规则包含边界，每次动作只计一次。相对基线差值−0.35与动作内部下降边界−0.30比较的是不同对象。`cause_label`未确认，不表示不存在原因，也不表示正常。
 
-实际工作里，更安全的做法往往是先判断`继续保留为比较报告，会不会更诚实`，就像下面这样。
+报告的观察句是：“近期20次动作的后段均值比基线低0.35 L/min，14/20次满足动作内部下降条件。”可以附上“发生顺序与原因尚未确认”的局限，不能将70%改成故障概率，也不能写成连续14次下降。
 
-| 当前状态 | 更自然的产物 | 原因 |
+## 附加运行判断时也写明政策
+
+对同一行应用`review-v1`，因为`−0.35 ≤ −0.30`且`0.70 ≥ 0.60`，匹配R1，记录`warning_level=caution`、`review_needed=1`、`priority_band=first`。这些值来自P3-8.4的虚拟复核分配规则，不是计算原因标签或故障概率的结果。
+
+| 报告组成 | A可写的内容 |
+| --- | --- |
+| 观察依据 | diff=−0.35 L/min，14/20次满足下降条件 |
+| 解释局限 | 时间顺序与原因尚未确认 |
+| 政策应用 | 按review-v1的R1分配优先复核 |
+| 下一步核查 | 对照这20次动作按时间排列的原始记录与逐次设置历史 |
+
+报告可以这样解释当前差异并支持具体核查行动。没有政策却自动附上“差异大所以复核优先级高”，就混合了观察与分配判断。有顺序的复核队列可以使用报告依据，但属于单独的政策产出。
+
+## 不知道原因与不知道未来结果是不同问题
+
+缺少`cause_label`时，仅凭这些资料难以**学习确认原因分类**，但并非所有预测问题都被阻断。如果历史每次动作结束时可用的输入，均与之后七天的故障结果一致关联，就可以在没有原因名称时另行考虑“七天内是否故障”的监督学习问题。
+
+这里对标签的要求针对**监督学习预测**，不表示所有分析或所有机器学习方法都必须有确认结果标签。此外，`review_needed`是运行政策结果，将其当作故障答案会改变学习对象。
+
+| 区分 | 当前比较报告 | 七天故障的监督学习预测 |
 | --- | --- | --- |
-| 几乎没有原因标签，只能做变化比较 | 比较报告 | 可以说明哪里变了，但还很难固定原因 |
-| 可以定复核优先级，但确认标签很弱 | 比较报告或复核队列 | 判断者想先知道看什么，而分类答案还很弱 |
-| 目标标签和评估结构都相对稳定 | 预测问题 | 已经有根据去定义应当自动匹配什么 |
+| 问题 | 已观察的近期区间与基线差多少 | 能否在动作结束时估计之后七天结果 |
+| 案例单位 | 汇总多次动作的比较区间A | 与结果标签关联的单次动作 |
+| 所需记录 | 测量定义、基线、近期汇总与适用政策 | 动作ID、结束时输入、结果期间、确认结果、观察完成状态 |
+| 质量检查 | 计算、比较条件、解释与政策应用的一致性 | 目标定义、标签范围及可靠性、未用于训练案例的评估 |
 
-通过下面这张小表，comparison report 和 prediction problem 的差别会更清楚。
-
-| event_id | diff | repeatability | review_needed | cause_label |
-| --- | --- | --- | --- | --- |
-| A | -0.35 | high | 1 | 无 |
-| B | -0.08 | low | 0 | 无 |
-| C | -0.31 | high | 1 | 无 |
+当前A行没有关联单次动作的七天结果，不能复制区间的`decline_ratio=0.70`来创建每次动作的未来故障标签。需要另行确认是否具备这些逐次记录。还要定义结果期间起止点的包含规则与追踪缺失，不能把未完成观察填为非故障0。
 
 ## 选择与比较依据相符的输出 {#_1}
 
@@ -55,18 +56,20 @@
 --8<-- "assets/part-03/chapter-09/p3-9-2-mermaid-01-zh.mmd"
 ```
 
-这张图说明，比较报告不是因为还做不了预测，所以暂时停在那里的过渡阶段。对某些问题来说，它本来就可能一直是更合适的产物。如果首先需要做的是展示`哪里变了`，那 comparison report 就是自然的；只有在存在稳定目标标签时，进入 prediction problem 才变得合理。好的数据建模，不是从一开始就定义最复杂的问题，而是诚实地选择最符合当前数据状态的输出形式。如果变化说明和复核优先级更重要，而稳定目标标签仍然偏弱，那么把 comparison report 一直保留到最后，反而可能更准确。
+如果目的是未来预测，就不能声称报告代替回答了该问题。反过来，也不必因缺少标签，将已经回答的比较问题称为失败的预测任务。可以保留比较报告，同时收集结果记录，为单独的预测问题做准备。
 
-因此，比较报告并不是预测之前的临时替代，而是在某些问题里，它本身就可能是最正确的输出结构。
+## 分别回答两个请求
+
+针对A收到两个请求：①“整理近期变化与今天要核查的事项”；②“预测A中每次动作之后七天是否故障”。请区分当前资料支持的回答与需要补充的记录。
+
+解析：①可以写明−0.35 L/min、14/20次、原因未确认，再把review-v1的R1与原始记录、设置历史核查相连。②仅有区间汇总不够，需要确认单次动作ID、预测时点输入、定义一致的七天结果及观察完成状态，以及与训练分开的评估资料。不能只因没有原因名称就断定②不可能。
 
 ## 检查清单
 
-- 你是否区分了比较报告回答的问题与未来结果预测？
-- 你是否写出了仅凭当前报告就可以作出的运行判断？
+- 能否区分A行的观察值、解释局限与政策结果？
+- 能否说明比较区间与单次动作的单位差异，以及当前比较与未来预测所需记录的差异？
+- 能否区分原因标签与故障结果标签，并在监督学习语境中说明标签要求？
 
 ## 来源与参考资料
 
-- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, base period。用于确认基准时期或时间点可以作为比较参照这一用法。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline。用于确认初始测量值可以作为后续变化的比较基准这一说明。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- Google, *Machine Learning Glossary*, `proxy labels`, `label`。用于确认标签和代理标签的含义，以及为什么要谨慎处理代理标签。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- Lakkaraju, Kleinberg, Leskovec, Ludwig, Mullainathan, *The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables*, KDD 2017。用于确认当观测结果受到先前人工决策选择时，评估和问题设定为什么可能被扭曲。 [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- [Google, Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } — 参考label与supervised machine learning概念。比较案例及review-v1为本书虚拟设计。查阅日期：2026-09-20。

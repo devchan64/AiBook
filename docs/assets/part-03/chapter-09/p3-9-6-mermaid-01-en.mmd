@@ -1,8 +1,9 @@
 flowchart TD
-    A[Repeated review results] --> B{Same event, same label?}
-    B -- No --> C[Keep review-report stage]
-    C --> C1[Leave disagreement memo]
-    C --> C2[Delay fixing the result column]
-    B -- Yes --> D{Are the criteria stable over time?}
-    D -- No --> E[Split by period or mark rule change]
-    D -- Yes --> F[Organize as a simpler target candidate]
+    A["12 events · 36 review records"]
+    B["Find 6 disagreement events and original judgments"]
+    C["Reassess with fixed events, information and criteria"]
+    D["Keep original judgments and link revisions with reasons"]
+    E["Verify actual outcomes separately from agreement"]
+    A --> B --> C --> D
+    A --> E
+    D --> E
