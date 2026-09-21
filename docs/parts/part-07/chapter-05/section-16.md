@@ -1,116 +1,70 @@
-# P7-5.16 보충학습: OpenPose로 동작과 구도 조건 비교하기
+# P7-5.16 보충학습: Qwen-Image-Edit-2511과 AnyPose로 참조 포즈 옮기기
 
 > Section ID: `P7-5.16`
-> Version: `v2026.09.13`
+> Version: `v2026.09.21`
 
-캐릭터의 옷과 얼굴을 유지하면서 팔을 올리거나 다리를 교차하게 만들려면, 원하는 동작을 어떻게 전달해야 할까? [P7-5.3](section-03.md)의 캐릭터 편집과 [P7-5.5](section-05.md)의 장면 합성에 이어, 이 보충학습에서는 **관절 배치를 그림으로 주었을 때 생성 결과가 무엇을 따르는지** 살펴본다. SDXL·ControlNet으로 만든 기존 비교 결과를 읽으며 동작, 외형, 카메라 구도를 구분한다.
+P7-5.14는 텍스트 모션을 포즈·마스크 시퀀스로 준비했고, P7-5.15는 그 시퀀스와 캐릭터 참조를 영상 모델에 전달했다. 이 보충학습은 영상 생성이 아니라 **한 장의 캐릭터 기준 이미지와 한 장의 포즈 안내 이미지**를 Qwen-Image-Edit-2511에 함께 주어, 캐릭터가 안내 이미지의 자세를 얼마나 따르는지 확인하는 계획이다. AnyPose는 이 두 이미지의 관계를 이용해 포즈를 옮기도록 만든 Qwen-Image-Edit-2511용 LoRA 묶음이다. 아직 이 절의 실행 결과와 자산은 없다. 아래 내용은 결과 해설이 아니라, 실행 전에 비교 계약과 검수 기준을 고정한 초안이다.
 
-## 관절 맵을 만들고 ControlNet으로 전달한다
+## 1. 두 이미지가 맡을 정보를 나눈다
 
-OpenPose는 이미지에서 사람의 관절 위치를 추정하는 도구다. 이 절의 **OpenPose 맵**은 그 위치를 점으로 표시하고, 어깨·팔꿈치·손목처럼 연결된 부위를 선으로 이은 2D 그림을 뜻한다. 점과 선을 직접 배치해 원하는 동작의 맵을 만들 수도 있다. [OpenPose 공식 구현](https://github.com/CMU-Perceptual-Computing-Lab/openpose){: target="_blank" rel="noopener noreferrer" }
+AnyPose의 제작자는 첫 이미지에 캐릭터, 두 번째 이미지에 따라 할 포즈를 넣고, 두 LoRA를 함께 적용하는 방법을 제안한다. 이 방식은 OpenPose 점 좌표나 ControlNet을 별도 입력으로 쓰지 않고, 포즈 안내 이미지의 사람 형태·카메라 단서를 조건으로 사용한다. 따라서 안내 이미지에는 관절뿐 아니라 옷, 배경, 시점처럼 **가져오면 안 되는 정보**도 함께 들어 있다. [AnyPose 모델 카드](https://huggingface.co/lilylilith/AnyPose){: target="_blank" rel="noopener noreferrer" }는 포즈 안내 이미지의 배경이 섞이거나 원래 장면 일부가 남을 수 있다고 설명한다.
 
-이미지 생성에서는 이 맵을 **ControlNet**에 입력한다. ControlNet은 관절 맵이나 윤곽선 같은 추가 조건을 생성 모델에 전달한다. 여기서는 SDXL 계열 모델이 인물을 그릴 때 관절 배치를 참고하도록 사용했다. 관절 위치를 찾는 OpenPose와, 그 맵을 생성 조건으로 사용하는 ControlNet의 역할을 구분하면 입력 흐름을 이해하기 쉽다. [ControlNet 공식 구현](https://github.com/lllyasviel/ControlNet){: target="_blank" rel="noopener noreferrer" }
+| 입력 | 이 실습에서 맡길 역할 | 결과에서 따로 확인할 위험 |
+| --- | --- | --- |
+| 캐릭터 기준 이미지(이미지 1) | Mira의 얼굴, 머리, 의상, 원래 장면 | 가려진 신체·바닥이 없으면 모델이 새로 추정함 |
+| 포즈 안내 이미지(이미지 2) | 몸통·팔다리 배치, 화면 안 위치, 시선과 카메라의 단서 | 안내 인물의 배경·의상·소품이 함께 섞일 수 있음 |
+| AnyPose base·helper LoRA | 두 이미지 사이의 포즈 전이 조건 | LoRA 강도만으로 identity나 배경이 보장되지는 않음 |
+| 편집 지시문 | 어느 이미지의 포즈를 따르고 어느 이미지의 외형·배경을 남길지 명시 | 긴 문장이 모든 픽셀을 통제하는 좌표 규칙은 아님 |
 
-| 입력 | 이 실험에서 맡긴 역할 |
-| --- | --- |
-| 관절 맵 | 화면 안에서 팔·다리를 놓을 위치 전달 |
-| 캐릭터 LoRA·얼굴 참조 | 인물의 외형 반영 |
-| 프롬프트 | 인물과 장면을 말로 지정 |
-| 배경 윤곽선 | 뒤의 고각도 사례에서 공간의 선과 배치 전달 |
+Qwen-Image-Edit-2511은 여러 입력 이미지를 프롬프트와 함께 받는 이미지 편집 모델이다. 공식 모델 카드는 인물 일관성·다중 인물 편집·기하 추론의 개선을 소개하지만, 이 절에서 그 설명을 특정 캐릭터·포즈에 대한 품질 보장으로 읽지 않는다. 실행 결과에서 포즈, identity, 의상, 배경을 나누어 관찰해야 하는 이유다.
 
-예를 들어 손목 점을 어깨보다 위에 놓으면 팔을 든 동작을 요구할 수 있다. 하지만 같은 점 배치에 짧은 소매를 그릴지 긴 소매를 그릴지는 관절 맵만으로 정해지지 않는다. 아래 비교에서는 먼저 관절 배치를 보고, 옷과 얼굴은 그다음에 살펴본다.
+## 2. 한 번에 바꿀 조건은 포즈 안내뿐이다
 
-관절 맵 준비 코드는 `--reference-image`로 지정한 인물 이미지에서 몸의 관절 맵을 추출한다. `--output`을 생략하면 `sec-16/p7-5-16-openpose-body-reference.png`에 저장한다. 로컬 캐시에 OpenPose 검출 모델이 필요하며, 아래 기존 SDXL 비교 결과를 생성하는 단계는 포함하지 않는다.
+첫 비교는 P7-5.2에서 만든 전신 Mira 기준 이미지를 이미지 1로 고정한다. 이미지 2는 사람 한 명이 전신으로 보이고, 팔·다리·바닥 접지와 카메라가 읽히는 포즈 안내 이미지로 고른다. 인물 여러 명, 심하게 잘린 신체, 과도한 가림은 첫 실행에서 제외한다. AnyPose 모델 카드도 완전한 전신과 바닥이 보이는 첫 이미지가 미지 영역의 추정을 줄이는 데 유리하다고 안내한다.
 
-[OpenPose 관절 맵 준비 코드](../../../assets/part-07/chapter-05/sec-16/p7_5_16_prepare_openpose_maps.py)
+| 비교 | 고정할 조건 | 하나만 바꿀 조건 | 확인 질문 |
+| --- | --- | --- | --- |
+| A. 편집 기준선 | 캐릭터 이미지, seed, 해상도, Qwen 편집 설정, 지시문 | AnyPose LoRA를 적용하지 않음 | 지시문만으로 포즈가 어디까지 바뀌는가? |
+| B. 포즈 전이 | A와 동일 | AnyPose base·helper LoRA 적용 | 안내 이미지의 팔·몸통·다리 배치가 더 가까워지는가? |
+| C. 배경 보존 보강 | B와 동일 | 원래 배경을 유지하라는 문장만 추가 | 포즈 효과와 배경 유입을 분리해 볼 수 있는가? |
 
-## 동작 배치에 효과가 있었던 결과
+처음에는 AnyPose 작성자가 제시한 두 LoRA 강도 `0.7`과 Qwen-Image-Edit-2511 Lightning 4-step 경로를 **출발 조건**으로 기록한다. 이것은 이 책의 최적값이 아니다. 실행 환경에서 Lightning LoRA·AnyPose 두 파일의 정확한 파일명, 커밋 또는 해시, 적용 순서, 실제 강도와 step 수를 실행 JSON에 남긴 뒤에만 비교표에 넣는다. Qwen-Image-Edit-2511의 공식 예시는 다른 설정에서 40 step을 사용하므로, 빠른 경로와 기본 편집 경로의 결과를 같은 품질이라고 가정하지 않는다.
 
-### 다리 교차와 팔 올리기
+## 3. 포즈가 맞았다는 말은 네 갈래로 나눈다
 
-아래 그림의 왼쪽은 저장한 관절 맵, 가운데는 ControlNet을 끈 결과, 오른쪽은 켠 결과다. 관절 조건의 강도를 `0.0`에서 `1.0`으로 바꾸고 나머지 생성 조건을 고정했다.
+포즈 전이는 한 점수로 판정하지 않는다. 아래 관찰표의 행마다 캐릭터 기준 이미지와 포즈 안내 이미지를 각각 대조하고, `확인됨`, `불명확`, `이탈`처럼 근거를 적는다. 자동 점수나 한 장의 대표 이미지만으로 전체 품질을 결론내리지 않는다.
 
-![저장 우측 쿼터 OpenPose map과 ControlNet off/on 산출물](../../../assets/part-07/chapter-05/sec-16/p7-5-16-openpose-static-quarter-right-contact-sheet.png)
+| 관찰 축 | 기준 | 실패로 기록할 예 |
+| --- | --- | --- |
+| 큰 자세 | 머리·몸통 방향, 어깨·팔꿈치·손목, 골반·무릎·발목의 상대 위치 | 팔 방향은 맞지만 다리 교차나 바닥 접지가 달라짐 |
+| 카메라와 구도 | 인물의 크기, 시점, 화면 안 위치, 잘림 | 포즈는 비슷하지만 안내 이미지의 극단적 원근이 섞여 인물 비례가 달라짐 |
+| 캐릭터 보존 | 얼굴, 머리 실루엣, 의상 큰 색·형태 | 안내 인물의 머리·옷 또는 소품이 Mira에 섞임 |
+| 장면 보존 | 이미지 1의 배경, 바닥, 빛의 큰 관계 | 이미지 2의 배경이 들어오거나 바닥이 새로 생김 |
 
-맵에는 두 다리가 교차하는 배치가 있다. 가운데 인물은 두 발로 나란히 서 있지만, 오른쪽 인물은 다리를 교차하고 한쪽 발을 들어 맵의 배치에 더 가까워졌다. 동시에 재킷 소매와 가방의 형태도 달라졌다. **동작이 맵에 가까워진 정도와 외형이 유지된 정도는 별개의 관찰**이다.
+특히 카메라 시점은 자세와 분리해 본다. 안내 이미지의 2D 자세가 비슷하더라도, 몸의 앞뒤 가림·렌즈 원근·시선 높이는 포즈 전이만으로 정해지지 않는다. 반대로 안내 이미지의 구도를 닮았다는 이유만으로 Mira의 identity가 보존되었다고 판단하지 않는다.
 
-직접 점을 배치한 팔 올리기 맵도 같은 방식으로 비교했다.
+## 4. 실행 전에 남길 자산과 기록
 
-![선언형 OpenPose map ControlNet off/on](../../../assets/part-07/chapter-05/sec-16/p7-5-16-openpose-declarative-reach-up-controlnet-ab-contact-sheet.png)
+이 초안을 실행으로 바꿀 때는 결과 PNG만 저장하지 않는다. 비교 가능한 입력 계약을 남기기 위해 아래 파일을 `docs/assets/part-07/chapter-05/sec-16/`에 버전 이름으로 묶는다. 공개 가능한 자체 생성 이미지 또는 이용 조건을 확인한 이미지로만 포즈 안내를 구성하며, 외부 인물 사진을 그대로 책 자산으로 재배포하지 않는다.
 
-이 결과에서는 ControlNet을 켰을 때 팔이 맵의 방향을 더 따랐다. 두 비교에서 무릎·발목 또는 어깨·팔꿈치·손목을 순서대로 짚어 보면, 막연히 “자세가 비슷하다”는 인상보다 어느 부위가 반영됐는지 구체적으로 볼 수 있다.
+| 자산 | 최소 기록 | 쓰는 이유 |
+| --- | --- | --- |
+| 캐릭터 기준·포즈 안내 이미지 | 파일 해시, 크기, 출처 또는 생성 기록, 입력 순서 | 어느 이미지가 외형·포즈 조건이었는지 재현 |
+| A·B·C 결과 이미지 | seed, 해상도, step, CFG 또는 guidance, LoRA 이름·강도 | 하나만 바꾼 비교를 확인 |
+| 비교 시트 | 동일한 크롭, A·B·C와 두 입력 이미지 | 네 관찰 축을 한 화면에서 대조 |
+| 실행 JSON | 모델·LoRA 버전, 워크플로, 프롬프트, 실행 장비·시간, 입력·출력 해시 | 결과와 조건의 연결 보존 |
+| 검수 JSON | 관찰 축별 근거와 보류 판단 | 성공 이미지만 남기는 선택을 방지 |
 
-저장 맵 비교는 Animagine XL, `960×1440`, 30스텝, seed `62296`, 캐릭터 LoRA 강도 `0.6`에서 실행했다. 각 비교의 전체 설정은 아래 기록에 있다.
-
-[저장 관절 맵 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-16/p7-5-16-openpose-static-quarter-right-report.json)
-
-[팔 올리기 맵 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-16/p7-5-16-openpose-declarative-reach-up-controlnet-ab-report.json)
-
-## 외형과 구도 반영이 부족했던 결과
-
-### 얼굴과 착장이 함께 유지되지 않았다
-
-이번에는 얼굴 참조와 캐릭터 LoRA를 함께 사용하는 전신 생성에서 OpenPose 조건을 끄고 켰다.
-
-![SDXL 전신 safe-face 조건의 OpenPose off/on 비교](../../../assets/part-07/chapter-05/sec-16/p7-5-16-sdxl-safe-face-openpose-ab-contact-sheet.png)
-
-![SDXL safe-face 전신 후보와 기준 얼굴 비교](../../../assets/part-07/chapter-05/sec-16/p7-5-16-sdxl-safe-face-contact-sheet.png)
-
-다리·몸통의 배치가 맵에 가까워진 결과에서도 머리 길이와 복장이 달라졌다. 얼굴이 자연스럽게 그려졌는지와 기준 인물의 얼굴인지도 구분해야 한다. 청록 단발, 재킷, 와이드 바지, 가방을 각각 비교하면 자세의 개선만으로 캐릭터 전체가 유지됐다고 판단하기 어려운 이유가 드러난다.
-
-이 비교는 Plus Face 얼굴 참조 강도 `0.15`, 캐릭터 LoRA 강도 `0.30`, seed `62295`, CFG `5.0`, `960×1440`, 50스텝을 고정했다. FaceID와 전신 착장 이미지 어댑터는 사용하지 않았다.
-
-[전신 생성 — OpenPose 끔 실행 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-16/p7-5-16-sdxl-safe-face-without-openpose-960x1440-result.json)
-
-[전신 생성 — OpenPose 켬 실행 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-16/p7-5-16-sdxl-safe-face-with-openpose-960x1440-result.json)
-
-### 카메라 문구만으로 고각도 구도가 만들어지지 않았다
-
-팔을 올리는 동작을 그대로 두고, 위에서 내려다보는 시점인 `high-angle`을 프롬프트에 추가했다.
-
-![선언형 OpenPose map에서 카메라 문구를 바꾼 비교](../../../assets/part-07/chapter-05/sec-16/p7-5-16-openpose-declarative-reach-up-camera-ab-contact-sheet.png)
-
-이 비교에서는 문구를 추가해도 기대한 고각도 원근이 나타나지 않았다. 이 절의 2D 관절 맵에는 카메라 높이나 관절의 깊이 값이 별도로 들어 있지 않다. 점 배치에서 시점의 단서를 추정할 수는 있어도, 그것만으로 카메라 위치나 팔·몸통의 앞뒤 관계가 하나로 정해지지는 않는다.
-
-[카메라 문구 비교 기록 — JSON](/AiBook/assets/part-07/chapter-05/sec-16/p7-5-16-openpose-declarative-reach-up-camera-ab-report.json)
-
-### 배경 원근은 일부 남았지만 인물과 동작이 달라졌다
-
-다음 실험에서는 위에서 내려다본 공간을 가진 안내 이미지(guide)를 먼저 만들었다. 아래 이미지는 Animagine으로 만든 익명 인물의 고각도 장면이다.
-
-![익명 인물로 만든 고각도 보행 guide](../../../assets/part-07/chapter-05/sec-16/p7-5-16-experimental-animagine-high-angle-guide.png)
-
-이 이미지에서 인물의 관절 배치와 배경의 윤곽선을 따로 준비했다. **Canny**는 이미지의 경계를 선으로 나타내는 방식이다. 여기서는 인물을 제외한 배경 Canny로 공간의 원근 단서를 주고, OpenPose 맵으로 동작을 주었다. 안내 이미지의 얼굴·옷 색을 그대로 전달하는 입력은 사용하지 않았다.
-
-![익명 guide·OpenPose·인물 제외 배경 Canny와 SDXL Mira 전이 후보](../../../assets/part-07/chapter-05/sec-16/p7-5-16-sdxl-anonymous-high-angle-transfer-review-sheet.png)
-
-| SDXL에 준 구조 조건 | 이 실험에서 관찰한 결과 |
-| --- | --- |
-| 없음 | 기대한 고각도 구도가 사라짐 |
-| OpenPose만 사용 | 위쪽 시점의 단서는 일부 남았지만 동작이 앉거나 쪼그린 자세로 바뀜 |
-| 배경 Canny만 사용 | 타일 원근은 남았지만 인물 실루엣이 중복됨 |
-
-단일 조건 비교는 SDXL Base 1.0, 캐릭터 LoRA 강도 `0.6`, seed `62431`, 50스텝, `768×1152`로 실행했다. 배경의 타일 원근이 남은 것은 부분적인 효과지만, 목표한 인물과 동작을 함께 반영한 장면은 얻지 못했다.
-
-두 ControlNet을 함께 사용한 추가 실행은 당시 8GB GPU의 순차 CPU 오프로딩 경로에서 완료되지 않았다. 이 사례는 출력이 없으므로 위 표의 품질 비교에 포함하지 않는다.
-
-[고각도 장면 전이 실행 결과 — JSON](/AiBook/assets/part-07/chapter-05/sec-16/p7-5-16-sdxl-anonymous-high-angle-transfer-result.json)
-
-[고각도 장면 전이 비교 조건 — JSON](/AiBook/assets/part-07/chapter-05/sec-16/p7-5-16-sdxl-anonymous-high-angle-transfer-report.json)
-
-이 사례들에서 효과가 확인된 부분은 다리 교차와 팔 올리기의 2D 배치다. 얼굴·착장 유지와 고각도 장면 구성은 목표에 미치지 못했다. 따라서 결과를 비교할 때도 동작 반영과 캐릭터·장면 전체의 재현을 따로 판단한다.
+포즈 안내에 사람·배경·소품이 한꺼번에 있는 까닭에, B가 A보다 자세에 가까워도 바로 채택하지 않는다. 배경 유입이나 외형 이탈이 보이면 C의 지시문만으로 줄어드는지 확인한다. C도 해결하지 못하면 그 결과는 `포즈 전이와 장면 보존을 함께 만족하지 못한 사례`로 보존하고, 새로운 LoRA 강도·참조 구성을 다음 비교 질문으로 남긴다.
 
 ## 체크리스트
 
-- [ ] 관절 맵을 만드는 OpenPose와 이를 생성 조건으로 쓰는 ControlNet의 역할을 설명할 수 있는가?
-- [ ] 비교 이미지에서 동작이 반영된 부분과 외형이 달라진 부분을 각각 하나씩 찾을 수 있는가?
-- [ ] 2D 관절 배치만으로 카메라 위치와 앞뒤 가림을 확정하기 어려운 이유를 설명할 수 있는가?
+- [ ] 이미지 1의 캐릭터 정보와 이미지 2의 포즈·구도 단서를 구분해 설명할 수 있는가?
+- [ ] AnyPose 적용 전후 비교에서 seed·해상도·캐릭터 이미지·지시문을 고정했는가?
+- [ ] 큰 자세, 카메라·구도, 캐릭터 보존, 장면 보존을 한 결론으로 합치지 않았는가?
+- [ ] 실행 전 초안과 실제 실행 기록을 구분하고, 결과가 없다는 사실을 품질 주장으로 바꾸지 않았는가?
 
 ## 출처와 참고 자료
 
-
-- Stability AI, [SDXL Generative Models](https://github.com/Stability-AI/generative-models){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-16.
-- Cagliostro Research Lab, [Animagine XL 4.0 모델 카드](https://huggingface.co/cagliostrolab/animagine-xl-4.0){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-08-16.
-- Cao et al., [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-09-11.
-- Hu et al., [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685){: target="_blank" rel="noopener noreferrer" }, arXiv, 확인일: 2026-08-16.
-- Zhang et al., [ControlNet](https://github.com/lllyasviel/ControlNet){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-09-11.
+- Qwen, [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-21.
+- lilylilith, [AnyPose 모델 카드](https://huggingface.co/lilylilith/AnyPose){: target="_blank" rel="noopener noreferrer" }, Hugging Face, 확인일: 2026-09-21.
