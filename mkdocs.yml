@@ -579,7 +579,8 @@ nav:
               - "P7-5.7 보충학습: 착장 추출과 Try-On LoRA": parts/part-07/chapter-05/section-07.md
               - "P7-5.9 보충학습: Mira의 표정 바꾸기": parts/part-07/chapter-05/section-09.md
               - "P7-5.10 보충학습: 캐릭터 일관성을 위한 LoRA 학습과 평가": parts/part-07/chapter-05/section-10.md
-              - "P7-5.15 텍스트 모션으로 12개 OpenPose 키프레임 준비하기": parts/part-07/chapter-05/section-15.md
+              - "P7-5.14 보충학습: 텍스트 모션을 애니메이션 포즈 입력으로 렌더링하기": parts/part-07/chapter-05/section-14.md
+              - "P7-5.15 포즈 시퀀스와 참조 이미지로 캐릭터 애니메이션 생성하기": parts/part-07/chapter-05/section-15.md
               - "P7-5.16 보충학습: OpenPose로 동작과 구도 조건 비교하기": parts/part-07/chapter-05/section-16.md
           - "Chapter 6. 로컬 LLM 실행 실습":
               - "P7-6.1 로컬 LLM으로 양자화와 context 길이 비교하기": parts/part-07/chapter-06/section-01.md
