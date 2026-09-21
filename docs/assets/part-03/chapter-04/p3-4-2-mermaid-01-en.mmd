@@ -1,18 +1,7 @@
-```mermaid
 flowchart TD
-    S[Sample unit shifts]
-    F[Feature meaning shifts]
-    L[Label meaning shifts]
-    E[Split and evaluation shift]
-    O[Operational interpretation shifts]
-    C[Consistency collapses]
-
-    S --> F
-    S --> L
-    S --> E
-    S --> O
-    F --> C
-    L --> C
-    E --> C
-    O --> C
-```
+    A["Identify rows and events"] --> B["Choose the split unit"]
+    B --> C["Check event overlap"]
+    C --> D["Predict evaluation rows"]
+    D --> E{"Choose scoring unit"}
+    E -->|Row| F["Count correct rows / all rows"]
+    E -->|Event| G["Combine predictions by event<br/>then score events"]

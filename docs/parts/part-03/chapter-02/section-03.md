@@ -1,7 +1,7 @@
 # P3-2.3 새 표를 처음 받으면 무엇부터 적어야 하는가
 
 > Section ID: `P3-2.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 새 표를 처음 받으면 많은 경우 바로 평균, 분포, 모델 후보부터 떠올리기 쉽습니다. 하지만 그보다 먼저 적어야 하는 것은 `이 표의 한 행은 무엇인가`, `무엇을 묶을 수 있는가`, `무엇이 아직 빠져 있는가`입니다. 이 세 가지가 정리되어야 지금 손에 있는 것이 바로 비교할 샘플 표인지, 아니면 다시 묶어야 할 원시 기록인지 구분할 수 있습니다. 새 표를 보자마자 `학습용 데이터셋인가`를 먼저 결정하기보다, 이 세 가지를 메모해 두는 편이 해석에 도움이 됩니다. 이렇게 적어 두면 뒤의 샘플 설계와 데이터셋 재설계도 훨씬 덜 추상적으로 바뀝니다.
 
@@ -53,7 +53,7 @@
 
 ## 행 의미에서 비교 가능성까지 점검하기 {#_3}
 
-새 표를 처음 읽을 때는 아래처럼 `행 의미 확인 -> 묶음 기준 확인 -> 형식/품질 점검 -> 재묶음 여부 판단` 순서로 닫아 보는 편이 안전합니다.
+새 표를 처음 읽을 때는 아래처럼 `행 의미 확인 -> 묶음 기준 확인 -> 형식/품질 점검 -> 재구성 또는 원문 확인 판단` 순서로 닫아 보는 편이 안전합니다.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-02/p3-2-3-mermaid-01-ko.mmd"
@@ -66,15 +66,15 @@
 - 한 행은 `_____`를 뜻한다.
 - 같은 대상을 묶는 키는 `_____`다.
 - 시간/진행 순서를 나타내는 열은 `_____`다.
-- 지금 표는 바로 비교 가능하다 / 아직 다시 묶어야 한다.
+- 비교하려는 질문은 `_____`이며, 필요한 재구성과 아직 확인하지 못한 조건은 `_____`다.
 - 이상 사례를 다시 확인할 원시 근거는 `_____`다.
 
-예를 들어 자동 동작 로그라면 이렇게 적을 수 있습니다.
+예를 들어 아래 CSV로 동작별 평균 유량을 비교하려 한다면 이렇게 적을 수 있습니다.
 
 - 한 행은 `동작 중 한 시점의 측정값`을 뜻한다.
 - 같은 대상을 묶는 키는 `event_id`다.
 - 시간 열은 `elapsed_seconds`다.
-- 지금 표는 바로 비교 가능한 샘플 표가 아니라 다시 묶어야 한다.
+- 동작별 평균을 비교하려면 `event_id`로 묶어야 하며, 동작 전체 관측 여부와 운전 조건 일치는 아직 확인하지 못했다.
 - 이상 사례를 다시 확인할 원시 근거는 `event_id`별 원시 로그다.
 
 이 다섯 줄 메모가 있으면 Chapter 3에서 `질문에 맞는 데이터셋을 다시 설계한다`는 말도 훨씬 덜 추상적으로 읽힙니다.
@@ -84,18 +84,34 @@
 - 형식 정합성: `event_id`가 같은 동작을 같은 형식으로 묶어 주고, `elapsed_seconds`가 시간 순서를 읽게 해 주는지 먼저 본다.
 - 첫 품질 점검: 어떤 `event_id`는 행이 비정상적으로 적거나 많지 않은지, 시간이 거꾸로 가거나 빠진 구간은 없는지, 비교 전에 따로 표시해야 할 결측이 없는지 본다.
 
-## 열별 값 분포로 표 읽기 메모 점검하기 {#_5}
+## 순서 오류와 원문 확인이 필요한 오류
+
+아래는 뒤의 CSV에서 A의 처음 세 기록을 복사해 바꾼 대조입니다. 원래 `(시간, 유량)`은 `(0, 0.80), (1, 0.92), (2, 1.05)`이며, 시간은 초, 유량은 L/min입니다. 이 작은 구간은 1초 간격으로 측정된다고 가정합니다. 원본 CSV는 바꾸지 않습니다.
+
+| 복사본에서 바꾼 것 | 무엇이 달라졌는가 | 다음 행동 |
+| --- | --- | --- |
+| 없음: 0→1→2초 | 순서와 간격이 이 구간의 가정에 맞음 | 다른 품질 항목도 계속 점검 |
+| 행 순서만 2→1→0초로 뒤집음 | 시각·측정값은 같고 저장 순서만 다름 | 시각 의미가 맞음을 확인한 뒤 복사본 정렬 |
+| 1초 기록을 그대로 한 번 더 붙임 | 같은 사건·시각·측정값이 반복됨 | 중복 수집인지 원문 확인 후 처리 규칙 결정 |
+| 1초 유량을 9.00으로 바꾼 행을 추가 | 같은 사건·시각에 0.92와 9.00이 충돌함 | 해당 사건의 요약을 보류하고 원문 확인 |
+| 1초 기록을 제거: 0→2초 | 순서는 증가하지만 예상 간격에 빈 구간이 생김 | 누락인지 원문 확인, 임의로 0을 채우지 않음 |
+
+`event_id`의 반복은 한 사건의 여러 시점 기록을 묶는 데 필요합니다. 여기서 중복을 의심하는 기준은 `(event_id, elapsed_seconds)`의 반복입니다. 실제 로그가 여러 센서를 함께 담는다면 센서 식별자까지 필요한지 먼저 확인해야 합니다. 정렬은 순서만 바꾸므로 충돌값을 고르거나 빠진 측정값을 복원하지 않습니다.
+
+원시 근거 메모에는 파일 경로·버전 또는 수집 시각, 원본 행 번호와 사건 식별자를 남깁니다. 파생 표에는 어떤 행을 정렬·제외·보류했는지와 이유를 기록합니다. 예를 들어 A의 1초 값이 충돌하면 원본 CSV의 데이터 행 2(헤더 포함 파일 줄 3)와 추가한 충돌 행을 함께 확인합니다. 원본을 덮어쓰지 않아야 처리 전후를 다시 비교할 수 있습니다.
+
+## 행 수·시간 순서·중복을 나누어 점검하기 {#_5}
 
 문제 상황: 새 로그 표를 받았을 때, 이 표를 바로 샘플 비교 표로 읽어도 되는지 확인합니다.
 
-입력(input): [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv){ .csv-preview }에 저장된 원시 로그 표와 비교 가능한 사건으로 볼 최소 행 수 `minimum_rows_per_event`
+입력(input): [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv)에 저장된 원시 로그 표와 관측점 수 조건으로 사용할 최소 행 수 `minimum_rows_per_event`
 
-기대 출력(output): 같은 표라도 `행 의미`, `묶음 기준`, `시간/순서 열`을 먼저 확인해야 아직 바로 비교할 수 없는 표라는 점이 드러납니다. `minimum_rows_per_event`를 바꾸면 어떤 사건이 충분한 기록을 가진 후보인지도 달라집니다.
+기대 출력(output): 사건별 행 수 조건의 통과 여부를 확인하고, 같은 세 기록의 순서·중복·값·누락을 바꾸었을 때 정렬할지 원문을 확인할지 구분합니다.
 
-확인할 개념: 표를 처음 읽을 때는 계산보다 먼저 `이 행이 샘플 1건인가, 아니면 샘플의 일부 기록인가`를 확인해야 한다. 반복 행 수 기준을 함께 두면 구조 점검이 단순 출력이 아니라 비교 가능성 판단으로 이어진다.
+확인할 개념: 한 행과 한 사건은 다를 수 있다. 행 수 조건 통과는 전체 동작의 완전성이나 비교 가능성을 인증하지 않으며, 시간 순서가 맞아도 중복·누락·조건 차이를 별도로 확인해야 한다.
 
 ```python
-# 새 CSV 표를 처음 받았을 때 열 이름과 값 분포를 먼저 점검하는 예제입니다.
+# 행 수 조건과 시간 순서를 확인하고, 복사본의 중복·충돌·누락에 따른 다음 행동을 비교합니다.
 import csv
 from collections import defaultdict
 from pathlib import Path
@@ -145,13 +161,45 @@ print()
 
 print("4) after regrouping into one row per event")
 for event_id, event_rows in sorted(events.items()):
-    duration = max(row["elapsed_seconds"] for row in event_rows)
+    times = [row["elapsed_seconds"] for row in event_rows]
+    observed_span = max(times) - min(times)
     mean_flow = sum(row["flow"] for row in event_rows) / len(event_rows)
     peak_pressure = max(row["pressure"] for row in event_rows)
     enough_rows = len(event_rows) >= minimum_rows_per_event
     print(
-        f"{event_id}: duration={duration}s, mean_flow={mean_flow:.2f}, "
+        f"{event_id}: observed_span={observed_span}s, mean_flow={mean_flow:.2f}, "
         f"peak_pressure={peak_pressure:.1f}, enough_rows={enough_rows}"
+    )
+
+print()
+print("5) controlled changes to A's first three records")
+base_records = [dict(row) for row in events["A"][:3]]
+cases = {
+    "original": base_records,
+    "reversed": list(reversed(base_records)),
+    "duplicate": base_records + [dict(base_records[1])],
+    "conflict": base_records + [dict(base_records[1], flow=9.0)],
+    "missing": [base_records[0], base_records[2]],
+}
+for name, records in cases.items():
+    times = [row["elapsed_seconds"] for row in records]
+    ordered = all(a < b for a, b in zip(times, times[1:]))
+    same_time = defaultdict(set)
+    for row in records:
+        same_time[row["elapsed_seconds"]].add((row["flow"], row["pressure"]))
+    duplicate_time = len(times) != len(same_time)
+    conflicting_values = any(len(values) > 1 for values in same_time.values())
+    unique_times = sorted(same_time)
+    gap = any(b - a != 1 for a, b in zip(unique_times, unique_times[1:]))
+    if conflicting_values or duplicate_time or gap:
+        next_action = "check_source"
+    elif not ordered:
+        next_action = "sort_copy"
+    else:
+        next_action = "continue_checks"
+    print(
+        f"{name}: ordered={ordered}, duplicate_time={duplicate_time}, "
+        f"conflict={conflicting_values}, gap={gap}, next={next_action}"
     )
 ```
 
@@ -180,21 +228,35 @@ A at 7s: flow=1.6
 ... 28 more time-point rows
 
 4) after regrouping into one row per event
-A: duration=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
-B: duration=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
-C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
+A: observed_span=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
+B: observed_span=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
+C: observed_span=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
+
+5) controlled changes to A's first three records
+original: ordered=True, duplicate_time=False, conflict=False, gap=False, next=continue_checks
+reversed: ordered=False, duplicate_time=False, conflict=False, gap=False, next=sort_copy
+duplicate: ordered=False, duplicate_time=True, conflict=False, gap=False, next=check_source
+conflict: ordered=False, duplicate_time=True, conflict=True, gap=False, next=check_source
+missing: ordered=True, duplicate_time=False, conflict=False, gap=True, next=check_source
 ```
 
-이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 1단계와 2단계에서 먼저 보이는 것은 `행 수 36`보다 `event_id 수 3`이 작고, 같은 `event_id`가 여러 줄 반복된다는 사실입니다. 여기서 조작할 값은 `minimum_rows_per_event`입니다. 값을 `12`로 두면 A와 B는 충분한 기록을 가진 후보가 되지만 C는 부족한 후보로 남습니다. 값을 `6`으로 낮추면 C도 후보가 되지만, 더 짧은 기록에서 만든 평균을 같은 무게로 비교해도 되는지는 다시 검토해야 합니다. 이 신호를 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있습니다. 그래서 3단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`와 `C 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 4단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
+1·2단계의 `has_time_order`는 **파일에서 읽은 순서가 각 사건 안에서 엄격히 증가하는지**만 검사합니다. 같은 시각이 반복되거나 역순이면 `no`가 되지만 두 원인은 다릅니다. 0→2초처럼 중간 기록이 빠져도 증가 조건은 통과합니다.
 
-같은 결과를 형식과 품질 관점으로 다시 읽으면 더 분명해집니다. `event_id`가 반복된다는 사실은 형식 정합성 차원에서 `한 샘플을 묶을 키가 있다`는 뜻이고, `rows per event`가 서로 다르다는 사실은 첫 품질 점검 차원에서 `샘플마다 기록 길이가 다르다`는 신호입니다. 이 차이를 초기에 적어 두어야 나중에 평균을 비교할 때도 `왜 어떤 샘플은 더 적은 근거 위에 서 있는가`를 함께 읽을 수 있습니다.
+`minimum_rows_per_event`를 12로 두면 A·B가, 6으로 낮추면 A·B·C가 행 수 조건을 통과합니다. `enough_rows=True`는 이 조건 하나의 결과입니다. 중복 행도 개수에는 포함되므로 충분한 고유 관측점이나 동작 전체 관측을 뜻하지 않습니다. 사건 시작·종료 기록과 측정 간격·운전 조건은 별도로 확인해야 합니다.
 
-형식 정합성과 첫 품질 점검을 먼저 적는 이유는, 새 표를 받자마자 평균이나 모델 이름부터 붙이지 않고 `지금 손에 든 행이 무엇이며, 무엇이 아직 비교를 막고 있는가`를 먼저 보게 하기 위해서입니다. 키 형식, 시간 순서, 반복 길이, 결측과 고아 행이 초기에 정리되어 있어야만 그다음에 샘플을 다시 묶고 비교 가능한 열을 만들 때도 같은 표를 흔들리지 않는 기준으로 읽을 수 있습니다.
+4단계의 `observed_span`은 마지막 관측 시각에서 첫 관측 시각을 뺀 길이입니다. A의 `17s`는 0~17초를 관측했다는 뜻이며 실제 동작이 17초 만에 끝났다는 뜻은 아닙니다. 평균 유량과 최대 압력도 현재 기록의 요약일 뿐, 바로 비교 가능하다는 판정은 아닙니다.
+
+5단계는 A의 처음 세 기록만 복사한 실험입니다. `reversed`는 순서만 바뀌므로 `sort_copy`, 중복·충돌·누락 사례는 `check_source`가 됩니다. 충돌 사례는 원문을 확인할 때까지 요약을 보류합니다. `gap`은 이 실험의 1초 간격 가정을 검사하며, 시작 전·끝난 뒤 누락이나 셀의 결측값까지 검사하지 않습니다. `continue_checks`도 전체 품질 검수 통과를 뜻하지 않습니다.
+
+직접 점검하려면 `conflict`에 추가한 유량을 9.0에서 원래 값 0.92로 바꿔 보세요. `conflict`는 False로 바뀌어도 `duplicate_time`은 True이므로 여전히 원문 확인이 필요합니다. 이어 `missing`에 빠진 1초 기록을 복구하면 `gap`은 False가 됩니다. 이처럼 같은 `순서 이상` 신호라도 원인과 다음 행동을 나누어 적어야 합니다.
 
 ## 체크리스트
 
-- CSV의 한 행 의미와 event_id별 기록 수를 확인했는가?
-- 시간 열이 존재하는 것과 실제로 순서가 맞는 것을 구분하고, 최소 기록 수를 바꾼 결과를 설명했는가?
+- 새 표의 행 의미·식별자·시간 열·비교 조건·원시 근거를 다섯 줄로 적었는가?
+- 사건 식별자의 반복과 같은 사건·시각의 중복을 구분할 수 있는가?
+- 역순·충돌값·누락 사례에 대해 정렬·요약 보류·원문 확인 중 다음 행동과 이유를 설명할 수 있는가?
+- 행 수 조건 통과와 관측 구간 길이를 전체 동작 관측의 증거로 오해하지 않는가?
+- 수정 전 기록을 찾을 파일·행 위치와 파생 표의 처리 이력을 남겼는가?
 
 ## 출처와 참고 자료
 

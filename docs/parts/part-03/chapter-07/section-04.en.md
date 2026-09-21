@@ -1,83 +1,60 @@
 # P3-7.4 By What Range and Conditions Should We Set the Baseline
 
 > Section ID: `P3-7.4`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Once we understand that a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is needed, the next question immediately follows. `Then what exactly should count as usual?` This is where readers easily get stuck again. If we gather past ranges at random for comparison with the recent range, a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) may still be produced, but the interpretation will shake easily. So it is better to hold on first to the order: `write the comparison question first`, `leave only the candidates that fit that question`, and `among the remaining candidates, choose the bundle that matches the current sample most closely in condition`.
+A baseline is not constructed by choosing past values that resemble the current result. **Define the comparison question first, specify which conditions must match and which may differ, then select candidates.** More records or more recent dates alone do not make a reference appropriate.
 
-A baseline should be not `just any bundle of past data`, but `a comparison range produced under the same kind of conditions as the sample we are looking at now`. If the action type is not the same, the operating mode is not the same, the range length is not the same, or at least the operational conditions are not similar, then even if a difference value appears, it becomes hard to say what that difference means.
+## Compare Three Candidates Without Seeing Their Results
 
-| Poorly chosen baseline | Why it becomes a problem |
-| --- | --- |
-| A past average mixed across different process types | A difference between originally different structures gets read as change |
-| A usual value built from only the most recent 3 cases | The baseline itself shakes too easily |
-| A baseline that groups together cases with very different action lengths | Even the same feature column now has a different interpretation basis |
-| A baseline that mixes before-maintenance and just-after-maintenance states | Operational-state change and structural change become mixed together |
+Consider a fictional machine M1 maintained on September 18, performing type-A actions in standard mode. Recent data consists of twenty actions completed on September 20. The feature is per-action late mean flow in L/min, averaged with equal weight per action. Candidate means are deliberately omitted.
 
-So a baseline is not simply `an old average`. A baseline is the comparison counterpart that decides against what the current sample should be read. That is why matching the conditions that make the current sample comparable comes first.
+| Candidate | Period and operating state | Conditions | Measurement definition | Count |
+| --- | --- | --- | --- | ---: |
+| P | September 19, after maintenance | M1, type-A, standard mode | Same sensor location, calibration, late segment, and missing-data rules as recent data | 3 |
+| Q | September 1–17, before maintenance | M1, type-A, standard mode | Confirmed to match the recent measurement definition | 200 |
+| R | September 19, after maintenance | M1, type-B, high-load mode | Same units, but a different late-segment duration | 200 |
 
-## A Generalized Order for Setting the Baseline
+If maintenance changed measurement location or calibration, Q's matching-definition assumption must be checked again. Identical L/min units are insufficient. All three candidate periods also precede the recent period.
 
-If we shorten the order just mentioned into a table, it becomes like this.
+## Separate Post-Maintenance Monitoring from Before–After Comparison
 
-| Step | What should be decided first | The error this step is trying to avoid |
+The first question is “Has recent type-A standard-mode operation changed from earlier post-maintenance operation?” P is a provisional candidate matching this question. Q represents the pre-maintenance state, and R differs in process, load, and segment definition. **P's three records are not inherently wrong; they provide limited evidence for what is usual after maintenance.**
+
+If P is used, report “twenty recent actions compared with three post-maintenance actions,” with the limitation. Those three may be coincidentally similar or concentrated in particular conditions; do not call them an established stable norm. Without grounds for broadening conditions, collect more data or defer fixing the baseline rather than silently mixing Q and R. This does not defer responses required by existing operating limits.
+
+The second question is “How do observed values differ before and after maintenance?” Now Q is an intentional candidate. The pre-maintenance difference is central to the question; requiring it to match would remove the comparison of interest. Twenty recent actions can be compared with two hundred earlier ones, while checking other changes in process, load, measurement definitions, and observation scope.
+
+A calculated before–after difference is not automatically a causal maintenance effect. Changes in materials, workload, or environment may contribute. Record an observed before–after difference separately from a claim that maintenance caused it.
+
+| Comparison question | Candidate to consider | Limitation to retain |
 | --- | --- | --- |
-| Decide the comparison question | Against what past state should the current state be compared? | The error of choosing an average before a question exists |
-| Leave only comparable candidates | Are they the same sample unit, the same condition, the same operational stage? | The error of reading between-group differences as change |
-| Choose the closest candidate | Among the remaining candidates, which bundle is most like the current sample? | The error of leaving good candidates but still falling back to a convenient broad average |
+| Post-maintenance monitoring | P | Whether three records represent usual post-maintenance operation is unresolved |
+| Before–after comparison | Q | Check other condition changes; causal effect is unestablished |
+| Type-A versus type-B comparison | R may be considered as a separate group | State that the question changed to a between-group comparison |
 
-These three steps do not need strong methodology names. The key point is that `the baseline is also part of comparison design`. Only when the comparison question comes first can we choose a reference range. Only when comparable candidates remain can we decide against what the current sample should be read.
+## Equal Counts or Nearby Dates Are Not Selection Rules
 
-## Conditions That Should Be Matched First
+Twenty recent and two hundred reference actions need not have equal counts. Match sample units and averaging rules, and report both counts. Two hundred records concentrated on one date or source process may not represent broader conditions. Three records are not worthless for every purpose either. This table cannot establish one universal sufficient sample count.
 
-When building a baseline, it is safer to check the four conditions below first.
+If selecting the “closest candidate,” explain the meaning of closeness. R's nearby date does not make it match the original type-A question. Selecting a candidate because its mean resembles the current mean can remove the difference being investigated. Record the question, inclusion criteria, period, aggregation method, and exclusion reasons before examining results.
 
-1. Is it the same sample unit?
-2. Is it the same process type or operating mode?
-3. Is there enough sample count for comparison?
-4. Is it from before any major operational-state change?
-
-If we reduce these four into a table, it becomes like this.
-
-| Condition to match first | Why it is needed |
-| --- | --- |
-| Sample-unit match | Because if one full action and time-point rows get mixed, the interpretation of the difference value breaks |
-| Process/condition match | So that originally different groups are not read as if they were change |
-| Enough sample count | So that the baseline itself does not fluctuate too much |
-| Operational-state match | So that equipment replacement, policy changes, or before/after maintenance are not carelessly mixed together |
-
-This does not mean we should first learn complicated statistical techniques. At this stage, simply matching `what counts as the same group` already reduces many comparison errors.
-
-NIST's explanation of control charts says that to regard a process as having reached a state of control, the samples should come from `presumably the same essential conditions`. The expressions in this section such as `same sample unit`, `same process/operating condition`, and `same operational state` are a restatement of that wording in the data-comparison context of this book. In other words, the generalization used here goes only as far as `build a comparable reference under the same conditions`.
-
-## The Same Conditions Matter Before the Same Average
-
-A common mistake when choosing a baseline is to group together cases that simply look similar in average. But even if the averages look similar, that does not mean they belong to the same comparison group. If the process type differs, the action length differs, or the operating mode differs, then the same average can still mean a completely different structure.
-
-| Samples currently being examined | More suitable baseline candidate | Less suitable candidate |
-| --- | --- | --- |
-| A summary table of `type-A` actions | A collection of past `type-A` action summaries | An overall mean mixing `type-B` and `type-C` |
-| An aggregate of the latest 20 actions | Enough past actions using the same conditions and aggregation rules | A small group of only three actions |
-| Actions after maintenance | A stable post-maintenance period | A long-term pre-maintenance mean |
-
-The key point of this table is not `do the numbers look similar?` but `are the comparison conditions the same?` In the end, choosing a baseline is not the act of collecting cases with similar averages. It is the act of leaving a reference group that can answer the same question as the current sample.
-
-It is possible to compare the latest 20 actions with 200 past actions. Matching sample definitions and calculation methods matters more than equal counts; record both counts separately. Choosing a past period because its mean resembles the recent mean can erase the very difference being investigated. Do not select candidate conditions opportunistically after seeing outcomes. If the question concerns maintenance effects, compare before and after maintenance, while also checking for other changes in operating conditions.
-
-## Narrowing Baseline Candidates by Conditions {#looking-through-a-small-diagram}
+## Record Selection Reasons and Remaining Uncertainty {#looking-through-a-small-diagram}
 
 ```mermaid
 --8<-- "assets/part-03/chapter-07/p3-7-4-mermaid-01-en.mmd"
 ```
 
-This diagram shows that baseline selection is not the act of picking one average value. It is a judgment that filters comparison conditions step by step. In other words, it is less about printing a candidate table and more about holding on to the selection structure that checks in sequence `same sample unit`, `same process condition`, `enough sample count`, and `same operational state`.
+Correct choosing Q for post-maintenance monitoring because “two hundred records make it reliable.” The answer is: “It has more records but represents the pre-maintenance state, which does not match the post-maintenance reference question. Use P provisionally with its three-record limitation, or collect more post-maintenance data.”
 
-So this section is more accurately read not as a list of field rules, but as the problem of [selecting a comparable reference group](/AiBook/en/reference/concept-glossary-alpha/b/#baseline). Choosing a baseline is not `picking one past average`, but a process of narrowing down by condition to a reference group that is comparable with the current sample.
+Suppose you later learn that P's mean differs from the current mean while R's resembles it. May that alone justify switching to R? No. Using R requires an explicit new question and design that accommodate process and load differences. Selection fixes the meaning of the comparison population; it is not a procedure for producing a preferred difference.
 
 ## Checklist
 
-- Did you explain why you chose the candidate baseline's operating conditions and period?
-- Can you explain the problem with choosing a baseline because its mean resembles the current mean?
+- Did you define the question and inclusion criteria before seeing results?
+- Can you explain P/Q/R selection or exclusion through period, conditions, and measurement definitions?
+- Can you distinguish monitoring after maintenance from comparing before and after?
+- Did you record small-sample uncertainty and representativeness limits of larger samples?
 
 ## Sources and Further Reading
 

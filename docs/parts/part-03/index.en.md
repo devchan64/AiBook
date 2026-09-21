@@ -1,98 +1,69 @@
 # Part 3. Data Modeling
 
 > Section ID: `P3-index`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-The first plan for this opening page is to separate `source data`, `sample unit`, `features`, `baseline`, `interpretation boundary`, and `prediction candidate` in order. Each Section reinforces the flow in which data does not become a learning problem immediately, but is organized into a problem through comparable structure and record language.
+Part 2 rebuilt the foundations for reading mathematics, Python, arrays, tables, and graphs. Part 3 uses those tools to learn **how to understand and handle data before choosing a model**. When we say “give data to AI,” we first ask what was recorded, what was grouped into one case, and which information was retained. These choices explain what a model sees and what it is meant to predict.
 
-In Part 2, we rebuilt the foundations for reading math, Python, arrays, tables, and graphs. But being able to read computational tools again does not immediately mean you can build an AI problem well. When you first face real source data, the first question is usually more similar to `what should count as one item of data?` than to `which model should we use?` In the overall structure of this book, Part 2 and Part 3 together form the basic-skills recovery range, and Part 3 is responsible for `rebuilding data-science problem structure`.
+In this book, `data modeling` means organizing records into samples, tables, features, and targets for a question. A sample is one case considered in analysis or learning; features are input information describing that case. This educational scope is broader than database storage design, but does not replace the definition of data science as a whole. Part 3 also covers meaning, quality, representation, and interpretation of comparisons.
 
-The representative case in Part 3 is described in a structure more general than any one device name. There is one automatically executed action, and that action leaves both the time series of control parameters used in the action and the time series of sensor observations captured during the action. Several actions can then be grouped again and compared as a recent segment versus a baseline. In that setting, one measurement at one moment can be treated as a sample, one full action can be treated as a sample, or a recent segment made of several actions can be treated as a sample. Depending on that choice, the dataset that gets built, the comparison method, the interpretable questions, and the operational flow structure around how many branches of real action follow can all change. Even with the same source data, the AI problem changes completely depending on how you group it, what you keep, what you compare it against, and what action-flow structure you pass it into.
+## What Can the Same Sensor Records Tell Us?
 
-The way this representative case evolves through the Part can first be held with the reference table below.
+Imagine equipment repeatedly performing an operation that lets water flow. Each run records sensor flow readings, measurement times, and equipment settings. If flow appears to fall near the end of recent records, check the following before calling it a failure.
 
-| Stage | What one row means | What this stage mainly keeps |
+| Question | What to inspect in this example |
+| --- | --- |
+| What was recorded? | Is it water volume or volume per unit time? When and under which settings was it measured? |
+| How is it grouped? | Group records from start to finish into one case to inspect change within an operation. |
+| What is retained? | To inspect the late decline, retain time order and changes in that interval. Check what disappears when an entire operation becomes one number. |
+| What can be known? | Compare with past operations using the same settings and measurement method. Distinguish an observed difference from an explanation of failure causes. |
+
+If the final sensor records are missing, judging the decline is difficult. If equipment settings differ between past and recent runs, examine that difference too. This is why data quality and observation conditions matter. Comparing observations consistently requires numbers, so later sections select and calculate **metrics** suited to the question. A metric quantifies a particular aspect of a phenomenon; beyond its name, explain what was counted and how.
+
+Predicting later failures also requires outcomes for learning. For example, define the outcome as “Did a failure occur within seven days after the operation, and was it subsequently confirmed?” A **label** is the outcome supplied as the answer during learning. A record of human review and a confirmed failure record differ, so choosing between them changes the learning target.
+
+This is a fictional teaching example, not an established failure cause or operating criterion. [P3-1.1](chapter-01/section-01.en.md) examines concrete metrics and calculations alongside the records.
+
+## Six Connected Questions for Working with Data
+
+Part 3's nine chapters connect the following questions. Follow how earlier choices enable later inputs and interpretations.
+
+| Question | What you will learn | Chapters |
 | --- | --- | --- |
-| Source log | one record during an action | sensor values, control values, time order |
-| Action summary table | one action run | mean, slope, variability, segment difference |
-| Recent-vs-baseline comparison table | a state comparison built from several actions | recent mean, baseline mean, difference value |
-| Operational output | a result read by a person or handed to the next step | warning, review candidate, target-label candidate |
+| What part of reality was recorded? | Read record meanings, measurement conditions, timing, and units. | Chapters 1–3 |
+| What counts as one case? | Choose samples and organize rows, columns, and time windows around the question. | Chapters 2–5 |
+| How far can the records be trusted and used? | Check missing values, duplicate records, insufficient conditions, and measurement differences. | Chapters 4–6 |
+| Which information is kept or lost? | Compare what summaries and time-ordered representations preserve. | Chapters 5–6 |
+| What is compared, and how far can it be interpreted? | Choose metrics and references; distinguish observations from causal judgments. | Chapters 7–8 |
+| What will AI see and predict? | Separate inputs, targets, labels, availability times, and evaluation subjects. | Chapter 9 |
 
-This book extends the scope of data modeling to designing input and comparison structures for analytical problems. It means representing real-world source data as samples, features, baselines, and output structures that people can compare and AI can use. More precisely, it is less about `reading a given table` than about deciding `which event counts as one sample`, `which summary tables to construct from raw logs`, `which features and comparisons to retain`, `how cautiously to interpret them`, and `what should remain a comparison report versus become a prediction problem`.
+This is the book's learning sequence, not a mandatory one-pass procedure for every analysis. Missing records discovered during comparison may require revisiting the question or sample construction.
 
-Part 3 re-bundles topics that often appear separately in a data-science curriculum, such as data wrangling, feature engineering, sample design, inference, and problem framing, into one relearning flow. It does not list those items as a sequence of named procedures. Instead, it follows one case and checks in order `what becomes a sample`, `what gets regrouped into a table`, `what gets compared`, and `how far we can speak`. So the focus of Part 3 is on establishing `problem representation structure` before algorithms.
+## Raw Records Are Datasets; Summarization Is a Choice
 
-The following table maps this book's explanatory flow to related standard concepts. It does not imply that this order is a mandatory procedure shared by every analysis.
+Raw logs are datasets too. Having a collection of data differs from being ready to use it for the current question. Even time-ordered sensor records need checks of their operation and interval, missingness, and links to outcomes.
 
-| Bundle in this Part | Corresponding standard concepts | Representative evidence axis |
-| --- | --- | --- |
-| Regrouping source data | data wrangling, sample design | W3C PROV, Fayyad/KDD |
-| Building features and baselines | feature engineering, labeled example, base period | Google ML Glossary, BLS |
-| Wrapping Up interpretation strength and output boundaries | problem framing, conservative interpretation, output structure | Google ML Glossary, NASEM |
+The book follows an example that turns sensor records into per-operation summaries and compares operations against a historical reference, or baseline. We inspect how a row's meaning changes and how to trace it back to original records. A summary table is one representation for explaining comparisons.
 
-Within Part 3, P3-1.1 first defines the broad scope of `data modeling`, and P3-1.2 establishes its sequence of decisions. Later sections retain the minimum connections needed for their questions instead of repeating detailed definitions. Consult the glossary when needed for [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#target).
+Depending on the question and model, inputs can also be raw time series, images, or documents. Not everything must become manually calculated summaries. Ask what one image contains, or whether a document or a portion of it is one case. Chapter 6 examines the relationship between human-designed features and representations learned by models.
 
-Part 3 begins by establishing what data modeling should achieve and in what order decisions are made. It then examines why stored records need to be reorganized for an analysis purpose, defines rows and samples, and regroups raw logs into comparable tables. Next, it designs features and intermediate representations, separating identifier, comparison, and candidate-target columns. It builds comparisons between recent periods and baselines, then sets interpretation limits for small samples and uncertain repetition. Finally, it distinguishes problems that should remain comparison reports from those suitable for prediction and checks input/outcome and time boundaries.
+## Inputs and Targets to Hand Off to Part 4
 
-## The Role Data Modeling Takes On
+Part 3 reads and organizes data, then checks what can be said from it. The result may remain a human-readable comparison report or a list of cases to review first. If prediction is needed, specify the input information and the outcome to predict.
 
-- Prevent data modeling from being misunderstood as database design alone.
-- Build familiarity with the flow that re-expresses source data as samples, summary tables, features, and baselines.
-- Show that data preparation, feature engineering, conservative interpretation, and problem framing form one connected flow.
-- Help the reader learn which problem structures should be confirmed first, without mixing comparison reports and prediction problems.
+Part 4 builds on these inputs and targets to study machine learning and evaluation. Part 3 separates information known at prediction time from outcomes confirmed later, and specifies the subjects on which performance should be assessed. Detailed learning algorithms and evaluation-data splitting continue in Part 4.
 
-## Why It Is Needed
+## Checklist
 
-- Because raw logs can be a dataset while still requiring sample and column definitions suited to the analysis purpose.
-- Because without a fixed sample unit and comparison reference, explanations of feature and label become unstable.
-- Because warning candidates and confirmed diagnosis, and baseline comparison and absolute-value judgment, are often confused.
-- Because even when the average is the same, segment pattern and variability can differ, and it is easy to conclude too quickly from one representative value.
-- Because if sample structure and input boundaries remain vague, later learning explanations also tend to leave only names without a problem structure.
+- Can you explain what is recorded, grouped into a case, and retained in the sensor example?
+- Can you state what metrics compare, which judgment limits quality checks reveal, and which learning target labels support?
+- Can you distinguish raw records being a dataset from readiness for the current question?
+- Can you suggest a boundary or piece of context to check when applying the same questions to an image or document?
 
-## Main Questions
+## Sources and References
 
-- What role does data modeling play in the overall data-science workflow?
-- Why must stored records be reorganized for the analysis purpose?
-- How do a row and a sample differ, and which table structures are needed?
-- What are features and intermediate representations designed to preserve?
-- Why should baselines and comparison structures be defined before models?
-- How far can we interpret results given sample counts and repetition?
-- What should remain a comparison report, and what should become a learning problem?
-
-## Flow for Building Problem Structure
-
-Part 3 proceeds through 9 chapters, but the flow can be summarized in three bundles.
-
-1. Fix the role of data modeling and its working order.
-2. Rebuild storage structure into a comparison structure with samples, tables, features, and baselines.
-3. Set interpretation boundaries, then separate comparison reports from prediction problems and confirm the input/output boundaries.
-
-This order matters because if you talk about feature and label before turning storage structure into problem structure, the terms float in the air, and if you bring up prediction problems before interpretation boundaries are fixed, model names become visible before data structure. The table below shows again, in shorter form, what each bundle fixes.
-
-| Flow bundle | Question fixed here | Structure left behind |
-| --- | --- | --- |
-| Fixing role and order | What does data modeling take responsibility for, and in what sequence does it decide? | the position of problem-structure design, the map of working order |
-| Rebuilding comparison structure | Into what sample, table, feature, and baseline structure should stored records be read again? | dataset candidates, summary tables, feature columns, baseline comparison tables |
-| Wrapping Up interpretation and problems | How far can we speak, and what should still remain a report? | conservative statements, operational outputs, input/output boundaries, time boundaries |
-
-The questions repeated through Part 3 can also be grouped as follows: what should count as one sample, into what table raw logs should be regrouped, which features and baselines should remain, what should stay as a comparison report and what should rise into a target candidate, and whether the input structure and observation boundaries are confirmed. Each chapter is responsible for making one of those question bundles clearer.
-
-## Boundaries Data Modeling Settles and Questions Left Open
-
-Part 3 covers sample units, raw logs and summary tables, features and intermediate representations, baseline comparison, sample size and repeatability, and the boundary between warning candidates and label prediction.
-
-By contrast, the learning procedure of specific machine-learning algorithms, the detailed procedure of train/validation/test splits, and complex time-series deep-learning structures themselves are not the center here.
-
-The reason for this scope limit is simple. The responsibility of Part 3 is to clarify first `what data should be built into what structure`.
-
-## Understanding That Should Remain After Part 3
-
-Even when a dataset is already available, check whether its comparison and learning structure fits the current question. Sample structure, features, target candidates, and time boundaries must be organized first, so that later learning explanations can also be read with `what is being predicted` and `what input is being used` kept clear.
-
-## Sources and Further Reading
-
-- National Academies of Sciences, Engineering, and Medicine, *Data Science for Undergraduates: Opportunities and Options*, 2018. Because it explains data collection, cleaning, representation, modeling, and interpretation as one connected data-science flow, it supports the curriculum perspective on this page that places Part 3 as a `problem-structure recovery` section. [https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options](https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`. Because it provides role distinctions for core terms such as sample, feature, label, and label leakage, it supports the explanation that Part 3 must fix sample structure and input/output boundaries before model names. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, `PROV-Overview`. Because it treats provenance and derivation together, it supports the common premise of Part 3 that when source data is rebuilt into problem-representation structures, the rules that produced derived tables must remain traceable. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Usama Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `Knowledge Discovery and Data Mining: Towards a Unifying Framework`, Microsoft Research publication page, 1996. This classic KDD reference supports treating source-data regrouping as a separate axis in the data preparation and discovery flow. [https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/](https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Consumer Price Index: Concepts`, Handbook of Methods. Its explanation of CPI index values and base periods is used as a reference for the idea of fixing a base period before comparing current values. [https://www.bls.gov/opub/hom/cpi/concepts.htm](https://www.bls.gov/opub/hom/cpi/concepts.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [National Academies, Data Science for Undergraduates: Opportunities and Options (2018)](https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options){: target="_blank" rel="noopener noreferrer" }. Background for connecting collection, preparation, representation, modeling and interpretation; the six-question arrangement is editorial. / 2026-07-20
+- [Google, Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }. Definitions of examples, features and labels. / 2026-09-19
+- [W3C, PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. Provenance and derivation for tracing transformed tables to source records. / 2026-09-19
+- [Fayyad, Piatetsky-Shapiro and Smyth, Knowledge Discovery and Data Mining: Towards a Unifying Framework (1996)](https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/){: target="_blank" rel="noopener noreferrer" }. Background on data preparation and subsequent discovery. / 2026-07-20
+- [U.S. Bureau of Labor Statistics, Consumer Price Index: Concepts](https://www.bls.gov/opub/hom/cpi/concepts.htm){: target="_blank" rel="noopener noreferrer" }. Reference for comparing current values against a defined base period. / 2026-07-20

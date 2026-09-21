@@ -1,0 +1,20 @@
+[
+  {
+    "repo": "vantagewithai/SCAIL-2-GGUF-ComfyUI",
+    "revision": "8d99a4251592b5e834169bf9faeebeb36c553e07",
+    "gated": false,
+    "snapshot": ".tmp/download/huggingface/hub/models--vantagewithai--SCAIL-2-GGUF-ComfyUI/snapshots/8d99a4251592b5e834169bf9faeebeb36c553e07",
+    "files": [
+      {
+        "path": "README.md",
+        "bytes": 2684,
+        "sha256": "4b0f07966ee323ded721eaa3ad450f9bb6b116ab5a23465ca52a628229cddff0"
+      },
+      {
+        "path": "wan2.1_14B_SCAIL_2-Q4_K_M.gguf",
+        "bytes": 11456036512,
+        "sha256": "b620205b2a757a872a80fc63c55b3665d49ae533ae6d8026cf04f93e73f285e2"
+      }
+    ]
+  }
+]

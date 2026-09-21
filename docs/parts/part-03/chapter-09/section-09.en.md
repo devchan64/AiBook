@@ -1,65 +1,74 @@
 # P3-9.9 How Do We Distinguish the Actual Target from a Proxy Target
 
 > Section ID: `P3-9.9`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-If you decide to use a proxy target, keep notes such as `business_goal`, `proxy_target`, `proxy_reason`, `proxy_gap`, and `review_owner` in the table. These fields keep the target name from hardening into the real goal and help you later separate what you directly predict from what you predict as a substitute when the problem type moves toward prediction.
+[P3-9.8](section-08.en.md) separated model scores from review-assignment policies. We must also check whether the value a model predicts well is the outcome we actually want to know. Even if a model was intended to reduce failures, training it against review requests directly teaches it to predict requests, not failures themselves. A column used in place of the desired outcome is a [proxy target](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-proxy-target).
 
-In real data, the result you truly want to predict is often not directly visible. So it becomes tempting to use an intermediate operational judgment or a substitute column as a temporary [target](/AiBook/en/reference/concept-glossary-alpha/t/#target). The distinction needed here is between an [actual target](/AiBook/en/reference/concept-glossary-alpha/a/#glossary-actual-target) and a [proxy target](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-proxy-target). You should first write whether the target currently in use is the result you truly want to know, or a substitute column used in its place.
+## Separate Failure Reduction, Failure Prediction, and Review Requests
 
-| Target type | Meaning |
-| --- | --- |
-| [Actual target](/AiBook/en/reference/concept-glossary-alpha/a/#glossary-actual-target) | The result you truly want to know and ultimately want to reduce |
-| [Proxy target](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-proxy-target) | A substitute column used because the actual target cannot be seen directly or is seen too late |
-
-For example, if `actual state confirmation` cannot be observed directly, `review needed` may be used first as a target candidate. But the two do not mean the same thing. A proxy target can become a starting point, but it does not automatically become the same thing as the actual target.
-
-| Note to write first | Why it is needed |
-| --- | --- |
-| What is the result you really want to know? | To avoid hiding the original purpose of the problem |
-| Why is the current column a proxy target? | To leave the distance and limitation relative to the actual target |
-| How is it connected to the actual target, and at what distance? | To preserve the limitation of the proxy target and its distance from the actual target |
-
-## Why This Distinction Changes the Problem Type Itself
-
-The difference between an actual target and a proxy target does not end as a naming difference. Once what you are really predicting changes, the decision about whether the current problem should remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), become a [review-candidate](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) selection problem, or be raised into a [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) problem also changes with it.
-
-| What can actually be seen now | More natural problem type | Why |
+| Level | Question in this example | Required records |
 | --- | --- | --- |
-| The actual target is directly visible | Predict the actual target | Because inputs and results can be tied directly to the same question |
-| The actual target appears late and only a proxy column is visible first | Predict the proxy target or treat it as a review-candidate problem | Because the value being predicted now is different from the value you truly want to know |
-| Both the actual target and the proxy column are weak | Keep it as a comparison report or a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) | Because even the choice of which result column to use is not yet sufficiently settled |
+| Ultimate purpose | We want fewer failures in operation | Actual failures, operating conditions, interventions, and comparison evidence |
+| Outcome we want to predict directly | Will a failure occur within seven days of prediction? | Failure and maintenance records with an explicit observation window |
+| Currently observable proxy | Did a person request additional review? | Request decision, reviewer, time, and judgment criteria |
 
-In other words, the moment you use a proxy target, you must distinguish between `this problem is solvable` and `this problem is directly solving the original goal`. Even if it looks like a prediction problem, it may actually be predicting `a proxy judgment` rather than `the actual target`. If that difference is not written down, it becomes unclear later what the score is really measuring.
+“Reduce failures” is an operational objective; `failure_within_7d` is the outcome column to predict. `review_requested` is an intermediate human judgment. A request does not confirm failure, and no request does not confirm absence of failure. Combining these questions under one name obscures what the model does well.
 
-## One Scene at a Time
+## Revisit the Same Three Subjects When Outcomes Arrive
 
-Suppose the result you truly want to know is `final state confirmation`, but the only thing observable right now is `review_needed`.
+The following fictional equipment IDs A, B, and C are local to this section. Each sample describes one piece of equipment at `2026-09-01 10:00 KST`, using only inputs available then. We are considering review requests recorded at 10:20 that day as proxy labels. `review_requested=1` means a request was made; 0 means the reviewer completed this decision and explicitly recorded no request. Missing records or unreviewed cases do not become 0.
 
-| event_id | recent_diff | repeatability | review_needed | final_status |
-| --- | --- | --- | --- | --- |
-| A | -0.31 | high | 1 | not yet available |
-| B | -0.05 | low | 0 | not yet available |
-| C | -0.28 | high | 1 | not yet available |
+The desired outcome follows `failure-v1` in [P3-9.7](section-07.en.md): an equipment fault prevented completion of a scheduled operation, with its cause confirmed in maintenance records; planned stops are excluded. The outcome window is **at or after September 1 at 10:00 and before September 8 at 10:00**. Initially, outcomes for this window are unconfirmed for all three subjects.
 
-In this table, the prediction problem you can build right now may be `review_needed`. But that is not the same thing as directly predicting `final state confirmation`. The problem defined here is `does this need review`, not `what will the final state be`. Keeping the proxy-target label makes it explicit whether the current problem type is `actual-target prediction` or `proxy-column prediction`.
+| Equipment | `review_requested` at September 1, 10:20 | Subsequently confirmed `failure_within_7d` | Confirmed course of events |
+| --- | ---: | ---: | --- |
+| A | 1 | 0 | Settings adjusted September 1 at 10:30; full-window follow-up confirms no failure |
+| B | 0 | 1 | No separate intervention; failure on September 4 confirmed through maintenance |
+| C | 1 | 1 | No separate intervention; failure on September 5 confirmed through maintenance |
+
+Assume the outcome column was joined at September 8, 11:00, with no gaps in observation or confirmation for these three pieces of equipment in this teaching example. Following only A and C, which received requests, would have missed B's failure. Assessing the proxy requires follow-up outcomes for subjects with and without requests.
+
+A had a request but no observed failure; B had no request but did fail. A's 0 alone does not prove the request was unnecessary. The table lacks the outcome without the adjustment, so this case alone cannot establish that the adjustment prevented failure either. This is the distinction between observed outcomes and intervention effects discussed in [P3-8.7](../chapter-08/section-07.en.md).
+
+## Predicting Every Proxy Label Does Not Mean Predicting Every Failure
+
+Suppose a hypothetical model correctly predicts all three request labels: 1, 0, 1. Its accuracy against requests is `3 / 3 = 100%`. If we simply rename those outputs failure predictions, only C matches the actual outcomes 0, 1, 1, giving `1 / 3 ≈ 33.3%`.
+
+This is a three-row counterexample, not a model-performance estimate or a general rate. It shows that what an evaluation means depends on the answer used for comparison, even with unchanged outputs. Accurate failure prediction and reducing failures through interventions are also different achievements, so request-prediction scores alone cannot demonstrate failure reduction.
+
+If predicting review workload or assigning reviewers is the direct purpose, `review_requested` can be the proper target for that task. It is a proxy when used in place of failures. Earlier availability alone does not make it an appropriate substitute.
 
 ## Connecting Observable Proxies to the Actual Target {#a-small-diagram}
-
-The moment a proxy target is used, it becomes clearer to reread where `what can be observed now` diverges from `what is truly wanted`.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-9-mermaid-01-en.mmd"
 ```
 
-A proxy target is therefore not a temporary convenient name, but a device that explicitly states that a different observable is being used in place of the original goal. The core here is to leave together `the result you truly want to know`, `the proxy column you can observe now`, and `a record of the distance between them`, so that the limitation of the proxy goal stays preserved inside the structure.
+The connections represent questions and their supporting records, not a causal claim that requests produce failures. When follow-up outcomes arrive, preserve original request labels and join a separate failure-outcome column by equipment ID and prediction time. Retain both the request criteria and the failure definition.
 
-If a provisional label is created by the rule `1 when the input decline rate crosses a threshold`, a model trained on that input is initially reproducing the rule. A high score against provisional labels does not validate real failure prediction. Targeting actual failures requires independently confirmed failure records and an observation period.
+## Turn “Proxy Limitations” into Records to Check
+
+| Handoff note | What to record in this example |
+| --- | --- |
+| `business_goal` | Reduce failures in operation |
+| Outcome to predict directly | `failure_within_7d`, `failure-v1`, seven days including the start but excluding the end |
+| `proxy_target` and `proxy_reason` | `review_requested`; requests are available earlier while failure outcomes remain unconfirmed |
+| `proxy_gap` | A has request 1 and failure 0; B has request 0 and failure 1. Request criteria and interventions may affect the relationship |
+| Additional records to check | Failure and maintenance records for both request groups, observation completion, intervention types and times, request-criteria version |
+| `review_owner` | Assign someone to compare request criteria and follow-up outcomes; fill in their name and role for an actual handoff |
+
+If a rule creates label 1 when an input's decline rate crosses a threshold, a model learning that label from those inputs primarily reproduces the rule. First consider whether the rule can be applied directly. High rule-reproduction scores do not support failure prediction without independently confirmed failure records.
+
+Exercise: If follow-up failure records for B, whose request label is 0, have not yet arrived, may we fill its failure outcome with 0? May we report “all failures predicted” because the model correctly predicted every request?
+
+Answer: Keep B's failure outcome unconfirmed. Request 0 does not substitute for failure 0. We can currently report how well request labels were predicted; evaluating failure prediction requires independently confirmed follow-up outcomes regardless of request status. [P3-9.10](section-10.en.md) continues with late-arriving outcomes and incomplete observation.
 
 ## Checklist
 
-- Did you distinguish provisional rule-based labels from actually confirmed outcomes?
-- Can you explain why reproducing a rule well does not, by itself, validate real failure prediction?
+- Can you write the ultimate purpose, the outcome to predict directly, and the proxy column currently being learned separately?
+- Can you explain why the same 1, 0, 1 matches requests on 3/3 rows but failures on only 1/3?
+- Can you identify follow-up outcome and intervention records for checking the proxy, without turning unconfirmed outcomes into 0?
 
 ## Sources and References
 

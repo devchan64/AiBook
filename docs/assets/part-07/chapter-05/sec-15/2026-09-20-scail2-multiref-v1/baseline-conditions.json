@@ -1,0 +1,136 @@
+{
+  "seed": 23123134,
+  "cfg": 5.0,
+  "steps": 40,
+  "sampling_shift": 3.0,
+  "frames": 33,
+  "fps": 20,
+  "resolution": [
+    704,
+    704
+  ],
+  "prompt_cache_sha256": "37f66c3b2202367ac7d78909eb35ddb664f703ac649e52602b4e232d318246c6",
+  "inputs": {
+    "reference-512.png": "1f5613b4ad855f5ec3701e96341f1cf0bce14eef16c35ccd0e78c0be0105a458",
+    "poses/frame_000.png": "61d8645bc09698fc42ebfcd749a20172c68421a221eb247283f96085dbc225dc",
+    "poses/frame_001.png": "e8a8c9cc5fae05f3dd45a84cc43018588b878b9a7bd5e4cc33d31273c5023801",
+    "poses/frame_002.png": "8d503cebbaf2e0cd3bc502e960e0a7617816053acc46b8f5154722ab42be4079",
+    "poses/frame_003.png": "d709feb526ee600fb0a5e4932539275a72e2c10d4d565a01453eecdb0e8973ce",
+    "poses/frame_004.png": "0328d77dc27b697f319cbcd1dbb23b058dede5cfbcb1b802ac3e94cc97f954cd",
+    "poses/frame_005.png": "8ed71f645aced9ffe31549b215837fc1d78563259d7c57f1816d55c359c1bd4d",
+    "poses/frame_006.png": "db6924112a7d7030412406391495010172b9f6d711722ebd7c3c3f3e324b0888",
+    "poses/frame_007.png": "3037f79105a0817e43522a2b30d73e7f761d08035e2e2e14b4d42e19360056a7",
+    "poses/frame_008.png": "e6121f1350991c7973ba84ea496676a91a35ca4aaafd9095c41417c805ac4296",
+    "poses/frame_009.png": "f875bfe0ce567d3600ca0e1ac26808dc45e1edea4380cb6afe16df2aeb4dd6ff",
+    "poses/frame_010.png": "88f2a7dd1fcbcf857191363867b6766eb067f54bd859a187cf7375f0a73c6b7a",
+    "poses/frame_011.png": "d469ec4823c4a10b47ab3e0594de87a03c557c4287d624f59f49f99e8e3f5b29",
+    "poses/frame_012.png": "432feeba98ff2c2965727ffc466f647796bcfa9d83216454f5c70eb47ef78dc2",
+    "poses/frame_013.png": "db7f7e3c6d9b9635f2c05a751d46976fbf60f7075fb5d62158f0480ba088fd37",
+    "poses/frame_014.png": "9878273a07d0a35f79d546910cee696cab27ecc6b6ca770401f31c272089dc08",
+    "poses/frame_015.png": "56f27eeaa66fc6288cf712ef6f9af5176e8d80b34f39ffb1f3948fd04d855272",
+    "poses/frame_016.png": "b1a1455d84805ec2d184f2fa7cb3e63679f139cca326c28323a8bc23f31ceb22",
+    "poses/frame_017.png": "b62090a29019ca06471078902e28d92cf67816221b9f50537e3a54baa09b8fb0",
+    "poses/frame_018.png": "23cd34c5e796f027eaec2147ca3ca644bf95d537dbd18f5ceb65257fded0814f",
+    "poses/frame_019.png": "36cb03767a6425663762cb755eaaa46604fd9f6915ea05aa6dc1a3e6eb5d43b6",
+    "poses/frame_020.png": "e817c53eb370f5f7affe663eab0bdb4f8a59007e9cca4405cd7d8412b21a9e1b",
+    "poses/frame_021.png": "e3d30a7db42432518c9ee61f9834cac6adfbb84d5af304e1af325a824c130a18",
+    "poses/frame_022.png": "e64b94b6edd8fca05268beac642bb0bc1b6b0e92760c9eb2c2ea03eef59ca306",
+    "poses/frame_023.png": "7d4a2fe117c6cd6cc4de8608ae50183a158355480ee2bf425342aeb00e0a9971",
+    "poses/frame_024.png": "48691bd6173d3ba51036bc782f7a55e400f77c406918dbffd0b2c39fd3e8a018",
+    "poses/frame_025.png": "e9481a903d987c707461f4acded73066fd8dd22c1415a8da71bd50474b64c055",
+    "poses/frame_026.png": "5e4da9fe0e9934c0bbbfc31036a07179772c757991d7a500d29145ac426f045c",
+    "poses/frame_027.png": "2350064bd9a89c1bf45373cee8defcd7c0bd18ca4ea3b11039e0aa1401f06c34",
+    "poses/frame_028.png": "1285fe01bb2764c0da0fc11ec759db5f3b29292d1d62f96f60930916290cbd24",
+    "poses/frame_029.png": "242c43512f6080c1bfd531ce716e7c7d5c9442df7cc2083e8a8bb1c053468268",
+    "poses/frame_030.png": "9697287caeb8a37aeabdc5112718ed4c4c791458f110deae2df40fbd11ab8885",
+    "poses/frame_031.png": "e97e510f36203dcee6461a9c24a45c846882cbbf3cf4c4ad1d894fdfd6d02cec",
+    "poses/frame_032.png": "e97e510f36203dcee6461a9c24a45c846882cbbf3cf4c4ad1d894fdfd6d02cec"
+  },
+  "mask_inputs": {
+    "reference-mask.png": "a3da04f42ed8443a890487bf824074d527a5acf800615001766ea6c15d114e05",
+    "pose-masks/frame_000.png": "0a7cc6ca17b230f0f21465dcb857c2ea68492a5ebcc8b9ad7b6eab5a3d8fe66e",
+    "pose-masks/frame_001.png": "1120e431c7196659e0cd6051bd34b78ca9c6b3c098806d5fadf582b929943322",
+    "pose-masks/frame_002.png": "dfa5ed7d8432a6628cadaa1123b03e3b72706f6da71ada8e2eb238111fb4a485",
+    "pose-masks/frame_003.png": "fc3eca3bbe6f1627e257c3a5cceb15a5bb79725806d6f7190ae8967d656bb544",
+    "pose-masks/frame_004.png": "e74f2d54599d6115e2943091ad8a8e1ab485417a37e35f1131641c1bd784314d",
+    "pose-masks/frame_005.png": "cce19ae013fe04f143964bb3e3f28638fa9d72f9151192ce4919b8eee45b87ce",
+    "pose-masks/frame_006.png": "eb9dbba455acf9fdf719f30f2aa79d33954326145a924dea148dad730e42bb6a",
+    "pose-masks/frame_007.png": "6db3615dfc07f950148f48741f81e0a092b26c260f4cf9e2afafcf9055115cb1",
+    "pose-masks/frame_008.png": "d7ad7fb7738088a2ffaf424c87aa012e9c6c1e48808e1e0da138b8881d3d7e2f",
+    "pose-masks/frame_009.png": "2fecf2b2f60b532253394e690d021b27c962e28526cc147f4ee143c832415f2e",
+    "pose-masks/frame_010.png": "0bfbe8f0ed48950ae1ab2be3ad6015fc8e7f4774df1a7f0da47ee3183e836d03",
+    "pose-masks/frame_011.png": "5841f511294f0e024ce2a56dcc97703b22e7581f639427bfe2218975a56549fb",
+    "pose-masks/frame_012.png": "1ba8bdc5408efec753dd2463d0c1e81ad147d5ce96cd387ee5f02b13ec32ef8b",
+    "pose-masks/frame_013.png": "c25cd9a80b8f034372b20ac10aa83c73593d0719fdcb6615da791cdd979e9c74",
+    "pose-masks/frame_014.png": "efc16d4e86ca5dade89ab97f706dcb5491a1ddadc90b7915a58a97d3aab0aed5",
+    "pose-masks/frame_015.png": "7bb4bea2e3032f69782663ee9e2806a5fd1861bf1a673de2d0e5d519bdd8297f",
+    "pose-masks/frame_016.png": "92e2f6e43d3ac439591f954febc4fd8ef40d16f00d36f6a07de6f99a2ac5e4d9",
+    "pose-masks/frame_017.png": "db631e3dfc109516a08c416645adec682ff4cd102fa52ae4d1ca5d3a64546c47",
+    "pose-masks/frame_018.png": "1577b07ad86cdc57361fd6756312009340ee2c4ddaf256a8de769f0bdad79fb9",
+    "pose-masks/frame_019.png": "5e9c1544cadab20a2b3d03fe4f74154b798998bf2cdeb96a5c8f1c281ad1f294",
+    "pose-masks/frame_020.png": "5dbfe423182e75565aaa3518ef888baad07aae2dc573565a24f71d467bf374ca",
+    "pose-masks/frame_021.png": "4e23e34138bb9c400d5a639b934c74f07910d4a144521aa666776b86c57541d6",
+    "pose-masks/frame_022.png": "6cd8a03828dcac01827a251d6b25b5260b17ea5c73826f2b87784a0227cfa767",
+    "pose-masks/frame_023.png": "940b8dea4ccefe62c3c20a463926f5a43271f0a86b95c7d66d1f48ffa56f13ae",
+    "pose-masks/frame_024.png": "bfba3564cdb2f18e6ebf9476f0e496800fe618b8f3e981d505efc5133953756f",
+    "pose-masks/frame_025.png": "db8b2dc0b933578eb91b4b0294aab135efa11065496575110378565633ce4c6a",
+    "pose-masks/frame_026.png": "cab86c955b00b79b72e3f954048ccf75ad7bbb36ed1574cbbea8ebc90e2165f3",
+    "pose-masks/frame_027.png": "19359229acbf378d6aa1fa5fea0fd554434e0cb34cdc594722208cd247e4524b",
+    "pose-masks/frame_028.png": "2024fe760c2251eac414f85f3035f69aa026bf42a020bc71814fdb8e8f9d6da9",
+    "pose-masks/frame_029.png": "19df5a20d5e64fc6ce1700567c650750934c17043e7d1442b3ebff4f7ecba034",
+    "pose-masks/frame_030.png": "417e48758e2d624f221eee6881d6981e9b33e4d96e34ee99a3a191a6d8a4ea90",
+    "pose-masks/frame_031.png": "f50fd843447ab46a7697cb58e6335c10fd782fc8fef8561091a8a6abd8fa510c",
+    "pose-masks/frame_032.png": "f50fd843447ab46a7697cb58e6335c10fd782fc8fef8561091a8a6abd8fa510c"
+  },
+  "source_revisions": {
+    "ComfyUI-scail2": "3c80da7f87ee359b2d06f107cb3c0797079dfbbb",
+    "ComfyUI-GGUF": "6ea2651e7df66d7585f6ffee804b20e92fb38b8a",
+    "SCAIL-Pose": "519c7f54cb972e7f92684213b7ef6c3e05a8f3b2"
+  },
+  "dpo_strength": 1.0,
+  "weights": [
+    {
+      "repo": "vantagewithai/SCAIL-2-GGUF-ComfyUI",
+      "revision": "8d99a4251592b5e834169bf9faeebeb36c553e07",
+      "gated": false,
+      "snapshot": ".tmp/download/huggingface/hub/models--vantagewithai--SCAIL-2-GGUF-ComfyUI/snapshots/8d99a4251592b5e834169bf9faeebeb36c553e07",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 2684,
+          "sha256": "4b0f07966ee323ded721eaa3ad450f9bb6b116ab5a23465ca52a628229cddff0"
+        },
+        {
+          "path": "wan2.1_14B_SCAIL_2-Q4_K_M.gguf",
+          "bytes": 11456036512,
+          "sha256": "b620205b2a757a872a80fc63c55b3665d49ae533ae6d8026cf04f93e73f285e2"
+        }
+      ]
+    },
+    {
+      "repo": "Comfy-Org/Wan_2.1_ComfyUI_repackaged",
+      "revision": "617a7633e636506f850e043bc4605f290a466a8e",
+      "gated": false,
+      "snapshot": ".tmp/download/huggingface/hub/models--Comfy-Org--Wan_2.1_ComfyUI_repackaged/snapshots/617a7633e636506f850e043bc4605f290a466a8e",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 3724,
+          "sha256": "56072c73cfd706f1160a400aac8820ab95ff3976e4ded03ffc3a5481fcb214bc"
+        },
+        {
+          "path": "split_files/clip_vision/clip_vision_h.safetensors",
+          "bytes": 1264219396,
+          "sha256": "64a7ef761bfccbadbaa3da77366aac4185a6c58fa5de5f589b42a65bcc21f161"
+        },
+        {
+          "path": "split_files/vae/wan_2.1_vae.safetensors",
+          "bytes": 253815318,
+          "sha256": "2fc39d31359a4b0a64f55876d8ff7fa8d780956ae2cb13463b0223e15148976b"
+        }
+      ]
+    }
+  ],
+  "sampler": "uni_pc",
+  "scheduler": "simple"
+}

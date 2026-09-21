@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """방향별 참조와 JSON 생성 목록으로 Mira 학습 후보를 순차 생성한다.
 
-조작: --spec의 장면·시드·참조를 바꾸고 --output-dir을 새로 지정한다.
+조작: 통합 JSON의 조건·관리번호를 선택한다. 출력 위치는 storage로 통일한다.
 관찰: PNG의 얼굴·헤어·지시 준수와 결과 JSON의 입력·출력 해시를 비교한다.
 --dry-run은 목록만 확인한다. 생성 완료는 학습 후보의 채택을 뜻하지 않는다.
 가중치는 model_weight_manager.py로 준비한 .tmp/download 캐시만 읽는다.
 """
-
-from p7_5_10_asset_paths import asset_path
 
 import argparse
 import fcntl
@@ -31,6 +29,22 @@ from p7_5_2_qwen_edit_2511_generate_mira_torso import (
 )
 
 
+ALIASES = json.loads(
+    (Path(__file__).parent / "p7-5-10-image-generation.json").read_text()
+)["path_aliases"]
+
+
+def asset_path(value):
+    """과거 생성 기록의 경로를 현재 자산으로 연결해 원본 기록을 보존한다."""
+    path = Path(value)
+    path = (ROOT / path if not path.is_absolute() else path).resolve()
+    if path.is_relative_to(ROOT):
+        destination = ALIASES.get(path.relative_to(ROOT).as_posix())
+        if destination:
+            return (ROOT / destination).resolve()
+    return path
+
+
 def write(path, data):
     """중간 저장 파일을 교체해 불완전한 JSON이 상태 파일로 남지 않게 한다."""
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -38,9 +52,55 @@ def write(path, data):
     temporary.replace(path)
 
 
-def load_spec(path):
-    """조건별 문구와 명시적인 조합을 펼친다. 기존 실험은 원문 일치를 검사한다."""
-    spec = json.loads(path.read_text())
+def load_spec(path, rule_id=None):
+    """통합 생성 JSON에서 규칙과 관리번호 선택을 해석한다."""
+    document = json.loads(path.read_text())
+    if document.get("schema_version") != 3:
+        return expand_spec(document)
+    key = rule_id or document["default_rule"]
+    rule = document["rules"][key]
+    canonical = json.dumps(rule["spec"], ensure_ascii=False, sort_keys=True,
+                           separators=(",", ":")).encode()
+    if hashlib.sha256(canonical).hexdigest() != rule["spec_content_sha256"]:
+        raise ValueError("Rule content changed: review revision and content hash")
+    spec = expand_spec(rule["spec"])
+    storage = document["storage"]
+    expected = {"input_images": "training-images/input-images",
+                "target_images": "training-images/target-images", "records": "generation-records"}
+    base = Path(__file__).resolve().parent
+    for name, suffix in expected.items():
+        if (ROOT / storage[name]).resolve() != base / suffix:
+            raise ValueError("Output storage must use the canonical sec-10 directories")
+    spec["_image_dir"] = storage[rule["output_role"]]
+    spec["output_dir"] = str(Path(storage["records"]) / key)
+    spec["_legacy_output_dir"] = rule["legacy_output_dir"]
+    spec["_rule"] = {"rule_id": key, "rule_revision": rule["revision"]}
+    spec["_original_spec_sha256"] = rule["legacy_spec_sha256"]
+    index = document["management_index"]
+    lookup = {value["condition_id"]: code for code, value in index.items()
+              if value["rule_id"] == key}
+    if len(lookup) != len(spec["items"]) or set(lookup) != {r["id"] for r in spec["items"]}:
+        raise ValueError("Management index must uniquely cover every condition")
+    for row, original in zip(spec["items"], rule["spec"]["items"]):
+        row["management_id"] = lookup[row["id"]]
+        row["identifiers"] = dict(spec["_rule"], condition_id=row["id"],
+            component_ids={axis: f"{key}/{rule['revision']}/{axis}/{choice}"
+                           for axis, choice in original.get("components", {}).items()})
+    selection = document["selection"]
+    def selected(field):
+        values = selection.get(field)
+        if values is None:
+            return None
+        if not isinstance(values, list) or len(values) != len(set(values)) or any(v not in index for v in values):
+            raise ValueError("Duplicate or unknown management IDs")
+        return [index[v]["condition_id"] for v in values if index[v]["rule_id"] == key]
+    spec["_selection"] = {"include_ids": selected("include_management_ids"),
+                          "exclude_ids": selected("exclude_management_ids") or []}
+    return spec
+
+
+def expand_spec(spec):
+    """조건별 문구를 펼치며 과거 생성 프롬프트의 원문 일치를 검사한다."""
     if spec["schema_version"] == 1:
         return spec
     if spec["schema_version"] != 2:
@@ -66,30 +126,73 @@ def load_spec(path):
     expanded["schema_version"] = 1
     if "provenance" in spec:
         # 원본 JSON 사본 대신 정규화한 내용의 해시로 과거 생성 조건을 검증한다.
-        original = {key: value for key, value in expanded.items()
-                    if key not in ("output_dir", "excluded_items")}
+        original = copy.deepcopy({key: value for key, value in expanded.items()
+                                  if key not in ("output_dir", "excluded_items")})
+        source = spec["provenance"]
+        # 향후 학습 지시 수정은 이미지 생성 조건의 변경과 구분한다.
+        if "generation_spec_sha256" in source:
+            for row in original["items"]:
+                row.pop("training_caption", None)
         canonical = json.dumps(original, ensure_ascii=False, sort_keys=True,
                                separators=(",", ":")).encode()
-        source = spec["provenance"]
-        if hashlib.sha256(canonical).hexdigest() != source["expanded_spec_sha256"]:
+        expected = source.get("generation_spec_sha256", source["expanded_spec_sha256"])
+        if hashlib.sha256(canonical).hexdigest() != expected:
             raise ValueError("Composed spec differs from original; use a new independent spec for changed conditions")
         expanded["_original_spec_sha256"] = source["original_spec_sha256"]
     return expanded
+
+
+def result_id(digest):
+    """입력·목표·생성 결과에 동일한 콘텐츠 ID를 사용한다."""
+    if digest is None:
+        return None
+    if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        raise ValueError("Result ID requires a full lowercase SHA-256")
+    return "sha256:" + digest
+
+
+def bind_rule(spec_path, spec):
+    """통합 JSON의 규칙 등록을 읽되 원본 생성 조건은 변경하지 않는다."""
+    if "_rule" in spec:
+        return
+    registry = json.loads((Path(__file__).parent / "p7-5-10-paired-dataset.json").read_text())
+    matches = [(key, rule) for key, rule in registry["generation_rules"].items()
+               if asset_path(rule["spec"]) == spec_path.resolve()]
+    if len(matches) != 1:
+        raise ValueError("Register exactly one generation rule for this spec in the dataset JSON")
+    key, rule = matches[0]
+    if sha256(spec_path) != rule["spec_sha256"]:
+        raise ValueError("Rule snapshot changed: review revision and registered spec hash first")
+    spec["_rule"] = {"rule_id": key, "rule_revision": rule["revision"]}
+    raw = json.loads(spec_path.read_text())
+    for row, original in zip(spec["items"], raw["items"]):
+        row["identifiers"] = dict(spec["_rule"], condition_id=row["id"],
+            component_ids={axis: f"{key}/{rule['revision']}/{axis}/{choice}"
+                           for axis, choice in original.get("components", {}).items()})
 
 
 def catalog(out, spec, fingerprint):
     """생성물 전체를 나열한다. 검수와 학습 분할은 별도 목록에서 결정한다."""
     rows = []
     for item in spec["items"]:
-        png = out / (item["id"] + ".png")
+        png = ROOT / spec["_image_dir"] / (item["id"] + ".png")
         record = out / (item["id"] + "-result.json")
+        if not record.exists() and item["id"] in spec.get("_prior_rows", {}):
+            rows.append(spec["_prior_rows"][item["id"]])
+            continue
         if not png.exists() or not record.exists():
             continue
         data = json.loads(record.read_text())
         if data["fingerprint"] != fingerprint or data["output"]["sha256"] != sha256(png):
             raise ValueError(f"Result mismatch: {item['id']}")
         rows.append({
-            "id": item["id"], "image": str(png.relative_to(ROOT)),
+            "id": item["id"], "identifiers": item["identifiers"],
+            "result_id": result_id(sha256(png)),
+            "input_result_id": result_id(sha256(png))
+                if item.get("training_target") else None,
+            "target_result_id": result_id(item.get("training_target_sha256"))
+                if item.get("training_target") else None,
+            "image": str(png.relative_to(ROOT)),
             "sha256": sha256(png), "record": str(record.relative_to(ROOT)),
             "record_sha256": sha256(record), "category": item.get("category", "input"),
             "condition": item.get("condition", ""), "reference": item["reference"],
@@ -128,12 +231,16 @@ def wait_for_gpu(state, path, enabled):
 
 def generation_plan(out, spec_path, spec, selection=None):
     """선택·제외·완료 기록을 합쳐 실제 생성 대상만 반환한다."""
-    selection = {} if selection is None else selection
+    bind_rule(spec_path, spec)
+    selection = spec.get("_selection", {}) if selection is None else selection
     if not isinstance(selection, dict):
         raise ValueError("Selection must be a JSON object")
     ids = {item["id"] for item in spec["items"]}
-    if set(selection) - {"include_ids", "exclude_ids"}:
-        raise ValueError("Selection accepts only include_ids and exclude_ids")
+    if set(selection) - {"include_ids", "exclude_ids", "rule_id", "rule_revision"}:
+        raise ValueError("Unknown selection field")
+    for field in ("rule_id", "rule_revision"):
+        if field in selection and selection[field] != spec["_rule"][field]:
+            raise ValueError("Selection belongs to a different rule or revision")
 
     def checked_ids(values):
         if not isinstance(values, list) or not all(isinstance(x, str) for x in values):
@@ -154,12 +261,21 @@ def generation_plan(out, spec_path, spec, selection=None):
     excluded |= policy_excluded
     # 이관된 완료 묶음은 기존 카탈로그·원본 기록의 해시를 검증하고 그대로 재사용한다.
     catalog_path = out / "candidate-catalog.json"
+    if not catalog_path.exists():
+        catalog_path = ROOT / spec["_legacy_output_dir"] / "candidate-catalog.json"
     if catalog_path.exists():
         saved = json.loads(catalog_path.read_text())
         if saved["fingerprint"]["spec_sha256"] != fingerprint["spec_sha256"]:
             raise ValueError("Completed catalog belongs to a different spec")
         rows = saved["items"]
-        if len(rows) == len({row["id"] for row in rows}) and {row["id"] for row in rows} == ids - policy_excluded:
+        spec["_prior_rows"] = {row["id"]: row for row in rows}
+        if len(spec["_prior_rows"]) != len(rows):
+            raise ValueError("Duplicate completed IDs")
+        for row in rows:
+            image, record = asset_path(row["image"]), asset_path(row["record"])
+            if sha256(image) != row["sha256"] or sha256(record) != row["record_sha256"]:
+                raise ValueError(f"Completed output changed: {row['id']}")
+        if len(rows) == len({row["id"] for row in rows}) and ids - policy_excluded <= {row["id"] for row in rows} <= ids:
             for row in rows:
                 image, record = asset_path(row["image"]), asset_path(row["record"])
                 if sha256(image) != row["sha256"] or sha256(record) != row["record_sha256"]:
@@ -173,7 +289,7 @@ def generation_plan(out, spec_path, spec, selection=None):
     state_path = out / "generation-state.json"
     old = json.loads(state_path.read_text()) if state_path.exists() else {}
     if old and old["fingerprint"] != fingerprint:
-        raise ValueError("Changed spec/code: use a new output directory")
+        raise ValueError("Changed spec/code: preserve outputs and review resume compatibility; do not regenerate automatically")
     # 실행에서 확정한 제외는 다음 실행에서 옵션을 빼도 유지한다.
     excluded |= checked_ids(old.get("excluded_ids", []))
     completed, pending = [], []
@@ -181,7 +297,11 @@ def generation_plan(out, spec_path, spec, selection=None):
         key = item["id"]
         if key in excluded:
             continue
-        png, record = out / (key + ".png"), out / (key + "-result.json")
+        if key in spec.get("_prior_rows", {}):
+            completed.append(key)
+            continue
+        png = ROOT / spec["_image_dir"] / (key + ".png")
+        record = out / (key + "-result.json")
         if png.exists() or record.exists():
             if not (png.exists() and record.exists()):
                 raise ValueError(f"Partial output: {key}; no automatic regeneration")
@@ -204,11 +324,7 @@ def main():
     parser.add_argument(
         "--spec",
         type=Path,
-        default=ASSETS / "sec-10/p7-5-10-bfs-input-combinations-v1.json",
-    )
-    parser.add_argument(
-        "--output-dir", type=Path,
-        help="JSON의 output_dir을 덮어쓸 저장 경로",
+        default=ASSETS / "sec-10/p7-5-10-image-generation.json",
     )
     parser.add_argument(
         "--dry-run",
@@ -217,16 +333,15 @@ def main():
     )
     parser.add_argument("--limit", type=int, help="이번 실행에서 생성할 미완료 후보 수")
     parser.add_argument("--wait-for-gpu", action="store_true", help="다른 CUDA 작업 종료 후 시작")
-    parser.add_argument("--selection", type=Path, help="include_ids·exclude_ids를 지정한 JSON")
+    parser.add_argument("--rule", help="통합 JSON의 생성 규칙 ID")
+    parser.add_argument("--ids", nargs="+", help="이번 실행에 포함할 관리번호")
     args = parser.parse_args()
     if args.limit is not None and args.limit < 1:
         parser.error("--limit must be positive")
     # 얼굴 외형을 다시 정의하지 않고 목록의 변경 대상과 방향별 참조를 사용한다.
-    spec = load_spec(args.spec)
+    spec = load_spec(args.spec, args.rule)
     # 실험별 프롬프트·참조·저장 위치는 JSON으로 교체하고 생성기는 공유한다.
-    out = (args.output_dir or ROOT / spec.get(
-        "output_dir", ".tmp/p7-5-11/supplements-v2"
-    )).resolve()
+    out = (ROOT / spec["output_dir"]).resolve()
     if not out.is_relative_to(ROOT):
         raise ValueError("Output directory must be inside the repository")
     assert spec["schema_version"] == 1 and spec["model_id"] == MODEL_ID
@@ -248,7 +363,12 @@ def main():
             assert sha256(asset_path(item["training_target"])) == target_hash, "Target changed"
             split = item.get("reserved_split")
             assert groups.setdefault(target_hash, split) == split, "Target split leakage"
-    selection = json.loads(args.selection.read_text()) if args.selection else None
+    selection = None
+    if args.ids:
+        by_code = {r["management_id"]: r["id"] for r in spec["items"]}
+        if len(args.ids) != len(set(args.ids)) or any(code not in by_code for code in args.ids):
+            parser.error("Management IDs must be unique and belong to --rule")
+        selection = dict(spec.get("_selection", {}), include_ids=[by_code[c] for c in args.ids])
     if args.dry_run:
         state, pending = generation_plan(out, args.spec, spec, selection)
         print(json.dumps({"model": MODEL_ID, "planned_count": len(ids),
@@ -256,7 +376,11 @@ def main():
                           "excluded_ids": state["excluded_ids"],
                           "count": len(pending[:args.limit]),
                           "order": [item["id"] for item in pending[:args.limit]],
-                          "output_dir": str(out)}, indent=2))
+                          "rule": spec["_rule"],
+                          "conditions": [item["identifiers"] for item in pending[:args.limit]],
+                          "management_ids": [item["management_id"] for item in pending[:args.limit]],
+                          "output_dir": str(out),
+                          "image_dir": spec["_image_dir"]}, indent=2))
         return
     out.mkdir(parents=True, exist_ok=True)
     with (out / ".lock").open("w") as lock:
@@ -310,16 +434,20 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
             write(state_path, state)
             print("Generating " + item["id"], flush=True)
             ref = spec["references"][item["reference"]]
-            with Image.open(asset_path(ref["path"])) as opened:
-                assert opened.width == opened.height
-                image = opened.convert("RGB").resize(
-                    (size, size), Image.Resampling.LANCZOS
-                )
+            refs = [dict(ref, result_id=result_id(ref["sha256"]))]
+            images = []
+            # 단일 Mira 기준을 편집해 학습 입력 후보를 생성한다.
+            for ref in refs:
+                with Image.open(asset_path(ref["path"])) as opened:
+                    assert opened.width == opened.height
+                    images.append(opened.convert("RGB").resize(
+                        (size, size), Image.Resampling.LANCZOS
+                    ))
             started = time.monotonic()
             # 각 항목의 시드를 고정해 반복 실행의 입력 조건을 추적한다.
             with torch.inference_mode():
                 result = pipe(
-                    image=[image],
+                    image=images,
                     prompt=item["prompt"],
                     negative_prompt=" ",
                     width=size,
@@ -330,7 +458,8 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
                     generator=torch.Generator(device="cuda").manual_seed(item["seed"]),
                 ).images[0]
             assert result.size == (size, size)
-            png = out / (item["id"] + ".png")
+            png = ROOT / spec["_image_dir"] / (item["id"] + ".png")
+            png.parent.mkdir(parents=True, exist_ok=True)
             result.save(png)
             write(
                 out / (item["id"] + "-result.json"),
@@ -339,7 +468,9 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
                     "model_id": MODEL_ID,
                     "fingerprint": fingerprint,
                     "design": item,
-                    "input": ref,
+                    "identifiers": item["identifiers"],
+                    "input": refs[0],
+                    "input_images": refs,
                     "settings": cfg,
                     "reference_preprocessing": "RGB Lanczos square resize to target size",
                     "runtime": runtime_record(),
@@ -347,7 +478,8 @@ def run(out, spec_path, spec, limit=None, wait_gpu=False, selection=None):
                     "dtype": "bfloat16",
                     "device_placement": "sequential_cpu_offload",
                     "elapsed_seconds": round(time.monotonic() - started, 2),
-                    "output": {"path": str(png), "sha256": sha256(png)},
+                    "output": {"path": str(png), "sha256": sha256(png),
+                               "result_id": result_id(sha256(png))},
                 },
             )
             state["completed"].append(item["id"])

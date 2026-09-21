@@ -1,12 +1,6 @@
 flowchart TD
-    A[event_id = A]
-
-    A --> B[报告表<br/>差值<br/>报告句子]
-    A --> C[复核队列<br/>review_needed<br/>优先级分数]
-    A --> D[目标候选表<br/>late_drop_rate<br/>note_source]
-
-    B --> E[回溯到比较证据]
-    C --> E
-    D --> E
-
-    E[为什么 A 被提升？<br/>相同样本身份<br/>保留证据链接]
+    A["结果候选：A = 1"] --> B["Q-01 / queue-v1"]
+    B --> C["REP-A-1 / base-v1"]
+    A --> D["NOTE-A-1 / check-A"]
+    C --> E["比较区间A"]
+    E --> F["组成动作E001至E020"]

@@ -1,0 +1,27 @@
+{
+  "case": {
+    "id": "woman-low-minus-90",
+    "management_code": "P712-CAM-016",
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-low-minus-90-512.png",
+      "sha256": "44fa15dd3b5ffdafa8053668976a2e00923811fcf1aeee5c94d0cc3297018385"
+    },
+    "subject": "woman",
+    "vertical": "low",
+    "yaw": -90,
+    "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+    "seed": 62294
+  },
+  "scale": 1,
+  "observed_vae_input_sizes": [
+    [
+      512,
+      512
+    ]
+  ],
+  "checkpoint_sha256": "9cddfaec307af146ce5311669c2e0ab42fdf68abe836364fa329e32861e9e37e",
+  "plan_sha256": "6777112339875c5889bb4e25873c73a91a7423b2cf65fb42bd547d1ce70f95b6",
+  "output_sha256": "b316d70ac31c17dd407d8a4931f075ab83acf3fbdf186ab64568427601fd2060",
+  "elapsed_seconds": 240.4,
+  "status": "pending_visual_review"
+}

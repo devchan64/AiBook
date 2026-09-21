@@ -1,35 +1,13 @@
 # P3-4.3 How Do Time-Point Records, Action Samples, and Period Aggregates Differ
 
 > Section ID: `P3-4.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-Move this difference directly into column roles when you build the next table. At the row level, leave moment records such as `second` and `flow`; at the sample level, use columns such as `event_id`, `flow_mean`, and `flow_max` to describe one operation. At the window level, use columns such as `window`, `event_count`, and `window_flow_mean` to show that several samples were grouped again. If the three levels appear in one table, each column name should reveal the level where the value was computed, so features, baselines, and review sentences do not point to different units later.
+A [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) is one case compared for the current question. **A row is a storage format: a time-point record, an action summary, or a period aggregate can each occupy one row.** Having separated splitting from scoring in the previous section, we now examine how the meaning of a row changes when the same records are grouped.
 
-These three units must be distinguished together because [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), baseline comparisons, and review statements can belong to different levels. Counting time-point rows and aggregate periods together without checking the sample unit required by the current question destabilizes the tables and comparison structures built later.
+## Nine Time-Point Rows Describe Three Actions
 
-A `row` is a storage format; a `sample` is an analysis unit. In an action-summary table, one row and one sample coincide. In another problem that analyzes recent periods, one period becomes one sample. This section compares the three representations when one action is the chosen sample.
-
-The reason all three units must be separated at once is that [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), baseline comparison, and review sentences attach at different levels. The moment a row is mistaken for a sample, or a segment is read as if it were one sample, the later table structure and comparison structure also begin to drift.
-
-If we divide the three levels again, they become the following.
-
-- `One row` is one visible line in the current table.
-- `One sample` is the basic unit for comparison or learning.
-- `One recent segment` is a comparison unit made by regrouping several samples.
-
-These three can contain one another, but they do not mean the same thing.
-
-| What we are looking at now | The most natural question | The level in this section |
-| --- | --- | --- |
-| one line of a time-point log | What was measured at this time point? | row |
-| one full action | Did this action have a different structure from the usual one? | sample |
-| a bundle of the most recent 20 cases | Has the recent state changed from the usual segment? | segment |
-
-This table shows that `there is one line`, `there is one sample`, and `there is one recent segment to compare` each answer a different question. The reason Part 3 keeps becoming confusing is not that these three belong to the same level, but that all three questions begin while looking at data tables.
-
-## Rereading One Scene at Three Levels
-
-Let us look again at automatically executed action data.
+The following flow measurements are a fictional teaching example. `event_id` identifies an action, `second` is elapsed seconds since that action began, and `flow` is measured in L/min. In this small table, `(event_id, second)` identifies one observation. `second=1` in different actions does not mean the same clock time.
 
 | event_id | second | flow |
 | --- | ---: | ---: |
@@ -39,167 +17,70 @@ Let us look again at automatically executed action data.
 | B | 0 | 0.7 |
 | B | 1 | 1.2 |
 | B | 2 | 1.0 |
+| C | 0 | 0.9 |
+| C | 1 | 1.6 |
+| C | 2 | 1.2 |
 
-At first glance, this table shows six lines. But those six lines may not yet be six samples. If one full action such as `A` is the sample here, then the three lines above are time-point records that together compose one sample.
+The value 1.5 at `A, second=1` is one measurement within A. That row alone cannot give A’s overall mean or maximum. For “What was the mean flow of action A?”, its three rows supply one action sample.
 
-Then, if several actions are grouped again to create `the mean of the most recent 20 cases`, individual samples such as `A` and `B` move one level downward again. That is because the recent segment is an aggregate unit made by regrouping several samples.
+## Average Each Action, Then Group Actions by Period {#small-code-example-for-seeing-the-comparison-at-a-glance}
 
-Placed at the three levels, the same scene can be read as follows.
+First gather observations with the same `event_id` and calculate their mean and maximum. A separate assignment places B in the earlier reference period `baseline` and A and C in `recent`. This is a teaching assumption, not a chronology inferred from elapsed seconds or alphabetical order. Real data needs period boundaries or an explicit list of included events.
 
-| Level | What counts as one case | Example |
-| --- | --- | --- |
-| Row | one time-point record line | `A, second=1, flow=1.5` |
-| Sample | one full action | the whole of `event_id=A` |
-| Segment | a bundle of several samples | the mean and variability of the most recent 20 cases |
+| event_id | point_count | event_flow_mean | event_flow_max | window |
+| --- | ---: | ---: | ---: | --- |
+| A | 3 | 1.133333 | 1.5 | recent |
+| B | 3 | 0.966667 | 1.2 | baseline |
+| C | 3 | 1.233333 | 1.6 | recent |
 
-In other words, `A, second=1` may be not a sample, but one piece that composes a sample, while `the most recent 20 cases` may be a larger comparison unit made by regrouping 20 samples again.
+One row now represents an action, identified by `event_id`. `event_flow_mean` averages **flow observations within that action**. For A, `(0.8 + 1.5 + 1.1) ÷ 3 = 3.4 ÷ 3 ≈ 1.133333 L/min`. Its maximum, 1.5, also comes from those three observations. Such summaries can be [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) for comparing actions, but they do not preserve the full sequence of changes.
 
-The same scene becomes even clearer when rewritten as sentences.
+Next gather action-summary rows with the same `window`. Average their action means, giving each action equal weight.
 
-- If the operator is asking `what was the flow at the 1-second time point?`, then what they want to see is the row.
-- If the operator is asking `was action A more unstable than usual?`, then what they want to see is the sample.
-- If the operator is asking `have the most recent 20 cases become worse than last week's baseline?`, then what they want to see is the segment.
+| window | member_events | event_count | window_flow_mean |
+| --- | --- | ---: | ---: |
+| baseline | B | 1 | 0.966667 |
+| recent | A, C | 2 | 1.183333 |
 
-The key point is that every time the question changes, the same source data is reread at a different level. Confusion usually arises not because the data is complex, but because we begin looking at the table without writing down which question we are attaching to it right now.
+One row now represents a period, identified here by `window`. The recent mean is `(mean of A + mean of C) ÷ 2 = (3.4/3 + 3.7/3) ÷ 2 ≈ 1.183333 L/min`. **The first denominator, 3, counts observations; the second, 2, counts actions.** The tables show six decimal places, but calculations use unrounded values.
 
-## Why This Distinction Is Needed
+Each action has three observations here, so directly averaging the six recent observations gives the same result. With unequal observation counts, the two calculations can differ. P3-5.1 addresses that weighting difference; here, distinguish what `event_flow_mean` and `window_flow_mean` each aggregate.
 
-This distinction is needed because later concepts attach at different levels.
+The single baseline action B illustrates the calculation structure. One action is not enough to establish that the reference adequately represents usual conditions. Observing a recent mean about 0.216667 L/min higher also does not by itself establish deterioration or a fault.
 
-| Concept | The level where it mainly attaches | Why |
-| --- | --- | --- |
-| raw measurement value | row | because it is the actual observation value at one time point |
-| feature | sample | because it is a value that describes the structure of one full action |
-| baseline comparison | segment or sample-vs-segment | because the recent state has to be compared with the usual state |
-| review sentence | segment or sample | because it is a judgment unit that a person reads |
+## Trace an Aggregate Back to Its Records {#a-small-diagram}
 
-For example, a feature such as `late_drop_rate` does not attach directly to one time-point row. It can only be calculated after one full action has been constructed as the sample. By contrast, a value such as `recent_count=20` is closer not to an individual-sample feature, but to a recent-segment aggregate. That is why, once these levels are mixed together, features, baselines, and [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) all begin to feel abstract.
+To inspect the recent mean, trace `recent → A and C → seconds 0, 1, 2 of each action`. Arrows in the diagram show the calculation direction. When reviewing the result, follow them backward to its member actions and observations.
 
-## Comparing Time-Point, Action, and Period Aggregations {#small-code-example-for-seeing-the-comparison-at-a-glance}
-
-Problem situation: check, through row count and output structure, that `one row`, `one sample`, and `one recent segment` are different levels in the same source log.
-
-Input: time-point flow records by `event_id`, plus a column indicating recent versus baseline segment
-
-Expected output: `row count`, `sample count`, and `window count` differ, and the meaning of one case differs at each level
-
-Concept to check: row, sample, and segment are different representation levels of the same data, and should not be read as the same unit
-
-```python
-# This example compares one row, one sample, and one recent segment as different analysis units.
-import pandas as pd
-
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "second": 0, "flow": 0.8},
-        {"event_id": "A", "second": 1, "flow": 1.5},
-        {"event_id": "A", "second": 2, "flow": 1.1},
-        {"event_id": "B", "second": 0, "flow": 0.7},
-        {"event_id": "B", "second": 1, "flow": 1.2},
-        {"event_id": "B", "second": 2, "flow": 1.0},
-        {"event_id": "C", "second": 0, "flow": 0.9},
-        {"event_id": "C", "second": 1, "flow": 1.6},
-        {"event_id": "C", "second": 2, "flow": 1.2},
-    ]
-)
-
-per_event = (
-    raw.groupby("event_id", as_index=False)
-    .agg(
-        flow_mean=("flow", "mean"),
-        flow_max=("flow", "max"),
-    )
-    .assign(window=lambda df: df["event_id"].map({"A": "recent", "B": "baseline", "C": "recent"}))
-)
-
-per_window = (
-    per_event.groupby("window", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        flow_mean=("flow_mean", "mean"),
-    )
-)
-
-print("1) counts change by level")
-print("row count:", len(raw))
-print("sample count:", len(per_event))
-print("window count:", len(per_window))
-print()
-print("2) one row still means one time-step record")
-print(raw.loc[[1], ["event_id", "second", "flow"]])
-print()
-print("3) one sample means one whole event")
-print(per_event.loc[per_event["event_id"] == "A", ["event_id", "flow_mean", "flow_max"]])
-print()
-print("4) one window means multiple samples regrouped")
-print(per_window)
-```
-
-Expected output:
-
-```text
-1) counts change by level
-row count: 9
-sample count: 3
-window count: 2
-
-2) one row still means one time-step record
-  event_id  second  flow
-1        A       1   1.5
-
-3) one sample means one whole event
-  event_id  flow_mean  flow_max
-0        A   1.133333       1.5
-
-4) one window means multiple samples regrouped
-     window  event_count  flow_mean
-0  baseline            1   0.966667
-1    recent            2   1.183333
-```
-
-What matters here is not the numbers themselves, but `what is being counted`.
-
-- `row count: 9` means nine time-point records.
-- `sample count: 3` means three actions.
-- `window count: 2` means two segments, `recent` and `baseline`.
-
-And the three outputs right below show the representative shape of each level.
-
-- `one row example` is one time-point line such as `A, second=1, flow=1.5`.
-- `one sample example` is one sample, like the mean and max values of action `A`.
-- `window summary` is a segment aggregate made by regrouping the sample table into `recent` and `baseline`.
-
-The row count decreases not because of simple compression, but because `what counts as one case` has changed.
-
-Summarized in one sentence, the example says the following: `A, second=1` shows what happened at that moment, `event_id=A` shows what one action was like as a whole, and `recent` shows a state comparison made by regrouping several such samples again. Even with the same data, once the question changes, we move back and forth among exactly these three levels.
-
-## Quick Questions to Ask When a Table Arrives
-
-In practice, confusion is already reduced a great deal if the following three questions are written down first.
-
-1. Does one line of the current table mean a time-point record, one full action, or a recent-segment aggregate?
-2. Am I trying to read one line, one action, or the whole recent state right now?
-3. Is the value I am about to attach a feature, a comparison column, or a candidate review sentence?
-
-These three questions each play the role of separating `row`, `sample`, and `segment` again.
-
-This section is not a terminology table, but something that can be reread as the problem of reading `levels of representation` at the same time.
-
-## Grouping Time-Point Records into Actions and Periods {#a-small-diagram}
-
-Reduced to the shortest form, the earlier explanation says that `one row -> one sample -> one segment` is a shift across levels where the same data is reread into larger comparison units. Each level answers a different question, so they should not be mixed as if they were the same unit.
-
+```mermaid
 --8<-- "assets/part-03/chapter-04/p3-4-3-mermaid-01-en.mmd"
+```
 
-So `one row`, `one sample`, and `one recent segment` should not be read as three similarly named objects. They should be read as the result of reexpressing the same source data at different levels in order to answer different questions.
+The same data therefore appears as **9 time-point rows, 3 action rows, and 2 period rows**. Fewer rows do not mean the original events have disappeared. However, retaining only means and discarding the records and their links prevents reconstruction of the original shape. A real table accumulating periods needs distinct period IDs and membership boundaries, rather than repeatedly using the role name `recent` alone.
+
+## A Period Can Be a Sample When the Question Changes
+
+For “How does this action differ from others?”, one action is the sample. For “How does mean flow in the latest 20-action period differ from the preceding 20-action period?”, one period can be a comparison sample. `event_count` and `window_flow_mean` then describe that period. Neither samples nor features must be restricted to individual actions and their summaries.
+
+The recent period in this small example actually contains only A and C. Asking about “the latest 20 actions” does not make this table evidence for 20 actions. Even when a period counts as one sample, record its number of constituent events separately.
+
+## Change Period Membership and Inspect What Is Averaged
+
+Suppose C moves from `recent` to `baseline`. First write down the row counts at all three levels and the two period means. Leave the raw observations unchanged.
+
+The answer remains **9 rows, 3 actions, and 2 periods**. Recent now contains only A, with mean 1.133333. Baseline averages B and C: `(2.9/3 + 3.7/3) ÷ 2 = 1.1 L/min`. Individual action means stay unchanged, while period membership and means change. This is why a period mean should be read alongside its member events.
+
+Now exclude all three observations of C from the data. There are **6 rows, 2 actions, and 2 periods**; the recent mean is A’s 1.133333. That recent mean matches the first exercise, but C belongs to baseline there and to neither period here. A mean alone cannot reveal which data was included.
 
 ## Checklist
 
-- Did you write what one row means in the time-point, action, and period tables?
-- Did you create a question in which a recent period itself can be a sample?
+- Can you explain what `(event_id, second)`, `event_id`, and `window` identify in the three tables?
+- Can you distinguish dividing by 3 for A from dividing by 2 for the recent period?
+- Can you trace the recent value 1.183333 to the six original observations of A and C?
+- Can you explain how moving C or excluding it changes row counts, means, and membership?
+- Have you formed a question that treats a period as a sample while recording its event count separately?
 
 ## Sources and Further Reading
 
-- W3C, `PROV-Overview`. Because the provenance framework explains that it should support identifying an object and representing derivation, it provides a general basis for recording row-level records, event-level samples, and window-level aggregates as distinct representation levels. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used for comparison with another period, it strengthens the point that aggregate-level representations such as a recent segment and a baseline segment live at a comparison level different from a sample-level representation. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. Time-point records and period aggregates can also be samples; choosing one action is this section’s case setting. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
+- W3C, [PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. General support for recording production processes and derivation. The three tables and their values are our fictional example, not a three-level classification prescribed by W3C. / Accessed: 2026-09-19
+- Google for Developers, [Machine Learning Glossary: example](https://developers.google.com/machine-learning/glossary#example){: target="_blank" rel="noopener noreferrer" }. An example is a case represented by features and may have a label or be unlabeled. Choosing actions or periods here is a case-specific response to the question. / Accessed: 2026-09-19

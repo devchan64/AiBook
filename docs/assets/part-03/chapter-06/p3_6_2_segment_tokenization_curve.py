@@ -15,30 +15,34 @@ from matplotlib import font_manager
 import numpy as np
 
 
+CJK_FONT = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc")
+if CJK_FONT.exists():
+    font_manager.fontManager.addfont(str(CJK_FONT))
+
 OUT_DIR = Path(__file__).resolve().parent
 
-POINTS = np.array([0.0, 0.9, 1.2, 1.25, 0.85, -0.05])
+POINTS = np.array([0.0, 0.92, 1.23, 1.28, 0.86, -0.14])
 TOKENS = ["UP2", "UP1", "FLAT", "DOWN1", "DOWN2"]
 
 LANG_TEXT = {
     "ko": {
-        "font_candidates": ["Noto Sans CJK KR", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
-        "xlabel": "시간",
-        "ylabel": "값",
+        "font_candidates": ["Noto Sans CJK KR", "Noto Sans CJK JP", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
+        "xlabel": "구간 경계 인덱스",
+        "ylabel": "값 (임의 단위)",
         "segment_labels": ["큰 상승", "완만한 상승", "거의 평평", "하강", "큰 하강"],
         "outfile": "segment-tokenization-curve-ko.png",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
-        "xlabel": "time",
-        "ylabel": "value",
+        "xlabel": "segment boundary index",
+        "ylabel": "value (arbitrary units)",
         "segment_labels": ["strong rise", "gentle rise", "almost flat", "decline", "large decline"],
         "outfile": "segment-tokenization-curve-en.png",
     },
     "zh": {
-        "font_candidates": ["Noto Sans CJK SC", "Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
-        "xlabel": "时间",
-        "ylabel": "值",
+        "font_candidates": ["Noto Sans CJK SC", "Noto Sans CJK JP", "Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
+        "xlabel": "区间边界索引",
+        "ylabel": "值（任意单位）",
         "segment_labels": ["大幅上升", "缓慢上升", "几乎平", "下降", "大幅下降"],
         "outfile": "segment-tokenization-curve-zh.png",
     },

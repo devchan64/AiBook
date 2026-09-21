@@ -1,14 +1,7 @@
-```mermaid
 flowchart TD
-    R[One row<br/>time-point record]
-    S[One sample<br/>one full action]
-    W[One segment<br/>several samples regrouped]
-    Q1[What happened now?]
-    Q2[Was this action unusual?]
-    Q3[Has the recent state shifted?]
-
-    R --> S --> W
-    R -.answers.-> Q1
-    S -.answers.-> Q2
-    W -.answers.-> Q3
-```
+    A["A: 3 observations"] --> AM["Action A<br/>Mean 1.133333"]
+    B["B: 3 observations"] --> BM["Action B<br/>Mean 0.966667"]
+    C["C: 3 observations"] --> CM["Action C<br/>Mean 1.233333"]
+    AM --> R["recent: A, C<br/>Mean 1.183333"]
+    CM --> R
+    BM --> P["baseline: B<br/>Mean 0.966667"]

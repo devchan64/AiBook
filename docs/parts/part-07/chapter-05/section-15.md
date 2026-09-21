@@ -1,76 +1,62 @@
-# P7-5.15 텍스트 모션으로 12개 OpenPose 키프레임 준비하기
+# P7-5.15 포즈 시퀀스와 참조 이미지로 캐릭터 애니메이션 생성하기
 
 > Section ID: `P7-5.15`
-> Version: `v2026.09.13`
+> Version: `v2026.09.21`
 
-정지 pose 한 장은 현재 P7-5.3의 OpenPose 구조 입력으로 만들 수 있다. 걷기처럼 시간에 따라 팔·다리·골반의 관계가 바뀌는 동작은 pose 이미지 12장을 각각 따로 생성하면 접지와 이동 순서가 쉽게 끊긴다. 이 절은 **텍스트에서 먼저 3D 관절 모션을 만들고, 그 시퀀스에서 12개 2D OpenPose 키프레임을 뽑기 위한 실험 조건**을 준비한다. 여기서는 모델 가중치를 아직 내려받거나 실행하지 않는다.
+P7-5.14는 텍스트 모션을 33장의 포즈·마스크 입력으로 준비했다. 이 절은 그 파일을 다시 만들거나 OpenPose로 바꾸지 않는다. 같은 포즈 시퀀스에 캐릭터 전신 참조와 근접 참조를 함께 전달했을 때, **동작을 읽을 수 있는 결과**와 **얼굴·손·의상 세부를 제작에 쓸 수 있는 결과**가 어떻게 달라지는지 확인한다.
 
-## 1. 키프레임은 완성 이미지가 아니라 시간 순서가 있는 구조 입력이다
+## 1. 포즈와 캐릭터 참조는 맡는 정보가 다르다
 
-이 실험의 첫 출력은 사람이 그려진 PNG가 아니라 프레임마다 관절 좌표가 있는 모션 배열이다. MoMask는 텍스트와 모션 길이를 `설명#포즈 수` 형식으로 받아, 생성 모션을 `(프레임 수, 22, 3)` 관절 배열과 stick-figure/BVH 결과로 저장한다. 따라서 생성된 3D 관절을 같은 camera로 2D에 투영한 뒤에만 각 프레임을 OpenPose guide로 쓸 수 있다. [MoMask 공식 구현](https://github.com/centersymmetry/momask){: target="_blank" rel="noopener noreferrer"}
+SCAIL-2에는 33프레임의 포즈 영상과 대응 포즈 마스크, 캐릭터 전신 참조와 참조 마스크를 별도로 전달했다. 포즈는 이동 경로와 큰 팔다리 배치를, 참조 이미지는 얼굴·머리·의상의 큰 특징을 맡는다. 어느 한 입력이 다른 역할을 보장하지 않는다.
 
-```mermaid
-flowchart LR
-    A["텍스트: 앞으로 걷는다"] --> B["MoMask 3D 모션\n48 × 22 × 3"]
-    B --> C["4프레임 간격 추출\n12개 키프레임"]
-    C --> D["같은 camera로 2D 투영"]
-    D --> E["OpenPose body-only\nPNG·좌표 JSON"]
-    E --> F["이미지 생성의\n프레임별 구조 입력"]
-```
-
-OpenPose는 이 경로에서 동작을 새로 만드는 모델이 아니다. 프레임별 `pose_keypoints_2d`를 JSON으로 기록하고 body·face·hand를 각각 분리할 수 있는 2D 키포인트 형식으로 쓴다. 첫 실험은 동작·카메라 검수를 분리하기 위해 body-only를 사용한다. [OpenPose JSON 출력 형식](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/02_output.md){: target="_blank" rel="noopener noreferrer"}
-
-## 2. 8GB GPU에서는 작은 모션 경로부터 확인한다
-
-| 후보 | 이 실험에서 보는 기능 | 8GB에서의 처리 |
+| 입력 | P7-5.14에서 이어받은 내용 | 이 실험에서 확인할 역할 |
 | --- | --- | --- |
-| MoMask | 텍스트와 포즈 수로 3D 관절 모션 생성 | 첫 실행 후보. batch 1, 48포즈 한 시퀀스만 실행 |
-| MDM 50-step | text-to-motion의 비교 기준, in-between 편집 | MoMask가 실행 또는 길이 제어에서 막힐 때의 비교 후보 |
-| LLaMA 기반 MotionGPT | text·초기 pose·key pose 조건을 포함한 모션 생성 | 별도 대형 언어 모델 가중치가 필요하므로 8GB 첫 실험에서는 제외 |
+| 포즈 이미지 | MoMask v4 원 모션 28~59번을 렌더링한 33장 | 수평 이동과 큰 신체 동작 |
+| 포즈 마스크 | 프레임별 포즈 조건 영역 33장 | 포즈 입력의 적용 영역 |
+| 전신 참조 | Mira의 전신·큰 착장 특징 | 인물의 전체 실루엣과 의상 경향 |
+| 근접 참조 | 같은 원본의 얼굴·상반신·손 크롭 | 작은 얼굴·상반신 정보를 보강하는 후보 |
 
-MoMask 공개 문서는 길이를 포즈 수로 지정하고 4의 배수로 맞추며, `12` 같은 짧은 길이도 받을 수 있다고 설명한다. 하지만 최소 VRAM 수치는 공개하지 않는다. 따라서 이 절은 “8GB에서 동작한다”는 결론을 미리 쓰지 않고, **batch 1의 짧은 단일 시퀀스가 실제로 생성되는가**를 첫 확인 항목으로 둔다. [MoMask 실행 안내](https://github.com/centersymmetry/momask/blob/main/README.md){: target="_blank" rel="noopener noreferrer"}
+입력 프레임 번호·고정 카메라·포즈 마스크는 P7-5.14에서 고정된 자료 그대로다. 이번 비교에서는 전신 참조에 근접 참조와 같은 식별 색 마스크를 하나 더 넣는 것만 바꾸었다.
 
-MDM은 단일 CUDA GPU 환경을 전제로 하며, 50-step 모델과 `motion_length` 제어를 제공한다. 다만 출력 길이가 초 단위이므로 정확히 12포즈를 요청하는 첫 비교에는 MoMask보다 한 단계 뒤에 둔다. [MDM 공식 구현](https://github.com/GuyTevet/motion-diffusion-model){: target="_blank" rel="noopener noreferrer"}
+## 2. 33프레임 조건에서 참조 정보만 추가한다
 
-LLaMA 기반 MotionGPT 구현은 별도 LLaMA 가중치 준비를 요구한다. 이는 key pose 조건을 다루는 후속 후보로는 유용하지만, 8GB에서 “짧은 보행 시퀀스가 나오는가”만 먼저 확인하는 이 실험의 첫 설치 대상으로 늘리지 않는다. [MotionGPT 구현의 가중치 준비 안내](https://github.com/qiqiApink/MotionGPT){: target="_blank" rel="noopener noreferrer"}
+SCAIL-2 GGUF Q4_K_M, DPO 어댑터 강도 1.0, 704×704, 33프레임·20fps, 40단계, CFG 5, shift 3, seed `23123134`와 저장된 텍스트 임베딩을 고정했다. 원문 프롬프트는 복원되지 않아, 같은 임베딩 해시로 텍스트 조건의 동일성을 확인했다. 이 제약 때문에 이 실험은 프롬프트 효과를 평가하지 않는다.
 
-## 3. 걷기는 48포즈를 만들고 12장을 뽑는다
-
-MoMask의 예시 기준 모션은 20fps다. 12포즈를 직접 생성하면 약 0.6초여서 한 보행 주기의 발 접지·체중 이동을 읽기에는 짧을 수 있다. 이번 준비에서는 먼저 48포즈를 생성하고 네 프레임마다 하나를 뽑는다. 이렇게 하면 약 2.4초의 원 모션에서 12개의 균등한 구조 키프레임을 얻는다.
-
-| 항목 | 고정 값 | 이유 |
+| 고정한 조건 | 전신 참조 기준 | 전신 + 근접 참조 조건 |
 | --- | --- | --- |
-| 텍스트 입력 | `A person walks forward#48` | 텍스트와 길이를 한 파일에 고정 |
-| 원 모션 | 48 poses, 20fps | 보행의 시간 흐름을 남김 |
-| 키프레임 | 12장 | 이미지 생성에 전달할 구조 수 |
-| 추출 인덱스 | `0, 4, 8, …, 44` | 시작·끝 규칙이 명시된 균등 추출 |
-| 입력 구조 | body-only OpenPose | 얼굴·손 세부가 동작 해석을 덮지 않게 분리 |
+| 포즈·마스크 | P7-5.14의 33프레임 | 동일 |
+| 캐릭터 전신 참조 | 1장 | 동일 |
+| 추가 근접 참조·마스크 | 없음 | 같은 원본에서 만든 1장 추가 |
+| 해상도·샘플링·난수 | 704×704·40단계·seed `23123134` | 동일 |
 
-12장은 걷기 동작의 완성도나 캐릭터 identity를 보장하지 않는다. 첫 검수에서는 두 발의 접지, 좌우 다리 교대, 팔의 반대 흔들림, 골반의 연속 이동, 프레임 간 갑작스러운 사지 교체만 본다. 캐릭터 얼굴·착장·화풍은 P7-5.1·P7-5.3의 참조가 맡으며, 키프레임 모션이 이 역할을 대체하지 않는다.
+마스크는 두 참조 영역이 같은 인물의 외형 정보라는 조건을 전달할 뿐, 얼굴 identity나 손가락 구조를 보증하지 않는다. 현재 포즈 입력에는 손가락 키포인트가 없다. 실행 조건, 입력 해시, 출력 해시는 [실험 기록](../../../assets/part-07/chapter-05/sec-15/2026-09-20-scail2-multiref-v1/README.md){ .aibook-markdown-preview }에 남아 있다.
 
-## 4. 실행 전에 입력 파일과 샘플링 계획을 고정한다
+## 3. 동작 식별과 세부 품질을 나누어 읽는다
 
-아래 준비 코드는 가중치·데이터셋을 설치하지 않고 MoMask 입력 파일과 실험 계획 JSON만 `.tmp/`에 만든다. 실제 추론은 다음 단계에서 별도 실행 기록으로 남긴다.
+RTX 5070 Laptop GPU에서 생성과 저장까지 약 79.8분이 걸렸다. 최대 PyTorch 할당 메모리는 약 4.44GiB, 예약 메모리는 약 5.68GiB였다. 이 수치는 이 실행 한 건의 측정값이며, 다른 해상도·장비·모델 설정의 필요 메모리나 속도를 뜻하지 않는다. PNG 33장의 해시·크기와 20fps 영상의 프레임 수는 확인했다.
 
-[MoMask 보행 키프레임 준비 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_15_prepare_momask_walk_keyframes.py)
+![전신·근접 참조를 함께 쓴 결과의 000·008·016·024·032번 프레임](../../../assets/part-07/chapter-05/sec-15/2026-09-20-scail2-multiref-v1/selected-frames.jpg)
 
-```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_15_prepare_momask_walk_keyframes.py
-```
+다섯 표본에서는 인물의 가로 이동과 짧은 머리·흰 상의·짙은 바지의 큰 특징을 읽을 수 있다. 반면 016번 프레임을 원본 크기로 보면 얼굴·손은 흐리고 신발 경계도 부드럽다. 따라서 근접 참조를 추가했다는 사실만으로 디테일이나 캐릭터 동일성이 개선되었다고 결론내리지 않는다. 표본 다섯 장은 전체 영상의 깜박임, 모든 프레임의 손발 대응, 정확한 보행 접지를 보증하지 않는다.
 
-생성되는 `experiment-plan.json`에는 아직 `prepared_not_run` 상태만 남는다. MoMask 결과의 실제 배열 모양, peak VRAM, 실행 시간, 카메라 투영 규칙, OpenPose 매핑표는 추론이 끝난 뒤에만 result JSON으로 기록한다.
+[전신 + 근접 참조 결과 영상](../../../assets/part-07/chapter-05/sec-15/2026-09-20-scail2-multiref-v1/multiref-dpo-q4-704/animation.mp4)
+
+포즈 입력에서 동작을 읽을 수 있었다는 판단과 캐릭터를 제작용으로 유지했다는 판단은 분리한다. 앞 절의 3D 관절 모션이 맞더라도, 2D 투영에서 사라진 깊이·가림 정보와 손가락 제어 부재 때문에 출력 프레임의 팔·손·의상은 별도 검수가 필요하다.
+
+## 4. 남은 한계는 다음 입력 설계의 질문이다
+
+이번 결과는 전신·근접 참조를 함께 쓰는 조건의 관찰 한 건이다. 원 모션 배열은 폐기되어 다른 카메라나 관절 표현으로 다시 렌더링할 수 없고, 기준 전신 참조 결과와의 비교판도 삭제되어 현재 직접 재비교할 수 없다. 그러므로 근접 참조만의 효과, 손가락 제어의 효과, 포즈 형식 변경의 효과를 분리한 실험은 아직 없다.
+
+다음 비교에서는 하나만 바꾼다. 예를 들어 같은 33프레임·난수·참조를 유지한 채 손가락을 포함한 구조 입력을 추가하거나, 같은 모션을 다른 카메라 투영으로 렌더링해 팔의 가림과 발 접지를 전 프레임에서 대조한다. 새 결과가 생기기 전에는 현재 영상을 해당 가설의 증거로 확대하지 않는다.
 
 ## 체크리스트
 
-- 텍스트 모션 모델의 3D 관절 시퀀스와 OpenPose의 2D 구조 guide를 서로 다른 단계로 구분했는가?
-- 12포즈를 직접 생성하는 대신 48포즈에서 12장을 추출하는 이유를 설명할 수 있는가?
-- 8GB 조건에서 아직 확인하지 않은 최소 VRAM·실행 시간·출력 품질을 결론처럼 쓰지 않았는가?
-- 첫 실행의 batch, 프레임 수, seed, 모델·가중치 버전, peak VRAM을 result JSON에 남길 준비가 되었는가?
-- body-only 키프레임이 얼굴 identity·착장·화풍의 기준을 대체하지 않는가?
+- P7-5.14가 만든 포즈·마스크와 P7-5.15가 추가한 캐릭터 참조의 역할을 구분할 수 있는가?
+- 이번 비교에서 바꾼 조건이 근접 참조·마스크 추가뿐임을 설명할 수 있는가?
+- 걷는 동작을 읽을 수 있다는 관찰과 얼굴·손·의상 세부가 충분하다는 판단을 분리했는가?
+- 33개 출력 전체의 시간축 일관성과 다섯 표본의 관찰 범위를 구분했는가?
 
 ## 출처와 참고 자료
 
-- centersymmetry, [MoMask 공식 구현](https://github.com/centersymmetry/momask){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-27.
-- Guy Tevet et al., [MDM: Human Motion Diffusion Model 공식 구현](https://github.com/GuyTevet/motion-diffusion-model){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-27.
-- Zhang et al., [MotionGPT 구현](https://github.com/qiqiApink/MotionGPT){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-27.
-- CMU Perceptual Computing Lab, [OpenPose JSON output](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/02_output.md){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-08-27.
+- zai-org, [SCAIL-2 공식 구현](https://github.com/zai-org/SCAIL-2){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-09-21.
+- centersymmetry, [MoMask 공식 구현](https://github.com/centersymmetry/momask){: target="_blank" rel="noopener noreferrer" }, GitHub, 확인일: 2026-09-21.

@@ -1,202 +1,91 @@
 # P3-5.1 원시 로그를 비교 가능한 표로 어떻게 바꾸는가
 
 > Section ID: `P3-5.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-원시 로그를 처음 보면 데이터가 매우 풍부해 보입니다. 시간 순서대로 값이 많이 쌓여 있고, 센서도 여럿이고, 제어 파라미터도 함께 보일 수 있기 때문입니다. 하지만 이런 풍부함이 곧바로 비교 가능한 데이터셋을 뜻하지는 않습니다. [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위를 정한 뒤에는 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)와 집계 표로 바꾸는 절차가 필요합니다. 원시 로그와 요약 표, 집계 표는 서로 다른 역할을 맡고 있으며, [한 행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit)이 뜻하는 대상도 다릅니다.
+동작 1회를 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample)로 정했다면, 같은 기록을 질문에 맞게 표현할 수 있습니다. 동작 안의 세부 변화는 원시 기록에서, 동작끼리의 구간 평균 차이는 요약 표에서, 여러 동작의 최근 상태는 집계 표에서 읽습니다. **요약 표는 비교를 돕는 표현 중 하나이며, 원시 시계열을 직접 비교하거나 모델 입력으로 쓰는 방법도 가능합니다.**
 
-`원시 로그 -> 요약 표 -> 집계 표`는 같은 시계열을 서로 다른 질문에 맞는 표로 다시 표현하는 순서입니다. 이 순서가 보여야 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교와 [중간 표현(intermediate representation)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-intermediate-representation) 설계도 어느 층위에서 붙는지 분명해집니다.
+## 구간이 이미 배정된 36개 관측에서 시작하기
 
-자동으로 실행되는 동작을 예로 들겠습니다. 원시 로그에서는 동작 중 매 시점마다 센서 값과 제어값이 한 줄씩 남습니다. 반면 요약 표에서는 자동으로 실행된 동작 1회가 한 행이 됩니다. 집계 표에서는 최근 20건 평균이나 평소 구간 평균처럼, 여러 동작을 다시 묶은 결과가 한 행이 될 수 있습니다.
+[가상 유량 CSV](../../../assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv)는 A~F 여섯 동작의 관측 36개를 담습니다. `flow`는 L/min 단위 유량입니다. 각 동작에는 `early`, `mid`, `late`가 두 관측씩 있고, A·B·C는 `baseline`, D·E·F는 `recent`로 배정되어 있습니다.
 
-| 표의 종류 | 한 행이 뜻하는 것 | 주로 답하는 질문 |
-| --- | --- | --- |
-| 원시 로그 | 동작 중 한 시점의 기록 | 지금 무엇이 측정되었는가 |
-| 요약 표 | 동작 1회 전체를 요약한 샘플 | 이번 동작은 어떤 구조였는가 |
-| 집계 표 | 여러 동작을 묶은 최근 또는 기준선 요약 | 최근 변화가 평소와 다른가 |
+이 파일은 **동작 ID·진행 구간·비교 묶음의 배정이 이미 끝난 입력**입니다. 여기서는 그 배정을 사용해 평균을 만들며 새 구간 경계를 계산하지 않습니다. 진행 구간의 기준은 [P3-5.4](section-04.md)에서 다룹니다. CSV에는 시각이나 진행도 원값이 없으므로, 이 파일만으로 구간 배정이 적절했는지 또는 동작 시간이 얼마인지 검증할 수는 없습니다.
 
-이 차이는 단지 표 이름이 다른 정도가 아닙니다. 원시 로그는 세부 흐름을 보존하는 데 강하지만, 동작 전체를 비교하기는 어렵습니다. 요약 표는 동작 간 비교를 쉽게 만들지만, 순간적인 세부 흔들림은 대부분 압축해서 잃습니다. 집계 표는 최근 상태를 빠르게 읽게 해 주지만, 개별 동작의 특수한 모양은 지워질 수 있습니다.
+A의 여섯 관측을 먼저 읽어 보겠습니다. `(event_id, progress_bin)`은 여러 관측을 모으는 기준이며, 같은 조합이 두 번 나오므로 개별 관측의 고유 식별자는 아닙니다.
 
-그래서 이 절에서의 표 변환은 `표를 만든다`는 말보다 `수치형 값과 범주형 상태를 함께 탐색 가능한 구조로 바꾼다`는 쪽에 더 가깝습니다. 수치형 탐색(numerical exploration)은 요약 표에서 수준, 변화, 변동성을 비교할 수 있어야 시작되고, 범주형 탐색(categorical exploration)은 상태 구간, 결측 여부, 겹침 여부, 비교 불가 사유 같은 범주 정보를 함께 정리해야 시작됩니다.
+| event_id | window | progress_bin | flow |
+| --- | --- | --- | ---: |
+| A | baseline | early | 0.70 |
+| A | baseline | early | 0.90 |
+| A | baseline | mid | 2.00 |
+| A | baseline | mid | 2.10 |
+| A | baseline | late | 1.70 |
+| A | baseline | late | 1.80 |
 
-| 탐색 관점 | 표에서 먼저 남겨야 하는 것 | 뒤 절에서 더 읽게 되는 것 |
-| --- | --- | --- |
-| 수치형 탐색 | 구간 평균, 변화율, 변동성 | 평균 밖 패턴, 최근 대 기준선 차이 |
-| 범주형 탐색 | 상태 라벨, 결측 표시, 겹침/비교 불가 표시 | 샘플 붕괴 구분, 비교 가능 여부 판단 |
+## 같은 동작·같은 구간의 관측을 먼저 평균한다
 
-그래서 `요약`을 단순한 축소로 이해하면 곤란합니다. 동작 1회 요약 행은 원시 시계열 여러 행을 사람이 비교하고 모델이 다루기 쉬운 한 행으로 바꾼 결과입니다. 여기서 중요한 것은 샘플 단위를 다시 정의하는 일이 아니라, 이미 정한 샘플 단위 위에 비교 가능한 표를 만드는 절차라는 점입니다. 비교를 쉽게 만들어 주지만, 원시 시계열의 모든 맥락을 대체하지는 않습니다.
+A의 초반 평균은 `(0.70 + 0.90)/2 = 0.80 L/min`입니다. 중반은 `(2.00 + 2.10)/2 = 2.05`, 후반은 `(1.70 + 1.80)/2 = 1.75`입니다. 이 세 값은 A의 서로 다른 구간을 설명하며, A 전체 평균 세 개를 뜻하지 않습니다.
 
-그래서 표를 볼 때는 먼저 `열이 무엇인가`보다 `행 하나가 무엇인가`를 물어야 합니다. 원시 로그의 한 행은 보통 아직 샘플 1건이 아닙니다. 요약 표의 한 행이 되어서야 비로소 동작 1회를 비교 가능한 샘플로 읽을 수 있습니다. 집계 표는 더 나아가 샘플 여러 개를 다시 묶어 비교 구조를 만든 것입니다.
+다른 동작에도 같은 계산을 적용하면 다음과 같습니다. 한 행은 동작 1회이고 `event_id`로 원래 관측 묶음을 찾습니다. 각 평균의 분모는 해당 동작·구간에 있는 관측 2개입니다.
 
-원시 로그에서 요약 표로 넘어갈 때는 단지 행 수만 줄이는 것이 아닙니다. 이 단계에서는 `어느 구간을 나눌 것인가`, `어떤 변화율을 계산할 것인가`, `어떤 센서값을 대표값으로 남길 것인가`를 함께 정해야 합니다. 예를 들어 동작 1회 요약 표에는 총 동작 시간, 초반 평균 압력, 중반 평균 유량, 후반 하강률, 제어 추종 오차 같은 열이 들어갈 수 있습니다. 이 값들은 원시 로그에 원래 한 줄로 적혀 있던 값이 아니라, 여러 시점 값을 사람이 비교하기 좋은 형태로 다시 표현한 결과입니다.
+| event_id | window | early_flow_mean | mid_flow_mean | late_flow_mean |
+| --- | --- | ---: | ---: | ---: |
+| A | baseline | 0.80 | 2.05 | 1.75 |
+| B | baseline | 0.80 | 2.15 | 1.65 |
+| C | baseline | 0.80 | 2.00 | 1.85 |
+| D | recent | 0.95 | 2.45 | 1.85 |
+| E | recent | 1.05 | 2.65 | 1.95 |
+| F | recent | 1.00 | 2.55 | 1.75 |
 
-아래 도식은 이 변환을 가장 짧게 압축해 보여 줍니다.
+이 표는 예를 들어 A와 D의 중반 평균을 바로 비교하게 합니다. 그러나 평균이 같다고 구간 안의 변화 모양까지 같지는 않습니다. A의 초반 0.70·0.90과 B의 초반 0.80·0.80은 둘 다 평균 0.80이지만 관측값은 다릅니다. 변화 순서나 순간적인 봉우리를 보려면 원시 기록이 필요합니다.
+
+## 동작 평균을 다시 모으면 비교 묶음의 평균이 된다
+
+이번에는 같은 `window`에 속한 동작의 같은 열을 모읍니다. 기준선 초반 평균은 `(A의 0.80 + B의 0.80 + C의 0.80)/3 = 0.80`입니다. 최근 초반 평균은 `(D의 0.95 + E의 1.05 + F의 1.00)/3 = 1.00`입니다. **앞 계산의 분모 2는 관측 수, 이번 분모 3은 동작 수**이며 동작마다 같은 비중을 줍니다.
+
+| window | member_events | event_count | early_flow_mean | mid_flow_mean | late_flow_mean |
+| --- | --- | ---: | ---: | ---: | ---: |
+| baseline | A, B, C | 3 | 0.80 | 2.07 | 1.75 |
+| recent | D, E, F | 3 | 1.00 | 2.55 | 1.85 |
+
+이 표의 평균 열은 앞 표와 이름이 같아도 한 동작이 아니라 세 동작을 설명합니다. 별도 파일로 넘길 때도 한 행의 뜻과 계산 규칙을 함께 남겨야 합니다. 기준선 중반은 `(2.05 + 2.15 + 2.00)/3 = 2.0666…`이며 표에만 2.07로 반올림했습니다.
+
+초반의 최근−기준선 차이는 `1.00−0.80 = +0.20 L/min`입니다. 이는 이 여섯 가상 동작에서 관측한 평균 차이이며, 곧바로 고장이나 장기적 변화의 증거는 아닙니다. 각 묶음은 실제로 세 동작이므로 “최근 20건”이라고 부를 수도 없습니다.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-1-mermaid-01-ko.mmd"
 ```
 
-이 흐름에서는 `Segment by progress` 단계가 특히 중요합니다. 원시 로그를 그대로 평균 내는 것이 아니라, 동작 안에서 초반과 중반, 후반처럼 비교 가능한 구간을 먼저 나눈 뒤에야 요약값이 생기기 때문입니다. 그리고 `Aggregate across events`는 그 다음 단계입니다. 동작 1회 요약과 최근 구간 집계는 같은 일이 아니라, 한 번 더 묶는 일입니다.
+36관측→6동작 행→2집계 행의 변환에서 동작 샘플의 정의를 다시 바꾼 것은 아닙니다. 같은 여섯 동작을 다른 수준으로 요약했습니다. 집계값이 이상하면 `window → event_id → progress_bin의 관측` 순서로 돌아가 어떤 값이 바뀌었는지 찾습니다.
 
-여기서는 `세 표 중 어느 것이 지금 내 작업의 출발점인가`를 먼저 확인해야 표를 덜 섞어 읽게 됩니다.
+## 값 하나를 바꾸어 두 단계의 영향을 따라가기
 
-| 지금 손에 든 표 | 먼저 해야 할 일 | 아직 이 표만으로는 어려운 일 |
-| --- | --- | --- |
-| 원시 로그 | 동작 경계와 구간 기준을 정한다 | 동작 간 직접 비교 |
-| 요약 표 | 동작 1회끼리 비교한다 | 최근 반복 변화 읽기 |
-| 집계 표 | 최근 상태와 기준선 차이를 본다 | 개별 동작의 세부 모양 확인 |
+원본 CSV는 그대로 두고, A의 초반 관측 0.90을 1.50으로 바꾼 경우를 계산해 보세요. A의 초반 평균, 기준선 초반 평균, 최근−기준선 차이는 각각 얼마가 될까요?
 
-실제 열 설계로 옮기면 원시 로그에는 `event_id`, `timestamp`, `progress_bin`, 센서값처럼 기록의 발생 위치를 남기고, 요약 표에는 `event_id`, `early_flow_mean`, `mid_flow_mean`, `late_flow_mean`처럼 동작 1회를 비교할 열을 둡니다. 집계 표에는 `window`, `event_count`, `baseline_gap`처럼 여러 동작을 다시 묶었다는 열이 필요합니다. 세 표가 모두 같은 원천에서 나왔더라도, 각 표의 첫 열과 파생 열이 어느 표현 수준을 가리키는지 달라야 뒤에서 비교 기준과 특징 후보가 섞이지 않습니다.
+A는 `(0.70 + 1.50)/2 = 1.10`, 기준선은 `(1.10 + 0.80 + 0.80)/3 = 0.90`, 차이는 `1.00−0.90 = +0.10 L/min`입니다. 원시 값의 증가 0.60이 동작 평균에서는 0.30, 세 동작 집계에서는 0.10으로 반영됩니다. 최근 묶음과 중반·후반 값은 바뀌지 않습니다. 이렇게 바뀐 열을 따라가면 집계값의 근거를 특정 관측까지 좁힐 수 있습니다.
 
-집계 표는 한 번 더 역할이 달라집니다. 여기서는 개별 동작의 모양보다 `최근 20건의 평균`, `최근 20건의 변동성`, `기준선 대비 차이`, `같은 방향 변화가 반복된 횟수`처럼 여러 동작을 묶은 흐름이 중심이 됩니다. 즉 요약 표가 `사례 읽기`에 가깝다면, 집계 표는 `상태 읽기`에 더 가깝습니다.
+## 측정점에 같은 비중을 줄지, 동작에 줄지 선택하기
 
-다음 예시는 원시 로그가 어떻게 동작 단위 요약 표를 거쳐 최근/기준선 집계 표로까지 이어지는지 보여 줍니다. 여기서는 세 개의 진행도 구간으로 나눠 구간 평균을 만들고, `baseline` 3건과 `recent` 3건을 비교한다고 가정하겠습니다.
+앞 사례는 모든 동작·구간에 관측이 두 개씩이므로 관측을 직접 모아 평균해도 같은 결과가 나옵니다. 관측 수가 다르면 달라집니다. 별도의 가상 사례로 X에는 값 10인 측정점 2개, Y에는 값 20인 측정점 6개가 있다고 하겠습니다.
 
-문제 상황: 원시 로그가 `동작 1회 요약 표`를 거쳐 `최근/기준선 집계 표`로 바뀌는 과정을 한 번에 확인합니다.
+| 질문 | 계산 | 결과 | 동작이 받는 비중 |
+| --- | --- | ---: | --- |
+| 두 동작의 평균 수준을 동작당 똑같이 비교한다 | (10+20)/2 | 15 | X:Y = 1:1 |
+| 수집된 여덟 측정점의 평균을 구한다 | (2×10+6×20)/8 | 17.5 | X:Y = 2:6 |
 
-입력(input): [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){ .csv-preview } 파일. 한 행은 한 동작의 한 진행 구간에서 측정된 `flow` 기록이고, `window`는 기준선 또는 최근 구간을 뜻합니다.
+두 번째 계산에서 Y는 X보다 세 배의 비중을 받습니다. 이것이 가중치의 뜻입니다. 측정점 평균이 틀리고 동작 평균이 항상 맞다는 뜻이 아니라, 질문에 따라 분모와 비중을 선택해야 한다는 뜻입니다. 측정 간격이 불규칙하면 측정점 평균을 시간 평균으로 곧바로 읽을 수도 없습니다.
 
-기대 출력(output): `raw`, `summary`, `aggregate` 세 표가 서로 다른 행 의미와 비교 역할을 갖는 출력
-
-확인할 개념: 원시 로그를 비교 가능한 표로 바꾼다는 말은 같은 기록을 요약 표와 집계 표로 단계적으로 다시 표현한다는 뜻이다
-
-```python
-# 원시 로그 행을 이벤트별 요약표와 구간별 집계표로 바꾸는 예제입니다.
-import csv
-from collections import defaultdict
-from pathlib import Path
-
-data_path = Path("docs/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv")
-
-with data_path.open(newline="", encoding="utf-8") as file:
-    raw = [
-        {**row, "flow": float(row["flow"])}
-        for row in csv.DictReader(file)
-    ]
-
-event_segments = defaultdict(lambda: {"window": None, "segments": defaultdict(list)})
-for row in raw:
-    event = event_segments[row["event_id"]]
-    event["window"] = row["window"]
-    event["segments"][row["progress_bin"]].append(row["flow"])
-
-summary = []
-for event_id in sorted(event_segments):
-    event = event_segments[event_id]
-    summary.append(
-        {
-            "event_id": event_id,
-            "window": event["window"],
-            "early_flow_mean": sum(event["segments"]["early"]) / len(event["segments"]["early"]),
-            "mid_flow_mean": sum(event["segments"]["mid"]) / len(event["segments"]["mid"]),
-            "late_flow_mean": sum(event["segments"]["late"]) / len(event["segments"]["late"]),
-        }
-    )
-
-window_groups = defaultdict(list)
-for row in summary:
-    window_groups[row["window"]].append(row)
-
-aggregate = []
-for window in sorted(window_groups):
-    rows = window_groups[window]
-    aggregate.append(
-        {
-            "window": window,
-            "event_count": len(rows),
-            "early_flow_mean": sum(row["early_flow_mean"] for row in rows) / len(rows),
-            "mid_flow_mean": sum(row["mid_flow_mean"] for row in rows) / len(rows),
-            "late_flow_mean": sum(row["late_flow_mean"] for row in rows) / len(rows),
-        }
-    )
-
-print("1) raw log rows before comparison")
-for row in raw[:6]:
-    print(
-        f'{row["event_id"]} {row["window"]:<8} '
-        f'{row["progress_bin"]:<5} flow={row["flow"]:.2f}'
-    )
-print(f"... {len(raw) - 6} more raw log rows")
-print()
-print("2) per-event summary table for direct comparison")
-for row in summary:
-    print(
-        f'{row["event_id"]} {row["window"]:<8} '
-        f'early={row["early_flow_mean"]:.2f} '
-        f'mid={row["mid_flow_mean"]:.2f} '
-        f'late={row["late_flow_mean"]:.2f}'
-    )
-print()
-print("3) recent-vs-baseline aggregate table built from event summaries")
-for row in aggregate:
-    print(
-        f'{row["window"]:<8} events={row["event_count"]} '
-        f'early={row["early_flow_mean"]:.2f} '
-        f'mid={row["mid_flow_mean"]:.2f} '
-        f'late={row["late_flow_mean"]:.2f}'
-    )
-```
-
-예상 출력:
-
-```text
-1) raw log rows before comparison
-A baseline early flow=0.70
-A baseline early flow=0.90
-A baseline mid   flow=2.00
-A baseline mid   flow=2.10
-A baseline late  flow=1.70
-A baseline late  flow=1.80
-... 30 more raw log rows
-
-2) per-event summary table for direct comparison
-A baseline early=0.80 mid=2.05 late=1.75
-B baseline early=0.80 mid=2.15 late=1.65
-C baseline early=0.80 mid=2.00 late=1.85
-D recent   early=0.95 mid=2.45 late=1.85
-E recent   early=1.05 mid=2.65 late=1.95
-F recent   early=1.00 mid=2.55 late=1.75
-
-3) recent-vs-baseline aggregate table built from event summaries
-baseline events=3 early=0.80 mid=2.07 late=1.75
-recent   events=3 early=1.00 mid=2.55 late=1.85
-```
-
-위 출력에서 원시 로그는 36개의 시점 기록이고, 2단계에서야 6개의 동작이 각각 한 줄이 되며, 3단계에서는 그 샘플들이 다시 `baseline`과 `recent` 집계로 올라갑니다. 이때 중요한 것은 단순히 줄 수가 줄었다는 사실이 아니라, `초반`, `중반`, `후반`이라는 비교 단위가 요약 표의 열 구조 안으로 들어오고, 그 요약 표가 다시 최근 상태 비교 표의 재료가 된다는 점입니다. 예제에서 CSV의 값을 바꾸면 동작별 요약값과 최근/기준선 집계값이 함께 바뀌므로, 독자는 어느 표현 수준에서 판단이 달라지는지 직접 확인할 수 있습니다.
-
-이 예제를 본 뒤에는 아래 질문으로 지금 일어난 변화가 단순 축약인지 표현 전환인지 확인할 수 있습니다.
-
-1. 지금 줄어든 것은 단순한 행 수인가, 아니면 샘플 단위의 재정의인가
-2. `early`, `mid`, `late`는 원시 로그에 원래 있던 열인가, 비교를 위해 새로 만든 구간인가
-3. 다음 단계에서 최근 20건 평균을 만들려면 지금 표와 원시 로그 중 어느 쪽이 더 직접적인 출발점인가
-
-이 질문에 답할 수 있으면 `원시 로그 -> 요약 표 -> 집계 표`가 단순 축약 순서가 아니라, 서로 다른 판단 질문을 위한 표현 전환이라는 점이 더 분명해집니다.
-
-같은 흐름을 더 짧게 판별하면 다음처럼 볼 수 있습니다.
-
-| 지금 필요한 판단 | 더 직접적인 출발점 |
-| --- | --- |
-| 개별 동작의 구조 비교 | 요약 표 |
-| 최근 상태와 평소 상태 비교 | 집계 표 |
-| 이상한 변화의 세부 시점 확인 | 원시 로그 |
-
-이 표가 중요하다는 것은 `표를 하나만 잘 만들면 끝난다`는 뜻이 아니라, 질문마다 다시 내려가거나 올라갈 표가 다르다는 뜻입니다.
-
-### 동작별 평균과 측정점 전체 평균은 다르다
-
-가상 로그에서 A는 두 측정점이 모두 10이고, B는 여섯 측정점이 모두 20이라고 해 보겠습니다. 동작을 똑같이 한 건으로 보면 평균은 `(10+20)/2 = 15`입니다. 여덟 측정점을 같은 무게로 보면 `(2×10+6×20)/8 = 17.5`입니다. 뒤 계산에서는 B가 A보다 세 배의 무게를 받습니다. 동작당 상태를 묻는지, 측정점당 수준을 묻는지에 따라 계산이 달라집니다. 측정 간격까지 불규칙하면 측정점 평균을 시간 평균으로도 곧바로 읽을 수 없습니다.
-
-또 하나 중요한 점은 세 표가 경쟁 관계가 아니라는 사실입니다. 요약 표를 만들었다고 해서 원시 로그가 필요 없어지는 것은 아닙니다. 집계 표를 만들었다고 해서 동작 단위 표가 쓸모없어지는 것도 아닙니다. 오히려 집계 표에서 이상한 변화가 보이면 다시 요약 표와 원시 로그로 내려가 확인해야 합니다. 비교를 위한 표현이 늘어날수록 원시 시계열을 다시 확인하는 절차도 함께 중요해집니다.
-
-따라서 `원시 로그 -> 요약 표 -> 집계 표`는 단순 축약 순서가 아니라, 같은 시계열을 기록 수준, 샘플 수준, 상태 수준으로 다시 표현하는 연속된 설계입니다. 핵심은 표가 하나씩 늘어난다는 사실보다, 어떤 질문에는 원시 기록이, 어떤 질문에는 샘플 요약이, 어떤 질문에는 상태 집계가 더 직접적인 근거가 된다는 점입니다.
+X에 값 10인 관측을 네 개 더 수집했다면 두 평균은 어떻게 될까요? 동작 평균은 여전히 15이고, 측정점 평균도 `(6×10+6×20)/12 = 15`가 됩니다. 동작별 수준은 그대로인데 측정점 수의 비중이 바뀐 결과입니다. 원래 17.5에서 15로 낮아졌다고 Y의 상태가 개선되었다고 해석하면 안 됩니다.
 
 ## 체크리스트
 
-- 동작별 평균의 평균과 모든 시점 평균을 각각 계산했는가?
-- 두 평균에서 각 동작이 받는 가중치가 왜 다른지 설명했는가?
+- early/mid/late가 이번 집계에서 새로 생성된 값이 아니라 입력에 배정된 구간임을 설명하는가?
+- A의 초반 두 관측에서 동작 평균과 기준선 평균까지 추적할 수 있는가?
+- 36관측·6동작·2집계가 각각 무엇을 세는지 구별하는가?
+- A의 관측 하나를 바꿨을 때 영향을 받는 열과 묶음을 계산했는가?
+- 15와 17.5 중 질문에 맞는 평균을 고르고 각 동작의 비중을 설명할 수 있는가?
+- 요약이 잃는 정보와 원시 기록으로 돌아갈 경로를 남겼는가?
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance framework가 처리 단계, 재현 가능성, 버전, 파생 관계를 표현할 수 있어야 한다고 정리하므로, 원시 로그가 어떤 처리 단계를 거쳐 요약 표와 집계 표로 바뀌었는지 분리해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 시점별 기록을 동작별 표로 묶는 규칙은 이 절의 질문에 맞춘 자체 예시입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, aggregate table처럼 최근 상태와 기준선 상태를 비교하는 별도 표현 수준이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, [PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. 처리 과정과 파생 관계를 기록하는 일반 근거입니다. 이 절의 CSV, 구간 배정, 계산과 연습은 자체 가상 사례이며 W3C가 정한 표 변환 절차는 아닙니다. / 확인일: 2026-09-19

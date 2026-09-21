@@ -1,10 +1,6 @@
 flowchart TD
-    A[Current question]
-    A --> B{Need to show what changed first?}
-    B -->|Yes| C[Keep compare report]
-    B -->|No| D{Have stable target labels?}
-    D -->|No| C
-    D -->|Yes| E[Consider prediction task]
-
-    C --> F[Keep change explanation centered]
-    E --> G[Define as prediction problem]
+    A["Current comparison question"] --> B["Report: difference, counts, limitations"]
+    B --> C["Apply explicit policy if review is needed"]
+    D["Separate future-outcome question"] --> E["Check individual inputs, outcome labels, evaluation"]
+    C --> F["Keep the report; prepare prediction separately"]
+    E --> F

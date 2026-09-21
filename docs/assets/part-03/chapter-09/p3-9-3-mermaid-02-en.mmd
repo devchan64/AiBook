@@ -1,12 +1,5 @@
 flowchart TD
-    B[Comparison report]
-    B --> B1[difference value]
-    B --> B2[comparison sentence]
-
-    C[Review-candidate queue]
-    C --> C1[review needed]
-    C --> C2[priority score]
-
-    D[Target-candidate table]
-    D --> D1[feature columns]
-    D --> D2[result-candidate column]
+    A["A: diff -0.35, count 14/20"] --> B["Policy assignment: rank 1"]
+    B --> C["Inspection result: 1"]
+    D["B: roster retained"] --> E["Not selected today"]
+    E --> F["Outcome unknown"]

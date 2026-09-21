@@ -1,7 +1,7 @@
 # P3-7.5 基准线应该固定不动，还是应该按“最近的平时”一起更新
 
 > Section ID: `P3-7.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
 在选好 [基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline) 候选之后，还会留下另一个问题。`这个参考应该固定一段时间，还是应该和“最近的平时区间”一起移动？` 即使都已经选中了同条件下的区间，只要基准线的维护方式不同，比较句子的意义也会跟着变化。
 
@@ -24,11 +24,34 @@ NIST 的 EWMA 控制图介绍了对近期观测和过去信息加权的监控统
 
 固定基准线可以用于追踪长期变化，近期平时基准线可以用于确认相对近期状态的偏离。在同一份报告中并排显示两种差值，就可以区分各自的比较目的。
 
+
+## 与基准值一起记录期间、排除规则和版本
+
+下表是为说明前面 100、108、110 而设的虚构记录。数值为相同条件下每个动作的平均压力，单位 kPa。假设对基准期内结束的动作等权平均，仅使用测量定义一致的有效记录。当前对象是 9 月 20 日 10:05 结束的动作 E110。
+
+| 记录项目 | 固定基准 | 近期基准 |
+| --- | --- | --- |
+| 基准版本 | fixed-v1 | recent-0920-1000 |
+| 纳入期间 | 9 月 1 日校准后 09:00（含）至 10:00（不含） | 9 月 20 日 09:00（含）至 10:00（不含） |
+| 基准值 | 100 kPa | 108 kPa |
+| 计算完成与生效时点 | 9 月 1 日 10:00，之后保留 | 9 月 20 日 10:00，使用至下次更新前 |
+| 排除当前对象 | 排除 E110 | 排除 E110 及结束时刻为 10:00 或更晚的记录 |
+| 10:05 的比较记录 | E110: 110−100=+10 kPa | E110: 110−108=+2 kPa |
+
+这里假设边界时刻所需输入与汇总都已准备完成。若实际计算较晚完成，在完成前就不可使用，因此除了纳入期间，还要记录计算完成时刻。fixed-v1 回答相对校准后参照的变化，recent-0920-1000 回答相对紧邻前一小时的变化。只记录“近期基准”无法知道用了哪个时段。
+
+11:00 重新计算近期基准时，应创建新版本，不用它覆盖 10:05 的比较结果。E110 不进入自己的基准，但如果满足事先规定的纳入与质量规则，可以进入之后对象的基准。也不能因为异常结果不合意，就事后改变纳入规则。
+
+请复算另一例中的过去 100、100 与当前 130。只用过去资料时，`(100+100)/2=100`，差值为 +30。混入当前值时，`(100+100+130)/3=110`，差值为 +20。算术与单位正确，也不代表符合“与排除当前对象的过去资料比较”的规则。把 10:10 的记录或 11:00 基准版本用于 10:05 比较，也违反相同的时点要求。
+
+
 ## 按比较目的选择固定或更新基准 {#_2}
 
 这一节真正抓住的不是基准线形式本身，而是 `比较问题` 会让哪一种维护方式更自然。固定基准线和最近平时基准线更适合支撑不同的问题，因此比较语句的含义也会跟着改变。
 
+```mermaid
 --8<-- "assets/part-03/chapter-07/p3-7-5-mermaid-01-zh.mmd"
+```
 
 ## 检查清单
 
@@ -42,4 +65,4 @@ NIST 的 EWMA 控制图介绍了对近期观测和过去信息加权的监控统
 - NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 它说明 control chart 会把当前过程特性与过去表现比较，并且 control limit 只有在有正当且有力的理由时才应改变，因此直接支持本节的说明：基准线要固定还是更新，应根据比较问题和运行变化依据来决定。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - Hyndman, Athanasopoulos et al., `Forecasting: Principles and Practice (3rd ed)`, `Time series cross-validation`. 它解释了 rolling forecasting origin 这种“参考会随着时间一起向前移动”的结构，因此可以作为一种类比性支持，说明像最近平时基准线这样的“参考区间一起移动”的运行方式是可能的。但因为这份资料属于预测评估语境，所以本节只借用其中 `移动中的参考` 这个更高层概念，而且只以类比方式使用。 [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 
-- [NIST EWMA Control Charts](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc324.htm){ target="_blank" rel="noopener noreferrer" }。用于确认对过去观测加权的更新基准与固定基准的区别。确认日期：2026-09-15。
+- [NIST EWMA Control Charts](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc324.htm){: target="_blank" rel="noopener noreferrer" }。用于确认对过去观测加权的更新基准与固定基准的区别。确认日期：2026-09-15。

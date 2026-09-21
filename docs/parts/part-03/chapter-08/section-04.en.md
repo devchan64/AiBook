@@ -1,77 +1,55 @@
 # P3-8.4 Conservative Interpretation and Operational Columns
 
 > Section ID: `P3-8.4`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_Subtitle: How do interpretation sentences become warning columns and review-queue criteria?_
+“Review is needed” does not calculate a priority score. To produce the same [operational output](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) from the same observations, specify inputs, applicability conditions, and decision rules. Sentences explain observations and limitations; operational columns store the results of an explicit policy.
 
-After reading a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), you may be left with a conservative interpretation sentence such as `the recent window shows a larger late-stage drop than the baseline, so the review priority should rise`. The next judgment is how that sentence should become structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. A conservative interpretation sentence is not the end. It is the last human-interpretation stage before being turned into an [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) such as a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure). If you convert the comparison table directly into structured output, the reason for the judgment can disappear in the middle. If you leave only free text, it becomes hard to set operational priority or resort cases with the same rule.
-
-| Level | Main form | Role |
+| Layer | Information retained | Role in this example |
 | --- | --- | --- |
-| [Comparison result](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) | Difference value, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), repeatability | Shows what changed |
-| Conservative interpretation sentence | `needs more observation`, `raise review priority` | Organizes judgment strength for human reading |
-| Structured operational output | `warning_level`, `review_needed`, `priority_score` | Enables resorting, searching, and follow-up processing in operations |
+| Comparison result | Difference, counts, rule-satisfaction proportion | Preserve observations |
+| Interpretation statement | Observation, uncertainty, checking action | Explain meaning and limitations to people |
+| Operational output | Warning label, review flag, priority band | Support retrieval, grouping, and follow-up under a defined policy |
 
-Separating these three levels creates the flow `numbers -> sentence -> operational columns`.
+## Fix input conditions and calculations
 
-## Why the Sentence Stage Is Needed First
+The following is a separate fictional aggregate for practicing operational outputs. A, B, and C identify comparison windows. `diff` subtracts the baseline average of per-operation late-period means from the recent average, in L/min. `event_count` counts recent completed operations. As in [P3-7.2](../chapter-07/section-02.en.md), the decline condition is `late-period mean−early-period mean ≤ −0.30 L/min`, counting each operation once.
 
-The reason to go through a sentence stage before creating operational columns is simple.
+| window_id | diff (L/min) | event_count | decline_count | decline_ratio |
+| --- | ---: | ---: | ---: | ---: |
+| A | -0.35 | 20 | 14 | 14/20=0.70 |
+| B | -0.35 | 3 | 1 | 1/3≈0.333 |
+| C | -0.10 | 10 | 2 | 2/10=0.20 |
 
-- Which difference should remain at a `record` level
-- Which difference should become a `review candidate`
-- Which difference should become a `strong warning`
+`decline_ratio=decline_count/event_count`. A's 70% is the proportion meeting the defined decline condition, not a failure probability or confidence score. The baseline difference and the within-operation decline proportion also compare different things.
 
-That judgment usually depends not on one number alone, but on the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) created by sample size, repeatability, and comparison conditions read together. The sentence is therefore not decoration. It is an intermediate stage that translates numbers into operational judgment.
+Assume all required measurements are available and baseline and recent data match in type, operating conditions, units, and segment definitions. Total counts are positive integers, and decline counts range from zero to the total. Also assume a separate allowable-limit check found no violation. Rows with missing measurements, mismatched conditions, limit violations, or unknown violation status are outside this policy's scope. Route them to data checks or existing response procedures; do not use the last policy row to treat them as normal.
 
-## Looking at One Scene Again in Three Stages
+## A policy connecting numbers to operational decisions
 
-Suppose the recent window was read like this.
+Suppose a fictional team defines the following review-assignment policy, `review-v1`. For rows satisfying the applicability conditions, apply **the first matching rule from top to bottom**. The values 0.30 and 0.60 are choices for this exercise, not statistically validated boundaries or actual equipment safety limits.
 
-1. In the most recent 20 cases, the late-stage drop is larger than the baseline.
-2. It also repeats, so it looks closer to a state-change candidate than to a one-off event.
-3. Cause confirmation is deferred, and the review priority is raised.
+| Rule | Input condition | warning_level | review_needed | priority_band |
+| --- | --- | --- | ---: | --- |
+| R1 | diff ≤ −0.30 and decline_ratio ≥ 0.60 | caution | 1 | first |
+| R2 | R1 does not match and diff ≤ −0.30 | caution | 1 | standard |
+| R3 | Neither rule above matches | watch | 0 | none |
 
-If you convert those three sentences into operational columns, they can become the following.
-
-| What was said at the sentence stage | Example structured column |
-| --- | --- |
-| The difference is clear, but cause confirmation is deferred | `warning_level = caution` |
-| It is worth a person looking again | `review_needed = 1` |
-| It should be seen before other cases | `priority_score = 0.82` |
-
-So the sentence does not end as free narrative. It can be compressed into column names that will be reused later.
-
-## Why Conservative Interpretation and Operational Columns Are Not the Same Thing
-
-One thing to be careful about here is that you should not misunderstand the sentence and the columns as being determined automatically in a one-to-one way.
-
-| Conservative sentence | What it does not immediately mean | Reason |
-| --- | --- | --- |
-| `More observation is needed` | Immediately `review_needed = 1` | Because observation can still stay at record level |
-| `Raise the review priority` | Immediately `cause confirmed` | Because review and diagnosis are different levels |
-| `Strong change signal` | Immediately `automatic action` | Because operational policy and safety criteria are still needed |
-
-The sentence organizes the strength, but another step of structuring is still needed before it becomes actual operational columns and policy.
+`caution` is this policy's review label, not a failure diagnosis. `first` means review before `standard` within this policy, not greater certainty about the cause. `watch` and `review_needed=0` mean **not placed in the review queue by this rule**, not guaranteed safety or cancellation of all follow-up. Both boundaries include equality. Use the original fraction for decisions, not its rounded display value.
 
 ## Comparing the Roles of Interpretation Statements and Operational Columns {#looking-at-the-comparison-table-first}
 
-| window_id | diff | event_count | repeatability | conservative_sentence |
-| --- | ---: | ---: | --- | --- |
-| A | -0.35 | 20 | high | Raise review priority and withhold a confirmed cause |
-| B | -0.35 | 3 | low | A difference is visible, but few samples require further observation |
+Follow A through the policy: `−0.35 ≤ −0.30` and `14/20=0.70 ≥ 0.60`, so R1 matches. Store `warning_level=caution`, `review_needed=1`, and `priority_band=first`. An explanation can say: “The late-period mean for 20 recent operations was 0.35 L/min below baseline, and 14 operations met the decline condition. The cause is unverified. Rule R1 of review-v1 assigns this window to first-priority review.”
 
-If these sentences are moved into structured operational columns, they can differ like this.
+| window_id | warning_level | review_needed | priority_band | rule_id |
+| --- | --- | ---: | --- | --- |
+| A | caution | 1 | first | R1 |
+| B | caution | 1 | standard | R2 |
+| C | watch | 0 | none | R3 |
 
-| window_id | warning_level | review_needed | priority_score |
-| --- | --- | ---: | ---: |
-| A | caution | 1 | 0.82 |
-| B | watch | 0 | 0.41 |
+B meets the difference condition but has `1/3 < 0.60`, so R2 applies. It is not excluded from review because it has only three recent operations. C has `−0.10 > −0.30`, so R3 applies. Store `policy_version=review-v1` on every output row and use `window_id` to locate its original comparison row. Preserve the baseline version and input values as well, so the policy application can be checked again.
 
-The `priority_score` values 0.82 and 0.41 are fictional values illustrating the output format. They are neither mathematically derived from the preceding sentences nor failure probabilities. To use real scores, specify which weights and conditions apply to which columns. Without a calculation rule, retaining judgment grades such as `high/low` is more reproducible.
-
-These two tables are both needed because the first table records `why that judgment was made`, while the second records `a format that can be reused in operations`.
+If another policy set R1's proportion boundary to 0.80, the same A would match R2 instead of R1. Observations and causal uncertainty would remain unchanged; only the assigned band would change. Record a new version when the policy changes rather than inventing a band from the phrase “review needed.”
 
 ## From Interpretation Statements to Warning Columns and Review Queues {#a-small-diagram}
 
@@ -79,14 +57,20 @@ These two tables are both needed because the first table records `why that judgm
 --8<-- "assets/part-03/chapter-08/p3-8-4-mermaid-01-en.mmd"
 ```
 
-This diagram shows that even the same difference value does not move directly into the same operational columns. You first read the comparison result, then adjust the interpretation strength in a human sentence, and only after that compress it into columns such as `warning_level`, `review_needed`, and `priority_score`. A column such as `warning_level` is therefore not a suddenly invented implementation artifact. It is the result of compressing an observed result, through human interpretation, into a format that is easier to reuse in operations. The order that must be fixed first is also this one: read `what changed`, adjust how strongly that difference should be stated in a sentence, and then compress it again into operational columns.
+Writing a sentence explains the reasoning to readers. A real system does not have to generate natural language first and then interpret it again. It can apply the policy directly to validated inputs, produce operational columns, and generate an explanation from the same inputs, policy, and outputs. Either implementation must distinguish and trace observations and policy-selected actions.
+
+## Apply the policy yourself
+
+D satisfies all applicability conditions and has `diff=−0.30`, `event_count=5`, and `decline_count=3`. What does review-v1 output? What changes if only the decline count becomes two?
+
+Explanation: Initially `3/5=0.60`, and equality is included at both boundaries, so R1 outputs `caution·1·first`. With two declines, `2/5=0.40`, so R2 outputs `caution·1·standard`. These are policy assignments, not certifications of representativeness or failure from five observations. If missing measurements prevent calculating the proportion, revisit applicability instead of routing the row to R3.
 
 ## Checklist
 
-- Did you explain interpretation strength using the period identifier and event_count?
-- Did you describe the purpose of output columns without treating fictional priority scores as probabilities?
+- Can you apply the same policy to A, B, C, and boundary case D and reproduce their operational columns?
+- Can you distinguish an observed proportion, a policy band, and a failure probability, and explain why rule IDs and policy versions are retained?
+- Can you avoid treating inapplicable rows as normal and explain why natural-language generation is not a required calculation step?
 
-## Sources and References
+## Sources and references
 
-- Google for Developers, `Thresholds and the confusion matrix`. It explains that a model's raw score is connected to final classification through a threshold, which provides the general basis for separating human interpretation sentences from structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, `PROV-Overview`. It provides a provenance perspective for tracing how an observed result is derived through intermediate judgments, which is useful for explaining this section's distinction between comparison result, conservative sentence, and structured operational column. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [W3C, PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } — Reference for retaining provenance connecting inputs, processing activities, and derived results. Values, rules, and bands are this book's fictional policy, not W3C warning criteria. Accessed: 2026-09-20.

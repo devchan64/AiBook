@@ -1,90 +1,72 @@
 # P3-1.2 In What Sequence Does Data Modeling Proceed
 
 > Section ID: `P3-1.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Once we understand what data modeling is trying to achieve, the next question follows immediately: in what sequence should the work actually proceed? Features cannot be built before the sample unit is fixed, and without a comparison reference even the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) becomes unstable. So data modeling is best read as an order that fixes the structures needed later, one by one, from the front.
+[P3-1.1](section-01.en.md) grouped flow readings over time into one row per operation and retained metrics and review results suited to the question. Building that table involved connected decisions: the question determines which interval is needed, while the sample unit determines what means and slopes describe. Here we examine the order of these decisions and where to return when the records differ from expectations.
 
-In practice, as soon as source data arrives, it is easy to want to choose the learning-problem frame first, with familiar labels such as `prediction problem`, `classification problem`, or `anomaly-detection problem`. But this order often creates trouble, because `what one row means`, `the sample unit`, `the comparison reference`, and `the output structure` have not yet been fixed.
+## What to Retain from the Question to the Review Result
 
-General machine-learning work is often explained as a broad flow of problem definition, data understanding and preparation, modeling, and evaluation. Part 3 focuses on the front part of that larger flow, especially `the front-end stage that builds a problem structure before AI learning begins`. So here we examine the items that should be checked together at the front by grouping them into the following six.
+Reuse A-101 from the previous section. Flow at 0, 1, and 2 seconds was 24.8, 25.1, and 23.9 L/min. Seeing a decline in the final interval leads to “Did flow fall faster in the final interval than in usual operations under the same conditions?” This specifies an observable difference without first assuming failure.
 
-1. Decide the problem question.
-2. Decide the sample unit.
-3. Rebuild the raw logs into a comparable table.
-4. Design features and baselines.
-5. Separate the output structure from candidate target labels.
-6. Decide the interpretation boundary and conservative phrasing.
+Six decisions turn that question into one result row. The formulas are the same as in the previous section.
 
-What has to be fixed first here is how `samples, tables, features, comparison, and output structure` fit together in sequence. Source-data collection, full exploratory data analysis, formal statistical testing, model training, and evaluation experiments each appear again later, but even those explanations stay less scattered when this front-end structure is already standing.
+| Decision | What to check for A-101 | Small output to retain |
+| --- | --- | --- |
+| 1. Define the question | Are we comparing overall level or late decline with usual operations? | Compare final-interval slopes under the same conditions |
+| 2. Define the sample | Which records form one case? | One operation, ID `A-101` |
+| 3. Group and check records | Do times and flows correspond, with the required interval present? | Per-operation records at 0, 1, and 2 seconds |
+| 4. Choose features and baseline | Which interval is calculated, how, and against what reference? | 1–2-second slope −1.2 L/min/s, assumed baseline 0.0 L/min/s, difference −1.2 L/min/s |
+| 5. Define the output structure | How will a person receive the comparison? | Rule: `review` if the difference is below −0.5 L/min/s, and its result |
+| 6. State interpretation limits | What does the result support? | Steeper decline than the assumed reference warrants review; failure cause remains unknown |
 
-In official documentation, these six items are usually explained not as one fixed procedure name, but as separate concepts such as `task`, `example`, `feature engineering`, `label/target`, `preprocessing`, and `classification threshold`. In Part 3, we regroup those individual concepts into `a flow for reading problem structure before learning`.
+The [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) is the form a person can read next: identifiers, comparison values, and review results. `review` is a rule-based flag, distinct from a learning label assigned after confirming an actual failure. Baseline 0.0 and threshold −0.5 remain illustrative assumptions, not validated equipment limits.
 
-This order is not a linear procedure that is fixed once and never revisited. If the late segment is often missing, for example, reconsider the question or collection scope before merely changing features. Earlier decisions are documented not to prevent revisions, but to show which judgment needs to be revisited.
+This question selects the final-interval slope. Being able to calculate means and standard deviations does not require including them in every result table. Add questions and calculation scopes if overall flow level or spread also needs examination.
 
-Reduced to one line, the connection among these six items is as follows.
+The diagram summarizes connections in this per-operation summary example. These six items organize the book's explanation, rather than prescribing identical summaries and baselines for all data.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-01/p3-1-2-mermaid-01-en.mmd"
 ```
 
-If this grouping still feels abstract, it becomes easier to understand when compared with a `wrong starting order` that people often follow in real work.
+## Which Decision Should We Revisit If the Last Record Is Missing?
 
-| Starting approach | Why it seems plausible at first | The problem that soon appears |
+Unlike the previous section, suppose the supplied A-101 data lacks the 2-second record. Only 24.8 at 0 seconds and 25.1 L/min at 1 second remain. They give `(25.1−24.8)/(1−0) = +0.3 L/min/s`, but this is the **0–1-second slope**. It does not answer the original question about **the 1–2-second decline**.
+
+Always taking the last two available rows changes the interval while retaining the name `late_drop_rate`. Missing required information becomes a supposed upward result. Return to grouping and checking records before completing the calculation.
+
+| What rechecking reveals | Decision to revisit and action | Current result |
 | --- | --- | --- |
-| Choose the learning-problem frame before the problem structure | Familiar terms such as prediction, classification, and anomaly detection come to mind first | Because one row has not yet been fixed as one time point or one action, the input `X` itself remains unstable |
-| Rush to extract features first | It feels as if progress is being made quickly when averages, maxima, and standard deviations are produced | Without a sample unit, it becomes ambiguous whether the value describes `the whole action` or only `part of a segment` |
-| Set a threshold first | In practice, people often want a warning criterion quickly | Without a baseline, it is impossible to distinguish `is this value large` from `is this different from usual` |
-| Fix the question and sample first | It looks slower at first | Later tables, features, baselines, and output structures all sit on the same criteria, so instability is reduced |
+| The 2-second value exists in source logs but was omitted during extraction | Correct the extraction range, restore the value, and calculate the same interval | Produce the comparison using restored data |
+| The sensor did not record the 2-second value | Check collection status and mark the 1–2-second slope uncomputable | Leave slope and baseline difference uncomputed; report insufficient information |
+| The purpose is deliberately changed to checking the initial rise | Change the question and interval to 0–1 seconds and define a matching baseline | Treat it as a new question, not a late-decline result |
 
-Part 3 puts this flow first because later explanations often assume these earlier judgments. The most common failure is `choosing the learning-problem frame first and then trying to force the sample unit into it afterward`. In that case, the table often has to be rebuilt, the features re-extracted, and even the output structure redefined. It is usually less unstable to organize the judgment criteria up front.
+“Insufficient information” is not a third failure grade. It means missing comparison records prevent applying the existing review rule. Filling an empty slope with 0 or `no_flag` misrepresents something unobserved as no change.
 
-The role of each stage can be read as follows.
+Even complete values can require revisiting comparison conditions. Suppose A-101 was configured to lower flow before completion, while baseline operations were configured to maintain it. First seek historical runs with matching settings and redefine the reference. If none exist, report that the current baseline cannot support a same-condition comparison. Discovering a settings difference alone does not prove the decline's cause.
 
-| Stage | Core question | Representative output |
-| --- | --- | --- |
-| Decide the problem question | What do we want to know? | a comparison question or a prediction question |
-| Decide the sample unit | What should count as one case? | action unit, segment unit, entity unit |
-| Rebuild the table | How should the raw logs be represented again? | summary table, aggregate table |
-| Design features and baselines | Which values should remain, and what should they be compared against? | feature columns, baseline-comparison columns |
-| Separate the output structure | How should human review and prediction targets be separated? | warning, review candidate, target-label candidate |
-| Decide the interpretation boundary | How far should we speak, and where should we stop? | conservative phrasing, `needs review` markings |
+## Why Exploration Changes Earlier Decisions
 
-These items must stay grouped because later explanations often assume earlier judgments. If the sample unit is not fixed, the features also drift. If the features drift, baseline comparison drifts as well. If the comparison structure drifts, it becomes hard even to separate `needs review` from a `target label`.
+Exploring and organizing records are not one-time activities after the table is finished. Here, a missing value discovered during slope calculation sends us back to record coverage; inspecting conditions changes the baseline choice. Changing the question also changes the required interval and output meaning.
 
-A small example makes this clearer.
+The initial expectation “let us inspect the late decline” proposes a question to check. Actual records help decide whether to keep it, change it, or state that the data cannot answer it. Expectations are not guaranteed to be right or reduce the number of work steps.
 
-- Question: Has recent behavior become more unstable than usual?
-- Sample: one execution of the action
-- Table: an action-level summary table of mean, slope, and variability
-- Features: `mid_flow_mean`, `late_drop_rate`, `flow_std`
-- Baseline: compare the most recent 20 cases with the prior 200
-- Output: `needs review` or `normal range`
-
-In this example, no specific learning-problem name has appeared yet. Even so, almost all of the important data-modeling decisions are already present. That is because what counts as one case, which values remain, what gets compared, and what result will be emitted have already been decided.
-
-If we map the same example back onto the six stages once more, it becomes even clearer what each stage really decides.
-
-| Stage | The actual decision made in this example |
-| --- | --- |
-| Decide the problem question | Decide that we first want to know whether recent behavior has become shakier than usual |
-| Decide the sample unit | Treat one full action, rather than one sensor time point, as one row |
-| Rebuild the table | Turn time-step logs into an action-level table of mean, slope, and variability |
-| Design features and baselines | Create `mid_flow_mean`, `late_drop_rate`, `flow_std`, and columns that compare against the usual range |
-| Separate the output structure | Separate review-oriented results such as `review` and `normal` from later candidate target labels |
-| Decide the interpretation boundary | Use conservative wording such as `needs review` instead of `confirmed anomaly` |
-
-The key to reading this table is that if an earlier judgment is missing, the later judgments are also likely to become vague together. For example, if features are built before the sample unit is fixed, it becomes unclear whether the feature describes `variation at one time point` or `variation across the whole action`.
-
-These six items are not a list that replaces later explanations. They are an order that keeps later explanations from drifting. Because if one stage is empty the next stage also tends to become ambiguous, Part 3 is safer when it first fixes the interlocking order of `question -> sample -> table -> feature and baseline -> output structure -> interpretation boundary`. For the same reason, Part 3 should be read less as `studying data science` and more as `designing a learnable data problem`. Once that viewpoint is in place, the sample design, summary tables, feature design, and baseline comparison that come later start to read not as scattered techniques, but as one procedure for setting up a problem.
+Recording decisions does not mean they can never change. It distinguishes restoring missing records under the same question from changing intervals to answer a different question. Retain operation IDs, intervals, calculation rules, baseline conditions, review rules, and unresolved items to trace what needs rechecking.
 
 ## Checklist
 
-- Did you list the required decisions in order from the question to the output table?
-- Can you explain which step to revisit when records for a particular segment are missing?
+- For A-101, write one line each for question → sample → grouped records → features and baseline → output → interpretation.
+- Can you explain why +0.3 for 0–1 seconds cannot answer the original question when the 2-second value is absent?
+- What should be checked when extraction omitted a value versus when the sensor never recorded it?
+- If ending settings differ, which decision must be revisited? What should the result say if matching records are unavailable?
+- If the question changes to an initial rise, what must change in both the interval and baseline?
 
-## Sources and Further Reading
+The second question separates being able to calculate a number from answering the intended question: a changed interval changes meaning. The last question requires redefining both the interval and its matching baseline. Keep “insufficient information” when required evidence is unavailable.
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`, `feature engineering`, `label`, `label leakage`. Because it explains that the roles of example, feature, and label each have to be fixed separately, it supports the core point of this section that question, sample, table, feature, and output structure should be read as an ordered chain. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, `PROV-Overview`. Because it explains that identifying an object and preserving derivation should both remain visible, it strengthens the higher-level frame that the sample unit, derived tables, and result structure should be explainable in sequence. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. Because it explains a broader flow in which data selection, preprocessing, transformation, and interpretation continue together, it provides the general background that Part 3 focuses on `the pre-learning stage that fixes problem structure in order`. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+## Sources and References
+
+- [Google, Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }. Sample, input and label terminology; not a prescription of these six steps. / 2026-07-20
+- [W3C, PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. Identifying objects and derivations supports tracing samples and derived outputs. / 2026-07-20
+- [Fayyad, Piatetsky-Shapiro and Smyth, From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" }. Background linking selection, preprocessing, transformation and interpretation. / 2026-07-20
+- [NIST/SEMATECH, What is EDA?](https://www.itl.nist.gov/div898/handbook/eda/section1/eda11.htm){: target="_blank" rel="noopener noreferrer" }. Exploring structure, assumptions and unexpected information. The missing-data and settings scenes are fictional, not evidence of fewer work steps. / 2026-09-19

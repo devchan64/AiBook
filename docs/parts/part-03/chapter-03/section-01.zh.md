@@ -1,17 +1,11 @@
 # P3-3.1 为什么不能把原始数据立刻读成学习问题
 
 > Section ID: `P3-3.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-第一次拿到原始数据时，很多人几乎会反射性地先想到：`能用这个预测什么？` 因为眼前有表、有很多值，还有按时间流动记录下来的测量，所以看起来像是可以立刻改造成某种学习问题。但这种反应通常太快了。眼前这张表更可能还不是 `训练数据集`，而只是[被记录下来的原始数据](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)，最多也只是一个[数据集候选](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)。
+原始数据中有表和时间记录，并不表示当前监督学习问题所需的输入与结果已经定义。[记录下来的原始数据](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)也是数据集。这里要确认的不是数据集是否存在，而是如何把它组织成服务于特定问题的[候选数据集](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)。
 
-这里首先要固定的是：[问题表示结构](/AiBook/zh/reference/concept-glossary-pinyin/r/#task-definition) 比 `学习问题框架` 更早。必须先明确这个警告：现在还不是去挑预测问题、分类问题、异常检测问题这类学习问题框架的时候。
-
-进入这一章时，Chapter 2 里建立起来的 `数据集候选` 视角，会再收窄一步。
-
-| 上一章留下来的东西 | 这一章额外确定的东西 | 要交给下一章的结构 |
-| --- | --- | --- |
-| 存储结构和数据集候选的差别、读新表时的第一轮检查 | 为什么原始数据还不该被提升成学习问题 | 实际去确定样本单位和表结构的判断 |
+这里把[问题表示结构](/AiBook/zh/reference/concept-glossary-pinyin/r/#task-definition)理解为连接样本、输入和目标的设计。可以先想到分类或预测，但仅凭问题名称，不能认定现有数据已经准备就绪。
 
 来看一种情况：每一次自动执行动作，都会留下控制参数时间序列和传感器时间序列。看到这种表时，通常最先跳出来的是下面这些想法。
 
@@ -21,9 +15,7 @@
 
 这些想法本身并不一定错。问题在于，在 `什么算一条案例`、`到底想预测什么`、[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)是否真的存在都还没定下来之前，学习问题框架就先出现了。在这种状态下，我们还没有定义数据问题，只是比数据本身更早地先想出了学习问题框架。
 
-这种情况之所以经常发生，原因很清楚。第一，只要看到一张表，人就很容易立刻把它当成 `已经整理好的数据`。第二，如果过往 AI 学习经验主要是按学习问题类型留下来的，那么比起问题表达，预测方式会更早浮现。第三，原始时间序列越长、越复杂，越容易先出现一种期待：`是不是可以就这样直接送进学习问题？`
-
-但是，如果把原始数据立刻读成数据集，就会跳过一些关键问题。
+但如果把原始数据当作已经可以直接用于当前监督学习问题的表，就会漏掉重要问题。
 
 | 最容易先想到的问题 | 实际上更应该先问的问题 |
 | --- | --- |
@@ -43,6 +35,16 @@
 
 只看这张表，很容易想到`分类问题`、`预测问题`或`时间序列学习问题`。表中一行是一个时点的记录。尚未决定的是：直接把这一行作为样本，还是按动作分组，以及要预测什么结果。因此，立刻选择学习问题形式，就会让形式走在问题本身前面。
 
+本例讨论的是**以一次动作为一个样本，对动作结果进行分类**。这需要把输入记录与事件级结果标签连接起来，并确认标签的判定依据。并不是说无标签数据集或监督学习以外的分析无法存在。
+
+| 独立检查项 | 需要核对的依据 | 当前 CSV 的状态 |
+| --- | --- | --- |
+| 标签列存在 | 是否真的有 `review_label` 列 | 不存在 |
+| 事件级连接 | 每个事件是否对应一个结果，且没有缺失或冲突值 | 没有该列，尚未确认 |
+| 判定标准 | 谁按什么标准及版本确定结果 | 没有依据，尚未确认 |
+
+把同一标签重复填入一个事件的所有行，可能通过连接检查。但它来自实际检查还是任意规则、各事件是否采用一致标准，仍需单独确认。
+
 ## 从源记录到学习问题所需的决定 {#_1}
 
 如果按 `原始记录 -> 先补空着的问题 -> 再整理样本和标签候选` 这条顺序重读，就会更清楚：为什么不能太早把原始数据提升成学习问题。
@@ -51,151 +53,39 @@
 --8<-- "assets/part-03/chapter-03/p3-3-1-mermaid-01-zh.mmd"
 ```
 
-问题情境：拿到按时点记录的日志表时，确认如果立刻把它读成学习问题，会有哪些关键问题仍然空着。
+## 分别确认标签列、连接与判定依据
 
-输入(input)：在每个 `event_id` 下混有多个时点测量值的原始日志表 [p3_3_1_source_operation_log.csv](/AiBook/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv){ .csv-preview }，以及要作为标签候选来检查的列名 `label_column_to_try`
+[p3_3_1_source_operation_log.csv](/AiBook/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv) 是本书编制的虚构动作日志。每行是一次动作中某一秒的传感器记录，A~I 共九次动作，每次四条记录。`event_id` 标识动作，`second` 表示观测时刻。文件有 `flow`，但没有 `review_label`。
 
-输入文件中的一行，是某一次动作(`event_id`)中某个具体秒数(`second`)测得的传感器记录。表里同时有 `batch_id`、`recipe`、`pressure`、`flow`、`vibration`、`temperature`，但现在还没有决定其中哪一列是样本标识符、哪一列是标签。
+请判断这些记录能否用于动作结果分类。针对每种情况，将**标签列存在、事件级连接、判定标准**分别标为 `已确认 / 条件不满足 / 未确认`。③、④是假设增加的资料，不在原始 CSV 中。
 
-期望输出(output)：显露出 `现在就把它读成分类问题` 和 `先补齐那些空着的问题` 会导向不同结果。改变 `label_column_to_try` 后，也会看出列是否存在和能不能作为标签候选不是同一件事。
-
-要确认的概念：在把原始数据读成学习问题之前，必须先定下什么是 `一条样本`、`标签候选`、`比较表`。学习问题判断不是一句固定的话，而必须根据当前表里的列和归组标准来确认。
-
-```python
-# 这个例子避免过早把原始日志读成学习问题，而是先重构为 event 级汇总表。
-import pandas as pd
-
-pd.set_option("display.max_columns", None)
-pd.set_option("display.width", 160)
-
-raw_log_path = "docs/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv"
-label_column_to_try = "review_label"
-
-column_unit = {
-    "batch_id": "operation_context",
-    "recipe": "operation_context",
-    "pressure": "time_point_sensor_value",
-    "flow": "time_point_sensor_value",
-    "vibration": "time_point_sensor_value",
-    "temperature": "time_point_sensor_value",
-    "review_label": "event_label",
-}
-
-raw = pd.read_csv(raw_log_path)
-
-print("1) raw input shape and first rows")
-print("shape:", raw.shape)
-print(raw.head())
-print()
-
-print("2) too-early reading")
-print("- maybe this is a classification problem")
-print("- label column:", "found" if label_column_to_try in raw.columns else "not found yet")
-print("- one training sample: not decided yet")
-print()
-
-column_exists = label_column_to_try in raw.columns
-candidate_unit = column_unit.get(label_column_to_try, "unknown")
-same_unit_as_sample = column_exists and candidate_unit == "event_label"
-stable_label_meaning_known = same_unit_as_sample
-usable_label_candidate = column_exists and same_unit_as_sample and stable_label_meaning_known
-
-print("3) label candidate check")
-print("- column to try:", label_column_to_try)
-print("- column exists:", column_exists)
-print("- candidate unit:", candidate_unit)
-print("- same unit as one event:", same_unit_as_sample)
-print("- stable label meaning known:", stable_label_meaning_known)
-print("- usable label candidate:", usable_label_candidate)
-print()
-
-event_summary = (
-    raw.groupby("event_id", as_index=False)
-    .agg(
-        batch_id=("batch_id", "first"),
-        recipe=("recipe", "first"),
-        row_count=("second", "count"),
-        duration_seconds=("second", "max"),
-        max_pressure=("pressure", "max"),
-        mean_flow=("flow", "mean"),
-        max_vibration=("vibration", "max"),
-        end_temperature=("temperature", "last"),
-    )
-)
-print("4) questions that must be settled first")
-print("- one sample: one event")
-print("- candidate comparison table: one row per event")
-print("- label candidate:", "usable" if usable_label_candidate else "still not decided")
-print()
-
-print("5) event-level table after defining the sample")
-print(event_summary.round(2))
-```
-
-期望输出：
-
-```text
-1) raw input shape and first rows
-shape: (36, 8)
-  event_id batch_id    recipe  second  pressure  flow  vibration  temperature
-0        A     B-17  standard       0       1.0   0.0       0.02         24.1
-1        A     B-17  standard       1       2.0   1.4       0.04         24.4
-2        A     B-17  standard       2       2.4   1.6       0.07         24.8
-3        A     B-17  standard       3       2.2   1.2       0.08         25.0
-4        B     B-17  standard       0       1.1   0.1       0.03         24.0
-
-2) too-early reading
-- maybe this is a classification problem
-- label column: not found yet
-- one training sample: not decided yet
-
-3) label candidate check
-- column to try: review_label
-- column exists: False
-- candidate unit: event_label
-- same unit as one event: False
-- stable label meaning known: False
-- usable label candidate: False
-
-4) questions that must be settled first
-- one sample: one event
-- candidate comparison table: one row per event
-- label candidate: still not decided
-
-5) event-level table after defining the sample
-  event_id batch_id     recipe  row_count  duration_seconds  max_pressure  mean_flow  max_vibration  end_temperature
-0        A     B-17   standard          4                 3           2.4       1.05           0.08             25.0
-1        B     B-17   standard          4                 3           1.9       0.78           0.06             24.7
-2        C     B-18       fast          4                 3           2.8       1.05           0.22             26.8
-3        D     B-18       fast          4                 3           2.6       1.02           0.16             26.2
-4        E     B-19   standard          4                 3           2.1       0.90           0.07             24.8
-5        F     B-19   standard          4                 3           2.5       1.12           0.09             25.3
-6        G     B-20  high-load          4                 3           3.1       1.35           0.28             27.5
-7        H     B-20  high-load          4                 3           2.9       1.30           0.24             27.0
-8        I     B-21   standard          4                 3           2.3       0.98           0.08             25.1
-```
-
-这个例子的核心，在于第 2 步和第 3 步的差别。第 2 步里先跳出来的只有一句 `也许这是个分类问题`，但实际上，`label_column_to_try` 指定的 `review_label` 列并不存在，连“一条训练样本”都还没有定下来。这里可以操作的值是 `label_column_to_try`。如果把它改成 `"flow"`，`column exists` 会变成 `True`，但 `candidate unit` 是 `time_point_sensor_value`，`usable label candidate` 仍然是 `False`。这是因为 `flow` 不是附着在一次动作上的稳定标签，而是时点级传感器值。相反，第 4 步先把结构固定成 `一条样本是一条动作`、`比较表是一条动作一行`。只有在这之后，才会像第 5 步那样出现包含 `row_count`、`duration_seconds`、`max_pressure`、`mean_flow`、`max_vibration`、`end_temperature` 的动作级比较表。也就是说，如果太快把原始数据读成学习问题，就会变成问题形式先被固定，而那些仍然空着的问题被遮过去了。
-
-如果把“学习问题框架先跳出来时还空着的问题”并排写出来，问题会更明显。
-
-| 最容易先跳出来的话 | 仍然空着的问题 |
+| 情况 | 已提供的依据 |
 | --- | --- |
-| `异常检测问题` | 什么才算异常？ |
-| `分类问题` | 稳定标签真的已经存在吗？ |
-| `时序学习问题` | 一条样本是一个时点束，还是一次完整动作？ |
+| ① 选择原文件的 `review_label` 作为结果 | 没有该列 |
+| ② 选择原文件的 `flow` 作为动作结果 | A 在 0、1、2 秒的值分别为 0.0、1.4、1.6，是时点测量值 |
+| ③ 收到独立结果表 | 每个事件对应一个 `pass` 或 `fail`，但没有判定文档 |
+| ④ 在③上增加判定文档与检查历史 | 本练习假定已确认负责人、标准版本及应用历史，且所有事件采用相同标准 |
 
-这张表的重点，不在于学习问题的名字错了，而在于：在那个框架之前必须先回答的问题仍然空着。数据建模，正是填这些空白的前段设计。
+①不满足标签列存在条件。连接与判定标准因缺乏资料而未确认。②已确认列存在，但测量值并非当前问题所需的事件级结果标签。也没有把传感器值转换成结果类别的依据，所以判定标准仍未确认。
 
-刚拿到源数据时，常见错误是把`记录结构`误当成`学习结构`。存在逐时点日志，并不意味着已经定义了预测问题。需要先决定按什么单位分组、保留什么、预测什么，才能判断数据集是否适合当前学习任务。如果先想到学习问题形式，就容易跳过前面的设计，之后不得不重新修改样本单位和表结构。把这一节理解为管理`问题升级（problem escalation）`的时机，关键就不只是晚一点想到模型名字，而是在样本单位和候选标签尚未明确之前，不要仓促把任务升级为学习问题。
+③已确认列存在及事件级连接，但判定标准未确认。仅凭 `pass` 一词无法知道通过了什么。④确认了本练习的三个检查项，但输入范围与评估方法尚未确定，因此不能据此认定所有训练准备都已完成。
+
+现在把问题改为“用 0~2 秒的记录预测 3 秒的流量”。A 的输入是 0、1、2 秒记录，目标是 3 秒的 `flow=1.2`。不能把该流量或之后的记录混入输入。同一 `flow` 列在明确问题与时点后，也可以提供目标值。
+
+最后写一条判断备忘录：“当前结果分类缺少事件级标签及判定依据。可以比较、探索传感器记录，标签依据需另行确认。”同时记录原文件版本及新增结果表、判定文档的来源，才能日后重新核对判断。
+
+能够比较或汇总传感器记录，与拥有学习预期结果的依据，是不同的判断。应写下当前问题所需的样本、输入与目标的对应关系，并把缺乏依据的项目保留为未确认。
 
 ## 检查清单
 
-- 你是否区分了一个时点的一行与一次动作，并分别写出了对应问题？
-- 源日志没有结果标签时，你能否解释仍然可以进行哪些比较？
+- 能否区分原始日志本身是数据集与当前监督学习问题是否准备就绪？
+- 能否分别判定①~④的标签列存在、事件级连接与判定标准？
+- 能否解释为什么每个事件都有一个结果，仍不代表其含义已经明确？
+- 预测 A 在 3 秒的流量时，能否分开输入记录与目标值？
+- 是否用一句话写下当前可以探索什么、还需确认什么标签依据？
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。它说明 labeled example 由 features 和 label 构成，因此支持这一点：在一条样本和标签都还没定下来的原始数据上，不应该立刻把它读成学习问题。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明 feature 变成 label proxy 的设计缺陷，因此强化了这个警告：如果先选问题框架，就有可能把还没整理好的原始列错误地读进糟糕的学习结构。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- W3C, `PROV-Overview`. provenance framework 说明它应该支持 identifying an object 和 representing derivation，因此强化了这个上位框架：必须先定下什么算一个对象，以及通过什么转换才做出了数据集候选。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`：`label`、`labeled example`、`unlabeled example`。用于确认监督学习的输入与结果角色，以及无标签案例的区别。 [原文](https://developers.google.com/machine-learning/glossary#labeled-example){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-19
+- Google for Developers, `Machine Learning Glossary`：`label leakage`。用于确认把透露待预测结果的信息混入输入的问题。 [原文](https://developers.google.com/machine-learning/glossary#label-leakage){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-19
+- W3C, `PROV-Overview` (2013)。用于支持追踪数据生成涉及的对象、活动、人员及处理步骤与版本。 [原文](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-19

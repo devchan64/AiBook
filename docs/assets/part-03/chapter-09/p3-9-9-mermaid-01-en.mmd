@@ -1,6 +1,15 @@
 flowchart TD
-    A[Write the result you truly want to know] --> B{Can that actual target be observed now?}
-    B -- Yes --> C[Build the problem around the actual target]
-    B -- No --> D[Use the observable proxy column for now]
-    D --> E[Record the distance and limitation relative to the actual target]
-    E --> F[Keep explicit that this is proxy-target prediction]
+    A["Ultimate purpose: fewer failures"]
+    B["Desired outcome: failure within 7 days"]
+    C["Current proxy: review request"]
+    D["Current model: predict request labels"]
+    E["Follow-up failures and interventions in both request groups"]
+    F["Check request–failure mismatches and observation conditions"]
+    G["Assess failure reduction with separate comparison evidence"]
+    A --> B
+    C --> D
+    B --> E
+    C --> F
+    E --> F
+    A --> G
+    E --> G

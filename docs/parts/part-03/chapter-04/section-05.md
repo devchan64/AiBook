@@ -1,257 +1,147 @@
 # P3-4.5 지금 모은 샘플은 전체 운영 상황을 얼마나 대표하는가
 
 > Section ID: `P3-4.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-샘플 단위를 동작 1회나 최근 구간 1개처럼 정하고 나면, 한 번 더 놓치기 쉬운 질문이 남습니다. `지금 모은 샘플이 전체 운영 상황을 얼마나 대표하는가?` 표가 잘 정리되어 있어도, 그 표가 특정 공정 모드나 특정 기간, 특정 장비 상태에서만 모인 사례라면 전체 운영 장면을 고르게 설명하지 못할 수 있습니다. 샘플 단위를 잘 정한 것과, 그 샘플 묶음이 전체 상황을 고르게 대표하는 것은 같은 말이 아닙니다.
+샘플을 동작 1회로 정확히 세었더라도, 그 묶음이 적용 대상 운영을 충분히 담았는지는 별도 질문입니다. **대표성은 조건별 건수가 같은지보다, 사용할 환경의 분포와 수집 과정이 자료에 어떻게 반영되었는지를 묻는 문제**입니다. 전체 건수, 조건별 최소 건수, 모델 정확도는 각각 다른 정보를 줍니다.
 
-## 샘플 묶음의 대표성은 무엇과 구분해야 하는가
+## 운영 비중과 수집 비중을 나란히 읽기 {#_4}
 
-대표성 문제는 샘플 한 건의 정의가 맞는가와는 별도로, 샘플 묶음이 어떤 운영 범위를 실제로 덮고 있는가를 다시 묻는 일입니다.
+[가상 동작 샘플 CSV](../../../assets/part-03/chapter-04/p3_4_5_sample_coverage.csv)는 E01~E36의 36개 동작을 담습니다. 한 행이 동작 1회이며, `shift`는 주·야간, `load_mode`는 부하 모드, `machine_id`는 장비, `maintenance_phase`는 안정 운영·정비 직후 조건입니다. 실제 운영 통계가 아니라 수집 범위와 평가를 살피는 자체 사례입니다.
 
-| 겉으로 보이는 상태 | Part 3에서 먼저 물어야 하는 질문 |
-| --- | --- |
-| 샘플 단위는 잘 정리되었다 | 어떤 운영 조건에서 모인 샘플인가 |
-| 특징과 라벨 후보도 있다 | 특정 기간이나 특정 모드에만 몰려 있지 않은가 |
-| 표 건수도 충분해 보인다 | 전체 운영 장면을 고르게 덮고 있는가 |
+적용 대상 운영이 주간 80%, 야간 20%라고 **가정**해 보겠습니다. 이 비율은 CSV에서 알아낸 값이 아니라 비교를 위해 별도로 정한 목표 운영 분포입니다.
 
-즉 `샘플 한 건의 정의`와 `샘플 묶음의 대표성`은 다른 문제입니다.
+| shift | 가정한 운영 비중 | 수집 동작 수 | 수집 비중 |
+| --- | ---: | ---: | ---: |
+| day | 80% | 26 | 26/36 ≈ 72.2% |
+| night | 20% | 10 | 10/36 ≈ 27.8% |
 
-대표성은 모든 조건의 건수가 같은지를 뜻하지 않습니다. 적용 대상 운영이 주간 80%, 야간 20%라면 그 비율과 수집 경로를 기준으로 읽어야 합니다. 반대로 두 시간대의 성능을 따로 확인하려면 야간 사례가 충분한지도 별도로 살핍니다. 조건별 최소 건수만 넘었다고 대표성이 증명되지는 않습니다.
+주간 건수가 더 많다는 사실만으로 편향이라고 판정할 수는 없습니다. 이 가정에서는 오히려 야간 비중이 목표 운영보다 약 7.8%포인트 높습니다. 그러나 작은 표의 비율 차이만으로 대표성 합격·불합격을 정하지도 않습니다. 어떻게 뽑았는지, 어떤 기간·장비·조건을 빠뜨렸는지 함께 확인해야 합니다.
 
-## 대표성이 흔들리는 대표 장면
+야간 성능을 따로 확인하려면 야간 자료를 더 모을 수도 있습니다. 이때 조건별 평가에는 도움이 될 수 있지만, 바뀐 수집 비율을 그대로 전체 운영 비율이라고 보고하면 안 됩니다. CSV에는 수집 시각이 없으므로 계절이나 기간에 대한 대표성은 현재 열만으로 확인할 수 없습니다.
 
-아래처럼 같은 동작 1회 샘플이어도, 어떤 구간에서 모였는지에 따라 대표성은 달라질 수 있습니다.
+## 최소 9건이라는 규칙이 실제로 세는 것
 
-| 지금 모인 샘플 상태 | 왜 대표성이 약해질 수 있는가 |
-| --- | --- |
-| 낮 시간대 정상 운전만 많다 | 야간, 고부하, 전환 구간을 거의 못 본다 |
-| 유지보수 직후 구간이 대부분이다 | 평소 장기 운영 상태를 덜 담는다 |
-| 특정 장비 한 대에서만 많이 모였다 | 장비 간 차이를 놓칠 수 있다 |
-| 한 달 중 한 주에만 집중됐다 | 계절성, 주기 변화, 정책 변화를 놓칠 수 있다 |
+`minimum_count = 9`를 설명용 관찰 기준으로 두고, **건수가 9보다 적은 조건**을 표시해 보겠습니다. 이 값은 표준적인 충분 표본 수가 아니며 대표성을 인증하는 임계값도 아닙니다.
 
-즉 샘플 수가 많아도, 덮는 조건이 좁으면 대표성은 여전히 약할 수 있습니다.
+| 집계 열 | 조건별 동작 수 | 등장한 조건 종류 수 | 9건 미만인 조건 |
+| --- | --- | ---: | --- |
+| shift | day 26, night 10 | 2 | 없음: 0개 |
+| load_mode | normal 25, high 6, low 5 | 3 | high, low: 2개 |
+| machine_id | M1 22, M2 7, M3 7 | 3 | M2, M3: 2개 |
+| maintenance_phase | stable 28, after-maintenance 8 | 2 | after-maintenance: 1개 |
 
-## 먼저 적어 두면 좋은 네 가지
+`shift`의 부족 조건 수가 0인 이유는 `26 < 9`와 `10 < 9`가 모두 거짓이기 때문입니다. “두 조건이 기준을 넘었다”와 “목표 운영을 대표한다”는 같은 결론이 아닙니다. 이 표의 2·3 같은 조건 종류 수도 동작 수나 모델이 맞힌 수가 아닙니다.
 
-Part 3에서는 아직 엄밀한 표본추출 이론보다, 아래 네 가지를 먼저 메모하는 편이 더 중요합니다.
+기준을 10으로 올려도 야간 10건은 부족 조건이 아닙니다. 11로 올리면 야간이 포함됩니다. 반대로 기준을 5로 낮추면 위 네 열 모두 부족 조건이 0개가 됩니다. 이 조작은 표시 규칙을 바꿀 뿐 새 자료를 추가하지 않습니다.
 
-| 먼저 적을 것 | 질문으로 바꾸면 |
-| --- | --- |
-| 시간 범위 | 어느 기간의 샘플인가 |
-| 운영 모드 범위 | 어떤 조건과 상태에서 모인 샘플인가 |
-| 장비/개체 범위 | 어느 설비, 어느 개체에서 모인 샘플인가 |
-| 부족한 구간 | 거의 보지 못한 조건이나 모드는 무엇인가 |
+## 0건과 조건 조합은 별도로 찾아야 한다
 
-이 메모는 뒤에서 일반화를 증명하기 위한 것이 아니라, 지금 표가 무엇을 대표하고 무엇을 아직 대표하지 못하는지 먼저 드러내기 위한 것입니다.
+위 표는 CSV에 등장한 값만 셉니다. 적용 대상에 M4도 있다고 별도로 정했다면, M4는 **0건**으로 추가해야 합니다. M4가 실제 대상인지 확인하지 않고 임의로 부족 장비를 만들지는 않습니다. 대상 조건 목록과 수집 값 목록을 대조하는 이유입니다.
 
-표로 남길 때는 이 네 가지를 샘플 표 바깥의 설명으로만 두지 않는 편이 좋습니다. `sampled_at`, `shift`, `load_mode`, `machine_id`, `maintenance_phase`처럼 대표성 범위를 읽을 수 있는 열을 남겨야 나중에 조건별 공백을 다시 셀 수 있습니다. 부족한 구간은 결론 문장으로만 적지 말고 `coverage_note`나 별도 검토 메모에 남겨 두면, Part 4에서 평가 점수를 볼 때 어떤 조건을 거의 보지 못한 결과인지 다시 확인할 수 있습니다.
+개별 조건이 모두 있어도 조합은 비어 있을 수 있습니다. 다음은 같은 CSV에서 `night`인 동작만 골라 장비와 부하를 함께 센 표입니다.
 
-## 수집 범위와 전체 운영 범위 비교하기 {#_4}
+| 야간 동작 | normal | high | low |
+| --- | ---: | ---: | ---: |
+| M1 | 3 | 1 | 0 |
+| M2 | 1 | 0 | 1 |
+| M3 | 2 | 1 | 1 |
+
+전체 자료에는 야간 10건, M2 7건, 고부하 6건이 있지만 **야간·M2·고부하 조합은 0건**입니다. 운영에서 이 조합이 발생할 수 있고 평가 대상이라면 공백으로 남깁니다. 원래 불가능한 조합이라면 추가 수집 대상이 아닙니다. 모든 조합을 무조건 같은 건수로 채우는 것이 목표는 아닙니다.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-04/p3-4-5-mermaid-01-ko.mmd"
 ```
 
-이 도식은 샘플 단위가 모두 `동작 1회`로 맞아도, 덮는 운영 범위는 한쪽으로 기울 수 있다는 점을 보여 줍니다. 즉 이 절의 예시는 원시 표 값을 많이 읽는 데 있지 않고, `어떤 조건이 과다대표되고 어떤 조건이 거의 비어 있는가`를 먼저 파악하는 데 있습니다.
+## 모델 점수도 조건별 분모와 함께 읽는다 {#_6}
 
-## 왜 이 문제가 샘플 단위 다음에 와야 하는가
+같은 CSV로 모델을 실행하되, `needs_review`를 **`high` 부하 또는 `after-maintenance`이면 1, 그 외에는 0**인 가상 규칙으로 만듭니다. 입력 조건에서 만든 연습 라벨이므로 실제 고장 예측 능력을 측정하지 않습니다. 알려진 규칙을 모델이 학습 자료에서 얼마나 재현하는지 보는 실험입니다.
 
-대표성 문제는 샘플 단위가 먼저 정해져 있어야 읽을 수 있습니다. 한 행이 시점 기록인지 동작 1회인지 아직 모호하면, `야간 동작 1회가 몇 건 있는가`, `고부하 조건 샘플이 몇 건 있는가` 같은 질문도 제대로 세기 어렵기 때문입니다.
+E01~E24를 학습, E25~E36을 평가로 고정합니다. ID 구간으로 나눈 사례이며 실제 시간 순서라고 가정하지 않습니다. 부하별 건수는 다음과 같습니다.
 
-즉 순서는 다음과 같습니다.
+| load_mode | 학습 동작 수 | 평가 동작 수 |
+| --- | ---: | ---: |
+| high | 4 | 2 |
+| low | 0 | 5 |
+| normal | 20 | 5 |
+| 합계 | 24 | 12 |
 
-1. 먼저 무엇을 샘플 1건으로 볼지 정한다.
-2. 그 다음 그 샘플들이 어떤 조건 범위를 덮는지 본다.
+`dummy`는 학습에서 더 흔한 라벨 0을 항상 내는 비교 기준입니다. `tree`는 입력 조건에 따라 가지를 나누어 예측하는 결정트리입니다. `OneHotEncoder`는 범주를 0/1 열로 바꾸고, 학습에서 못 본 범주는 해당 특징의 열을 모두 0으로 표시합니다. 실행이 가능해졌다고 그 조건을 배운 것은 아닙니다.
 
-이 메모를 남겨 두어야 나중에 결과를 읽을 때도 `어떤 조건 범위에서 얻은 샘플 묶음인가`를 함께 볼 수 있고, `어떤 운영 조건을 거의 보지 못했는가`도 놓치지 않게 됩니다. 즉 대표성 문제는 현재 샘플 묶음이 무엇을 덮고 무엇을 놓쳤는지 먼저 적어 두는 문제에 가깝습니다.
-
-## 수집 조건의 편중과 그룹별 오류 확인하기 {#_6}
-
-문제 상황: 샘플 단위는 모두 `동작 1회`로 맞았더라도, 실제 샘플 묶음이 어느 조건에 치우쳐 있는지 확인합니다.
-
-입력(input): [p3_4_5_sample_coverage.csv](../../../assets/part-03/chapter-04/p3_4_5_sample_coverage.csv){ .csv-preview }에 저장된 동작 샘플 표와 최소 관찰 기준 `minimum_count`. 이 표에는 `shift`, `load_mode`, `machine_id`, `maintenance_phase`가 들어 있습니다.
-
-기대 출력(output): 어떤 조건이 많이 보였고 어떤 조건이 거의 비어 있는지를 요약한 `coverage summary`. `minimum_count`를 바꾸면 대표성 공백으로 표시되는 조건 수가 달라진다.
-
-확인할 개념: 샘플 한 건의 정의가 맞는 것과 샘플 묶음이 전체 운영 범위를 고르게 대표하는 것은 다른 문제다. 대표성 판단에는 관찰 기준이 필요하다.
+아래 코드는 저장소 루트에서 실행합니다. `features`로 입력 열을 바꾸고, 전체 맞힌 수와 부하별 `test_events`·`errors`를 함께 봅니다. 범주 변환과 모델 학습은 학습 묶음으로만 수행합니다.
 
 ```python
-# 수집된 샘플이 전체 운영 상황을 얼마나 대표하는지 범주와 구간 기준으로 점검하는 예제입니다.
-import csv
-from collections import Counter
-from pathlib import Path
-
-minimum_count = 9
-preview_sample_count = 8
-
-input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
-coverage_scopes = ["shift", "load_mode", "machine_id", "maintenance_phase"]
-
-with input_path.open(newline="", encoding="utf-8") as file:
-    samples = list(csv.DictReader(file))
-
-coverage_summary = []
-for scope in coverage_scopes:
-    counts = Counter(sample[scope] for sample in samples)
-    ordered_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
-    most_seen, most_seen_count = ordered_counts[0]
-    least_seen, _ = sorted(counts.items(), key=lambda item: (item[1], item[0]))[0]
-    under_minimum = sum(1 for count in counts.values() if count < minimum_count)
-    coverage_summary.append(
-        {
-            "scope": scope,
-            "most_seen": most_seen,
-            "count": most_seen_count,
-            "least_seen": least_seen,
-            "unique_conditions": len(counts),
-            "under_minimum_conditions": under_minimum,
-        }
-    )
-
-print("1) raw sample coverage table")
-for sample in samples[:preview_sample_count]:
-    print(
-        f"{sample['event_id']}: shift={sample['shift']}, "
-        f"load_mode={sample['load_mode']}, machine_id={sample['machine_id']}, "
-        f"maintenance_phase={sample['maintenance_phase']}"
-    )
-print(f"... {len(samples) - preview_sample_count} more event-level samples")
-print()
-print(f"2) coverage summary when minimum_count = {minimum_count}")
-for item in coverage_summary:
-    print(
-        f"{item['scope']}: most_seen={item['most_seen']} ({item['count']}), "
-        f"least_seen={item['least_seen']}, "
-        f"unique_conditions={item['unique_conditions']}, "
-        f"under_minimum_conditions={item['under_minimum_conditions']}"
-    )
-```
-
-예상 출력:
-
-```text
-1) raw sample coverage table
-E01: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E02: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E03: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E04: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E05: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E06: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E07: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E08: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-... 28 more event-level samples
-
-2) coverage summary when minimum_count = 9
-shift: most_seen=day (26), least_seen=night, unique_conditions=2, under_minimum_conditions=0
-load_mode: most_seen=normal (25), least_seen=low, unique_conditions=3, under_minimum_conditions=2
-machine_id: most_seen=M1 (22), least_seen=M2, unique_conditions=3, under_minimum_conditions=2
-maintenance_phase: most_seen=stable (28), least_seen=after-maintenance, unique_conditions=2, under_minimum_conditions=1
-```
-
-이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다. 여기서 조작할 값은 `minimum_count`입니다. `minimum_count = 9`일 때는 `shift`처럼 두 조건이 모두 기준을 넘는 범위도 있고, `load_mode`, `machine_id`, `maintenance_phase`처럼 일부 조건이 대표성 공백으로 잡히는 범위도 있습니다. 이 값을 낮추면 공백이 줄고, 높이면 더 많은 조건이 부족한 조건으로 표시됩니다. 이렇게 해야 `샘플 수는 36건인데도 왜 대표성은 조건별로 다르게 보이는가`를 숫자와 표 둘 다로 설명할 수 있습니다.
-
-이 코드는 CSV에 한 번이라도 등장한 조건만 셉니다. 적용 대상에 존재하지만 수집되지 않은 조건은 별도 목록과 대조해 0건으로 표시해야 합니다. 또한 `야간`과 `고부하`가 각각 있어도 `야간이면서 고부하`인 조합은 없을 수 있으므로, 필요한 조건 조합도 확인해야 합니다.
-
-이 표를 읽을 때는 세 가지를 함께 확인하면 됩니다. 이 표가 모은 시간·모드·장비 범위를 설명할 수 있는가, 거의 보지 못한 조건을 적어 둘 수 있는가, 그리고 나중에 평가 점수를 읽을 때도 이 대표성 범위를 함께 떠올릴 수 있는가입니다. 이런 메모가 붙어 있어야 샘플 표는 단순히 `정리된 표`가 아니라, `어떤 운영 범위를 대표하는지`까지 함께 남긴 표가 됩니다.
-
-대표성 공백은 나중에 모델 평가에서도 보입니다. 아래 예제는 같은 CSV를 사용해 앞쪽 24건을 학습 묶음, 뒤쪽 12건을 확인 묶음으로 나눕니다. 학습 묶음은 `normal`과 `stable` 조건이 많고, 확인 묶음에는 `low`와 `after-maintenance` 조건이 더 많이 보입니다. 여기서는 `needs_review`를 `high` 부하 또는 정비 직후 조건이면 1로 두는 축소 라벨로 만들고, 단순 기준선과 작은 결정트리를 비교합니다.
-
-문제 상황: 대표성이 치우친 학습 묶음에서 기준선과 모델의 오류가 어떤 조건에 몰리는지 확인합니다.
-
-입력(input): 앞 예제와 같은 `p3_4_5_sample_coverage.csv`, 범주형 조건 열, 축소 라벨 `needs_review`.
-
-기대 출력(output): 학습/확인 묶음의 조건 분포, 기준선과 결정트리의 정확도, `load_mode`별 오류 수.
-
-확인할 개념: 전체 정확도 하나만 보면 어떤 운영 조건을 거의 보지 못했는지 숨을 수 있으므로, 대표성 공백은 조건별 오류와 함께 읽어야 합니다.
-
-```python
-# 대표성이 치우친 학습 묶음에서 기준선과 모델 오류가 어디에 몰리는지 확인합니다.
 import pandas as pd
-from pathlib import Path
-from sklearn.compose import ColumnTransformer
 from sklearn.dummy import DummyClassifier
-from sklearn.metrics import accuracy_score
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier
 
-input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
-samples = pd.read_csv(input_path)
-
-# 이 절의 관찰용 축소 라벨입니다. 실제 운영 라벨은 별도 검토로 정의해야 합니다.
+samples = pd.read_csv("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
 samples["needs_review"] = (
-    samples["load_mode"].eq("high") | samples["maintenance_phase"].eq("after-maintenance")
+    samples["load_mode"].eq("high")
+    | samples["maintenance_phase"].eq("after-maintenance")
 ).astype(int)
-
 train = samples[samples["event_id"].between("E01", "E24")]
 test = samples[samples["event_id"].between("E25", "E36")]
+# 입력 열을 바꾸고 평가 건수와 오류 수를 함께 확인합니다.
 features = ["shift", "load_mode", "machine_id", "maintenance_phase"]
-
-preprocess = ColumnTransformer(
-    [("category", OneHotEncoder(handle_unknown="ignore"), features)]
-)
 models = {
     "dummy": DummyClassifier(strategy="most_frequent"),
     "tree": DecisionTreeClassifier(random_state=0, max_depth=3),
 }
-
-print("train coverage")
-print(train.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
-print()
-print("test coverage")
-print(test.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
-print()
-
+results = {}
 for name, estimator in models.items():
-    model = make_pipeline(preprocess, estimator)
+    model = make_pipeline(OneHotEncoder(handle_unknown="ignore"), estimator)
     model.fit(train[features], train["needs_review"])
-    predicted = model.predict(test[features])
-    result = test.assign(
-        predicted=predicted,
-        error=lambda df: df["predicted"].ne(df["needs_review"]),
-    )
-    print(f"{name} accuracy:", accuracy_score(test["needs_review"], predicted))
-    print("errors by load_mode:", result.groupby("load_mode")["error"].sum().to_dict())
+    result = test[["event_id", "load_mode", "needs_review"]].copy()
+    result["prediction"] = model.predict(test[features])
+    result["error"] = result["prediction"].ne(result["needs_review"])
+    correct = int((~result["error"]).sum())
+    print(f"{name}: correct={correct}/{len(result)}, accuracy={correct / len(result):.3f}")
+    print(result.groupby("load_mode").agg(
+        test_events=("error", "size"), errors=("error", "sum")
+    ).to_string())
+    results[name] = result
 ```
-
-예상 출력:
 
 ```text
-train coverage
-load_mode  maintenance_phase
-high       stable                4
-normal     after-maintenance     2
-           stable               18
-Name: event_id, dtype: int64
-
-test coverage
-load_mode  maintenance_phase
-high       after-maintenance    1
-           stable               1
-low        after-maintenance    2
-           stable               3
-normal     after-maintenance    3
-           stable               2
-Name: event_id, dtype: int64
-
-dummy accuracy: 0.4166666666666667
-errors by load_mode: {'high': 2, 'low': 2, 'normal': 3}
-tree accuracy: 0.75
-errors by load_mode: {'high': 0, 'low': 3, 'normal': 0}
+dummy: correct=5/12, accuracy=0.417
+           test_events  errors
+load_mode
+high                 2       2
+low                  5       2
+normal               5       3
+tree: correct=9/12, accuracy=0.750
+           test_events  errors
+load_mode
+high                 2       0
+low                  5       3
+normal               5       0
 ```
 
-결정트리는 전체 정확도만 보면 기준선보다 좋아 보입니다. 하지만 `errors by load_mode`를 보면 `low` 조건 오류가 남아 있습니다. 이 조건은 학습 묶음에 없고 확인 묶음에서 처음 나타난 조건입니다. 따라서 이 출력은 `모델이 어느 정도 맞혔다`보다 `어떤 조건을 거의 보지 못한 채 평가했는가`를 먼저 묻게 만듭니다. 대표성 점검은 모델을 학습하기 전의 표 점검이면서, 모델 평가를 읽을 때 다시 돌아와야 하는 조건 점검이기도 합니다.
+기준선은 12동작 중 5건을 맞혀 `5/12 ≈ 41.7%`, 결정트리는 9건을 맞혀 `9/12 = 75%`입니다. 후자의 오류 세 건은 모두 `low`에 있으므로 저부하 정확도는 `(5−3)/5 = 2/5 = 40%`입니다. 고부하는 2/2, 보통 부하는 5/5이지만 작은 평가 묶음에서의 결과이며 미래 성능을 보장하지 않습니다.
 
-샘플 단위를 잘 정했다고 해서 그 샘플 묶음이 전체 운영 상황을 자동으로 대표하는 것은 아닙니다. 그래서 Part 3에서는 시간·모드·장비 범위와 남은 공백을 함께 적어 두어야 합니다.
+이 실행에서 저부하 오류는 E27·E28·E29입니다. 세 동작은 `stable`이므로 가상 정답은 0인데 모델은 1을 냅니다. 학습에 `low`가 없었다는 점을 확인하되, “못 본 조건은 반드시 틀린다”거나 “미관측 조건만이 오류 원인이다”라고 일반화하지 않습니다. 입력 표현과 학습된 분기에도 결과가 달려 있습니다.
+
+`features = ["load_mode"]`로 바꾸어 정비 정보를 뺀 경우를 실행해 보세요. 결정트리는 `6/12 = 50%`가 되고 부하별 오류는 high 0/2, low 3/5, normal 3/5입니다. 정비 직후인 보통 부하 E25·E26·E34의 라벨을 구별할 입력이 없어집니다. 수집 범위와 입력 정보가 함께 결과를 좌우한다는 뜻입니다. 이 연습의 평가 점수를 보며 입력을 고른 뒤, 같은 묶음을 최종 성능 검증에 다시 사용하는 것은 피해야 합니다.
+
+## 적용 범위와 남은 공백을 문장으로 남기기
+
+“최소 건수 기준을 통과했고 정확도가 75%이므로 전체 운영에 충분하다”를 고쳐 보세요. 답은 “주·야간은 설명용 9건 기준을 넘었지만 목표 운영 비중·수집 경로와 추가 조건을 확인해야 한다. 이 가상 규칙 실험은 12동작 중 9건을 맞혔고, 학습에 없던 저부하는 5건 중 2건을 맞혔다. 야간·M2·고부하와 수집 기간에 대한 근거는 남아 있지 않다”입니다.
+
+실제 자료에는 수집 기간과 방법, 대상 조건 목록, 0건·소수인 중요 조합, 추가 수집할 대상이나 적용을 보류할 범위를 남깁니다. 총건수나 정확도 한 값으로 이 기록을 대신하지 않습니다.
 
 ## 체크리스트
 
-- 전체 운영 분포와 수집 표의 조건별 비중을 비교했는가?
-- 건수가 0인 조건과 개별 범주 집계로 놓치는 교차 조건을 찾았는가?
+- 목표 운영 80/20과 수집 비중 26/36·10/36을 서로 다른 근거로 구분하는가?
+- 9건 기준에서 shift의 부족 조건 수가 0인 이유를 계산했는가?
+- 기준을 낮춰 경고가 사라져도 자료가 늘지 않았음을 설명할 수 있는가?
+- 대상 목록의 0건 조건과 야간·M2·고부하 같은 교차 공백을 확인했는가?
+- 전체 9/12와 저부하 2/5를 함께 읽고 가상 라벨의 한계를 밝혔는가?
+- 관측 기간 등 현재 CSV로 확인할 수 없는 범위를 남겼는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example 단위가 먼저 정해져야 그다음에 어떤 example 집합이 현재 문제를 대표하는지 묻는 단계로 넘어갈 수 있으므로, 샘플 한 건의 정의와 샘플 묶음의 대표성을 분리해 읽어야 한다는 이 절의 출발점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- W3C, `PROV-Overview`. provenance와 activity context를 함께 남겨야 한다고 정리하므로, 현재 샘플 묶음이 어느 기간, 어느 장비, 어느 운영 모드에서 나왔는지 추적 가능해야 대표성 범위를 설명할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교할 때 같은 본질 조건 아래에서 얻은 표본이 필요하다고 설명하므로, 샘플 수가 아니라 어떤 운영 조건을 얼마나 덮고 있는지가 먼저 정리되어야 한다는 대표성 점검의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, [Deep Learning Tuning Playbook: Additional guidance](https://developers.google.com/machine-learning/guides/deep-learning-tuning-playbook/additional-guidance){: target="_blank" rel="noopener noreferrer" }. 실제 운영을 대표하는 자료에서 평가 지표를 확인해야 한다는 일반 근거입니다. 80/20 비율과 최소 9건은 이 절의 가상 설정입니다. / 확인일: 2026-09-19
+- scikit-learn developers, [OneHotEncoder](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html){: target="_blank" rel="noopener noreferrer" }. 범주 변환과 `handle_unknown="ignore"`의 미관측 범주 처리 근거입니다. / 확인일: 2026-09-19

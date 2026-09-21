@@ -1,0 +1,63 @@
+{
+  "source_motion": "../2026-09-19-momask-v4/results/travel-10107.npz",
+  "frame_mapping": [
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    59
+  ],
+  "renderer": "Official SCAIL-Pose taichi_cylinder.render_whole",
+  "radius_mm": 21.5,
+  "camera": "Fixed perspective, focal=1465.0432, center=(256,256), world transform [z-1.06345,1.094-y,x+8] meters",
+  "reference_source": "docs/assets/part-07/chapter-05/sec-03/p7-5-3-qwen-outfit-stage3-vertical-level-yaw_minus_90-stage3-reference-v1-size-960x1440-seed-62294-steps-4.png",
+  "reference_sha256": "28e7aafb9a96ca0bdc9c7dda7dceb01c0cfd92e2efbe2eb75de7508779feb05e",
+  "reference_crop": [
+    340,
+    140,
+    630,
+    1320
+  ],
+  "reference_resize": [
+    80,
+    326
+  ],
+  "reference_paste": [
+    30,
+    134
+  ],
+  "limitations": [
+    "Head landmarks are fixed side-facing proxies, not measured facial motion",
+    "No finger keypoints in MoMask HumanML22; finger overlay omitted",
+    "Prior Champ inputs missing at start; reference preprocessing is newly reconstructed, not byte-identical to VACE input",
+    "Q4 model planned; results cannot isolate architecture from quantization/input changes"
+  ]
+}

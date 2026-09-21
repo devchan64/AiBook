@@ -1,0 +1,27 @@
+{
+  "case": {
+    "id": "woman-elevated-plus-45",
+    "management_code": "P712-CAM-029",
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-elevated-plus-45-512.png",
+      "sha256": "149fe8f9bf7b2c3a7a08acad4b7bab272416cbb0bcb4802c41065ac39ff21ac0"
+    },
+    "subject": "woman",
+    "vertical": "elevated",
+    "yaw": 45,
+    "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+    "seed": 62294
+  },
+  "scale": 1,
+  "observed_vae_input_sizes": [
+    [
+      512,
+      512
+    ]
+  ],
+  "checkpoint_sha256": "9cddfaec307af146ce5311669c2e0ab42fdf68abe836364fa329e32861e9e37e",
+  "plan_sha256": "6777112339875c5889bb4e25873c73a91a7423b2cf65fb42bd547d1ce70f95b6",
+  "output_sha256": "d4865859abbdb5be54d5916aeb764540f7b24d58eaf03602bbc068d75bab78b2",
+  "elapsed_seconds": 251.69,
+  "status": "pending_visual_review"
+}

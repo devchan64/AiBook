@@ -1,6 +1,5 @@
 flowchart TD
-    A[Windowed event sequence]
-    A --> B[Collapse into summary features]
-    A --> C[Keep ordered segments]
-    B --> D[One-row feature input]
-    C --> E[Sequence-like input candidate]
+    A["Specify prediction time and available records"] --> B["Set start/end inclusion and alignment"]
+    B --> C["Choose variable length, cropping, or padding"]
+    C --> D["Summarize within the window"]
+    C --> E["Keep ordered input"]

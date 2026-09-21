@@ -1,202 +1,91 @@
 # P3-5.1 How Do We Turn Raw Logs into Comparable Tables
 
 > Section ID: `P3-5.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-In actual column design, the raw log should keep the event location through fields such as `event_id`, `timestamp`, `progress_bin`, and sensor values. The summary table should contain columns for comparing one operation, such as `event_id`, `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean`. The aggregation table needs columns such as `window`, `event_count`, and `baseline_gap` to show that several operations were grouped again. Even if all three tables came from the same source, their first columns and derived columns must point to different representation levels so comparison standards and feature candidates do not mix later.
+Once one action is the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), the same records can be represented for different questions. Raw records show detail within an action; summaries compare segment means across actions; aggregates describe groups of actions. **A summary table is one helpful representation, while direct comparison of raw time series or their use as model inputs is also possible.**
 
-At first glance, raw logs look very rich. They contain many values in time order, often from several sensors, sometimes together with control parameters. But that richness does not automatically mean we already have a comparable dataset. After the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit has been fixed, we still need a procedure that turns raw logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) and an aggregate table. Raw logs, summary tables, and aggregate tables play different roles, and [one row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit) means something different in each of them.
+## Start with 36 Observations Already Assigned to Segments
 
-`raw log -> summary table -> aggregate table` is the order in which the same time series is rewritten into tables that answer different questions. Once that order is visible, it also becomes clearer at what level [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison and [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation) design attach.
+The [fictional flow CSV](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv) contains 36 observations from six actions, A–F. `flow` is measured in L/min. Every action has two observations in each of `early`, `mid`, and `late`; A, B, and C belong to `baseline`, while D, E, and F belong to `recent`.
 
-Take an automatically executed action as an example. In the raw log, one row is left behind at every time point during the action, with sensor values and control values. In the summary table, one full automatically executed action becomes one row. In the aggregate table, one row can instead mean the result of grouping several actions again, such as the average of the most recent 20 cases or the average of a usual operating range.
+**Action IDs, progress segments, and comparison groups have already been assigned in this input.** Here we use those assignments to calculate means, rather than calculate new segment boundaries. [P3-5.4](section-04.en.md) discusses segment criteria. The CSV lacks timestamps and original progress values, so it cannot by itself verify the segment assignment or action duration.
 
-| Type of table | What one row means | The question it mainly answers |
-| --- | --- | --- |
-| Raw log | One time-point record during an action | What was measured right now? |
-| Summary table | A sample summarizing one full action | What structure did this action have? |
-| Aggregate table | A recent or baseline summary built from many actions | Is the recent change different from the usual state? |
+First inspect A’s six observations. `(event_id, progress_bin)` groups observations; each combination appears twice, so it is not a unique observation identifier.
 
-This is not just a matter of different table names. A raw log is strong at preserving fine detail, but it is hard to compare whole actions there. A summary table makes comparison across actions easier, but most moment-to-moment fluctuations are compressed away. An aggregate table lets us read recent state quickly, but the special shape of an individual action can disappear.
+| event_id | window | progress_bin | flow |
+| --- | --- | --- | ---: |
+| A | baseline | early | 0.70 |
+| A | baseline | early | 0.90 |
+| A | baseline | mid | 2.00 |
+| A | baseline | mid | 2.10 |
+| A | baseline | late | 1.70 |
+| A | baseline | late | 1.80 |
 
-So in this section, table conversion is more similar to `turning the data into a structure where numeric values and categorical states can be explored together` than to merely `making a table`. Numerical exploration can begin only when the summary table lets us compare level, change, and variability. Categorical exploration can begin only when status ranges, missingness, overlap, and reasons why comparison is impossible are also organized together.
+## First Average Observations Within Each Action and Segment
 
-| Exploration angle | What should be left in the table first | What later sections read more deeply |
-| --- | --- | --- |
-| Numerical exploration | Range averages, rates of change, variability | Patterns beyond the average, recent-vs-baseline differences |
-| Categorical exploration | State labels, missingness flags, overlap / non-comparable flags | Sample-collapse distinctions, judgments about comparability |
+A’s early mean is `(0.70 + 0.90)/2 = 0.80 L/min`. Its middle mean is `(2.00 + 2.10)/2 = 2.05`, and its late mean is `(1.70 + 1.80)/2 = 1.75`. These describe three different parts of A, not three means of the entire action.
 
-That is why it is misleading to read `summary` as simple shrinking. One action-summary row is the result of turning many raw time-series rows into one row that people can compare and models can handle more easily. The important point is not redefining the sample unit again, but building a comparable table on top of the sample unit that has already been fixed. It makes comparison easier, but it does not replace every context in the raw time series.
+Applying the same calculation to the other actions gives this table. One row is one action; `event_id` links back to its observations. Each mean divides by the two observations within that action and segment.
 
-So when reading a table, the first question should not be `what are the columns?` but `what is one row?` One row in a raw log is usually not yet one full sample. Only when it becomes one row in the summary table can one action finally be read as a comparable sample. The aggregate table goes one step further and builds a comparison structure by grouping several samples again.
+| event_id | window | early_flow_mean | mid_flow_mean | late_flow_mean |
+| --- | --- | ---: | ---: | ---: |
+| A | baseline | 0.80 | 2.05 | 1.75 |
+| B | baseline | 0.80 | 2.15 | 1.65 |
+| C | baseline | 0.80 | 2.00 | 1.85 |
+| D | recent | 0.95 | 2.45 | 1.85 |
+| E | recent | 1.05 | 2.65 | 1.95 |
+| F | recent | 1.00 | 2.55 | 1.75 |
 
-Moving from the raw log to the summary table is not only about reducing the number of rows. At this stage, we also have to decide `which ranges will be separated`, `what rates of change will be computed`, and `which sensor values will remain as representative values`. For example, a one-action summary table may include columns such as total action time, average pressure in the early phase, average flow in the middle phase, decline rate in the late phase, and control-tracking error. These are not values that originally appeared as one line in the raw log. They are the result of rewriting many time-point values into a form that is easier for people to compare.
+For example, this table lets us directly compare A’s and D’s middle means. Equal means do not establish equal within-segment shapes. A’s early observations 0.70 and 0.90 and B’s 0.80 and 0.80 both average 0.80, although their values differ. Inspect raw records for the sequence of changes or brief peaks.
 
-The diagram below compresses this transformation into its shortest form.
+## Average Action Means to Describe a Comparison Group
+
+Now gather the same column from actions in the same `window`. The baseline early mean is `(A’s 0.80 + B’s 0.80 + C’s 0.80)/3 = 0.80`. The recent early mean is `(D’s 0.95 + E’s 1.05 + F’s 1.00)/3 = 1.00`. **The earlier denominator, 2, counts observations; this denominator, 3, counts actions**, giving each action equal weight.
+
+| window | member_events | event_count | early_flow_mean | mid_flow_mean | late_flow_mean |
+| --- | --- | ---: | ---: | ---: | ---: |
+| baseline | A, B, C | 3 | 0.80 | 2.07 | 1.75 |
+| recent | D, E, F | 3 | 1.00 | 2.55 | 1.85 |
+
+Although the mean columns have the same names as before, they now describe three actions rather than one. Preserve the row meaning and calculation rule when passing the table to another file. The baseline middle mean is `(2.05 + 2.15 + 2.00)/3 = 2.0666…`, rounded to 2.07 only for display.
+
+The early recent-minus-baseline difference is `1.00−0.80 = +0.20 L/min`. It is an observed mean difference among these six fictional actions, not immediate evidence of a fault or long-term change. Each group contains three actions and cannot be called “the latest 20 actions.”
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-1-mermaid-01-en.mmd"
 ```
 
-In this flow, the `Segment by progress` stage is especially important. We do not simply average the raw log as-is. First we divide the action into comparable ranges such as early, middle, and late, and only then do summary values appear. `Aggregate across events` comes after that. Summarizing one action and aggregating a recent operating range are not the same job. The second one groups once more.
+Transforming 36 observations into six action rows and two aggregate rows does not redefine the action sample. It summarizes the same six actions at different levels. To investigate an aggregate, trace `window → event_id → observations in progress_bin` to locate the changed value.
 
-At this point, the first thing to check is `which of the three tables is the starting point for my current work`, because that keeps different tables from being mixed together.
+## Change One Value and Trace Both Stages
 
-| The table currently in hand | What should be done first | What is still hard with only this table |
-| --- | --- | --- |
-| Raw log | Decide action boundaries and segment criteria | Direct comparison across actions |
-| Summary table | Compare one action against another | Read repeated recent changes |
-| Aggregate table | Compare recent state against the baseline | Inspect the detailed shape of one action |
+Leave the source CSV unchanged and calculate a hypothetical change of A’s early observation from 0.90 to 1.50. What are A’s early mean, the baseline early mean, and the recent-minus-baseline difference?
 
-The aggregate table changes role one more time. Here the focus is not the shape of one action, but grouped flows such as `average of the most recent 20 cases`, `variability of the most recent 20 cases`, `difference from the baseline`, or `the number of repeated changes in the same direction`. If the summary table is more similar to `reading cases`, the aggregate table is more similar to `reading state`.
+A becomes `(0.70 + 1.50)/2 = 1.10`; baseline becomes `(1.10 + 0.80 + 0.80)/3 = 0.90`; the difference becomes `1.00−0.90 = +0.10 L/min`. The raw increase of 0.60 contributes 0.30 to the action mean and 0.10 to the three-action aggregate. Recent, middle, and late values remain unchanged. Following affected columns traces the aggregate’s evidence back to a particular observation.
 
-The next example shows how a raw log leads first to an action-level summary table and then all the way to a recent/baseline aggregate table. Here we assume that the action is divided into three progress segments, and that 3 `baseline` events and 3 `recent` events are compared.
+## Choose Equal Weight for Measurement Points or Actions
 
-Problem situation: check in one view how a raw log becomes an `action-level summary table` and then a `recent/baseline aggregate table`.
+Every action and segment above has two observations, so pooling observations directly gives the same mean. Unequal counts change this. In a separate fictional case, X has two measurements of 10 and Y has six measurements of 20.
 
-Input: [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){ .csv-preview }. Each row records `flow` measured in one progress segment of an action; `window` indicates the baseline or recent period.
+| Question | Calculation | Result | Weight of each action |
+| --- | --- | ---: | --- |
+| Compare mean levels with equal weight per action | (10+20)/2 | 15 | X:Y = 1:1 |
+| Average all eight collected measurements | (2×10+6×20)/8 | 17.5 | X:Y = 2:6 |
 
-Expected output: an output in which the three tables `raw`, `summary`, and `aggregate` have different row meanings and different comparison roles
+In the second calculation Y receives three times X’s weight. This is what weighting means. The point mean is not inherently wrong, nor is the action mean always right: choose the denominator and weights for the question. With irregular measurement intervals, a point mean also cannot automatically be read as a time average.
 
-Concept to check: turning raw logs into comparable tables means rewriting the same records step by step into a summary table and an aggregate table
-
-```python
-# This example turns raw log rows into per-event summary and per-window aggregate tables.
-import csv
-from collections import defaultdict
-from pathlib import Path
-
-data_path = Path("docs/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv")
-
-with data_path.open(newline="", encoding="utf-8") as file:
-    raw = [
-        {**row, "flow": float(row["flow"])}
-        for row in csv.DictReader(file)
-    ]
-
-event_segments = defaultdict(lambda: {"window": None, "segments": defaultdict(list)})
-for row in raw:
-    event = event_segments[row["event_id"]]
-    event["window"] = row["window"]
-    event["segments"][row["progress_bin"]].append(row["flow"])
-
-summary = []
-for event_id in sorted(event_segments):
-    event = event_segments[event_id]
-    summary.append(
-        {
-            "event_id": event_id,
-            "window": event["window"],
-            "early_flow_mean": sum(event["segments"]["early"]) / len(event["segments"]["early"]),
-            "mid_flow_mean": sum(event["segments"]["mid"]) / len(event["segments"]["mid"]),
-            "late_flow_mean": sum(event["segments"]["late"]) / len(event["segments"]["late"]),
-        }
-    )
-
-window_groups = defaultdict(list)
-for row in summary:
-    window_groups[row["window"]].append(row)
-
-aggregate = []
-for window in sorted(window_groups):
-    rows = window_groups[window]
-    aggregate.append(
-        {
-            "window": window,
-            "event_count": len(rows),
-            "early_flow_mean": sum(row["early_flow_mean"] for row in rows) / len(rows),
-            "mid_flow_mean": sum(row["mid_flow_mean"] for row in rows) / len(rows),
-            "late_flow_mean": sum(row["late_flow_mean"] for row in rows) / len(rows),
-        }
-    )
-
-print("1) raw log rows before comparison")
-for row in raw[:6]:
-    print(
-        f'{row["event_id"]} {row["window"]:<8} '
-        f'{row["progress_bin"]:<5} flow={row["flow"]:.2f}'
-    )
-print(f"... {len(raw) - 6} more raw log rows")
-print()
-print("2) per-event summary table for direct comparison")
-for row in summary:
-    print(
-        f'{row["event_id"]} {row["window"]:<8} '
-        f'early={row["early_flow_mean"]:.2f} '
-        f'mid={row["mid_flow_mean"]:.2f} '
-        f'late={row["late_flow_mean"]:.2f}'
-    )
-print()
-print("3) recent-vs-baseline aggregate table built from event summaries")
-for row in aggregate:
-    print(
-        f'{row["window"]:<8} events={row["event_count"]} '
-        f'early={row["early_flow_mean"]:.2f} '
-        f'mid={row["mid_flow_mean"]:.2f} '
-        f'late={row["late_flow_mean"]:.2f}'
-    )
-```
-
-Expected output:
-
-```text
-1) raw log rows before comparison
-A baseline early flow=0.70
-A baseline early flow=0.90
-A baseline mid   flow=2.00
-A baseline mid   flow=2.10
-A baseline late  flow=1.70
-A baseline late  flow=1.80
-... 30 more raw log rows
-
-2) per-event summary table for direct comparison
-A baseline early=0.80 mid=2.05 late=1.75
-B baseline early=0.80 mid=2.15 late=1.65
-C baseline early=0.80 mid=2.00 late=1.85
-D recent   early=0.95 mid=2.45 late=1.85
-E recent   early=1.05 mid=2.65 late=1.95
-F recent   early=1.00 mid=2.55 late=1.75
-
-3) recent-vs-baseline aggregate table built from event summaries
-baseline events=3 early=0.80 mid=2.07 late=1.75
-recent   events=3 early=1.00 mid=2.55 late=1.85
-```
-
-In this output, the raw log contains 36 time-point records. Only at stage 2 do the 6 full actions become one row each. At stage 3, those samples are grouped again into `baseline` and `recent` aggregates. What matters is not only that the number of rows decreased, but that comparison units such as `early`, `mid`, and `late` entered the column structure of the summary table, and that this summary table then became the material for a recent-state comparison table. If the values in the CSV are changed, both the per-event summaries and recent/baseline aggregates change, so the reader can check directly at which representation level the judgment changes.
-
-After seeing this example, the following questions help check whether what just happened was simple shrinking or a change of representation.
-
-1. Did we merely reduce the row count, or did we also redefine the sample-level representation?
-2. Were `early`, `mid`, and `late` columns that already existed in the raw log, or were they new segments created for comparison?
-3. If we want to make an average of the most recent 20 cases in the next step, which is the more direct starting point now: this table or the raw log?
-
-If these questions can be answered, `raw log -> summary table -> aggregate table` becomes clearer as not a simple compression order but a series of representation shifts for different judgment questions.
-
-The same flow can be judged more briefly like this.
-
-| The judgment needed right now | The more direct starting point |
-| --- | --- |
-| Comparing the structure of individual actions | Summary table |
-| Comparing recent state with usual state | Aggregate table |
-| Checking the detailed time point of an unusual change | Raw log |
-
-The importance of this table does not mean `once we make one good table, we are done`. It means that depending on the question, the table we have to move down to or up to changes.
-
-### The Mean Across Actions Differs from the Mean Across All Measurement Points
-
-Suppose a fictional log contains two measurements of 10 for A and six measurements of 20 for B. Giving each action equal weight produces `(10+20)/2 = 15`. Giving each of the eight measurements equal weight produces `(2×10+6×20)/8 = 17.5`. In the second calculation, B receives three times A's weight. The calculation depends on whether the question concerns the state per action or the level per measurement point. With irregular measurement intervals, a mean over measurement points cannot automatically be interpreted as a mean over time either.
-
-Another important point is that the three tables are not in competition. Making a summary table does not make the raw log unnecessary. Making an aggregate table does not make the action-level table useless. On the contrary, if an unusual change appears in the aggregate table, we have to move back down to the summary table and the raw log to check it. The more comparison-oriented representations we add, the more important it becomes to re-check the raw time series too.
-
-So `raw log -> summary table -> aggregate table` is not a simple order of shrinking. It is a continuous design that rewrites the same time series at the record level, the sample level, and the state level. The key point is not just that more tables appear one by one, but that for some questions raw records are the more direct evidence, for other questions sample summaries are, and for still other questions state aggregates are.
+What if four more observations of 10 are collected for X? The action mean stays 15, while the point mean becomes `(6×10+6×20)/12 = 15` too. Action levels did not change; the balance of measurement counts did. A decline from 17.5 to 15 does not establish an improvement in Y’s condition.
 
 ## Checklist
 
-- Did you calculate both the mean of action means and the mean across all time points?
-- Can you explain why each action receives different weights in those two means?
+- Can you explain that early/mid/late are assigned input segments, not created by this aggregation?
+- Can you trace A’s two early observations through its mean to the baseline mean?
+- Can you distinguish what 36 observations, six actions, and two aggregates count?
+- Have you calculated which columns and groups change when one observation of A changes?
+- Can you choose between 15 and 17.5 for your question and explain each action’s weight?
+- Have you recorded what the summary loses and how to return to the original records?
 
 ## Sources and Further Reading
 
-- W3C, `PROV-Overview`. Because the provenance framework explains that processing steps, reproducibility, versioning, and derivation should be representable, it provides a general basis for keeping separate records of how raw logs were transformed into summary tables and aggregate tables. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. An example may lack a label; a labeled example includes features and a label. The rule for grouping time-point records into action tables is this section’s own example. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-15
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains a reference period as the basis for comparing other periods, it offers a general basis for needing a separate representation level such as an aggregate table when comparing recent state against baseline state. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, [PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. General support for recording processing and derivation. The CSV, segment assignments, calculations, and exercises are our fictional example, not a table-transformation procedure prescribed by W3C. / Accessed: 2026-09-19
