@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-27",
+  "tested": [
+    "attributes structural dry-run",
+    "NaN and invalid pose rejection",
+    "Blender 4.5.3 export using preserved NPZ",
+    "GLB 104 joints and no animation clips"
+  ],
+  "not_tested": [
+    "Full ANNY CUDA regeneration",
+    "Animated deformation quality",
+    "Clean dependency installation"
+  ],
+  "export_validation": {
+    "status": "passed",
+    "rest_max_error": 1.7881393432617188e-07,
+    "weight_sum_max_error": 1.1920928955078125e-07,
+    "bones": 104,
+    "vertices": 13718,
+    "triangles": 27420,
+    "height": 1.6,
+    "animation_clips": 0
+  },
+  "code_sha256": {
+    "generate_body.py": "f58a7812e09c7e85fdab9ae7ebb9a155c8197d0821bd3c7cb0ba2b153a113d41",
+    "export_blender.py": "7effa69501c7fc3c1b2d771cd750ca2f57a16da0c89fe6e681769f6375c8ec81"
+  }
+}

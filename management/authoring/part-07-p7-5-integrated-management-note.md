@@ -454,3 +454,18 @@ SCAIL-2 DPO 704p 완료: 동일 입력 파일·DPO 1.0 조건에서 704×704·33
 2026-09-20 SCAIL-2 multiref 완료 및 원고 반영: 704×704·33프레임·20fps, 4788.86초, peak allocated 4.44GiB / reserved 5.68GiB. 사용자 요청에 따라 P7-5.15의 11절에 조건·실행 결과·기준 비교·영상 링크를 반영했다. 다섯 표본과 016 원본 크기를 확인했으며 이동·큰 외형 유지와 얼굴·손 디테일 부족을 구분했다. 원고 보존을 품질 개선 승인으로 처리하지 않는다. 검수 기록은 multiref 자산의 review.json에 남겼다.
 
 2026-09-20 결과 정리: 사용자 지시로 현재 scail2-multiref-v1 영상·33 PNG와 실행 입력·근거만 보존한다. MoMask v4·native-ref 등 나머지 결과와 과거 결과를 포함한 비교판은 삭제했고 각 README 요약 및 P7-5.15 본문에 결론을 남겼다. 과거의 보존·비교 가능 설명은 당시 이력이다. 근접 실험의 심볼릭 링크 입력은 실제 파일로 이관했으며 공용 모델 가중치는 유지한다.
+
+## P7-5.11 ANNY 신체 확보 원고 근거 — 2026-09-27
+
+신규 추론 없이 현재 소스·등록 기록을 읽었다. 검토 저장소 HEAD: `3bff2ec398452fda5018cb85469cad60ddde699d`. 아래 해시는 확인한 작업 트리 파일 기준이다. 공개 원고에는 비공개 설계·프롬프트·속성 원문을 복제하지 않고 생성 과정과 구조·검증 수치만 재서술했다. 외부 저장소를 책의 실행 의존성으로 추가하지 않았다.
+
+- `generators/animation/render_anny_attribute_preview.py` — SHA-256 `b42e85706eb362eb8f9281eefbd1a08146efd5e40b266a714df7f09089bbb545`
+- `generators/animation/render_anny_attribute_preview_blender.py` — SHA-256 `fa8a9de5104dcc2d30e608e9d008acd2b72a4da0a6dec01c91964290faf4c42e`
+- `generators/animation/config/anny_model_baseline.yaml` — SHA-256 `91a04640fff2ada73c03b0c8ca1bec8fa64e90e3467afe466c115f7b95ad6ef4`
+- `generators/animation/config/anny_profiles/neutral.yaml` — SHA-256 `d9bff273169912010997b0f89e67d92c62c781a446699c6571359d9959bcfc59`
+- `assets/animation-models/anny-neutral-v4/manifest.yaml` — SHA-256 `17977ceb0c142a9b8d75e04553145f7e5c8c79de6650e5faa6d0749b1fda968e`
+- `assets/animation-models/anny-neutral-v4/validation.json` — SHA-256 `5214332f4d1d52c1927e5115e256e039dd78959163439cacd91883710406b570`
+
+기존 workflows/anny-mannequin-generation.md의 report/anny-reference-baseline-20260923-r3 경로는 존재하지 않았다. 현재 selector의 neutral_v4와 실제 자산 manifest를 기준으로 삼았다. 모델·이미지 바이너리는 전재하지 않았다. 공식 README는 선택 설치가 비상업용 자산을 가져올 수 있다고 명시하므로 ANNY 전체 구성의 이용 조건을 일괄 동일시하지 않는다. 이번에는 외부 코드·가중치·이미지 배포 없이 설명과 출처 링크만 사용했다.
+
+2026-09-27 후속 요청으로 ANNY neutral_v4 이미지·리그·입력·검증 기록 사본을 sec-11/anny-neutral-v4에 보존했다. 원본 파일은 수정하지 않았다. source-record.json에 개별 해시와 출처를 기록하고 NPZ/GLB 구조를 독립 확인했다. ANNY 0.6.0 설치 METADATA의 native MPFB2 및 Face Units CC0 표기를 확인했으며 캐릭터 텍스처·외부 사진·비공개 설계 문서는 전재하지 않았다. 원 manifest는 출처 기록이며 책에 복사하지 않은 이력 파일도 열거하므로 사본 목록은 source-record.json을 기준으로 한다.
