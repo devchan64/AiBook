@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ANNY 걷기 애니메이션 3D 보기</title>
+<script type="module" src="https://unpkg.com/@google/model-viewer@4.1.0/dist/model-viewer.min.js"></script>
+<style>
+body{margin:0;font:15px system-ui,sans-serif;color:#222;background:#f5f5f5}model-viewer{width:100%;height:440px}footer{padding:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}button{padding:8px 16px;cursor:pointer}p{margin:0}a{color:#2458a6}
+</style>
+</head>
+<body>
+<model-viewer id="model" src="mannequin.glb" alt="ANNY neutral_v4 리그에 적용한 MoMask 걷기 애니메이션" camera-controls autoplay shadow-intensity="0.5" touch-action="pan-y" camera-orbit="35deg 75deg auto"></model-viewer>
+<footer><button id="toggle" type="button" disabled>불러오는 중</button><p id="status" role="status">3D 모델을 불러오고 있습니다.</p></footer>
+<noscript>3D 보기에 JavaScript가 필요합니다. 본문의 걷기 GIF을 이용해 주세요.</noscript>
+<script>
+const model=document.querySelector('#model');
+const toggle=document.querySelector('#toggle');
+const status=document.querySelector('#status');
+model.addEventListener('load',()=>{toggle.disabled=false;toggle.textContent='일시 정지';status.textContent='드래그로 회전하고 스크롤로 확대합니다. 4fps 애니메이션입니다.';});
+model.addEventListener('error',()=>{status.textContent='3D 파일을 불러오지 못했습니다. 본문의 걷기 GIF을 이용해 주세요.';});
+toggle.addEventListener('click',()=>{if(model.paused){model.play();toggle.textContent='일시 정지';}else{model.pause();toggle.textContent='재생';}});
+setTimeout(()=>{if(!customElements.get('model-viewer'))status.textContent='3D 뷰어 연결을 확인해 주세요. 본문의 걷기 GIF도 볼 수 있습니다.';},15000);
+</script>
+</body>
+</html>

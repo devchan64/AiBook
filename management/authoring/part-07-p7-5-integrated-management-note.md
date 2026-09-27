@@ -469,3 +469,19 @@ SCAIL-2 DPO 704p 완료: 동일 입력 파일·DPO 1.0 조건에서 704×704·33
 기존 workflows/anny-mannequin-generation.md의 report/anny-reference-baseline-20260923-r3 경로는 존재하지 않았다. 현재 selector의 neutral_v4와 실제 자산 manifest를 기준으로 삼았다. 모델·이미지 바이너리는 전재하지 않았다. 공식 README는 선택 설치가 비상업용 자산을 가져올 수 있다고 명시하므로 ANNY 전체 구성의 이용 조건을 일괄 동일시하지 않는다. 이번에는 외부 코드·가중치·이미지 배포 없이 설명과 출처 링크만 사용했다.
 
 2026-09-27 후속 요청으로 ANNY neutral_v4 이미지·리그·입력·검증 기록 사본을 sec-11/anny-neutral-v4에 보존했다. 원본 파일은 수정하지 않았다. source-record.json에 개별 해시와 출처를 기록하고 NPZ/GLB 구조를 독립 확인했다. ANNY 0.6.0 설치 METADATA의 native MPFB2 및 Face Units CC0 표기를 확인했으며 캐릭터 텍스처·외부 사진·비공개 설계 문서는 전재하지 않았다. 원 manifest는 출처 기록이며 책에 복사하지 않은 이력 파일도 열거하므로 사본 목록은 source-record.json을 기준으로 한다.
+
+## P7-5.12 ANNY 리그·MoMask 연결 검토 — 2026-09-27
+
+신규 실행 없이 작업 트리 소스를 검토했다. HEAD `235a5ab8a80a782107625758b0c8a6bf60fdfe80`. 기준 사본 객체와 예제 객체 이름 차이, 현재 관리 경로의 20fps 원 모션/4fps 결과 기록을 구분했다. 기존 걷기 v8은 다른 기준 모델의 이력이므로 5.11 neutral_v4의 새 결과로 소개하지 않았다.
+
+- `generators/momask/position_retarget.py`: `f8d220b14718d5da8998cc63f643fffb5fe93bf2c9559cac100e27a40ddec9bc`
+- `generators/momask/config/humanml22-anny-retarget.yaml`: `cd473749c2609c26f84fff85c55296e77d22c3b9045f99f887540442d324dfb8`
+- `generators/momask/templates/retarget_loop.py`: `56b2d04f11763ead56a7b2792a251ffe9dab410eb9d61c47c30147766fe5d7be`
+- `generators/momask/run_managed_generation.py`: `4609a412aa7b672f70e2b1af4c7276f0a728480ad2de8971625e37ce26f16f39`
+
+### 2026-09-27 P7-5.12 실제 결과 사본과 재생성 예제
+
+- `slime-workflow/.tmp/momask-generator/jobs/2026-09-27_11-22-36-facd740e/result/anny`의 완료 결과를 `sec-12/anny-momask-walk`로 복사했다. 기준 리그 SHA-256 `db16e20ad203093fd227418748927fb8e3f6206413d288ce039d3e45d9004b95`가 5.11 사본과 일치한다.
+- 원본 파일·입력·프로필·계산기 사본 해시는 source-record.json에 보존했다. 60장의 down_left PNG를 흰 배경의 4fps MP4로 묶은 뒤 사용자 요청에 따라 본문 표시는 60프레임·15초 반복 GIF로 교체했다. 원본은 변경하지 않았다.
+- 독립 실행 진입점 generate_animation.py로 60프레임 리타기팅을 재실행했다. bpy 4.5.3에서 Blender·GLB 저장 성공, GLB 애니메이션·스킨 확인. 재생성 GLB 해시는 기존 결과와 일치한다. 코드/검증 기록은 자산 code 폴더에 보존했다.
+- 신규 MoMask 추론·CUDA 렌더는 검증 범위에서 제외했다. 끝점 표면 좌표 최대 차이 약 0.264m를 루프 합격으로 해석하지 않았다. 사이트 빌드는 실행하지 않았다.

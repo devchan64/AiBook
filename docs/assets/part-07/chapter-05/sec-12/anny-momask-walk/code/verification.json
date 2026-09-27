@@ -1,0 +1,40 @@
+{
+  "status": "generated_review_required",
+  "frames": 60,
+  "source_fps": 20,
+  "playback_fps": 4,
+  "motion_sha256": "dfc95c0c9e56bccc1d5e67056f05bfdbf2c747dd948febfdde9a9cfb95eb2594",
+  "rig_sha256": "db16e20ad203093fd227418748927fb8e3f6206413d288ce039d3e45d9004b95",
+  "contacts": "zero placeholders, not inferred",
+  "rig_objects": [
+    "AnnyAttributesRig",
+    "AnnyAttributesBody"
+  ],
+  "render": false,
+  "code_sha256": {
+    "position_retarget.py": "f8d220b14718d5da8998cc63f643fffb5fe93bf2c9559cac100e27a40ddec9bc",
+    "run_stage.py": "58c0a4ada600de2bc7c45df64ae365dde02d3fc724f5e7d676b38d6b7c31380e",
+    "retarget_audit.py": "1b0d78e9fa5fee81accf818cb606e484b8095b1950a6f4187c9212dc8ffc16a2",
+    "retarget_loop.py": "56b2d04f11763ead56a7b2792a251ffe9dab410eb9d61c47c30147766fe5d7be"
+  },
+  "profile_sha256": "cd473749c2609c26f84fff85c55296e77d22c3b9045f99f887540442d324dfb8",
+  "entrypoint_sha256": "878f4fceb14a3836cb5dbf83c9e25628be808b87927a10c46b84ef689f7263db",
+  "outputs": {
+    "mannequin.blend": "a48b3f3d3de36ec21fe538671fcf5b1ee196a1291a0961e349a3e8799d8c062b",
+    "mannequin.glb": "d64ef59db647abe2e166c33a1366b7ca57e022b8f76b66e6c5767e4ba5d2462f",
+    "review-metrics.json": "9e83b0122bc021dd675c4aaac1858255305dd30a016a3409cff691a9916323b1"
+  },
+  "verification_date": "2026-09-27",
+  "runtime": "bpy 4.5.3 / Python 3.11",
+  "checks": {
+    "glb_animation_count": 1,
+    "glb_skin_count": 1,
+    "animation_sample_count_min": 2,
+    "animation_sample_count_max": 60
+  },
+  "excluded": [
+    "new MoMask inference",
+    "CUDA rendering",
+    "perceptual quality approval"
+  ]
+}
