@@ -100,53 +100,10 @@ The earlier assessment that face and hair were generally consistent is retained 
 
 ### Comparison sheets / 결과 검수 비교시트
 
-- [Review summary and case guide / 검수 요약](evaluation/README.md)
-- [45 inputs: 1600 vs 3200 steps at strength 1.0 / 스텝 비교](evaluation/step-review.md)
-- [12 selected inputs: no adapter and strengths 0.5, 0.75, 1.0 / 강도 비교](evaluation/scale-review.md)
 
-Each detailed case includes the input, a direction-matched **Mira torso reference**, outputs and Korean review notes. The Mira image is a visual identity/style reference only; it was **not passed to the inference pipeline**. Clothing, pose and scene preservation must be judged against the input, not against the Mira torso.
+The detailed review Markdown files and their rendered sample images are not packaged in this Hugging Face release. Read the versioned AiBook source instead: [review summary and case guide](https://github.com/devchan64/AiBook/blob/dev/docs/assets/part-07/chapter-05/sec-10/bfs-camera-366-review.md), [45-input step comparison](https://github.com/devchan64/AiBook/blob/dev/docs/assets/part-07/chapter-05/sec-10/bfs-camera-366-step-review.md), and [12-input strength comparison](https://github.com/devchan64/AiBook/blob/dev/docs/assets/part-07/chapter-05/sec-10/bfs-camera-366-scale-review.md).
 
-### Illustrated samples / 설명을 곁들인 샘플
-
-Compare the input and Mira reference first, then compare the outputs at the same strength. These examples illustrate both the intended transformation and remaining errors.
-
-#### 006: Side-view preservation / 측면 방향 보존
-
-| Input / 입력 | Mira reference / 참조 |
-| --- | --- |
-| ![P712-CAM-006 입력](evaluation/images/6942052db445d4ba.png) | ![Mira 토르소 참조 · level / -90°](evaluation/images/34889d61da4dfff6.png) |
-
-| 1600 steps · strength 0.75 | 3200 steps · strength 0.75 |
-| --- | --- |
-| ![P712-CAM-006 1600 · 0.75](evaluation/images/e4112b98ef581c4d.png) | ![P712-CAM-006 3200 · 0.75](evaluation/images/e105de20a0fcbf74.png) |
-
-At 3200 steps, strength 1.0 turns the face toward the front and reduces subject size. Strength 0.75 better retains the side view, but head/body scale still differs from the input. / 3200스텝의 강도 1.0에서 보인 정면 회전은 0.75에서 완화되지만 크기·비율 차이는 남습니다.
-
-<details>
-<summary>Compare 3200-step strength 1.0 / 강도 1.0 결과 펼치기</summary>
-
-![P712-CAM-006 3200 · 1.0](evaluation/images/64d68bd56b0617e0.png)
-
-</details>
-
-#### 009: Collar preservation / 셔츠 칼라 보존
-
-| Input / 입력 | Mira reference / 참조 |
-| --- | --- |
-| ![P712-CAM-009 입력](evaluation/images/d2bc2b5784186387.png) | ![Mira 토르소 참조 · level / 45°](evaluation/images/8a1e341703b2b2ff.png) |
-
-| 1600 steps · strength 0.75 | 3200 steps · strength 0.75 |
-| --- | --- |
-| ![P712-CAM-009 1600 · 0.75](evaluation/images/531a294269170da4.png) | ![P712-CAM-009 3200 · 0.75](evaluation/images/ca7c72541e02e002.png) |
-
-The 1600-step strength-1.0 output loses the collar; the 0.75 outputs retain it. Face direction, body and hand proportions still differ. / 얼굴 변환과 칼라 보존을 따로 확인합니다. 강도 0.75에서도 방향·손·몸 비율 변화는 남습니다.
-
-<details>
-<summary>Compare 3200-step strength 1.0 / 강도 1.0 결과 펼치기</summary>
-
-![P712-CAM-009 3200 · 1.0](evaluation/images/8e4ebd5b13d25cb2.png)
-
-</details>
+Each detailed case compares the input, a direction-matched Mira torso reference, and the outputs. The Mira image is a visual identity/style reference only; it was **not passed to the inference pipeline**. Clothing, pose and scene preservation must be judged against the input, not against the Mira torso.
 
 <details>
 <summary>Evaluation conditions and limitations / 검수 조건과 한계 펼치기</summary>
