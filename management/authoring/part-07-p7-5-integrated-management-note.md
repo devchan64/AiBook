@@ -494,3 +494,21 @@ SCAIL-2 DPO 704p 완료: 동일 입력 파일·DPO 1.0 조건에서 704×704·33
 - 원본 파일·입력·프로필·계산기 사본 해시는 source-record.json에 보존했다. 60장의 down_left PNG를 흰 배경의 4fps MP4로 묶은 뒤 사용자 요청에 따라 본문 표시는 60프레임·15초 반복 GIF로 교체했다. 원본은 변경하지 않았다.
 - 독립 실행 진입점 generate_animation.py로 60프레임 리타기팅을 재실행했다. bpy 4.5.3에서 Blender·GLB 저장 성공, GLB 애니메이션·스킨 확인. 재생성 GLB 해시는 기존 결과와 일치한다. 코드/검증 기록은 자산 code 폴더에 보존했다.
 - 신규 MoMask 추론·CUDA 렌더는 검증 범위에서 제외했다. 끝점 표면 좌표 최대 차이 약 0.264m를 루프 합격으로 해석하지 않았다. 사이트 빌드는 실행하지 않았다.
+
+## P7-5.13 리그 포즈·Qwen 편집·스티칭 — 2026-09-28
+
+- 중심 질문: 리그로 정한 자세를 캐릭터 이미지에 전달하고 프레임을 연결했을 때 동작·외형·시간 연속성을 어떻게 분리해 판단하는가?
+- 완료 작업 2026-09-27_22-28-43-78d4c5bc를 사용한다. walking-v13, ANNY 렌더, 4방향×6장, Qwen 2511 + AnyPose base/helper 각0.7 + Lightning 1.0. 78개 사본의 해시, PNG24장, GIF4개의 프레임 수·지연을 검증했다. CPU 스티칭 재실행 GIF 해시 일치. 신규 GPU 추론과 사이트 빌드는 하지 않았다.
+- 사본 목록은 sec-13/qwen-anypose-walking-v13/source-record.json에, 파생 GIF 생성은 previews/stitch-record.json에 기록했다. 이미지 편집 프롬프트 원문과 비공개 설계 문서는 전재하지 않았다. 캐릭터 이미지는 사용자 지정 작업의 실제 입력 사본이며 출처는 해당 작업 및 character-default 등록 기록이다. 외부 웹 이미지·모델 가중치를 복사하지 않았다.
+- Qwen·AnyPose·Lightning의 고정 리비전 README를 .tmp/research/p7-5-13에 확인용으로 저장했다. 세 모델 카드의 Apache-2.0 표기를 확인했으며 본문은 재서술과 출처 링크를 사용한다. 이 표기를 모든 입력 이미지의 이용 조건에 일반화하지 않는다. ANNY neutral_v4 출처 검토는 5.11 기록을 따른다.
+- 관찰 범위: 네 방향 여섯 프레임 비교판과 down_left 원본16번 입력/출력. 걸음 자세 변화와 큰 착장 특징은 보이지만 전프레임 정량 접지·좌우·깜박임 평가와 무어댑터 대조는 없다.
+- 아래 소스 해시는 조사 시점 파일 기준이다. 과거 실행 소스가 완전히 같다는 보증 대신 저장된 프레임 실행 기록을 조건의 우선 근거로 쓴다.
+- `generators/animation/run_character_animation.py`: `d5b578bc090f1af5136d57ea7096dd4803cd81cff53a54be4fe34f07f569c7f6`
+- `generators/animation/qwen_pose/runtime.py`: `02007817ebfb45e94b7196763a25693e60658bc35c5ff9e9c58d30ea65a41a50`
+- `generators/animation/qwen_pose/anypose.py`: `1042ded53ee75bf98f980b814bd92340b2c9abffcc620eca583a8c5ac12a3750`
+- `tools/review/domains/character_animation/character_animation_assets.py`: `ddfd0e0e530609de21feac6a17fc3b66a5ef00b8cfae391026f76720172dc0c2`
+- `assets/motion-sheet/momask-walking-v13/manifest.yaml`: `8eac2b24fc54a77a95fad8288c946d4b2f1edaf2396e89ebb8e0df40cd6cb206`
+- `assets/animation-references/character-default/manifest.yaml`: `83e43d0c19407b1e8ec924113fc3f9e659b03045f3ab91f1af639af815845b2e`
+- 조사 원문 `anypose.md`: `7798cc6da7bc0c8e804e4a2830c71e4a1d5d2b93a346a6311fff9d2dc6f3d661`
+- 조사 원문 `qwen.md`: `9724c194bef2a6d821090f0cd65774962e8f77e3acbfb2a7cbbdd58c92049902`
+- 조사 원문 `lightning.md`: `fdb059ee8ebd0fcc91c7ccf7f190f88fe4d231be57f3ed801abf584015b1562d`

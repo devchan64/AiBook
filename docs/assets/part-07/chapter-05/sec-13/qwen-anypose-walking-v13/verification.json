@@ -1,0 +1,15 @@
+{
+  "checked_date": "2026-09-28",
+  "copied_files_verified": 78,
+  "output_png_count": 24,
+  "png_size": [
+    512,
+    512
+  ],
+  "direction_count": 4,
+  "gif_frames_per_direction": 6,
+  "gif_frame_duration_ms": 250,
+  "stitch_reexecution_identical_gifs": true,
+  "new_model_inference": false,
+  "visual_review": "Four six-frame contact sheets and down_left frame 16 input/output inspected; no quantitative gait or temporal-consistency approval."
+}

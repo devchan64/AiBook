@@ -581,6 +581,7 @@ nav:
               - "P7-5.10 보충학습: 캐릭터 일관성을 위한 LoRA 학습과 평가": parts/part-07/chapter-05/section-10.md
               - "P7-5.11 보충학습: ANNY로 애니메이션용 신체 모델 확보하기": parts/part-07/chapter-05/section-11.md
               - "P7-5.12 보충학습: ANNY Blender 리그에 MoMask 애니메이션 적용하기": parts/part-07/chapter-05/section-12.md
+              - "P7-5.13 보충학습: 3D 리그 포즈와 Qwen 편집으로 캐릭터 걷기 이어 붙이기": parts/part-07/chapter-05/section-13.md
               - "P7-5.14 보충학습: 텍스트 모션을 애니메이션 포즈 입력으로 렌더링하기": parts/part-07/chapter-05/section-14.md
               - "P7-5.15 포즈 시퀀스와 참조 이미지로 캐릭터 애니메이션 생성하기": parts/part-07/chapter-05/section-15.md
               - "P7-5.16 보충학습: Qwen-Image-Edit-2511과 AnyPose로 참조 포즈 옮기기": parts/part-07/chapter-05/section-16.md
