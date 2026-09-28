@@ -1,91 +1,57 @@
-# P3-9.4 How Do Review Notes Become Candidate Target Labels
+# P3-9.4 How Do Review Notes Become Target Candidates?
 
 > Section ID: `P3-9.4`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Even when the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) and [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) appear first, a target candidate is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and review notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning judgments that repeatedly remained in the review process into more stable columns`.
+Before converting notes into columns, decide what is being extracted. “Repeated late decline; recheck needed; sensor issue suspected” combines an observation report, a review request, and a causal hypothesis. Reducing all of it to `failure=1` invents a conclusion. A [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#target) can be structured from notes, but structuring is neither factual validation nor readiness for training.
 
-## Why Do Only Notes Remain at First
+## Preserve the source and separate sentence roles
 
-At first, what remains is often not organized labels such as `normal`, `abnormal`, `cause A`, or `cause B`, but mixed review notes like these.
+These notes are fictional. A–D identify comparison windows local to this section, not the same letters in other sections. Notes concern their windows and must not be copied automatically into individual-operation labels. R1 and R2 are fictional note-author IDs.
 
-| event_id | review_needed | reviewer_note |
-| --- | --- | --- |
-| A | 1 | Late sharp drop pattern confirmed, check the next case too |
-| B | 0 | No large difference from the baseline |
-| C | 1 | Repeated decline, further check recommended |
-
-This table is useful for follow-up judgment, but it is still unstable for immediate use as a learning label. Note lengths differ, expression styles differ, and one person may write a cause while another writes only the next action. So `there is a review note` and `a target label is ready` are not the same thing.
-
-## What Else Is Needed Before Notes Become Label Candidates
-
-For review notes to turn into target candidates, the following conditions are usually needed.
-
-| What is additionally needed | Why it is needed |
-| --- | --- |
-| A shared rule that repeatedly points to the same meaning | Because different expressions from different people must be grouped under the same judgment |
-| A recording style that matches the sample unit | Because the note must align with whether the sample is one event or one period summary |
-| A rule for handling empty cases | Because it must be decided how to treat cases with no note |
-| A basis column that can be checked again later | Because it should remain traceable why the label was attached |
-
-So for review results to become learning labels, it is not enough simply that a value exists. There must first be a rule for leaving the same meaning in the same column.
-
-## Difference Between a Review Queue and a Target-Candidate Table
-
-A review queue centers on `what should be looked at first`, while a target-candidate table centers on `what should later be matched`. Even for the same event list, the center of the table changes.
-
-| Output | Central question | Columns needed first |
-| --- | --- | --- |
-| Review queue | What should a person look at first? | `priority_score`, `review_needed`, comparison evidence |
-| Target-candidate table | What can become a result column? | `target_candidate`, basis note, feature columns |
-
-For example, `review_needed = 1` may be sufficient in a review queue. But in a target-candidate table, what matters more is under what condition `review_needed = 1` was attached and whether it can later be attached again by the same rule.
-
-## The Step-by-Step Change Process
-
-The same event list usually changes in the following order.
-
-1. See the change signal in the comparison report.
-2. Create the order in which people should inspect first in the review queue.
-3. Repeatedly collect the review results left by people.
-4. Organize frequently repeated judgments into common columns.
-5. If those columns become relatively stable, raise them to target candidates.
-
-This order matters because it shows that a target candidate does not appear out of nowhere. It comes from `repetition in the review process`.
-
-## Example: Building Label Candidates from Review Notes
-
-At first, the notes may vary like this.
-
-| event_id | diff | repeatability | review_needed | reviewer_note |
-| --- | --- | --- | --- | --- |
-| A | -0.35 | high | 1 | Repeated late sharp drop, recheck needed |
-| B | -0.08 | low | 0 | Leave only a record |
-| C | -0.31 | high | 1 | Repeated late sharp drop, inspection recommended |
-
-In this state, it is hard to use `reviewer_note` directly as a target label. Instead, repeated phrases can be reorganized into more stable columns.
-
-| event_id | late_drop_repeated | needs_manual_review | note_source |
+| note_id | window_id | reviewer_id | Original note |
 | --- | --- | --- | --- |
-| A | 1 | 1 | Repeated sharp late declines; rechecking needed |
-| B | Unconfirmed | 0 | Record only |
-| C | 1 | 1 | Repeated sharp late declines; further checking recommended |
+| N1 | A | R1 | Repeated late decline observed. Recheck needed. Sensor issue suspected. |
+| N2 | B | R1 | Record only. |
+| N3 | C | R2 | A downward late-period pattern was observed across several operations. Additional checking recommended. |
+| N4 | D | R2 | Template example: “Recheck needed.” No additional review requested for the current case. |
 
-B's `Record only` does not state that repeated sharp late declines were absent. Leave `late_drop_repeated` unconfirmed. Interpret `needs_manual_review=0` only as the absence of a request for additional review. Automatically filling unmentioned attributes with zero when converting notes into columns turns unknown states into negative labels.
+N1's first sentence is **what the author reports observing**. It does not mean raw sensor records were independently verified here. “Sensor issue suspected” proposes a cause rather than confirming it. N4 quotes a template, not a request about D.
 
-What makes this second table important is not that the sentences were completely removed, but that repeated judgments were moved into columns with the same meaning. If `note_source` remains, it is also possible to trace again why the label candidate was attached.
+## A short annotation guide: note-v1
 
-## Which Columns Tend to Become Target Candidates First
+This exercise records **what the current note explicitly states**, not actual failure status. `?` means a value cannot be assigned because information is absent, unclear, or contradictory. When statements conflict, retain the case for source checking instead of arbitrarily choosing one.
 
-Not every review note becomes an equally good target candidate.
+| Candidate column | Rule for assigning 1 or a value | Zero or unknown treatment |
+| --- | --- | --- |
+| reported_repeated_drop | Explicitly reports late decline across multiple operations in the current window | 0 if it explicitly reports not observing that repetition; ? if unmentioned |
+| note_requests_review | Requests checking of the current target, such as “Recheck needed” or “Additional checking recommended” | 0 for explicit no additional request or this guide's “Record only”; ? if target or intent is unclear |
+| suspected_cause | Preserve a hypothesized cause stated for the current target | ? if unmentioned; never convert into a confirmed cause |
 
-| What tends to become a candidate first | What is still difficult |
-| --- | --- |
-| Repeated 0/1 judgments such as `review_needed` | Entire long free-form descriptive notes |
-| Judgments such as `late_drop_repeated` that can be attached again with nearly the same meaning | Cause descriptions whose names differ by person |
-| Statuses such as `normal/caution` with relatively shared criteria | Cause classification without a detailed cause taxonomy |
+`note_requests_review=0` means this note contains no additional request, not that review is unnecessary or that no other channel requested it. Mapping “Record only” to zero is an explicit document-interpretation convention in note-v1. If the source note itself is missing, leave all three columns unknown.
 
-So what becomes easier to structure first is usually columns such as `whether review is needed`, `whether a repeated warning exists`, and `simple state categories`. Detailed cause classification tends to stabilize later. In many cases, the target is not something that was originally inside the dataset, but the result of turning judgments accumulated through comparison reports and review queues back into columns. What matters here is deciding whether something should still remain a free-form note, whether it can be raised into a shared judgment column, and whether it repeats enough to become a target candidate.
+## Different wording with shared meaning; identical wording in different contexts
+
+N1's “Repeated late decline observed” and N3's “A downward late-period pattern was observed across several operations” are the same kind of observation report under this guide. N1's “Recheck needed” and N3's “Additional checking recommended” both request further checking of the current target. Different wording can map to the same value after checking role and subject.
+
+Conversely, “Recheck needed” appears identically in N1 and N4 but has different roles: an actual request in N1 and a template quotation in N4. Setting N4's request flag to one merely because the words appear would discard context.
+
+| note_id | window_id | reported_repeated_drop | note_requests_review | suspected_cause |
+| --- | --- | --- | --- | --- |
+| N1 | A | 1 | 1 | Sensor issue |
+| N2 | B | ? | 0 | ? |
+| N3 | C | 1 | 1 | ? |
+| N4 | D | ? | 0 | ? |
+
+B's “Record only” does not state that repeated decline was absent, so its repetition report remains `?`. Ones for N1 and N3 also differ from repetition independently verified in measurements. If a quantitative decline rule defines the target, check the window's raw measurements and consistent calculation criteria, not just note wording.
+
+## Check label evidence after structuring
+
+Link every structured row to `note_id` for its source, `window_id` for its target, `reviewer_id` for the author, `annotator_id` for the person extracting values, and `annotation_version` for the guide used. For example, retain `reviewer_id=R1`, `annotator_id=AN1`, and `annotation_version=note-v1` for N1. Author and annotator need not be the same person. Preserve the original text, creation time, and evidence location; distinguish revisions without overwriting the source.
+
+A phrase appearing ten times may reflect ten copies of a template. Frequency alone establishes neither consistent meaning nor truth. If independent annotators assign different values to the same target's note, compare scope, negation, quotation, and evidence to refine the guide. Agreement still does not verify the underlying failure fact.
+
+If the goal is classifying additional-review requests, `note_requests_review` may be a candidate for that judgment. If the goal is actual failure, separate outcome confirmation is needed. Decide whether the target concerns requests, observation reports, or causal hypotheses, then check label provenance, input timing, and evaluation scope.
 
 ## Organizing Review Notes Around Shared Label Criteria {#a-small-diagram}
 
@@ -93,14 +59,20 @@ So what becomes easier to structure first is usually columns such as `whether re
 --8<-- "assets/part-03/chapter-09/p3-9-4-mermaid-01-en.mmd"
 ```
 
-This diagram shows that a free-form note does not become a target directly. A middle stage of `grouping the same meaning` must be present. Review results and notes accumulate first, repeated judgments inside those notes are organized into common patterns, and only then do columns such as `late_drop_repeated` and `needs_manual_review` appear. What matters in this section is not string-processing technique, but the conversion structure `note -> shared meaning -> target-candidate column`. A target should therefore be read not as a suddenly given value, but as the result of structuring the review records themselves. A target candidate is often not an answer given from the start, but the result of turning repeated judgments left in the review process into more stable columns.
+This is one route from notes to candidate columns. Not every label must originate in repeated review notes. Existing independent inspection outcomes can be used with their definitions and supporting evidence.
+
+## Annotate a short note yourself
+
+A new note says: “Checked several operations in this window but did not observe repeated late decline. Recheck needed.” Fill the three note-v1 columns and explain whether actual failure status is also established.
+
+Explanation: `reported_repeated_drop=0`, `note_requests_review=1`, and `suspected_cause=?`. Extract the explicit report of no observed repetition separately from the additional request. Distinguish this from B's `?`, where repetition is never mentioned. The note alone does not establish actual failure status. Retain a new note_id, original text, author, annotator, and guide version.
 
 ## Checklist
 
-- Did you distinguish facts explicitly confirmed by a note from information it does not mention?
-- Can you explain why an unmentioned repetition status should not be confirmed as 0?
+- Can you separate observation reports, review requests, and causal hypotheses without converting unmentioned information to zero?
+- Can you distinguish different expressions with the same meaning from identical phrases used in different contexts?
+- Can you trace a candidate value to the source, author, annotator, and guide version, and distinguish frequency from factual verification?
 
-## Sources and References
+## Sources and references
 
-- Google, *Machine Learning Glossary*, `label`, `labeled example`. Used to check how labels and labeled examples separate input features from result columns in supervised learning. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance, entity, derivation overview. Used to check the provenance view that the path from review notes to shared meanings and target-candidate columns should remain traceable. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [W3C, PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } — Reference for linking derived results to sources, activities, and responsible agents. Note-v1, notes, and annotations are fictional teaching examples, not validated failure ground truth. Accessed: 2026-09-20.

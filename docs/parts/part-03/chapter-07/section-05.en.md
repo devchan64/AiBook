@@ -1,7 +1,7 @@
 # P3-7.5 Should a Baseline Stay Fixed, or Should It Be Updated as a Recent-Usual Reference
 
 > Section ID: `P3-7.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
 After [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) candidates are chosen, another question still remains. `Should this reference stay fixed for a while, or should it move together with the recent-usual range?` Even when ranges under the same conditions were selected, the meaning of the comparison sentence changes according to how the baseline is maintained.
 
@@ -24,11 +24,34 @@ NIST's EWMA control chart describes a monitoring statistic that weights recent o
 
 A fixed baseline can track long-term change; a recent-usual baseline can detect departures from the recent state. Placing both differences side by side in the same report separates their comparison purposes.
 
+
+## Record Periods, Exclusions, and Versions Alongside Values
+
+The following fictional record makes the preceding 100, 108, and 110 concrete. Values are per-action mean pressures in kPa under matching conditions. Assume equal weighting of actions completed within each reference period, using valid records with matching measurement definitions. The current target is action E110, completed on September 20 at 10:05.
+
+| Record item | Fixed baseline | Recent baseline |
+| --- | --- | --- |
+| Baseline version | fixed-v1 | recent-0920-1000 |
+| Included period | September 1 after calibration, 09:00 inclusive to 10:00 exclusive | September 20, 09:00 inclusive to 10:00 exclusive |
+| Reference value | 100 kPa | 108 kPa |
+| Calculation complete and effective | September 1 at 10:00, retained thereafter | September 20 at 10:00, used until the next update |
+| Current target excluded | E110 excluded | E110 and records completed at or after 10:00 excluded |
+| Comparison recorded at 10:05 | E110: 110−100=+10 kPa | E110: 110−108=+2 kPa |
+
+This assumes all required inputs and aggregation are ready at the boundary time. If calculation finishes later, the baseline is unavailable until then; retain completion time as well as the included period. fixed-v1 answers a question about the post-calibration reference; recent-0920-1000 answers one about the immediately preceding hour. Recording only “recent baseline” loses which period was used.
+
+An update at 11:00 creates a new version. Do not overwrite the comparison made at 10:05 with that new baseline. E110 is excluded from its own reference, but may enter a reference for later targets if it meets predefined inclusion and quality rules. Do not change inclusion rules after the fact merely because an anomaly is inconvenient.
+
+Check the separate example with past values 100 and 100 and current value 130. Past-only averaging gives `(100+100)/2=100` and a difference of +30. Including the current value gives `(100+100+130)/3=110` and a difference of +20. Correct arithmetic and units do not make this comply with “compare against past records excluding the current target.” Using a 10:10 record or the 11:00 baseline version in the 10:05 comparison violates the same timing requirement.
+
+
 ## Fixed and Updating References for Different Comparison Goals {#a-small-diagram}
 
 The key point in this section is not the baseline form by itself, but which maintenance method is made more natural by the `comparison question`. Fixed baselines and recent-usual baselines support different questions better, and the meaning of the comparison sentence changes with that choice.
 
+```mermaid
 --8<-- "assets/part-03/chapter-07/p3-7-5-mermaid-01-en.mmd"
+```
 
 ## Checklist
 
@@ -42,4 +65,4 @@ The key point in this section is not the baseline form by itself, but which main
 - NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. Because it explains that a control chart compares the current process characteristic with past performance and that control limits should change only with a valid and compelling reason, it directly supports this section's point that whether to keep or update a baseline should follow the comparison question and the grounds for operational change. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - Hyndman, Athanasopoulos et al., `Forecasting: Principles and Practice (3rd ed)`, `Time series cross-validation`. Because it explains structures such as rolling forecasting origin, where the reference moves forward over time, it serves as an analogous support for the idea that an operating method is possible where the reference range also moves, as with a recent-usual baseline. But because this source belongs to forecast evaluation, this section uses only the higher-level idea of `a moving reference`, and only by analogy. [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 
-- [NIST EWMA Control Charts](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc324.htm){ target="_blank" rel="noopener noreferrer" }. Checked the distinction between an updating reference that weights past observations and a fixed reference. Checked: 2026-09-15.
+- [NIST EWMA Control Charts](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc324.htm){: target="_blank" rel="noopener noreferrer" }. Checked the distinction between an updating reference that weights past observations and a fixed reference. Checked: 2026-09-15.

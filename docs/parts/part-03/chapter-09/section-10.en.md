@@ -1,67 +1,78 @@
 # P3-9.10 How Do We Distinguish Delayed Label Confirmation from Incomplete Observation
 
 > Section ID: `P3-9.10`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-In an operational table, keep `label_observed_at`, `observation_cutoff`, `label_status`, `negative_is_complete`, and `pending_reason` separately. Then a value of 0 is separated from the target-candidate stage as either a value assigned after sufficient observation or a temporary state that is still waiting.
+[P3-9.9](section-09.en.md) separated review requests from actual failure outcomes. Even with failure as the target, some rows still have unconfirmed outcomes. “We have not seen a failure record yet” is insufficient to fill a [training label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) with 0. Check separately whether observation has ended and whether the collected records have been verified.
 
-_Subtitle: How should delayed labels be distinguished from 0 labels that have not yet confirmed?_
+## Input Cutoff and the End of the Outcome Window Differ
 
-When choosing a target candidate, you need to distinguish `when a result becomes confirmed` from `whether it has been observed enough to attach a 0 label`. If these are mixed, recent events can look too easily like zeros, or values still in a temporary state can be read like confirmed [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label). [Delayed label confirmation](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) and [incomplete negatives](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) are different problems, so they need to be separated first.
+A, B, and C here are separate fictional equipment samples, unrelated to the same letters in previous sections. All predictions occur at `2026-09-01 10:00 KST`. As in [P3-9.7](section-07.en.md), inputs use information available by that time; subsequent outcomes are collected separately.
 
-| Category | Central question |
+The target is `failure_within_7d`. Its window is **at or after September 1 at 10:00 and before September 8 at 10:00**, including the start and excluding the end. Under `failure-v1`, count an equipment fault that prevented a scheduled operation from completing, with its cause confirmed in maintenance records. Exclude planned stops.
+
+| Boundary to check | Meaning in this example |
 | --- | --- |
-| [Delayed label confirmation](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) | The result existed, but when does it settle as the final answer? |
-| [Incomplete negative](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) | Has it been observed long enough to say that no result occurred? |
+| Input cutoff `cutoff_at` | September 1, 10:00. Later-confirmed labels do not enter those inputs |
+| End of outcome window | September 8, 10:00. Use failure occurrence time to determine membership |
+| Current assessment time | Up to what time were records confirmed when the label status was recorded? |
+| Actual follow-up coverage | How much of the outcome window was observed, and were there gaps? |
 
-For example, if the target is `failure within the next 7 days`, then the following two lines need to be written together.
+Seven days equal `7 × 24 = 168 hours`. Reaching September 8 at 10:00 on the calendar differs from having verified all records for that period.
 
-- The horizon of looking for the result within 7 days
-- Whether the full 7 days were observed before attaching 0
+## C Is Unconfirmed on September 3 and Positive on September 4
 
-| Note to write first | Why it is needed |
-| --- | --- |
-| When is the target label usually confirmed? | To know the delay in collecting the answer |
-| Is there a temporary state before confirmation? | To separate `pending` from confirmed |
-| What is the minimum follow-up period for attaching 0? | To avoid mixing confirmed negatives with incomplete observation |
+The table records evidence available at each assessment time. `?` denotes an unconfirmed outcome, not a third outcome class for the model to predict. The target here is a confirmed 0 or 1.
 
-### No Failure Before Seven Days Have Passed Is Not Yet a Zero
+| Sample | Current assessment time | Evidence available then | `label_status` | Outcome |
+| --- | --- | --- | --- | ---: |
+| A | September 3, 10:00 | No failure record so far; the remaining period has not been observed | Observation incomplete | ? |
+| B | September 8, 11:00 | All seven days followed without gaps; reports and maintenance records checked; no failure within the window | Confirmed negative | 0 |
+| C | September 3, 10:00 | An incident at September 2, 14:00 was reported; whether it meets the failure definition is still being checked | Confirmation pending | ? |
+| C | September 4, 15:00 | Maintenance records confirm the September 2, 14:00 incident as a target failure | Confirmed positive | 1 |
 
-Assume fictional events A, B, and C all start at 10:00 on September 1 and the target is failure within the following 7 days.
+A has only 48 hours of observation, insufficient to claim 168 failure-free hours. B's 0 rests on both complete follow-up and completed record verification. Empty records alone do not justify treating another sample like B.
 
-| Sample | Evidence currently available | Label status | Outcome value |
-| --- | --- | --- | --- |
-| A | Followed through September 3; no failure recorded | Follow-up incomplete | Empty |
-| B | Followed without gaps through 10:00 on September 8; no failure | Confirmed negative | 0 |
-| C | Failure occurred September 2; confirmation completed September 4 | Confirmed positive | 1 |
+C's failure occurred on September 2 at 14:00 and was confirmed on September 4 at 15:00. Later confirmation does not make a confirmed label available retrospectively on September 3. Preserve that earlier pending state. On September 4, however, one failure within the window has been confirmed, so C can become 1 without waiting for all seven days. This follows from the target being “at least one failure within the window.”
 
-Once a failure within the period is confirmed, C can be assigned 1 without waiting the full seven days. A has not been observed long enough to conclude that no failure occurred. B is 0 only with evidence of complete follow-up, not simply because the date has passed. Record the failure's occurrence date and the date of system confirmation separately.
+## A Count of Zero Also Needs an Observation Scope
+
+The follow-up aggregation in [P3-5.7](../chapter-05/section-07.en.md) can map one or more failures to 1. But zero failure records collected so far does not establish no failures over the entire window. Reports may not have arrived, or follow-up may contain gaps.
+
+To confirm 0, observation must cover the full defined window without gaps or unresolved reports, and the required failure and maintenance records must establish no target failure in that period. If time has passed but evidence is insufficient, retain `?` and identify the missing records. Even a confirmed 0 means no failure during those seven days, not that the equipment will never fail.
 
 ## Checking Outcome Confirmation and Observation Completion Separately {#a-small-diagram}
-
-If the tables still leave `not yet confirmed` and `0 after sufficient follow-up` feeling too settle together, read the flow below once more.
-
-<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
-<div class="aibook-diagram-canvas" markdown="1">
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-10-mermaid-01-en.mmd"
 ```
 
-</div>
-</div>
+First check for a confirmed target failure within the window. If none is confirmed, check whether both full-window observation and record verification are complete. This lets C become 1 before the window ends while preventing A from becoming 0 merely because no failure record is currently available.
 
-So what matters here is not `a technique for splitting 0 and 1 more finely`, but a distinction in observation completeness that keeps not-yet-confirmed labels from being mixed with sufficiently observed negatives under the same value. This section treats `delay in result confirmation`, `incomplete observation period`, and `state note` separately, so that whether a label is confirmed becomes a data-modeling condition in itself.
+| Record to retain | Concrete content |
+| --- | --- |
+| Sample and outcome definition | Equipment ID and prediction time, `failure-v1`, window start and end, endpoint inclusion |
+| Occurrence and confirmation times | C: `failure_occurred_at=2026-09-02 14:00 KST`, `label_observed_at=2026-09-04 15:00 KST` |
+| Follow-up scope and evidence | A: followed only through September 3, 10:00. B: full-window follow-up and record checks completed. Preserve source record IDs and gaps |
+| Status and pending reason | `label_status`, `pending_reason`; distinguish an unfinished window from pending report verification |
+| Evidence for confirmed 0 | `negative_is_complete`: true for B; false for A and unconfirmed C; not applicable to confirmed-positive C |
+| Assessment history | Preserve the state at each assessment time and link later confirmation to its reasons and evidence |
+
+Here, `label_observed_at` means when the confirmed label became usable by the system. Leave it empty while unconfirmed. Separating confirmation from occurrence helps prevent later training-table construction from placing outcomes unavailable at the time into inputs.
+
+## Judge Endpoint Cases and Missing Records
+
+Exercise: ① If B's September 6 records are missing and cannot be recovered from other evidence, can it remain 0 at September 8, 11:00? ② Is a failure occurring exactly at September 8, 10:00 positive for this window? ③ If C's failure is only confirmed on September 9, does it become an out-of-window failure?
+
+Answer: ① Keep `?` and the reason for the gap because full-window verification is incomplete. ② No: the endpoint is excluded. That does not automatically establish 0; complete verification of the preceding window is still required. ③ No: occurrence remains September 2, within the window. Confirm 1 on September 9, preserving the earlier pending states.
 
 ## Checklist
 
-- Did you use A, B, and C's observation end dates and outcome arrival dates to determine confirmation status?
-- Can you explain why incomplete observations must not be filled with negative labels?
+- Can you explain why C changes from `?` to 1 using occurrence and confirmation times?
+- Can you distinguish A's zero failure records from B's confirmed outcome 0?
+- Can you apply endpoint rules and follow-up and verification requirements without turning unconfirmed outcomes into 0?
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`. Used to check the term basis that a label is the answer or result part of an example and that a proxy label approximates labels not directly available in a dataset. In this section, the interpretation of `incompletely observed negatives` extends the proxy-label idea into an operational observation-completeness context. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. Used to check the provenance basis for preserving processing steps, reproducibility, versioning, and derivation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Corbin, Baiocchi, Chen, *Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection*, 2023. Used as evidence for distinguishing `confirmed 0` from `not yet observed`, because class labels may remain unobserved when enough follow-up records after prediction time are missing. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-
-- [NIST Censoring](https://www.itl.nist.gov/div898/handbook/apr/section1/apr131.htm){ target="_blank" rel="noopener noreferrer" }. Checked the distinction between records with no event observed by observation end and final negative outcomes. Checked: 2026-09-15.
+- NIST/SEMATECH, [Censoring](https://www.itl.nist.gov/div898/handbook/apr/section1/apr131.htm){: target="_blank" rel="noopener noreferrer" }. Used to distinguish a defined test period from failure records within it. The seven-day binary labels and confirmation states here are a teaching application. Accessed: 2026-09-20.
+- W3C, [PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. Used for tracing source records, processing, versions, and derivation relationships. Accessed: 2026-07-20.

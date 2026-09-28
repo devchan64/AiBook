@@ -131,7 +131,7 @@ class PackagingTests(unittest.TestCase):
             M.check_package(p)
 
     def test_invalid_hyperparameters(self):
-        config = M.read(M.CONFIG)
+        config = M.read(M.CONFIG)["training_config"]
         config['training']['learning_rate'] = float('nan')
         with self.assertRaisesRegex(ValueError, 'learning rate'):
             M.settings(config)
@@ -154,7 +154,7 @@ class PackagingTests(unittest.TestCase):
         self.assertNotIn(str(blob), cmds['cache_latents'])
 
     def test_cpu_text_cache_rejects_fp8_and_is_in_plan(self):
-        config = M.read(M.CONFIG)
+        config = M.read(M.CONFIG)["training_config"]
         config['training']['text_encoder_device'] = 'cpu'
         config['training']['fp8_vl'] = True
         with self.assertRaisesRegex(ValueError, 'CPU text caching'):

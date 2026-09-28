@@ -1,4 +1,3 @@
 flowchart TD
-    A[Raw log rows] --> B[Segment by progress]
-    B --> C[Summary per event]
-    C --> D[Aggregate across events]
+    A["36 observations<br/>Segments already assigned"] --> B["6 action summaries<br/>Mean within each segment"]
+    B --> C["2 group aggregates<br/>Equal weight per action"]

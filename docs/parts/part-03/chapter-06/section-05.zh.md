@@ -1,7 +1,7 @@
 # P3-6.5 当特征的单位和尺度不同的时候，应该怎样一起读取和保留
 
 > Section ID: `P3-6.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
 做出几个[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)之后，很容易又重新陷入一种混乱。`值大的那一列是不是更重要？` `秒和压力单位，可以放在同一张表里吗？` `平均值 200 的列和 0.2 的列，能不能就这样并排比较？` 这里首先需要的，不是去看数字大小，而是先建立一种感觉：要区分单位(unit)、范围(range)、变化幅度、以及相对[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)的变化。
 
@@ -11,10 +11,10 @@
 
 | 列名 | 示例值 | 含义 |
 | --- | ---: | --- |
-| `duration_seconds` | 48 | 动作持续时间 |
-| `pressure_mean` | 101.2 | 平均压力 |
-| `flow_std` | 0.18 | 流量波动性 |
-| `late_drop_rate` | -0.42 | 后段下降率 |
+| `duration_seconds` (s) | 48 s | 动作持续时间 |
+| `pressure_mean` (kPa) | 101.2 kPa | 平均压力 |
+| `flow_std` (L/min) | 0.18 L/min | 流量波动性 |
+| `late_drop_rate` (L/min/s) | -0.42 L/min/s | 后段下降率 |
 
 这四个值虽然都是数字，但它们并不在描述同一种大小。
 
@@ -43,10 +43,10 @@
 
 | 特征列 | 先怎么读 |
 | --- | --- |
-| `duration_seconds` | 看它是否比平时更长 |
-| `pressure_mean` | 看它和基准线之间的水平差异 |
-| `flow_std` | 看波动是不是变大了 |
-| `late_drop_rate` | 看后段结构是不是更陡地崩掉了 |
+| `duration_seconds` (s) | 看它是否比平时更长 |
+| `pressure_mean` (kPa) | 看它和基准线之间的水平差异 |
+| `flow_std` (L/min) | 看波动是不是变大了 |
+| `late_drop_rate` (L/min/s) | 看后段结构是不是更陡地崩掉了 |
 
 也就是说，比较不是在 `数字和数字之间`，而是在 `承担同样角色的同一列之间`。不是直接拿 `duration_seconds` 和 `pressure_mean` 互相比大小，而是应该拿 `这次的 duration_seconds` 去和“平时的 duration_seconds”比，再拿 `这次的 pressure_mean` 去和“平时的 pressure_mean”比。
 
@@ -76,10 +76,10 @@
 
 | 列名 | 单位或含义 | 结构作用 | 比较方式 |
 | --- | --- | --- | --- |
-| `duration_seconds` | 秒 | 持续时间 | 是否比平时更长？ |
-| `pressure_mean` | kPa | 平均水平 | 与基准线的差异是否很大？ |
-| `flow_std` | L/min | 波动 | 是否比平时波动更大？ |
-| `late_drop_rate` | L/min/s | 后段流量变化速度 | 后段斜率是否更陡？ |
+| `duration_seconds` (s) | 秒 | 持续时间 | 是否比平时更长？ |
+| `pressure_mean` (kPa) | kPa | 平均水平 | 与基准线的差异是否很大？ |
+| `flow_std` (L/min) | L/min | 波动 | 是否比平时波动更大？ |
+| `late_drop_rate` (L/min/s) | L/min/s | 后段流量变化速度 | 后段斜率是否更陡？ |
 
 有了这张表，`这是什么数字` 和 `该怎样读它` 就能同时被固定下来。
 
@@ -87,7 +87,7 @@
 
 这一节与其用 Python 输出固定的两行，不如先用表固定“应该沿着什么轴读取数值列”。例如，先看下面这张工作表。
 
-| event_id | `duration_seconds` | `pressure_mean` | `flow_std` | `late_drop_rate` |
+| event_id | `duration_seconds` (s) | `pressure_mean` (kPa) | `flow_std` (L/min) | `late_drop_rate` (L/min/s) |
 | --- | ---: | ---: | ---: | ---: |
 | A | 48 | 101.2 | 0.18 | -0.42 |
 | B | 44 | 100.9 | 0.05 | -0.10 |
@@ -95,7 +95,7 @@
 
 只看绝对值时，`pressure_mean` 会显得最大。但如果按相对基准线的变化来读，就会出现另一幅图。
 
-| event_id | `duration_delta` | `pressure_delta` | `flow_std_delta` | `late_drop_delta` |
+| event_id | `duration_delta` (s) | `pressure_delta` (kPa) | `flow_std_delta` (L/min) | `late_drop_delta` (L/min/s) |
 | --- | ---: | ---: | ---: | ---: |
 | A | 3 | 0.2 | 0.15 | -0.30 |
 | B | -1 | -0.1 | 0.02 | 0.02 |
@@ -104,10 +104,10 @@
 
 | 列名 | 角色 | 先比较的方式 |
 | --- | --- | --- |
-| `duration_seconds` | 持续时间(duration) | 相对基准线的差异 |
-| `pressure_mean` | 水平(level) | 相对基准线的差异 |
-| `flow_std` | 波动性(variability) | 相对基准线的差异 |
-| `late_drop_rate` | 变化(change) | 相对基准线的差异 |
+| `duration_seconds` (s) | 持续时间(duration) | 相对基准线的差异 |
+| `pressure_mean` (kPa) | 水平(level) | 相对基准线的差异 |
+| `flow_std` (L/min) | 波动性(variability) | 相对基准线的差异 |
+| `late_drop_rate` (L/min/s) | 变化(change) | 相对基准线的差异 |
 
 所以，真正应该先读的不是 `谁的数字更大`，而是 `怎样比较承担同一角色的同一列。`
 
@@ -128,6 +128,29 @@
 期望输出(output)：尺度调整前后的最近 `event_id` 和预测值。
 
 要确认的概念：即使特征在同一张表里，当模型用距离来比较它们时，是否做尺度调整也可能改变邻居和预测。
+
+## 单位换算与标准化是不同工作
+
+A 的流量标准差差值为 `0.18−0.03=0.15 L/min`。若观测范围和计算规则一致，表示离散程度比基准增加了 0.15 L/min。它与压力差 0.2 kPa 的单位不同，不能按数字大小判断哪个更重要。运行上的意义还需要容许范围、测量误差等信息。这里假设 `flow_std` 是动作内原始流量观测的标准差，而非区间均值的标准差。
+
+把 48 秒写成 0.8 分钟，是同一物理量的单位换算。标准化则使用训练资料的统计量改变数值尺度：`z=(值−训练均值)/训练标准差`。z 没有单位，但不同特征的物理意义与重要性并不会因此相同。
+
+## 尺度改变会改变最近的案例
+
+以下代码使用另行设计的四个虚构训练记录，与前面的比较表不同。即使仍使用 A、B，也不是同一记录。`review_needed` 的 0、1 是示例标签，新样本没有提供正确标签。1-NN 在三个特征上找距离最近的一个训练案例，并用它的标签作为预测。距离按各列差值平方求和后开平方根计算。
+
+在原始尺度中，新样本与 A 的差为 `(0 秒, 0.05 kPa, 0.12 L/min)`。模型忽略单位只算数字，得到 `sqrt(0²+0.05²+0.12²)=0.13`。与 B 的差为 `(−4 秒, −0.05 kPa, −0.01 L/min)`，距离约为 4.0003。此处混合了不同物理单位，不能解释为物理距离。
+
+训练持续时间 44、48、43、49 秒的均值为 46 秒，标准差约为 2.5495 秒。StandardScaler 使用离差平方和除以训练数量 4 的计算规则。新样本 44 秒变为 `(44−46)/2.5495≈−0.7845`，B 的 48 秒约为 0.7845。这是把新样本放到已有训练尺度上，而非用新样本另建尺度。
+
+| 训练事件 | 原始数值尺度的距离 | 三列标准化后的距离 |
+| --- | ---: | ---: |
+| A | 0.1300 | 1.7674 |
+| B | 4.0003 | 1.6376 |
+| C | 1.0389 | 2.9301 |
+| D | 5.0023 | 2.3932 |
+
+标准化后的距离是在无单位坐标中计算的。**最近事件从 A 变为 B，因此预测从 0 变为 1。没有正确标签，不能据此说性能提高了。** 运行代码后，只把查询样本的 `flow_std_delta` 从 0.14 改成 0.02。此时两种方式都选择 A，预测为 0。在安装了 pandas 与 scikit-learn 的 Python 环境中运行。
 
 ```python
 # 这个例子用来确认距离模型会怎样读取单位和范围不同的特征。
@@ -184,7 +207,9 @@ with scaling prediction: 1
 
 这一节抓住的是：即使不同单位、不同尺度的值放在同一张表里，也应该按列角色去读，并和该列自己的基准线比较。比起数值大小，首先要问的是 `这列到底在测什么。`
 
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-5-mermaid-01-zh.mmd"
+```
 
 ## 检查清单
 
@@ -197,4 +222,6 @@ with scaling prediction: 1
 - Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它解释了把原始数据改造成更适合学习的形式，因此强化了这一节的说明：持续时间、水平、波动性、变化率这样承担不同角色的特征，应当分开读取。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 它提供了一个一般概念：比较之所以成立，是因为把同一个项目与参考点并排放在一起。因此，它可以支持这里的说明：与其直接把不同特征互相比大小，不如把每一列读成相对基准线的变化。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 
-- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }。用于确认仅从训练数据估计预处理参数的原则。确认日期：2026-09-15。
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }。用于确认仅从训练数据估计预处理参数的原则。确认日期：2026-09-15。
+
+- [scikit-learn StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html){: target="_blank" rel="noopener noreferrer" }. 参考以训练均值和标准差确定变换、对新资料使用同一变换，以及标准差计算规则。 / 2026-09-20

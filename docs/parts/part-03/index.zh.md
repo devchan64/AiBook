@@ -1,98 +1,69 @@
 # Part 3. 数据建模
 
 > Section ID: `P3-index`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-这个开篇页首先要建立的计划，是按顺序分开`源数据`、`样本单位`、`特征`、`基准线`、`解释边界`、`预测候选`。各个 Section 会强化这样的 流程：数据不会立刻变成学习问题，而是先经过可比较的结构和记录语言，才被整理成问题。
+Part 2 恢复了阅读数学、Python、数组、表格和图形的基础。Part 3 将利用这些工具学习**在选择模型之前理解和处理数据的方法**。说到“把数据交给 AI”，首先要检查记录了什么、把哪些记录组合为一个案例、保留了哪些信息。理解这些选择，才能说明模型看到什么、要预测什么。
 
-在 Part 2 里，我们重新恢复了阅读数学、Python、数组、表格和图形的基础。但能够重新读懂计算工具，并不等于立刻就能把 AI 问题建好。真正面对源数据时，首先撞上的问题，往往不是 `该用什么模型`，而是 `什么才算一条数据样本`。在这本书的整体结构里，Part 2 和 Part 3 一起构成基础能力恢复区段，而 Part 3 负责的是 `数据科学问题结构的恢复`。
+本书的 `数据建模` 指按问题将记录组织为样本、表格、特征和目标。样本是分析或学习中的一个案例，特征是描述该案例的输入信息。这是比数据库存储设计更广的教学范围，但不是替代整个数据科学的定义。Part 3 还讨论数据含义、质量、表示方式和比较结果的解释。
 
-Part 3 的代表案例不是围绕某个具体设备名，而是围绕一个更一般的结构来说明。这里有一次自动执行的动作，这次动作会留下动作中使用的控制参数时间序列，以及动作过程中观测到的传感器时间序列。之后又会把多次动作重新聚成近期区段，与基准线做比较。在这种结构里，一个时刻的一次测量可以被看成一个样本，一次完整动作也可以被看成一个样本，甚至多个动作组成的近期区段也可以被看成一个样本。怎么选，会直接改变后面形成的数据集、比较方式、还能解释的问题，以及实际行动流程会分成几条支路。即使是同一份源数据，只要重组方式、保留内容、比较对象和要接入的行动流程结构不同，AI 问题就会完全不同。
+## 同样的传感器记录能告诉我们什么
 
-这个代表案例在 Part 内如何演化，可以先用下面这张基准表抓住。
+假设设备反复执行让水流过的动作。每次都记录传感器测得的流量、测量时刻及设备设定值。如果近期记录末尾出现流量下降，在直接称其为故障之前，应先检查以下事项。
 
-| 阶段 | 一行表示什么 | 这一阶段主要保留什么 |
+| 要确认的问题 | 本例中检查什么 |
+| --- | --- |
+| 记录了什么？ | 是水量本身，还是单位时间内流过的量？何时、在什么设置下测量？ |
+| 如何组合？ | 若要观察一次动作内部变化，把从开始到结束的记录组合为一个案例。 |
+| 保留什么？ | 若要检查末段下降，应保留时间顺序及该区间的变化；把整次动作缩为一个数时，也要看丢失了什么。 |
+| 能知道什么？ | 与设置和测量方式相同的历史动作比较；区分观测差异与故障原因解释。 |
+
+如果末尾传感器记录缺失，就难以判断是否下降。如果历史与近期设备设置不同，也要一起检查。这正是学习数据质量和观察条件的原因。要按一致标准比较观测差异，需要数字，因此后文会选择并计算适合问题的**指标**。指标量化现象的某一方面，除了名称，还应能说明数了什么、如何计算。
+
+若要利用记录预测未来故障，还需要学习用的结果。例如，可以把结果定义为“动作后七天内是否发生故障，并在之后得到确认”。学习时作为答案提供的值叫作**标签**。有人复核过的记录，与确认实际故障的记录不同，选择哪一个作为标签会改变学习目标。
+
+这是本书的虚构教学案例，并未确立实际故障原因或判断标准。具体指标含义与计算将在 [P3-1.1](chapter-01/section-01.zh.md) 中结合记录说明。
+
+## 处理数据时相连的六个问题
+
+Part 3 的九章连接下列问题。请观察前面的选择如何决定后面的输入与解释。
+
+| 问题 | 学习内容 | 对应章节 |
 | --- | --- | --- |
-| 原始日志 | 动作过程中的一条记录 | 传感器值、控制值、时间顺序 |
-| 动作摘要表 | 一次动作 | 平均值、斜率、波动性、区段差异 |
-| 近期/基准线比较表 | 由多次动作构成的状态比较 | 近期均值、基准线均值、差值 |
-| 运营输出 | 供人阅读或交给下一阶段的结果 | 警告、复核候选、目标标签候选 |
+| 记录了现实中的什么？ | 阅读记录含义、测量条件、时点与单位。 | Chapter 1～3 |
+| 什么算一项？ | 按问题确定样本，组织行、列及时间窗口。 | Chapter 2～5 |
+| 记录可以信任和使用到哪里？ | 检查缺失、重复、条件不足和测量差异。 | Chapter 4～6 |
+| 保留和丢失什么信息？ | 比较汇总与时间顺序等表示保留的信息。 | Chapter 5～6 |
+| 与什么比较、解释到哪里？ | 选择指标和参照，区分观测差异与原因判断。 | Chapter 7～8 |
+| AI 看什么、预测什么？ | 区分输入、目标、标签、可用时点和评估对象。 | Chapter 9 |
 
-本书把数据建模的讨论范围扩展到分析问题的输入与比较结构设计，即把现实产生的源数据重新表示为人能够比较、AI 能够使用的样本、特征、基准线和输出结构。更准确地说，与其说是`阅读给定表格`，不如说是在设计：`什么事件算一条样本`、`将原始日志汇总成什么表`、`保留什么特征与比较结构`、`解释应谨慎到什么程度`，以及`什么保留为比较报告、什么转为预测问题`。
+这是本书的学习顺序，不是所有分析都必须只走一遍的流程。比较时发现缺失记录，可以回到最初的问题或样本构造重新检查。
 
-Part 3 把在数据科学课程里常常分开讲的 data wrangling、feature engineering、sample design、inference、problem framing，重新绑成一个再学习流程。这里不会把它们列成独立的命名步骤，而是沿着同一个案例，依次确认 `什么会变成样本`、`什么会被重组进表`、`什么会被比较`、`我们能说到什么程度`。因此，Part 3 的重点是先建立 `问题表达结构`，而不是算法。
+## 原始记录也是数据集，汇总是一种选择
 
-下表对应了本书的说明流程与相关标准概念，并不表示这个顺序是所有分析都必须遵循的共同流程。
+原始日志也是数据集。但数据已经收集到，与已经准备好用于当前问题，是不同判断。即使是按时间排列的传感器资料，也要确认属于哪个动作和区间、是否缺失，以及与什么结果关联。
 
-| 这一 Part 的模块 | 对应的标准概念 | 代表性依据轴 |
-| --- | --- | --- |
-| 重新组织源数据的区段 | data wrangling, sample design | W3C PROV, Fayyad/KDD |
-| 建立特征与基准线的区段 | feature engineering, labeled example, base period | Google ML Glossary, BLS |
-| 收束解释强度与输出边界的区段 | problem framing, conservative interpretation, output structure | Google ML Glossary, NASEM |
+本书将持续把同样的传感器记录变成动作汇总表，再将多次动作与历史参照即基线比较。每一步都检查一行的含义如何改变，以及如何追溯原记录。汇总表只是用于解释比较的一种表示。
 
-在 Part 3 中，先由 P3-1.1 确定`数据建模`的整体范围，再由 P3-1.2 明确决策顺序。后续各节不再重复详细定义，而是保留当前问题所需的最少连接。需要时，可以在概念词典中重新查看[样本](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、[特征](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[基准线](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、[比较报告](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)和[目标](/AiBook/zh/reference/concept-glossary-pinyin/m/#target)。
+根据问题与模型，也可以直接使用原始时间序列、一张图像或一份文档，不必全部转换为人工计算的汇总值。图像要确认一张图包含什么，文档要确定整体还是局部作为一个案例。人工特征与模型学习表示之间的关系将在 Chapter 6 中讨论。
 
-Part 3 首先明确数据建模要达成什么，以及按什么顺序作决定。接着确认为什么要按照分析目的重新组织存储记录，确定一行与一条样本的含义，再把原始日志重新汇总为可比较的表。随后设计特征和中间表示，区分标识、比较和候选目标列。然后构造近期区间与基准线的比较，并在样本较少、重复证据不稳定时划定解释边界。最后区分应保留为比较报告的问题与适合转为预测的问题，确认输入与结果边界以及时间边界。
+## 交给 Part 4 的输入与目标
 
-## 数据建模承担的作用
+Part 3 阅读并组织数据后，确认资料能支持什么结论。结果可以是人阅读的比较报告，也可以是优先复核案例清单。如果问题需要预测，就整理使用什么输入、预测什么结果。
 
-- 防止把数据建模误解成只有数据库设计。
-- 熟悉把源数据重新表达成样本、摘要表、特征和基准线的流程。
-- 理解数据整理、特征工程、保守解释和问题设定其实是一条连续流程。
-- 学会在不混淆比较报告与预测问题的前提下，先收束应该先确认的问题结构。
+Part 4 将依据这些输入与目标讨论机器学习及评估。Part 3 区分预测瞬间可知的信息和后来确认的结果，并明确要在哪些对象上检查性能。具体学习算法与评估资料划分将在 Part 4 继续。
 
-## 为什么需要这一 Part
+## 检查清单
 
-- 因为原始日志也可以是数据集，但仍需另外确认符合分析目的的样本与列定义。
-- 因为如果样本单位和比较基准没有固定，feature 和 label 的解释就会摇晃。
-- 因为警告候选和诊断确认、基准线比较和绝对值判断，经常会被混在一起。
-- 因为即使平均值一样，区段模式和波动性也可能不同，而人很容易只凭一个代表值就下得太快。
-- 因为如果样本结构和输入边界是模糊的，后面的学习解释也容易只剩名字，没有问题结构。
-
-## 主要问题
-
-- 数据建模在数据科学整体流程中承担什么作用？
-- 为什么要按照分析目的重新组织存储记录？
-- 一行与一条样本有什么不同，需要什么表结构？
-- 设计特征和中间表示是为了保留什么？
-- 为什么应先于模型确定基准线与比较结构？
-- 面对样本数量和重复性，能够解释到什么程度？
-- 什么应保留为比较报告，什么应转为学习问题？
-
-## 建立问题结构的流程
-
-Part 3 虽然沿着 9 个 Chapter 前进，但整体流程可以概括成三个模块。
-
-1. 固定数据建模的职责与顺序。
-2. 把存储结构重新建成带有样本、表结构、特征和基准线的比较结构。
-3. 先建立解释边界，再区分比较报告和预测问题，并整理输入/结果边界。
-
-之所以坚持这个顺序，是因为如果在把存储结构改写成问题结构之前就先谈 feature 和 label，这些词会漂在半空；而如果在解释边界建立之前就先提预测问题，模型名字就会比数据结构先出现。下面这张表更短地说明了，这三个模块分别在固定什么。
-
-| 流程模块 | 这里抓住的问题 | 留下的结构 |
-| --- | --- | --- |
-| 固定职责与顺序 | 数据建模负责什么，又按什么顺序判断？ | 问题结构设计的位置、工作顺序地图 |
-| 重建比较结构 | 存储好的记录应重新读成什么样本、表、特征和基准线结构？ | 数据集候选、摘要表、特征列、基准线比较表 |
-| 整理解释与问题 | 可以说到哪里，什么还应该留在报告里？ | 保守表述、运营输出、输入/结果边界、时间边界 |
-
-Part 3 反复处理的问题，也可以这样再聚一下：什么算一个样本，原始日志该重组为什么表，哪些特征和基准线要保留，什么应该继续当比较报告，什么应该提升成目标候选，以及输入结构和观测边界是否已经确认。每个 Chapter 都是在把这些问题包中的某一组变得更清楚。
-
-## 数据建模要确认的边界与留下的问题
-
-Part 3 处理的是样本单位、原始日志与摘要表、特征与中间表示、基准线比较、样本量与重复性，以及警告候选与标签预测之间的边界。
-
-相对地，具体机器学习算法的学习方式、train/validation/test 切分的细致流程，以及复杂时间序列深度学习结构本身，都不是这里的中心。
-
-这个范围限制的原因很简单。Part 3 的责任，是先把 `什么数据应该被做成什么结构` 说清楚。
-
-## 读完 Part 3 之后应该留下的理解
-
-即使已经有数据集，也要确认其比较与学习结构是否符合当前问题。样本结构、特征、目标候选和时间边界必须先被整理好，这样后面的学习解释才能一直保持 `到底在预测什么`、`又在用什么输入` 的清晰状态。
+- 能否说明传感器案例记录什么、如何组成一个案例、保留什么信息？
+- 能否分别说明指标比较什么、质量检查揭示哪些判断局限、标签对应什么学习目标？
+- 能否区分原始记录也是数据集与已适合当前问题？
+- 将同样问题应用到图像或文档时，能否提出一个应检查的边界或背景信息？
 
 ## 来源与参考资料
 
-- National Academies of Sciences, Engineering, and Medicine, *Data Science for Undergraduates: Opportunities and Options*, 2018. 它把数据收集、清洗、表达、建模和解释视为一条完整数据科学流程，因此支持本页把 Part 3 放在 `问题结构恢复` 位置上的课程视角。 [https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options](https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`. 它提供 sample、feature、label、label leakage 等核心术语的角色区分，因此支持 Part 3 必须先固定样本结构和输入/结果边界，而不是先讨论模型名字。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- W3C, `PROV-Overview`. 它把 provenance 和 derivation 一起处理，因此支持 Part 3 的共同前提：当源数据被重做成问题表达结构时，派生表是按什么规则生成的也必须可追踪。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Usama Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `Knowledge Discovery and Data Mining: Towards a Unifying Framework`, Microsoft Research publication page, 1996. 这一 KDD 经典参考支持把源数据重组视为数据准备与发现流程中的独立轴。 [https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/](https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Consumer Price Index: Concepts`, Handbook of Methods. 其中对 CPI index values 和 base periods 的说明，用来参考“先固定基准期间，再比较当前值”的观念。 [https://www.bls.gov/opub/hom/cpi/concepts.htm](https://www.bls.gov/opub/hom/cpi/concepts.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- [National Academies, Data Science for Undergraduates: Opportunities and Options (2018)](https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options){: target="_blank" rel="noopener noreferrer" }. 连接收集、整理、表示、建模与解释的背景；六个问题的排列为本书编排。 / 2026-07-20
+- [Google, Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }. 样本、特征和标签的术语依据。 / 2026-09-19
+- [W3C, PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. 通过来源与派生关系追溯变换表和原记录。 / 2026-09-19
+- [Fayyad, Piatetsky-Shapiro and Smyth, Knowledge Discovery and Data Mining: Towards a Unifying Framework (1996)](https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/){: target="_blank" rel="noopener noreferrer" }. 数据准备与后续发现流程的背景。 / 2026-07-20
+- [U.S. Bureau of Labor Statistics, Consumer Price Index: Concepts](https://www.bls.gov/opub/hom/cpi/concepts.htm){: target="_blank" rel="noopener noreferrer" }. 按确定基期比较当前值的参考。 / 2026-07-20

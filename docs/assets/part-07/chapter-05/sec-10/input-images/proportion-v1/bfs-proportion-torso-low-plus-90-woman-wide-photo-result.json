@@ -1,0 +1,71 @@
+{
+  "status": "generated_pending_review",
+  "model_id": "Qwen/Qwen-Image-Edit-2511",
+  "fingerprint": {
+    "spec_sha256": "906bf512629ce6bee6feb43922c4894d2f27170be296203564e07ceb7ec43814",
+    "composition_sha256": "906bf512629ce6bee6feb43922c4894d2f27170be296203564e07ceb7ec43814",
+    "code_sha256": "33237cb8de4618d1cfa57aeda165e428d49faff79192bff69b7f14665dc4524f",
+    "helper_sha256": "647496bb123e379689d007f144e7f8d3752d3bd304efed5ecd124b335bd70d01"
+  },
+  "design": {
+    "id": "bfs-proportion-torso-low-plus-90-woman-wide-photo",
+    "management_id": "P710-PROP-039",
+    "order": 39,
+    "reference": "torso-low-plus-90",
+    "seed": 916038,
+    "category": "face-proportion",
+    "condition": "woman-wide/photo",
+    "source_geometry": {
+      "id": "woman-wide",
+      "description": "a different adult woman with a distinctly broad, short face, wide cheekbones, a short rounded chin, and short straight dark brown hair"
+    },
+    "source_style": {
+      "id": "photo",
+      "description": "natural photographic rendering"
+    },
+    "review_status": "pending_generation",
+    "group": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
+    "reserved_split": "train",
+    "training_target": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
+    "training_target_sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
+    "training_caption": "Transform the person into mira_person with Mira's face and hairstyle, and render the entire image in Mira's illustration style. Preserve pose, head direction, facial expression, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale and scene layout.",
+    "camera_view": {
+      "vertical": "low",
+      "yaw": "plus-90"
+    },
+    "prompt": "Replace only the depicted person's facial identity and hair with a different adult woman with a distinctly broad, short face, wide cheekbones, a short rounded chin, and short straight dark brown hair. Make the requested facial length, cheek width and jaw/chin proportions visibly different from Picture 1 while keeping the head rotation and head placement. The face contour and hair silhouette may change; do not preserve the original facial proportions. Render the entire image in natural photographic rendering. Preserve gaze direction, facial expression, mouth openness, body pose, body proportions, hands, clothing design, camera viewpoint, perspective, framing and subject scale. Preserve every background object and its spatial position. Do not simplify the background, add or remove objects, zoom, crop, rotate the camera or stretch the image."
+  },
+  "input": {
+    "path": "docs/assets/part-07/chapter-05/sec-10/target-images/proportion-v1/torso-low-plus-90.png",
+    "sha256": "f5a1c95bd4f0b813ae24e1835a4995175c7787952d88883f410b95590f399d16",
+    "source_path": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png",
+    "source_record": "docs/assets/part-07/chapter-05/sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4-result.json",
+    "vertical": "low",
+    "yaw": "plus-90"
+  },
+  "settings": {
+    "size": 1024,
+    "steps": 20,
+    "true_cfg_scale": 4.0,
+    "extra_lora": null
+  },
+  "reference_preprocessing": "RGB Lanczos square resize to target size",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 5070 Laptop GPU",
+  "dtype": "bfloat16",
+  "device_placement": "sequential_cpu_offload",
+  "elapsed_seconds": 416.4,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/sec-10/input-images/proportion-v1/bfs-proportion-torso-low-plus-90-woman-wide-photo.png",
+    "sha256": "2505aa294f753124a005dcae02c63da68d7d1828e4ecfa427b2370d8357feef6"
+  }
+}

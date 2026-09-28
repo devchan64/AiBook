@@ -1,359 +1,84 @@
 # P3-4.1 비교 가능한 샘플 한 건은 어떻게 정하는가
 
 > Section ID: `P3-4.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-데이터를 읽을 때 가장 먼저 확인해야 할 것은 값의 크기보다 [행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit) 하나가 무엇을 뜻하는가입니다. 이 질문이 먼저 정리되지 않으면, 뒤에서 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)을 만들 때도, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)을 붙일 때도, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) 결과를 읽을 때도 기준이 흔들립니다. 결국 이 질문은 비교 가능한 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 한 건을 무엇으로 정할 것인가라는 질문으로 이어집니다.
+[샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 한 건은 현재 질문에서 비교하거나 예측할 대상 한 건입니다. 파일의 한 [행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit)이 곧 그 대상인 것은 아닙니다. 같은 로그도 순간값을 물으면 시점별로, 동작의 결과를 물으면 동작별로, 운영 구간을 물으면 여러 동작의 묶음으로 읽습니다.
 
-예를 들어 자동으로 실행되는 동작에서 제어 파라미터 시계열과 센서 시계열이 남는다고 하겠습니다. 어떤 표에서는 한 행이 `1초 시점의 압력과 유량 측정값`일 수 있습니다. 다른 표에서는 한 행이 `동작 1회 전체의 요약값`일 수 있습니다. 또 다른 표에서는 한 행이 `최근 30분 동안 수행된 여러 동작의 집계 결과`일 수 있습니다. 셋 다 같은 [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)에서 나왔지만, 한 행이 뜻하는 대상은 완전히 다릅니다.
+## 질문·경계·특징·결과를 한 사건에 맞추기
 
-| 구분 | 한 행이 뜻하는 것 | 주로 답하는 질문 |
-| --- | --- | --- |
-| 측정값 표 | 동작 중 한 시점의 센서 또는 제어 값 | 지금 이 시점의 값은 얼마인가 |
-| 동작 단위 표 | 자동으로 실행된 동작 1회 전체 | 이번 동작의 전체 구조는 어땠는가 |
-| 최근 구간 표 | 여러 동작을 묶은 최근 집계 | 최근 변화가 반복되고 있는가 |
-| [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 표 | 평소 상태를 대표하는 비교 집계 | 평소와 비교하면 지금은 얼마나 다른가 |
+이 절의 질문은 “어느 동작이 검토 대상으로 기록되었으며, 그 동작의 관측 유량은 어떠했는가?”입니다. [측정 로그](../../../assets/part-03/chapter-04/p3_4_1_measurement_log.csv)와 [검토 결과](../../../assets/part-03/chapter-04/p3_4_1_review_decisions.csv)는 이 책의 가상 자료입니다. 측정 로그의 한 행은 동작 안의 한 시점이고, 결과 파일의 한 행은 한 동작의 검토 결과입니다.
 
-이 표를 보면 같은 데이터라도 어떤 질문에 답하려는지에 따라 `행의 의미`가 달라진다는 점이 보입니다. 측정값 표는 현재 상태를 읽는 데 강하지만, 동작 전체의 구조를 바로 보여 주지는 못합니다. 반대로 동작 단위 표는 한 번의 동작을 비교하는 데 유리하지만, 시점별 순간 변화를 그대로 담지는 않습니다. 최근 구간 표와 기준선 표는 더 나아가 `한 건`이 아니라 `여러 건을 묶은 비교 구조`를 뜻합니다. 따라서 눈앞에 행이 보인다고 해서 그 행을 곧 샘플 1건이라고 놓으면 안 됩니다. 모델이 배워야 할 것이 `동작 전체의 패턴`이라면, 시점별 측정값 여러 행을 묶어 `동작 1회`라는 새로운 샘플을 다시 만들어야 하기 때문입니다.
+먼저 E01 하나를 읽어 보세요. 이 연습에서 유량은 L/min으로 읽습니다.
 
-여기서 `비교 가능한 샘플`이라고 부르려면 최소한 세 가지를 함께 만족해야 합니다.
+| event_id | elapsed_seconds | flow |
+| --- | ---: | ---: |
+| E01 | 0 | 0.0 |
+| E01 | 1 | 1.4 |
+| E01 | 2 | 1.6 |
 
-1. 한 건의 경계가 분명해야 한다.
-2. 같은 종류의 특징을 모든 건에 같은 방식으로 붙일 수 있어야 한다.
-3. 나중에 붙일 라벨이나 비교 기준이 그 단위에 자연스럽게 연결되어야 한다.
+| 결정 | E01에 적용한 내용 |
+| --- | --- |
+| 질문의 대상 | E01 동작 1회 |
+| 묶음 경계 | 같은 `event_id`의 기록을 묶음. 현재 관측 시각은 0·1·2초 |
+| 특징 후보 | 관측 유량 평균 `(0.0+1.4+1.6)/3 = 1.0 L/min` |
+| 연결할 결과 | 결과 파일의 E01 행에 있는 `review_needed=1` |
+| 아직 모르는 것 | 실제 종료 시각, 전체 동작 관측 여부, 검토 판정 기준 |
 
-어느 단위가 이 조건을 만족하는지는 질문에 따라 달라집니다. 다음 시점의 값을 예측한다면 시점 단위에도 같은 특징과 결과를 붙일 수 있습니다. 하루별 운영 상태를 비교한다면 하루 구간 자체가 샘플일 수 있습니다. 여기서는 동작 전체의 패턴을 비교하므로 동작 1회를 선택합니다. 결국 이 절에서 정할 것은 `한 시점`, `동작 1회`, `최근 구간` 가운데 무엇을 비교 가능한 샘플 1건으로 볼 것인가입니다.
+`review_needed`의 1은 검토 필요, 0은 이 가상 자료에서 검토 불필요로 기록된 값입니다. 실제 고장 여부를 확인한 라벨이라는 뜻은 아닙니다. 사건별 연결이 가능하다는 것과 결과의 판정 근거가 확인되었다는 것은 구분합니다.
 
-눈앞의 표를 받았을 때는 다음 순서로 읽으면 역할 구분이 더 분명해집니다.
+이 질문에서는 세 측정 행을 한 동작의 근거로 묶습니다. 평균 대신 시퀀스 전체를 보존해도 샘플 단위는 동작 1회일 수 있습니다. 요약이 샘플을 만드는 필수 조건은 아닙니다. 한편 E01의 결과 1을 세 측정 행에 반복해서 붙여도 검토 대상으로 표시된 동작이 세 건으로 늘지는 않습니다.
 
-1. 지금 표의 한 행이 `한 시점`인지 `동작 1회`인지 `여러 동작의 집계`인지 본다.
-2. 그 한 행이 어떤 질문에 답하려고 만들어졌는지 본다.
-3. 그 질문이 현재 우리가 풀려는 문제와 맞는지 확인한다.
+## 단위를 바꾸면 무엇을 세는가
 
-이 순서를 거치면 `행이 있으니 샘플도 이미 있겠지`라는 자동 가정을 조금 늦출 수 있습니다. 그래야 원시 로그, 요약 표, 최근 구간 표를 같은 표처럼 섞어 읽지 않게 됩니다.
+| 질문 | 한 샘플 또는 집계 행의 단위 | 현재 자료에서 세는 수 | 필요한 근거 |
+| --- | --- | ---: | --- |
+| 각 관측 시점의 값은 얼마인가 | 측정 시점 | 36행 | 사건 식별자·관측 시각·측정값 |
+| 각 동작의 관측값과 검토 결과는 무엇인가 | 동작 1회 | 12개 사건 | 사건별 기록 묶음·같은 사건의 결과 |
+| 최근 묶음과 기준 묶음의 상태가 다른가 | 선정된 동작 묶음 | 2개 집계 행 | 묶음 구성원·선정 조건·집계 방법 |
 
-실제 표 초안으로 옮길 때는 이 판단을 열 이름으로 남겨야 합니다. 동작 1회를 샘플로 잡았다면 첫 열은 시점 번호가 아니라 `event_id`처럼 동작 1회를 식별하는 값이 되어야 하고, 그 옆에는 `pressure_mean`, `pressure_rise`, `flow_mean`처럼 동작 전체를 요약한 특징 후보가 붙어야 합니다. 최근 구간을 비교하려는 표라면 `window_name`, `window_start`, `window_end`, `event_count`처럼 여러 샘플을 다시 묶었다는 흔적이 남아야 합니다. 이렇게 해야 샘플 단위 결정이 머릿속 판단으로 끝나지 않고, 다음 표의 행과 열 구조로 이어집니다.
+측정 파일의 E01~E12는 각각 3행입니다. `is_recent=1`인 동작 6개와 `is_recent=0`인 동작 6개를 묶으면 최근·기준 두 집계 행이 됩니다. 이 열은 가상 자료가 제공한 구분이며, 파일만으로 실제 발생 날짜나 구간 길이를 확인할 수는 없습니다. 두 집계 행을 만든다고 독립된 새 동작 두 건을 관측한 것은 아닙니다.
 
-아래 작은 표를 보면 이 차이가 더 분명해집니다.
+검토 결과 파일에는 E01~E36의 36행이 있지만, 현재 측정값이 있는 동작은 E01~E12뿐입니다. 따라서 이 측정 로그에 연결할 결과는 12개입니다. E13~E36은 이 입력 범위에서 대응 측정 기록이 없는 결과로 따로 남깁니다. 결과 파일의 행 수를 현재 동작 샘플 수로 사용하지 않습니다.
 
-| event_id | elapsed_seconds | pressure | flow |
-| --- | --- | --- | --- |
-| A | 0 | 1.0 | 0.0 |
-| A | 1 | 2.0 | 1.4 |
-| A | 2 | 2.4 | 1.6 |
-| B | 0 | 1.1 | 0.0 |
-| B | 1 | 1.7 | 1.1 |
-| B | 2 | 2.0 | 1.2 |
+이 대응은 질문에 맞춰 정한 설계 예입니다. 데이터가 최적 단위를 자동 추천한 결과가 아닙니다. 질문을 바꾸면 단위도 다시 정합니다. 특히 “어느 구간에서 값이 변했는가?”에는 한 시점 값만으로 부족하고 인접한 시각·측정값의 관계가 필요합니다.
 
-이 표에서 한 행은 `동작 1회`가 아니라 `동작 중 한 시점`입니다. 따라서 샘플 1건을 동작 1회로 보려면 같은 `event_id`를 가진 여러 행을 묶어야 합니다. 그런데 여기서 한 번 더 보면, 같은 원천데이터라도 `시점`, `동작 1회`, `최근 구간` 가운데 무엇을 한 건으로 읽느냐에 따라 샘플 수 자체가 달라질 뿐 아니라, 어떤 열이 그 단위에서만 의미를 갖는지도 함께 달라집니다.
+## 관측점 수와 결과 연결을 따로 점검하기
 
-아래 표의 적합성은 `동작 1회 전체를 비교한다`는 질문에 한정합니다. 다른 질문으로 바꾸면 표의 판단도 달라집니다.
+연습에서는 `관측점이 3개 이상인가`와 `검토 결과가 연결되는가`를 별도로 기록합니다. 첫 조건은 최소 관측점 수를 3개로 정한 연습용 기준일 뿐, 종료 경계의 확인이 아닙니다. 원본은 두 조건 모두 12개 사건에서 통과합니다.
 
-이제 같은 예제를 앞의 세 기준으로 다시 읽어 보면 왜 `동작 1회`가 비교 가능한 샘플에 더 가깝다고 말하는지 분명해집니다.
+원본 파일을 바꾸지 않고 다음 세 상황을 가정해 보세요. ① E01의 2초 기록만 제외, ② E02의 검토 결과만 제외, ③ 두 제외를 함께 적용합니다. 각 상황에서 사건 수, 점 수 조건 통과 수, 결과 연결 수를 먼저 적은 뒤 아래와 대조합니다.
 
-| 후보 단위 | 경계가 분명한가 | 같은 특징을 붙이기 쉬운가 | 라벨/비교 기준을 붙이기 자연스러운가 |
-| --- | --- | --- | --- |
-| 측정 시점 1행 | 예 | 순간값 비교에는 적합 | 동작 전체의 결과와는 단위가 다름 |
-| 동작 1회 | 예 | 예 | 예 |
-| 최근 구간 1묶음 | 예 | 구간 집계 비교에는 적합 | 동작 하나의 결과와는 단위가 다름 |
+| 상황 | 측정 행 수 | 사건 수 | 점 수 조건 통과 | 결과 연결 | 두 조건 모두 충족 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 원본 | 36 | 12 | 12 | 12 | 12 |
+| ① E01의 2초 측정 제외 | 35 | 12 | 11 | 12 | 11 |
+| ② E02의 검토 결과 제외 | 36 | 12 | 12 | 11 | 11 |
+| ③ 두 제외를 함께 적용 | 35 | 12 | 11 | 11 | 10 |
 
-즉 `동작 1회`를 샘플 1건으로 두면 `pressure_mean`, `pressure_rise`, `flow_mean` 같은 특징을 모든 건에 같은 방식으로 붙일 수 있고, 나중에 `검토 필요`, `정상`, `이상` 같은 결과도 그 단위에 자연스럽게 연결됩니다. 반대로 측정 시점 1행은 순간 관측값을 담는 데는 좋지만, 동작 전체 구조를 비교하는 특징과 라벨을 안정적으로 올리기 어렵습니다. 최근 구간 1묶음은 개별 동작 비교 샘플이라기보다 여러 동작을 다시 묶은 해석 단위에 가깝습니다.
+①에서도 E01의 0·1초 기록이 남으므로 사건은 12개입니다. E01의 관측점은 부족하지만 결과는 있습니다. ②의 E02는 관측점이 3개여도 결과가 미확인입니다. 이를 `review_needed=0`으로 채우면 ‘결과 없음’을 ‘검토 불필요’로 바꾸게 됩니다. ③에서는 서로 다른 두 사건이 각각 한 조건을 통과하지 못하므로, 두 조건을 모두 충족하는 사건은 10개입니다.
 
-그래서 실제로는 `어느 단위를 먼저 샘플로 잡아야 하는가`를 아래처럼 결정할 수 있습니다.
+E01의 2초 기록을 제외하면 관측 평균도 `(0.0+1.4)/2 = 0.7`로 달라집니다. 이는 동작 상태가 바뀌었다는 증거가 아니라 사용한 기록 범위가 달라진 결과입니다. 점 수 기준을 4로 올리면 원본의 모든 사건이 조건을 통과하지 못하지만, 기준을 바꿨다고 원래 기록이 손상되거나 동작이 불완전해진 것은 아닙니다.
 
-| 지금 답하려는 질문 | 먼저 잡을 샘플 단위 | 이유 |
-| --- | --- | --- |
-| 이번 동작이 다른 동작보다 이상했는가 | 동작 1회 | 비교 대상이 `동작 대 동작`이기 때문 |
-| 어느 시점에서 압력이 급격히 올랐는가 | 측정 시점 | 질문 자체가 순간 변화 시점을 묻기 때문 |
-| 최근 운영 상태가 평소보다 달라졌는가 | 최근 구간 1묶음 | 비교 대상이 개별 동작이 아니라 최근 묶음과 기준 묶음이기 때문 |
-| 나중에 `검토 필요`를 예측할 입력 표를 만들 수 있는가 | 동작 1회 | 결과가 보통 동작 1회 단위에 붙고, 특징도 그 단위에서 안정적으로 계산되기 때문 |
-
-즉 무엇을 샘플 1건으로 잡을지는 표 모양만 보고 정하는 것이 아니라, 지금 답하려는 질문이 `시점 비교`인지, `동작 비교`인지, `구간 비교`인지에 따라 먼저 정해야 합니다. 이 절의 예시에서는 `동작 전체의 패턴을 비교하려는 질문`을 놓고 있으므로, 동작 1회가 가장 자연스러운 샘플 단위가 됩니다.
+점 수가 충분해도 같은 시각의 중복으로 개수가 늘었는지, 시작·종료 구간을 실제로 관측했는지는 별도로 확인해야 합니다. 이 CSV에는 종료 표시가 없으므로 ‘동작 전체를 관측했다’는 판단은 미확인으로 남깁니다.
 
 ## 질문에 맞는 샘플 경계 정하기 {#_1}
 
-앞의 판단을 한 줄로 압축하면, 먼저 `지금 답할 질문`을 고르고 그 질문에 맞는 단위를 샘플로 삼아야 한다는 뜻입니다. 이 절의 예시에서는 `이번 동작이 이상했는가`를 묻고 있으므로 `동작 1회`가 비교 가능한 샘플로 이어집니다.
-
+```mermaid
 --8<-- "assets/part-03/chapter-04/p3-4-1-mermaid-01-ko.mmd"
-
-문제 상황: 같은 원천 로그라도 `시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 비교 가능한 표가 달라진다는 점을 확인합니다.
-
-입력(input): `event_id`별 시점 기록 [p3_4_1_measurement_log.csv](../../../assets/part-03/chapter-04/p3_4_1_measurement_log.csv){ .csv-preview }, `event_id` 단위 검토 결과 [p3_4_1_review_decisions.csv](../../../assets/part-03/chapter-04/p3_4_1_review_decisions.csv){ .csv-preview }, 지금 답하려는 질문 후보 `question_focus_options`
-
-첫 번째 CSV의 한 행은 동작 중 한 시점의 측정값입니다. 두 번째 CSV의 한 행은 동작 1회가 끝난 뒤 붙은 검토 결과입니다. 일부 이벤트는 시점 행 수가 부족하거나 검토 결과가 아직 없으므로, 코드가 먼저 샘플 단위를 다시 만들고 완전성과 라벨 결합 가능성을 따로 확인해야 합니다.
-
-여기서 단위 대응은 질문별로 미리 정한 예시 규칙입니다. 데이터가 최적 단위를 자동으로 추천하거나 점수로 검증하는 알고리즘은 아닙니다. 기록 수와 완전성은 CSV에서 실제로 계산합니다.
-
-기대 출력(output): `measurement_row`, `event`, `window` 세 단위가 서로 다른 샘플 수와 특징 가능성을 만든다는 출력. 질문 초점과 이벤트 완전성 기준을 바꾸면 추천 단위와 유효 샘플 수도 함께 달라진다.
-
-확인할 개념: 비교 가능한 샘플 1건은 눈앞의 행 수가 아니라 질문에 맞는 분석 단위에서 정해진다. 샘플 단위는 고정 정답이 아니라 질문과 특징·라벨 연결성에 따라 선택된다.
-
-```python
-# 원천 측정 로그를 질문에 맞는 샘플 단위로 다시 묶고 비교 가능성을 확인하는 예제입니다.
-import pandas as pd
-
-measurement_log_path = "docs/assets/part-03/chapter-04/p3_4_1_measurement_log.csv"
-review_decisions_path = "docs/assets/part-03/chapter-04/p3_4_1_review_decisions.csv"
-
-question_focus_options = ["instant_value", "event_comparison", "recent_vs_baseline"]
-selected_question_focus = "event_comparison"
-expected_rows_per_event = 3
-
-raw = pd.read_csv(measurement_log_path)
-review_decisions = pd.read_csv(review_decisions_path)
-
-row_counts = raw.groupby("event_id", as_index=False).size().rename(columns={"size": "measurement_rows"})
-
-event_summary = (
-    raw.groupby("event_id", as_index=False)
-    .agg(
-        total_duration_seconds=("elapsed_seconds", "max"),
-        pressure_mean=("pressure", "mean"),
-        pressure_rise=("pressure", lambda s: s.iloc[-1] - s.iloc[0]),
-        flow_mean=("flow", "mean"),
-        is_recent=("is_recent", "max"),
-    )
-    .merge(row_counts, on="event_id")
-    .merge(review_decisions, on="event_id", how="left")
-)
-matched_review_decisions = review_decisions[
-    review_decisions["event_id"].isin(event_summary["event_id"])
-].reset_index(drop=True)
-event_summary["is_complete_event_sample"] = (
-    event_summary["measurement_rows"] >= expected_rows_per_event
-)
-event_summary["has_review_label"] = event_summary["review_needed"].notna()
-event_summary["window_name"] = event_summary["is_recent"].map({0: "baseline", 1: "recent"})
-event_summary["pressure_mean_for_complete"] = event_summary["pressure_mean"].where(
-    event_summary["is_complete_event_sample"]
-)
-event_summary["flow_mean_for_complete"] = event_summary["flow_mean"].where(
-    event_summary["is_complete_event_sample"]
-)
-
-window_summary = (
-    event_summary.groupby("window_name", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        complete_event_count=("is_complete_event_sample", "sum"),
-        labeled_event_count=("has_review_label", "sum"),
-        pressure_mean_complete=("pressure_mean_for_complete", "mean"),
-        flow_mean_complete=("flow_mean_for_complete", "mean"),
-    )
-)
-
-unit_check = pd.DataFrame(
-    [
-        {
-            "unit_name": "measurement_row",
-            "sample_count": len(raw),
-            "valid_sample_count": len(raw),
-            "can_use_pressure_rise": "no",
-            "label_attaches_naturally": "weak",
-        },
-        {
-            "unit_name": "event",
-            "sample_count": len(event_summary),
-            "valid_sample_count": int(event_summary["is_complete_event_sample"].sum()),
-            "can_use_pressure_rise": "yes",
-            "label_attaches_naturally": "yes",
-        },
-        {
-            "unit_name": "window",
-            "sample_count": len(window_summary),
-            "valid_sample_count": len(window_summary),
-            "can_use_pressure_rise": "partial",
-            "label_attaches_naturally": "weak",
-        },
-    ]
-)
-recommended_unit = {
-    "instant_value": "measurement_row",
-    "event_comparison": "event",
-    "recent_vs_baseline": "window",
-}[selected_question_focus]
-unit_check["selected_for_question"] = unit_check["unit_name"] == recommended_unit
-
-focus_result = pd.DataFrame(
-    [
-        {
-            "question_focus": focus,
-            "recommended_unit": {
-                "instant_value": "measurement_row",
-                "event_comparison": "event",
-                "recent_vs_baseline": "window",
-            }[focus],
-        }
-        for focus in question_focus_options
-    ]
-)
-
-print("1) raw input files")
-print("measurement_log shape:", raw.shape)
-print("review_decisions shape:", review_decisions.shape)
-print()
-print("2) first raw measurement rows")
-print(raw.head(8).to_string(index=False))
-print()
-print("3) count rows under each candidate unit")
-print("measurement rows:", len(raw))
-print("event samples:", len(event_summary))
-print("window aggregates:", len(window_summary))
-print()
-print("4) raw rows still mean per-time-step records")
-print(row_counts.to_string(index=False))
-print()
-print("5) review labels arrive at event_id level")
-print(matched_review_decisions.to_string(index=False))
-print()
-print("6) event-level summaries check completeness and labels")
-print(
-    event_summary[
-        [
-            "event_id",
-            "total_duration_seconds",
-            "measurement_rows",
-            "is_complete_event_sample",
-            "pressure_mean",
-            "pressure_rise",
-            "flow_mean",
-            "review_needed",
-            "has_review_label",
-        ]
-    ].round(3).to_string(index=False)
-)
-print()
-print("7) window-level aggregates are for broader comparison, not single-sample judgment")
-print(window_summary.round(3).to_string(index=False))
-print()
-print("8) question focus changes the recommended unit")
-print(focus_result.to_string(index=False))
-print()
-print("9) unit check for selected_question_focus = event_comparison")
-print(unit_check.to_string(index=False))
 ```
 
-예상 출력:
-
-```text
-1) raw input files
-measurement_log shape: (36, 5)
-review_decisions shape: (36, 2)
-
-2) first raw measurement rows
-event_id  elapsed_seconds  pressure  flow  is_recent
-     E01                0       1.0   0.0          1
-     E01                1       2.0   1.4          1
-     E01                2       2.4   1.6          1
-     E02                0       1.1   0.0          0
-     E02                1       1.7   1.1          0
-     E02                2       2.0   1.2          0
-     E03                0       1.2   0.1          1
-     E03                1       2.3   1.5          1
-
-3) count rows under each candidate unit
-measurement rows: 36
-event samples: 12
-window aggregates: 2
-
-4) raw rows still mean per-time-step records
-event_id  measurement_rows
-     E01                 3
-     E02                 3
-     E03                 3
-     E04                 3
-     E05                 3
-     E06                 3
-     E07                 3
-     E08                 3
-     E09                 3
-     E10                 3
-     E11                 3
-     E12                 3
-
-5) review labels arrive at event_id level
-event_id  review_needed
-     E01              1
-     E02              0
-     E03              1
-     E04              0
-     E05              0
-     E06              0
-     E07              1
-     E08              0
-     E09              1
-     E10              0
-     E11              1
-     E12              0
-
-6) event-level summaries check completeness and labels
-event_id  total_duration_seconds  measurement_rows  is_complete_event_sample  pressure_mean  pressure_rise  flow_mean  review_needed  has_review_label
-     E01                       2                 3                      True          1.800            1.4      1.000              1              True
-     E02                       2                 3                      True          1.600            0.9      0.767              0              True
-     E03                       2                 3                      True          2.067            1.5      1.133              1              True
-     E04                       2                 3                      True          1.233            0.6      0.633              0              True
-     E05                       2                 3                      True          1.667            1.2      0.767              0              True
-     E06                       2                 3                      True          1.733            0.9      0.800              0              True
-     E07                       2                 3                      True          1.900            1.4      0.933              1              True
-     E08                       2                 3                      True          1.467            0.8      0.700              0              True
-     E09                       2                 3                      True          2.200            1.6      1.200              1              True
-     E10                       2                 3                      True          1.633            0.9      0.700              0              True
-     E11                       2                 3                      True          2.000            1.4      1.067              1              True
-     E12                       2                 3                      True          1.267            0.8      0.567              0              True
-
-7) window-level aggregates are for broader comparison, not single-sample judgment
-window_name  event_count  complete_event_count  labeled_event_count  pressure_mean_complete  flow_mean_complete
-   baseline            6                     6                    6                   1.489               0.694
-     recent            6                     6                    6                   1.939               1.017
-
-8) question focus changes the recommended unit
-    question_focus recommended_unit
-     instant_value  measurement_row
-  event_comparison            event
-recent_vs_baseline           window
-
-9) unit check for selected_question_focus = event_comparison
-      unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  selected_for_question
-measurement_row            36                  36                    no                     weak                  False
-          event            12                  12                   yes                      yes                   True
-         window             2                   2               partial                     weak                  False
-```
-
-출력에서 먼저 봐야 할 것은 `몇 건으로 세고 있는가`입니다. 원시 표에서는 측정 시점이 36건이고, `event_id` 기준으로 묶으면 동작 1회 후보가 12건이며, 다시 최근/기준선 구간으로 묶으면 비교용 집계는 2건이 됩니다. 그런데 그다음에 봐야 할 것은 `어떤 값이 어느 단위에서만 의미가 생기는가`입니다. 검토 결과는 원시 시점 행에 반복해서 붙는 것이 아니라 `event_id` 단위로 따로 도착한 뒤, 동작 1회 요약 표에 결합됩니다. 여기서 조작할 값은 `selected_question_focus`, `question_focus_options`, `expected_rows_per_event`입니다. `"event_comparison"`으로 두면 동작 1회가 추천 단위가 되지만, `"instant_value"`로 바꾸면 측정 시점 행이 더 자연스럽고, `"recent_vs_baseline"`으로 바꾸면 최근/기준선 구간 집계가 더 자연스럽습니다. `expected_rows_per_event`를 4로 높이면 현재 12개 이벤트가 모두 완전한 이벤트 샘플에서 빠집니다. 즉 같은 원천데이터라도 `한 시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 행 수와 표의 의미, 그 위에 놓을 수 있는 열의 역할, 유효 샘플 수가 함께 바뀝니다.
-
-여기서 `unit check` 출력은 이 절의 판단을 더 직접적으로 보여 줍니다. `measurement_row`는 샘플 수는 가장 많지만 `pressure_rise`를 바로 올릴 수 없고, `review_needed` 같은 결과도 자연스럽게 붙기 어렵습니다. `window`는 최근 상태 해석에는 쓸 수 있지만 개별 동작 비교 샘플로는 약합니다. 반면 `event`는 샘플 수, 요약 특징, 결과 열이 한 단위 위에 함께 놓여 있어 이 절의 질문인 `비교 가능한 샘플 한 건`에 가장 잘 맞습니다.
-
-이 예제는 샘플 단위를 세는 법만 보여 주는 것이 아닙니다.
-
-| 여기서 보이는 값 | 어느 단위에서 자연스러운가 | 이유 |
-| --- | --- | --- |
-| `pressure`, `flow` 한 시점 값 | 측정 시점 | 그 순간의 관측값이기 때문 |
-| `pressure_mean`, `pressure_rise` | 동작 1회 | 여러 시점을 묶어야만 계산되는 요약값이기 때문 |
-| `event_count`, 최근 평균 | 최근 구간 또는 기준선 구간 | 여러 동작을 다시 묶은 비교 집계이기 때문 |
-
-이렇게 보면 `샘플 1건을 정한다`는 말은 단지 행 개수를 줄이는 일이 아니라, 어떤 열이 현재 단위에서 자연스럽게 읽히는지까지 함께 정하는 일입니다.
-
-처음 표를 받았을 때 아래처럼 아주 짧게 판별해 볼 수도 있습니다. 이 빠른 판별은 데이터 생애주기의 단계도 함께 보여 줍니다. 측정값 표는 관측과 기록에 가깝고, 동작 단위 표는 비교 가능한 샘플 표현에 가깝고, 최근 구간 표와 기준선 표는 해석과 의사결정 준비에 더 가깝습니다.
-
-| 지금 보는 표가 이렇다면 | 먼저 의심할 행 의미 |
-| --- | --- |
-| 시간 열이 있고 같은 `event_id`가 여러 번 반복된다 | 한 시점 기록일 가능성이 크다 |
-| `event_id`마다 한 줄만 있고 평균, 최대, 기울기 같은 요약 열이 있다 | 동작 1회 샘플일 가능성이 크다 |
-| 최근 20건 평균, 이전 200건 평균 같은 비교 열이 있다 | 여러 동작을 묶은 구간 집계일 가능성이 크다 |
-
-이 판별표의 목적은 표 이름을 외우는 데 있지 않습니다. 지금 손에 있는 행이 `즉시 비교할 샘플`인지, 아니면 아직 `샘플로 다시 묶어야 할 기록`인지를 빠르게 가르는 데 있습니다.
-
-동작 단위 요약 표가 생겨야 평균, 기울기, 변동성 같은 특징을 안정적으로 만들 수 있고, 그 다음에야 최근 구간과 기준선 비교도 같은 단위 위에서 읽을 수 있습니다. 따라서 `한 행이 무엇인가`라는 질문은 샘플 단위 하나를 정하는 데서 끝나지 않고, Part 3 전체의 후속 구조를 지탱하는 바닥 규칙이 됩니다.
-
-비교 가능한 샘플은 데이터가 먼저 정해 주는 것이 아니라, 질문이 요구하는 비교 단위와 그 위에 올릴 특징·라벨 구조가 함께 정합니다. 따라서 `샘플 1건`을 정한다는 말은 행 개수를 다시 세는 일이 아니라, 관측 단위와 집계 단위 사이에서 어떤 대상을 비교 가능한 분석 단위(analytical unit)로 둘지 결정하는 일입니다.
+자신의 질문에 대해 “한 건은 ___이며, 묶음 키는 ___, 관측 범위는 ___, 필요한 결과·비교 기준은 ___, 아직 확인하지 못한 경계는 ___”를 적어 보세요. 이 사례에서는 동작 1회, `event_id`, 현재 확보한 시점 기록, 사건별 검토 결과, 실제 종료 경계가 각각 들어갑니다. 사건 식별이 된다는 사실만으로 특징과 결과의 의미까지 확인된 것은 아닙니다.
 
 ## 체크리스트
 
-- 시점·동작·최근 구간 중 자신의 질문에 맞는 단위를 골라 이유를 썼는가?
-- 동작의 기록이 부족할 때 유효 샘플 수가 어떻게 달라지는지 확인했는가?
+- 36개 측정 행·12개 사건·2개 집계 행이 각각 무엇을 세는지 설명하는가?
+- E01의 관측 기록과 결과를 하나의 사건으로 연결하고 미확인 경계를 표시했는가?
+- 측정 기록이 없는 E13~E36을 현재 동작 샘플 수에서 구분했는가?
+- 관측점 부족과 결과 미확인을 별도 상태로 두고 ③의 10개를 재현했는가?
+- 점 수 기준 통과와 동작 전체 관측을 구분하는가?
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, 시점 기록, 동작 1회, 최근 구간처럼 서로 다른 단위를 구분해 어떤 대상을 분석 단위로 삼았는지 설명 가능해야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 자연스럽게 붙는 단위여야 하므로, 시점 행이 아니라 동작 1회처럼 특징과 결과가 함께 놓이는 단위를 샘플로 삼아야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 기준선 구간과 비교하려면 먼저 무엇을 비교 단위로 둘지 정해야 한다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label`, `labeled example`, `unlabeled example`. 지도학습의 입력과 결과 역할 및 라벨 없는 사례의 구분을 확인했다. [원문](https://developers.google.com/machine-learning/glossary#labeled-example){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-19
+- W3C, `PROV-Overview` (2013). 데이터 생성에 관여한 대상·활동·담당자와 처리·버전 이력을 추적하는 근거로 참조했다. [원문](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-19

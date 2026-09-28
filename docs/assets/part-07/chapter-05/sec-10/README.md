@@ -1,31 +1,34 @@
 # P7-5.10 캐릭터 일관성을 위한 LoRA 자산
 
-완료된 생성·학습 준비·평가 자산은 이 디렉터리에서 관리한다. 이전 파일명의 `p7-5-11`·`p7-5-12`와 `p7_5_11`·`p7_5_12`를 `p7-5-10`·`p7_5_10`으로 변경했다.
+## 기준 파일 4개
 
-## 현재 경로와 실행 이력
+| 역할 | 기준 파일 |
+| --- | --- |
+| 이미지 생성 코드 | [p7_5_10_generate_supplements.py](p7_5_10_generate_supplements.py) |
+| 이미지 생성 조건·관리번호·선택·경로 호환 정보 | [p7-5-10-image-generation.json](p7-5-10-image-generation.json) |
+| 후보 선택·데이터셋 준비·LoRA 학습 코드 | [p7_5_10_mira_lora.py](p7_5_10_mira_lora.py) |
+| 확정 데이터셋·학습 설정 | [p7-5-10-paired-dataset.json](p7-5-10-paired-dataset.json) |
 
-- [자산 이관 목록 JSON](p7-5-10-asset-migration.json)은 sec-11/sec-12의 과거 경로와 현재 파일을 대응시킨다.
-- [경로 해석 Python](p7_5_10_asset_paths.py)은 생성 조건과 과거 기록에 남은 경로를 현재 파일로 연결한다.
-- 결과·평가 계획 JSON의 내부 경로, 관리번호와 지문은 당시 실행 이력이다. 결과 기록의 바이트와 해시는 보존한다. 생성 조건은 공통 조합 JSON에 통합하고 원래 조건의 기준 해시로 검증한다. 현재 후보 카탈로그와 문서 링크는 새 경로를 사용한다.
-- 생성 조건이나 실행 코드가 변경된 새 실험은 별도 출력 폴더에서 시작한다.
+생성 JSON의 `management_index`는 528개 관리번호를 `rules`의 조건 ID에 연결한다. 실행 범위는 `selection`에서 관리번호로 지정하거나 CLI의 `--rule`·`--ids`로 좁힌다. 기존 이미지와 제외 항목은 재생성하지 않는다. 단순 토르소 목표는 5.2 원본을 재사용한다.
 
-## sec-12에 유지한 입력과 실행 코드
+데이터셋 JSON의 `items`는 확정 366쌍(학습 347·검증 19), `training_config`는 학습 설정이다. 입력·목표 결과 ID는 `sha256:<전체 이미지 해시>`로 통일한다. 실제 파일은 `training-images/input-images/` 366개와 `training-images/target-images/` 46개이며 기존 경로는 심볼릭 링크로 연결한다.
 
-- `../sec-12/codex-camera-inputs-v1/`: 45장 입력과 JSON.
-- `../sec-12/p7_5_12_evaluate_bfs.py`: 평가 실행 코드.
-- `../sec-12/p7_5_12_camera_report.py`: 비교표 갱신 코드.
-- [기준 데이터셋 JSON](../sec-12/p7-5-11-bfs-paired-dataset-v1.json): 기존 실행의 데이터셋 지문을 유지한다. 내부의 이전 이미지 경로는 새 학습 준비 코드에서 이관 목록으로 해석한다.
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_generate_supplements.py --rule P710-RULE-INPUT-002 --dry-run
+```
 
-이 파일들은 이관에서 내용과 이름을 변경하지 않았다. 2026년 9월 17일 사용자 요청으로 45장 평가와 비교표 갱신을 중단하고 `codex-camera-lora-v1/` 출력 폴더를 삭제했다. 입력과 실행 코드는 보존한다. 기존 평가 코드의 19쌍 모드를 다시 실행하기 전에는 이관 경로 해석을 반영해야 한다. 이관은 로컬 저장소에만 반영했으며 외부에 게시된 모델 카드와 체크포인트는 변경하지 않았다.
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/sec-10/p7_5_10_mira_lora.py prepare \
+  --manifest docs/assets/part-07/chapter-05/sec-10/p7-5-10-paired-dataset.json \
+  --output .tmp/p7-5-10/bfs-paired-366-v1
+```
 
-## 유지하는 JSON의 역할
+`review-template`·`export`도 같은 LoRA 코드의 하위 명령이다. 검수 목록을 내보내는 작업은 이미지 생성이나 학습 실행을 하지 않는다. `run`은 기본적으로 실행 계획만 출력하며 `--execute`를 지정해야 학습을 실행한다.
 
-- `p7-5-10-bfs-input-combinations-v1.json`: 기존 입력 220개 조합·저장 위치·폐기 27개.
-- `p7-5-10-mira-target-combinations-v1.json`: 기존 목표 128개 조합·저장 위치·폐기 5개.
-- `p7-5-10-bfs-proportion-input-pool-v1.json`: 15방향 보강 입력 180개 조합·저장 위치.
-- `p7-5-10-bfs-proportion-selection-v1.json`: 이번에 생성할 보강 후보 선택.
-- `p7-5-10-input-review-v1.json`, `p7-5-10-target-review-v1.json`: 당시 검수 판단과 근거. 과거 상태는 현재 학습 진행 상태로 해석하지 않는다.
-- `p7-5-10-bfs-lora-config.json`: 학습 설정.
-- `p7-5-10-asset-migration.json`: 기존 기록의 이미지 경로를 실제 파일로 연결하는 호환 정보.
+[확정 데이터셋 검수표](bfs-paired-dataset-review.md){ .aibook-markdown-preview }
 
-중복 평문 생성 목록·실행 설정·별도 폐기 목록과 현재 실행에서 사용하지 않는 과거 40장 보충 목록은 제거했다. 이미지와 결과 기록, 검수 기록, 현재 학습 데이터셋은 유지한다.
+개별 이미지·생성 기록·후보 카탈로그와 학습 패키지는 산출물이다. 기준 파일 4개와 구분하며 중복 복사하지 않는다. sec-12의 외부 평가 입력과 LoRA 평가 코드는 평가용으로 유지한다.
+
+## 생성 출력 경로
+
+새 입력 이미지는 `training-images/input-images/`, 새 목표 이미지는 `training-images/target-images/`에 저장한다. 결과 JSON·카탈로그·상태·잠금 파일은 `generation-records/<규칙 ID>/`에 저장한다. 출력 위치는 생성 JSON의 `storage`에 한 번만 정의하며 `--output-dir` 덮어쓰기는 지원하지 않는다. 규칙의 `legacy_output_dir`은 과거 카탈로그를 읽어 완료 항목을 재사용하는 용도이고 새 출력에는 사용하지 않는다. 생성된 파일을 이 폴더에 저장하는 것만으로 학습 채택이 되지는 않는다.

@@ -1,68 +1,60 @@
 # P3-7.2 How Should We Read a Comparison Table as a Human Review Sentence
 
 > Section ID: `P3-7.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Once the [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) is built, many numbers start appearing at once. Columns such as recent average, baseline average, difference value, ratio difference, recent variability, and baseline variability can all appear together. At this point, people often look at the single most noticeable difference value and jump straight to a conclusion. But the order in which a comparison table is read matters. In Part 3, this table should be read not as an automatic diagnosis result table, but as `a table for building a human review sentence`.
+Choosing only the largest difference in a comparison table can hide what was compared and how many observations support it. A review statement should distinguish **conditions, counts, mean change, between-action spread, and rule-matching counts**. These are not substitutes for one another, nor do they automatically establish a cause or action.
 
-When we read a comparison table, the important thing is not to recreate the baseline structure again, but to decide in what order an already built comparison structure should be read so that over-interpretation becomes less likely. Even the same difference value can be turned safely into a sentence for human review only when case count, baseline condition, variability, and pattern columns are read together.
+## Define the Decline Rule and the Object of Standard Deviation
 
-The safe order for reading a comparison table is usually this. First check how many recent cases the recent range is built from. Then confirm what the comparison baseline actually is. After that, read the difference value together with the ratio difference instead of reading only the absolute value. Then inspect variability and pattern columns together with the average. Only then summarize it as an operational sentence. This order matters because a comparison table is not `a table showing only one number`. It is `a table that also contains the conditions of the comparison`. If we read the difference value first without checking recent-case count and baseline definition, we lose both how trustworthy the comparison is and what is being compared against what. In other words, a comparison table is a table whose comparison context should be read before its calculation result.
+This fictional summary is separate from P3-7.1. Each type has a baseline of 200 earlier actions, with 20 recent completed actions for A and three for B. Assume matching operating conditions within each type, sensors, units, and early/late segment definitions. These are illustrative summary values, not results calculated from actual raw logs.
 
-| Column | The question to ask when reading it first |
-| --- | --- |
-| Recent-range case count | Are there enough cases to say this number out loud? |
-| Baseline period or condition | What exactly is being compared against what? |
-| Average difference | Did the overall level change? |
-| Variability difference | Did the size of the fluctuation also change? |
-| Pattern or segment summary | Is there a structural difference that the average hides? |
+Calculate early and late mean flow for each action in L/min. The example's **decline rule is `late mean−early mean ≤ −0.30 L/min`**. Exactly −0.30 qualifies; −0.29 does not. Count an action at most once. This does not mean every instantaneous slope is negative or that a failure occurred.
 
-If we turn this table into shorter operational questions, it becomes the following.
+Table means average the late-segment means of individual actions equally. Standard deviations measure **spread between those per-action late means**, not sensor fluctuations within an action. Assume the same sample-standard-deviation convention throughout. This example includes only actions with all observations needed for the summaries and decline classification.
 
-- How many cases support this difference?
-- What is being compared against what right now?
-- Did only the average change, or did fluctuation change too?
-- If we turn the numerical difference into a human review sentence, how should it be written?
+| Type | Baseline count | Recent count | Baseline mean (L/min) | Recent mean (L/min) | Baseline SD (L/min) | Recent SD (L/min) | Recent declines |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| type-A | 200 | 20 | 2.8 | 2.2 | 0.2 | 0.4 | 14 |
+| type-B | 200 | 3 | 2.8 | 1.9 | 0.2 | 0.5 | 1 |
 
-Once we go through these questions, we stop reading the comparison table as a bundle of numbers and start reading it as `a draft report sentence for state comparison`.
+## One Row for Type-A Answers Four Questions
 
-For example, suppose the recent-range average is lower than the baseline. We should not immediately say `performance got worse`. First we check whether the recent-range case count is large enough. Then we check whether variability also increased. Finally we inspect whether the pattern summary also shows repeated late-stage decline. Once we go through this order, even the same numerical difference can be read differently as `a one-off spike`, `a gradual change`, or `a repeated state shift`.
+| Question | Calculation | Supported statement |
+| --- | --- | --- |
+| How much did late flow level change? | 2.2−2.8=−0.6 L/min | 0.6 below the selected baseline |
+| How large is the change relative to baseline? | (−0.6/2.8)×100≈−21.4% | Decrease of about 21.4% of the baseline mean |
+| Did between-action spread change? | 0.4−0.2=+0.2 L/min | SD of late means increased from 0.2 to 0.4 |
+| How many actions met the decline rule? | 14/20=70% | Fourteen of twenty recent actions qualified |
 
-The following is a separate fictional example using 200 past actions under the same operating conditions as a baseline. Flow is in L/min, and we compare each action's late-segment mean. The decline count records how many actions met the defined within-action decline rule. This is a different observation set from the preceding section's table.
+Relative change uses baseline mean 2.8 as its denominator; the decline proportion uses 20 recent actions. Although both are dimensionless percentages, 21.4% and 70% mean different things. A zero baseline mean makes this relative-change formula undefined.
 
-| Type | Recent count | Baseline mean | Recent mean | Baseline standard deviation | Recent standard deviation | Recent decline count |
-| --- | --- | --- | --- | --- | --- | --- |
-| type-A | 20 | 2.8 | 2.2 | 0.2 | 0.4 | 14 |
-| type-B | 3 | 2.8 | 1.9 | 0.2 | 0.5 | 1 |
+A lower mean does not imply every action declined: actions starting at a lower level can also lower the late mean. A larger SD cannot establish repeated declines either. Fourteen qualifying actions show multiple rule matches, but determining whether they were consecutive or worsened over time requires occurrence order. With no baseline decline count, this table also cannot establish an increase in decline proportion from the past.
 
-The table can be expressed in sentences as follows.
+## Separate Limited Counts from Action Decisions
 
-- Across the latest 20 type-A actions, the late-segment mean was 0.6 L/min below baseline.
-- The type-A decline rule was met in 14/20 cases. Repetition is checked using that count and occurrence order, not the mean or standard deviation alone.
-- Raise review priority while withholding a confirmed cause.
+B has `1.9−2.8=−0.9 L/min`, about −32.1% relative change, and a decline proportion of `1/3≈33.3%`. Changing one action's classification moves that proportion to 0/3=0% or 2/3≈66.7%. For A, one classification changes the proportion by five percentage points, so counts also affect sensitivity of the reported proportion.
 
-These sentences are safer because they do not use the comparison table immediately as if it were an automatic diagnosis result. The warning is closer not to an automatic confirmed diagnosis, but to a signal that narrows what a human should look at first. The reason we place the recent range and the baseline side by side is also exactly to narrow that review target more honestly.
+B's three actions provide limited support for generalizing to a wider population. They do not justify “only three cases, so take no action.” Check measurement errors, actual limit violations, impact, and existing response rules separately. Sample count describes an interpretive limitation, not a rule for delaying action. A's twenty actions do not by themselves guarantee independence or sufficient representativeness either.
 
-The same reading order can also be shown directly through a simple diagram.
+## Include Numbers, Limits, and Follow-Up Checks in the Statement
+
+For A: “Compared with 200 historical actions under matching conditions, the recent twenty had a late mean 0.6 L/min lower, about −21.4%. SD across per-action late means rose from 0.2 to 0.4 L/min, and 14/20 met the within-action decline rule. Review occurrence order and source records; this table alone does not establish the cause.”
+
+For B: “The recent three actions had a late mean 0.9 L/min below baseline, with 1/3 meeting the decline rule. Record the limitation of the small count while promptly checking actual values and response criteria.” Differences in this table alone do not universally determine which type must be reviewed first.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-07/p3-7-2-mermaid-01-en.mmd"
 ```
 
-This diagram shows the order in which we should not jump directly to the most visible `diff`, but should first check sample count and baseline conditions. In other words, it is less about numerical examples themselves and more about fixing `in what order the comparison table should be read so that it can be safely translated into a human review sentence`.
-
-Turning the two rows into operational statements makes the contrast clearer. Because 14 of the latest 20 `type-A` actions meet the decline rule, they can be treated as a candidate repeated change. A lower mean and higher variability alone cannot establish repetition. For `type-B`, the difference is larger but comes from only three recent actions, so a more qualified statement such as `few samples; further observation needed` is appropriate. That is why reading comparison tables and writing operational statements belong together here. Differences narrow possible explanations, but one comparison table does not automatically identify a cause.
-
-This table defines not `which number catches the eye first`, but `what context must be checked first so that over-interpretation is reduced`.
-
-This section can be read not as a trick for reading tables, but as the problem of `signal-to-review translation order`.
-
-So the comparison table should be read not as an automatic conclusion table, but as an intermediate stage where a human checks the context first and then turns the signal into a sentence.
+Correct “The mean fell by 21.4%, so 70% of actions failed.” The answer is: “The late mean fell by about 21.4%, while 70% met a separately defined decline rule. Neither figure directly measures the failure proportion.”
 
 ## Checklist
 
-- Did you calculate type-A's mean difference and decline ratio and express them in a review statement?
-- Did you describe type-B's sample count and repetition evidence separately from A's?
+- Can you explain inclusion of −0.30 and counting once per action?
+- Can you distinguish the denominators and meanings of −0.6 L/min, −21.4%, and 70%?
+- Can you explain that SD describes spread between per-action late means?
+- Can you separate small-sample interpretation limits from action decisions?
 
 ## Sources and Further Reading
 

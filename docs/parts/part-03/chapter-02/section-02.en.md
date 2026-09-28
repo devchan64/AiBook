@@ -1,7 +1,7 @@
 # P3-2.2 What Structures Go Inside a Dataset Candidate
 
 > Section ID: `P3-2.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 As the preceding section showed, even a stored dataset may need restructuring for the current question. The next question follows directly: what structures belong inside a rebuilt [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#dataset)? To answer it, Part 3 considers [samples](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baselines](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and [output structures](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) together. These terms are better understood as a connected dataset design than as separate items to memorize. Defining one sample lets us construct features; those features determine what to compare with a baseline; and the comparison helps determine the output structure.
 
@@ -9,14 +9,14 @@ What matters especially in this section is reading `output structure`, before it
 
 The four elements below form a design framework for this book's state-comparison example. They do not mean every dataset must contain baseline and output columns. An unlabeled image collection is also called a dataset, for example. Features can be directly measured values or categories; they need not always be produced by summary calculations.
 
-Take one automatically executed action as an example. The sample might be `the whole current action treated as one case`. Features might be values calculated and kept from that action, such as `total time`, `mid-stage mean`, `late-stage drop rate`, or `tracking error`. The baseline might be a representative value from the usual range or a comparison group outside the recent cases. The output structure is the result format that a person or a model will finally read, for example something like `needs review`, `caution`, `normal range`, or `candidate prediction label`.
+With one action as a sample, measured flow or operating mode can come directly from the records, while a mean or slope can be calculated. Here we use mean flow and final-interval slope as features, with past actions under the same conditions as a baseline. The output is `review` or `no_flag` under a specified rule, not a label confirming an actual fault.
 
 The relationship can first be organized in the following table.
 
 | Component | What it means here | The question asked at this stage |
 | --- | --- | --- |
 | Sample | one case that becomes the basic unit for comparison or learning | What will count as one row? |
-| Feature | a value calculated and kept in order to describe the sample | Which values should remain to make comparison easier? |
+| Feature | an observed value, category, or calculated value representing the sample | Which values should remain to make comparison easier? |
 | Baseline | the usual structure or reference group against which the recent state is compared | Compared with what does change become visible? |
 | Output structure | the result format that a person reads or a model receives next | What final judgment are we trying to produce? |
 
@@ -27,24 +27,31 @@ So these four elements are not a vocabulary list to memorize separately. They ar
 In practice, the questions connect in the following order.
 
 1. Is what we are comparing one time point, one full action, or a recent segment?
-2. Which numbers should remain to describe that object?
-3. Compared with what do those numbers gain meaning?
+2. Which values or categories should remain to describe that object?
+3. What reference should we compare those values with to read changes in this example?
 4. Should the final result be emitted as a sentence that a person reads, or as a candidate label that a model will receive?
 
 These four questions correspond respectively to sample, feature, baseline, and output structure. So even when the terms themselves feel blurry, following the question order makes it easier to recover which stage of dataset design we are currently in.
 
-The table below shows more concretely how the four elements connect inside one row. Even for the same one action, we first establish the sample as one case, then write features on top of it, compare those features with the usual baseline, and finally close with an output that a person will read.
+The table below uses recent actions R1, R2, and R3 calculated from the same fictional CSV as the Python example. Each action has six flow records at 0–5 seconds; the final interval is always 4–5 seconds. Flow and means are in L/min; slopes and slope differences are in L/min/s. Values are displayed to two decimal places, while calculations and rules use unrounded values.
 
 | sample_id | mean_flow | late_drop_rate | baseline_mean_flow | baseline_late_drop_rate | baseline_gap | output |
-| --- | --- | --- | --- | --- | --- | --- |
-| A | 0.74 | -0.32 | 0.92 | -0.05 | -0.27 | `needs review` |
-| B | 0.89 | -0.08 | 0.92 | -0.05 | -0.03 | `normal range` |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| R1 | 0.83 | -0.32 | 0.94 | -0.05 | -0.27 | `review` |
+| R2 | 0.90 | -0.08 | 0.94 | -0.05 | -0.03 | `no_flag` |
+| R3 | 0.94 | -0.40 | 0.94 | -0.05 | -0.35 | `review` |
 
-Here, flow is in L/min and the late decline rate is the flow change per second between the final two measurements. We calculate `baseline_gap = late_drop_rate−baseline_late_drop_rate`. The fictional rule flags a case for review when `baseline_gap <= −0.20`. In this example, `normal range` only means the rule did not trigger; it is not a confirmed label establishing the absence of a failure or its cause. The boundary value −0.20 is included. Of −0.21, −0.20, and −0.19, only the first two trigger the rule.
+The final slopes of baseline actions B1, B2, and B3 are −0.04, −0.06, and −0.04 L/min/s. Assuming these are usual actions under matching conditions, their mean is `(-0.04−0.06−0.04)/3 = −0.046666… L/min/s`, displayed as −0.05. Baseline mean flow is likewise the mean of the three action-level flow means, displayed as 0.94 L/min.
 
-The order for reading this table proceeds naturally from left to right. `sample_id` fixes what was counted as one sample. `mean_flow` and `late_drop_rate` are features that describe that sample. `baseline_mean_flow` and `baseline_late_drop_rate` are the usual baseline. `baseline_gap` records the comparison result, showing how much more the late-stage drop rate of the current sample fell relative to the baseline. And if that comparison result is large enough, the `output` column creates an operational judgment such as `needs review`.
+R1 changes from 0.92 L/min at 4 seconds to 0.60 at 5 seconds. Its slope is therefore `(0.60−0.92)/(5−4) = −0.32 L/min/s`. The baseline difference is **the current slope minus the baseline slope**.
 
-In other words, an output such as `needs review` is not a phrase that gets attached suddenly at the far end of the table. The earlier columns must already have organized `what is being compared` and `what differs from the usual state`, or the final output column cannot be explained either. For that reason, sample, feature, baseline, and output structure are not independent lists even when they live in the same table. They are one design flow that runs from front to back.
+- Reading the displayed values: `−0.32−(−0.05) = −0.27 L/min/s`.
+- Before rounding: `−0.32−(−0.046666…) = −0.273333… L/min/s`.
+- Interpretation: both slopes indicate decline, but R1 falls about 0.27 L/min/s more steeply than the usual reference. This does not mean flow itself is negative.
+
+Applying the fictional review rule `baseline_gap <= −0.20 L/min/s` assigns `review` to R1 and R3 and `no_flag` to R2. Exactly −0.20 is included: of −0.21, −0.20, and −0.19, only the first two qualify. `no_flag` means this rule did not trigger; it is not confirmation of normal operation or a no-fault label.
+
+`sample_id` identifies the object; `mean_flow` and `late_drop_rate` are its features; `baseline_gap` is a comparison result; and `output` is a review-rule result. Changing the threshold does not change observations, slopes, or baseline differences. It changes the policy deciding what people inspect first from the same numbers. Here we use role tables and calculations to distinguish them; the preceding section's charts explain the slopes on a time axis.
 
 ## Connecting Samples, Features, Baselines, and Outputs {#a-small-diagram}
 
@@ -56,7 +63,7 @@ The four structures inside a dataset candidate can be read in one pass when they
 
 Problem situation: check the flow in which one action is treated as one sample, features are written down, the result is compared with the usual baseline, and a final operational output is produced.
 
-Input: the time-step flow log [p3_2_2_event_flow_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv){ .csv-preview }, which contains both `baseline` and `recent` periods, and candidate review thresholds `review_gap_thresholds`
+Input: the time-step flow log [p3_2_2_event_flow_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv), which contains both `baseline` and `recent` periods, and candidate review thresholds `review_gap_thresholds`
 
 One input-file row is the measured flow (`flow`) at a specific second (`second`) of one sample. `sample_id` points to one action, and `period` separates whether that sample belongs to the `baseline` period used to build the usual reference or the `recent` period to be compared.
 
@@ -64,8 +71,10 @@ Expected output: the raw log becomes `sample rows -> feature table -> baseline c
 
 Concept to check: output structure and baseline are not result columns written in advance. They are generated after raw logs are grouped by sample unit, features are calculated, and period roles are separated. Comparing several output criteria reveals how sensitive the operational judgment is to the threshold.
 
+Each action in this CSV is measured at 1-second intervals without missing values, and baseline and recent actions are assumed to share operating conditions. The code checks time intervals before using the last two flow values’ difference as a per-second slope. The CSV does not itself verify matching operating conditions; real data requires a separate check.
+
 ```python
-# This example checks the roles of sample, feature, label, and baseline columns in a dataset candidate.
+# Separate sample features, baseline differences, and review-rule results; no actual fault labels are present.
 import pandas as pd
 
 pd.set_option("display.max_columns", None)
@@ -76,6 +85,10 @@ selected_review_gap_threshold = -0.20
 review_gap_thresholds = [-0.36, selected_review_gap_threshold, 0.0]
 
 event_log = pd.read_csv(event_log_path)
+event_log = event_log.sort_values(["sample_id", "second"])
+intervals = event_log.groupby("sample_id")["second"].diff().dropna()
+if not intervals.eq(1).all():
+    raise ValueError("This example requires 1-second observation intervals.")
 
 print("1) raw input shape and first rows")
 print("shape:", event_log.shape)
@@ -132,22 +145,22 @@ threshold_results = []
 for threshold in review_gap_thresholds:
     output_table = comparison_table.copy()
     output_table["output"] = output_table["baseline_gap"].apply(
-        lambda gap: "needs review" if gap <= threshold else "normal range"
+        lambda gap: "review" if gap <= threshold else "no_flag"
     )
     if threshold == selected_review_gap_threshold:
         selected_output_table = output_table.copy()
     threshold_results.append(
         {
             "review_gap_threshold": threshold,
-            "review_count": int((output_table["output"] == "needs review").sum()),
+            "review_count": int((output_table["output"] == "review").sum()),
             "review_samples": ",".join(
-                output_table.loc[output_table["output"] == "needs review", "sample_id"]
+                output_table.loc[output_table["output"] == "review", "sample_id"]
             )
             or "none",
         }
     )
 
-print("6) final output structure when review_gap_threshold = -0.20")
+print(f"6) final output structure when review_gap_threshold = {selected_review_gap_threshold:.2f}")
 print(selected_output_table.round(2))
 print()
 print("7) threshold sensitivity")
@@ -195,10 +208,10 @@ shape: (36, 4)
 5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35
 
 6) final output structure when review_gap_threshold = -0.20
-  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap        output
-3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27  needs review
-4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  normal range
-5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35  needs review
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap   output
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27   review
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  no_flag
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35   review
 
 7) threshold sensitivity
    review_gap_threshold  review_count review_samples
@@ -221,31 +234,27 @@ If we dissect the same table a little further, it becomes clearer which of the f
 
 This table shows that a `dataset candidate` does not simply mean a table with many columns. It means a structure in which `sample`, `descriptive values`, `comparison result`, and `result format` all sit in the same row while dividing their roles.
 
-One more important distinction needs to be fixed here. Output structure does not necessarily mean `training data where the correct label has already been fixed`. Outputs such as `needs review` or `normal range` may look similar to supervised-learning labels such as `yes/no`, but in practice they can differ.
+`review` and `no_flag` are results produced by this example’s rule. Using them as ground-truth fault labels would require separate evidence, such as inspection records and fault criteria. This CSV contains no such evidence.
 
-| What the output structure means | How to read it at this stage |
+| Distinction | What can be established in this example |
 | --- | --- |
-| `needs review`, `caution`, `normal range` | operational results that a person checks first |
-| fixed labels such as `normal/abnormal` | target-label candidates that may later be passed into a prediction problem |
+| Rule result | Whether the chosen threshold selected the sample for review |
+| Actual fault label | Whether a separate inspection confirmed a fault; this CSV alone cannot tell us |
 
-If this distinction is established first, then later references to `output structure` will not be misunderstood as meaning that `the label is already complete`.
+A column’s role can also change with its purpose. For example, a later model could use `baseline_gap` as an input feature. Here, we distinguish the original features, the baseline-comparison result, and the review-rule result to understand the calculation process. Numeric columns do not all play the same role simply because they contain numbers.
 
-This flow can be remembered more briefly in the following order.
-
-1. Decide what will count as one sample.
-2. Keep features that describe that sample.
-3. Build a baseline that compares the recent state with the usual state.
-4. Decide the output structure that a person reads or a model inherits.
-
-These four stages unfold later into different Chapters, but in practice they are one continuous judgment. So whichever Chapter we are reading, it helps not to lose direction if we also ask `which stage does this explanation belong to: sample, feature, baseline, or output structure?` Once we hold onto the relation that `the sample has to be fixed before features exist, features have to be fixed before comparison structure exists, and comparison structure has to exist before output structure is organized`, it becomes much clearer that a dataset candidate is not the name of one file, but a table designed so that these four structures interlock. More broadly, this section establishes the minimum contract that organizes how `the example unit`, `descriptive variables`, `comparison reference`, and `result format` lock together inside one data problem. So a dataset candidate should be read not as `a table with many columns`, but as a structure in which descriptive values, comparison references, and result formats divide their roles inside one example.
+After defining the sample, selecting descriptive values, and setting the comparison reference and output rule, trace one row back to its original records. If you can calculate the slope from R1’s two measurements, then use the baseline slope derived from B1, B2, and B3 and the review threshold to reproduce the gap and `review` result, you can read the structure of this example.
 
 ## Checklist
 
-- Did you identify the roles of samples, features, labels, and baselines in the table?
-- Did you distinguish this example's comparison structure from the fact that datasets can exist without labels?
+- Can you explain how original measurements or categories such as operating mode can be features?
+- Can you find R1’s 4- and 5-second values in the CSV, calculate its slope of −0.32, and subtract the baseline slope to reproduce the difference?
+- Can you explain why −0.32−(−0.05) is negative and what its unit means?
+- Did you check which of −0.21, −0.20, and −0.19 are included by the review rule?
+- Can you distinguish columns that change when only the threshold changes from those that stay fixed, without treating `review` as an actual fault label?
 
 ## Sources and Further Reading
 
 - Google for Developers, `Machine Learning Glossary`: `example`, `labeled example`, `feature`, `label`. Because it explains separately the roles that features and labels play inside an example, it supports this section's framing of sample, feature, baseline, and output structure as divided roles inside one table. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general concept of a reference period for comparison, it strengthens this section's explanation that the current sample's values gain meaning only when compared with a baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general concept of a reference period for comparison, it supports the role of reference values when reading changes from usual behavior in this example. This does not mean that every feature requires a baseline comparison to be meaningful. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, `PROV-Overview`. Because it explains that derivation and activity context should remain visible together, it strengthens this section's higher-level frame that output structure is the result of earlier sample definition, feature calculation, and baseline comparison. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

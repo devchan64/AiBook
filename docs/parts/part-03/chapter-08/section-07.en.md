@@ -1,51 +1,71 @@
-# P3-8.7 Data Interpretation Changed by Operational Intervention
+# P3-8.7 How Operational Intervention Changes Data Interpretation
 
 > Section ID: `P3-8.7`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_Subtitle: Why should later data not be read as a natural course when review rules and actions change it?_
+If someone acts on a risk signal and no failure follows, was the original signal wrong, or did the action prevent failure? The outcome alone cannot establish either explanation. Reading [intervention feedback](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intervention-feedback) requires separating the signal time, review and action, and subsequent outcome confirmation.
 
-The last point to watch at the [interpretation boundary](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) is the current [intervention feedback](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intervention-feedback). If a person quickly acted on cases where `review_needed=1`, the data left afterward may differ from the original natural progression. If you hide that, it becomes too easy to write a sentence such as `the later data looks safer`.
+## Put signal, review, action, and outcome on a timeline
 
-If current review rules or actions can change later data and [selective labels](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-selective-labels), the later data should not be read as if it means the same thing as the natural progression before intervention.
+A, B, and C below are fictional events constructed here, separate from identically named events in other sections. All timestamps use the same time zone. `review_needed` records a request at signal time; actual review and intervention have separate records. `none` means no intervention is recorded, not that initial risk was absent.
 
-| Current rule or action | What can change in later data |
+| event_id | Signal time | review_needed | Review time | Intervention start and content |
+| --- | --- | ---: | --- | --- |
+| A | 2026-09-01 09:00 | 1 | 09-01 09:05 | 09-01 09:10, valve setting adjustment |
+| B | 2026-09-01 10:00 | 1 | 09-01 10:08 | 09-01 10:20, component replacement |
+| C | 2026-09-01 11:00 | 0 | No initial review | none |
+
+`failure_within_7d` is 1 if a defined failure is confirmed at least once **from signal time through the following seven days**, and 0 if complete observation finds none. Include the start and exclude the end. Assume separate follow-up covers the full period for all three events using the same failure definition. C has a confirmed follow-up outcome despite having no initial review request.
+
+| event_id | Outcome observation interval | Outcome confirmation time | failure_within_7d |
+| --- | --- | --- | ---: |
+| A | 09-01 09:00 inclusive to 09-08 09:00 exclusive | 09-08 09:00 | 0 |
+| B | 09-01 10:00 inclusive to 09-08 10:00 exclusive | 09-08 10:00 | 0 |
+| C | 09-01 11:00 inclusive to 09-08 11:00 exclusive | 09-08 11:00 | 1 |
+
+A's zero means no failure was confirmed during a seven-day interval that includes the intervention start. It does not mean there was no initial risk or that the result would also have been zero without intervention. If observation stopped after three days, this definition would not allow assigning zero; record the unknown outcome and completion status separately.
+
+## Distinguish post-intervention outcomes from intervention effects
+
+Both A and B have outcome zero, so the observed failure proportion among treated cases is `0/2=0%`; for C it is `1/1=100%`. Do not translate this into “100% success at preventing failure.” Treated and untreated groups contain different events, and their initial states and selection reasons may differ.
+
+For A, we observed only **outcome zero along the path with intervention**. We did not observe the same A under the same circumstances for seven days without intervention. The action may have helped, but failure might not have occurred anyway. C's outcome one cannot simply replace A's unobserved no-intervention outcome. The table therefore establishes neither an erroneous initial signal nor an intervention effect.
+
+| Statement | Supported by this table? |
 | --- | --- |
-| Immediate review | Action may be taken before a large abnormality spreads, reducing later events |
-| Early stop | Log length and later patterns may become shorter |
-| Stronger inspection cycle | More detailed records may remain under certain conditions |
+| A's setting adjustment began ten minutes after its signal, and its observed outcome was zero | Yes: describes timing, action, and outcome |
+| A had no initial risk | No: infers initial risk from outcome zero |
+| A's setting adjustment prevented failure | No: A's no-intervention outcome is unknown |
+| Retain A's action and outcome-observation interval together | Yes: records needed for later interpretation |
 
-Consider the table below.
+## Separate pre-intervention inputs from later records
 
-| event_id | review_needed | intervention | failure_within_7d |
-| --- | ---: | --- | ---: |
-| A | 1 | immediate_check | 0 |
-| B | 1 | immediate_check | 0 |
-| C | 0 | none | 1 |
+To explain the initial signal, link measurements available at signal time with baseline and review-policy versions. Do not treat A's 09:10 setting change or September 8 outcome as inputs already known at 09:00. When reporting subsequent operational outcomes, include the intervention and its timing.
 
-On the surface, `review_needed=1` may look safer. In practice, however, A and B may not have been safer by nature. They may simply have received intervention first, which reduced failure. The interpretation sentence should therefore also state whether the result is `after intervention` or part of `natural progression`.
-
-| Note to write first | Why it is needed |
-| --- | --- |
-| Which output triggered real action | To know when intervention began |
-| Can that action change later logs or labels? | To avoid reading the target of interpretation incorrectly |
-| Are you trying to see the pre-intervention signal, or the post-intervention operational result? | To avoid mixing meanings inside the same result column |
-
-The important point is that `if current operational rules are already changing future data, the difference that appears later may contain both an original pattern difference and an intervention effect`. This section can be read not as a special case from one team, but as the problem of whether `the observation target can already be changed by policy and intervention`, which is feedback from intervention. Later data should therefore be read with the possibility that it is not simply an extension of natural progression, but a result already shaped by current rules and actions.
+Early shutdown can shorten an operation and remove later sensor segments; intensified inspection can produce more detailed labels for the same situation. Records are therefore needed to distinguish changed conditions from interrupted observation, or more confirmed failures from more thorough checking. The distinction between unavailable labels and confirmed non-failure connects to [P3-8.6](section-06.en.md).
 
 ## How Operational Actions Change Later Observations {#a-small-diagram}
 
-The key point in this section is that current rules and actions may not leave later data untouched. If the review rule triggers intervention and the intervention changes later data, the later difference has to be read by separating `the original pattern` from `the intervention effect`.
-
+```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-7-mermaid-01-en.mmd"
+```
+
+Arrows show the records' time order and where intervention may affect later observation. They do not establish the size of an intervention effect. These records alone do not numerically separate natural progression from intervention effects.
+
+## Record the action and observation interval
+
+Replace “successful action after warning” for A with a record of signal time, intervention start and content, outcome interval, completion status, and outcome. Add one claim that remains unsupported.
+
+Example answer: `signal_at=2026-09-01 09:00`, `intervention_at=2026-09-01 09:10`, `intervention=valve_setting_adjustment`, `followup_start=2026-09-01 09:00`, `followup_end=2026-09-08 09:00`, `followup_complete=1`, `failure_within_7d=0`. Add: “No failure was confirmed during the observation interval following the setting adjustment, but prevention remains unverified because the no-intervention outcome is unknown.” Retain the end-exclusive interval rule and confirmation source in the record definition.
+
+If observation ended at 09-04 09:00, use `followup_complete=0` and leave `failure_within_7d` unknown. Do not extend three failure-free days into a seven-day non-failure outcome.
 
 ## Checklist
 
-- Can you explain why results before and after an operational intervention cannot simply be compared directly?
-- Did you specify columns for recording intervention timing and details?
+- Can you distinguish inputs, review, intervention, and outcome-confirmation times around the signal?
+- Can you explain why outcome zero establishes neither absent initial risk nor successful prevention?
+- Can you record intervention content, timing, observation interval, and completion without treating shorter observation as seven-day non-failure?
 
-## Sources and References
+## Sources and references
 
-- W3C, `PROV-Overview`. It provides a provenance perspective for tracing what activities generated particular data and results, which supports this section's explanation that if review rules or actions can change later logs and labels, the later data should be read together with the intervention context. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Datasets: Dividing the original dataset`. It explains that training and evaluation data can differ from the data encountered in real operation and that the same transformations must be reproduced on real-world data, which is useful for generalizing this section's warning that current operational intervention can change the later data distribution and its meaning. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Conor K. Corbin, Michael Baiocchi, Jonathan H. Chen, `Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection`, 2023. It explains that deployed clinical prediction models can create feedback loops that affect prospectively collected data and label selection, and that performance estimates based only on observed labels can diverge from the deployment population. This directly supports this section's warning that current review rules and actions can change the meaning of later data. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [W3C, PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } — Reference for linking results to the activities and records involved in their production. The timeline, outcomes, and recording exercise are fictional examples, not evidence validating any particular intervention's effect. Accessed: 2026-09-20.

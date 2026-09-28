@@ -1,103 +1,97 @@
 # P3-3.2 How Should a Dataset Be Redesigned to Match the Question
 
 > Section ID: `P3-3.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-To redesign a dataset means not using an existing file as it is, but reselecting the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit and [column](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) structure required by the question. In other words, it means deciding again what should count as one [row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit), `which columns should remain`, and `what should be compared against what`. That is also why an action-level table, a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and a candidate prediction-problem table differ from one another: the difference is born inside this redesign.
+To redesign a dataset means reviewing the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit and [column](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) structure required by the question. In other words, it means deciding again what should count as one [row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit), `which columns should remain`, and `what should be compared against what`. That is also why an action-level table, a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and a candidate prediction-problem table differ from one another: the difference is born inside this redesign.
 
-Even the same source time series can be rebuilt into different [datasets](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset). For example, if we have [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) from automatically executed actions, the following three tables are all possible, but they do different jobs.
+Raw logs are also datasets. Redesign is not a procedure for granting them that status; it means choosing what a row represents and what information to retain for the current question. Keeping the original sequence is also an option.
 
-| Type of table | What one row means | Main purpose |
-| --- | --- | --- |
-| Measurement table | one time-point record during an action | preserving source data and detailed tracing |
-| Action-level table | a summary of one automatically executed action | making comparable samples |
-| Recent-segment comparison table | the recent state and the baseline obtained by grouping multiple actions | interpreting change and setting review priority |
+## Build an Action-Level Table from the Same Records
 
-None of these three tables is automatically `the correct dataset`. The suitable table changes depending on what we are trying to solve. If we want to compare the structure of one action, we need an action-level table. If we want to see whether the recent state differs from the usual state, we need a recent-segment comparison table. So what matters in this section is not memorizing the definition of dataset one more time, but fixing that when the question changes, the table structure must be redesigned along with it.
+Use only A, B, E, and F from the preceding section’s fictional [source log](/AiBook/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv). Each row records one time point within an action; `second` is elapsed time in seconds within that action. Read flow below in L/min. All four actions have `recipe=standard`, but the file does not establish that all other operating conditions match.
 
-The place where readers often get stuck here is, `I understand the table types, but which table should I choose for my current question?` So when the question and the table structure are matched directly, the selection criterion becomes much clearer.
+Question 1 is “What is the observed mean flow for each action?” Use one action per row, group original records by `event_id`, and take the arithmetic mean of the four measurements. This is a mean over observation points, not a guaranteed time-weighted mean over the complete action.
 
-| Question to answer now | Table to build first | Why |
-| --- | --- | --- |
-| Was this action less stable than other actions? | Action-level table | The comparison concerns one action, so time-point logs must first be grouped into action records |
-| Do the latest 20 actions follow a different pattern from the usual 200? | Recent-period comparison table | The question compares groups of actions and needs aggregation and baseline-comparison columns |
-| At what time did signs of an anomaly begin? | Measurement table + action-level table | Select unusual actions in the action table, then return to raw time-point logs to locate the start of the change |
-| Can we later build an input table for supervised learning? | Action-level feature table or candidate prediction table | Input columns and candidate target labels must be separated on the same sample unit |
+| event_id | batch_id | flow at seconds 0, 1, 2, 3 | mean_flow | max_flow |
+| --- | --- | --- | ---: | ---: |
+| A | B-17 | 0.0, 1.4, 1.6, 1.2 | 1.050 | 1.6 |
+| B | B-17 | 0.1, 1.0, 1.1, 0.9 | 0.775 | 1.1 |
+| E | B-19 | 0.0, 1.2, 1.4, 1.0 | 0.900 | 1.4 |
+| F | B-19 | 0.1, 1.5, 1.6, 1.3 | 1.125 | 1.6 |
 
-The first table changes depending on whether the question concerns one action, a change in a recent period, or the time a change began. Dataset redesign feels difficult less because it involves many tables than because it is easy to miss that `a different question requires a different reference table`.
+For A, `mean_flow` is `(0.0+1.4+1.6+1.2)/4 = 1.050`. `event_id` and `batch_id` are original identifiers; `mean_flow` and `max_flow` are derived from `flow`. The four time-point values are shown to expose the calculation evidence. If an actual summary omits this sequence, it loses the order of rises and falls, so retain a link to the original file, version, and event identifier.
 
-So when we say a dataset is being built, at least the following judgments are included.
+## Compare Two Groups from the Same Action Table
 
-- What is one sample?
-- Which values stay as they are, and which values are summarized?
-- Is a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) column needed for comparison?
-- Is the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) a warning, a review candidate, or a prediction target candidate?
+Question 2 is “How does mean flow in the recent group differ from the baseline group?” For this exercise, **assign by assumption** A and B to `baseline`, and E and F to `recent`. The original file has neither occurrence dates nor this grouping column; we are not inferring recency from event names or batch numbers. Real use requires checking dates and selection conditions.
 
-If someone says `there is already a dataset` without these judgments, in many cases they are still only holding source records. This is especially easy to miss with time-series data. When there are many rows and many columns, it looks like a rich dataset already exists. But if the analysis unit is still unfixed, that table still does not express the problem properly.
+| group | included event_id | event_count | mean_of_event_means |
+| --- | --- | ---: | ---: |
+| baseline | A, B | 2 | 0.9125 |
+| recent | E, F | 2 | 1.0125 |
 
-At this point, the question `but the table already exists, so why is it not a dataset?` naturally appears. Here we have to separate `a file exists` from `a comparable sample table exists`.
+The baseline mean is `(1.050+0.775)/2 = 0.9125`; the recent mean is `(0.900+1.125)/2 = 1.0125`. Each action receives equal weight, and the unit is L/min. A result row comparing the two groups is:
 
-| What exists in hand now | What may still not exist |
-| --- | --- |
-| a source-record file | a sample table regrouped by one action |
-| time-point rows and sensor values | [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) columns chosen for comparison |
-| all recorded numbers | difference columns compared against a baseline |
-| a long log table | an output structure readable directly as review candidates or learning candidates |
+| recent_members | baseline_members | recent_mean | baseline_mean | diff |
+| --- | --- | ---: | ---: | ---: |
+| E, F | A, B | 1.0125 | 0.9125 | +0.1000 |
 
-So the existence of a file does not mean the dataset is already complete. Only after we decide by what question the source records should be reread can we use the phrase `the dataset for this problem` more accurately.
+Because `diff = recent_mean−baseline_mean`, the recent group’s mean is 0.1000 L/min higher in this exercise. This is not a fault or instability judgment. The groups belong to different batches and other operating conditions remain unverified, so this table alone does not establish the cause of the difference.
 
-One important point here is that only one dataset does not exist. Even with the same source data, the dataset for a comparison report, the dataset for review priority, and the dataset later passed into supervised learning may all differ. Unless we admit this difference, we cannot answer the question `why do we rebuild several tables from the same data?`
+## Different Questions Need Different Columns Even with the Same Row Unit
 
-The example below shows which table becomes necessary first when the question changes over the same source data.
+Compare two questions about the same four actions: “Which action has the highest mean flow?” and “Which action has the steepest flow decline in its final observed interval?” Before reading the table, choose the columns needed for each question from `event_id`, `mean_flow`, `max_flow`, `second`, and `flow`.
 
-Problem situation: confirm that even with the same source data, the questions `compare one action`, `compare the recent state`, and `prepare later learning candidates` each require a different table.
+Both questions use one action per row, but the mean question needs `mean_flow`, while the final-decline question needs a slope calculated from the final two times and flow values. Here the final interval is always seconds 2–3, so `last_slope = (flow_3−flow_2)/(3−2)`. Its unit is L/min/s; **a more negative slope** means a steeper decline.
 
-Input: time-point logs under each `event_id`, plus a column indicating whether each action belongs to the recent segment
+| event_id | mean_flow (L/min) | flow_2 (L/min) | flow_3 (L/min) | last_slope (L/min/s) |
+| --- | ---: | ---: | ---: | ---: |
+| A | 1.050 | 1.6 | 1.2 | -0.4 |
+| B | 0.775 | 1.1 | 0.9 | -0.2 |
+| E | 0.900 | 1.4 | 1.0 | -0.4 |
+| F | 1.125 | 1.6 | 1.3 | -0.3 |
 
-Expected output: it becomes visible that, from the same source table, an `action-level table`, a `comparison report table`, and a `learning-candidate table` are built differently according to purpose
+F has the highest mean, but A and E have the steepest final decline. For A, `(1.2−1.6)/1 = −0.4`, compared with `−0.3` for F. `max_flow` does not identify the final two values and their order, so it cannot replace the final slope. This compares declines over one selected interval; it does not classify whole-action instability or faults.
 
-Concept to check: a dataset is not the name of one file, but a table structure redesigned to match the question
+## What Summaries Retain and Lose
 
-Even with the same source time series, once the question changes, the draft table that needs to be built first also changes as follows. The earlier map of `question -> table to build first` is now expanded downward into `sample unit`, `columns to keep`, and `immediately readable output`.
-
-| Question | Sample unit fixed first | Columns kept first | Output that becomes directly readable |
+| Structure | Meaning of one row | Retained information | What the summary alone cannot establish |
 | --- | --- | --- | --- |
-| Was one action more unstable than the others? | one action per `event_id` | `flow_mean`, `flow_max`, `duration` | action-level comparison table |
-| Are the recent 20 cases different from the prior 200? | one recent bundle vs one baseline bundle | `recent_mean`, `baseline_mean`, `diff` | recent-segment comparison report |
-| Can later learning candidates be created? | one action per `event_id` | `flow_mean`, `flow_max`, `target_candidate` | a table where input columns and result candidates are separated |
+| Raw time-point table | A time point within an action | Time and individual measurements | Outcome labels and causes require separate evidence |
+| Action summary | One action | Action means, maxima, and source-link keys | Value order and change-onset time |
+| Group summary | A selected group of actions | Members, action count, and group mean | Differences between actions and their individual sequences |
 
-The key point is not that the source data changes three times, but that depending on which question is used to read the same records, `what one row means`, `which columns remain`, and `what output is needed immediately` all change. To compare one action, we first need a table grouped by `event_id`. To compare recent segments, a structure that places the `recent bundle` and the `baseline bundle` side by side is needed earlier than an action-level table. By contrast, once later learning candidates are being considered, a table that separates input columns from result candidates matters more than a comparison-report sentence.
+Mean and maximum alone cannot answer “Was it unstable?” Change A’s sequence from `0.0, 1.4, 1.6, 1.2` to `0.0, 1.6, 1.2, 1.4`. The mean stays 1.050 and the maximum stays 1.6, but the peak moves from second 2 to second 1. If the question concerns fluctuation patterns or change onset, retain the sequence or return to the raw log. Finding a change time does not establish its cause either.
+
+Not every question requires baseline columns or a summary table. To compare time-point patterns, time and measurements can be retained as they are. For supervised learning, the preceding section’s checks on inputs, targets, and label evidence still apply.
 
 ## How Questions Change Samples and Tables {#a-small-diagram}
-
-The fact that a changed question also changes the first table to build can be compressed into the redesign flow below.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-03/p3-3-2-mermaid-01-en.mmd"
 ```
 
-So saying `we rebuild the table several times` does not mean repeating the same work. It means separating the structures required when the question changes. The action-level feature table is the result of summarizing time-point logs so that one action can be compared as one sample. The comparison-report table adds comparison columns so that the recent state and the baseline difference can be read directly. The candidate prediction-problem table goes one step further by separating input columns from candidate target labels.
+The new question is “Which is the first interval in A with an observed decrease?” Write down these three decisions before comparing them with the explanation.
 
-When rebuilding a table, the current design stage can first be fixed in the following order.
+1. Choose whether one row represents the whole action or an interval between adjacent observations.
+2. Select the columns needed as original evidence from `mean_flow`, `max_flow`, `event_id`, `second`, and `flow`.
+3. State the interval you would report and what that result cannot establish.
 
-1. Write down what one row means in the source table.
-2. Write down what counts as the one sample we are trying to compare.
-3. Decide only 2 to 3 summary columns to keep for that one sample.
-4. Write down whether the table is for a comparison report or for preparing a prediction problem.
+One answer uses `an interval between adjacent observations within an action` as one row. Retain `event_id`, starting and ending `second`, and starting and ending `flow`; calculate `ending flow−starting flow`. A’s differences over seconds 0–1, 1–2, and 2–3 are +1.4, +0.2, and −0.4, so the first observed decrease is over **seconds 2–3**. This does not identify the exact onset within that interval or its cause.
 
-Once these four lines are written, it becomes clear whether what we are doing now is checking storage structure or designing a dataset.
-
-This section can be reread not as a procedure for remaking files, but as the problem of what criteria should guide `question-aligned table redesign`.
-
-So it is more accurate to read dataset redesign not as `making many tables`, but as realigning the meaning of rows and the role of columns whenever the question changes.
+For the earlier reordered sequence, `0.0, 1.6, 1.2, 1.4`, the differences become +1.6, −0.4, and +0.2, moving the answer to **seconds 1–2**. A table retaining only mean and maximum cannot distinguish these answers. Keeping the full sequence in one row is also valid, provided the correspondence between times and flow values is preserved.
 
 ## Checklist
 
-- Did you sketch the tables needed for two different questions about the same logs?
-- Did you distinguish locating the observed onset of an anomaly from claiming to have identified its cause?
+- Can you choose and justify the columns and row unit needed for a mean, final slope, or adjacent-interval question?
+- Can you explain one row in the action-level and group-level tables made from the same log?
+- Did you reproduce A’s mean and the group-mean difference of 0.1000 from the original records?
+- Did you distinguish original identifiers, calculated values, and assumed exercise groups?
+- Can you explain how time patterns can differ despite identical means and maxima?
+- Did you preserve source links for omitted information and note unverified comparison conditions?
 
 ## Sources and Further Reading
 
-- W3C, `PROV-Overview`. Because the provenance framework explains that it should support representing processing steps, derivation, and versioning, it provides a general basis for keeping separate records of what transformations produced which tables for which purposes, even from the same source data. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes a structure of features and label, it strengthens the explanation that when the meaning of one row and the role of the result column change with the question, the table must also be redesigned. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used for comparison with another time period, it supports the claim that table structure can change depending on what is chosen as the reference bundle, as in a recent-segment comparison table. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label`, `labeled example`, `unlabeled example`. Supports the input/outcome distinction in supervised learning and the distinction from unlabeled examples. [Source](https://developers.google.com/machine-learning/glossary#labeled-example){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-19
+- W3C, `PROV-Overview` (2013). Supports tracing entities, activities, people, processing steps, and versions involved in producing data. [Source](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-19

@@ -1,33 +1,13 @@
 # P3-4.3 시점 기록, 동작 샘플, 구간 집계는 어떻게 다른가
 
 > Section ID: `P3-4.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-[한 행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit), [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 1건, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data) 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
+[샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample)은 현재 질문에서 비교하는 한 건입니다. **행은 표의 저장 형식이므로 시점 기록, 동작 요약, 구간 집계 모두 한 행으로 저장할 수 있습니다.** 앞 절에서 분할과 채점의 단위를 구별했듯이, 이번에는 같은 기록을 묶을 때 한 행의 뜻이 어떻게 바뀌는지 봅니다.
 
-세 단위를 한 번에 구분해야 하는 이유는 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), 기준선 비교, 검토 문장이 서로 다른 층위에 붙기 때문입니다. 현재 질문의 샘플 단위를 확인하지 않고 시점 행이나 집계 구간을 섞어 세면, 뒤에서 만드는 표와 비교 구조도 함께 흔들리기 시작합니다.
+## 시점 기록 9행은 동작 3건을 담는다
 
-`행`은 저장 형식이고 `샘플`은 분석 단위입니다. 동작 요약 표에서는 한 행과 한 샘플이 일치합니다. 최근 구간을 분석 대상으로 정한 다른 문제에서는 구간 하나가 한 샘플이 됩니다. 이 절에서는 동작 1회를 샘플로 두었을 때의 세 표현을 비교합니다.
-
-세 층위를 다시 나누면 다음과 같습니다.
-
-- `한 행`은 지금 표 안에서 보이는 한 줄입니다.
-- `샘플 1건`은 비교하거나 학습할 기본 단위입니다.
-- `최근 구간 1개`는 샘플 여러 개를 다시 묶은 비교 단위입니다.
-
-이 셋은 서로 포함될 수는 있어도 같은 뜻이 아닙니다.
-
-| 지금 보는 대상 | 가장 자연스러운 질문 | 이 절에서의 층위 |
-| --- | --- | --- |
-| 시점별 로그 한 줄 | 지금 이 시점에 무엇이 측정되었는가 | 행 |
-| 동작 1회 전체 | 이번 동작은 평소와 다른 구조였는가 | 샘플 |
-| 최근 20건 묶음 | 최근 상태가 평소 구간과 달라졌는가 | 구간 |
-
-이 표를 보면 `한 줄이 있다`와 `샘플 1건이 있다`와 `비교할 최근 구간이 있다`가 각각 다른 질문에 답한다는 점이 드러납니다. Part 3에서 자꾸 헷갈리는 이유는 세 질문이 모두 데이터 표를 보며 시작되기 때문이지, 실제로 같은 층위라서가 아닙니다.
-
-## 한 장면을 세 층위로 다시 보기
-
-자동으로 실행되는 동작 데이터를 다시 보겠습니다.
+다음은 직접 만든 가상 유량 기록입니다. `event_id`는 동작 식별자, `second`는 각 동작 시작 후 지난 초, `flow`는 L/min 단위 유량입니다. 이 작은 표에서는 `(event_id, second)`의 조합으로 관측 행 하나를 찾습니다. 다른 동작의 `second=1`을 같은 시각으로 읽으면 안 됩니다.
 
 | event_id | second | flow |
 | --- | ---: | ---: |
@@ -37,170 +17,70 @@
 | B | 0 | 0.7 |
 | B | 1 | 1.2 |
 | B | 2 | 1.0 |
+| C | 0 | 0.9 |
+| C | 1 | 1.6 |
+| C | 2 | 1.2 |
 
-이 표를 처음 보면 여섯 줄이 보입니다. 하지만 이 여섯 줄은 아직 샘플 여섯 건이 아닐 수 있습니다. 여기서 `A`라는 동작 1회가 샘플이라면, 위 표의 세 줄은 샘플 한 건을 구성하는 시점 기록입니다.
+`A, second=1`의 1.5는 A의 한 시점 값입니다. 이 행만으로 A 전체의 평균이나 최대값을 알 수 없습니다. “A 동작의 평균 유량은 얼마인가?”라는 질문에서는 A의 세 행이 동작 샘플 한 건의 재료가 됩니다.
 
-그다음 여러 동작을 묶어 `최근 20건 평균`을 만들면, 이제는 `A`나 `B` 같은 개별 샘플도 다시 한 단계 아래로 내려갑니다. 최근 구간은 샘플 여러 건을 모아 만든 집계 단위이기 때문입니다.
+## 동작별 평균을 구한 뒤 구간별로 다시 묶는다 {#_3}
 
-같은 장면을 세 층위로 놓으면 다음처럼 읽을 수 있습니다.
+먼저 같은 `event_id`의 관측을 모아 평균과 최대값을 구합니다. 이번 사례에서는 별도의 구간 배정으로 B를 과거 기준 구간 `baseline`, A·C를 최근 구간 `recent`에 둡니다. 이 배정은 설명을 위한 설정이며, 위 표의 경과 초나 알파벳 순서에서 알아낸 시간 순서가 아닙니다. 실제 자료에서는 구간의 시작·끝 또는 포함 사건 목록을 남겨야 합니다.
 
-| 층위 | 무엇이 한 건인가 | 예시 |
-| --- | --- | --- |
-| 행 | 시점 기록 한 줄 | `A, second=1, flow=1.5` |
-| 샘플 | 동작 1회 | `event_id=A` 전체 |
-| 구간 | 샘플 여러 건 묶음 | 최근 20건의 평균과 변동성 |
+| event_id | point_count | event_flow_mean | event_flow_max | window |
+| --- | ---: | ---: | ---: | --- |
+| A | 3 | 1.133333 | 1.5 | recent |
+| B | 3 | 0.966667 | 1.2 | baseline |
+| C | 3 | 1.233333 | 1.6 | recent |
 
-즉 `A, second=1`은 샘플이 아니라 샘플을 이루는 한 조각일 수 있고, `최근 20건`은 샘플 20건을 다시 묶은 더 큰 비교 단위일 수 있습니다.
+이 표의 한 행은 동작 1회이고 식별자는 `event_id`입니다. `event_flow_mean`은 **그 동작 안의 유량 관측값**을 평균한 것입니다. A는 `(0.8 + 1.5 + 1.1) ÷ 3 = 3.4 ÷ 3 ≈ 1.133333 L/min`입니다. 최대값 1.5도 같은 세 관측에서 고릅니다. 이런 요약값은 동작 비교에 쓰는 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)이 될 수 있지만, 시점별 변화 순서를 모두 보존하지는 않습니다.
 
-이 장면을 문장으로 다시 풀면 더 또렷합니다.
+이제 같은 `window`에 속한 동작 요약 행을 모읍니다. 구간 평균은 동작별 평균을 하나씩 가져와 다시 평균하며, 동작마다 같은 비중을 줍니다.
 
-- 운영자가 `1초 시점의 유량이 얼마였는가`를 묻고 있다면 보고 싶은 것은 행입니다.
-- 운영자가 `A 동작 1회가 평소보다 흔들렸는가`를 묻고 있다면 보고 싶은 것은 샘플입니다.
-- 운영자가 `최근 20건 전체가 지난주 기준선보다 나빠졌는가`를 묻고 있다면 보고 싶은 것은 구간입니다.
+| window | member_events | event_count | window_flow_mean |
+| --- | --- | ---: | ---: |
+| baseline | B | 1 | 0.966667 |
+| recent | A, C | 2 | 1.183333 |
 
-질문이 달라질 때마다 같은 원천데이터가 다른 층위로 다시 읽힌다는 점이 핵심입니다. 헷갈림은 보통 데이터가 복잡해서가 아니라, 지금 내가 어느 질문을 붙이고 있는지 적지 않은 상태에서 표를 보기 시작할 때 생깁니다.
+이 표의 한 행은 구간 1개이고 이 사례의 식별자는 `window`입니다. 최근 구간은 `(A의 평균 + C의 평균) ÷ 2 = (3.4/3 + 3.7/3) ÷ 2 ≈ 1.183333 L/min`입니다. **첫 평균의 분모 3은 관측 수, 두 번째 평균의 분모 2는 동작 수**입니다. 표에는 소수 여섯 자리로 표시했지만 계산은 반올림 전 값으로 합니다.
 
-## 왜 이 구분이 필요한가
+여기서는 모든 동작의 관측 수가 3으로 같아서, 최근 구간의 원시 관측 6개를 바로 평균해도 같은 값이 나옵니다. 관측 수가 다르면 두 계산이 달라질 수 있습니다. 그 가중치 차이는 P3-5.1에서 다루며, 여기서는 `event_flow_mean`과 `window_flow_mean`이 무엇을 모아 계산했는지를 구별합니다.
 
-이 구분이 필요한 이유는 뒤 개념이 각기 다른 층위에 붙기 때문입니다.
+기준 구간 B 한 건은 계산 구조를 보여 주기 위한 비교 대상입니다. 이 한 건만으로 평소 상태를 충분히 대표한다고 판단할 수 없습니다. 최근 평균이 약 0.216667 L/min 높다는 관찰도 곧바로 상태 악화나 고장을 뜻하지 않습니다.
 
-| 개념 | 주로 붙는 층위 | 이유 |
-| --- | --- | --- |
-| 원시 측정값 | 행 | 한 시점의 실제 관측값이기 때문 |
-| 특징(feature) | 샘플 | 동작 1회 구조를 설명하는 값이기 때문 |
-| 기준선 비교 | 구간 또는 샘플 대 구간 | 최근 상태를 평소와 비교해야 하기 때문 |
-| 검토 문장 | 구간 또는 샘플 | 사람이 읽는 판단 단위이기 때문 |
+## 집계 행에서 원래 기록으로 돌아가기 {#_5}
 
-예를 들어 `late_drop_rate` 같은 특징은 시점 한 줄에 바로 붙지 않고, 동작 1회 샘플을 만든 뒤에야 계산할 수 있습니다. 반면 `recent_count=20` 같은 값은 개별 샘플 특징이 아니라 최근 구간 집계에 더 가깝습니다. 그래서 층위를 섞어 읽으면 특징, 기준선, [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)가 모두 추상적으로 느껴집니다.
+최근 구간 평균을 확인하려면 `recent → A·C → 각 동작의 0·1·2초 기록`으로 거슬러 갑니다. 도식의 화살표는 계산 방향입니다. 결과를 검토할 때는 화살표 반대 방향으로 구성 사건과 관측을 찾습니다.
 
-## 시점·동작·구간별 집계 결과 비교하기 {#_3}
-
-문제 상황: 같은 원천 로그에서 `한 행`, `샘플 1건`, `최근 구간 1개`가 서로 다른 층위라는 점을 행 수와 출력 구조로 확인합니다.
-
-입력(input): `event_id`별 시점 유량 기록과 최근/기준선 구간을 가리키는 구분 열
-
-기대 출력(output): `row count`, `sample count`, `window count`가 서로 다르고, 각 층위에서 한 건의 뜻도 달라지는 출력
-
-확인할 개념: 행, 샘플, 구간은 같은 데이터의 다른 표현 층위이며 서로 같은 단위로 읽으면 안 된다
-
-```python
-# 한 행, 샘플 1건, 최근 구간 1개를 서로 다른 분석 단위로 비교하는 예제입니다.
-import pandas as pd
-
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "second": 0, "flow": 0.8},
-        {"event_id": "A", "second": 1, "flow": 1.5},
-        {"event_id": "A", "second": 2, "flow": 1.1},
-        {"event_id": "B", "second": 0, "flow": 0.7},
-        {"event_id": "B", "second": 1, "flow": 1.2},
-        {"event_id": "B", "second": 2, "flow": 1.0},
-        {"event_id": "C", "second": 0, "flow": 0.9},
-        {"event_id": "C", "second": 1, "flow": 1.6},
-        {"event_id": "C", "second": 2, "flow": 1.2},
-    ]
-)
-
-per_event = (
-    raw.groupby("event_id", as_index=False)
-    .agg(
-        flow_mean=("flow", "mean"),
-        flow_max=("flow", "max"),
-    )
-    .assign(window=lambda df: df["event_id"].map({"A": "recent", "B": "baseline", "C": "recent"}))
-)
-
-per_window = (
-    per_event.groupby("window", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        flow_mean=("flow_mean", "mean"),
-    )
-)
-
-print("1) counts change by level")
-print("row count:", len(raw))
-print("sample count:", len(per_event))
-print("window count:", len(per_window))
-print()
-print("2) one row still means one time-step record")
-print(raw.loc[[1], ["event_id", "second", "flow"]])
-print()
-print("3) one sample means one whole event")
-print(per_event.loc[per_event["event_id"] == "A", ["event_id", "flow_mean", "flow_max"]])
-print()
-print("4) one window means multiple samples regrouped")
-print(per_window)
-```
-
-예상 출력:
-
-```text
-1) counts change by level
-row count: 9
-sample count: 3
-window count: 2
-
-2) one row still means one time-step record
-  event_id  second  flow
-1        A       1   1.5
-
-3) one sample means one whole event
-  event_id  flow_mean  flow_max
-0        A   1.133333       1.5
-
-4) one window means multiple samples regrouped
-     window  event_count  flow_mean
-0  baseline            1   0.966667
-1    recent            2   1.183333
-```
-
-여기서 봐야 할 것은 숫자 자체보다 `무엇을 세고 있는가`입니다.
-
-- `row count: 9`는 시점 기록 아홉 줄입니다.
-- `sample count: 3`는 동작 세 건입니다.
-- `window count: 2`는 `recent`, `baseline` 두 구간입니다.
-
-그리고 바로 아래 세 출력은 각 층위의 대표 모양을 눈으로 보여 줍니다.
-
-- `one row example`은 `A, second=1, flow=1.5`처럼 시점 한 줄입니다.
-- `one sample example`은 `A` 동작 1회의 평균과 최대값처럼 샘플 한 건입니다.
-- `window summary`는 이렇게 만든 샘플 표를 다시 `recent`, `baseline`으로 묶은 구간 집계입니다.
-
-행 수가 줄어드는 것은 단순 압축이 아니라, `무엇을 한 건으로 볼지`가 바뀐 결과입니다.
-
-이 차이는 다음 표를 만들 때 바로 열 역할로 옮겨야 합니다. 행 층위에는 `second`, `flow`처럼 순간 기록을 남기고, 샘플 층위에는 `event_id`, `flow_mean`, `flow_max`처럼 동작 1회를 설명하는 열을 둡니다. 구간 층위에는 `window`, `event_count`, `window_flow_mean`처럼 여러 샘플을 다시 묶었다는 열을 둡니다. 세 층위를 같은 표에 함께 넣어야 한다면, 각 열 이름이 어느 층위에서 계산된 값인지 드러나야 뒤에서 특징, 기준선, 검토 문장이 서로 다른 단위를 가리키지 않습니다.
-
-이 예제를 한 문장으로 요약하면 다음과 같습니다. `A, second=1`은 지금 무슨 일이 있었는지 보여 주고, `event_id=A`는 한 동작이 전체적으로 어땠는지 보여 주며, `recent`는 이렇게 만든 샘플 여러 건을 다시 묶은 상태 비교를 보여 줍니다. 같은 데이터에서도 질문이 바뀌면 바로 이 세 층위 사이를 오가게 됩니다.
-
-## 지금 표를 받을 때 빠르게 묻는 질문
-
-실제로는 아래 세 질문만 먼저 적어도 혼동이 크게 줄어듭니다.
-
-1. 지금 표의 한 줄은 시점 기록인가, 동작 1회인가, 최근 구간 집계인가
-2. 내가 지금 읽으려는 대상은 한 줄인가, 한 동작인가, 최근 상태 전체인가
-3. 지금 붙이려는 값이 특징인가, 비교 열인가, 검토 문장 후보인가
-
-이 세 질문은 각각 `행`, `샘플`, `구간`을 다시 분리하는 역할을 합니다.
-
-이 절은 용어 구분표가 아니라, `표현 층위(levels of representation)`를 동시에 읽는 문제로 다시 볼 수 있습니다.
-
-## 시점 기록을 동작과 구간으로 묶기 {#_5}
-
-앞의 설명을 가장 짧게 줄이면, `한 행 -> 샘플 1건 -> 구간 1개`는 같은 데이터를 더 큰 비교 단위로 다시 읽어 가는 층위 이동입니다. 각 층위는 서로 다른 질문에 답하므로 같은 단위처럼 섞어 읽으면 안 됩니다.
-
+```mermaid
 --8<-- "assets/part-03/chapter-04/p3-4-3-mermaid-01-ko.mmd"
+```
 
+따라서 같은 자료가 **시점 표 9행, 동작 표 3행, 구간 표 2행**으로 표현됩니다. 숫자가 줄었다고 원래 사건이 사라진 것은 아닙니다. 다만 평균만 남기고 원시 기록과 연결을 버리면 원래 변화 모양을 복원할 수 없습니다. 실제로 여러 기간을 쌓는 표에서는 `recent`라는 역할 이름만 반복하지 말고 서로 다른 구간을 식별할 ID와 구성 범위를 남깁니다.
 
-따라서 `한 행`, `샘플 1건`, `최근 구간 1개`는 이름이 비슷한 세 객체가 아니라, 서로 다른 질문에 답하기 위해 같은 원천데이터를 다른 층위로 다시 표현한 결과로 읽어야 합니다.
+## 질문을 바꾸면 구간도 샘플이 된다
+
+“이번 동작은 다른 동작과 어떻게 다른가?”에서는 동작 1회가 샘플입니다. 반면 “최근 20회 동작을 묶은 구간은 이전 20회 구간과 평균 유량이 얼마나 다른가?”에서는 구간 하나를 비교 샘플로 삼을 수 있습니다. 이때 `event_count`와 `window_flow_mean`은 구간을 설명하는 값입니다. 샘플을 동작에만, 특징을 동작 요약에만 고정할 이유는 없습니다.
+
+위 작은 사례의 최근 구간에는 실제로 A·C 두 건만 있습니다. “최근 20건”이라는 질문을 만들었다고 이 표가 20건의 근거를 제공하지는 않습니다. 구간을 한 샘플로 세어도 포함 사건 수는 별도로 남깁니다.
+
+## 구간 배정을 바꾸어 계산 대상 확인하기
+
+C를 `recent`에서 `baseline`으로 옮긴다고 가정하고, 시점·동작·구간 표의 행 수와 두 구간의 평균을 먼저 적어 보세요. 원시 관측값은 바꾸지 않습니다.
+
+답은 **9행·3동작·2구간 그대로**입니다. 최근 구간은 A만 남아 1.133333, 기준 구간은 B·C의 평균을 다시 평균하여 `(2.9/3 + 3.7/3) ÷ 2 = 1.1 L/min`이 됩니다. A·B·C 각각의 평균은 그대로지만, 구간의 구성과 평균은 달라집니다. 구간 평균을 읽을 때 구성 사건을 함께 확인해야 하는 이유입니다.
+
+이번에는 C의 세 관측을 자료에서 모두 제외해 보세요. **6행·2동작·2구간**이 되고 최근 구간 평균은 A의 1.133333입니다. 첫 연습과 최근 평균이 같아도, 첫 연습에서는 C가 기준 구간에 있고 이번에는 어느 구간에도 없습니다. 평균 하나만 보고 자료의 포함 범위를 알아낼 수는 없습니다.
 
 ## 체크리스트
 
-- 시점 표·동작 표·구간 표에서 한 행의 뜻을 각각 썼는가?
-- 최근 구간 자체를 샘플로 삼을 수 있는 질문을 하나 만들었는가?
+- 시점 표의 `(event_id, second)`, 동작 표의 `event_id`, 구간 표의 `window`로 각각 무엇을 찾는지 설명할 수 있는가?
+- A의 평균에서 나누는 3과 최근 구간 평균에서 나누는 2의 뜻을 구별하는가?
+- `recent`의 1.183333을 A·C의 원래 여섯 관측에 연결할 수 있는가?
+- C의 구간 이동과 자료 제외가 행 수·평균·포함 사건을 어떻게 바꾸는지 설명할 수 있는가?
+- 구간 자체를 샘플로 삼는 질문을 만들고 실제 포함 사건 수를 별도로 적었는가?
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, row-level record, event-level sample, window-level aggregate가 서로 다른 표현 층위라는 점을 구분해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간과 기준 구간 같은 집계 수준 표현은 sample-level 표현과 다른 비교 층위를 가진다는 점을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example는 라벨이 없을 수도 있고, labeled example은 특징과 라벨을 함께 포함합니다. 시점 기록과 구간 집계도 질문에 따라 샘플이 될 수 있으며, 동작 1회를 샘플로 둔 구분은 이 절의 사례 설정입니다. [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-15
+- W3C, [PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }. 자료가 만들어진 과정과 파생 관계를 기록하는 일반 근거입니다. 이 절의 세 표와 수치는 자체 가상 사례이며 W3C가 정한 세 단계 분류가 아닙니다. / 확인일: 2026-09-19
+- Google for Developers, [Machine Learning Glossary: example](https://developers.google.com/machine-learning/glossary#example){: target="_blank" rel="noopener noreferrer" }. example은 특징으로 표현되는 한 사례이며 라벨이 있을 수도 없을 수도 있습니다. 이 절의 동작·구간 선택은 질문에 맞춘 사례 설정입니다. / 확인일: 2026-09-19

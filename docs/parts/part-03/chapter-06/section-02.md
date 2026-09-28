@@ -1,7 +1,7 @@
 # P3-6.2 특징만으로 부족할 때 어떤 중간 표현을 더 둘 수 있는가
 
 > Section ID: `P3-6.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 평균, 기울기, 변동성 같은 특징은 좋은 출발점이 됩니다. 하지만 어떤 경우에는 숫자 몇 개만으로는 구간별 구조를 충분히 설명하기 어렵습니다. 예를 들어 초반에는 천천히 오르고, 중반에는 평평하게 유지되다가, 후반에는 빠르게 떨어지는 패턴이 있다고 하겠습니다. 이런 구조를 숫자 두세 개로만 남기면 사람이 다시 읽을 때도 아쉽고, 모델이 비교할 때도 중요한 모양 차이를 놓칠 수 있습니다. 그래서 Part 3에서는 [중간 표현(intermediate representation)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-intermediate-representation)을 원시 로그와 요약 특징 사이에서 구조를 더 또렷하게 남기기 위해 두는 사람 주도 입력 재표현으로 함께 봅니다.
 
@@ -19,7 +19,9 @@
 
 ![원시 곡선을 다섯 구간으로 나누고 UP2, UP1, FLAT, DOWN1, DOWN2 토큰으로 바꾸는 그래프](../../../assets/part-03/chapter-06/segment-tokenization-curve-ko.png)
 
-이렇게 바꾸면 긴 곡선이 `UP, FLAT, DOWN` 같은 짧은 시퀀스로 줄어듭니다. 이 표현은 사람이 읽기 쉽고, 모델도 곡선의 구조를 더 일정한 길이의 입력으로 받아들일 수 있습니다. 즉 세그먼트 표현은 복잡한 시계열을 `사람과 모델이 같이 볼 수 있는 중간 표현`으로 바꾸는 일입니다.
+이 그림은 CSV의 A 기울기를 누적한 설명용 곡선입니다. 가로축은 실제 시간이 아닌 구간 경계 인덱스이며, 계산은 아래에서 확인합니다.
+
+이렇게 바꾸면 긴 곡선이 `UP, FLAT, DOWN` 같은 짧은 시퀀스로 줄어듭니다. 이 표현은 사람이 읽기 쉽고, 구간 수를 별도로 맞추면 모델 입력의 토큰 수도 같아집니다. 즉 세그먼트 표현은 복잡한 시계열을 `사람과 모델이 같이 볼 수 있는 중간 표현`으로 바꾸는 일입니다.
 
 이 표현은 세 가지 층위로 읽을 수도 있습니다. 가장 단순한 층위에서는 `UP`, `DOWN`, `FLAT`처럼 방향만 남깁니다. 조금 더 세밀한 층위에서는 `UP1`, `UP2`, `DOWN3`처럼 강도까지 함께 남깁니다. 더 나아가면 각 기호가 몇 번 반복되었는지, 어느 구간에서 길게 유지되었는지도 함께 볼 수 있습니다. 이렇게 보면 토큰화는 단순 치환이 아니라, 같은 원시 곡선을 여러 해상도로 다시 표현하는 방식입니다.
 
@@ -27,7 +29,7 @@
 | --- | --- | --- | --- |
 | 방향만 남기기 | 상승, 하강, 정체 | 변화의 크기 차이 | 아주 빠른 비교가 필요할 때 |
 | 방향 + 강도 | 상승/하강의 세기 | 세부 흔들림의 모양 | 설명 가능한 특징을 늘리고 싶을 때 |
-| 반복 길이까지 보기 | 같은 패턴의 지속 시간 | 원래 시점 간격의 세밀한 변화 | 반복성과 상태 변화를 보고 싶을 때 |
+| 반복 길이까지 보기 | 같은 토큰의 연속 구간 수 | 원래 시점 간격의 세밀한 변화 | 반복성과 상태 변화를 보고 싶을 때 |
 
 이 표를 보면 토큰화가 `더 많이 줄일수록 더 읽기 쉬워지지만, 동시에 더 많이 잃는다`는 사실이 보입니다. 따라서 어떤 층위를 쓸지는 기술 취향이 아니라 문제 설정의 일부입니다. 운영자가 빠르게 훑어볼 리포트를 만들고 싶은지, 아니면 나중에 모델 입력으로도 재사용하고 싶은지에 따라 남길 표현 층위가 달라질 수 있습니다.
 
@@ -49,9 +51,36 @@
 
 확인할 개념: 토큰화는 원시 구조를 그대로 두지 않고 순서와 방향을 읽기 쉬운 중간 표현으로 바꾸는 작업이다. 토큰 경계는 고정 정답이 아니라 문제에 맞게 점검할 설계값이다.
 
+## 기울기의 단위와 토큰 경계를 먼저 정한다
+
+이 CSV는 자체 가상 기울기 자료입니다. 단위 정보가 없는 기존 값을 읽는 이 사례에서는 **값은 임의 단위, 가로축은 구간 경계 인덱스**로 정합니다. 기울기는 `(구간 끝값−시작값)/(끝 인덱스−시작 인덱스)`이며 단위는 값 단위/인덱스 간격입니다. 초당 변화량이 아닙니다. 예를 들어 시작 0, 끝 0.92, 인덱스 0→1이면 `0.92/1=0.92`입니다. CSV는 이 계산을 마친 기울기만 담으며 원시 측정이나 실제 시각을 복원할 수 없습니다.
+
+그림은 A의 기울기를 누적해 만든 설명용 직선 구간입니다. 시작값을 0으로 두고 0.92, 0.31, 0.05, −0.42, −1.00을 차례로 더해 경계값 0, 0.92, 1.23, 1.28, 0.86, −0.14를 그립니다. 실제 원시 곡선이나 구간 안 흔들림을 재현한 그림은 아닙니다.
+
+민감 설정은 약한 경계 w=0.20, 강한 경계 s=0.80을 사용합니다. 아래 조건은 기울기 x에 적용하며 `0 < w < s`를 전제로 합니다. 약함·강함은 이 설계의 등급이지 보편적인 물리 기준이 아닙니다.
+
+| 토큰 | 조건 | 민감 설정의 범위 |
+| --- | --- | --- |
+| UP2 | x ≥ s | x ≥ 0.80 |
+| UP1 | w ≤ x < s | 0.20 ≤ x < 0.80 |
+| FLAT | −w < x < w | −0.20 < x < 0.20 |
+| DOWN1 | −s < x ≤ −w | −0.80 < x ≤ −0.20 |
+| DOWN2 | x ≤ −s | x ≤ −0.80 |
+
+A의 다섯 값 0.92·0.31·0.05·−0.42·−1.00을 직접 분류하면 `UP2, UP1, FLAT, DOWN1, DOWN2`입니다. 정확히 0.20은 UP1, −0.20은 DOWN1, 0.80은 UP2, −0.80은 DOWN2입니다. **FLAT은 정확한 0이 아니라 경계 안의 범위**입니다. 0.05와 −0.10은 같은 FLAT이 되어 작은 변화의 방향·크기를 잃습니다. 끝점 차이가 작아도 구간 내부에서 크게 오르내렸을 수 있습니다.
+
+보수 설정은 w=0.30, s=0.90입니다. B의 0.24와 −0.22는 각각 UP1·DOWN1에서 FLAT으로 바뀌지만 원래 수치는 그대로입니다. A의 다섯 값은 두 설정에서 같은 토큰입니다. 바뀌는 것은 사건 자체가 아니라 수치를 분류하는 기준입니다.
+
+## 토큰 개수와 실제 지속 시간은 따로 정한다
+
+토큰화는 구간 하나를 토큰 하나로 바꿀 뿐 구간 수를 맞춰 주지 않습니다. 이 CSV가 사건마다 5개 토큰을 만드는 이유는 입력에 이미 5개 구간이 있기 때문입니다. 3개 구간을 넣으면 3개 토큰이 생기며, 고정 길이가 필요하면 분할·자르기·패딩 같은 별도 규칙이 필요합니다.
+
+`FLAT FLAT`은 두 구간 연속이라는 뜻입니다. 두 구간이 각각 1초면 2초, 각각 10초면 20초입니다. 실제 구간 길이가 없으면 반복 횟수를 지속 시간으로 바꿀 수 없습니다. 토큰과 함께 기울기, 구간 경계, 실제 시각, 경계 설정을 보존하면 잃은 세부를 원기록에서 다시 확인할 수 있습니다.
+
 ```python
 # 원시 로그와 최종 특징 사이에 중간 표현을 두어 계산 근거를 추적하는 예제입니다.
 import csv
+import math
 from collections import defaultdict
 from pathlib import Path
 
@@ -63,6 +92,10 @@ token_settings = {
 
 
 def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float) -> str:
+    if not all(math.isfinite(value) for value in (slope, strong_threshold, weak_threshold)):
+        raise ValueError("slope and thresholds must be finite")
+    if not 0 < weak_threshold < strong_threshold:
+        raise ValueError("require 0 < weak_threshold < strong_threshold")
     if slope >= strong_threshold:
         return "UP2"
     if slope >= weak_threshold:
@@ -166,7 +199,7 @@ token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
 
 예를 들어 `['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']`는 `초반 상승이 강하고, 중간에는 잠시 평평해지며, 후반에는 하강이 커지는 구조`라고 요약할 수 있습니다.
 
-같은 평균이라도 토큰 시퀀스가 다를 수 있다는 점도 중요합니다. 예를 들어 두 동작 1회의 평균 유량이 둘 다 2.5라고 해도, 하나는 `UP, FLAT, DOWN`이고 다른 하나는 `FLAT, FLAT, FLAT`일 수 있습니다. 평균만 보면 비슷하지만, 토큰 시퀀스를 보면 하나는 구조 변화가 있었고 다른 하나는 안정적이었다는 차이가 드러납니다. 이 점 때문에 토큰화는 단순 장식이 아니라, 평균 요약이 놓치는 구조를 보완하는 표현이 됩니다.
+같은 평균이라도 토큰 시퀀스가 다를 수 있다는 점도 중요합니다. 예를 들어 두 동작 1회의 평균 유량이 둘 다 2.5라고 해도, 하나는 `UP, FLAT, DOWN`이고 다른 하나는 `FLAT, FLAT, FLAT`일 수 있습니다. 평균만 보면 비슷하지만, 토큰 시퀀스를 보면 하나는 구조 변화가 있었고 다른 하나는 규칙상 작은 기울기를 가졌다는 차이가 드러납니다. 이 점 때문에 토큰화는 단순 장식이 아니라, 평균 요약이 놓치는 구조를 보완하는 표현이 됩니다.
 
 이 차이는 간단한 [벡터화(vectorization)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-vectorization) 예제로도 확인할 수 있습니다. 아래 코드는 같은 평균을 가진 후보를 숫자 평균만으로 정렬한 결과와, 토큰 시퀀스를 `TfidfVectorizer`로 벡터화해 쿼리와의 유사도로 정렬한 결과를 비교합니다.
 
@@ -253,7 +286,9 @@ event_id           token_sequence  token_similarity
 
 이 절의 핵심은 원시 곡선을 바로 버리거나 바로 숫자 몇 개로 닫지 않는 데 있습니다. 곡선을 구간으로 나누고, 수치 요약을 거쳐 토큰 시퀀스로 바꾸면 `중간 표현`이라는 한 층위가 생깁니다.
 
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-2-mermaid-01-ko.mmd"
+```
 
 
 따라서 토큰화는 독립 기법처럼 보이기보다, 원시 로그를 그대로 둘지 너무 강하게 요약할지 사이에서 `구조를 어느 해상도로 남길지` 정하는 선택으로 읽는 편이 더 정확합니다.
@@ -268,4 +303,4 @@ event_id           token_sequence  token_similarity
 - TensorFlow, `Subword tokenizers`. subword tokenizer를 word-based tokenization과 character-based tokenization 사이를 잇는 표현으로 설명하므로, Part 3의 세그먼트 토큰도 원시 로그와 강한 요약 사이에 놓이는 중간 표현이라는 일반화된 관점을 설명하는 데 참고할 수 있습니다. 여기서 시계열 토큰화와 직접 동일시하는 부분은 이 공식 설명을 바탕으로 한 유비적 적용입니다. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 model training에 helpful한 transformations를 결정하는 과정으로 설명하므로, 중간 표현도 원시 값을 그대로 두지 않고 비교와 학습에 도움이 되는 형태로 바꾸는 변환이라는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 
-- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){ target="_blank" rel="noopener noreferrer" }. 단어 빈도와 n-gram이 보존하는 국소 순서 정보를 확인했다. 확인일: 2026-09-15.
+- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){: target="_blank" rel="noopener noreferrer" }. 단어 빈도와 n-gram이 보존하는 국소 순서 정보를 확인했다. 확인일: 2026-09-15.

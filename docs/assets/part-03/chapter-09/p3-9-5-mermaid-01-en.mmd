@@ -1,12 +1,6 @@
 flowchart TD
-    A[event_id = A]
-
-    A --> B[Report table<br/>diff<br/>report sentence]
-    A --> C[Review queue<br/>review_needed<br/>priority score]
-    A --> D[Target-candidate table<br/>late_drop_rate<br/>note_source]
-
-    B --> E[Trace back to comparison evidence]
-    C --> E
-    D --> E
-
-    E[Why was A promoted?<br/>same sample identity<br/>retained evidence links]
+    A["Outcome candidate: A = 1"] --> B["Q-01 / queue-v1"]
+    B --> C["REP-A-1 / base-v1"]
+    A --> D["NOTE-A-1 / check-A"]
+    C --> E["Window A"]
+    E --> F["Members: E001 to E020"]

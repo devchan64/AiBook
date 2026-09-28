@@ -1,13 +1,7 @@
 flowchart TD
-    A[Many comparison columns]
-    A --> B1[Change magnitude]
-    A --> B2[Repeatability]
-    A --> B3[Interpretation confidence]
-    A --> B4[Operational importance]
-
-    B1 --> C[Priority candidate]
-    B2 --> C
-    B3 --> C
-    B4 --> C
-
-    C --> D[Review queue or structured output]
+    A["Validated comparison rows"] --> B["Sorting keys specified by policy"]
+    B --> C["Apply precedence and tie-break"]
+    C --> D["Rank and policy version"]
+    A --> E["Counts and proportions retained as evidence"]
+    E --> F["Explain limits without inventing ranking reasons"]
+    D --> F

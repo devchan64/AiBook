@@ -1,9 +1,6 @@
 flowchart TD
-    A[复核队列结果<br/>event_id + review_needed + review note]
-    A --> B[自由文本备注逐渐累积]
-    B --> C[共享备注模式<br/>重复出现的 late drop<br/>只记录]
-    C --> D[目标候选列]
-
-    D --> D1[late_drop_repeated]
-    D --> D2[needs_manual_review]
-    D --> D3[note_source]
+    A["保留原文、对象与作者"]
+    A --> B["分开观察报告、请求与猜测"]
+    B --> C["应用note-v1，保留未确认"]
+    C --> D["候选列 + 原文与标注者"]
+    D --> E["另行检查目标含义与事实依据"]

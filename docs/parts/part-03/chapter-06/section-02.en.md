@@ -1,7 +1,7 @@
 # P3-6.2 What Intermediate Representations Can We Add When Features Alone Are Not Enough
 
 > Section ID: `P3-6.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 Features such as averages, slopes, and variability are good starting points. But in some cases, a few numbers alone are not enough to describe the segment-level structure fully. Suppose there is a pattern that rises slowly in the early phase, stays flat in the middle phase, and then drops quickly in the late phase. If that structure is left as only two or three numbers, it can feel insufficient both when a person reads it again and when a model compares it. So in Part 3, [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation) is read together as a human-led input re-expression that remains between raw logs and summary features so the structure can stay more visible.
 
@@ -19,7 +19,9 @@ If we divide the raw curve into segments as in the graph below, tokenization bec
 
 ![Graph that divides a raw curve into five segments and turns them into the tokens UP2, UP1, FLAT, DOWN1, and DOWN2](/AiBook/assets/part-03/chapter-06/segment-tokenization-curve-en.png)
 
-Once this is done, a long curve shrinks into a short sequence such as `UP, FLAT, DOWN`. This expression is easy for people to read, and it also lets a model receive the structure of the curve as an input with more regular length. In other words, a segment expression is the act of converting a complex time series into `an intermediate representation that people and models can both look at`.
+This illustrative curve accumulates event A slopes from the CSV. The horizontal axis is segment-boundary index, not actual time; the calculation is explained below.
+
+Once this is done, a long curve shrinks into a short sequence such as `UP, FLAT, DOWN`. This expression is easy for people to read, and matching segment counts separately can also give a model equal token counts. In other words, a segment expression is the act of converting a complex time series into `an intermediate representation that people and models can both look at`.
 
 This representation can also be read in three levels. At the simplest level, it leaves only direction, such as `UP`, `DOWN`, `FLAT`. At a slightly finer level, it also leaves intensity, such as `UP1`, `UP2`, `DOWN3`. Going further, we can also inspect how many times each symbol repeated and in which ranges it stayed for long. Seen this way, tokenization is not a simple substitution. It is a way of rewriting the same raw curve at several resolutions.
 
@@ -27,7 +29,7 @@ This representation can also be read in three levels. At the simplest level, it 
 | --- | --- | --- | --- |
 | Keep only direction | Rise, fall, flatness | Differences in the magnitude of change | When a very fast comparison is needed |
 | Direction + intensity | Strength of rise or fall | Fine-grained fluctuation shape | When we want more explainable features |
-| Include repetition length | Duration of the same pattern | Fine changes in the original time spacing | When we want to inspect repetition and state shifts |
+| Include repetition length | Number of consecutive segments with the same token | Fine changes in the original time spacing | When we want to inspect repetition and state shifts |
 
 This table shows that tokenization becomes easier to read the more strongly it compresses, but at the same time it also loses more. So which level to use is not a matter of technical taste. It is part of the problem definition. The level of representation that should remain can differ depending on whether we want a report that an operator can scan quickly or a structure that may later be reused as model input.
 
@@ -49,9 +51,36 @@ Expected output: output where each action's slope list is turned into a token se
 
 Concept to check: tokenization does not leave the raw structure as-is. It turns sequence and direction into an easier-to-read intermediate representation. Token boundaries are not fixed answers; they are design values that should be checked against the problem.
 
+## Define Slope Units and Token Boundaries First
+
+This CSV contains fictional slope data. To interpret its existing values, which lack unit metadata, this example defines **arbitrary value units and segment-boundary indices on the horizontal axis**. Slope is `(end value−start value)/(end index−start index)`, in value units per index interval, not per second. A start value of 0 and end value of 0.92 across indices 0→1 give `0.92/1=0.92`. The CSV contains only the resulting slopes; it cannot recover raw measurements or actual times.
+
+The figure uses straight segments constructed by accumulating A's slopes. Starting at 0 and adding 0.92, 0.31, 0.05, −0.42, and −1.00 gives boundary values 0, 0.92, 1.23, 1.28, 0.86, and −0.14. It is an illustration, not a reconstruction of a measured raw curve or within-segment fluctuations.
+
+The sensitive setting uses weak boundary w=0.20 and strong boundary s=0.80. The conditions below apply to slope x and assume `0 < w < s`. Weak and strong are categories in this design, not universal physical standards.
+
+| Token | Condition | Sensitive range |
+| --- | --- | --- |
+| UP2 | x ≥ s | x ≥ 0.80 |
+| UP1 | w ≤ x < s | 0.20 ≤ x < 0.80 |
+| FLAT | −w < x < w | −0.20 < x < 0.20 |
+| DOWN1 | −s < x ≤ −w | −0.80 < x ≤ −0.20 |
+| DOWN2 | x ≤ −s | x ≤ −0.80 |
+
+Classifying A's values 0.92, 0.31, 0.05, −0.42, and −1.00 gives `UP2, UP1, FLAT, DOWN1, DOWN2`. Exactly 0.20 becomes UP1, −0.20 becomes DOWN1, 0.80 becomes UP2, and −0.80 becomes DOWN2. **FLAT is a range inside the boundaries, not exactly zero.** Values 0.05 and −0.10 both become FLAT, losing the direction and size of small changes. A small endpoint difference can also hide large fluctuations inside a segment.
+
+The conservative setting uses w=0.30 and s=0.90. B's 0.24 and −0.22 change from UP1 and DOWN1 to FLAT, while their numeric values stay unchanged. All five A values retain their tokens. The classification rule changes, not the event itself.
+
+## Token Count and Elapsed Time Are Separate Choices
+
+Tokenization maps one segment to one token; it does not equalize segment counts. This CSV produces five tokens per event because it already contains five segments per event. Three segments would produce three tokens. A fixed input length requires separate segmentation, cropping, or padding rules.
+
+`FLAT FLAT` means two consecutive segments. Two one-second segments last two seconds; two ten-second segments last twenty seconds. Without actual segment durations, repetition counts cannot determine elapsed time. Retain slopes, segment boundaries, actual times, and threshold settings alongside tokens to check lost details against source records.
+
 ```python
 # This example adds an intermediate representation between raw logs and final features to trace calculation evidence.
 import csv
+import math
 from collections import defaultdict
 from pathlib import Path
 
@@ -62,6 +91,10 @@ token_settings = {
 }
 
 def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float) -> str:
+    if not all(math.isfinite(value) for value in (slope, strong_threshold, weak_threshold)):
+        raise ValueError("slope and thresholds must be finite")
+    if not 0 < weak_threshold < strong_threshold:
+        raise ValueError("require 0 < weak_threshold < strong_threshold")
     if slope >= strong_threshold:
         return "UP2"
     if slope >= weak_threshold:
@@ -251,7 +284,9 @@ This section can be read not as an introduction to one particular token rule, bu
 
 The core of this section is that we do not immediately discard the raw curve or close it too quickly into a few numbers. Once the curve is segmented and turned through numerical summaries into a token sequence, one more layer appears: the `intermediate representation`.
 
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-2-mermaid-01-en.mmd"
+```
 
 So tokenization is more accurately read not as an isolated technique, but as a choice about `at what resolution the structure should remain` between leaving the raw log as it is and summarizing it too strongly.
 
@@ -265,4 +300,4 @@ So tokenization is more accurately read not as an isolated technique, but as a c
 - TensorFlow, `Subword tokenizers`. Because it explains subword tokenizers as a representation between word-based tokenization and character-based tokenization, it can help explain the generalized view that Part 3's segment tokens also sit as an intermediate representation between raw logs and strong summaries. The part that connects this directly to time-series tokenization is an analogical application based on the official explanation. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains feature engineering as the process of deciding transformations helpful for model training, it supports the point that intermediate representations are also transformations that do not leave raw values untouched but convert them into forms helpful for comparison and learning. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 
-- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){ target="_blank" rel="noopener noreferrer" }. Checked the local order information preserved by word frequencies and n-grams. Checked: 2026-09-15.
+- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){: target="_blank" rel="noopener noreferrer" }. Checked the local order information preserved by word frequencies and n-grams. Checked: 2026-09-15.

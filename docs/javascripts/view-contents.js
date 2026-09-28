@@ -464,7 +464,8 @@
         return;
       }
       const extension = url.pathname.split(".").pop().toLowerCase();
-      if (["csv", "py", "json"].includes(extension)) {
+      if (["csv", "py", "json"].includes(extension) ||
+          (link.classList.contains("aibook-code-preview") && url.origin === location.origin && LANGUAGE_BY_EXTENSION[extension])) {
         attachViewContents(link, extension === "csv" ? "csv" : link.dataset.language || LANGUAGE_BY_EXTENSION[extension] || "text");
       }
     });

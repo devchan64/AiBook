@@ -1,143 +1,84 @@
-# P3-8.6 只留在部分案例上的确认标签
+# P3-8.6 仅部分案例具有确认标签
 
 > Section ID: `P3-8.6`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_副标题: 当确认标签只存在于被复核案例上时，解读里还要一起写什么？_
+如果只对复核队列中的部分事件进行人工核查，确认结果也可能只留在这些事件上。**未复核不等于没有故障。**[选择性标签](/AiBook/zh/reference/concept-glossary-pinyin/x/#glossary-selective-labels)涉及这样一个问题：哪些案例获得结果确认，决定了标签的可观察范围。即使标签准确，有标签的集合是否代表全部事件，仍是另一个问题。
 
-在解读阶段，有时不仅要看`数字差异如何`，还要看谁获得了确认[监督学习标签](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)。在真实运营里，并不是每个事件都会接受同样深度的复核。往往只是那些看起来异常的部分案例，才会被人工再看一遍，并且只有这些案例上才会留下确认标签。如果把这种[选择性标签（selective labels）](/AiBook/zh/reference/concept-glossary-pinyin/x/#glossary-selective-labels)结构隐藏起来，读者就很容易把`有标签的案例集合`读成`全部事件集合`。
+## 十次事件中复核了哪四次？
 
-如果确认标签只留在被复核的案例上，就不能立刻把这些标签读成对整体的代表。
+下面是本书自行构造的十次虚拟事件。`review_score`是选择复核对象的示例分数，不是故障概率。假定只有`review_score ≥ 0.75`的事件完成了复核。`fixed_prediction`是改变复核范围时保持不变的虚拟二元预测，并非由该分数计算，也不是用此表训练模型得到的值。1表示预测故障，0表示预测非故障。
 
-| 表面上看到的状态 | 解读里还要一起写的内容 |
-| --- | --- |
-| 只有部分案例有确认标签 | 这些案例为什么会被单独复核，是按什么标准选出来的？ |
-| `review_needed=0` 的案例几乎没有被重新确认 | 没有标签到底是正常，还是尚未确认？ |
-| 标签集中在某个时期或某台设备 | 标签集合本身是否存在[偏见](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-bias)？ |
+`confirmed_failure`记录复核结果：1为确认故障，0为确认非故障，`?`为未确认。这里假定完成复核后获得准确标签，从而分开标签错误与选择问题。确认是否故障，不等于已确认特定根本原因。
 
-来看下面这张表。
-
-| event_id | review_needed | manually_reviewed | confirmed_root_cause |
+| event_id | review_score | fixed_prediction | confirmed_failure |
 | --- | ---: | ---: | --- |
-| A | 1 | 1 | sensor_drop |
-| B | 1 | 1 | valve_delay |
-| C | 0 | 0 | None |
-| D | 0 | 0 | None |
+| A | 0.92 | 1 | 1 |
+| B | 0.88 | 1 | 1 |
+| C | 0.81 | 0 | 0 |
+| D | 0.76 | 1 | 1 |
+| E | 0.69 | 1 | ? |
+| F | 0.62 | 1 | ? |
+| G | 0.55 | 1 | ? |
+| H | 0.48 | 1 | ? |
+| I | 0.37 | 1 | ? |
+| J | 0.29 | 1 | ? |
 
-如果只看有 `confirmed_root_cause` 的这两条，就去描述整体运营的原因分布，解释就可能被夸大。还需要一起写清楚：为什么只有 A 和 B 被人工复核，C 和 D 的空白到底是因为它们确实正常，还是只是因为还没被看过。
-
-在解读阶段，像下面这样的备注就已经足够。
-
-| 先写下的备注 | 为什么需要它 |
-| --- | --- |
-| 成为复核对象的规则 | 为了显露出标签是被选择性留下的结构 |
-| 缺失标签的含义 | 为了不把正常和未确认混在一起 |
-| 有标签集合的范围偏向 | 为了不把解读强度说得过重 |
-
-这里重要的点是：`选择性附着的确认标签，可以成为解读依据，但在把它当作代表所有事件的完整答案集合之前，必须先写出复核路径和可能的偏向。` 因此，确认标签表首先不该被读成`全部事件的答案表`，而应被读成通过[复核候选队列（review queue）](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)等复核路径后，对部分事件得到的确认结果。
-
-下面的例子把这个问题缩小成一次小型模型评估。在真实运营里，未被复核事件的最终结果可能并不知道。因此，代码中的 `actual_failure_for_demo` 只是学习用的隐藏结果。目的不是把这个值当作答案表，而是确认：如果只用被复核案例上留下的标签来评估模型，会出现什么样的错觉。
-
-问题场景：当确认标签只存在于被复核案例上时，想确认模型分数会怎样随着复核路径而看起来不同。
-
-输入(input)：`risk_score`、`manually_reviewed`、演示用隐藏结果 `actual_failure_for_demo`。
-
-期望输出(output)：标签覆盖情况、在被复核标签上的准确率、为了演示而打开全部事件时的准确率，以及按复核路径汇总的错误数。
-
-要确认的概念：如果只看选择性复核后的标签，模型可能看起来很好，但错误可能隐藏在未复核区间里。
-
-```python
-# 这个例子用来确认只使用选择性复核标签时，评估会如何偏斜。
-import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeClassifier
-
-events = pd.DataFrame(
-    [
-        {"event_id": "A", "risk_score": 0.92, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "B", "risk_score": 0.88, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "C", "risk_score": 0.81, "manually_reviewed": 1, "actual_failure_for_demo": 0},
-        {"event_id": "D", "risk_score": 0.76, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "E", "risk_score": 0.69, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "F", "risk_score": 0.62, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-        {"event_id": "G", "risk_score": 0.55, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "H", "risk_score": 0.48, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-        {"event_id": "I", "risk_score": 0.37, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "J", "risk_score": 0.29, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-    ]
-)
-
-reviewed = events[events["manually_reviewed"].eq(1)]
-
-model = DecisionTreeClassifier(random_state=0, max_depth=2)
-model.fit(reviewed[["risk_score"]], reviewed["actual_failure_for_demo"])
-events["predicted_from_reviewed_only"] = model.predict(events[["risk_score"]])
-events["error"] = events["predicted_from_reviewed_only"].ne(events["actual_failure_for_demo"])
-
-print("label coverage")
-print(events.groupby("manually_reviewed")["event_id"].count().to_dict())
-print("failure rate in reviewed labels:", reviewed["actual_failure_for_demo"].mean())
-print("failure rate in all events for demo:", events["actual_failure_for_demo"].mean())
-print(
-    "accuracy on reviewed labels:",
-    accuracy_score(reviewed["actual_failure_for_demo"], model.predict(reviewed[["risk_score"]])),
-)
-print(
-    "accuracy on all events for demo:",
-    accuracy_score(events["actual_failure_for_demo"], events["predicted_from_reviewed_only"]),
-)
-print("errors by review path:", events.groupby("manually_reviewed")["error"].sum().to_dict())
-print(
-    events[
-        [
-            "event_id",
-            "manually_reviewed",
-            "actual_failure_for_demo",
-            "predicted_from_reviewed_only",
-            "error",
-        ]
-    ].to_string(index=False)
-)
-```
-
-期望输出：
-
-```text
-label coverage
-{0: 6, 1: 4}
-failure rate in reviewed labels: 0.75
-failure rate in all events for demo: 0.6
-accuracy on reviewed labels: 1.0
-accuracy on all events for demo: 0.7
-errors by review path: {0: 3, 1: 0}
-event_id  manually_reviewed  actual_failure_for_demo  predicted_from_reviewed_only  error
-       A                  1                        1                             1  False
-       B                  1                        1                             1  False
-       C                  1                        0                             0  False
-       D                  1                        1                             1  False
-       E                  0                        1                             1  False
-       F                  0                        0                             1   True
-       G                  0                        1                             1  False
-       H                  0                        0                             1   True
-       I                  0                        1                             1  False
-       J                  0                        0                             1   True
-```
-
-只看被复核标签时，准确率是 `1.0`。但为了演示而打开全部事件的真实结果后，准确率会降到 `0.7`，而且 3 个错误全部都在 `manually_reviewed=0` 路径上。这个输出说明，有确认标签的案例未必代表全部事件。在真实运营中，未被复核事件的结果可能并不知道，所以更应该一起留下：`缺失标签是正常，还是未确认`，以及 `人工是按什么标准只复核了部分事件`。
+只有A至D四次有标签，E至J六次未确认。标签覆盖率为**有标签次数/总次数**，即`4/10=40%`。已复核集合的故障比例为**确认故障次数/复核次数**，即`3/4=75%`。两者分母与问题不同，不能将75%改称全部事件的故障比例。
 
 ## 区分已复核案例与整体评估范围 {#_1}
 
-这一节的核心，是不要把 `只留在被复核案例上的确认标签` 直接读成全部事件的答案表。只要出现确认标签，就应当把 `缺失标签的含义`、`复核路径` 和 `偏向可能性` 一起写出来，避免把解读强度说得过重。
-
+```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-6-mermaid-01-zh.mmd"
+```
+
+准确率是预测与确认结果一致的次数除以被评估次数。A至D四次预测全部一致，因此**已复核集合的准确率为`4/4=100%`**。本例没有训练步骤，所以这不是训练集再评估分数。但它也没有证明新事件或未复核集合的性能，只描述被选中的四次高分事件。
+
+要计算整体准确率，还需知道E至J的预测是否正确。将`?`填为0，相当于把未知结果虚构为非故障。仅知道四次预测正确，不能确定全部十次事件的单一准确率数值。
+
+## 仅为教学揭开隐藏结果
+
+为计算已选集合与整体的差异，下面六个结果被假定为**教学用隐藏答案**。实际运行中不能自动获得这一列，需要额外复核或适当的后续结果确认。
+
+| event_id | actual_failure_for_demo | fixed_prediction | 预测是否一致 |
+| --- | ---: | ---: | --- |
+| E | 1 | 1 | 一致 |
+| F | 0 | 1 | 不一致 |
+| G | 1 | 1 | 一致 |
+| H | 0 | 1 | 不一致 |
+| I | 1 | 1 | 一致 |
+| J | 0 | 1 | 不一致 |
+
+揭开后，未复核六次中的故障为E、G、I三次，预测一致也是三次。整体故障比例为`(3+3)/10=60%`，整体演示准确率为`(4+3)/10=70%`。60%描述结果构成，70%描述预测一致程度，不能互换。
+
+| 指标 | 分子/分母 | 仅凭当前复核记录能否计算？ |
+| --- | --- | --- |
+| 标签覆盖率 | 4/10=40% | 可以 |
+| 已复核集合故障比例 | 3/4=75% | 可以 |
+| 整体演示故障比例 | 6/10=60% | 不可以，需要隐藏结果 |
+| 已复核集合准确率 | 4/4=100% | 可以，范围限于已复核集合 |
+| 整体演示准确率 | 7/10=70% | 不可以，需要隐藏结果 |
+
+100%与70%是在不同集合上评估相同固定预测得到的数值。三个错误F、H、J最初都未复核，但并非所有选择性复核都会使准确率偏高。本例说明的是，不能把已复核准确率直接推广为整体性能。
+
+## 同时保留复核范围与结果确认路径
+
+报告可写：“全部十次事件中复核了分数至少0.75的四次，标签覆盖率为40%。已复核集合准确率为100%；另六次结果不可得，整体准确率尚未确认。”还应保留复核政策、实际完成状态、标签定义、确认时间与来源。仅生成复核请求，不表示已经获得确认标签。
+
+设计额外核查时，可以考虑从低分范围随机抽取部分案例，或按分数区间抽样。记录选择规则、入选概率与未完成案例，采用相同标签定义和结果确认时段。获得少量额外标签不自动保证代表性，整体估计仍需考虑抽样设计。
+
+## 自己计算
+
+假定可以使用教学隐藏结果，将复核标准改为`review_score ≥ 0.60`，并完成所有符合条件事件的复核。预测保持不变。标签覆盖率、已复核集合故障比例及准确率各是多少？
+
+解析：新增E、F，复核集合变为A至F六次。覆盖率为`6/10=60%`；故障为A、B、D、E，比例为`4/6≈66.7%`；仅F预测错误，准确率为`5/6≈83.3%`。预测与实际结果未改变，因此整体演示准确率仍为`7/10=70%`。已复核集合准确率的变化不是重新训练的效果。如果没有实际确认E、F的结果，就不能计算本练习的新数值。
 
 ## 检查清单
 
-- 你能否解释为什么仅保留已复核案例时，很难估计整体性能？
-- 你是否提出了进一步确认未复核案例结果的方法？
+- 能否说出覆盖率、故障比例与准确率各自的分子和分母？
+- 能否保留未确认状态，而不填成非故障，并指出当前记录无法计算的指标？
+- 能否区分固定预测的评估集合变化与训练效果，并提出确认额外结果的路径？
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。它提供了标签是附着在 example 上的结果信息这一基本框架，因此可以补强本节的说明：如果确认标签只留在部分案例上，那么这个有标签集合未必代表与全部事件集合相同的范围。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- Himabindu Lakkaraju, Jon Kleinberg, Jure Leskovec, Jens Ludwig, Sendhil Mullainathan, `The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables`, KDD 2017。它说明在选择性标注数据中，观测到的结果可能只是既有人类决策选择之后才留下的结果，而不是整体人群的随机样本，因此直接支持本节的提醒：不要把只留在被复核案例上的标签读成全部事件的答案表。 [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
-- W3C, `PROV-Overview`。它提供了记录某个结果是经过什么复核过程产生的 provenance 视角，因此可作为本节的一般依据：在解读选择性标签时，要把复核路径和缺失标签的含义一起写出来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- [Lakkaraju等，The Selective Labels Problem，KDD 2017](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } — 学会官方摘要说明选择性观察结果可能扭曲评估。本节事件、固定预测与隐藏结果均为自行构造的虚拟教学案例，并非论文实验结果。查阅日期：2026-09-20。

@@ -1,143 +1,84 @@
-# P3-8.6 Confirmed Labels Left Only on Some Cases
+# P3-8.6 Confirmed Labels Available for Only Some Cases
 
 > Section ID: `P3-8.6`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_Subtitle: What should be written with the interpretation when confirmed labels exist only for reviewed cases?_
+When people examine only selected events from a review queue, confirmed outcomes may exist only for those events. **Unreviewed does not mean non-failure.** [Selective labels](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-selective-labels) arise when which cases receive outcome confirmation determines the scope of observed labels. Even accurate labels raise a separate question: does the labeled set represent all events?
 
-At the interpretation stage, it can matter not only `how the numbers differ` but also who received a confirmed [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label). In real operations, not every event gets reviewed with the same depth. A person may revisit only some cases that looked abnormal, and only those cases may receive confirmed labels. If this [selective labels](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-selective-labels) structure is hidden, readers can easily read `the set of cases with labels` as if it were `the set of all events`.
+## Which four of the ten events were reviewed?
 
-If confirmed labels remain only on reviewed cases, those labels should not immediately be read as representing the whole.
+The following ten events are fictional. `review_score` is an illustrative selection score, not a failure probability. Assume review was completed only for events with `review_score ≥ 0.75`. `fixed_prediction` is a fictional binary prediction held constant when review coverage changes. It was neither calculated from the score nor produced by training a model on this table. One predicts failure; zero predicts non-failure.
 
-| Visible state | What should also be written in the interpretation |
-| --- | --- |
-| Confirmed labels exist only for some cases | By what rule were only those cases reviewed? |
-| Cases with `review_needed=0` were rarely rechecked | Does no label mean normal, or does it mean unchecked? |
-| Labels cluster only in a certain period or on certain equipment | Could the label set itself have [bias](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-bias)? |
+`confirmed_failure` records the review outcome: 1 means confirmed failure, 0 confirmed non-failure, and `?` unknown. Assume completed review yields an accurate label, separating label error from selection. Confirming failure does not establish a particular root cause.
 
-Consider the table below.
-
-| event_id | review_needed | manually_reviewed | confirmed_root_cause |
+| event_id | review_score | fixed_prediction | confirmed_failure |
 | --- | ---: | ---: | --- |
-| A | 1 | 1 | sensor_drop |
-| B | 1 | 1 | valve_delay |
-| C | 0 | 0 | None |
-| D | 0 | 0 | None |
+| A | 0.92 | 1 | 1 |
+| B | 0.88 | 1 | 1 |
+| C | 0.81 | 0 | 0 |
+| D | 0.76 | 1 | 1 |
+| E | 0.69 | 1 | ? |
+| F | 0.62 | 1 | ? |
+| G | 0.55 | 1 | ? |
+| H | 0.48 | 1 | ? |
+| I | 0.37 | 1 | ? |
+| J | 0.29 | 1 | ? |
 
-If you look only at the two rows with `confirmed_root_cause` and then describe the root-cause distribution of the whole operation, the interpretation can become exaggerated. You need to state why only A and B were reviewed by people, and whether C and D are blank because they were truly normal or because they were simply not reviewed yet.
-
-At the interpretation stage, notes like the following are enough.
-
-| Note to write first | Why it is needed |
-| --- | --- |
-| The rule for becoming a review target | To expose a structure in which labels remain selectively |
-| The meaning of a missing label | To avoid mixing normal with unchecked |
-| Range bias in the set with labels | To avoid overstating interpretation strength |
-
-The important point here is that `a selectively attached confirmed label can serve as interpretation evidence, but before reading it as a full answer set that represents all events, you should first write the review path and possible bias`. A confirmed-label table should therefore first be read not as `the answer table for all events`, but as a confirmation result for some events that passed through a review path such as a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure).
-
-The next example reduces this problem into a small model evaluation. In real operations, the final result of unreviewed events may be unknown. So `actual_failure_for_demo` in the code is a hidden outcome used only for learning. The goal is not to use this value as an answer table, but to check what kind of illusion can appear when a model is evaluated only with labels left on reviewed cases.
-
-Problem situation: We want to see how a model score can look different depending on the review path when confirmed labels exist only for reviewed cases.
-
-Input: `risk_score`, `manually_reviewed`, and the hidden demo outcome `actual_failure_for_demo`.
-
-Expected output: Label coverage, accuracy on reviewed labels, accuracy when all events are opened for the demo, and error counts by review path.
-
-Concept to check: A model can look good if we only inspect selectively reviewed labels, while errors may be hidden in the unreviewed range.
-
-```python
-# This example checks how evaluation can become biased when only selectively reviewed labels are used.
-import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeClassifier
-
-events = pd.DataFrame(
-    [
-        {"event_id": "A", "risk_score": 0.92, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "B", "risk_score": 0.88, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "C", "risk_score": 0.81, "manually_reviewed": 1, "actual_failure_for_demo": 0},
-        {"event_id": "D", "risk_score": 0.76, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "E", "risk_score": 0.69, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "F", "risk_score": 0.62, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-        {"event_id": "G", "risk_score": 0.55, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "H", "risk_score": 0.48, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-        {"event_id": "I", "risk_score": 0.37, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "J", "risk_score": 0.29, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-    ]
-)
-
-reviewed = events[events["manually_reviewed"].eq(1)]
-
-model = DecisionTreeClassifier(random_state=0, max_depth=2)
-model.fit(reviewed[["risk_score"]], reviewed["actual_failure_for_demo"])
-events["predicted_from_reviewed_only"] = model.predict(events[["risk_score"]])
-events["error"] = events["predicted_from_reviewed_only"].ne(events["actual_failure_for_demo"])
-
-print("label coverage")
-print(events.groupby("manually_reviewed")["event_id"].count().to_dict())
-print("failure rate in reviewed labels:", reviewed["actual_failure_for_demo"].mean())
-print("failure rate in all events for demo:", events["actual_failure_for_demo"].mean())
-print(
-    "accuracy on reviewed labels:",
-    accuracy_score(reviewed["actual_failure_for_demo"], model.predict(reviewed[["risk_score"]])),
-)
-print(
-    "accuracy on all events for demo:",
-    accuracy_score(events["actual_failure_for_demo"], events["predicted_from_reviewed_only"]),
-)
-print("errors by review path:", events.groupby("manually_reviewed")["error"].sum().to_dict())
-print(
-    events[
-        [
-            "event_id",
-            "manually_reviewed",
-            "actual_failure_for_demo",
-            "predicted_from_reviewed_only",
-            "error",
-        ]
-    ].to_string(index=False)
-)
-```
-
-Expected output:
-
-```text
-label coverage
-{0: 6, 1: 4}
-failure rate in reviewed labels: 0.75
-failure rate in all events for demo: 0.6
-accuracy on reviewed labels: 1.0
-accuracy on all events for demo: 0.7
-errors by review path: {0: 3, 1: 0}
-event_id  manually_reviewed  actual_failure_for_demo  predicted_from_reviewed_only  error
-       A                  1                        1                             1  False
-       B                  1                        1                             1  False
-       C                  1                        0                             0  False
-       D                  1                        1                             1  False
-       E                  0                        1                             1  False
-       F                  0                        0                             1   True
-       G                  0                        1                             1  False
-       H                  0                        0                             1   True
-       I                  0                        1                             1  False
-       J                  0                        0                             1   True
-```
-
-If we look only at reviewed labels, the accuracy is `1.0`. But when all events are opened for the demo, accuracy drops to `0.7`, and all three errors are on the `manually_reviewed=0` path. This output shows that cases with confirmed labels may not represent all events. In real operations, we may not know the result of unreviewed events, so it is even more important to write together whether a missing label means normal or unchecked, and by what rule a person reviewed only some events.
+Only A–D have labels; E–J are unknown. Label coverage is **labeled events/all events**, hence `4/10=40%`. The reviewed-set failure proportion is **confirmed failures/reviewed events**, or `3/4=75%`. Their denominators and questions differ. Do not report 75% as the failure proportion of all events.
 
 ## Separating Reviewed Cases from the Full Evaluation Population {#a-small-diagram}
 
-The key point in this section is not to read `confirmed labels that remain only on reviewed cases` as if they were the answer table for all events. Once confirmed labels appear, the `meaning of missing labels`, the `review path`, and possible `bias` should be written beside them so the interpretation is not overstated.
-
+```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-6-mermaid-01-en.mmd"
+```
+
+Accuracy divides predictions matching confirmed outcomes by the number evaluated. All four predictions for A–D match, so **reviewed-set accuracy is `4/4=100%`**. There is no training step here, so this is not a training-set reevaluation score. It nevertheless does not demonstrate performance on new events or the unreviewed set. It describes four selected high-score events.
+
+Overall accuracy also requires knowing whether predictions for E–J were correct. Replacing `?` with zero invents non-failure outcomes where results are unknown. Knowing that four predictions matched does not determine a single accuracy value for all ten events.
+
+## Reveal hidden outcomes for teaching only
+
+Solely to calculate the difference between the selected set and the full set, assume the following six **hidden teaching outcomes**. These are not automatically available in real operations; further review or suitable follow-up outcome confirmation would be needed.
+
+| event_id | actual_failure_for_demo | fixed_prediction | Prediction match |
+| --- | ---: | ---: | --- |
+| E | 1 | 1 | match |
+| F | 0 | 1 | mismatch |
+| G | 1 | 1 | match |
+| H | 0 | 1 | mismatch |
+| I | 1 | 1 | match |
+| J | 0 | 1 | mismatch |
+
+Revealing these outcomes shows three failures, E, G, and I, and three matching predictions among the six unreviewed events. The full-set failure proportion is `(3+3)/10=60%`; full-demo accuracy is `(4+3)/10=70%`. The former describes outcome composition; the latter describes prediction agreement. They are not interchangeable.
+
+| Metric | Numerator/denominator | Calculable from current review records alone? |
+| --- | --- | --- |
+| Label coverage | 4/10=40% | Yes |
+| Reviewed-set failure proportion | 3/4=75% | Yes |
+| Full-demo failure proportion | 6/10=60% | No; requires hidden outcomes |
+| Reviewed-set accuracy | 4/4=100% | Yes, restricted to the reviewed set |
+| Full-demo accuracy | 7/10=70% | No; requires hidden outcomes |
+
+The 100% and 70% values evaluate the same fixed predictions on different sets. All three errors, F, H, and J, were initially unreviewed, but selective review does not always inflate accuracy. This example shows why reviewed-set accuracy cannot simply be generalized to overall performance.
+
+## Record coverage and the outcome-confirmation pathway
+
+Report: “Of ten events, four scoring at least 0.75 were reviewed, giving 40% label coverage. Reviewed-set accuracy was 100%. Outcomes for the other six are unavailable, so overall accuracy is unknown.” Preserve the review policy, actual completion status, label definition, confirmation time, and source. A review request alone does not establish a confirmed label.
+
+For additional checking, consider randomly sampling cases from lower-score ranges or sampling within score bands. Record selection rules, selection probabilities, and incomplete reviews, and use the same label definition and outcome-confirmation period. A few additional labels do not automatically establish representativeness; overall estimates must account for the sampling design.
+
+## Calculate it yourself
+
+Assuming the hidden teaching outcomes are available, change the review threshold to `review_score ≥ 0.60` and complete review for all qualifying events. Keep predictions fixed. What are label coverage, reviewed-set failure proportion, and reviewed-set accuracy?
+
+Explanation: E and F join the set, so A–F are reviewed. Coverage is `6/10=60%`; the failure proportion is `4/6≈66.7%` for A, B, D, and E; accuracy is `5/6≈83.3%` because only F is wrong. Full-demo accuracy remains `7/10=70%` because predictions and outcomes did not change. The reviewed-set accuracy change is not a retraining effect. Without actually confirming E and F's outcomes, these new exercise values cannot be calculated.
 
 ## Checklist
 
-- Can you explain why overall performance is hard to estimate from reviewed cases alone?
-- Did you propose a way to check outcomes for unreviewed cases?
+- Can you identify the numerator and denominator of coverage, failure proportion, and accuracy?
+- Can you leave unknown outcomes unknown and identify metrics unavailable from current records?
+- Can you distinguish changing the evaluation set for fixed predictions from a training effect and suggest a way to confirm additional outcomes?
 
-## Sources and References
+## Sources and references
 
-- Google for Developers, `Machine Learning Glossary`, `labeled example`. It provides the basic frame that a label is result information attached to an example, which supports this section's explanation that if confirmed labels remain only for some cases, that labeled set may not represent the same range as the set of all events. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Himabindu Lakkaraju, Jon Kleinberg, Jure Leskovec, Jens Ludwig, Sendhil Mullainathan, `The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables`, KDD 2017. It explains that in selectively labeled data, observed outcomes can be consequences of earlier human decisions rather than a random sample of the whole population, which directly supports this section's warning not to read labels left only on reviewed cases as the answer table for all events. [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, `PROV-Overview`. It offers a provenance perspective for recording what review procedure produced a given result, which provides a general basis for this section's claim that the review path and the meaning of missing labels should be written together when interpreting selectively labeled cases. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [Lakkaraju et al., The Selective Labels Problem, KDD 2017](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } — The official conference abstract describes how selective outcome observation can distort evaluation. Events, fixed predictions, and hidden outcomes here are our fictional teaching example, not the paper's experimental results. Accessed: 2026-09-20.

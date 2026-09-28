@@ -1,114 +1,84 @@
 # P3-9.7 如何区分预测时可用的输入与之后的结果
 
 > Section ID: `P3-9.7`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-这个区分不要只留在说明句中，也要作为 交接用 数据表的最小字段保留下来。例如同时放入 `feature_available_at`、`target_window_start`、`target_window_end`、`cutoff_at`、`horizon_days`、`leakage_check_note`，就能逐行确认哪个输入在什么时点可用，以及要预测哪个结果 期间。
+[P3-9.6](section-06.zh.md)检查了标签含义和判断条件。现在需要用结果揭晓前实际可用的信息构造输入。[预测契约](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-prediction-contract)共同约定预测对象、输入的构造时点与规则，以及要预测的结果定义。不仅要看列名，还要核实每个值何时变得可用。
 
-如果已经决定把问题提升成预测问题，那么现在就要把它的结构是否真的满足[预测契约(prediction contract)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-prediction-contract)这一点关上。重要的不是长篇理论，而是四个检查：哪些列是输入，哪些列是结果候选，预测时点之后的信息有没有混进来，以及你究竟看到哪一段信息、要去预测哪个时点的结果。
+## 用 10 时的输入预测之后七天
 
-这一节会先把四件事关上：输入/结果区分、泄漏防止、运营时点可复现性、以及时间边界。
+下面用虚构设备说明时间边界。一次预测针对 `equipment_id=M-01` 在 `2026-09-01 10:00` 的状态，所有时间均采用韩国标准时间（KST）。即使是同一设备，预测时点不同也视为不同样本。
 
-| 先要关上的东西 | 如果改写成问题 |
+| 项目 | 本例的值与定义 |
 | --- | --- |
-| 输入和结果的区分 | 哪些列是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)，哪些列是目标候选(target candidate)？ |
-| 防止未来信息泄漏 | 有没有预测时点还不知道的值混进来，形成[数据泄漏(data leakage)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-data-leakage)？ |
-| 运营时点可复现性 | 训练时做出的输入，能不能在运营里按同样规则重新做出来？ |
-| cutoff / horizon | 看到哪一段信息，又要去预测哪个后续结果？ |
+| 输入截止时间 `cutoff_at` | 2026-09-01 10:00。只使用截至此时系统实际可读取的信息 |
+| 预测跨度 `horizon_days` | 7 天 |
+| 结果窗口 | 2026-09-01 10:00 及之后，2026-09-08 10:00 之前。包含起点、不包含终点 |
+| 目标 `failure_within_7d` | 确认设备在该窗口内发生故障则为 1；检查完整窗口且没有故障则为 0 |
+| 尚未确认的结果 | 保留为未确认。未复核或观察未完成不能填成 0 |
 
-## 先看一个场景
+本例将故障定义为“设备自身异常导致计划动作未能完成，并且原因已在维修记录中确认”。排除计划停机，将该定义记为 `failure-v1`。下文的数值和 ID 用于说明，不代表真实设备风险。
 
-即使还是同一张事件表，只要像下面这样把`预测前可知道的列`和`预测后才生成的列`混在一起，问题结构就会立刻被破坏。
+## 过去测量的值也可能到达太晚
 
-| event_id | recent_diff | repeatability | review_result | target_candidate |
-| --- | --- | --- | --- | --- |
-| A | -0.32 | high | manual_reviewed | review_needed |
-| B | -0.06 | low | skipped | normal |
+[特征](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)是提供给模型的输入值。这里的 `recent_diff` 是相同测量条件下近期平均流量减去基线平均流量。近期均值 2.20 L/min、基线均值 2.52 L/min 得到 `2.20 − 2.52 = −0.32 L/min`。
 
-这里的 `recent_diff` 和 `repeatability` 是可以在预测前构造出来的列。相反，`review_result` 只有在人已经完成复核之后才会出现。如果把这一列也放进输入里，那么表面上看表结构仍然正常，但实际上已经变成了`看过答案之后再构造输入`的结构。这样一来，即使训练时分数很高，也等于利用了真实预测时点并不存在的信息，因此不能再把它视为同一个问题。
+| 信息或计算 | 发生或覆盖时间 | 实际可用时间 | 是否作为 9 月 1 日 10 时输入 |
+| --- | --- | --- | --- |
+| `base-v1` 基线 2.52 | 截至 8 月 31 日 17:00 的已确认资料 | 8 月 31 日 18:00 | 可用。保留当时确认的资料及计算版本 |
+| 近期均值 2.20 与 `recent_diff=-0.32` | 9 月 1 日 09:55 前完成的动作 | 9 月 1 日 09:58 | 可用。假设原始记录此时也已到达并核实 |
+| 新增传感器测量 | 9 月 1 日 09:59 测量 | 9 月 1 日 10:02 到达 | 排除。虽已发生，但在截止后才到达 |
+| 后来重新计算的 `recent_diff` | 基线纳入了截至 9 月 2 日 17:00 的记录 | 9 月 2 日 18:00 | 排除。计算材料包含未来资料 |
+| `review_result` | 9 月 1 日 10:20 完成复核 | 9 月 1 日 10:21 记录 | 排除。判断产生于预测之后 |
+| `failure_within_7d=1` | 9 月 3 日 14:00 故障，经维修确认 | 本例在 9 月 8 日 10:10 写入结果表 | 关联为训练结果；排除在 9 月 1 日输入之外 |
 
-下面的例子用真实模型输出来确认这种差异。`available_at_cutoff` 只使用预测时点能构造出来的列，而 `leaky_after_review` 只使用预测之后才生成的 `review_result_code`。即使第二个模型看起来分数更好，它也因为使用了运营时点不可用的列而破坏了预测契约。
+`feature_available_at` 表示系统实际能够使用该特征值的时刻。除了原始数据到达，还需要完成必要的计算。即使都叫 `recent_diff`，9 月 1 日确定的值与使用 9 月 2 日资料重算的值也不同。事后创建的表即使标上过去的日期，也不会变成当时的输入。
 
-问题场景：想比较预测时点可用输入和预测之后才出现的泄漏输入，会让模型分数看起来有什么不同。
+## 把之后的结果作为输入，相当于提前给出答案
 
-输入(input)：`recent_diff`、`repeatability`、`review_result_code`、`target`。
+构造模型时使用预测时不可得的信息，就是[数据泄漏](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-data-leakage)。把后来确认的结果关联为训练答案是必要的，但若又把它放入同一样本的输入，就提供了未来信息。
 
-期望输出(output)：每个 feature set 使用的列、测试准确率、预测/实际比较。
+| 单独的教学样本 | 窗口结束后确认的 `failure_within_7d` | 复制该结果的 `result_code` | 直接复制 `result_code` 作为答案 |
+| --- | ---: | ---: | ---: |
+| E | 1 | 1 | 1 |
+| F | 0 | 0 | 0 |
 
-要确认的概念：如果把预测之后才生成的列放进输入里，分数可能变好看，但它不再是有效的运营预测问题。
+这两行因为直接复制答案而得到 `2 / 2 = 100%`。这不是对模型未来预测能力的检验。案例用于说明泄漏，不表示泄漏总会使分数提高同样幅度。无论分数高低，都应先检查输入在预测时是否可用。
 
-```python
-# 这个例子用来确认预测时点可用列和复核后泄漏列之间的差异。
-import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeClassifier
-
-records = pd.DataFrame(
-    [
-        {"event_id": "A", "recent_diff": -0.32, "repeatability": 3, "review_result_code": 1, "target": 1},
-        {"event_id": "B", "recent_diff": -0.06, "repeatability": 1, "review_result_code": 0, "target": 0},
-        {"event_id": "C", "recent_diff": -0.28, "repeatability": 2, "review_result_code": 1, "target": 1},
-        {"event_id": "D", "recent_diff": -0.04, "repeatability": 1, "review_result_code": 0, "target": 0},
-        {"event_id": "E", "recent_diff": -0.18, "repeatability": 1, "review_result_code": 1, "target": 1},
-        {"event_id": "F", "recent_diff": -0.12, "repeatability": 3, "review_result_code": 0, "target": 0},
-    ]
-)
-
-train = records.iloc[:4]
-test = records.iloc[4:]
-feature_sets = {
-    "available_at_cutoff": ["recent_diff", "repeatability"],
-    "leaky_after_review": ["review_result_code"],
-}
-
-for name, columns in feature_sets.items():
-    model = DecisionTreeClassifier(random_state=0, max_depth=2)
-    model.fit(train[columns], train["target"])
-    predicted = model.predict(test[columns])
-    comparison = [
-        (event_id, int(prediction), int(actual))
-        for event_id, prediction, actual in zip(test["event_id"], predicted, test["target"])
-    ]
-    print(name, "features:", columns)
-    print(name, "accuracy:", accuracy_score(test["target"], predicted))
-    print(name, "predictions:", comparison)
-```
-
-期望输出：
-
-```text
-available_at_cutoff features: ['recent_diff', 'repeatability']
-available_at_cutoff accuracy: 0.0
-available_at_cutoff predictions: [('E', 0, 1), ('F', 1, 0)]
-leaky_after_review features: ['review_result_code']
-leaky_after_review accuracy: 1.0
-leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
-```
-
-`leaky_after_review` 的准确率是 `1.0`，但不能把它读成一个好的预测问题。`review_result_code` 是人已经完成复核之后才生成的列。在真实运营预测时点，这个值还不知道。因此这个例子的核心不是寻找高分模型，而是先关上：`这列在预测时点真的能构造出来吗？`
-
-### 发生时间与可用时间不同
-
-假设在 10 点进行预测。传感器虽然在 9 点 59 分测量，但服务器直到 10 点 2 分才收到，这个值就不能放入 10 点的输入。即使某列标注的是过去时间，也要确认预测系统当时是否实际能够读取。即便是 `recent_diff`，如果计算基准线时混入了未来记录，也不能作为输入。
-
-这里，`cutoff` 是输入信息的截止时点，`horizon` 是要预测的未来期间。应一起写明两个边界，例如：`用截至 10 点可用的信息，预测之后 7 天内是否失败。`之后到达的正确结果可以作为训练目标关联进来，但重建当时输入时不能包含它。
+`review_result=skipped` 也不代表没有故障或正常运行。它表示跳过复核的处理状态。如果任务需要之后的故障结果，就必须另外寻找观察和确认记录。
 
 ## 在预测时点区分可用输入与后续结果 {#_3}
-
-输入/结果契约并不是`把列分开`就结束了，还必须按下面顺序关到只剩预测时点真正可用的值。
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-7-mermaid-01-zh.mmd"
 ```
 
-所以，关上输入/结果契约，不只是`把列名分开`。还必须把`每一列是在什么时候生成的`一起写下来。要让一行样本输入成立，这一行里的所有值都必须是在同一个预测时点上真实能够被构造出来的值。
+箭头表示时间先后和记录关联，并不按比例表示时间间隔。09:59 的测量虽然发生在 10 时截止之前，但 10:02 才到达，因此不能纳入当时的输入。事后构造训练表时，也应重建截止时实际可用的输入，将结果关联为单独的列。
 
-即使样本边界保持不变，输入表达也不必只能固定成一种形式。有的情况下，一行特征向量更自然；也有的情况下，保留时间顺序的一组输入更自然。真正重要的是，不管采用哪种表达方式，先要满足的都是：`这个输入在预测时点是否真的可用`，以及`结果候选和时间边界是否已经一起被关上了`。所以这里处理的，不是`随便一张表`，而是样本边界和时间边界都已经关上的输入结构。核心不是`把表传过去`，而是`把在预测时点成立的输入/结果契约关上`。更广一点说，这里关上的，是`输入定义`、`结果定义`、`时点可用性`、`可复现性`一起匹配的预测契约。
+## 向 Part 4 交接一行数据时需要的依据
+
+| 交接字段 | 本例应保留的内容 |
+| --- | --- |
+| 样本标识 | `equipment_id=M-01` + `cutoff_at=2026-09-01 10:00 KST` |
+| 输入及可用时间 | `recent_diff=-0.32 L/min`，`feature_available_at=2026-09-01 09:58 KST` |
+| 计算依据 | 近期均值 2.20、`base-v1` 均值 2.52、原始记录 ID 列表、覆盖期间、聚合规则 |
+| 结果边界 | `target_window_start=2026-09-01 10:00 KST`，`target_window_end=2026-09-08 10:00 KST`，`horizon_days=7`，包含起点、不包含终点 |
+| 结果及依据 | `failure-v1`、`failure_within_7d=1`、故障及维修记录 ID，9 月 8 日 10:10 写入结果表 |
+| `leakage_check_note` | 从输入中排除 10:02 到达的测量、未来基线重算值及复核后结果 |
+
+实际交接时必须填写具体的原始记录、故障及维修记录 ID。这里仅列出需要关联的记录类型，因此该表本身不是已完成训练准备的真实数据。若有多个特征，要分别检查各特征的可用时刻。
+
+练习：① 如果 09:59 测量提前到 09:59:30 到达，能否纳入均值？② 能否用 9 月 2 日基线重算的值覆盖 9 月 1 日的行？③ 能否把未复核状态改成结果 0？
+
+解答：① 到达提前不等于自动纳入。本例的均值覆盖 09:55 前完成的动作，要先检查是否属于聚合范围。若改变输入定义，还必须在 10 时前完成原始数据核实与特征计算，并能在实际运行中复现同一规则。② 不能，因为会引入未来信息。应保留当时的基线及输入版本。③ 不能，未复核意味着结果尚未确认，不等于 0。
+
+无论采用一行特征向量还是保留时间顺序的输入序列，都适用这些时间边界。交给 Part 4 的应包括输入值、结果及重建当时输入所需的依据。训练与评估划分将衔接 [P3-9.13](section-13.zh.md) 的交接项目。
 
 ## 检查清单
 
-- 你是否在时间轴上标明了预测时点和结果观察期间？
-- 你是否检查了输入中有无预测前发生、但预测后才到达的值？
+- 能否写明七天的起止时刻及端点是否包含，并区分输入时刻与结果观察期间？
+- 能否解释为何应从输入中排除 09:59 测量但 10:02 才到达的值、未来基线重算值及复核后结果？
+- 能否用当时的资料和版本重建输入，并区分未复核状态与结果 0？
 
 ## 来源与参考资料
 
@@ -116,4 +86,4 @@ leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
 - Google, *Datasets: Dividing the original dataset*。用于确认训练/验证/测试数据应分离、相同特征变换也应应用到真实运营数据、验证/测试数据应贴近模型会遇到的真实数据这一观点。 [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*。用于确认 provenance 视角下应保留处理步骤、可复现性、版本管理和派生关系。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
 
-- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }。用于确认实际预测时不可用信息的泄漏问题。确认日期：2026-09-15。
+- [scikit-learn, Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }. 用于核实预测时不可用信息的泄漏，以及训练和运行中的一致输入变换。确认日：2026-09-20。

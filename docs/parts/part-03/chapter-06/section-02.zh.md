@@ -1,7 +1,7 @@
 # P3-6.2 当特征本身还不够时，还可以加入什么中间表示
 
 > Section ID: `P3-6.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
 
@@ -19,7 +19,9 @@
 
 ![把原始曲线分成五个区段，并转换成 UP2、UP1、FLAT、DOWN1、DOWN2 token 的图](/AiBook/assets/part-03/chapter-06/segment-tokenization-curve-zh.png)
 
-这样一来，一条长曲线就会缩成像 `UP, FLAT, DOWN` 这样的短序列。这种表达对人来说容易阅读，对模型来说也更容易把曲线结构接收成长度更规则的输入。也就是说，区段表示是在把复杂时间序列转换成 `人和模型都能一起看的中间表示`。
+此图由 CSV 中事件 A 的斜率累加构造。横轴为区间边界索引而非实际时间，计算过程见下文。
+
+这样一来，一条长曲线就会缩成像 `UP, FLAT, DOWN` 这样的短序列。这种表达对人来说容易阅读，另外统一区间数量后，模型输入的 token 数量也可以相同。也就是说，区段表示是在把复杂时间序列转换成 `人和模型都能一起看的中间表示`。
 
 这种表示也可以按三个层级来读。最简单的层级，只保留方向，比如 `UP`、`DOWN`、`FLAT`。再细一点的层级，则会同时保留强度，比如 `UP1`、`UP2`、`DOWN3`。更进一步，还可以再看每个符号重复了几次、在哪些区间里持续更久。这样看，token 化就不是简单替换，而是把同一条原始曲线改写成多种分辨率。
 
@@ -27,7 +29,7 @@
 | --- | --- | --- | --- |
 | 只保留方向 | 上升、下降、平稳 | 变化幅度差异 | 需要非常快速比较时 |
 | 方向 + 强度 | 上升/下降的强弱 | 细节波动形状 | 想增加可解释特征时 |
-| 连重复长度也保留 | 同一模式持续了多久 | 原始时点间隔的细微变化 | 想看重复性和状态变换时 |
+| 连重复长度也保留 | 同一 token 连续出现的区间数 | 原始时点间隔的细微变化 | 想看重复性和状态变换时 |
 
 从这张表可以看出，token 化压得越厉害，就越容易读，但同时也会失去更多信息。因此，应该用哪一层，不是技术偏好，而是问题设定的一部分。是想做一个让运行人员快速扫视的报告，还是想做一个后面还能复用成模型输入的结构，会直接影响应该保留哪种层级的表示。
 
@@ -49,9 +51,36 @@
 
 要确认的概念：token 化不是把原始结构原样保留，而是把顺序和方向改写成更容易读取的中间表示。token 边界不是固定答案，而是要按问题检查的设计值。
 
+## 先确定斜率单位与 token 边界
+
+这个 CSV 包含虚构的斜率资料。为解释其中没有单位元数据的现有数值，本例规定**值采用任意单位，横轴采用区间边界索引**。斜率为 `(终点值−起点值)/(终点索引−起点索引)`，单位为每索引间隔的值单位，不是每秒变化量。例如起点值 0、终点值 0.92、索引 0→1，得到 `0.92/1=0.92`。CSV 只保存计算后的斜率，无法恢复原始测量或实际时刻。
+
+图中直线区间由 A 的斜率累加构造。从 0 开始依次加上 0.92、0.31、0.05、−0.42、−1.00，得到边界值 0、0.92、1.23、1.28、0.86、−0.14。这是解释用图，并非实测原始曲线或区间内部波动的重建。
+
+敏感设置采用弱边界 w=0.20、强边界 s=0.80。下列条件作用于斜率 x，并假定 `0 < w < s`。弱与强是本设计的等级，不是通用物理标准。
+
+| token | 条件 | 敏感设置范围 |
+| --- | --- | --- |
+| UP2 | x ≥ s | x ≥ 0.80 |
+| UP1 | w ≤ x < s | 0.20 ≤ x < 0.80 |
+| FLAT | −w < x < w | −0.20 < x < 0.20 |
+| DOWN1 | −s < x ≤ −w | −0.80 < x ≤ −0.20 |
+| DOWN2 | x ≤ −s | x ≤ −0.80 |
+
+手动分类 A 的 0.92、0.31、0.05、−0.42、−1.00，得到 `UP2, UP1, FLAT, DOWN1, DOWN2`。恰好 0.20 属于 UP1，−0.20 属于 DOWN1，0.80 属于 UP2，−0.80 属于 DOWN2。**FLAT 是边界内部的范围，不是严格等于 0。** 0.05 与 −0.10 都成为 FLAT，丢失小幅变化的方向与大小。端点差很小，也可能掩盖区间内部的大幅波动。
+
+保守设置采用 w=0.30、s=0.90。B 的 0.24 与 −0.22 分别从 UP1、DOWN1 变为 FLAT，但原始数值不变。A 的五个值在两种设置下都保留相同 token。改变的是分类规则，不是事件本身。
+
+## token 数量与实际持续时间需要分别确定
+
+token 化只是把一个区间映射为一个 token，不会自动统一区间数量。这个 CSV 每个事件生成 5 个 token，是因为输入本来就有 5 个区间。输入 3 个区间就生成 3 个 token；固定输入长度需要另行制定分段、裁剪或填充规则。
+
+`FLAT FLAT` 表示连续两个区间。若每个区间为 1 秒，总共 2 秒；若各为 10 秒，则为 20 秒。没有实际区间时长，就不能把重复次数当作持续时间。与 token 一起保留斜率、区间边界、实际时刻和阈值设置，才能从源记录复查丢失的细节。
+
 ```python
 # 这个例子在原始日志和最终特征之间加入中间表示，用来追踪计算依据。
 import csv
+import math
 from collections import defaultdict
 from pathlib import Path
 
@@ -62,6 +91,10 @@ token_settings = {
 }
 
 def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float) -> str:
+    if not all(math.isfinite(value) for value in (slope, strong_threshold, weak_threshold)):
+        raise ValueError("slope and thresholds must be finite")
+    if not 0 < weak_threshold < strong_threshold:
+        raise ValueError("require 0 < weak_threshold < strong_threshold")
     if slope >= strong_threshold:
         return "UP2"
     if slope >= weak_threshold:
@@ -164,7 +197,7 @@ token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
 
 例如，`['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']` 可以总结成 `前段上升很强，中间暂时变平，后段下降变得更大`。
 
-还要注意的一点是：即使平均值相同，token 序列也可能不同。比如，两次动作的平均流量都可能是 2.5，但其中一次是 `UP, FLAT, DOWN`，另一次却可能是 `FLAT, FLAT, FLAT`。如果只看平均值，它们会显得相似；但一看 token 序列，就会发现一个发生了结构变化，另一个则维持稳定。正因为这样，token 化不是装饰，而是一种用来补足平均值摘要遗漏结构的表示。
+还要注意的一点是：即使平均值相同，token 序列也可能不同。比如，两次动作的平均流量都可能是 2.5，但其中一次是 `UP, FLAT, DOWN`，另一次却可能是 `FLAT, FLAT, FLAT`。如果只看平均值，它们会显得相似；但一看 token 序列，就会发现一个发生了结构变化，另一个的斜率落在 FLAT 范围内。正因为这样，token 化不是装饰，而是一种用来补足平均值摘要遗漏结构的表示。
 
 这个差异也可以用一个简单的[向量化(vectorization)](/AiBook/zh/reference/concept-glossary-pinyin/x/#glossary-vectorization)例子来确认。下面的代码会比较两种排序：一种只按数值平均值排序，另一种先用 `TfidfVectorizer` 把 token 序列向量化，再按它和查询序列的相似度排序。
 
@@ -251,7 +284,9 @@ event_id           token_sequence  token_similarity
 
 这一节的核心，是既不把原始曲线立刻丢掉，也不太快把它压成几个数字。把曲线切成区段，再经过数值摘要改写成 token 序列之后，就会多出一层 `中间表示`。
 
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-2-mermaid-01-zh.mmd"
+```
 
 因此，token 化与其被看成独立技巧，不如更准确地读成一种选择：在保留原始日志和过度强压缩之间，`究竟要把结构保留到什么分辨率`。
 
@@ -265,4 +300,4 @@ event_id           token_sequence  token_similarity
 - TensorFlow, `Subword tokenizers`. 它把 subword tokenizer 解释成一种位于 word-based tokenization 和 character-based tokenization 之间的表示，因此可以帮助解释一种一般化视角：Part 3 的区段 token 也处在原始日志与强汇总之间的中间表示位置。这里把它直接连到时间序列 token 化的部分，是基于官方说明做出的类比性应用。 [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为决定哪些变换有助于模型训练的过程，因此支持这样一点：中间表示同样不是原样保留原始值，而是把它们改写成有利于比较和学习的形式。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 
-- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){ target="_blank" rel="noopener noreferrer" }。用于确认词频与 n-gram 所保留的局部顺序信息。确认日期：2026-09-15。
+- [scikit-learn Feature extraction](https://scikit-learn.org/stable/modules/feature_extraction.html){: target="_blank" rel="noopener noreferrer" }。用于确认词频与 n-gram 所保留的局部顺序信息。确认日期：2026-09-15。

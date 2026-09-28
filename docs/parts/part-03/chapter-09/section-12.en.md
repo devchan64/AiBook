@@ -1,111 +1,74 @@
 # P3-9.12 How Do False-Alarm and Miss Costs Change Decision Criteria
 
 > Section ID: `P3-9.12`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Do not leave error cost only in an explanatory paragraph; keep policy-related fields such as `false_negative_cost`, `false_positive_cost`, `review_capacity`, `threshold_policy_note`, and `cost_owner`. Then, even with the same target name, the kind of mistake you are trying harder to reduce connects to score interpretation and review-queue design.
+The preferred threshold can change with the costs assigned to misses and false alarms, even when scores stay the same. Here we fix target outcomes and model scores, then calculate [error costs](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-error-cost) for different decision rules. Changing cost assumptions does not change the definition of the actual outcome.
 
-_Subtitle: Why must you first write whether missed cases or false alarms hurt more, even for the same target?_
+## Define Positive 1 First
 
-Even under the same [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) name, which mistake hurts more can vary from problem to problem. Even in a problem that predicts `review_needed`, it depends on the operating context whether missing a risky case is more dangerous or whether unnecessarily sending a case to review is more burdensome. Even with the same target, the cost of a missed case and the cost of an unnecessary catch can differ, so this [error cost](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-error-cost) difference should be written down first in order to make clear which judgment you are trying harder to reduce.
+A–E are fictional equipment samples local to this section. Each prediction is made at `2026-09-01 10:00 KST`, targeting failure within seven days under `failure-v1` in [P3-9.7](section-07.en.md). The window includes September 1 at 10:00 and excludes September 8 at 10:00. Positive `actual=1` means a confirmed failure within that window; negative `actual=0` means no failure after full-window follow-up without gaps and completed record verification.
 
-| Error type | What can happen in operations |
-| --- | --- |
-| [False negative](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-false-negative) | A risky case can be missed and spread into a larger abnormality |
-| [False positive](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-false-positive) | People can spend time unnecessarily, increasing review burden |
+Scores are **supplied hypothetical model outputs**, not results of actual model training or validated failure probabilities. Assume they use inputs available at prediction time; `actual` is used only as a subsequently confirmed outcome. This teaching example compares rules against fixed historical outcomes; it does not experiment with the preventive effects of interventions.
 
-| Note to write first | Why it is needed |
-| --- | --- |
-| Which mistake hurts more? | To fix which kind of judgment should be reduced first |
-| In what form does that cost appear in real operations? | To explain it as an action burden rather than only a number |
-| What are you trying harder to reduce right now? | To fix the interpretation direction even under the same target |
+The decision is 1 if `score >= threshold`, otherwise 0, including equality. Connect decision 1 to inclusion as a review candidate, initially assuming all candidates can be processed.
 
-## Why Error Cost Changes the Interpretation of the Target
+| Error | Actual outcome and decision | Meaning here |
+| --- | --- | --- |
+| Miss: false negative | Actual 1, decision 0 | A sample with a failure is not flagged as a candidate |
+| False alarm: false positive | Actual 0, decision 1 | A sample without a failure is flagged as a candidate |
 
-Even with the same `review_needed` target, not every prediction score is read in the same way. In some problems, false negatives hurt more, so it is better to miss fewer risky cases even if that means sending somewhat more items into the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure). In other problems, false positives hurt more, so it is better to keep the review queue narrower. What changes here is not just a single [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-threshold) number, but `the judgment structure through which this target is interpreted`.
+A false alarm is an error relative to this failure target, not proof that reviewing the sample was worthless in every respect. Use hypothetical cost units: 0 for a correct decision, 10 per miss, and 2 per false alarm. These are not estimates of actual money or working time.
 
-Suppose the model scores look like this.
+## Count Misses and False Alarms in Five Cases
 
-| event_id | score | Reading 1: miss cost is high | Reading 2: over-detection cost is high |
-| --- | --- | --- | --- |
-| A | 0.82 | Move directly to the top of the review queue | Move to the top of the review queue |
-| B | 0.64 | Include in the review queue | Hold for now |
-| C | 0.41 | Keep as a secondary review candidate | Exclude |
+| event_id | score | actual | Decision at 0.3 | Decision at 0.5 | Decision at 0.7 |
+| --- | ---: | ---: | --- | --- | --- |
+| A | 0.82 | 1 | 1 · correct | 1 · correct | 1 · correct |
+| B | 0.64 | 1 | 1 · correct | 1 · correct | 0 · miss |
+| C | 0.41 | 0 | 1 · false alarm | 0 · correct | 0 · correct |
+| D | 0.36 | 1 | 1 · correct | 0 · miss | 0 · miss |
+| E | 0.22 | 0 | 0 · correct | 0 · correct | 0 · correct |
 
-If the cost of missing a case is high, then including `B` in the review queue is more natural. If the cost of over-detection is high, then it may be more natural to hold `B` and look only at `A`. So even under the same [score](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-score) and the same target name, a different error-cost structure changes both review-queue priority and threshold interpretation.
+At 0.3, C is the only false alarm and there are no misses. At 0.5, D is missed; at 0.7, B and D are missed. Zero misses at 0.3 is a calculation for these five scores and outcomes, not a guarantee that low thresholds catch every failure.
 
-The next example applies several thresholds to the same scores and calculates false-negative and false-positive costs separately. Here, the miss cost is 10 and the false-alarm cost is 2.
+Calculate **total cost = misses × 10 + false alarms × 2**.
 
-Problem situation: We want to see how total cost changes under the same `review_needed` scores when thresholds and error costs change.
+| Threshold | Candidates | Misses | False alarms | Cost calculation |
+| --- | ---: | ---: | ---: | --- |
+| 0.3 | 4 | 0 | 1 | 0 × 10 + 1 × 2 = 2 |
+| 0.5 | 2 | 1 | 0 | 1 × 10 + 0 × 2 = 10 |
+| 0.7 | 1 | 2 | 0 | 2 × 10 + 0 × 2 = 20 |
 
-Input: Each event's `score`, the actual result `actual`, threshold candidates, and error costs.
+Both 0.3 and 0.5 get four of five decisions correct. Their accuracy is equal, but one false alarm versus one miss yields assumed costs of 2 versus 10. Threshold 0.3 is cheapest among these three candidates, not an operational optimum found by searching every threshold.
 
-Expected output: Review-queue size, false-negative count, false-positive count, and total cost by threshold.
+## Changing Costs Leaves Targets and Scores Unchanged
 
-Concept to check: Threshold selection should be read together with which error cost matters more, not with accuracy alone.
+Keep miss cost at 10 and raise only false-alarm cost to 12. The three costs become `0×10 + 1×12 = 12`, `1×10 + 0×12 = 10`, and `2×10 + 0×12 = 20`. Threshold 0.5 is now cheapest among the three. The cost assumption changes the policy choice; `actual`, scores, and the failure definition stay fixed.
 
-```python
-# This example checks how judgment cost changes with threshold and error-cost settings.
-import pandas as pd
-from sklearn.metrics import confusion_matrix
+This differs from [P3-9.11](section-11.en.md), where the rule producing training labels changed. Here we decide how burdensome each error is and compare decisions against the same outcomes. For actual use, retain cost evidence, units, the responsible person, and the policy version.
 
-scores = pd.DataFrame(
-    [
-        {"event_id": "A", "score": 0.82, "actual": 1},
-        {"event_id": "B", "score": 0.64, "actual": 1},
-        {"event_id": "C", "score": 0.41, "actual": 0},
-        {"event_id": "D", "score": 0.36, "actual": 1},
-        {"event_id": "E", "score": 0.22, "actual": 0},
-    ]
-)
+## Separate Threshold Selection from Ordering Within the Queue
 
-thresholds = [0.3, 0.5, 0.7]
-miss_cost = 10
-false_alarm_cost = 2
+The score order is always A→B→C→D→E. Changing the threshold changes candidate inclusion, not the descending order of fixed scores. Applying capacity as in [P3-9.8](section-08.en.md) requires separating candidate registration from selection for processing today.
 
-for threshold in thresholds:
-    predicted = scores["score"].ge(threshold).astype(int)
-    tn, fp, fn, tp = confusion_matrix(scores["actual"], predicted, labels=[0, 1]).ravel()
-    total_cost = fn * miss_cost + fp * false_alarm_cost
-    print(
-        {
-            "threshold": threshold,
-            "queued": int(predicted.sum()),
-            "false_negative": int(fn),
-            "false_positive": int(fp),
-            "total_cost": int(total_cost),
-        }
-    )
-```
+Exercise: ① If only false-alarm cost rises to 12, does C automatically leave the candidates at threshold 0.3? ② Keep threshold 0.3 but allow only two reviews today: whom do you select first? Can the table's cost of 2 be attached unchanged to this processing selection?
 
-Expected output:
-
-```text
-{'threshold': 0.3, 'queued': 4, 'false_negative': 0, 'false_positive': 1, 'total_cost': 2}
-{'threshold': 0.5, 'queued': 2, 'false_negative': 1, 'false_positive': 0, 'total_cost': 10}
-{'threshold': 0.7, 'queued': 1, 'false_negative': 2, 'false_positive': 0, 'total_cost': 20}
-```
-
-A lower threshold makes the review queue larger, but it does not miss risky cases. A higher threshold makes the review queue smaller, but missed cases increase and total cost rises. The values to change in this example are `miss_cost`, `false_alarm_cost`, and `thresholds`. If the false-alarm cost is set higher, another threshold may become more natural. So even with the same target name, the error cost has to be written first so that score and threshold are interpreted in the same direction.
+Answer: ① No. With the same threshold, decisions stay the same and only cost becomes 12. Changing candidates requires changing policy. ② Select A and B by score. C and D qualify but wait because of capacity. If “selected today=1, not selected=0” is evaluated as a separate decision, actual failure D is missed: one miss, zero false alarms, cost 10 under the original costs. This differs from the threshold-only cost of 2. Later processing of waiting candidates can change operational outcomes, so this calculation does not establish actual prevention effects either.
 
 ## Reflecting Error Costs in Decision Rules {#a-small-diagram}
-
-Even with the same score, the review-queue flow changes depending on which kind of error you are trying harder to reduce.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-12-mermaid-01-en.mmd"
 ```
 
-This section is therefore not only a section that defines `false negative` and `false positive`. It is a section that makes you reread the current problem as `what kind of mistake are we trying harder to reduce`. Once the target name has been fixed, the next thing to write is which kind of error hurts more under that target, so that scores, thresholds, and review-queue priority are all read in the same direction.
-
-So rather than wrapping up the problem with accuracy alone, you should first ask why the intention to reduce one kind of error more than the other has to be written down first. This section groups together `miss cost`, `over-detection cost`, and `judgment-rule adjustment`, so that the error-cost structure is fixed first before it changes how the target is interpreted.
-
-Before applying a cost table, define the positive class (1). If 1 means `failure within 7 days`, a miss is an actual failure predicted as negative. The costs in this section are assumptions for calculation, not estimates of real costs. Different review staffing and capacity can change which thresholds are feasible even with the same scores, so do not directly adopt the cheapest example rule as the operational optimum.
+Apply rules to fixed outcomes and scores, count errors, and consider both cost and feasibility. Record `false_negative_cost`, `false_positive_cost`, `review_capacity`, threshold and tie rules, `policy_version`, cost evidence, and the responsible person to make the assumptions traceable. Do not transfer these example numbers directly into operational policy without establishing actual costs and capacity.
 
 ## Checklist
 
-- Did you define the positive class and calculate false-alarm and miss costs?
-- Can you explain how decisions change if actual costs and capacity differ from the example?
+- Can you define the positive outcome first and count misses and false alarms for B, C, and D?
+- Can you verify costs 2, 10, and 20 and explain the changed choice when false-alarm cost is 12?
+- Can you distinguish threshold changes, score ordering, and capacity limits, recalculating cost for the final selection?
 
 ## Sources and References
 

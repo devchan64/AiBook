@@ -1,53 +1,54 @@
-# P3-9.2 Why Should Some Problems Remain Comparison Reports All the Way Through
+# P3-9.2 Why Should Some Problems Remain Comparison Reports?
 
 > Section ID: `P3-9.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Pushing every real problem into a [label prediction](/AiBook/en/reference/concept-glossary-alpha/l/#label-prediction) problem is not good data modeling. In some cases, a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) is more honest and fits the current data state better. This is especially true when cause labels are weak, or when what the decision-maker actually wants is not `correct classification` but `choosing what to inspect first right now`. Here, you also need to organize the possibility that some problems are more correctly left as comparison reports all the way through instead of being raised upward.
+“How does current flow differ from its reference?” requires observations and comparison evidence, not necessarily a future-failure prediction. A [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) communicates observed differences and their limitations. If it answers that question, it is complete without becoming a prediction system and can remain useful as long as the purpose remains.
 
-At this point, the structure `input -> correct label -> automatic decision` comes to mind first, so real problems can start to feel as if they must all fit that frame. But in real data, `what should be shown first` is often more important than `what should be matched correctly`. If such a problem is forced into a classification problem, it becomes easy to create exaggerated automation while label quality is still weak.
+## What one report row can establish
 
-Situations where a comparison report is more appropriate usually look like the following.
+Reuse fictional row A from [P3-8.4](../chapter-08/section-04.en.md). One row is a comparison window containing 20 recent completed operations. Retain its applicability assumptions: required measurements are available; baseline and recent data match in type, operating conditions, units, and segment definitions; and no separate allowable-limit violation exists.
 
-- It is important to show the recent change direction relative to the usual state first.
-- Review priority is more practical than confirmed labels.
-- The cause of the change cannot yet be automatically fixed.
-- Human follow-up checking is part of the judgment procedure.
-
-For example, it can already be quite useful to organize recent-window mean, variability, pattern difference, difference from baseline, and whether review is needed. In this case, what matters is not `what was matched`, but `what was shown first`. A good comparison report is therefore not just an intermediate artifact. It becomes one form of actual follow-up judgment.
-
-By contrast, moving to a prediction problem requires at least the following conditions.
-
-- The [target label](/AiBook/en/reference/concept-glossary-alpha/t/#target) is defined relatively stably.
-- The sample unit and label unit match each other.
-- The sample structure is organized enough to design train/evaluation splits and evaluation.
-
-The difference between the two approaches can be summarized like this.
-
-| Aspect | Comparison report | Prediction problem |
+| Field | Value for A | Meaning |
 | --- | --- | --- |
-| Central question | What changed relative to the reference, and by how much? | How well can the defined outcome be predicted from the inputs? |
-| Required labels | Can start with weak labels | Should be relatively stable |
-| Output | Comparison values and statements | Predictions and evaluation results |
-| Human role | Central to follow-up checking | Central to evaluation and exception handling |
+| window_id | A | Comparison-window identifier |
+| diff | −0.35 L/min | Recent average of per-operation late-period means minus the corresponding baseline average |
+| event_count | 20 | Distinct recent completed operations |
+| decline_count | 14 | Operations with late-period mean−early-period mean ≤ −0.30 L/min |
+| decline_ratio | 14/20=0.70 | Proportion meeting that decline condition |
+| cause_label | Unknown | Confirmed cause record not yet available |
 
-This table shows that a comparison report is not `a temporary artifact used only because prediction is not possible`. It is a different problem setup from the start. A comparison report helps the reader read the state and decide the next action. A prediction problem is a structure for automatically matching a relatively stable target label.
+The decline rule includes equality and counts each operation once. The −0.35 baseline difference and −0.30 within-operation decline boundary compare different things. An unknown `cause_label` means neither that no cause exists nor that the case is normal.
 
-In practice, it is safer to judge first whether `it is more honest to leave this as a comparison report`, as in the following table.
+The observation statement is: “The late-period mean for 20 recent operations was 0.35 L/min below baseline, and 14/20 operations met the within-operation decline condition.” Add the limitation that occurrence order and cause are unverified. Do not turn 70% into a failure probability or describe 14 consecutive declines.
 
-| Current state | More natural output | Reason |
+## Include the policy when adding operational decisions
+
+For this row, `review-v1` matches R1 because `−0.35 ≤ −0.30` and `0.70 ≥ 0.60`. Record `warning_level=caution`, `review_needed=1`, and `priority_band=first`. These come from the fictional assignment policy in P3-8.4, not from calculating a cause label or failure probability.
+
+| Report component | Content for A |
+| --- | --- |
+| Observed evidence | diff=−0.35 L/min; decline condition met in 14/20 operations |
+| Interpretive limits | Time order and cause unverified |
+| Policy application | First-priority review under R1 of review-v1 |
+| Next check | Compare time-ordered raw records for the 20 operations with per-operation setting histories |
+
+The report can thus explain a current difference and support a specific checking action. Automatically adding “high review priority because the difference is large” without a policy would mix observations with assignment decisions. An ordered review queue may use the report's evidence but is a separate policy output.
+
+## Unknown causes differ from unknown future outcomes
+
+Without `cause_label`, these data alone are insufficient for **learning confirmed cause classification**. That does not block every prediction question. If each historical operation's inputs available at completion are consistently linked to failure outcomes over the following seven days, supervised prediction of “failure within seven days” can be considered without cause names.
+
+The label requirement here concerns **supervised prediction**. It does not mean every analysis or machine-learning approach requires confirmed outcome labels. Also, `review_needed` is an operational policy result; using it as the ground truth for failure changes what is being learned.
+
+| Aspect | Current comparison report | Supervised prediction of seven-day failure |
 | --- | --- | --- |
-| There are almost no cause labels, and only change comparison is possible | Comparison report | You can say what changed, but it is still hard to fix the cause |
-| Review priority can be set, but confirmed labels are weak | Comparison report or review queue | The decision-maker wants to know what to look at first, while classification answers are still weak |
-| Target label and evaluation structure are relatively stable | Prediction problem | There is a basis for defining what should be automatically matched |
+| Question | How does an observed recent window differ from baseline? | Can the next seven-day outcome be estimated at operation completion? |
+| Case unit | Comparison window A grouping multiple operations | Individual operation linked to an outcome label |
+| Required records | Measurement definitions, baseline, recent aggregates, applicable policy | Operation ID, inputs at completion, outcome window, confirmed result, observation completion |
+| Quality to check | Calculations, comparability, explanation, and policy application | Target definition, label coverage and reliability, evaluation on cases not used for training |
 
-The difference between comparison reports and prediction problems becomes clearer in the small table below.
-
-| event_id | diff | repeatability | review_needed | cause_label |
-| --- | --- | --- | --- | --- |
-| A | -0.35 | high | 1 | none |
-| B | -0.08 | low | 0 | none |
-| C | -0.31 | high | 1 | none |
+The current A row has no seven-day outcomes linked to individual operations. Copying its `decline_ratio=0.70` cannot create future-failure labels for those operations. Check separately whether the individual records exist. Define inclusion of outcome-window endpoints and tracking gaps, and do not fill incomplete follow-up with non-failure zero.
 
 ## Choosing Outputs That Match the Comparison Evidence {#a-small-diagram}
 
@@ -55,18 +56,20 @@ The difference between comparison reports and prediction problems becomes cleare
 --8<-- "assets/part-03/chapter-09/p3-9-2-mermaid-01-en.mmd"
 ```
 
-This diagram shows that a comparison report is not just a stopover used because prediction is not yet possible. For some questions, it can remain the better output all the way through. If what is needed first is to show `what changed`, then a comparison report is natural, and only when stable target labels exist does it make sense to move to a prediction problem. Good data modeling is not the act of defining the most complex problem from the start. It is the act of honestly choosing the output form that matches the current data state. If change explanation and review priority matter more, and stable target labels are still weak, then keeping a comparison report through to the end can be more accurate.
+If future prediction is the purpose, do not claim the report answers that question instead. Conversely, a comparison question already answered need not be called a failed prediction task because labels are missing. Keep the report while collecting outcome records to prepare a separate prediction problem.
 
-A comparison report is therefore not a temporary alternative before prediction. For some questions, it can itself be the most correct output structure.
+## Answer two requests separately
+
+You receive two requests about A: ① “Summarize recent change and what to check today”; ② “Predict whether each operation in A will fail within the following seven days.” Separate the answer supported by current data from additional records needed.
+
+Explanation: For ①, report −0.35 L/min, 14/20 operations, and the unverified cause, then connect R1 of review-v1 to checking raw records and setting histories. For ②, the window summary is insufficient: check individual operation IDs, inputs at prediction time, consistently defined seven-day outcomes and completion status, and evaluation data separate from training. Missing cause names alone do not make ② impossible.
 
 ## Checklist
 
-- Did you distinguish the question answered by a comparison report from predicting a future outcome?
-- Did you identify an operational decision that the current report alone can support?
+- Can you separate A's observations, interpretive limits, and policy outputs?
+- Can you identify the unit difference between a comparison window and individual operations, and the record differences between current comparison and future prediction?
+- Can you distinguish cause labels from failure-outcome labels and explain label requirements in the supervised-learning context?
 
-## Sources and References
+## Sources and references
 
-- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, base period. Used to check the idea that a base period or point in time can serve as a reference for comparison. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. Used to check the idea that an initial measurement can serve as a comparison point for later change. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google, *Machine Learning Glossary*, `proxy labels`, `label`. Used to check what labels and proxy labels mean and why proxy labels need care. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Lakkaraju, Kleinberg, Leskovec, Ludwig, Mullainathan, *The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables*, KDD 2017. Used to check why evaluation and problem framing can be distorted when observed outcomes are selected by prior human decisions. [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [Google, Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } — Reference for label and supervised machine learning concepts. The comparison example and review-v1 are fictional constructions for this book. Accessed: 2026-09-20.

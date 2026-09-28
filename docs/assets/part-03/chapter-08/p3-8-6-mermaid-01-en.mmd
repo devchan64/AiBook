@@ -1,11 +1,7 @@
-```mermaid
 flowchart TD
-    R[Reviewed cases only]
-    L[Confirmed labels remain]
-    N[Meaning of missing labels must be written]
-    B[Bias and review path must be written]
-
-    R --> L
-    L --> N
-    L --> B
-```
+    A["All events: 10"] --> B["Reviewed A-D: 4"]
+    A --> C["Unreviewed E-J: 6"]
+    B --> D["Labels available: 4 / 10 = 40%"]
+    B --> F["Reviewed failures: 3 / 4 = 75%"]
+    C --> E["Outcomes unknown, not zero"]
+    E --> G["Overall outcome and accuracy unknown"]

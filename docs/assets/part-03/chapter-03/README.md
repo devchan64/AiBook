@@ -12,4 +12,4 @@
 
 ## CSV Inputs
 
-- `p3_3_1_source_operation_log.csv`: P3-3.1 Python example input. Each row is one time-point sensor record inside an operation event, before a sample unit or label candidate has been fixed.
+- `p3_3_1_source_operation_log.csv`: P3-3.1 source-inspection exercise input, created as a fictional log for the book. Contains 36 time-point records across 9 events; no outcome labels. P3-3.1 uses the CSV to distinguish label presence, event linkage, and evidence for labeling criteria. P3-3.2 reuses events A, B, E, F for action means and explicitly assumed baseline/recent groups; no occurrence dates or group labels are present in the source.

@@ -39,6 +39,8 @@
   - 개념사전 항목 추가·수정, 표제어 통일, 중심 Section과 등장 Section을 정리할 때 본다.
 - Python 예제 작성 기준: `management/guidelines/python-example-guidelines.md`
   - Python 예제를 추가·수정하거나 코드 블록 유지 여부를 판단할 때 본다.
+- 생성 산출물 관리: `management/guidelines/generated-asset-management-guidelines.md`
+  - 이미지 생성·재생성·데이터셋 보강 전에 기존 산출물 재사용과 제외 결정을 확인할 때 본다.
 - 차트·그래프·도식 기준: `management/guidelines/chart-guidelines.md`
   - Mermaid, SVG, 그래프, 시각화 자산을 추가·수정하거나 형식을 고를 때 본다.
 - 영어 번역 기준: `management/guidelines/english-translation-guidelines.md`

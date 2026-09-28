@@ -1,13 +1,5 @@
-```mermaid
 flowchart TD
-    W[Working-table columns]
-    F[Feature columns]
-    C[Comparison columns]
-    T[Target-candidate columns]
-    X[Context columns]
-
-    W --> F
-    W --> C
-    W --> T
-    W --> X
-```
+    A["Prediction objective and time"] --> B["Check column roles and calculation sources"]
+    B --> C{"Available at that time?"}
+    C -->|No| D["Retain for retrospective comparison, outcomes, or tracing"]
+    C -->|Yes| E["Consider input candidates for the objective"]

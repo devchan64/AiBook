@@ -1,78 +1,58 @@
 # P3-9.6 라벨 일관성 점검
 
 > Section ID: `P3-9.6`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_보조제목: 같은 사건도 사람이나 시기에 따라 다른 라벨이 붙을 때 무엇을 먼저 확인해야 하는가_
+같은 사건에 서로 다른 라벨이 붙으면 어느 판단을 다시 확인해야 할까요? [라벨 일관성](../../../reference/concept-glossary-parts/04-rieul.md#label-consistency)은 같은 대상과 정보, 기준에서 판단이 얼마나 일치하는지 살펴보는 문제입니다. 모두 같은 답을 써도 모두 틀릴 수 있으므로, 판단의 일치와 정답 여부는 따로 확인합니다.
 
-라벨 후보 열이 생겼다고 해서 곧바로 안정된 학습 문제라고 말할 수는 없습니다. 현실 데이터에서는 같은 사건을 두 검토자가 다르게 적을 수 있고, 지난달에는 "주의"로 보던 상태를 이번 달에는 "정상"으로 기록할 수도 있기 때문입니다. 그래서 목표 라벨 후보(target candidate)를 읽을 때는 "열이 있는가"뿐 아니라 [라벨 일관성(label consistency)](../../../reference/concept-glossary-parts/04-rieul.md#label-consistency), 즉 "같은 사건과 비슷한 조건에서 같은 뜻의 판단이 반복되는가"도 함께 봐야 합니다.
+## 사건 12건과 검토 기록 36건을 구분한다
 
-## 라벨 일관성은 왜 함께 점검해야 하는가
+[검토 기록 CSV](../../../assets/part-03/chapter-09/p3_9_6_label_reviews.csv){ .csv-preview }는 이 절의 교육용 사례입니다. 한 행은 `event_id` 하나에 대해 특정 월의 검토자 한 명이 남긴 판단입니다. 여기의 A~L은 이 파일 안의 사건 ID이며, 앞 절의 비교 구간 A~C와 연결하지 않습니다.
 
-이 질문은 현재 라벨 후보를 바로 목표 라벨(target label)로 올려도 되는지 판단하는 데 필요합니다. 같은 샘플 기준과 결과 열이 잡혀 있어도, 판단 뜻이 반복되지 않으면 안정된 학습 문제로 읽기 어렵기 때문입니다.
+12개 사건을 kim과 lee가 4월에, park가 5월에 각각 한 번씩 검토했습니다. 따라서 사건은 12건, 검토 기록은 `12 × 3 = 36건`입니다. `review_needed`는 검토 필요 판단, `normal`은 정상으로 분류한 판단이라는 라벨 이름이며, 독립적으로 확인한 고장 유무가 아닙니다. 아래의 R과 N은 두 문자열을 짧게 표시한 것입니다.
 
-| 이미 잡혀 있는 구조 | 여기서 다시 점검해야 하는 이유 |
-| --- | --- |
-| 샘플 단위 | 같은 샘플 기준인데도 라벨이 흔들릴 수 있기 때문 |
-| 목표 라벨 후보 열 | 열이 있어도 붙는 기준이 제각각이면 바로 학습 문제로 올리기 어렵기 때문 |
-| 비교 리포트와 검토 큐 | 검토 과정이 라벨 후보로 축적될 때 판단 일관성도 함께 봐야 하기 때문 |
+| event_id | kim · 4월 | lee · 4월 | park · 5월 |
+| --- | --- | --- | --- |
+| A | R | N | R |
+| B | N | N | N |
+| C | R | R | R |
+| D | N | N | R |
+| E | R | R | R |
+| F | N | R | N |
+| G | R | N | N |
+| H | N | N | N |
+| I | R | R | N |
+| J | R | R | R |
+| K | N | N | N |
+| L | R | N | R |
 
-즉 여기서 확인할 것은 `라벨 후보 열이 존재하는가`보다 `그 라벨 후보가 정말 같은 뜻으로 반복되는가`입니다.
+핵심 열은 `event_id`, `review_month`, `reviewer`, `review_label`입니다. CSV의 `diff`, `repeatability`는 이 집계에 사용하지 않습니다. 라벨을 해당 열의 숫자나 표현만으로 정답이라고 판정하지도 않습니다.
 
-## 왜 같은 사건에도 다른 라벨이 붙는가
+## 무엇을 분모로 세었는가
 
-라벨 후보가 흔들리는 이유는 대체로 아래 몇 가지로 모입니다.
+서로 다른 라벨이 하나라도 붙은 사건은 A, D, F, G, I, L의 6건입니다. **불일치 사건 비율은 `6 / 12 = 50%`**입니다. 사건마다 한 번씩 세었으므로 분모는 검토 기록 36건이 아닙니다. 이 값은 검토자 쌍의 일치율이나 모델 정답률도 아닙니다.
 
-| 흔들리는 이유 | 실제로 생기는 일 |
-| --- | --- |
-| 검토자마다 기준이 다름 | 같은 패턴을 어떤 사람은 `검토 필요`, 어떤 사람은 `정상`으로 본다 |
-| 시기마다 판단 기준이 바뀜 | 예전에는 경고로 보던 패턴이 새 기준에서는 정상 처리된다 |
-| 근거 문장이 부족함 | 왜 그렇게 판단했는지 남지 않아 나중에 다시 맞추기 어렵다 |
-| 경계 사례가 많음 | 기준선과 아주 비슷한 사례는 사람마다 다르게 붙기 쉽다 |
+A의 R·N·R은 세 판단 중 두 개가 같아도 불일치 사건 한 건으로 셉니다. 검토자 쌍을 비교하려면 kim–lee, kim–park, lee–park를 따로 세는 다른 계산이 필요합니다. 여기서는 그 지표 대신 재검토할 사건을 찾습니다.
 
-즉 라벨 후보의 문제는 `틀렸다/맞았다`만이 아니라, `같은 규칙이 반복되고 있는가`의 문제이기도 합니다.
+| 월 | R 기록 수 | N 기록 수 | 전체 검토 기록 | R 비율 |
+| --- | ---: | ---: | ---: | ---: |
+| 2026-04 | 12 | 12 | 24 | 12 / 24 = 50% |
+| 2026-05 | 6 | 6 | 12 | 6 / 12 = 50% |
+
+R 기록은 12건에서 6건으로 줄었지만 전체 검토 기록도 절반으로 줄었습니다. 월별 R 비율은 모두 50%이므로 “검토 필요 비율이 낮아졌다”는 해석은 맞지 않습니다. 월별 집계만 같다고 사건별 판단까지 같다는 뜻도 아닙니다. D는 N·N에서 R로, I는 R·R에서 N으로 달라졌습니다.
 
 ## 라벨 불일치 원인과 재검토 항목 {#_3}
 
-| event_id | diff | repeatability | reviewer | review_label |
-| --- | ---: | --- | --- | --- |
-| A | -0.34 | high | kim | review_needed |
-| A | -0.34 | high | lee | normal |
-| B | -0.08 | low | kim | normal |
-| B | -0.08 | low | lee | normal |
-| C | -0.29 | medium | kim | review_needed |
-| C | -0.29 | medium | lee | review_needed |
+이 파일은 두 달에 같은 사건 12건을 사용하지만 검토자가 바뀝니다. 각 검토자가 본 정보와 기준 버전은 기록되어 있지 않습니다. 따라서 차이를 시간 효과나 기준 변경의 결과로 확정할 수 없습니다. 다른 자료에서는 사건 구성까지 바뀔 수 있으므로 비교 대상 목록도 확인해야 합니다.
 
-이 표에서 `A`는 같은 사건인데 `kim`은 `review_needed`, `lee`는 `normal`로 적었습니다. `B`와 `C`는 일치합니다. 이 상태를 보고 종종 `그래도 라벨 열은 있으니 바로 학습 문제로 올리면 되겠네`라고 생각하기 쉽습니다. 하지만 실제로는 `A` 같은 사건이 얼마나 많은지 먼저 봐야 합니다.
+| 먼저 찾을 기록 | 확인할 질문 | 다음 행동 |
+| --- | --- | --- |
+| A의 kim·lee 원판정 | 같은 월에 같은 정보를 보고 달랐는가? | 당시 제공 자료와 판정 근거를 나란히 확인 |
+| D·I의 4월·5월 원판정 | 검토자, 정보, 기준 중 무엇이 달랐는가? | 동일 자료 묶음과 명시된 기준으로 재판정 |
+| 라벨 정의와 기준 버전 | 두 사람이 R과 N을 같은 뜻으로 썼는가? | 경계 사례와 적용 기준을 문서화 |
+| 별도의 확정 점검 기록 | 판단 자체가 맞았는가? | 필요한 실제 결과를 독립적으로 확인 |
 
-핵심은 라벨 후보 열이 있다는 사실보다, `같은 조건에서 같은 판단이 얼마나 반복되는가`입니다.
-
-## 지금 단계에서 무엇을 먼저 적어 두면 좋은가
-
-이 단계에서는 아직 복잡한 통계 지표보다 아래 메모를 먼저 남기면 충분합니다.
-
-| 먼저 적을 메모 | 왜 필요한가 |
-| --- | --- |
-| 같은 사건의 중복 검토에서 자주 갈리는 라벨이 있는가 | 일관성 낮은 구간을 먼저 보기 위해 |
-| 기준이 바뀐 시점이 있는가 | 시기별 라벨 의미 변화 가능성을 적어 두기 위해 |
-| 현재 라벨 후보를 바로 target으로 둘지, 비교 리포트 비중을 더 유지할지 | 문제 유형 결정을 보류할 근거를 남기기 위해 |
-
-이 메모는 완벽한 품질 인증이 아니라, `라벨이 흔들릴 수 있다`는 사실을 숨기지 않고 현재 판단 기록에 남기는 일입니다.
-
-## 언제 바로 target으로 올리기 어렵다고 봐야 하는가
-
-아래 같은 장면이 반복되면 목표 라벨 후보를 그대로 결과 열로 두기보다 한 번 더 다듬는 편이 안전합니다.
-
-| 보이는 신호 | 더 자연스러운 다음 행동 |
-| --- | --- |
-| 같은 사건에 검토자별 라벨이 자주 다르다 | 비교 리포트와 검토 큐를 더 유지한다 |
-| 특정 날짜 이후 라벨 기준이 갑자기 바뀐다 | 기간을 나누어 읽거나 기준 변경 메모를 남긴다 |
-| 자유 메모는 있는데 공통 판단 열이 약하다 | 검토 메모 정리 규칙을 먼저 보강한다 |
-| 경계 사례에서 자주 갈린다 | `확정 라벨`보다 `검토 필요` 수준을 먼저 목표로 둔다 |
-
-즉 불안정한 원인 분류를 억지로 바로 예측 문제로 올리는 것보다, 더 단순하고 반복적인 판단 열부터 목표 후보로 잡는 편이 현재 문제 유형 선택에 더 맞습니다.
-
-이 메모를 남겨 두면 `열이 있다`는 사실보다 `그 열이 같은 뜻으로 반복되는가`를 먼저 점검할 수 있습니다. 그래서 현재 단계에서는 문제 유형을 더 무겁게 올리는 일보다, 뜻이 흔들리는 라벨 후보를 그대로 두지 않는 판단이 더 중요합니다.
+재판정에서는 사건 ID·제공 정보·기준 버전을 고정하고 검토자가 서로의 답을 보기 전에 판단을 남기도록 할 수 있습니다. 의견을 조정한 최종 라벨이 필요하면 담당자와 조정 이유도 기록합니다. 원판정은 덮어쓰지 않고 새 판정에 연결해야 변경 과정을 설명할 수 있습니다. 다수결만으로 실제 고장 여부를 확정하지 않습니다.
 
 ## 라벨 불일치에서 판단 기준 재검토로 {#_5}
 
@@ -80,150 +60,19 @@ _보조제목: 같은 사건도 사람이나 시기에 따라 다른 라벨이 �
 --8<-- "assets/part-03/chapter-09/p3-9-6-mermaid-01-ko.mmd"
 ```
 
-## 사건·검토자·기간별 라벨 차이 확인하기 {#_6}
+이 흐름은 불일치를 지워서 일치율을 높이는 절차가 아닙니다. 차이가 생긴 조건을 확인하고, 목적에 맞는 결과 근거를 갖추는 절차입니다. 일치한 사건도 정확성 점검에서 자동으로 제외하지 않습니다.
 
-문제 상황: 같은 사건을 두 검토자가 다르게 라벨링했을 때, 라벨 후보 열이 있어도 바로 안정된 목표 라벨로 읽기 어렵다는 점을 확인합니다.
+## 비교 범위를 바꾸어 직접 검산하기 {#_6}
 
-입력(input): 중복 검토 기록 [p3_9_6_label_reviews.csv](../../../assets/part-03/chapter-09/p3_9_6_label_reviews.csv){ .csv-preview }. 이 표의 한 행은 한 사건에 대해 특정 검토자가 특정 월에 남긴 라벨 기록입니다. 핵심 열은 `event_id`, `review_month`, `reviewer`, `review_label`입니다.
+연습: 표에서 5월의 park 열을 가리고 4월만 비교해 보세요. 사건 수, 검토 기록 수, 불일치 사건 목록과 비율은 어떻게 바뀌나요? 이 결과만으로 4월 기준이 더 정확했다고 말할 수 있나요?
 
-기대 출력(output): 사건별 검토 수, 라벨 종류 수, 실제 불일치 사건 목록, 월별 라벨 분포를 나란히 보여 주는 출력
-
-확인할 개념: 라벨 후보는 열이 있다는 사실보다 같은 사건과 비슷한 조건에서 같은 뜻의 판단이 반복되는지가 더 중요하다
-
-```python
-# 같은 사건에 붙은 여러 검토 라벨의 불일치와 월별 분포를 점검하는 예제입니다.
-import pandas as pd
-
-label_variety_threshold = 1
-preview_row_count = 8
-
-reviews_path = "docs/assets/part-03/chapter-09/p3_9_6_label_reviews.csv"
-reviews = pd.read_csv(reviews_path)
-
-label_variety = reviews.groupby("event_id")["review_label"].nunique()
-disagreed_events = label_variety[label_variety > label_variety_threshold]
-
-review_summary = pd.DataFrame(
-    {
-        "review_count": reviews.groupby("event_id").size(),
-        "label_variety": label_variety,
-    }
-)
-
-monthly_labels = (
-    reviews.groupby(["review_month", "review_label"])
-    .size()
-    .unstack(fill_value=0)
-    .reset_index()
-)
-
-disagreement_detail = (
-    reviews[reviews["event_id"].isin(disagreed_events.index)]
-    .sort_values(["event_id", "review_month", "reviewer"])
-    [["event_id", "review_month", "reviewer", "review_label"]]
-)
-
-print("1) review record preview:")
-print(reviews.head(preview_row_count).to_string(index=False))
-print(f"... {len(reviews) - preview_row_count} more review records")
-print()
-print("2) reviews per event:")
-print(review_summary)
-print()
-print("3) label variety by event:")
-print(label_variety)
-print()
-print("4) events with disagreement:")
-print(disagreed_events.index.tolist())
-print()
-print("5) disagreement detail:")
-print(disagreement_detail.head(12).to_string(index=False))
-print(f"... {len(disagreement_detail) - 12} more disagreement records")
-print()
-print("6) labels by review month:")
-print(monthly_labels.to_string(index=False))
-```
-
-예상 출력:
-
-```text
-1) review record preview:
-event_id review_month reviewer  diff repeatability  review_label
-       A      2026-04      kim -0.34          high review_needed
-       A      2026-04      lee -0.34          high        normal
-       A      2026-05     park -0.34          high review_needed
-       B      2026-04      kim -0.08           low        normal
-       B      2026-04      lee -0.08           low        normal
-       B      2026-05     park -0.08           low        normal
-       C      2026-04      kim -0.29        medium review_needed
-       C      2026-04      lee -0.29        medium review_needed
-... 28 more review records
-
-2) reviews per event:
-          review_count  label_variety
-event_id                             
-A                    3              2
-B                    3              1
-C                    3              1
-D                    3              2
-E                    3              1
-F                    3              2
-G                    3              2
-H                    3              1
-I                    3              2
-J                    3              1
-K                    3              1
-L                    3              2
-
-3) label variety by event:
-event_id
-A    2
-B    1
-C    1
-D    2
-E    1
-F    2
-G    2
-H    1
-I    2
-J    1
-K    1
-L    2
-Name: review_label, dtype: int64
-
-4) events with disagreement:
-['A', 'D', 'F', 'G', 'I', 'L']
-
-5) disagreement detail:
-event_id review_month reviewer  review_label
-       A      2026-04      kim review_needed
-       A      2026-04      lee        normal
-       A      2026-05     park review_needed
-       D      2026-04      kim        normal
-       D      2026-04      lee        normal
-       D      2026-05     park review_needed
-       F      2026-04      kim        normal
-       F      2026-04      lee review_needed
-       F      2026-05     park        normal
-       G      2026-04      kim review_needed
-       G      2026-04      lee        normal
-       G      2026-05     park        normal
-... 6 more disagreement records
-
-6) labels by review month:
-review_month  normal  review_needed
-     2026-04      12             12
-     2026-05       6              6
-```
-
-이 예제의 목적은 모델 입력을 만드는 것이 아니라, `같은 사건에 대해 검토가 몇 번 있었고 그중 어디서 라벨이 갈렸는가`를 먼저 확인하는 데 있습니다. 먼저 사건별 검토 수를 보고, 그다음 라벨 종류 수를 세고, 실제 불일치 사건 목록과 상세 기록을 확인하면 왜 이 절에서 `라벨 열이 있다`보다 `라벨 의미가 반복되는가`를 먼저 보라고 하는지 더 분명해집니다. 출력에서는 12개 사건 중 `A`, `D`, `F`, `G`, `I`, `L`처럼 라벨 종류가 2개로 갈린 사건이 따로 드러납니다. 월별 라벨 분포를 함께 보면 시기별 기준 변화 가능성도 메모할 수 있습니다. 여기서 중요한 것은 특정 팀의 메모 습관이 아니라, `라벨 의미 안정성(label meaning stability)`을 확인하는 일입니다. 목표 라벨 후보를 읽을 때는 현재 라벨 후보가 같은 뜻으로 비교적 반복되는가, 기준이 바뀐 시점을 메모할 수 있는가, 그리고 불안정한 라벨을 바로 결과 열로 두지 않고 있는가를 함께 봐야 합니다. 이런 점검이 있어야 목표 라벨 후보 표는 단순한 열 목록이 아니라, `라벨 의미의 안정성`까지 포함한 구조가 됩니다.
-
-두 검토자가 모두 같은 라벨을 붙였어도 둘 다 틀릴 수 있습니다. 일치율은 정답률이 아닙니다. 월별 양성 비율이 달라졌을 때도 실제 사례 구성 변화와 기준 변경을 구분해야 합니다. 같은 고정 사례를 같은 정보로 다시 판정한 결과와 기준 버전을 함께 비교하면, 사례 구성이 바뀐 영향과 판정 기준이 바뀐 영향을 나누어 점검할 수 있습니다.
+해설: 사건은 여전히 12건이고 검토 기록은 24건입니다. kim과 lee가 다른 사건은 A, F, G, L의 4건이므로 불일치 사건 비율은 `4 / 12 ≈ 33.3%`입니다. D와 I는 4월의 두 판단이 같아서 빠집니다. 50%에서 33.3%로 줄어든 것은 비교에 포함한 판단이 달라진 결과이며, 정확성이 개선되었다는 증거가 아닙니다. 원본 CSV를 고치지 않고 비교 범위만 바꾼 계산입니다.
 
 ## 체크리스트
 
-- 검토자 간 불일치 사례를 찾아 재판정 규칙을 적었는가?
-- 높은 일치율이 정답률을 보장하지 않는 이유를 설명했는가?
+- 사건 12건, 검토 기록 36건, 불일치 사건 6건과 각각의 분모를 설명할 수 있는가?
+- 월별 R 비율 50%와 사건별 판단 변경을 동시에 설명할 수 있는가?
+- 재검토할 원판정과 고정할 정보·기준을 고르고, 일치 여부와 정답 여부를 구분할 수 있는가?
 
 ## 출처와 참고 자료
 

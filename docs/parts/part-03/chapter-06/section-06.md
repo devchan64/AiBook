@@ -1,7 +1,7 @@
 # P3-6.6 같은 열 이름과 다른 특징
 
 > Section ID: `P3-6.6`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
 _보조제목: 측정 방식이나 단위가 바뀌면 왜 같은 이름의 열도 다른 특징이 될 수 있는가_
 
@@ -58,178 +58,46 @@ _보조제목: 측정 방식이나 단위가 바뀌면 왜 같은 이름의 열�
 
 단위만 다르면 변환으로 비교를 회복할 수 있습니다. `41 mL/s = 41×60/1000 = 2.46 L/min`이므로 C의 값이 A보다 약 17배 커진 것은 아닙니다. 다만 센서 위치·보정·계산 구간까지 같다는 뜻은 아니므로, 단위 통일 뒤에도 그 조건을 확인해야 합니다. 운영 판정 규칙만 바뀌었다면 원래 물리 특징은 같고 출력 라벨의 의미만 달라졌을 수도 있습니다.
 
-## 그래서 지금 단계에서 무엇을 먼저 적어야 하는가
 
-Part 3에서는 아직 복잡한 보정 기법보다, 특징 정의 메모를 먼저 남기는 편이 중요합니다.
+## 문자열 일치와 물리적 비교 가능성을 나눈다 {#_6}
 
-| 먼저 적을 메모 | 왜 필요한가 |
+앞의 네 행은 자체 가상 자료입니다. A·B의 메모가 같아도 센서 위치·보정 이력·결측 처리까지 검증된 것은 아닙니다. `early-mid-late`라는 이름만으로 어느 구간의 어떤 평균인지도 충분히 알 수 없습니다. 메모 일치는 검토할 후보를 모으는 방법이지 비교 가능성을 인증하는 결과가 아닙니다.
+
+| 확인한 수준 | 이 사례에서 알 수 있는 것 | 아직 확인할 것 |
+| --- | --- | --- |
+| 선택한 정의 문자열 일치 | A·B의 기록된 필드가 같음 | 생략된 측정 위치·보정·평균 계산 규칙 |
+| 단위 변환 완료 | C=2.46, D=2.37 L/min | 센서 v1/v2의 측정 대상과 보정 대응 |
+| 구간 정의 차이 발견 | D의 quartile-4bin은 다른 규칙 이름 | 같은 범위를 원시 자료에서 다시 집계할 수 있는지 |
+| 운영 판정 버전 차이 발견 | D는 normal-band-v2로 판정 | 물리 측정 변경인지 판정 경계만 변경인지 |
+
+D도 `39.5×60/1000=2.37 L/min`으로 변환할 수 있습니다. 변환된 값이 A의 2.4와 가깝다는 사실은 측정 정의가 같다는 증거가 아닙니다. 단위만 달랐고 측정 대상·위치·보정·집계 규칙이 같다고 확인된 경우에 단위 통일로 수치 비교를 회복합니다. 센서가 달랐다면 대응 측정이나 보정 기록을, 구간이 달랐다면 정확한 경계와 재집계 가능성을 확인해야 합니다.
+
+## 운영 판정은 측정 정의와 별도로 기록한다
+
+물리 측정 규칙을 바꾸지 않고 “2.50 L/min 이상”이라는 판정 기준만 “2.40 L/min 이상”으로 바꾸는 가상 사례를 생각해 보세요. 2.46 L/min이라는 측정값은 그대로지만 판정은 기준 미만에서 기준 이상으로 바뀝니다. 이것은 측정 변화가 아니라 판정 규칙 변화입니다. 실제 normal-band-v1/v2의 경계는 위 표에 없으므로 이 숫자를 그 버전의 실제 정의로 읽지는 않습니다.
+
+| 기록 묶음 | 남길 항목의 예 |
 | --- | --- |
-| 단위(unit) | 절대 크기 비교가 가능한지 보려면 필요하기 때문 |
-| 생성 규칙(rule) | 같은 구간, 같은 계산 방식인지 확인해야 하기 때문 |
-| 수집 버전(version) | 센서/파이프라인 변경을 구분해야 하기 때문 |
-| 비교 가능 여부 | 같은 기준선에 바로 넣어도 되는지 판단해야 하기 때문 |
+| 측정·집계 정의 | 물리량, 센서 위치·버전, 보정 이력, 구간 경계, 평균 계산법, 결측 처리 |
+| 단위 변환 | 원래 값·단위, 변환식, 변환 후 값·단위 |
+| 운영 판정 | 판정 규칙 버전, 적용 시점, 결과 라벨 |
 
-이 메모는 설명이 장황해지기 위한 것이 아니라, `같은 열 이름` 착시를 막기 위한 최소한의 구조 정보입니다.
+C는 원래 41.0 mL/s와 변환식 `×60/1000`, 변환 후 2.46 L/min을 함께 보존합니다. 단위 열만 L/min으로 바꾸고 숫자 41.0을 남기면 잘못된 자료가 됩니다. 센서 버전 문자열을 v1로 고치는 것도 보정을 수행한 것이 아닙니다.
 
-## 왜 기준선 비교도 함께 흔들리는가
+## 필드를 줄여 그룹이 합쳐져도 정의는 같아지지 않는다
 
-같은 특징이 아니게 되면 Chapter 7의 기준선 비교도 바로 흔들립니다.
+앞 표를 이름만으로 묶으면 A·B·C·D 한 그룹입니다. 단위·센서 버전·구간 규칙·운영 판정까지 문자열로 비교하면 A·B / C / D의 세 그룹입니다. 운영 판정 필드를 빼도 D의 구간 규칙이 달라 세 그룹 그대로입니다. 운영 판정과 구간 규칙을 모두 빼면 A·B / C·D의 두 그룹으로 줄어듭니다.
 
-| 현재 보이는 현상 | 실제로는 무엇이 흔들릴 수 있는가 |
-| --- | --- |
-| 최근 값이 평소보다 높아졌다 | 공정 변화가 아니라 단위/센서 변화일 수 있다 |
-| 유지보수 이후 diff가 계속 크다 | 기준선 집단과 측정 정의가 달라졌을 수 있다 |
-| 특정 시점부터 변동성이 커졌다 | 계산 구간 규칙이 바뀌었을 수 있다 |
+C·D가 같은 그룹이 되었으니 같은 기준선에 넣어도 될까요? 답은 아직 아니오입니다. 비교에서 구간 필드를 숨겼을 뿐 실제 집계 규칙은 바꾸지 않았습니다. 반대로 판정 규칙만 달랐고 측정 정의가 같다는 근거가 있다면 물리 특징 비교와 결과 라벨 비교를 나누어 다룰 수 있습니다.
 
-즉 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline)은 같은 집단 비교만이 아니라, `같은 특징 정의` 비교여야 합니다. 이 메모를 남겨 두어야 `모델이 이상하다`고 보기 전에 먼저 `같은 특징 정의가 섞였는가`를 점검할 수 있습니다.
-
-## 이름만 묶은 결과와 정의까지 맞춘 결과 비교하기 {#_6}
-
-문제 상황: 같은 `flow_mean`이라는 열 이름을 써도 단위, 센서 버전, 구간 규칙, 운영 정의가 다르면 같은 특징이 아닐 수 있다는 점을 확인합니다.
-
-입력(input): `feature_name`, `unit`, `sensor_version`, `segment_rule`, `ops_definition`이 함께 적힌 특징 카탈로그 표와 같은 정의로 볼 때 사용할 필드 묶음 `definition_fields_to_check`
-
-기대 출력(output): 열 이름만 볼 때는 한 그룹처럼 보이지만, `definition_fields_to_check`에 단위·센서 버전·구간 규칙·운영 정의를 포함하면 `same_definition_group`이 여러 개로 갈라지는 출력
-
-확인할 개념: 특징 동일성은 열 이름이 아니라 측정 단위와 생성 규칙까지 포함한 정의 수준에서 판단해야 한다. 어떤 필드를 정의에 포함하느냐에 따라 같은 기준선에 묶을 수 있는 행도 달라진다.
-
-```python
-# 같은 열 이름의 특징이라도 측정 방식과 단위가 바뀌었는지 점검하는 예제입니다.
-import pandas as pd
-
-pd.set_option("display.max_columns", None)
-pd.set_option("display.width", 180)
-
-definition_fields_to_check = [
-    "feature_name",
-    "unit",
-    "sensor_version",
-    "segment_rule",
-    "ops_definition",
-]
-
-feature_catalog = pd.DataFrame(
-    [
-        {
-            "event_id": "A",
-            "feature_name": "flow_mean",
-            "unit": "L/min",
-            "sensor_version": "v1",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "B",
-            "feature_name": "flow_mean",
-            "unit": "L/min",
-            "sensor_version": "v1",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "C",
-            "feature_name": "flow_mean",
-            "unit": "mL/s",
-            "sensor_version": "v2",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "D",
-            "feature_name": "flow_mean",
-            "unit": "mL/s",
-            "sensor_version": "v2",
-            "segment_rule": "quartile-4bin",
-            "ops_definition": "normal-band-v2",
-        },
-    ]
-)
-
-def summarize_groups(fields):
-    grouped = (
-        feature_catalog.groupby(fields, as_index=False)
-        .agg(
-            event_count=("event_id", "count"),
-            event_ids=("event_id", lambda values: ",".join(values)),
-        )
-        .copy()
-    )
-    grouped["same_definition_group"] = grouped[fields].astype(str).agg("|".join, axis=1)
-    return grouped[["same_definition_group", "event_count", "event_ids"]]
-
-name_only_groups = summarize_groups(["feature_name"])
-definition_groups = summarize_groups(definition_fields_to_check)
-group_comparison = pd.DataFrame(
-    [
-        {
-            "grouping_rule": "feature_name only",
-            "group_count": len(name_only_groups),
-            "grouped_event_ids": " / ".join(name_only_groups["event_ids"]),
-        },
-        {
-            "grouping_rule": "selected definition fields",
-            "group_count": len(definition_groups),
-            "grouped_event_ids": " / ".join(definition_groups["event_ids"]),
-        },
-    ]
-)
-
-print("1) same column name, different definition notes")
-print(
-    feature_catalog[
-        [
-            "event_id",
-            "feature_name",
-            "unit",
-            "sensor_version",
-            "segment_rule",
-            "ops_definition",
-        ]
-    ]
-)
-print()
-print("2) grouping changes when definition fields are included")
-print(group_comparison)
-print()
-print("3) rows that can be treated as the same definition group")
-print(definition_groups)
-```
-
-예상 출력:
-
-```text
-1) same column name, different definition notes
-  event_id feature_name   unit sensor_version    segment_rule  ops_definition
-0        A    flow_mean  L/min             v1  early-mid-late  normal-band-v1
-1        B    flow_mean  L/min             v1  early-mid-late  normal-band-v1
-2        C    flow_mean   mL/s             v2  early-mid-late  normal-band-v1
-3        D    flow_mean   mL/s             v2   quartile-4bin  normal-band-v2
-
-2) grouping changes when definition fields are included
-                grouping_rule  group_count grouped_event_ids
-0           feature_name only            1           A,B,C,D
-1  selected definition fields            3       A,B / C / D
-
-3) rows that can be treated as the same definition group
-                              same_definition_group  event_count event_ids
-0  flow_mean|L/min|v1|early-mid-late|normal-band-v1            2       A,B
-1   flow_mean|mL/s|v2|early-mid-late|normal-band-v1            1         C
-2    flow_mean|mL/s|v2|quartile-4bin|normal-band-v2            1         D
-```
-
-이 예제의 목적은 새 특징을 계산하는 것이 아니라, `같은 열 이름이라도 실제로는 어디까지를 같은 정의로 묶을 수 있는가`를 먼저 확인하는 데 있습니다. 여기서 조작할 값은 `definition_fields_to_check`입니다. 1단계에서는 네 행이 모두 `flow_mean`이지만 정의 메모가 다르다는 점을 봅니다. 2단계에서는 `feature_name`만 보면 `A,B,C,D`가 모두 한 그룹처럼 보이지만, 단위·센서 버전·구간 규칙·운영 정의까지 포함하면 `A,B`, `C`, `D`의 세 그룹으로 갈라진다는 점을 봅니다. 3단계는 실제로 `A,B`만 같은 정의 그룹으로 묶이고 `C`, `D`는 각각 따로 남는다는 점을 보여 줍니다. 즉 이 절에서 중요한 것은 내부 키 문자열 자체가 아니라, 어떤 행끼리만 같은 기준선과 같은 비교표에 올릴 수 있는지를 먼저 가르는 일입니다.
-
-여기서 마지막으로 확인할 것은 세 가지입니다. 단위와 계산 규칙이 메모되어 있는지, 버전 변경이나 센서 변경을 구분했는지, 기준선과 분할에 섞이면 안 되는 정의 차이를 표시했는지입니다. 이 세 조건이 함께 서야 특징 표는 단순 숫자 모음이 아니라, 비교 가능한 정의가 붙은 구조로 남습니다. 현재 특징 표가 같은 뜻의 열끼리만 비교 가능한 구조인지 확인하는 일이 바로 이 절의 중심입니다.
-
-같은 열 이름이라도 측정 단위, 센서 버전, 계산 규칙이 바뀌면 더 이상 같은 특징이 아닐 수 있으므로, Part 3에서는 숫자보다 먼저 특징 정의가 같은지 확인해야 합니다. 이 절은 열 이름 관리 요령이 아니라, [같은 특징 정의를 어떻게 식별할 것인가(feature-definition identity)](../../../reference/concept-glossary-parts/12-tieut.md#feature)의 문제로 다시 볼 수 있습니다.
-
-
-따라서 특징 동일성은 열 이름 한 줄이 아니라, 무엇을 어떤 규칙과 버전으로 만들었는지까지 포함한 정의 묶음으로 읽어야 합니다.
+C와 A를 비교하려면 어떤 추가 자료가 필요한지 적어 보세요. 단위 변환만으로는 부족하며 센서 위치·보정과 실제 구간·평균 규칙의 대응이 필요합니다. D까지 넣으려면 quartile-4bin과 early-mid-late가 같은 측정 범위를 대표하는지도 확인해야 합니다. 원시 자료가 없어 정의를 맞출 수 없다면 비교를 보류하거나 별도 집단으로 남깁니다.
 
 ## 체크리스트
 
-- 41 mL/s를 L/min으로 변환했는가?
-- 단위만 바뀐 경우와 센서·집계 정의가 바뀐 경우를 구분했는가?
+- C와 D의 값을 L/min으로 변환하고 원래 값·단위를 보존하는가?
+- 메모 문자열 일치와 실제 비교 가능성을 구분하는가?
+- 운영 판정만 달라진 경우와 측정·집계가 달라진 경우를 나누는가?
+- 그룹 수 감소가 보정이나 재집계를 대신하지 않는 이유를 설명하는가?
 
 ## 출처와 참고 자료
 

@@ -17,3 +17,11 @@
   - `p3_6_2_segment_tokenization_curve.py`
   - `p3_6_2_segment_slopes.csv`
   - `segment-tokenization-curve-en.png` / `segment-tokenization-curve-ko.png` / `segment-tokenization-curve-zh.png`
+
+- P3-6.2 curve: illustrative cumulative reconstruction of CSV event A slopes, starting at zero; horizontal units are segment-boundary indices, vertical values are arbitrary units. It is not a measured raw trace. The original CSV remains unchanged. The generator registers an available Noto CJK font for Korean and Chinese labels.
+
+- P3-6.3 diagrams show two example paths from shared input boundaries: summary features and ordered measurements. Handcrafted features, tokens, and representation learning are not mandatory serial stages; combined designs are also possible.
+
+- P3-6.4 diagrams start from the prediction objective and time, then check column roles and availability. Comparison and input-candidate roles can overlap.
+
+- P3-6.6 diagrams separate unit conversion, measurement/calibration/aggregation checks, and operational-rule versions. Matching metadata strings alone does not establish comparability.

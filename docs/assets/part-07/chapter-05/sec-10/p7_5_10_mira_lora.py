@@ -21,13 +21,14 @@ import shlex
 import subprocess
 import sys
 import tempfile
-from p7_5_10_asset_paths import asset_path
+from p7_5_10_generate_supplements import asset_path, result_id
+from collections import Counter
 import time
 
 ROOT = Path(__file__).resolve().parents[5]
 PIN = "e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1"
 MODEL = "Qwen/Qwen-Image-Edit-2511"
-CONFIG = Path(__file__).parent / "p7-5-10-bfs-lora-config.json"
+CONFIG = Path(__file__).parent / "p7-5-10-paired-dataset.json"
 
 
 def sha(path):
@@ -77,7 +78,9 @@ def inventory(output):
             if digest in seen:
                 continue
             seen.add(digest)
-            record = image.with_name(image.stem + "-result.json")
+            # 이미지가 이동되어도 생성 기록은 원고의 기존 경로 옆에 보존된다.
+            source_image = manuscript.parent / url
+            record = source_image.with_name(source_image.stem + "-result.json").resolve()
             require(record.is_file(), f"Missing generation record: {record}")
             data = read(record)
             design = data.get("design", {})
@@ -141,6 +144,9 @@ def validate(manifest):
     """분할 누수·중복·해시 변경을 검사하며 인물 유사도는 판정하지 않는다."""
     require(manifest.get("model_id") == MODEL, "Expected Edit-2511 manifest")
     require(manifest.get("schema_version") == 1, "Unsupported manifest schema")
+    pending = [item["id"] for item in manifest["items"]
+               if item.get("pair_status", "ready") != "ready"]
+    require(not pending, f"Dataset has {len(pending)} pending target/review pairs; finalize them before training")
     trigger = manifest.get("trigger", "")
     require(trigger and isinstance(trigger, str), "Missing trigger")
     paired = manifest.get("purpose") == "paired_edit_training"
@@ -342,7 +348,9 @@ def prepare_resume(source, state, additional_steps, output):
 
 def prepare(manifest_path, config_path, output):
     """선정 목록과 설정을 고정한 새 학습 패키지를 만든다."""
-    manifest, config = read(manifest_path), read(config_path)
+    manifest = read(manifest_path)
+    config_source = read(config_path) if config_path else manifest
+    config = config_source.get("training_config", config_source)
     selected, t = validate(manifest), settings(config)
     require(not output.exists(), f"Output already exists: {output}")
     paired = manifest.get("purpose") == "paired_edit_training"
@@ -704,9 +712,91 @@ def run(package, trainer, python, execute):
     return result
 
 
+def save_new(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('x') as handle:
+        handle.write(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+
+
+def checked(path, digest):
+    resolved = asset_path(path)
+    if not resolved.is_relative_to(ROOT) or sha(resolved) != digest:
+        raise ValueError(f'File changed or outside repository: {path}')
+    return resolved
+
+
+def select(catalog, reviews, trigger):
+    """채택 여부는 사람이 기록한다. 코드는 파일 무결성과 분할만 검사한다."""
+    candidates = {x['id']: x for x in catalog['items']}
+    if len(candidates) != len(catalog['items']):
+        raise ValueError('Duplicate catalog IDs')
+    selected, seen, groups, hashes = [], set(), {}, set()
+    for review in reviews['items']:
+        key = review['id']
+        if key in seen or key not in candidates:
+            raise ValueError(f'Duplicate or unknown review ID: {key}')
+        seen.add(key)
+        status = review['status']
+        if status not in ('pending', 'accepted', 'rejected'):
+            raise ValueError(f'Invalid review status: {key}')
+        if status != 'accepted':
+            continue
+        row = candidates[key]
+        if review.get('image_sha256') != row['sha256']:
+            raise ValueError(f'Review belongs to a different image: {key}')
+        split, caption = review['split'], review['caption'].strip()
+        if split not in ('train', 'validation') or not review['review_note'].strip():
+            raise ValueError(f'Split and review note required: {key}')
+        if not caption or trigger not in caption or '\n' in caption:
+            raise ValueError(f'Single-line caption containing {trigger} required: {key}')
+        if row.get('reserved_split') not in (None, split):
+            raise ValueError(f'Previously reserved target split cannot change: {key}')
+        group = row['group']
+        if groups.setdefault(group, split) != split:
+            raise ValueError(f'Group leakage: {group}')
+        checked(row['image'], row['sha256'])
+        record = checked(row['record'], row['record_sha256'])
+        if read(record)['output']['sha256'] != row['sha256']:
+            raise ValueError(f'Record/image mismatch: {key}')
+        if row['sha256'] in hashes:
+            raise ValueError(f'Duplicate image content: {key}')
+        hashes.add(row['sha256'])
+        item = {k: row[k] for k in ('id','image','sha256','record','record_sha256','group')}
+        item.update(split=split, caption=caption, review_note=review['review_note'])
+        # 입력 생성은 역방향이다. 학습에서는 원래 Mira 이미지가 목표다.
+        if row.get('target'):
+            checked(row['target'], row['target_sha256'])
+            target_group = 'target:' + row['target_sha256']
+            if groups.setdefault(target_group, split) != split:
+                raise ValueError(f'Target leakage: {key}')
+            item.update(control_image=item.pop('image'), control_sha256=item.pop('sha256'),
+                        image=row['target'], sha256=row['target_sha256'])
+        item["input_result_id"] = result_id(item.get("control_sha256"))
+        item["target_result_id"] = result_id(item["sha256"])
+        side = "input" if row.get("target") else "target"
+        identity = row.get("identifiers", {})
+        for field in ("rule_id", "rule_revision", "condition_id"):
+            item[side + "_" + field] = identity.get(field)
+        selected.append(item)
+    if not selected:
+        raise ValueError('No accepted candidates; review images before exporting')
+    paired = [bool(x.get('control_image')) for x in selected]
+    if any(paired) and not all(paired):
+        raise ValueError('Export paired inputs and target-only datasets separately')
+    return {'schema_version':1, 'model_id':catalog['model_id'], 'trigger':trigger,
+            'purpose':'paired_edit_training' if all(paired) else 'identity_training',
+            'items':selected}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="action", required=True)
+    for action in ("review-template", "export"):
+        p = sub.add_parser(action)
+        p.add_argument("--catalog", type=Path, required=True)
+        p.add_argument("--review", type=Path)
+        p.add_argument("--output", type=Path, required=True)
+        p.add_argument("--trigger", default="mira_person")
     p = sub.add_parser("inventory")
     p.add_argument(
         "--output", type=Path, default=ROOT / ".tmp/p7-5-11/mira-candidates.json"
@@ -717,12 +807,6 @@ def main():
         type=Path,
         required=True,
         help="split·caption·참조 구성이 검수된 JSON 목록",
-    )
-    p.add_argument(
-        "--config",
-        type=Path,
-        default=CONFIG,
-        help="steps·save_every·학습률·가중치 경로를 담은 JSON",
     )
     p.add_argument("--output", type=Path, required=True)
     p = sub.add_parser("prepare-resume", help="저장 상태를 이어 학습할 새 패키지 준비")
@@ -746,10 +830,24 @@ def main():
     )
     args = parser.parse_args()
     try:
-        if args.action == "inventory":
+        if args.action in ("review-template", "export"):
+            catalog_data = read(args.catalog)
+            if args.action == "review-template":
+                result = {"schema_version": 1, "catalog": str(args.catalog), "items": [
+                    {"id": x["id"], "status": "pending", "split": "pending",
+                     "image_sha256": x["sha256"], "caption": "", "review_note": ""}
+                    for x in catalog_data["items"]]}
+            else:
+                require(args.review is not None, "--review is required for export")
+                result = select(catalog_data, read(args.review), args.trigger)
+                result["catalog_sha256"] = sha(args.catalog)
+                result["review_sha256"] = sha(args.review)
+            save_new(args.output, result)
+            result = {"output": str(args.output), "count": len(result["items"])}
+        elif args.action == "inventory":
             result = inventory(args.output.resolve())
         elif args.action == "prepare":
-            result = prepare(args.manifest, args.config, args.output.resolve())
+            result = prepare(args.manifest, None, args.output.resolve())
         elif args.action == "prepare-resume":
             result = prepare_resume(
                 args.source_package.resolve(),

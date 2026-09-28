@@ -1,257 +1,147 @@
 # P3-4.5 How Well Does the Sample Set We Collected Represent the Overall Operating Situation
 
 > Section ID: `P3-4.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-When leaving this in a table, do not keep these four points only as explanation outside the sample table. Keep columns that reveal the coverage range, such as `sampled_at`, `shift`, `load_mode`, `machine_id`, and `maintenance_phase`, so you can count missing conditions again later. Do not leave weak coverage only as a conclusion sentence; if you put it in `coverage_note` or a separate review memo, you can later check which conditions were barely observed when reading Part 4 evaluation scores.
+Even when each sample correctly represents one action, whether the collection covers its intended operating environment remains a separate question. **Representativeness concerns how the target distribution and collection process are reflected in the data, rather than equal counts across conditions.** Total sample count, minimum counts, and model accuracy provide different information.
 
-Once the sample unit has been fixed as something like one full action or one recent segment, one more question remains that is easy to miss. `How well does the sample set we collected represent the overall operating situation?` Even if the table itself is well organized, if the cases in it were gathered only from a specific process mode, a specific time period, or a specific equipment state, then the table may fail to describe the overall operating scene evenly. Choosing the sample unit correctly and having a sample bundle that evenly represents the whole situation are not the same thing.
+## Read Operating Shares Alongside Collection Shares {#a-small-diagram}
 
-## What Must the Representativeness of the Sample Bundle Be Distinguished From
+The [fictional action CSV](/AiBook/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv) contains 36 actions, E01–E36. Each row is one action: `shift` is day/night, `load_mode` is load condition, `machine_id` identifies equipment, and `maintenance_phase` distinguishes stable operation from after-maintenance. This is our teaching case for coverage and evaluation, not actual operating statistics.
 
-The problem of representativeness asks, separately from whether the definition of one sample is correct, what operating range the sample bundle actually covers.
+**Assume** the target operation is 80% day and 20% night. These are separately specified target shares, not values inferred from the CSV.
 
-| What the situation looks like on the surface | The question that should be asked first in Part 3 |
-| --- | --- |
-| The sample unit is well organized | Under what operating conditions were the samples gathered? |
-| Feature and label candidates also exist | Are they concentrated only in one specific period or one specific mode? |
-| The number of rows also looks sufficient | Does the bundle evenly cover the whole operating scene? |
+| shift | Assumed operating share | Collected actions | Collected share |
+| --- | ---: | ---: | ---: |
+| day | 80% | 26 | 26/36 ≈ 72.2% |
+| night | 20% | 10 | 10/36 ≈ 27.8% |
 
-Representativeness does not mean every condition has the same number of cases. If the target operation is 80% daytime and 20% nighttime, interpret the data against those proportions and its collection process. If performance must be checked separately for the two shifts, also assess whether there are enough nighttime cases. Meeting a minimum count in each condition does not prove representativeness.
+More daytime records do not alone establish bias. Under this assumption, night’s collected share is about 7.8 percentage points above its target share. Nor does a share difference in this small table establish a pass or fail for representativeness. Check how records were selected and which periods, machines, and conditions were omitted.
 
-In other words, `the definition of one sample` and `the representativeness of the sample bundle` are different problems.
+You might deliberately collect more night records to assess night performance separately. That can help condition-specific evaluation, but the changed collection shares must not be reported as overall operating shares. The CSV has no collection timestamps, so these columns cannot establish seasonal or period coverage.
 
-## Representative Scenes Where Representativeness Becomes Weak
+## What the Nine-Record Rule Actually Counts
 
-Even if all samples are the same unit of `one full action`, representativeness can still differ depending on from which range they were gathered.
+Set `minimum_count = 9` as an illustrative inspection rule and mark conditions with **fewer than nine actions**. Nine is neither a standard sufficient sample size nor a threshold that certifies representativeness.
 
-| Current state of the collected samples | Why representativeness may be weak |
-| --- | --- |
-| Mostly normal operation during the daytime | We barely see night shifts, high-load conditions, or transition intervals |
-| Mostly after-maintenance periods | The usual long-run operating state is represented less |
-| Mostly gathered from one specific machine | Differences among machines may be missed |
-| Concentrated in only one week of the month | Seasonal patterns, periodic changes, or policy shifts may be missed |
+| Grouping column | Actions by condition | Observed condition types | Conditions below nine |
+| --- | --- | ---: | --- |
+| shift | day 26, night 10 | 2 | None: 0 |
+| load_mode | normal 25, high 6, low 5 | 3 | high, low: 2 |
+| machine_id | M1 22, M2 7, M3 7 | 3 | M2, M3: 2 |
+| maintenance_phase | stable 28, after-maintenance 8 | 2 | after-maintenance: 1 |
 
-So even if the number of samples is large, representativeness can still be weak when the covered conditions are narrow.
+The number below the minimum for `shift` is zero because both `26 < 9` and `10 < 9` are false. “Both conditions exceed the rule” does not mean “the target operation is represented.” Counts of condition types such as 2 or 3 are also neither action counts nor correct predictions.
 
-## Four Things Worth Writing Down First
+Raising the minimum to 10 still does not flag the ten night actions; raising it to 11 does. Lowering it to 5 leaves zero under-minimum conditions in all four columns above. This changes the display rule without adding observations.
 
-In Part 3, what matters more than formal sampling theory at this stage is to write down the following four things first.
+## Search Separately for Zero Counts and Combinations
 
-| What to write down first | Turned into a question |
-| --- | --- |
-| Time range | From what period were the samples collected? |
-| Operating-mode range | Under what conditions and states were the samples collected? |
-| Equipment / entity range | From which facilities or entities were the samples collected? |
-| Missing ranges | What conditions or modes were barely seen? |
+The table counts only values present in the CSV. If the target scope separately includes M4, add M4 with **zero records**. Do not invent a missing machine without establishing that it belongs to the target scope. This is why the target-condition list must be compared with observed values.
 
-These notes are not for proving generalization later. They are for first making visible what the current table does represent and what it still does not represent.
+Individual conditions may all be present while a combination is empty. The following table counts machine and load together, selecting only `night` actions from the same CSV.
 
-## Comparing Collection Coverage with Operational Coverage {#a-small-diagram}
+| Night actions | normal | high | low |
+| --- | ---: | ---: | ---: |
+| M1 | 3 | 1 | 0 |
+| M2 | 1 | 0 | 1 |
+| M3 | 2 | 1 | 1 |
+
+The full dataset has ten night actions, seven M2 actions, and six high-load actions, but **night + M2 + high has zero records**. Record a gap if this combination can occur and is in evaluation scope. An impossible combination is not a collection target. Equal counts for every possible combination are not the goal.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-04/p3-4-5-mermaid-01-en.mmd"
 ```
 
-This diagram shows that even if every sample unit is consistently `one full action`, the operating range it covers can still be tilted to one side. In other words, the point of this section's example is not to read many raw table values, but to identify first `which conditions are overrepresented and which conditions are nearly empty`.
+## Read Model Scores with Condition-Specific Denominators {#small-code-example}
 
-## Why This Problem Has to Come After the Sample Unit
+Run a model on the same CSV, creating `needs_review` with the fictional rule **1 for `high` load or `after-maintenance`, otherwise 0**. Because this exercise label is made from input conditions, it does not measure real fault prediction. It tests how a model reproduces a known rule from its training data.
 
-The problem of representativeness can only be read after the sample unit has first been fixed. If it is still unclear whether one row means a time-point record or one full action, then questions such as `how many night-shift actions are there?` or `how many high-load-condition samples are there?` cannot even be counted properly.
+Fix E01–E24 as training and E25–E36 as evaluation. These are ID ranges, not assumed chronological ranges. Counts by load are:
 
-So the order is as follows.
+| load_mode | Training actions | Evaluation actions |
+| --- | ---: | ---: |
+| high | 4 | 2 |
+| low | 0 | 5 |
+| normal | 20 | 5 |
+| Total | 24 | 12 |
 
-1. First decide what will count as one sample.
-2. Then check what condition range those samples actually cover.
+`dummy` always predicts the more common training label, 0. `tree` is a decision tree that branches on input conditions. `OneHotEncoder` converts categories into 0/1 columns; for an unseen category it sets that feature’s encoded columns to zero. Being able to execute a prediction does not mean that condition was learned.
 
-Only after these notes are left behind can we later read results together with `from what condition range was this sample bundle obtained?`, and avoid missing `what operating conditions were barely seen?` In that sense, the problem of representativeness is similar to the problem of first writing down what the current sample bundle covers and what it misses.
-
-## Checking Collection Imbalance and Errors by Group {#small-code-example}
-
-Problem situation: even if all sample units are correctly aligned as `one full action`, check which conditions the actual sample bundle is tilted toward.
-
-Input: the action-sample table stored in [p3_4_5_sample_coverage.csv](/AiBook/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv){ .csv-preview } and the minimum observation criterion `minimum_count`. This table contains `shift`, `load_mode`, `machine_id`, and `maintenance_phase`.
-
-Expected output: a `coverage summary` showing which conditions were seen a lot and which were nearly empty. If `minimum_count` changes, the number of conditions marked as representativeness gaps also changes.
-
-Concept to check: the correctness of one sample definition and the even representativeness of the sample bundle over the whole operating range are different problems. A representativeness judgment needs an observation criterion.
+Run the code from the repository root. Change input columns through `features` and inspect the total correct count alongside `test_events` and `errors` for each load. Category transformation and model fitting use only training data.
 
 ```python
-# This example checks how well collected samples represent the overall operation by category and time window.
-import csv
-from collections import Counter
-from pathlib import Path
-
-minimum_count = 9
-preview_sample_count = 8
-
-input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
-coverage_scopes = ["shift", "load_mode", "machine_id", "maintenance_phase"]
-
-with input_path.open(newline="", encoding="utf-8") as file:
-    samples = list(csv.DictReader(file))
-
-coverage_summary = []
-for scope in coverage_scopes:
-    counts = Counter(sample[scope] for sample in samples)
-    ordered_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
-    most_seen, most_seen_count = ordered_counts[0]
-    least_seen, _ = sorted(counts.items(), key=lambda item: (item[1], item[0]))[0]
-    under_minimum = sum(1 for count in counts.values() if count < minimum_count)
-    coverage_summary.append(
-        {
-            "scope": scope,
-            "most_seen": most_seen,
-            "count": most_seen_count,
-            "least_seen": least_seen,
-            "unique_conditions": len(counts),
-            "under_minimum_conditions": under_minimum,
-        }
-    )
-
-print("1) raw sample coverage table")
-for sample in samples[:preview_sample_count]:
-    print(
-        f"{sample['event_id']}: shift={sample['shift']}, "
-        f"load_mode={sample['load_mode']}, machine_id={sample['machine_id']}, "
-        f"maintenance_phase={sample['maintenance_phase']}"
-    )
-print(f"... {len(samples) - preview_sample_count} more event-level samples")
-print()
-print(f"2) coverage summary when minimum_count = {minimum_count}")
-for item in coverage_summary:
-    print(
-        f"{item['scope']}: most_seen={item['most_seen']} ({item['count']}), "
-        f"least_seen={item['least_seen']}, "
-        f"unique_conditions={item['unique_conditions']}, "
-        f"under_minimum_conditions={item['under_minimum_conditions']}"
-    )
-```
-
-Expected output:
-
-```text
-1) raw sample coverage table
-E01: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E02: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E03: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E04: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E05: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E06: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E07: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-E08: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-... 28 more event-level samples
-
-2) coverage summary when minimum_count = 9
-shift: most_seen=day (26), least_seen=night, unique_conditions=2, under_minimum_conditions=0
-load_mode: most_seen=normal (25), least_seen=low, unique_conditions=3, under_minimum_conditions=2
-machine_id: most_seen=M1 (22), least_seen=M2, unique_conditions=3, under_minimum_conditions=2
-maintenance_phase: most_seen=stable (28), least_seen=after-maintenance, unique_conditions=2, under_minimum_conditions=1
-```
-
-What matters in this example is not a classification technique, but making visible at a glance `what the current table sees a lot of` and `what it barely sees`. The value to manipulate here is `minimum_count`. When `minimum_count = 9`, some scopes such as `shift` have all conditions above the criterion, while scopes such as `load_mode`, `machine_id`, and `maintenance_phase` have some conditions marked as representativeness gaps. If this value is lowered, the gaps decrease; if it is raised, more conditions are marked as insufficient. That is how we can explain with both numbers and a table why `even with 36 samples, representativeness can look different by condition`.
-
-This code counts only conditions that occur at least once in the CSV. Conditions present in the target operation but absent from the collection must be checked against a separate list and marked as zero cases. Also, the data may contain `nighttime` and `high load` separately without any `nighttime and high load` cases, so check required combinations too.
-
-When reading this table, three things should be checked together. Can this table explain the time, mode, and equipment range from which it collected samples? Can we write down the conditions that were barely seen? And later, when reading evaluation scores, can we also bring back to mind this range of representativeness? Only when notes like these are attached does the sample table become not just `an organized table`, but `a table that also records what operating range it represents`.
-
-A representativeness gap also appears later in model evaluation. The next example uses the same CSV, takes the first 24 rows as the training bundle, and the last 12 rows as the checking bundle. The training bundle is dominated by `normal` and `stable` conditions, while the checking bundle contains more `low` and `after-maintenance` conditions. Here we make a reduced label, `needs_review`, which is 1 for high load or after-maintenance conditions, and compare a simple baseline with a small decision tree.
-
-Problem situation: We want to see which conditions receive the errors of a baseline and a model when the training bundle is not representative.
-
-Input: The same `p3_4_5_sample_coverage.csv`, categorical condition columns, and the reduced label `needs_review`.
-
-Expected output: Condition distribution in the training/checking bundles, baseline and decision-tree accuracy, and the number of errors by `load_mode`.
-
-Concept to check: If we look only at one overall accuracy number, the operating conditions that were barely seen can stay hidden, so representativeness gaps should be read together with condition-level errors.
-
-```python
-# This example checks where baseline and model errors concentrate when training coverage is biased.
 import pandas as pd
-from pathlib import Path
-from sklearn.compose import ColumnTransformer
 from sklearn.dummy import DummyClassifier
-from sklearn.metrics import accuracy_score
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier
 
-input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
-samples = pd.read_csv(input_path)
-
-# This is a reduced label for this section's observation. A real operational label needs separate review.
+samples = pd.read_csv("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
 samples["needs_review"] = (
-    samples["load_mode"].eq("high") | samples["maintenance_phase"].eq("after-maintenance")
+    samples["load_mode"].eq("high")
+    | samples["maintenance_phase"].eq("after-maintenance")
 ).astype(int)
-
 train = samples[samples["event_id"].between("E01", "E24")]
 test = samples[samples["event_id"].between("E25", "E36")]
+# Change input columns and inspect errors together with evaluation counts.
 features = ["shift", "load_mode", "machine_id", "maintenance_phase"]
-
-preprocess = ColumnTransformer(
-    [("category", OneHotEncoder(handle_unknown="ignore"), features)]
-)
 models = {
     "dummy": DummyClassifier(strategy="most_frequent"),
     "tree": DecisionTreeClassifier(random_state=0, max_depth=3),
 }
-
-print("train coverage")
-print(train.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
-print()
-print("test coverage")
-print(test.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
-print()
-
+results = {}
 for name, estimator in models.items():
-    model = make_pipeline(preprocess, estimator)
+    model = make_pipeline(OneHotEncoder(handle_unknown="ignore"), estimator)
     model.fit(train[features], train["needs_review"])
-    predicted = model.predict(test[features])
-    result = test.assign(
-        predicted=predicted,
-        error=lambda df: df["predicted"].ne(df["needs_review"]),
-    )
-    print(f"{name} accuracy:", accuracy_score(test["needs_review"], predicted))
-    print("errors by load_mode:", result.groupby("load_mode")["error"].sum().to_dict())
+    result = test[["event_id", "load_mode", "needs_review"]].copy()
+    result["prediction"] = model.predict(test[features])
+    result["error"] = result["prediction"].ne(result["needs_review"])
+    correct = int((~result["error"]).sum())
+    print(f"{name}: correct={correct}/{len(result)}, accuracy={correct / len(result):.3f}")
+    print(result.groupby("load_mode").agg(
+        test_events=("error", "size"), errors=("error", "sum")
+    ).to_string())
+    results[name] = result
 ```
-
-Expected output:
 
 ```text
-train coverage
-load_mode  maintenance_phase
-high       stable                4
-normal     after-maintenance     2
-           stable               18
-Name: event_id, dtype: int64
-
-test coverage
-load_mode  maintenance_phase
-high       after-maintenance    1
-           stable               1
-low        after-maintenance    2
-           stable               3
-normal     after-maintenance    3
-           stable               2
-Name: event_id, dtype: int64
-
-dummy accuracy: 0.4166666666666667
-errors by load_mode: {'high': 2, 'low': 2, 'normal': 3}
-tree accuracy: 0.75
-errors by load_mode: {'high': 0, 'low': 3, 'normal': 0}
+dummy: correct=5/12, accuracy=0.417
+           test_events  errors
+load_mode
+high                 2       2
+low                  5       2
+normal               5       3
+tree: correct=9/12, accuracy=0.750
+           test_events  errors
+load_mode
+high                 2       0
+low                  5       3
+normal               5       0
 ```
 
-If we look only at overall accuracy, the decision tree appears better than the baseline. But `errors by load_mode` shows that errors remain in the `low` condition. That condition was absent from the training bundle and appears for the first time in the checking bundle. So this output makes us ask first not `how well did the model score?`, but `which conditions were barely seen before evaluation?` Representativeness checking is a table check before training a model, and it is also a condition check we must return to when reading model evaluation.
+The baseline gets five of twelve actions right: `5/12 ≈ 41.7%`. The tree gets nine right: `9/12 = 75%`. All three tree errors are in `low`, whose accuracy is `(5−3)/5 = 2/5 = 40%`. High is 2/2 and normal is 5/5, but these are results on a small evaluation set, not guarantees of future performance.
 
-Fixing the sample unit correctly does not automatically mean that the sample bundle represents the whole operating situation. That is why, in Part 3, the time range, mode range, equipment range, and remaining gaps should all be written down together.
+The low-load errors in this run are E27, E28, and E29. All are `stable`, so their synthetic target is 0, but the model predicts 1. Note that training contained no `low` examples, without generalizing that unseen conditions always fail or are the only cause of errors. Results also depend on input representation and learned branches.
+
+Try `features = ["load_mode"]` to remove maintenance information. Tree accuracy becomes `6/12 = 50%`; errors by load are high 0/2, low 3/5, and normal 3/5. The input no longer distinguishes the labels of after-maintenance normal-load actions E25, E26, and E34. Coverage and available input information both affect results. After using these evaluation scores to choose inputs, avoid reusing the same set as final performance verification.
+
+## Record the Supported Scope and Remaining Gaps
+
+Correct “Minimum counts passed and accuracy is 75%, so the data is sufficient for all operations.” One answer is: “Day and night exceed the illustrative nine-record rule, but target shares, collection methods, and additional conditions need checking. This synthetic-rule experiment gets nine of twelve actions right; low load, absent from training, gets two of five right. Night + M2 + high and collection-period coverage remain unsupported.”
+
+For actual data, record collection periods and methods, target conditions, important zero-count or sparse combinations, and where to collect more or defer application. Neither total count nor one accuracy score replaces that record.
 
 ## Checklist
 
-- Did you compare condition proportions in the collected table with the target operating distribution?
-- Did you find zero-case conditions and combinations missed by separate category counts?
+- Do you distinguish assumed target shares of 80/20 from observed shares of 26/36 and 10/36?
+- Have you calculated why shift has zero under-minimum conditions at nine?
+- Can you explain why lowering the rule removes warnings without adding data?
+- Have you checked zero-count target conditions and intersections such as night + M2 + high?
+- Do you read overall 9/12 alongside low-load 2/5 and state the synthetic label’s limits?
+- Have you recorded what this CSV cannot establish, such as observation-period coverage?
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because the example unit has to be fixed before we can ask what set of examples represents the current problem, it strengthens this section's starting point that the definition of one sample and the representativeness of the sample bundle should be read separately. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- W3C, `PROV-Overview`. Because it explains that provenance and activity context should be preserved together, it provides the higher-level frame that to explain the range of representativeness, we must be able to trace from what time period, what machine, and what operating mode the current sample bundle came. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. Because it explains that when current performance is compared with past performance, the samples should come from the same essential conditions, it provides a general basis for the claim that before sample count, the operating conditions covered by the data must first be organized. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, [Deep Learning Tuning Playbook: Additional guidance](https://developers.google.com/machine-learning/guides/deep-learning-tuning-playbook/additional-guidance){: target="_blank" rel="noopener noreferrer" }. Supports evaluation on data representative of production. The 80/20 shares and nine-record rule are assumptions for this example. / Accessed: 2026-09-19
+- scikit-learn developers, [OneHotEncoder](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html){: target="_blank" rel="noopener noreferrer" }. Documents categorical encoding and unseen-category handling with `handle_unknown="ignore"`. / Accessed: 2026-09-19

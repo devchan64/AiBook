@@ -1,35 +1,13 @@
 # P3-4.3 时点记录、动作样本和区间汇总有什么不同
 
 > Section ID: `P3-4.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-制作下一张表时，要把这种差异直接转成列的角色。行层位可以留下 `second`、`flow` 这类瞬间记录；样本层位放 `event_id`、`flow_mean`、`flow_max` 等说明一次动作的列；区间层位放 `window`、`event_count`、`window_flow_mean` 等显示多个样本再次分组的列。如果三种层位必须放在同一张表中，每个列名都要显示它是在哪个层位计算出来的，避免后面的特征、基准线和 复核句 指向不同单位。
+[样本](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)是当前问题中用于比较的一条案例。**行是表的存储形式：时点记录、动作摘要和区间汇总都可以各占一行。** 前一节区分了划分单位与计分单位，本节则观察：把同一批记录分组后，一行的含义如何变化。
 
-需要一起区分这三个单位，是因为[特征](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、基准线比较和复核语句可能属于不同层级。如果不先确认当前问题的样本单位，就混合统计时点行和汇总区间，后面构造的表与比较结构也会失去一致性。
+## 9 行时点记录包含 3 次动作
 
-`行`是存储形式，`样本`是分析单位。在动作汇总表中，一行与一条样本一致。在另一个以近期区间为分析对象的问题里，一个区间就是一条样本。本节比较的是以一次动作为样本时的三种表示。
-
-必须一次把这三个单位区分开的原因，是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、基准线比较和复核语句分别贴在不同层级上。一旦把一行误当成样本，或者把区段读成一条样本，后面搭出来的表结构和比较结构也会一起开始摇摆。
-
-把这三个层级重新分开，可以写成下面这样。
-
-- `一行` 是当前表里看得见的一条线。
-- `一个样本` 是用来比较或学习的基本单位。
-- `一个近期区段` 是把多个样本重新聚起来后的比较单位。
-
-这三者可以彼此包含，但并不是同一件事。
-
-| 现在看到的对象 | 最自然的问题 | 这一节里的层级 |
-| --- | --- | --- |
-| 一条时点日志 | 这个时点测到了什么？ | 行 |
-| 一次完整动作 | 这次动作的结构是不是和平常不同？ | 样本 |
-| 最近 20 次这组样本 | 最近状态是不是和平常区段不一样？ | 区段 |
-
-这张表说明：`有一条线`、`有一条样本`、`有一个可比较的近期区段` 其实各自在回答不同问题。Part 3 容易一直混淆，不是因为它们本来就在同一层，而是因为这三个问题都从看数据表开始。
-
-## 把同一个场景重新读成三个层级
-
-再来看一次自动执行动作的数据。
+下面是自行设计的虚构流量记录。`event_id` 标识一次动作，`second` 是该动作开始后经过的秒数，`flow` 的单位为 L/min。在这个小表中，`(event_id, second)` 共同标识一个观测行。不同动作的 `second=1` 并不表示同一个实际时刻。
 
 | event_id | second | flow |
 | --- | ---: | ---: |
@@ -39,167 +17,70 @@
 | B | 0 | 0.7 |
 | B | 1 | 1.2 |
 | B | 2 | 1.0 |
+| C | 0 | 0.9 |
+| C | 1 | 1.6 |
+| C | 2 | 1.2 |
 
-第一次看到这张表时，会看见六行。但这六行未必就是六条样本。如果这里把 `A` 这一次完整动作看成一条样本，那么上面的三行其实只是组成这条样本的时点记录。
+`A, second=1` 的 1.5 是 A 内一个时点的观测值。仅凭这一行，无法知道 A 整体的均值或最大值。对于“A 动作的平均流量是多少？”，A 的三行记录共同构成一个动作样本的材料。
 
-再往下，如果把多个动作重新聚起来做成 `最近 20 次的均值`，那么像 `A`、`B` 这样的单条样本就会再往下掉一级。因为近期区段是把多个样本重新聚起来后的聚合单位。
+## 先求动作均值，再按区间分组 {#_3}
 
-把同一个场景放到三个层级里，就可以这样读。
+先收集同一 `event_id` 的观测，计算均值和最大值。本例另行规定：B 属于过去的基准区间 `baseline`，A、C 属于近期区间 `recent`。这是教学设定，不能从表中的经过秒数或字母顺序推断出来。实际资料需要保留区间起止边界或明确的成员事件列表。
 
-| 层级 | 什么算一条 | 例子 |
-| --- | --- | --- |
-| 行 | 一条时点记录 | `A, second=1, flow=1.5` |
-| 样本 | 一次完整动作 | `event_id=A` 的整体 |
-| 区段 | 多个样本的集合 | 最近 20 次的均值和波动性 |
+| event_id | point_count | event_flow_mean | event_flow_max | window |
+| --- | ---: | ---: | ---: | --- |
+| A | 3 | 1.133333 | 1.5 | recent |
+| B | 3 | 0.966667 | 1.2 | baseline |
+| C | 3 | 1.233333 | 1.6 | recent |
 
-换句话说，`A, second=1` 可能不是一条样本，而只是构成样本的一小块；而 `最近 20 次` 则可能是把 20 条样本再次聚起来后得到的更大比较单位。
+此时一行代表一次动作，标识符是 `event_id`。`event_flow_mean` 平均的是**该动作内部的流量观测值**。A 的计算为 `(0.8 + 1.5 + 1.1) ÷ 3 = 3.4 ÷ 3 ≈ 1.133333 L/min`。最大值 1.5 也来自这三个观测。这类摘要可以成为比较动作的[特征](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)，但无法保留时点变化的完整顺序。
 
-如果把同样的场景再写成句子，就会更清楚。
+接着收集属于同一 `window` 的动作摘要行。每个动作取一个均值，再求平均，使各动作占相同权重。
 
-- 如果运营人员问的是 `第 1 秒时点的流量是多少？`，那他们想看的就是行。
-- 如果运营人员问的是 `A 这次动作是不是比平常更不稳定？`，那他们想看的就是样本。
-- 如果运营人员问的是 `最近 20 次是不是比上周的基准线更差？`，那他们想看的就是区段。
+| window | member_events | event_count | window_flow_mean |
+| --- | --- | ---: | ---: |
+| baseline | B | 1 | 0.966667 |
+| recent | A, C | 2 | 1.183333 |
 
-关键就在于：只要问题变了，同一份源数据就会被重新读成不同层级。混淆通常不是因为数据太复杂，而是因为我们还没先写下自己当前到底贴的是哪个问题，就开始看表了。
+此时一行代表一个区间，本例的标识符是 `window`。近期均值为 `(A 的均值 + C 的均值) ÷ 2 = (3.4/3 + 3.7/3) ÷ 2 ≈ 1.183333 L/min`。**第一次的分母 3 是观测数，第二次的分母 2 是动作数。** 表中显示六位小数，实际计算使用未四舍五入的数值。
 
-## 为什么必须做这个区分
+本例每次动作都有三个观测，因此直接平均近期的六个原始观测也会得到同样结果。观测数不相同时，两种计算可能不同。P3-5.1 将讨论权重差异；这里先分清 `event_flow_mean` 和 `window_flow_mean` 各自汇总什么。
 
-之所以必须区分，是因为后面的概念会贴在不同层级上。
+基准区间仅有 B 一次动作，用于展示计算结构，不能据此判断它充分代表平常状态。近期均值约高出 0.216667 L/min，也不直接意味着状态恶化或故障。
 
-| 概念 | 主要贴在哪个层级 | 原因 |
-| --- | --- | --- |
-| 原始测量值 | 行 | 因为它是某个时点的真实观测值 |
-| 特征 | 样本 | 因为它是在描述一次完整动作的结构 |
-| 基准线比较 | 区段，或样本对区段 | 因为必须拿近期状态和平常状态作比较 |
-| 复核语句 | 区段或样本 | 因为它是给人读取的判断单位 |
+## 从汇总行追溯原始记录 {#_5}
 
-例如，像 `late_drop_rate` 这样的特征，并不会直接贴在单个时点行上。它只能在先把一次完整动作构造成样本之后才能算出来。反过来，像 `recent_count=20` 这样的值就不是单条样本特征，而更像近期区段聚合。所以，只要把这些层级混着读，特征、基准线和[输出结构(output structure)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)就都会变得抽象。
+检查近期均值时，沿着 `recent → A、C → 每次动作的 0、1、2 秒记录` 追溯。图中的箭头表示计算方向；复核结果时则沿相反方向查找成员动作与观测。
 
-## 比较时点、动作与区间的汇总结果 {#_3}
-
-问题情境：通过行数和输出结构确认 `一行`、`一个样本`、`一个近期区段` 在同一份原始日志里属于不同层级。
-
-输入(input)：按 `event_id` 存放的时点流量记录，以及标记近期/基准线区段的列
-
-期望输出(output)：`row count`、`sample count`、`window count` 各不相同，而且每个层级里“一条”的含义也不同
-
-要确认的概念：行、样本、区段是同一份数据的不同表达层级，不能当作同一个单位来读
-
-```python
-# 这个例子把一行、一个样本和一个近期区段作为不同分析单位进行比较。
-import pandas as pd
-
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "second": 0, "flow": 0.8},
-        {"event_id": "A", "second": 1, "flow": 1.5},
-        {"event_id": "A", "second": 2, "flow": 1.1},
-        {"event_id": "B", "second": 0, "flow": 0.7},
-        {"event_id": "B", "second": 1, "flow": 1.2},
-        {"event_id": "B", "second": 2, "flow": 1.0},
-        {"event_id": "C", "second": 0, "flow": 0.9},
-        {"event_id": "C", "second": 1, "flow": 1.6},
-        {"event_id": "C", "second": 2, "flow": 1.2},
-    ]
-)
-
-per_event = (
-    raw.groupby("event_id", as_index=False)
-    .agg(
-        flow_mean=("flow", "mean"),
-        flow_max=("flow", "max"),
-    )
-    .assign(window=lambda df: df["event_id"].map({"A": "recent", "B": "baseline", "C": "recent"}))
-)
-
-per_window = (
-    per_event.groupby("window", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        flow_mean=("flow_mean", "mean"),
-    )
-)
-
-print("1) counts change by level")
-print("row count:", len(raw))
-print("sample count:", len(per_event))
-print("window count:", len(per_window))
-print()
-print("2) one row still means one time-step record")
-print(raw.loc[[1], ["event_id", "second", "flow"]])
-print()
-print("3) one sample means one whole event")
-print(per_event.loc[per_event["event_id"] == "A", ["event_id", "flow_mean", "flow_max"]])
-print()
-print("4) one window means multiple samples regrouped")
-print(per_window)
-```
-
-期望输出：
-
-```text
-1) counts change by level
-row count: 9
-sample count: 3
-window count: 2
-
-2) one row still means one time-step record
-  event_id  second  flow
-1        A       1   1.5
-
-3) one sample means one whole event
-  event_id  flow_mean  flow_max
-0        A   1.133333       1.5
-
-4) one window means multiple samples regrouped
-     window  event_count  flow_mean
-0  baseline            1   0.966667
-1    recent            2   1.183333
-```
-
-这里真正要看的，不是数字本身，而是 `到底在数什么`。
-
-- `row count: 9` 表示 9 条时点记录。
-- `sample count: 3` 表示 3 次动作。
-- `window count: 2` 表示 `recent` 和 `baseline` 两个区段。
-
-而下面那三段输出，则把每个层级的代表形态直接展示出来。
-
-- `one row example` 是像 `A, second=1, flow=1.5` 这样的一条时点线。
-- `one sample example` 是一条样本，比如动作 `A` 的均值和最大值。
-- `window summary` 则是把样本表进一步聚成 `recent` 和 `baseline` 之后得到的区段汇总。
-
-行数减少，并不是因为简单压缩，而是因为 `什么算一条案例` 已经发生了变化。
-
-如果把这个例子压成一句话，就是：`A, second=1` 展示的是当时发生了什么，`event_id=A` 展示的是一次动作整体怎么样，而 `recent` 展示的是把若干条样本重新聚起来后的状态比较。即便是同一份数据，只要问题变了，我们就会在这三个层级之间来回切换。
-
-## 第一次拿到表时可以快速追问的问题
-
-在实际里，只要先写下下面三个问题，混淆就会少很多。
-
-1. 当前表里的一条线表示的是时点记录、一次完整动作，还是近期区段聚合？
-2. 我现在想读的是一条线、一整次动作，还是整个近期状态？
-3. 我现在要贴上的值，是特征、比较列，还是复核语句候选？
-
-这三个问题分别在重新拆开 `行`、`样本`、`区段`。
-
-这一节并不是一个术语对照表，而可以重新读成：它在处理的是如何同时阅读 `表达层级(levels of representation)` 的问题。
-
-## 将时点记录汇总为动作与区间 {#_5}
-
-把前面的说明压到最短，就是 `一行 -> 一个样本 -> 一个区段` 代表同一份数据被一步步读成更大的比较单位。每个层级回答的问题不同，所以不能把它们混成同一个单位来读。
-
+```mermaid
 --8<-- "assets/part-03/chapter-04/p3-4-3-mermaid-01-zh.mmd"
+```
 
-所以，`一行`、`一个样本`、`一个近期区段` 不应该被读成三个名字相近的对象，而应该被读成：为了回答不同问题，同一份源数据在不同层级上被重新表达之后得到的结果。
+因此同一批资料可以表示为**9 行时点表、3 行动作表、2 行区间表**。行数减少并不意味着原来的事件消失了。不过，如果只留均值而丢掉原始记录及其关联，就无法还原原来的变化形状。实际累积多个期间时，需要保存不同区间的 ID 和成员范围，不能反复只用 `recent` 这个角色名称。
+
+## 问题改变时，区间也可以成为样本
+
+对于“本次动作与其他动作有什么不同？”，一次动作就是样本。对于“最近 20 次动作组成的区间与此前 20 次动作区间的平均流量相差多少？”，一个区间就可以作为比较样本。此时 `event_count` 和 `window_flow_mean` 描述的是区间。没有必要把样本固定为动作，或把特征固定为动作摘要。
+
+这个小例子的近期区间实际上只有 A、C 两次动作。提出“最近 20 次”的问题，并不会使本表提供 20 次动作的依据。即使把一个区间计为一条样本，也要另外记录其中的事件数。
+
+## 改变区间归属，检查计算对象
+
+假设把 C 从 `recent` 移到 `baseline`，先写出三个层级的行数和两个区间的均值。原始观测值保持不变。
+
+答案仍是 **9 行、3 次动作、2 个区间**。近期只剩 A，均值为 1.133333；基准区间对 B、C 的均值再次求平均：`(2.9/3 + 3.7/3) ÷ 2 = 1.1 L/min`。A、B、C 各自的均值不变，但区间成员与均值改变。这就是读取区间均值时还要检查成员事件的原因。
+
+现在改为从资料中排除 C 的全部三个观测。结果是 **6 行、2 次动作、2 个区间**，近期均值为 A 的 1.133333。它与前一练习的近期均值相同，但前一练习的 C 属于基准区间，这次则不属于任何区间。仅凭均值无法知道纳入了哪些资料。
 
 ## 检查清单
 
-- 你是否分别写出了时点表、动作表和区间表中一行的含义？
-- 你是否提出了一个可以把近期区间本身当作样本的问题？
+- 能否解释时点表的 `(event_id, second)`、动作表的 `event_id`、区间表的 `window` 分别标识什么？
+- 能否区分 A 的均值除以 3 与近期区间均值除以 2 的含义？
+- 能否把近期的 1.183333 追溯到 A、C 的六个原始观测？
+- 能否说明移动 C 或排除 C 如何改变行数、均值和成员事件？
+- 是否提出了以区间为样本的问题，并另外记录实际包含的事件数？
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`. provenance framework 说明它应支持 identifying an object 和 representing derivation，因此为把行级记录、事件级样本、窗口级聚合作为不同表达层级分别记录下来提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时期是拿来和其他时期比较的 reference，因此强化了这一点：像近期区段和基准区段这类聚合层级表达，属于和样本层级不同的比较层级。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 时点记录与区间汇总也可作为样本；选择单次动作是本节案例的设定。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
+- W3C，[PROV-Overview](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }。为记录资料的生成过程与派生关系提供一般依据。本节三张表及数值是自行设计的虚构案例，不是 W3C 规定的三层分类。/ 查阅日期：2026-09-19
+- Google for Developers，[Machine Learning Glossary: example](https://developers.google.com/machine-learning/glossary#example){: target="_blank" rel="noopener noreferrer" }。example 是由特征表示的一条案例，可以有标签，也可以没有标签。本节选择动作或区间，是根据问题做出的案例设定。/ 查阅日期：2026-09-19

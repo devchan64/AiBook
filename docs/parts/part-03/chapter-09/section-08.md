@@ -1,50 +1,73 @@
 # P3-9.8 예측 점수는 어떤 규칙을 거쳐 행동으로 이어지는가
 
 > Section ID: `P3-9.8`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-입력과 결과를 정한 뒤에도 예측 문제는 아직 반쯤만 닫힌 상태입니다. 같은 `review_needed` 예측이라도 그것이 동작 1건을 [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)에 올리는 일인지, 최근 구간 전체의 경고 강도를 조정하는 일인지가 다를 수 있기 때문입니다. 또한 모델이 낸 [점수(score)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-score)와 그 점수로 실제 행동을 정하는 [정책 규칙(policy rule)](../../../reference/concept-glossary-parts/08-ieung.md#decision)도 같은 것이 아닙니다.
+[P3-9.7](section-07.md)에서는 예측 시점에 쓸 수 있는 입력과 이후 결과를 구분했습니다. 모델이 [점수](../../../reference/concept-glossary-parts/05-mieum.md#glossary-score)를 낸 다음에도 실제로 누구를 검토할지는 별도로 정해야 합니다. 점수는 모델의 출력이고, [정책 규칙](../../../reference/concept-glossary-parts/08-ieung.md#decision)은 그 출력을 행동으로 바꾸는 기준입니다.
 
-예측값 하나는 어떤 단위의 어떤 행동과 연결되는지 적어야 하고, 모델 점수와 판단 규칙은 분리해서 봐야 합니다.
+## 점수의 출처와 예측 한 번의 대상을 적는다
 
-| 구분 | 질문 |
-| --- | --- |
-| 예측 1회의 대상 단위 | 이 값 하나는 동작 1건, 최근 구간 1개, 다음 사례 1건 중 무엇을 가리키는가 |
-| 모델 출력 | 모델은 점수, 0/1, 순위 중 무엇을 내는가 |
-| [정책 규칙(policy rule)](../../../reference/concept-glossary-parts/08-ieung.md#decision) | 그 출력을 어떤 기준으로 행동으로 바꾸는가 |
-| [실제 행동(action)](../../../reference/concept-glossary-parts/14-hieut.md#action) | 검토 큐 등록, 보류, 자동 조치 중 무엇이 일어나는가 |
+아래는 이 절에서 주어진 **가상 모델 출력**입니다. 실제 모델을 학습·실행한 결과가 아니며, 앞 장에서 비교 차이나 안전 조건으로 정렬했던 수작업 큐와도 다릅니다. 이 사례의 모델은 완료된 동작 한 건에 추가 검토가 필요한지를 예측한다고 가정합니다. `review_score`는 그 판단을 위한 점수이고, 클수록 먼저 검토할 후보로 봅니다.
 
-| 층위 | 예시 |
-| --- | --- |
-| 모델 출력 | `0.82`, `warning_score` |
-| [정책 규칙(policy rule)](../../../reference/concept-glossary-parts/08-ieung.md#decision) | `0.8 이상이면 검토`, `상위 10%만 본다` |
-| 실제 행동 | 검토 큐 등록, 우선순위 조정 |
+A~D는 이 절 안의 동작 ID입니다. 각 동작 완료 시점에 같은 가상 모델 `demo-model-v1`이 점수를 냈다고 가정하며, 이번 검토 묶음을 확정하기 전에 D가 추가됩니다. A~C의 점수는 다시 계산하지 않습니다. 행동 단위도 동작 한 건의 검토 배정으로 고정합니다.
 
-실제 표로 넘길 때는 `prediction_unit`, `score_column`, `decision_threshold`, `policy_version`, `action_column`처럼 서로 다른 층위의 필드를 분리해 둡니다. 이렇게 적어 두면 모델이 낸 값, 그 값을 행동으로 바꾸는 기준, 실제로 실행되는 조치가 같은 말처럼 섞이지 않습니다.
+| event_id | 주어진 `review_score` | 후보 묶음에 들어온 순서 |
+| --- | ---: | --- |
+| A | 0.82 | 처음 묶음 |
+| B | 0.80 | 처음 묶음 |
+| C | 0.79 | 처음 묶음 |
+| D | 0.95 | 배정 확정 전에 추가 |
 
-같은 점수라도 정책이 다르면 행동이 달라질 수 있습니다. 또한 어떤 문제는 점수를 [순위화(ranking)](../../../reference/concept-glossary-parts/07-siot.md#glossary-ranking)에만 쓰고, 어떤 문제는 숫자 자체를 [확률 추정값(probability estimate)](../../../reference/concept-glossary-parts/14-hieut.md#probability-estimate)처럼 읽고 싶어 할 수 있습니다. 이 차이도 먼저 적어 두어야 합니다. 즉 예측 1회의 의미는 `숫자 하나를 내는 일`이 아니라, 그 숫자가 어떤 규칙을 거쳐 어떤 행동으로 이어지는지까지 포함한 결정 구조입니다. 더 넓게 보면 이 절은 `모델 출력`, `판정 규칙`, `실제 행동`이 서로 다른 층위라는 점을 분리해, 예측값 하나를 운영 결정 구조 안에서 읽게 합니다.
+0~1 범위의 점수라는 사실만으로 고장 확률이나 검토 필요 확률이라고 단정할 수 없습니다. 이 절에서는 점수의 순서와 정책 적용만 다룹니다. 실제 검토 결과도 아직 주어지지 않았으므로 선택된 동작을 실제 양성으로, 선택되지 않은 동작을 정상으로 바꾸지 않습니다.
+
+## 임계값과 상위 2건은 다른 규칙이다
+
+오늘 처리 가능한 수는 2건입니다. 먼저 처리 용량을 적용하기 전의 기준 충족과, 순위에 따른 선택을 비교합니다. 여기서 **`0.80 이상`은 `score >= 0.80`**이며 0.80도 포함합니다. 동점이면 `event_id`의 문자 오름차순으로 정합니다. 이는 이 교육용 정책에서 정한 규칙이지 모든 도구의 기본 동작은 아닙니다.
+
+| 비교할 정책 | A·B·C만 있을 때 | D가 추가된 뒤 |
+| --- | --- | --- |
+| 임계값: 0.80 이상인 모든 후보 | A, B — 2건 | D, A, B — 3건 |
+| 상위 2건: 점수 내림차순, 동점은 ID 순 | A, B — 2건 | D, A — 2건 |
+
+표의 임계값 행은 기준을 충족한 목록이며 오늘 처리할 2건의 확정 배정표가 아닙니다. D가 들어와도 B의 점수와 기준 충족 여부는 그대로입니다. 달라진 것은 후보들 사이의 순위입니다. 반대로 상위 2건만 고르는 규칙에는 최소 점수 조건이 없어서 후보 점수가 모두 낮아도 최대 2건을 고를 수 있습니다.
+
+## 기준 충족과 오늘의 처리 상태를 나눈다
+
+두 제약을 함께 쓰는 정책을 `threshold-capacity-v1`으로 정합시다. 먼저 0.80 이상인 후보만 남기고, 그 안에서 점수 내림차순·동점 ID 순으로 최대 2건을 오늘 검토에 배정합니다. 기준 미달 후보로 빈자리를 채우지 않습니다.
+
+| event_id | 점수 | `meets_threshold` | `selected_today` | 정책이 정한 배정 상태 |
+| --- | ---: | ---: | ---: | --- |
+| D | 0.95 | 1 | 1 | 오늘 검토 배정 |
+| A | 0.82 | 1 | 1 | 오늘 검토 배정 |
+| B | 0.80 | 1 | 0 | 기준 충족, 용량 부족으로 대기 |
+| C | 0.79 | 0 | 0 | 기준 미달로 이번 배정 제외 |
+
+B와 C는 모두 `selected_today=0`이지만 이유가 다릅니다. B는 배정 용량 때문에 대기하고 C는 현재 임계값을 충족하지 않습니다. 어느 쪽도 실제 검토 결과나 고장 유무를 뜻하지 않습니다. 또 `selected_today=1`은 검토 배정을 뜻할 뿐, 담당자가 검토를 끝냈다는 뜻은 아닙니다. 실행 여부는 별도의 완료 기록으로 확인합니다.
 
 ## 점수에서 임계값과 운영 정책으로 {#_1}
-
-예측 1회는 점수 하나로 끝나지 않고, 그 점수가 정책 규칙을 거쳐 어떤 행동으로 연결되는지까지 봐야 합니다.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-8-mermaid-01-ko.mmd"
 ```
 
-예를 들어 하루 10건만 검토할 수 있다면 점수순 상위 10건을 고르는 규칙과 `점수 0.7 이상` 규칙은 다른 결과를 낼 수 있습니다. 0.7 이상이 30건이면 처리 용량을 넘기 때문입니다. 점수가 0~1 범위라는 이유만으로 발생 확률이라고 읽어서도 안 됩니다. 점수의 뜻과 행동 규칙, 처리 가능한 건수를 별도로 기록합니다.
+도식은 D가 포함된 후보 묶음에 `threshold-capacity-v1`을 적용한 결과입니다. 후보 묶음과 정책이 같으면 같은 배정이 재현되도록 모델 버전, 예측 대상과 시각, 점수, 후보 목록, 임계값, 용량, 동점 규칙, 정책 버전을 남깁니다. B의 점수 0.80과 대기 사유가 함께 남아야 모델 출력과 배정 결정을 구분할 수 있습니다.
 
-가상 사례 A·B·C의 점수가 각각 0.82, 0.80, 0.79이고 오늘 검토 가능한 건수가 2건이라고 합시다. `0.80 이상` 규칙과 `상위 2건` 규칙은 모두 A·B를 고릅니다. 이제 D가 0.95로 추가되면 어떻게 될까요? 임계값 규칙은 D·A·B의 3건을 고르고, 상위 2건 규칙은 D·A만 고릅니다. B의 점수는 변하지 않았지만 선택 여부는 달라졌습니다.
+## 경계와 용량을 바꾸어 판단해 본다
 
-임계값을 넘은 3건 중 2건만 오늘 처리한다면 B에는 `기준 미달` 대신 `기준 충족, 용량 부족으로 대기`라고 남겨야 합니다. 이를 위해 기준 충족 여부와 오늘의 처리 상태를 별도 열로 둡니다. 그래야 나중에 B가 선택되지 않은 이유를 모델 점수 부족과 처리 용량 부족으로 구분할 수 있습니다.
+연습: D가 포함된 네 후보를 그대로 두고 ① 용량만 3건으로 늘리면 B와 C는 어떻게 되나요? ② 용량 2건에서 임계값을 0.83으로 올리면 남은 자리를 A로 채우나요? ③ 별도의 경우로 E가 0.82로 추가되고 임계값 0.80·용량 2건이면 누가 배정되나요?
+
+해설: ① D·A·B가 배정되고 C는 기준 미달로 남습니다. ② D만 기준을 충족하므로 1건만 배정합니다. 빈자리를 A로 채우지 않습니다. 이 경우 B의 미선택 사유도 용량 대기에서 기준 미달로 달라집니다. ③ D 다음으로 A와 E가 동점이지만 ID 순으로 A가 앞서므로 D·A를 배정합니다. E와 B는 기준을 충족한 대기 후보입니다. 이 ID 규칙은 순서를 재현하기 위한 약속이며 A가 E보다 위험하다는 근거가 아닙니다.
+
+이렇게 정책을 바꾸는 동안 기존 후보의 모델 점수는 고정되어 있습니다. 임계값이나 용량을 바꾸어 선택이 달라졌다는 사실만으로 모델이 더 정확해졌다고 말할 수 없습니다. 선택 오류의 비용을 비교하는 문제는 [P3-9.12](section-12.md)에서 이어집니다.
 
 ## 체크리스트
 
-- 점수와 행동을 연결하는 임계값 또는 상위 건수 규칙을 적었는가?
-- 하루 검토 용량보다 후보가 많을 때의 처리 규칙을 설명했는가?
+- 가상 모델 점수의 출처와 예측·행동 단위를 설명할 수 있는가?
+- B의 0.80이 기준을 충족하는 이유와 D 추가 후 대기하는 이유를 구분할 수 있는가?
+- 동점·빈자리·기준 미달을 정한 규칙대로 처리하고, 검토 배정과 검토 완료를 구분할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Google, *Thresholds and the confusion matrix*. 모델의 원시 숫자 출력을 범주로 바꾸려면 분류 임계값을 선택해야 하고, 임계값이 달라지면 예측 결과가 달라질 수 있다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google, *Thresholds and the confusion matrix*. 모델의 원시 숫자 출력을 범주로 바꾸려면 분류 임계값을 선택해야 하고, 임계값이 달라지면 예측 결과가 달라질 수 있다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-20
 - Google, *Classification: ROC and AUC*. AUC가 양성 예시를 음성 예시보다 높게 순위화하는 능력과 연결되고, 실제 분류는 선택한 임계값에 따라 달라진다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - Google, *Machine Learning Glossary*, `classification threshold`, `AUC`. 임계값과 AUC 용어 기준을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

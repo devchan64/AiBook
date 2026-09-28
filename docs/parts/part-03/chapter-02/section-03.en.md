@@ -1,7 +1,7 @@
 # P3-2.3 What Should Be Written Down First When a New Table Arrives
 
 > Section ID: `P3-2.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 When a new table first arrives, it is easy in many cases to think first of averages, distributions, or model candidates. But what should be written down before that is `what does one row of this table mean?`, `what can be grouped together?`, and `what is still missing?` Only after these three are organized can we distinguish whether what is in hand is already a sample table that can be compared directly, or still raw records that must be regrouped. Rather than deciding immediately whether a new table is `a training dataset`, it helps interpretation more to write down these three points first. Once they are written down, later sample design and dataset redesign also become much less abstract.
 
@@ -53,7 +53,7 @@ So the first stage is closer to `identity checking` than to `calculation`.
 
 ## Checking Row Meaning and Comparability {#a-small-diagram}
 
-When a new table is read for the first time, it is safer to close it in the order `row meaning -> grouping criterion -> format/quality checks -> regrouping decision`.
+When a new table is read for the first time, it is safer to close it in the order `row meaning -> grouping criterion -> format/quality checks -> decide on restructuring or source checks`.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-02/p3-2-3-mermaid-01-en.mmd"
@@ -66,15 +66,15 @@ If the following five lines are written down first, the table's identity and com
 - One row means `_____`.
 - The key that groups the same object is `_____`.
 - The column showing time or process order is `_____`.
-- This table is directly comparable / still needs to be regrouped.
+- The comparison question is `_____`; the required restructuring and conditions still to verify are `_____`.
 - The raw evidence to revisit strange cases is `_____`.
 
-For example, with an automatic-action log, it can be written like this.
+For example, to compare mean flow across actions using the CSV below, write:
 
 - One row means `a measured value at one time point during the action`.
 - The key that groups the same object is `event_id`.
 - The time column is `elapsed_seconds`.
-- This table is not yet a directly comparable sample table and still has to be regrouped.
+- Comparing action-level means requires grouping by `event_id`; full action coverage and matching operating conditions remain unverified.
 - The raw evidence to revisit strange cases is the raw log by `event_id`.
 
 Once this five-line memo exists, even the sentence `redesign the dataset to match the question` in Chapter 3 reads far less abstractly.
@@ -84,18 +84,34 @@ Going just one step further, format consistency and the first quality check can 
 - Format consistency: first check whether `event_id` groups the same action in a consistent format, and whether `elapsed_seconds` allows time order to be read.
 - First quality check: check whether some `event_id` values have abnormally few or many rows, whether time goes backward or has missing segments, and whether there are missing values that should be marked before comparison.
 
-## Checking Table-Reading Notes Against Column Distributions {#small-code-example}
+## Order Errors and Cases That Need Source Checks
+
+The contrasts below copy and modify A’s first three records from the CSV used later. The original `(time, flow)` pairs are `(0, 0.80), (1, 0.92), (2, 1.05)`, in seconds and L/min. We assume a 1-second sampling interval for this small segment. The original CSV stays unchanged.
+
+| Change to the copy | What changed | Next action |
+| --- | --- | --- |
+| None: 0→1→2 seconds | Order and spacing match this segment’s assumptions | Continue checking other quality items |
+| Reverse only the rows to 2→1→0 seconds | Timestamps and measurements stay the same; storage order changes | Check timestamp meaning, then sort a copy |
+| Append an identical 1-second record | The same event, time, and measurements repeat | Check the source for repeated collection before deciding how to handle it |
+| Append a 1-second row with flow changed to 9.00 | Values 0.92 and 9.00 conflict at the same event and time | Hold the event summary and check the source |
+| Remove the 1-second record: 0→2 seconds | Time increases but leaves a gap in the expected spacing | Check the source for missing records; do not fill with zero arbitrarily |
+
+Repeated `event_id` values are needed to group an event’s time-point records. The suspected duplicate here is a repeated `(event_id, elapsed_seconds)` pair. If a real log contains multiple sensors, first check whether sensor identity must also be part of that key. Sorting changes order; it neither selects the correct conflicting value nor recovers a missing measurement.
+
+Record the file path, version or collection time, original row number, and event identifier in the source note. In the derived table’s processing history, record which rows were sorted, excluded, or held, and why. For A’s conflicting 1-second values, for example, inspect CSV data row 2 (file line 3 including the header) alongside the added conflicting row. Keep the original so that the records before and after processing can be compared.
+
+## Checking Row Counts, Time Order, and Duplicates Separately {#small-code-example}
 
 Problem situation: when a new log table arrives, check whether it can already be read directly as a sample-comparison table.
 
-Input: the raw log table stored in [p3_2_3_first_table_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_3_first_table_log.csv){ .csv-preview }, and `minimum_rows_per_event`, the minimum number of rows required to treat an event as a comparable candidate
+Input: the raw log table stored in [p3_2_3_first_table_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_3_first_table_log.csv), and `minimum_rows_per_event`, the minimum row count used as an observation-count condition
 
-Expected output: even for the same table, checking `row meaning`, `grouping criterion`, and `time/order column` first reveals that it is not yet a table that can be compared directly. Changing `minimum_rows_per_event` also changes which events have enough records to be considered candidates.
+Expected output: check which events pass the row-count condition, then distinguish sorting from checking the source when order, duplication, values, or missing records change in the same three-record segment.
 
-Concept to check: when reading a table for the first time, before calculation we must check whether `this row is one full sample` or `only part of a sample record`. Adding a repeated-row threshold turns structural checking into a judgment about comparability.
+Concept to check: one row may not be one event. Passing a row-count condition does not certify complete event coverage or comparability; even correctly ordered records need separate checks for duplicates, gaps, and differences in conditions.
 
 ```python
-# This example first checks column names and value distributions when a new CSV table arrives.
+# Check row counts and time order, then compare next actions for duplicates, conflicts, and gaps in copies.
 import csv
 from collections import defaultdict
 from pathlib import Path
@@ -145,17 +161,49 @@ print()
 
 print("4) after regrouping into one row per event")
 for event_id, event_rows in sorted(events.items()):
-    duration = max(row["elapsed_seconds"] for row in event_rows)
+    times = [row["elapsed_seconds"] for row in event_rows]
+    observed_span = max(times) - min(times)
     mean_flow = sum(row["flow"] for row in event_rows) / len(event_rows)
     peak_pressure = max(row["pressure"] for row in event_rows)
     enough_rows = len(event_rows) >= minimum_rows_per_event
     print(
-        f"{event_id}: duration={duration}s, mean_flow={mean_flow:.2f}, "
+        f"{event_id}: observed_span={observed_span}s, mean_flow={mean_flow:.2f}, "
         f"peak_pressure={peak_pressure:.1f}, enough_rows={enough_rows}"
+    )
+
+print()
+print("5) controlled changes to A's first three records")
+base_records = [dict(row) for row in events["A"][:3]]
+cases = {
+    "original": base_records,
+    "reversed": list(reversed(base_records)),
+    "duplicate": base_records + [dict(base_records[1])],
+    "conflict": base_records + [dict(base_records[1], flow=9.0)],
+    "missing": [base_records[0], base_records[2]],
+}
+for name, records in cases.items():
+    times = [row["elapsed_seconds"] for row in records]
+    ordered = all(a < b for a, b in zip(times, times[1:]))
+    same_time = defaultdict(set)
+    for row in records:
+        same_time[row["elapsed_seconds"]].add((row["flow"], row["pressure"]))
+    duplicate_time = len(times) != len(same_time)
+    conflicting_values = any(len(values) > 1 for values in same_time.values())
+    unique_times = sorted(same_time)
+    gap = any(b - a != 1 for a, b in zip(unique_times, unique_times[1:]))
+    if conflicting_values or duplicate_time or gap:
+        next_action = "check_source"
+    elif not ordered:
+        next_action = "sort_copy"
+    else:
+        next_action = "continue_checks"
+    print(
+        f"{name}: ordered={ordered}, duplicate_time={duplicate_time}, "
+        f"conflict={conflicting_values}, gap={gap}, next={next_action}"
     )
 ```
 
-Expected output:
+Expected output: check which events pass the row-count condition, then distinguish sorting from checking the source when order, duplication, values, or missing records change in the same three-record segment.
 
 ```text
 1) quick structural check
@@ -180,21 +228,35 @@ A at 7s: flow=1.6
 ... 28 more time-point rows
 
 4) after regrouping into one row per event
-A: duration=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
-B: duration=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
-C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
+A: observed_span=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
+B: observed_span=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
+C: observed_span=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
+
+5) controlled changes to A's first three records
+original: ordered=True, duplicate_time=False, conflict=False, gap=False, next=continue_checks
+reversed: ordered=False, duplicate_time=False, conflict=False, gap=False, next=sort_copy
+duplicate: ordered=False, duplicate_time=True, conflict=False, gap=False, next=check_source
+conflict: ordered=False, duplicate_time=True, conflict=True, gap=False, next=check_source
+missing: ordered=True, duplicate_time=False, conflict=False, gap=True, next=check_source
 ```
 
-What this example shows is not simply that the columns are named `event_id` and `elapsed_seconds`. In steps 1 and 2, what must be seen first is that `the number of rows, 36` is larger than `the number of event_id values, 3`, and that the same `event_id` repeats across multiple lines. The value to manipulate here is `minimum_rows_per_event`. If it is set to `12`, A and B become candidates with enough records, but C remains a candidate with too few records. If it is lowered to `6`, C also becomes a candidate, but whether an average made from a shorter record should be compared with the same weight must be reviewed again. Only after reading this signal can we reach the interpretation that `the current row is not one full sample, but only part of a sample record`. So if we compare each row immediately as in step 3, we still do not have a table that compares `the full A action`, `the full B action`, and `the full C action`. By contrast, only after regrouping by `event_id` as in step 4 does one action become one row, and only then can comparable columns such as mean flow or peak pressure be created on top of it.
+In steps 1 and 2, `has_time_order` checks only whether **the order read from the file strictly increases within each event**. Repeated timestamps and reversed order both yield `no`, but their causes differ. Missing an intermediate record, as in 0→2 seconds, still passes this increasing-order check.
 
-The same result becomes clearer when read again from the perspectives of format and quality. The repetition of `event_id` means, in terms of format consistency, that `a key exists that can group one sample`. The fact that `rows per event` differ means, in terms of the first quality check, that `the record length differs by sample`. This distinction has to be written down early so that when averages are compared later, we can also read `why some samples stand on less evidence than others`.
+With `minimum_rows_per_event` at 12, A and B pass the row-count condition; lowering it to 6 lets A, B, and C pass. `enough_rows=True` reports only that condition. Duplicate rows also count, so it does not establish enough unique observations or coverage of the full action. Start and end records, sampling intervals, and operating conditions need separate checks.
 
-Format consistency and the first quality check are written down first so that, instead of attaching averages or model names the moment a new table arrives, we first see `what kind of row is in hand now` and `what is still blocking comparison`. Only when key format, time order, repetition length, missing values, and orphan rows are organized early can the same table be read later with stable criteria when regrouping samples and building comparable columns.
+In step 4, `observed_span` is the last observed time minus the first observed time. A’s `17s` means that observations span 0–17 seconds, not that the action ended after 17 seconds. Mean flow and peak pressure summarize available records; they do not certify immediate comparability.
+
+Step 5 experiments on copies of only A’s first three records. `reversed` changes only order, so the result is `sort_copy`; duplicates, conflicts, and missing-record cases yield `check_source`. Hold the summary for a conflicting case until its source is checked. `gap` checks this experiment’s 1-second interval assumption, not missing records before or after the segment or missing cell values. `continue_checks` does not mean every quality check has passed.
+
+Try changing the added flow in `conflict` from 9.0 to its original value, 0.92. Although `conflict` becomes False, `duplicate_time` stays True, so checking the source is still necessary. Then restore the 1-second record in `missing`: `gap` becomes False. Even when cases share an order-warning signal, write down their different causes and next actions.
 
 ## Checklist
 
-- Did you check what one CSV row means and how many records belong to each event_id?
-- Did you distinguish having a time column from having correctly ordered records, and explain the effect of changing the minimum record count?
+- Did you write five lines identifying row meaning, identifiers, time columns, comparison conditions, and original evidence?
+- Can you distinguish repeated event identifiers from duplicate event-and-time pairs?
+- Can you explain when reversed order, conflicting values, or missing records call for sorting, holding a summary, or checking the source?
+- Do you distinguish passing a row-count condition and measuring an observed span from evidence of full event coverage?
+- Did you record the original file and row location and preserve the derived table’s processing history?
 
 ## Sources and Further Reading
 

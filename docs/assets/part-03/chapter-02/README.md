@@ -13,3 +13,12 @@
 
 - `p3_2_2_event_flow_log.csv`: P3-2.2 Python example input. Each row is one second-level flow measurement for a baseline or recent sample.
 - `p3_2_3_first_table_log.csv`: P3-2.3 Python example input. Each row is one time-point record inside an event log that must be grouped before event-level comparison.
+
+## P3-2.1 observation charts
+
+- `p3_2_1_charts.py` generates two chart sets from the manuscript's fictional measurements:
+  - `p3-2-1-observed-intervals-{ko,en,zh}.png`: A/B/C on identical axes; highlights 1–2 s versus 0–1 s. C has no extrapolated line after its final observation.
+  - `p3-2-1-time-spacing-{ko,en,zh}.png`: A's unchanged flow values at 0/1/2 s versus 0/1/4 s; identical axes expose the changed time denominator.
+- Rebuild from the repository root: `.venv/bin/python docs/assets/part-03/chapter-02/p3_2_1_charts.py`.
+- Requires Matplotlib and `/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc`. These are original illustrations, not external images or actual equipment findings.
+- Each language manuscript references matching localized PNGs. Image containers retain a 700px minimum width with horizontal scrolling.

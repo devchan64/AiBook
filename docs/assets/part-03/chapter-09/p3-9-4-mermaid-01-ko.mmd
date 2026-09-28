@@ -1,9 +1,6 @@
 flowchart TD
-    A[검토 큐 결과<br/>event_id + review_needed + 검토 메모]
-    A --> B[자유 형식 메모가 쌓임]
-    B --> C[공통 메모 패턴<br/>late drop 반복<br/>기록만 남김]
-    C --> D[목표 후보 열]
-
-    D --> D1[후반 하락 반복 여부<br/>late_drop_repeated]
-    D --> D2[수동 검토 필요<br/>needs_manual_review]
-    D --> D3[메모 출처<br/>note_source]
+    A["원문·대상·작성자 보존"]
+    A --> B["관측 보고·요청·추정 분리"]
+    B --> C["note-v1 적용, 미확인 유지"]
+    C --> D["후보 열 + 원문·주석 담당자"]
+    D --> E["목표 의미와 사실 근거 별도 확인"]

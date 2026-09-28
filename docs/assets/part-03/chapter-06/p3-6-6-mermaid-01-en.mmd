@@ -1,10 +1,6 @@
 flowchart TD
-    A[Same column name: flow_mean] --> B{Same unit?}
-    B -- No --> X[Separate definition group]
-    B -- Yes --> C{Same sensor version?}
-    C -- No --> X
-    C -- Yes --> D{Same segment rule?}
-    D -- No --> X
-    D -- Yes --> E{Same ops definition?}
-    E -- No --> X
-    E -- Yes --> Y[Same feature definition]
+    A["Preserve original values, units, and definition notes"] --> B["Convert differing units and record the formula"]
+    B --> C{"Do measurement target, calibration, and aggregation scope correspond?"}
+    C -->|Verified| D["Candidate for comparing the same quantity"]
+    C -->|Unknown or mismatched| E["Check more records, calibration, or reaggregation"]
+    D --> F["Compare operational-rule versions separately"]

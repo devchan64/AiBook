@@ -12,7 +12,7 @@
 - `release-notes/sections/`: Section별 버전 코드 기준, 수정일 기준 개정 이력, 번역본 동기화 메모를 둔다.
 - `tools/`: 번역 품질 리포트 생성처럼 집필·검수 작업을 돕는 보조 스크립트를 둔다.
 
-P7-5.1~P7-5.7, P7-5.9, P7-5.10, P7-5.15~P7-5.16 Section별 개정 이력은 `release-notes/sections/part-07/`에서 각각 유지한다. 이번 세션과 공통 관리노트의 고유 실험 결론·공통 gate는 보조 문서인 [`authoring/part-07-p7-5-integrated-management-note.md`](authoring/part-07-p7-5-integrated-management-note.md)에 통합한다. `part-07-open-checklist.md`와 `part-07-section-analysis.md`는 별도 유지한다.
+P7-5.1~P7-5.7, P7-5.9~P7-5.10, P7-5.14~P7-5.16 Section별 개정 이력은 `release-notes/sections/part-07/`에서 각각 유지한다. 이번 세션과 공통 관리노트의 고유 실험 결론·공통 gate는 보조 문서인 [`authoring/part-07-p7-5-integrated-management-note.md`](authoring/part-07-p7-5-integrated-management-note.md)에 통합한다. `part-07-open-checklist.md`와 `part-07-section-analysis.md`는 별도 유지한다.
 
 ## 우선 확인 순서
 
@@ -28,6 +28,7 @@ P7-5.1~P7-5.7, P7-5.9, P7-5.10, P7-5.15~P7-5.16 Section별 개정 이력은 `rel
 - `guidelines/section-learning-focus-guidelines.md`
 - `guidelines/manuscript-writing-workflow.md`
 - `guidelines/python-example-guidelines.md`
+- `guidelines/generated-asset-management-guidelines.md`
 - `guidelines/english-translation-guidelines.md`
 - `guidelines/chinese-translation-guidelines.md`
 - `guidelines/chart-guidelines.md`
@@ -44,6 +45,8 @@ P7-5.1~P7-5.7, P7-5.9, P7-5.10, P7-5.15~P7-5.16 Section별 개정 이력은 `rel
 - `authoring/progress-meta-heading-audit.md`
 - `authoring/progress-meta-heading-proposal.md`
 - `authoring/part-XX-open-checklist.md`
+- [Part 3 체크포인트](authoring/part-03-open-checklist.md): Section별 학습 산출물, 절 사이의 정의·사례 연결, 근거 자료와 적용 한계. 공통 지표 설명 기준은 [원고 작성 워크플로우](guidelines/manuscript-writing-workflow.md), 개정 이력은 [Part 3 Section 릴리즈노트](release-notes/sections/part-03/)에서 관리한다.
+- [P7-5.10 보존 품질 개선 계획](authoring/part-07-p7-5-10-preservation-improvement-plan.md): 3200스텝 검수 후 적용 강도 비교, 학습 쌍 대응 점검, 필요한 재학습의 순서와 비교 기준.
 
 ## 운영 원칙
 

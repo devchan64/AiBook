@@ -1,111 +1,74 @@
 # P3-9.12 误报与漏报的成本如何改变判断标准
 
 > Section ID: `P3-9.12`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-错误成本不要只放在说明段落里，也要以 `false_negative_cost`、`false_positive_cost`、`review_capacity`、`threshold_policy_note`、`cost_owner` 等与策略相连的字段留下。这样即使 target 名称相同，也能把更想减少哪种错误连接到分数解释和 复核队列 设计。
+即使分数不变，对漏报和误报赋予的成本不同，也可能改变阈值选择。本节固定目标结果和模型分数，计算不同判断规则的[错误成本](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-error-cost)。改变成本假设，不等于改变实际结果的定义。
 
-_副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一种更痛？_
+## 先定义阳性 1
 
-即使 [目标(target)](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) 名称相同，不同问题里更痛的错误也可能不一样。哪怕都是在预测 `review_needed`，漏掉风险案例更危险，还是把本来不需要的人也送去复核更有负担，都会随着运营语境不同而改变。也就是说，即使 target 相同，漏判和误报的成本也可能不同，所以必须先把这种 [错误成本(error cost)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-error-cost) 差别写下来，才能明确当前更想减少的是哪一种判断错误。
+A～E 是本节的虚构设备样本。每个样本的预测时点为 `2026-09-01 10:00 KST`，目标是按 [P3-9.7](section-07.zh.md) 的 `failure-v1` 定义判断七天内是否故障。结果窗口包含 9 月 1 日 10:00，不包含 9 月 8 日 10:00。阳性 `actual=1` 表示确认在期间内发生故障；阴性 `actual=0` 表示完整追踪期间、没有遗漏且记录核实完毕后确认没有故障。
 
-| 错误类型 | 在运营里可能发生的事情 |
-| --- | --- |
-| [假阴性(false negative)](/AiBook/zh/reference/concept-glossary-pinyin/j/#glossary-false-negative) | 漏掉风险案例，可能扩散成更大的异常 |
-| [假阳性(false positive)](/AiBook/zh/reference/concept-glossary-pinyin/j/#glossary-false-positive) | 人会白白花时间，增加复核负担 |
+分数是**预先给定的虚构模型输出**，不是实际模型训练结果，也不是经过验证的故障概率。假设模型使用预测时可用的输入打分，`actual` 只作为后来确认的结果。本例用固定的历史结果比较规则，并非检验干预预防效果的实验。
 
-| 先写下的备注 | 为什么需要 |
-| --- | --- |
-| 哪种错误更痛？ | 为了固定当前要优先减少哪类判断 |
-| 这种成本在真实运营中以什么形式出现？ | 为了把它解释成行动负担，而不只是数字 |
-| 当前更想减少什么？ | 为了即使 target 相同，也能固定解释方向 |
+判定规则为 `score >= threshold` 时为 1，否则为 0，包含边界相等的情况。把判定 1 连接到纳入复核候选的策略，并先假设所有候选都能处理。
 
-## 为什么错误成本会改变 target 的解释方式
+| 错误 | 实际结果与判定 | 本例的含义 |
+| --- | --- | --- |
+| 漏报：假阴性 | 实际 1，判定 0 | 没有把发生故障的样本列为候选 |
+| 误报：假阳性 | 实际 0，判定 1 | 把没有故障的样本列为候选 |
 
-即使是同一个 `review_needed` target，也不是所有预测分数都要用同一种方式去读。在有些问题里，漏判（false negative）更痛，所以即使要让更多项目进入[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)，也宁可少漏掉风险案例；而在另一些问题里，过检（false positive）更痛，所以反而更适合把复核队列压得更窄。这里改变的，不只是某个 [阈值(threshold)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-threshold) 数字，而是`应该用什么判断结构去解释这个 target`。
+误报是相对于这个故障目标的错误，不表示实际复核在所有方面都没有价值。本例使用虚构成本单位：正确判定为 0，每次漏报为 10，每次误报为 2。这些不是实际金额或工时估计。
 
-例如，假设模型分数如下。
+## 在五个案例中亲自数出漏报与误报
 
-| event_id | score | 解读 1：漏判成本高 | 解读 2：过检成本高 |
-| --- | --- | --- | --- |
-| A | 0.82 | 直接放到复核队列顶部 | 放到复核队列顶部 |
-| B | 0.64 | 纳入复核队列 | 先保留 |
-| C | 0.41 | 作为辅助复核候选保留 | 排除 |
+| event_id | score | actual | 阈值 0.3 的判定 | 阈值 0.5 的判定 | 阈值 0.7 的判定 |
+| --- | ---: | ---: | --- | --- | --- |
+| A | 0.82 | 1 | 1 · 正确 | 1 · 正确 | 1 · 正确 |
+| B | 0.64 | 1 | 1 · 正确 | 1 · 正确 | 0 · 漏报 |
+| C | 0.41 | 0 | 1 · 误报 | 0 · 正确 | 0 · 正确 |
+| D | 0.36 | 1 | 1 · 正确 | 0 · 漏报 | 0 · 漏报 |
+| E | 0.22 | 0 | 0 · 正确 | 0 · 正确 | 0 · 正确 |
 
-如果漏判成本高，那么把 `B` 也放进复核队列会更自然。相反，如果过检成本高，那么更自然的做法可能是先保留 `B`，只看 `A`。也就是说，即使[分数(score)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-score)相同、target 名称相同，只要错误成本结构不同，复核队列优先级和 threshold 解读也会一起改变。
+阈值 0.3 时只有 C 误报，没有漏报；0.5 时漏掉 D；0.7 时漏掉 B、D。0.3 下漏报为零只是这五个分数与结果的计算结论，不保证低阈值能够捕捉所有故障。
 
-下面的例子把多个 threshold 应用到同一组分数上，并分别计算 false negative 和 false positive 的成本。这里把漏判成本设为 10，把误报成本设为 2。
+按**总成本 = 漏报数 × 10 + 误报数 × 2**计算。
 
-问题场景：想确认同一组 `review_needed` 分数在 threshold 和错误成本设置改变时，总成本会怎样变化。
+| 阈值 | 候选数 | 漏报数 | 误报数 | 成本计算 |
+| --- | ---: | ---: | ---: | --- |
+| 0.3 | 4 | 0 | 1 | 0 × 10 + 1 × 2 = 2 |
+| 0.5 | 2 | 1 | 0 | 1 × 10 + 0 × 2 = 10 |
+| 0.7 | 1 | 2 | 0 | 2 × 10 + 0 × 2 = 20 |
 
-输入(input)：每个 event 的 `score`、实际结果 `actual`、threshold 候选和错误成本。
+0.3 和 0.5 都判对了五项中的四项。准确率相同，但一次误报与一次漏报，在假设成本下分别得到 2 和 10。0.3 是这三个候选阈值中成本最低的，不表示已遍历全部阈值并找到运行最优值。
 
-期望输出(output)：每个 threshold 下的复核队列大小、false negative 数、false positive 数和总成本。
+## 改变成本，目标与分数仍不变
 
-要确认的概念：threshold 选择不能只看准确率，而要和“哪种错误成本更大”一起读。
+保持漏报成本 10，只把误报成本改为 12。三个阈值的总成本分别成为 `0×10 + 1×12 = 12`、`1×10 + 0×12 = 10`、`2×10 + 0×12 = 20`。此时三个候选中 0.5 最低。改变的是成本假设下的策略选择，`actual`、分数和故障定义都不变。
 
-```python
-# 这个例子用来确认同一组 score 在 threshold 和错误成本设置下会产生不同判断成本。
-import pandas as pd
-from sklearn.metrics import confusion_matrix
+这不同于 [P3-9.11](section-11.zh.md) 改变生成训练标签的标准。本节只是决定哪类错误的负担更大，并依照同样结果比较判定。实际使用时应保留成本依据、单位、负责人和策略版本。
 
-scores = pd.DataFrame(
-    [
-        {"event_id": "A", "score": 0.82, "actual": 1},
-        {"event_id": "B", "score": 0.64, "actual": 1},
-        {"event_id": "C", "score": 0.41, "actual": 0},
-        {"event_id": "D", "score": 0.36, "actual": 1},
-        {"event_id": "E", "score": 0.22, "actual": 0},
-    ]
-)
+## 区分阈值选择与队列内部排序
 
-thresholds = [0.3, 0.5, 0.7]
-miss_cost = 10
-false_alarm_cost = 2
+分数顺序始终是 A→B→C→D→E。改变阈值会改变候选范围，但不会改变固定分数的降序。若还应用 [P3-9.8](section-08.zh.md) 的处理容量，就必须再次区分候选登记与今天实际选择处理的对象。
 
-for threshold in thresholds:
-    predicted = scores["score"].ge(threshold).astype(int)
-    tn, fp, fn, tp = confusion_matrix(scores["actual"], predicted, labels=[0, 1]).ravel()
-    total_cost = fn * miss_cost + fp * false_alarm_cost
-    print(
-        {
-            "threshold": threshold,
-            "queued": int(predicted.sum()),
-            "false_negative": int(fn),
-            "false_positive": int(fp),
-            "total_cost": int(total_cost),
-        }
-    )
-```
+练习：① 只把误报成本改为 12，阈值 0.3 下 C 会自动退出候选吗？② 保持阈值 0.3，但今天只能处理两项，应先选谁？能否将上表成本 2 原样用于这个处理选择？
 
-期望输出：
-
-```text
-{'threshold': 0.3, 'queued': 4, 'false_negative': 0, 'false_positive': 1, 'total_cost': 2}
-{'threshold': 0.5, 'queued': 2, 'false_negative': 1, 'false_positive': 0, 'total_cost': 10}
-{'threshold': 0.7, 'queued': 1, 'false_negative': 2, 'false_positive': 0, 'total_cost': 20}
-```
-
-threshold 较低时，复核队列会变大，但不会漏掉风险案例。threshold 较高时，复核队列会变小，但漏判增加，总成本也会上升。这个例子里可以改的值是 `miss_cost`、`false_alarm_cost` 和 `thresholds`。如果把误报成本设得更高，另一个 threshold 可能会更自然。因此，即使 target 名称相同，也必须先写清错误成本，才能沿着同一个方向解释 score 和 threshold。
+解答：① 不会。阈值不变，判定也不变，只是成本变为 12。要改变候选就必须改变策略。② 按分数选 A、B，C、D 达标但因容量等待。若把“今天选中=1、未选中=0”作为另一种判定评估，就会漏掉实际故障 D，得到漏报 1、误报 0，按原成本计算为 10。这不同于只应用阈值的成本 2。之后何时处理等待对象可能改变运行结果，因此也不能把该计算当作真实预防效果。
 
 ## 把错误成本纳入判断规则 {#_1}
-
-即使分数相同，只要当前更想减少的错误不同，复核队列的流向也会跟着改变。
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-12-mermaid-01-zh.mmd"
 ```
 
-因此，这一节并不只是定义 `false negative` 和 `false positive`。它更是在迫使我们把当前问题重新读成：`到底更想减少哪一种错误`。如果 target 名称已经固定，那么下一步就必须写清楚，在这个 target 之下，哪种错误更痛，这样分数、threshold、复核队列优先级才能沿着同一个方向来解释。
-
-所以，不要只靠准确率就把问题关上，而是先要看：为什么`想优先减少哪一类错误`这件事必须先写出来。这一节把`漏判成本`、`过检成本`和`判定规则调整`捆在一起，先固定错误成本结构，再看它如何改变目标的解释方式。
-
-应用成本表之前，先写明阳性（1）表示什么。例如，若 1 表示`7 天内发生故障`，漏报就是把实际故障预测为阴性。本节的成本数值是计算用的假设，不是实际成本估计。复核人数和处理能力不同，即使分数相同，可执行的阈值也会改变，因此不能直接把例子中成本最低的规则当作运行最优值。
+对固定结果和分数应用规则、统计错误后，再一起检查成本与处理可行性。记录 `false_negative_cost`、`false_positive_cost`、`review_capacity`、阈值和同分规则、`policy_version`、成本依据及负责人，就能追溯选择时的假设。实际成本和容量尚未确定时，不应直接把例中数值搬到运行策略中。
 
 ## 检查清单
 
-- 你是否定义了阳性含义，并计算误报与漏报成本？
-- 实际运行成本和处理能力不同于示例时，你能否解释判断会如何改变？
+- 能否先定义阳性，再从 B、C、D 中数出漏报与误报？
+- 能否验算成本 2、10、20，并解释误报成本为 12 时选择如何改变？
+- 能否区分阈值改变、分数排序和容量限制，并根据最终选择重新计算成本？
 
 ## 来源与参考资料
 

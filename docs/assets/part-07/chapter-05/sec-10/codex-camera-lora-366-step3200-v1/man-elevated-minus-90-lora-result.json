@@ -1,0 +1,27 @@
+{
+  "case": {
+    "id": "man-elevated-minus-90",
+    "management_code": "P712-CAM-011",
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-elevated-minus-90-512.png",
+      "sha256": "038cf7182c5d4f1fefe800d630d2d45f2479625babc32c3fd0f9bb0797883579"
+    },
+    "subject": "man",
+    "vertical": "elevated",
+    "yaw": -90,
+    "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+    "seed": 62294
+  },
+  "scale": 1,
+  "observed_vae_input_sizes": [
+    [
+      512,
+      512
+    ]
+  ],
+  "checkpoint_sha256": "3614fd3e83d9f99408cab412ff678a82c5b8a8700e2d5e731507de5b2ee75cc5",
+  "plan_sha256": "095f3a3dae7d7706c382c26f5c617b99013eedcb455e9a7c53dc1e18a9c15d78",
+  "output_sha256": "be2fc1d5c2bbc95daaec018cb0db8f5e159321c1d6567c2b6e8262470e75820b",
+  "elapsed_seconds": 278.87,
+  "status": "pending_visual_review"
+}

@@ -1,51 +1,87 @@
 # P3-9.13 Part 4로 넘길 문제 경계
 
 > Section ID: `P3-9.13`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_보조제목: 시간, 개체, 정보, 산출물 형식은 예측 문제로 넘기기 전에 왜 함께 닫아야 하는가_
+Part 4로 넘기는 것은 입력 표 한 장만이 아닙니다. 무엇을 언제 예측하며, 어느 대상에서 성능을 확인할지와 아직 확인하지 못한 조건을 함께 넘겨야 합니다. [평가 설계](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design)는 이 질문에 맞추어 학습 자료와 평가 자료를 나누고 결과를 비교하는 일입니다.
 
-학습 문제를 세울 수 있을 만큼 구조를 정리했다면, 마지막으로 함께 닫아야 하는 경계가 있습니다. 시간 순서가 중요한 문제인지, 같은 개체가 양쪽에 섞이면 안 되는지, 예측 시점 뒤 정보가 입력에 스며들지 않았는지, 실제 [산출물 형식(output format)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)이 0/1 분류보다 순서나 연속값에 더 가까운지 같은 경계입니다. 여기서 중요한 일은 항목 이름을 많이 늘리는 것이 아니라, 현재 문제 구조가 이 경계들 앞에서 서로 모순 없이 서 있는지 확인하는 것입니다.
+## 기존 장비의 미래 고장을 예측하는 인계 메모
 
-| 지금 여기서 확인할 항목 | 지금 붙잡을 최소 문장 |
+다음은 [P3-9.7](section-07.md)의 장비 사례를 이어 만든 **교육용 인계 초안**입니다. 실제 원기록이나 학습·평가 결과가 준비되었다는 뜻은 아닙니다. 이번 질문은 “이미 관찰한 장비의 이후 7일 고장을 예측할 수 있는가”로 고정합니다.
+
+| 인계 항목 | 이번에 정한 내용 |
 | --- | --- |
-| [time split](../../../reference/concept-glossary-parts/07-siot.md#glossary-time-split) | 시간 순서가 중요한 문제는 무작위 분할과 다르게 봐야 한다 |
-| [group split](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-group-split) | 같은 개체가 양쪽에 섞이면 과장된 성능이 생길 수 있다 |
-| [data leakage](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-leakage) | 예측 시점 이후 정보가 섞이면 점수가 좋아 보여도 쓸 수 없다 |
-| [evaluation design](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) | 어떤 지표와 분할이 맞는지는 문제 구조와 연결된다 |
-| [ranking](../../../reference/concept-glossary-parts/07-siot.md#glossary-ranking) | 상위 몇 건 선별은 순서 문제가 중심일 수 있다 |
-| multiclass / [regression](../../../reference/concept-glossary-parts/14-hieut.md#glossary-regression) | 결과 구조가 0/1 하나가 아닐 수 있다 |
+| 목적과 평가 대상 | 기존 장비의 미래 고장 예측. 새 장비에 대한 성능 주장은 별도 평가가 필요 |
+| 한 샘플 | `equipment_id`와 `cutoff_at`의 쌍. 같은 장비라도 예측 시점이 다르면 다른 행 |
+| 예측 시점 예시 | M-01의 `2026-09-01 10:00 KST` |
+| 입력 예시 | 09:55까지 완료된 동작으로 만든 최근 평균 2.20 L/min, 과거 확정 기준선 `base-v1` 평균 2.52 L/min, `recent_diff=-0.32 L/min`. 이 특징은 09:58 사용 가능 |
+| 입력 근거 | 원자료 ID·도착 시각·측정 조건·집계 범위·기준선 버전·계산 완료 시각 보존. 10:02 도착 측정과 이후 기준선 재계산은 제외 |
+| 결과 정의와 기간 | `failure_within_7d`, `failure-v1`. 9월 1일 10:00 이상, 9월 8일 10:00 미만의 고장 여부 |
+| 라벨 확정 조건 | 기간 내 고장이 확인되면 1. 전체 추적·기록 확인 후 고장 없음은 0. 미확정은 별도 상태로 보존 |
+| 학습 자료의 마감 | 가상 학습 자료를 8월 31일 18:00 KST에 확정. 입력·정답·버전 근거가 그때 사용 가능했던 행만 학습 후보 |
+| 평가 자료 | 학습 자료 확정 뒤인 9월 1일 10시부터의 예측 행. 후속 정답은 나중에 연결하되 모델·정책 선택에 최종 평가 정답을 미리 사용하지 않음 |
+| 산출물과 행동 | 고장에 대한 점수와 별도 검토 배정 정책. 점수만으로 확률·조치 효과를 주장하지 않음 |
+| 기준 비교 | 모든 샘플을 0으로 판정하는 단순 기준과 같은 평가 행에서 비교. 고장이 드물 때 높은 정답률만으로 만족하지 않음 |
+| 아직 확인하지 못한 것 | 실제 사용 가능 시각·기준선 원자료, 장비 수와 고장 수, 추적 누락, 조치 이력, 실제 오류 비용·검토 용량 |
 
-즉 현재 문제 유형을 정리하는 단계에서는 다음 정도의 경계가 닫혀 있으면 충분합니다.
+`failure-v1`은 장비 자체 이상으로 예정 동작을 완료하지 못하고 정비 기록에서 원인을 확인한 고장을 뜻하며 계획 정지는 제외합니다. 입력 수치가 있는 예시 한 행과 충분한 학습 자료는 다릅니다. 미확인 항목은 실제 원기록 확인 후 채워야 하며, 근거가 없는 행을 이미 검증된 자료로 넘기지 않습니다.
 
-- 이 문제가 시간 순서 분할을 먼저 요구하는가
-- 같은 개체를 양쪽에 두지 말아야 하는가
-- 결과 뒤 정보가 입력에 섞이지 않았는가
-- 실제 목표가 0/1 분류보다 순서나 연속값에 더 가까운가
+## 과거 날짜의 행도 정답이 늦으면 학습에 넣을 수 없다
 
-Part 4로 넘기는 표에는 `problem_type_candidate`, `split_risk`, `group_key`, `time_key`, `metric_candidate`, `baseline_note`, `open_questions` 정도만 남깁니다. 여기서는 평가 절차를 길게 설명하기보다, 뒤에서 다룰 항목의 이름과 필요한 이유를 짧게 적어 현재 문제 구조가 다음 판단을 기다릴 수 있게 합니다.
+학습 자료 마감 8월 31일 18시를 기준으로 두 후보를 보겠습니다. 아래 날짜는 모두 2026년 KST이며 각 입력은 해당 예측 시점에 사용 가능했다는 가정입니다.
+
+| 후보 행의 예측 시점 | 7일 결과 기간의 끝(제외) | 결과 확인 | 이번 학습 후보 여부 |
+| --- | --- | --- | --- |
+| 8월 20일 10:00 | 8월 27일 10:00 | 전체 추적 후 8월 28일 12:00에 0 확정 | 가능. 다른 품질 조건도 확인해야 함 |
+| 8월 28일 10:00 | 9월 4일 10:00 | 8월 31일 18시에는 고장 확인 없이 관측 중 | 제외. 당시 확정 정답이 없음 |
+
+두 번째 행의 정답을 9월에 얻었다고 과거 학습에 소급해 넣으면 9월 1일에 실행할 수 없던 모델을 평가하게 됩니다. 반대로 최종 평가 행의 결과는 예측 뒤에 수집하는 것이 정상입니다. 중요한 차이는 그 결과를 언제 학습·정책 선택에 사용했는가입니다. [P3-9.10](section-10.md)의 확인 상태와 시각이 필요한 이유입니다.
+
+겹치는 입력 창도 확인합니다. 같은 원기록을 공유하는 행을 무작위로 나눠 거의 같은 샘플을 양쪽에 넣었는지, 기준선·변환 계산에 미래 자료가 섞였는지 살핍니다. 기존 장비의 미래 예측에서 과거 관측을 다시 사용하는 것 자체가 항상 누수는 아닙니다. 각 예측 시점의 실제 사용 가능성과 평가 질문에 맞게 중복·의존성을 점검합니다.
+
+## 새 장비를 평가하려면 분리 조건도 달라진다
+
+| 확인하려는 성능 | 시간·개체를 나누는 원칙 |
+| --- | --- |
+| 기존 장비의 미래 | 같은 장비가 학습·평가에 있어도 되지만 과거 자료로 이후 예측을 평가. 위 인계 메모의 선택 |
+| 학습에 없던 장비 | 장비 ID를 학습·평가 사이에 분리. 알려진 장비의 반복 행만으로 새 장비 성능을 주장하지 않음 |
+| 미래에 들어올 새 장비 | 장비 ID 분리와 시간 순서를 함께 적용 |
+
+개체 분리는 장비의 모든 관련 행을 하나의 묶음으로 취급하는 기준입니다. 장비 ID만 입력에서 지웠다고 행들이 독립적으로 바뀌지는 않습니다. 실제 운용이 미래 예측이라면 새 장비 평가에서도 시간과 입력 가용성을 확인해야 합니다. 분할은 저장된 행 수의 비율보다 “어디에 적용할 것인가”에서 출발합니다.
+
+## 지표 이름 대신 무엇을 셀지 적는다
+
+| 평가 메모 | 실제로 셀 것과 한계 |
+| --- | --- |
+| 고장 포착 비율 | 확정 고장 샘플 중 판정 1인 수 / 확정 고장 샘플 수. 놓침을 얼마나 줄였는지 보며, 고장 0건이면 비율을 계산할 수 없음 |
+| 불필요 후보와 처리량 | 실제 0인데 판정 1인 수와 전체 후보 수를 함께 기록. 오탐 부담과 처리 용량을 구분 |
+| 정책 비용 비교 | 같은 평가 행에서 놓침 수×놓침 비용 + 오탐 수×오탐 비용. 실제 비용 가정과 용량은 아직 미확정 |
+| 정답 확인 범위 | 전체 평가 행 중 정답 확정·미확정 건수를 따로 기록. 확정된 일부의 결과를 전체 성능으로 단정하지 않음 |
+
+여기서 세는 단위는 장비·예측 시점의 샘플입니다. 여러 예측 행이 같은 실제 고장을 가리킬 수 있으므로 샘플 포착 수를 서로 다른 고장 사건 수와 바꾸어 읽지 않습니다. 기간·장비 목록·정책이 같아야 기준과 모델의 숫자도 비교할 수 있습니다.
+
+오늘 상위 몇 건만 검토하는 것이 목적이라면 순위와 선택된 후보의 결과를 중심으로 다시 평가를 정합니다. 결과가 상태 종류라면 다중 범주, 수치라면 연속값 예측이 될 수 있습니다. 한 표를 만들었다고 반드시 0/1 분류로 정해지는 것은 아닙니다. 이번 메모는 7일 고장 여부를 목표로 택한 경우입니다.
 
 ## 시간·개체·정보 경계를 확인하고 인계하기 {#_1}
-
-이 마지막 점검은 항목을 외우는 것보다, 현재 문제 구조를 어떤 순서로 닫아 보는지가 더 중요합니다.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-13-mermaid-01-ko.mmd"
 ```
 
-이 절에서는 이름을 모두 외우는 것보다, 현재 데이터 구조가 시간 경계와 개체 경계, 정보 경계, 산출물 형식을 제대로 닫고 있는지 확인하는 편이 더 중요합니다. 지금 단계에서 필요한 것은 세부 절차를 길게 펼치는 일이 아니라, 현재 구조가 무엇을 예측하고 무엇을 아직 예측하면 안 되는지 스스로 모순 없이 말할 수 있게 만드는 일입니다. 이 절은 항목 이름 모음이 아니라, `분할 설계`, `정보 경계 점검`, [산출물 형식 선택](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)이 현재 문제 구조 안에서 서로 모순 없이 닫혀 있는지 확인하는 마지막 점검표로 읽어야 합니다.
+연습: M-01의 8월과 9월 행을 시간순으로 나누어 평가했습니다. ① 이 결과로 “처음 보는 장비에서도 잘 맞는다”고 말할 수 있나요? ② 8월 28일 행의 아직 미확정인 정답을 0으로 채워 학습에 넣어도 되나요?
 
-새 장비에서의 성능이 목표라면 장비 ID를 학습·평가 사이에 분리합니다. 이미 관찰한 장비의 미래 상태가 목표라면 같은 장비가 양쪽에 있어도 시간 경계를 지켜야 합니다. 미래의 새 장비가 목표라면 시간과 장비 경계를 함께 지킵니다. 겹치는 입력 창이나 아직 결과 관측 기간이 끝나지 않은 학습 샘플도 평가 시점의 정보를 가져오지 않는지 확인합니다. 따라서 분할 단위는 저장된 행 수가 아니라 실제로 일반화하려는 대상과 시점에서 정합니다.
+해설: ① 같은 장비의 미래 평가이므로 새 장비 성능 근거로는 부족합니다. 새 장비가 목적이면 장비 ID가 겹치지 않는 평가 대상을 확보해야 합니다. ② 당시 정답이 없으므로 넣지 않습니다. 미확정 상태와 제외 사유를 남깁니다. 실제 분할 구현, 모델 선택과 튜닝은 이 메모의 질문·제약·미해결 항목을 바탕으로 Part 4에서 진행합니다.
 
 ## 체크리스트
 
-- 새 개체와 기존 개체의 미래 중 무엇을 평가할지 정했는가?
-- 시간·개체·정보 경계와 산출물 형식을 한 장에 명시했는가?
+- 기존 장비의 미래와 새 장비 중 평가 대상을 정하고 그에 맞는 경계를 설명할 수 있는가?
+- 입력 마감·학습 자료 마감·결과 기간·확정 시각을 구분할 수 있는가?
+- 지표가 세는 대상과 미확정 범위, 아직 확인할 기록을 숨기지 않은 인계 메모를 작성할 수 있는가?
 
 ## 출처와 참고 자료
 
 - Google, *Machine Learning Glossary*, `label leakage`. 예측 시점 뒤 정보가 특징에 섞이면 라벨의 대리값을 입력으로 쓰는 설계 결함이 될 수 있다는 정보 경계 근거로 참고했다. 확인일: 2026-07-20. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
 - Google, *Classification: ROC and AUC*. AUC와 ROC가 양성 예시를 음성 예시보다 높게 순위화하는 능력 및 threshold와 구분되는 평가 관점과 연결된다는 설명을 ranking/evaluation design 근거로 참고했다. 확인일: 2026-07-20. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. 처리 단계, 재현 가능성, 버전 관리, 파생 관계를 provenance 관점에서 남기는 기준을 확인하는 데 참고했다. 확인일: 2026-07-20. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
-- Hyndman, Athanasopoulos, *Forecasting: Principles and Practice (3rd ed.)*, Section 5.10 Time series cross-validation. 시간 순서가 있는 문제에서는 test 관측값보다 앞선 관측값만 training set에 넣어야 하며 미래 관측값을 forecast 구성에 사용할 수 없다는 설명을 time split 근거로 참고했다. 확인일: 2026-07-20. [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, *Cross-validation: evaluating estimator performance*, cross-validation iterators for grouped data. 같은 개체나 그룹의 dependent samples가 train/test 양쪽에 섞이지 않도록 해야 한다는 설명을 group split 근거로 참고했다. 확인일: 2026-07-20. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" }
+- Hyndman, Athanasopoulos, *Forecasting: Principles and Practice (3rd ed.)*, Section 5.10 Time series cross-validation. 시간 순서가 있는 문제에서는 test 관측값보다 앞선 관측값만 training set에 넣어야 하며 미래 관측값을 forecast 구성에 사용할 수 없다는 설명을 time split 근거로 참고했다. 확인일: 2026-09-20. [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, *Cross-validation: evaluating estimator performance*, cross-validation iterators for grouped data. 같은 개체나 그룹의 dependent samples가 train/test 양쪽에 섞이지 않도록 해야 한다는 설명을 group split 근거로 참고했다. 확인일: 2026-09-20. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" }

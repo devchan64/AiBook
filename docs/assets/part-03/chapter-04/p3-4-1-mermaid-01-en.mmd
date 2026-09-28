@@ -1,15 +1,9 @@
-```mermaid
 flowchart TD
-    Q[Question to answer]
-    U{Which unit matches it?}
-    T[Time point<br/>instant comparison]
-    A[One full action<br/>comparable sample]
-    W[Recent segment<br/>bundle comparison]
-    F[Features and labels<br/>attach naturally]
-
-    Q --> U
-    U -->|When did it change?| T
-    U -->|Was this action unusual?| A
-    U -->|Has the recent state shifted?| W
-    A --> F
-```
+    A[Choose the question] --> B{Which object is being compared}
+    B -- Instant value --> C[Observation time point]
+    B -- Action observations and outcome --> D[One action]
+    B -- Recent versus baseline --> E[Selected action group]
+    C --> F[Record boundaries and required evidence]
+    D --> F
+    E --> F
+    F --> G[Check coverage and any outcome linkage needed for the question]

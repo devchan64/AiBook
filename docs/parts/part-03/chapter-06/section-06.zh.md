@@ -1,7 +1,7 @@
 # P3-6.6 相同列名与不同特征
 
 > Section ID: `P3-6.6`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
 _副标题: 当测量方式或单位改变时，为什么同名列也可能变成不同特征？_
 
@@ -58,177 +58,46 @@ _副标题: 当测量方式或单位改变时，为什么同名列也可能变�
 
 如果只有单位不同，可以通过换算恢复可比性。由于 `41 mL/s = 41×60/1000 = 2.46 L/min`，C 的值并不是 A 的约 17 倍。但这并不说明传感器位置、校准和计算区间也相同，因此统一单位后仍要确认这些条件。如果改变的只是运行判定规则，也可能是原始物理特征不变，而输出标签的含义发生了变化。
 
-## 所以，这个阶段最先要写下什么
 
-在 Part 3 里，比起立刻进入复杂的校正技术，更重要的是先留下特征定义备注。
+## 区分字符串一致与物理可比性 {#_6}
 
-| 先要写下来的备注 | 为什么需要 |
+前面四行是虚构资料。A、B 的备注相同，也不代表传感器位置、校准历史和缺失处理已经核实。`early-mid-late` 这个名称也不能完整说明平均了哪些观测、如何计算。备注一致只是把候选记录集中起来检查，并非可比性认证。
+
+| 已检查的层次 | 本例能够确认的内容 | 仍需检查的内容 |
+| --- | --- | --- |
+| 所选定义字符串一致 | A、B 已记录的字段相同 | 未记录的位置、校准与平均规则 |
+| 单位换算完成 | C=2.46、D=2.37 L/min | v1/v2 传感器的测量对象与校准对应关系 |
+| 发现区间定义差异 | D 使用不同规则名称 quartile-4bin | 能否用原始资料按相同范围重新汇总 |
+| 发现运行判定版本差异 | D 使用 normal-band-v2 | 测量改变了，还是只改变判定边界 |
+
+D 也可换算为 `39.5×60/1000=2.37 L/min`。它与 A 的 2.4 接近，并不能证明测量定义相同。只有确认差异仅为单位，测量对象、位置、校准与汇总规则一致时，统一单位才能恢复数值比较。传感器改变需要对应测量或校准记录；区间改变需要精确边界及重新汇总的可行性检查。
+
+## 将运行判定与测量定义分开记录
+
+假设物理测量规则不变，只把判定标准从“至少 2.50 L/min”改为“至少 2.40 L/min”。测量值 2.46 L/min 不变，但判定从低于标准变成达到标准。这是判定规则改变，不是测量改变。上表未提供 normal-band-v1/v2 的实际边界，因此这些数字不代表那两个版本的真实定义。
+
+| 记录类别 | 应保留的项目示例 |
 | --- | --- |
-| 单位(unit) | 因为要先判断绝对数值比较是否成立 |
-| 生成规则(rule) | 因为要先确认是不是在同一区间、用同一种计算方式做出来的 |
-| 采集版本(version) | 因为要区分传感器或管道版本的变化 |
-| 是否可以直接比较 | 因为要判断它能不能立刻被放上同一条基准线 |
+| 测量与汇总定义 | 物理量、传感器位置和版本、校准历史、区间边界、平均方法、缺失处理 |
+| 单位换算 | 原始值与单位、换算公式、换算后的值与单位 |
+| 运行判定 | 判定规则版本、生效时点、结果标签 |
 
-这些备注不是为了让说明变长，而是为了挡住 `列名相同` 这种错觉所需要的最低限度结构信息。
+C 应同时保留原始 41.0 mL/s、公式 `×60/1000` 与换算后的 2.46 L/min。只把单位标签改成 L/min、数值却仍为 41.0，会产生错误资料。把传感器版本字符串改为 v1，也不等于进行了校准。
 
-## 为什么连基准线比较也会一起被动摇
+## 减少字段合并分组并不会统一定义
 
-一旦它不再是同一个特征，Chapter 7 的基准线比较也会立刻被动摇。
+只按名称分组时，A、B、C、D 属于同一组。比较单位、传感器版本、区间规则与运行判定字符串时，得到 A,B / C / D 三组。去掉运行判定字段，D 的区间规则仍然不同，所以还是三组。再去掉区间规则，就只剩 A,B / C,D 两组。
 
-| 当前看到的现象 | 实际可能被动摇的是什么 |
-| --- | --- |
-| 最近值变得比平时更高 | 可能不是工艺变化，而是单位或传感器变化 |
-| 维护之后差值一直很大 | 基准线群体和测量定义可能都已经变了 |
-| 从某个时点开始波动性变大 | 可能是区间计算规则变了 |
+C、D 已归为一组，就可以放进同一个基准了吗？仍然不可以直接确定。只是隐藏了区间字段，实际汇总规则并未改变。反过来，如果有证据确认只有判定规则改变、测量定义相同，就可以把物理特征比较与结果标签比较分开处理。
 
-所以，所谓[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)，不只是同一群体之间的比较，还应该是 `同一特征定义` 之间的比较。把这些备注先留下来，才能在说 `模型有问题` 之前，先检查 `是不是混进了不同的特征定义`。
-
-## 比较仅按名称与按完整定义分组的结果 {#_6}
-
-问题情境：确认即使都使用 `flow_mean` 这个列名，只要单位、传感器版本、区间规则、运行定义不同，它们也可能不是同一个特征。
-
-输入(input)：一张特征目录表，其中同时写有 `feature_name`、`unit`、`sensor_version`、`segment_rule`、`ops_definition`，以及判断同一定义时要使用的字段组合 `definition_fields_to_check`
-
-期望输出(output)：只看列名时看起来像一个组，但把单位、传感器版本、区间规则、运行定义放进 `definition_fields_to_check` 后，`same_definition_group` 会分裂成多个组的输出
-
-要确认的概念：特征的同一性，不应只在列名层面判断，而应在包含测量单位和生成规则的定义层面判断。哪些行可以放进同一条基准线，也会随着定义字段的选择而改变。
-
-```python
-# 这个例子检查同名特征的测量方式或单位是否发生了变化。
-import pandas as pd
-
-pd.set_option("display.max_columns", None)
-pd.set_option("display.width", 180)
-
-definition_fields_to_check = [
-    "feature_name",
-    "unit",
-    "sensor_version",
-    "segment_rule",
-    "ops_definition",
-]
-
-feature_catalog = pd.DataFrame(
-    [
-        {
-            "event_id": "A",
-            "feature_name": "flow_mean",
-            "unit": "L/min",
-            "sensor_version": "v1",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "B",
-            "feature_name": "flow_mean",
-            "unit": "L/min",
-            "sensor_version": "v1",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "C",
-            "feature_name": "flow_mean",
-            "unit": "mL/s",
-            "sensor_version": "v2",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "D",
-            "feature_name": "flow_mean",
-            "unit": "mL/s",
-            "sensor_version": "v2",
-            "segment_rule": "quartile-4bin",
-            "ops_definition": "normal-band-v2",
-        },
-    ]
-)
-
-def summarize_groups(fields):
-    grouped = (
-        feature_catalog.groupby(fields, as_index=False)
-        .agg(
-            event_count=("event_id", "count"),
-            event_ids=("event_id", lambda values: ",".join(values)),
-        )
-        .copy()
-    )
-    grouped["same_definition_group"] = grouped[fields].astype(str).agg("|".join, axis=1)
-    return grouped[["same_definition_group", "event_count", "event_ids"]]
-
-name_only_groups = summarize_groups(["feature_name"])
-definition_groups = summarize_groups(definition_fields_to_check)
-group_comparison = pd.DataFrame(
-    [
-        {
-            "grouping_rule": "feature_name only",
-            "group_count": len(name_only_groups),
-            "grouped_event_ids": " / ".join(name_only_groups["event_ids"]),
-        },
-        {
-            "grouping_rule": "selected definition fields",
-            "group_count": len(definition_groups),
-            "grouped_event_ids": " / ".join(definition_groups["event_ids"]),
-        },
-    ]
-)
-
-print("1) same column name, different definition notes")
-print(
-    feature_catalog[
-        [
-            "event_id",
-            "feature_name",
-            "unit",
-            "sensor_version",
-            "segment_rule",
-            "ops_definition",
-        ]
-    ]
-)
-print()
-print("2) grouping changes when definition fields are included")
-print(group_comparison)
-print()
-print("3) rows that can be treated as the same definition group")
-print(definition_groups)
-```
-
-期望输出：
-
-```text
-1) same column name, different definition notes
-  event_id feature_name   unit sensor_version    segment_rule ops_definition
-0        A    flow_mean  L/min             v1  early-mid-late  normal-band-v1
-1        B    flow_mean  L/min             v1  early-mid-late  normal-band-v1
-2        C    flow_mean   mL/s             v2  early-mid-late  normal-band-v1
-3        D    flow_mean   mL/s             v2   quartile-4bin  normal-band-v2
-
-2) grouping changes when definition fields are included
-                grouping_rule  group_count grouped_event_ids
-0           feature_name only            1           A,B,C,D
-1  selected definition fields            3       A,B / C / D
-
-3) rows that can be treated as the same definition group
-                              same_definition_group  event_count event_ids
-0  flow_mean|L/min|v1|early-mid-late|normal-band-v1            2       A,B
-1   flow_mean|mL/s|v2|early-mid-late|normal-band-v1            1         C
-2    flow_mean|mL/s|v2|quartile-4bin|normal-band-v2            1         D
-```
-
-这个例子的目的，不是再去计算一个新特征，而是先确认：`即使列名一样，究竟哪些行还能被归到同一个定义组里？` 这里可以操作的值是 `definition_fields_to_check`。第 1 步里，我们看到四行都叫 `flow_mean`，但定义备注已经不同；第 2 步里，我们看到只看 `feature_name` 时，`A,B,C,D` 都像同一组，但把单位、传感器版本、区间规则、运行定义也算进去之后，就会分成 `A,B`、`C`、`D` 三组。第 3 步则显示，真正还能被归为同一定义组的只有 `A,B`，而 `C`、`D` 都必须各自单独留下。也就是说，这一节重要的并不是内部拼出来的 key 字符串本身，而是先把哪些行还能放进同一条基准线、同一张比较表里分开。
-
-这里最后要检查的三件事是：单位和计算规则有没有被写下来；版本变化或传感器变化有没有被区分出来；那些不能混进同一条基准线和同一分组里的定义差异，有没有被标记出来。只有这三点一起成立，特征表才不再只是数字集合，而会变成一张带着“可比较定义”的结构。检查当前特征表是不是只在比较“真正意义相同的列”，正是这一节的中心。
-
-如果测量单位、传感器版本、计算规则发生了变化，那么同一个列名也可能已经不是同一个特征，所以在 Part 3 里，应该先检查特征定义是否一致，再去看数字。这一节与其说是在讲列名管理技巧，不如说更接近于：应该怎样识别 [特征定义身份(feature-definition identity)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)。
-
-因此，特征同一性不该被读成“只有一行列名”，而应被读成一个定义包：它包含了“按什么规则、什么版本做出了什么”。
+请列出比较 C 与 A 所需的补充资料。单位换算不够，还需要传感器位置、校准、实际区间和平均规则的对应关系。若纳入 D，还要检查 quartile-4bin 与 early-mid-late 是否代表相同测量范围。若没有原始资料且无法协调定义，就应暂缓比较或保留为独立群体。
 
 ## 检查清单
 
-- 你是否把 41 mL/s 换算为 L/min？
-- 你是否区分了只有单位改变与传感器或汇总定义改变的情况？
+- 能否将 C、D 换算为 L/min，并保留原值和单位？
+- 能否区分备注字符串一致与实际可比性？
+- 能否区分仅判定改变与测量、汇总改变？
+- 能否解释分组减少为何不能代替校准或重新汇总？
 
 ## 来源与参考资料
 

@@ -1,59 +1,62 @@
 # P3-7.3 What Is a Baseline the Reference For
 
 > Section ID: `P3-7.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-A [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is the reference that decides `what should the current state be compared against`. The reason a baseline is needed in Part 3 is that the state of a recent range, a particular action, or a particular entity should not be read only as an absolute value. It has to be read side by side with the usual structure.
+“Compare against a reference” can describe different questions: comparing a measurement with the past, with an operating limit, or comparing model performance with a simple prediction rule. **Record both the comparison target and the calculation units to keep these references distinct.**
 
-For example, even if the average flow of the most recent 20 cases is 2.1, that value alone is not enough. We also need to see whether the average of the usual range was 2.45, whether recent variability has grown compared with usual, and whether the late-stage decline pattern has become stronger than usual. Only then can we finally say `what changed`. So a baseline is not `a model-evaluation reference`, but `a state-comparison reference`.
+## Three References Answer Different Questions
 
-## Why a Baseline Is Needed First
+| Reference | Question | Values compared | Example result |
+| --- | --- | --- | --- |
+| Data baseline | How much changed from the usual level? | Current and historical reference pressure | +8 kPa |
+| Operating limit | Was the specified allowed condition exceeded? | Current pressure and upper limit | +3 kPa above the limit |
+| Baseline model | Does prediction outperform a simple rule? | Correct counts or metrics on the same evaluation data | 5/12 versus 9/12 |
 
-The baseline in this section is distinct from a baseline model used to evaluate model performance. The immediate task is to compare recent and usual periods using the same unit to see whether a change is present. The baseline therefore supplies the comparison premise for columns such as recent means, variability, patterns, and segment differences.
+A data baseline uses historical measurements or group summaries as references. An operating limit specifies an allowed condition separately. A baseline model is a model or rule used as a starting point for performance comparison. None automatically determines the others.
 
-For example, if the average flow of the recent 20 cases is 2.1 and the [baseline window](/AiBook/en/reference/concept-glossary-alpha/b/#baseline) average is 2.45, then what we first read is `a difference of -0.35`. This difference is not yet model performance. It is the result of state comparison.
+## Distinguish +8 from +3 at a Current Pressure of 108 kPa
 
-| What becomes readable when a baseline exists | What becomes blurred without a baseline |
-| --- | --- |
-| The difference between recent range and usual range | We only see whether the current value is large or small |
-| Difference values, variability differences, pattern differences | It becomes hard to explain what is different from usual |
-| Signals that need review | The reason for raising a warning candidate becomes weak |
+Assume, for illustration, current pressure 108 kPa, historical reference pressure 100 kPa under matching conditions, and a separately specified upper limit of 105 kPa. These numbers are not limits for actual equipment. In this example, the allowed condition is pressure at or below 105 kPa.
 
-Only after passing through this stage can we decide `what can become a prediction problem` and what should remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure). The meaning of baseline that Part 3 should hold on to also reaches only this far. In other words, the baseline of the current section is `the reference that lets us read the difference of the current state side by side with the usual structure`.
+| Calculation | Result | Interpretation |
+| --- | --- | --- |
+| Current−data baseline | 108−100=+8 kPa | Eight above the historical reference |
+| Current−upper limit | 108−105=+3 kPa | Three above the specified limit |
 
-A comparison baseline and an allowable limit answer different questions about the same value. For illustration, suppose usual pressure is 100 kPa, current pressure is 108 kPa, and a separately specified upper limit is 105 kPa. The baseline difference is +8 kPa, while the exceedance above the limit is +3 kPa. Having always operated at 108 kPa does not mean the upper limit is satisfied.
+Both differences use kPa but answer different questions. The +8 baseline difference cannot replace the amount above the limit. If current pressure were 103, it would be +3 relative to baseline but −2 relative to the limit, satisfying this upper-limit condition. That one condition alone still would not establish safety of all operations.
 
-## Two Common Misunderstandings
+If the historical reference were also 108, the baseline difference would be zero, yet current pressure would remain three above the 105 limit. “Same as usual” does not mean “within allowed conditions” or “safe.” The historical state may itself have been persistently unsuitable.
 
-The two most common misunderstandings are these.
+## A Baseline Model Compares Predictions Rather Than Measurements
 
-First, some people feel that once a baseline exists, interpretation is already finished automatically. But a baseline is only a comparison reference. Interpretation sentences and review judgment still have to be built in the next stage.
+The `dummy` in [P3-4.5](../chapter-04/section-05.en.md) always predicted 0, the more common training label. This is a simple baseline model. On the same twelve test cases, dummy got five correct and the decision tree got nine. The comparison concerns agreement between predictions and labels, not changes in pressure.
 
-Second, some people think absolute values are enough and pass lightly over the baseline. But then the basis for deciding what was actually a change, and what could have become a prediction problem, becomes weak from the start.
+| Model | Correct / evaluated | Accuracy |
+| --- | ---: | ---: |
+| dummy | 5/12 | About 41.7% |
+| tree | 9/12 | 75.0% |
 
-| Misunderstanding | More accurate statement |
-| --- | --- |
-| If a baseline exists, the conclusion is also automatically fixed | A baseline is a state-comparison reference, and interpretation and judgment come after it |
-| Looking only at absolute values is enough for judging change | To see what differs from usual, we first need a comparison reference |
+The difference is four correct cases, or about **33.3 percentage points** of accuracy. Labels in that example come from a fictional rule applied to input conditions, so it does not validate actual failure prediction. Nor should scores from different test datasets be compared directly. Part 4 develops evaluation metrics and data splitting in detail.
 
-This section is more accurate when read not through the dictionary definition of baseline, but as the problem of `what reference measurement should be placed in order to read change`. So a baseline should be read as `a reference measurement for state comparison`, separated from model-evaluation terminology.
+A simple baseline model does not necessarily perform poorly. Evaluation must establish whether a more complex model surpasses it. Accuracy of 75% also cannot determine whether 108 kPa is permitted: the decisions concern different objects.
 
-## Separating Data Baselines from Baseline Models {#a-small-diagram}
+## State the Comparison Target in the Report {#a-small-diagram}
 
-The core point of this section is that `the usual structure` and `the current state` should not be viewed in isolation. Once a `baseline` connects them, the difference becomes readable. A baseline does not replace the absolute value; it acts as the reference line for reading state change.
-
-<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Diagram: scroll horizontally to read" markdown="1">
-<div class="aibook-diagram-canvas" markdown="1">
-
+```mermaid
 --8<-- "assets/part-03/chapter-07/p3-7-3-mermaid-01-en.mmd"
+```
 
-</div>
-</div>
+Complete “Three above the reference.” For the pressure example, write “Current pressure of 108 kPa is 3 kPa above the upper limit of 105 kPa.” If the statement instead compares with the 100 kPa data baseline, the difference must be 8 kPa.
+
+Also correct “Zero difference from baseline means normal.” The answer is: “Current and historical reference values match, but compliance with operating limits must be checked separately.” Recording change observations, operating-condition decisions, and model performance separately prevents transferring one result into another judgment.
 
 ## Checklist
 
-- Did you give an example distinguishing a usual baseline from an operational allowable limit?
-- Can you explain why a departure from usual conditions alone cannot establish whether the state is good or bad?
+- Can you identify the comparison targets for +8 kPa and +3 kPa?
+- Can you explain zero baseline difference while exceeding an upper limit?
+- Can you explain what P3-4.5's dummy predicts as a baseline?
+- Can you distinguish percentage points of accuracy from units of physical differences?
 
 ## Sources and Further Reading
 

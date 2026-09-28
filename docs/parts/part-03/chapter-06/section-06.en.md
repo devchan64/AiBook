@@ -1,7 +1,7 @@
 # P3-6.6 Same Column Name, Different Feature
 
 > Section ID: `P3-6.6`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
 _Subtitle: Why can a column with the same name become a different feature when its measurement rule or unit changes?_
 
@@ -58,177 +58,46 @@ So if we read these four rows as one unchanged feature column, the meaning of th
 
 If only units differ, conversion can restore comparability. Since `41 mL/s = 41×60/1000 = 2.46 L/min`, C's value is not about 17 times A's. This does not establish that sensor location, calibration, or calculation intervals match, so check those conditions even after standardizing units. If only an operational judgment rule changed, the original physical feature may be unchanged while the output label's meaning differs.
 
-## So What Should Be Written Down First at This Stage
 
-In Part 3, it matters more to leave feature-definition notes first than to move immediately into complicated correction techniques.
+## Separate Matching Strings from Physical Comparability {#small-code-example}
 
-| Note to write down first | Why it is needed |
+The four rows are fictional. Matching notes for A and B do not verify sensor locations, calibration history, or missing-data handling. The name `early-mid-late` also does not fully specify which observations were averaged and how. Matching metadata gathers candidates for review; it does not certify comparability.
+
+| Level checked | What this example establishes | What still needs checking |
+| --- | --- | --- |
+| Selected definition strings match | A and B have the same recorded fields | Omitted locations, calibration, and averaging rules |
+| Units converted | C=2.46 and D=2.37 L/min | Correspondence of measurement targets and calibration for v1/v2 sensors |
+| Segment-definition difference found | D uses the different rule name quartile-4bin | Whether raw data can be aggregated over the same scope |
+| Operational-rule version differs | D uses normal-band-v2 | Whether measurement changed or only decision thresholds changed |
+
+D converts as `39.5×60/1000=2.37 L/min`. Its closeness to A's 2.4 does not establish identical measurement definitions. Unit conversion restores numeric comparability when units alone differ and the measurement target, location, calibration, and aggregation rules are confirmed equivalent. Sensor changes require corresponding measurements or calibration records; segment changes require exact boundaries and a check on whether reaggregation is possible.
+
+## Record Operational Decisions Separately from Measurement Definitions
+
+Consider a fictional change from a decision threshold of “at least 2.50 L/min” to “at least 2.40 L/min,” with physical measurement rules unchanged. A measured 2.46 L/min stays the same, while its decision changes from below to above threshold. That is a rule change, not a measurement change. The actual normal-band-v1/v2 thresholds are absent from the table, so these numbers do not define those versions.
+
+| Record category | Examples of items to retain |
 | --- | --- |
-| Unit | Because we need it to judge whether absolute-magnitude comparison is even possible |
-| Generation rule | Because we have to check whether it was built from the same range and the same calculation method |
-| Collection version | Because we have to distinguish sensor or pipeline changes |
-| Whether direct comparison is allowed | Because we have to decide whether it can be placed on the same baseline right away |
+| Measurement and aggregation | Quantity, sensor location/version, calibration history, segment boundaries, averaging method, missing-data handling |
+| Unit conversion | Original value/unit, conversion formula, converted value/unit |
+| Operational decision | Rule version, effective time, outcome label |
 
-These notes are not here to make the explanation longer. They are the minimum structural information needed to block the illusion of `the same column name`.
+For C, retain the original 41.0 mL/s, formula `×60/1000`, and converted 2.46 L/min. Merely changing the unit label to L/min while leaving 41.0 creates incorrect data. Changing a sensor-version string to v1 also does not perform calibration.
 
-## Why Baseline Comparison Also Becomes Unstable
+## Fewer Groups Do Not Mean Matched Definitions
 
-Once it is no longer the same feature, the baseline comparison in Chapter 7 also becomes unstable immediately.
+Grouping by name alone puts A, B, C, and D together. Comparing unit, sensor version, segment rule, and operational-rule strings produces three groups: A,B / C / D. Removing the operational-rule field still leaves three because D has a different segment rule. Removing both operational and segment rules leaves two groups: A,B / C,D.
 
-| What we currently see | What may actually be unstable |
-| --- | --- |
-| A recent value became higher than usual | It may be a unit or sensor change rather than a process change |
-| The difference stayed large after maintenance | The baseline group and the measurement definition may have changed |
-| Variability grew from a certain point onward | The segment-calculation rule may have changed |
+Can C and D now share a baseline? Not yet: hiding a segment field did not change how the values were aggregated. Conversely, when evidence shows that only decision rules changed and measurement definitions match, physical-feature comparisons and outcome-label comparisons can be handled separately.
 
-So a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is not only a same-group comparison. It should also be a `same feature-definition` comparison. Leaving this note behind lets us check first `did different feature definitions get mixed together?` before jumping to the conclusion that `the model is strange`.
-
-## Comparing Groups by Name Alone and by Full Definition {#small-code-example}
-
-Problem situation: check that even when the same column name `flow_mean` is used, it may not be the same feature if unit, sensor version, segment rule, and operational definition differ.
-
-Input: a feature-catalog table where `feature_name`, `unit`, `sensor_version`, `segment_rule`, and `ops_definition` are written together, plus the field bundle `definition_fields_to_check` to use when deciding whether rows share the same definition
-
-Expected output: output where the rows look like one group if we look only at the column name, but split into several `same_definition_group` values when `definition_fields_to_check` includes unit, sensor version, segment rule, and operational definition
-
-Concept to check: feature identity should be judged not at the column-name level alone, but at the definition level that includes measurement unit and generation rule. Which rows can be placed on the same baseline also changes depending on which fields are included in the definition.
-
-```python
-# This example checks whether features with the same column name changed measurement rules or units.
-import pandas as pd
-
-pd.set_option("display.max_columns", None)
-pd.set_option("display.width", 180)
-
-definition_fields_to_check = [
-    "feature_name",
-    "unit",
-    "sensor_version",
-    "segment_rule",
-    "ops_definition",
-]
-
-feature_catalog = pd.DataFrame(
-    [
-        {
-            "event_id": "A",
-            "feature_name": "flow_mean",
-            "unit": "L/min",
-            "sensor_version": "v1",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "B",
-            "feature_name": "flow_mean",
-            "unit": "L/min",
-            "sensor_version": "v1",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "C",
-            "feature_name": "flow_mean",
-            "unit": "mL/s",
-            "sensor_version": "v2",
-            "segment_rule": "early-mid-late",
-            "ops_definition": "normal-band-v1",
-        },
-        {
-            "event_id": "D",
-            "feature_name": "flow_mean",
-            "unit": "mL/s",
-            "sensor_version": "v2",
-            "segment_rule": "quartile-4bin",
-            "ops_definition": "normal-band-v2",
-        },
-    ]
-)
-
-def summarize_groups(fields):
-    grouped = (
-        feature_catalog.groupby(fields, as_index=False)
-        .agg(
-            event_count=("event_id", "count"),
-            event_ids=("event_id", lambda values: ",".join(values)),
-        )
-        .copy()
-    )
-    grouped["same_definition_group"] = grouped[fields].astype(str).agg("|".join, axis=1)
-    return grouped[["same_definition_group", "event_count", "event_ids"]]
-
-name_only_groups = summarize_groups(["feature_name"])
-definition_groups = summarize_groups(definition_fields_to_check)
-group_comparison = pd.DataFrame(
-    [
-        {
-            "grouping_rule": "feature_name only",
-            "group_count": len(name_only_groups),
-            "grouped_event_ids": " / ".join(name_only_groups["event_ids"]),
-        },
-        {
-            "grouping_rule": "selected definition fields",
-            "group_count": len(definition_groups),
-            "grouped_event_ids": " / ".join(definition_groups["event_ids"]),
-        },
-    ]
-)
-
-print("1) same column name, different definition notes")
-print(
-    feature_catalog[
-        [
-            "event_id",
-            "feature_name",
-            "unit",
-            "sensor_version",
-            "segment_rule",
-            "ops_definition",
-        ]
-    ]
-)
-print()
-print("2) grouping changes when definition fields are included")
-print(group_comparison)
-print()
-print("3) rows that can be treated as the same definition group")
-print(definition_groups)
-```
-
-Expected output:
-
-```text
-1) same column name, different definition notes
-  event_id feature_name   unit sensor_version    segment_rule ops_definition
-0        A    flow_mean  L/min             v1  early-mid-late  normal-band-v1
-1        B    flow_mean  L/min             v1  early-mid-late  normal-band-v1
-2        C    flow_mean   mL/s             v2  early-mid-late  normal-band-v1
-3        D    flow_mean   mL/s             v2   quartile-4bin  normal-band-v2
-
-2) grouping changes when definition fields are included
-                grouping_rule  group_count grouped_event_ids
-0           feature_name only            1           A,B,C,D
-1  selected definition fields            3       A,B / C / D
-
-3) rows that can be treated as the same definition group
-                              same_definition_group  event_count event_ids
-0  flow_mean|L/min|v1|early-mid-late|normal-band-v1            2       A,B
-1   flow_mean|mL/s|v2|early-mid-late|normal-band-v1            1         C
-2    flow_mean|mL/s|v2|quartile-4bin|normal-band-v2            1         D
-```
-
-The purpose of this example is not to calculate a new feature. It is to check first `up to what point can rows really be grouped under the same definition even when the column name is the same?` The value to manipulate here is `definition_fields_to_check`. In stage 1, we see that all four rows use `flow_mean` but that the definition notes differ. In stage 2, we see that if we look only at `feature_name`, `A,B,C,D` all look like one group, but if we include unit, sensor version, segment rule, and operational definition, they split into three groups: `A,B`, `C`, and `D`. Stage 3 shows that only `A,B` actually remain in the same definition group, while `C` and `D` each stay separate. So what matters in this section is not the internal key string itself, but first separating which rows are allowed onto the same baseline and into the same comparison table.
-
-The last three things to check here are the following. Are the unit and calculation rule written down? Did we distinguish version changes or sensor changes? Did we mark definition differences that must not be mixed into the same baseline and partition? Only when these three conditions stand together does a feature table remain not as a simple bundle of numbers, but as a structure with comparable definitions attached. Checking whether the current feature table compares only columns that still mean the same thing is exactly the center of this section.
-
-If the measurement unit, sensor version, or calculation rule changes, then the same column name may no longer mean the same feature, so Part 3 should check feature-definition sameness before looking at the numbers. This section can be read not as a trick for managing column names, but as the problem of [feature-definition identity](/AiBook/en/reference/concept-glossary-alpha/f/#feature).
-
-So feature identity should be read not as one line of column name, but as a definition bundle that includes what was built under what rule and version.
+List what is needed to compare C with A. Unit conversion is insufficient: sensor location, calibration, actual segment scope, and averaging rules must correspond. Including D also requires checking whether quartile-4bin and early-mid-late represent the same measurement scope. If raw data is unavailable and definitions cannot be reconciled, hold the comparison or retain separate groups.
 
 ## Checklist
 
-- Did you convert 41 mL/s to L/min?
-- Did you distinguish a unit-only change from changes in sensor or aggregation definitions?
+- Can you convert C and D to L/min while preserving original values and units?
+- Can you distinguish matching metadata strings from actual comparability?
+- Can you separate decision-only changes from measurement or aggregation changes?
+- Can you explain why reducing group count cannot replace calibration or reaggregation?
 
 ## Sources and Further Reading
 

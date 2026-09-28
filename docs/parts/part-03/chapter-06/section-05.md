@@ -1,7 +1,7 @@
 # P3-6.5 서로 단위와 크기가 다른 특징은 어떻게 함께 읽고 남기는가
 
 > Section ID: `P3-6.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)을 몇 개 만들고 나면 다시 이런 혼동을 겪기 쉽습니다. `값이 큰 열이 더 중요한가?`, `초 단위와 압력 단위를 같은 표에 둬도 되는가?`, `평균이 200인 열과 0.2인 열을 그냥 나란히 비교해도 되는가?` 여기서 먼저 필요한 것은 숫자 크기보다 단위, 범위, 변동 폭, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 대비 변화를 구분해 읽는 감각입니다.
 
@@ -11,10 +11,10 @@
 
 | 열 이름 | 예시 값 | 뜻 |
 | --- | ---: | --- |
-| `duration_seconds` | 48 | 동작 지속 시간 |
-| `pressure_mean` | 101.2 | 평균 압력 |
-| `flow_std` | 0.18 | 유량 변동성 |
-| `late_drop_rate` | -0.42 | 후반 하강률 |
+| `duration_seconds` (s) | 48 s | 동작 지속 시간 |
+| `pressure_mean` (kPa) | 101.2 kPa | 평균 압력 |
+| `flow_std` (L/min) | 0.18 L/min | 유량 변동성 |
+| `late_drop_rate` (L/min/s) | -0.42 L/min/s | 후반 하강률 |
 
 이 네 값은 모두 숫자이지만, 같은 종류의 크기를 말하지는 않습니다.
 
@@ -43,10 +43,10 @@
 
 | 특징 열 | 먼저 읽는 방식 |
 | --- | --- |
-| `duration_seconds` | 평소보다 길어졌는지 본다 |
-| `pressure_mean` | 기준선 대비 수준 차이를 본다 |
-| `flow_std` | 흔들림이 커졌는지 본다 |
-| `late_drop_rate` | 후반 구조가 더 가파르게 무너졌는지 본다 |
+| `duration_seconds` (s) | 평소보다 길어졌는지 본다 |
+| `pressure_mean` (kPa) | 기준선 대비 수준 차이를 본다 |
+| `flow_std` (L/min) | 흔들림이 커졌는지 본다 |
+| `late_drop_rate` (L/min/s) | 후반 구조가 더 가파르게 무너졌는지 본다 |
 
 즉 비교는 `숫자끼리`가 아니라 `같은 역할의 같은 열끼리` 해야 합니다. `duration_seconds`와 `pressure_mean`를 직접 크기 비교하는 것이 아니라, `이번 duration_seconds`를 평소 duration_seconds와 비교하고, `이번 pressure_mean`를 평소 pressure_mean와 비교하는 식으로 읽어야 합니다.
 
@@ -76,10 +76,10 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 
 | 열 이름 | 단위/뜻 | 구조 역할 | 비교 방식 |
 | --- | --- | --- | --- |
-| `duration_seconds` | 초 | 지속 시간 | 평소보다 길어졌는가 |
-| `pressure_mean` | kPa | 평균 수준 | 기준선과 차이가 큰가 |
-| `flow_std` | L/min | 흔들림 | 평소보다 흔들림이 커졌는가 |
-| `late_drop_rate` | L/min/s | 후반 유량 변화 속도 | 후반 기울기가 더 가팔라졌는가 |
+| `duration_seconds` (s) | 초 | 지속 시간 | 평소보다 길어졌는가 |
+| `pressure_mean` (kPa) | kPa | 평균 수준 | 기준선과 차이가 큰가 |
+| `flow_std` (L/min) | L/min | 흔들림 | 평소보다 흔들림이 커졌는가 |
+| `late_drop_rate` (L/min/s) | L/min/s | 후반 유량 변화 속도 | 후반 기울기가 더 가팔라졌는가 |
 
 이 표가 있으면 `무슨 숫자인지`와 `어떻게 읽을지`가 함께 고정됩니다.
 
@@ -87,7 +87,7 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 
 이 절에서는 Python으로 고정된 두 행을 출력하기보다, 숫자 열을 어떤 축으로 읽을지 표로 고정해 두는 편이 더 적합합니다. 예를 들어 아래 작업 표를 보겠습니다.
 
-| event_id | `duration_seconds` | `pressure_mean` | `flow_std` | `late_drop_rate` |
+| event_id | `duration_seconds` (s) | `pressure_mean` (kPa) | `flow_std` (L/min) | `late_drop_rate` (L/min/s) |
 | --- | ---: | ---: | ---: | ---: |
 | A | 48 | 101.2 | 0.18 | -0.42 |
 | B | 44 | 100.9 | 0.05 | -0.10 |
@@ -95,7 +95,7 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 
 절대값만 보면 `pressure_mean`이 가장 커 보입니다. 하지만 기준선 대비 변화로 읽으면 다른 그림이 나옵니다.
 
-| event_id | `duration_delta` | `pressure_delta` | `flow_std_delta` | `late_drop_delta` |
+| event_id | `duration_delta` (s) | `pressure_delta` (kPa) | `flow_std_delta` (L/min) | `late_drop_delta` (L/min/s) |
 | --- | ---: | ---: | ---: | ---: |
 | A | 3 | 0.2 | 0.15 | -0.30 |
 | B | -1 | -0.1 | 0.02 | 0.02 |
@@ -104,10 +104,10 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 
 | 열 이름 | 역할 | 먼저 비교하는 방식 |
 | --- | --- | --- |
-| `duration_seconds` | 지속 시간(duration) | 기준선 대비 차이 |
-| `pressure_mean` | 수준(level) | 기준선 대비 차이 |
-| `flow_std` | 변동성(variability) | 기준선 대비 차이 |
-| `late_drop_rate` | 변화(change) | 기준선 대비 차이 |
+| `duration_seconds` (s) | 지속 시간(duration) | 기준선 대비 차이 |
+| `pressure_mean` (kPa) | 수준(level) | 기준선 대비 차이 |
+| `flow_std` (L/min) | 변동성(variability) | 기준선 대비 차이 |
+| `late_drop_rate` (L/min/s) | 변화(change) | 기준선 대비 차이 |
 
 그래서 `큰 숫자`보다 `같은 역할의 같은 열을 어떻게 비교하는가`를 먼저 읽어야 합니다.
 
@@ -129,6 +129,29 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 기대 출력(output): 스케일 조정 전후의 최근접 `event_id`와 예측값.
 
 확인할 개념: 같은 표에 둔 특징이라도 모델이 거리로 비교할 때는 스케일 조정 여부가 이웃과 예측을 바꿀 수 있습니다.
+
+## 단위 변환과 표준화는 다른 작업이다
+
+A의 유량 표준편차 차이는 `0.18−0.03=0.15 L/min`입니다. 같은 관측 범위와 계산 규칙을 사용했다면 기준선보다 퍼짐이 0.15 L/min 커졌다고 읽습니다. 압력 차이 0.2 kPa와는 단위가 달라 0.2가 더 중요하다고 비교할 수 없습니다. 운영상 큰 변화인지는 허용 범위와 측정 오차 등을 더 확인해야 합니다. 여기서 `flow_std`는 동작 내 원시 유량 관측의 표준편차로 가정하며, 구간 평균들의 표준편차와 구분합니다.
+
+48초를 0.8분으로 쓰는 것은 같은 물리량의 단위 변환입니다. 반면 표준화는 학습 자료에서 정한 평균과 표준편차로 `z=(값−학습 평균)/학습 표준편차`를 계산하는 눈금 변경입니다. 표준화한 z는 단위가 없지만 특징의 물리적 의미나 중요도가 같아지는 것은 아닙니다.
+
+## 가까운 사례를 고르는 눈금이 달라진다
+
+아래는 앞 비교표와 별도로 설계한 가상 학습 자료 네 건입니다. 같은 A·B 표기라도 앞 표와 같은 기록이 아닙니다. `review_needed`의 0·1은 예제용 라벨이고 새 샘플의 정답은 제공하지 않습니다. 1-NN은 세 열에서 거리가 가장 가까운 학습 사례 하나를 골라 그 라벨을 예측으로 사용합니다. 거리는 각 열의 차이를 제곱해 더하고 제곱근을 취해 계산합니다.
+
+원래 숫자 눈금에서 새 샘플과 A의 차이는 `(0초, 0.05 kPa, 0.12 L/min)`입니다. 모델이 단위를 무시하고 숫자만 계산하면 `sqrt(0²+0.05²+0.12²)=0.13`입니다. B와는 `(−4초, −0.05 kPa, −0.01 L/min)`이어서 약 4.0003입니다. 이 합은 서로 다른 물리 단위를 더한 것이므로 물리적인 거리로 해석하지 않습니다.
+
+지속 시간 열의 학습값 44·48·43·49초는 평균 46초, 표준편차 약 2.5495초입니다. 여기서 StandardScaler는 제곱 편차 합을 학습 건수 4로 나누는 규칙을 씁니다. 새 샘플 44초는 `(44−46)/2.5495≈−0.7845`, B의 48초는 약 0.7845가 됩니다. 새 샘플만으로 새 눈금을 만들지 않고 같은 학습 눈금에 올리는 것입니다.
+
+| 학습 사건 | 원래 숫자 눈금의 거리 | 세 열 표준화 후 거리 |
+| --- | ---: | ---: |
+| A | 0.1300 | 1.7674 |
+| B | 4.0003 | 1.6376 |
+| C | 1.0389 | 2.9301 |
+| D | 5.0023 | 2.3932 |
+
+표준화 후 거리는 단위 없는 좌표의 거리입니다. **가장 가까운 사건이 A에서 B로 바뀌므로 예측도 0에서 1로 바뀝니다. 정답이 없으므로 개선되었다고 말할 수는 없습니다.** 아래 코드를 실행한 뒤 새 샘플의 `flow_std_delta`만 0.14에서 0.02로 바꾸어 보세요. 이때 두 방식 모두 A를 선택하며 예측은 0입니다. pandas와 scikit-learn이 설치된 Python 환경에서 실행합니다.
 
 ```python
 # 단위와 범위가 다른 특징을 거리 기반 모델이 어떻게 다르게 읽는지 확인합니다.
@@ -185,7 +208,9 @@ with scaling prediction: 1
 
 이 절의 순서는 `서로 다른 단위와 크기`를 한 표에 두더라도, 열 역할별로 읽고 같은 열의 기준선과 비교해야 한다는 점을 붙잡습니다. 숫자 크기 자체보다 `무엇을 재는 열인가`가 먼저입니다.
 
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-5-mermaid-01-ko.mmd"
+```
 
 ## 체크리스트
 
@@ -198,4 +223,6 @@ with scaling prediction: 1
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. 원시 데이터를 학습에 더 유용한 형태로 바꾸는 과정을 설명하므로, 시간 길이, 수준, 변동성, 변화율처럼 서로 다른 역할의 특징을 구분해 읽어야 한다는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - U.S. Bureau of Labor Statistics, `Base period`. 비교는 같은 항목을 기준 시점과 나란히 놓을 때 성립한다는 일반 reference 개념을 제공하므로, 서로 다른 특징끼리 직접 크기 비교하기보다 같은 열의 기준선 대비 변화로 읽어야 한다는 설명에 참고할 수 있습니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 
-- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }. 전처리 기준을 학습 데이터에서만 계산하는 원칙를 확인했다. 확인일: 2026-09-15.
+- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }. 전처리 기준을 학습 데이터에서만 계산하는 원칙를 확인했다. 확인일: 2026-09-15.
+
+- [scikit-learn StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html){: target="_blank" rel="noopener noreferrer" }. 학습 자료의 평균과 표준편차로 변환을 정하고 새 자료에는 같은 변환을 적용하는 정의 및 표준편차 계산 규칙을 확인했습니다. / 2026-09-20

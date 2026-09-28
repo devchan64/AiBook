@@ -1,7 +1,7 @@
 # P3-2.2 数据集候选里要放进哪些结构
 
 > Section ID: `P3-2.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 如前一节所示，即使已经存储了数据集，也可能需要按照当前问题重新组织。接下来的问题自然是：重新构建[候选数据集](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)时，里面应包含哪些结构？Part 3 为回答这个问题，会一起看[样本](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、[特征](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[基准线](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)和[输出结构](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)。把这些词理解为相互连接的数据集设计，比逐项背诵更准确。先确定什么算一条样本，才能构造特征；有了特征，才能决定拿什么与基准线比较；有了比较，才能决定构造什么输出结构。
 
@@ -9,14 +9,14 @@
 
 下面四个要素是本书状态比较案例的设计框架，并不是说每个数据集都必须包含基准线列和输出列。例如，无标签图像集合也叫数据集；特征可以是直接测量的值或类别，并不一定要通过汇总计算得到。
 
-以一次自动执行的动作为例。样本可以是 `把这一次完整动作看成一条案例`。特征可以是从这次动作里计算并留下来的值，例如 `总时长`、`中段均值`、`后段下降率`、`跟踪误差`。基准线可以是非近期区段的代表值，或者平常状态的比较群体。输出结构则是人或模型最后要读到的结果形式，例如 `需要复核`、`注意`、`正常范围`，或者 `预测标签候选`。
+以一次动作为样本时，测得的流量或运行模式可以直接来自原始记录，均值和斜率则可以计算得到。本节把平均流量和最后区间斜率作为特征，以相同条件下的历史动作作为基准线。输出是指定规则产生的 `review` 或 `no_flag`，并非确认实际故障的标签。
 
 这层关系可以先整理成下面这张表。
 
 | 组成要素 | 这里表示什么 | 当前阶段在问的问题 |
 | --- | --- | --- |
 | 样本 | 作为比较或学习基本单位的一条案例 | 什么算一行？ |
-| 特征 | 为了描述样本而计算并保留下来的值 | 哪些值该留下，比较才会更容易？ |
+| 特征 | 表示样本的观测值、类别或计算值 | 哪些值该留下，比较才会更容易？ |
 | 基准线 | 用来和近期状态比较的平常结构或参考群体 | 和什么比较，变化才会显现？ |
 | 输出结构 | 人要读、或模型下一步要接收的结果形式 | 最终想做出什么判断？ |
 
@@ -27,24 +27,31 @@
 在实际里，问题通常按下面这个顺序接起来。
 
 1. 现在要比较的对象，是一个时点、一次完整动作，还是一个近期区段？
-2. 要描述这个对象，应该留下哪些数字？
-3. 这些数字要和什么比较，才会产生意义？
+2. 要描述这个对象，应该留下哪些值或类别？
+3. 在本例中，要把这些值与什么比较才能看出变化？
 4. 最后的结果，是要输出成人能读的判断语句，还是输出成模型会接收的标签候选？
 
 这四个问题分别对应样本、特征、基准线、输出结构。所以，即使术语本身还有些模糊，只要顺着这套问题顺序往下读，也能重新确认自己现在站在哪一步的数据集设计阶段。
 
-下面这张表更具体地展示了：这四个要素是怎么在同一行里接起来的。哪怕同样是一条“完整动作”，也是先把样本立成一条案例，再在上面写入特征，再把这些特征和基准线比较，最后再收口为一个人能读的输出。
+下表使用与后面的 Python 示例相同的虚构 CSV，展示计算得到的近期动作 R1、R2、R3。每次动作在 0~5 秒有六条流量记录，最后区间均为 4~5 秒。流量和均值单位为 L/min，斜率和斜率差值单位为 L/min/s。显示值保留两位小数，但计算和规则应用使用未四舍五入的值。
 
 | sample_id | mean_flow | late_drop_rate | baseline_mean_flow | baseline_late_drop_rate | baseline_gap | output |
-| --- | --- | --- | --- | --- | --- | --- |
-| A | 0.74 | -0.32 | 0.92 | -0.05 | -0.27 | `需要复核` |
-| B | 0.89 | -0.08 | 0.92 | -0.05 | -0.03 | `正常范围` |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| R1 | 0.83 | -0.32 | 0.94 | -0.05 | -0.27 | `review` |
+| R2 | 0.90 | -0.08 | 0.94 | -0.05 | -0.03 | `no_flag` |
+| R3 | 0.94 | -0.40 | 0.94 | -0.05 | -0.35 | `review` |
 
-这里假定流量单位为 L/min，后段下降率为最后两个测量点之间每秒的流量变化，并按 `baseline_gap = late_drop_rate−baseline_late_drop_rate` 计算。虚构规则在 `baseline_gap <= −0.20` 时将案例列为复核对象。示例中的`正常范围`只表示没有触发这条规则，并不是确认不存在故障或原因的标签。 边界值 −0.20 也包含在复核范围内。代入 −0.21、−0.20、−0.19 时，只有前两个值触发规则。
+基准动作 B1、B2、B3 的最后斜率分别为 −0.04、−0.06、−0.04 L/min/s。假定这三次动作代表相同条件下的平常状态，其均值为 `(-0.04−0.06−0.04)/3 = −0.046666… L/min/s`，表中显示为 −0.05。基准平均流量同样是三个动作平均流量的均值，四舍五入后为 0.94 L/min。
 
-读这张表的顺序，会自然地从左往右走。`sample_id` 固定了什么被算成一条样本。`mean_flow` 和 `late_drop_rate` 是描述这条样本的特征。`baseline_mean_flow` 和 `baseline_late_drop_rate` 是平常状态的基准线。`baseline_gap` 写下比较结果，说明当前样本的后段下降率比基准线多下降了多少。只要这个比较结果足够大，`output` 列里就会形成像 `需要复核` 这样的运营判断。
+R1 从第 4 秒的 0.92 L/min 变为第 5 秒的 0.60 L/min，所以斜率为 `(0.60−0.92)/(5−4) = −0.32 L/min/s`。基准线差值是**当前斜率减去基准线斜率**。
 
-换句话说，`需要复核` 这样的输出，并不是在表最末尾突然贴上的一句话。只有前面的列已经把 `比较什么` 和 `什么地方偏离平常` 整理清楚，最后那一列输出才能被解释。所以，样本、特征、基准线、输出结构即使都放在同一张表里，也不是彼此独立的清单，而是一条从前往后串起来的设计流。
+- 按显示值阅读：`−0.32−(−0.05) = −0.27 L/min/s`。
+- 四舍五入前的计算：`−0.32−(−0.046666…) = −0.273333… L/min/s`。
+- 解释：两个斜率都表示下降，但 R1 比平常基准下降得更陡，差约 0.27 L/min/s。这不表示流量本身为负数。
+
+应用虚构复核规则 `baseline_gap <= −0.20 L/min/s`，R1、R3 得到 `review`，R2 得到 `no_flag`。恰好 −0.20 也包含在内，因此 −0.21、−0.20、−0.19 中只有前两个符合规则。`no_flag` 只表示没有触发该规则，不表示确认正常，也不是无故障标签。
+
+`sample_id` 标识对象，`mean_flow`、`late_drop_rate` 是对象特征，`baseline_gap` 是比较结果，`output` 是复核规则的结果。改变阈值不会改变观测值、斜率或基准线差值，而是改变人根据同一组数字优先检查什么的策略。本节通过角色表和计算区分这些概念，斜率在时间轴上的形状可结合前一节图表阅读。
 
 ## 样本、特征、基准线与输出的连接 {#_1}
 
@@ -56,7 +63,7 @@
 
 问题情境：确认把一次动作当作一条样本之后，如何写入特征、和平常基准线比较，并最终生成运营输出。
 
-输入(input)：同时包含 `baseline` 区段和 `recent` 区段的逐时刻流量日志 [p3_2_2_event_flow_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv){ .csv-preview }，以及决定是否送去复核的候选阈值 `review_gap_thresholds`
+输入(input)：同时包含 `baseline` 区段和 `recent` 区段的逐时刻流量日志 [p3_2_2_event_flow_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv)，以及决定是否送去复核的候选阈值 `review_gap_thresholds`
 
 输入文件的一行表示某个样本在特定秒(`second`)测得的流量(`flow`)。`sample_id` 指向一次动作，`period` 区分这个样本属于用来建立平常参考的 `baseline` 区段，还是属于要被比较的 `recent` 区段。
 
@@ -64,8 +71,10 @@
 
 要确认的概念：输出结构和基准线不是事先写好的结果列，而是在原始日志按样本单位重组、计算特征、区分 period 角色之后生成的。用多个输出标准比较，才能看出运营判断对阈值有多敏感。
 
+该 CSV 中每次动作都以 1 秒间隔测量且无缺失，并假定基准动作与近期动作的运行条件相同。代码先检查时间间隔，再把最后两个流量值之差作为每秒斜率。CSV 本身不含验证运行条件一致的资料，实际数据还需另行确认。
+
 ```python
-# 这个例子检查数据集候选中样本、特征、标签和基准列的作用。
+# 区分样本特征、基准线差值和复核规则结果；这里没有实际故障标签。
 import pandas as pd
 
 pd.set_option("display.max_columns", None)
@@ -76,6 +85,10 @@ selected_review_gap_threshold = -0.20
 review_gap_thresholds = [-0.36, selected_review_gap_threshold, 0.0]
 
 event_log = pd.read_csv(event_log_path)
+event_log = event_log.sort_values(["sample_id", "second"])
+intervals = event_log.groupby("sample_id")["second"].diff().dropna()
+if not intervals.eq(1).all():
+    raise ValueError("This example requires 1-second observation intervals.")
 
 print("1) raw input shape and first rows")
 print("shape:", event_log.shape)
@@ -132,22 +145,22 @@ threshold_results = []
 for threshold in review_gap_thresholds:
     output_table = comparison_table.copy()
     output_table["output"] = output_table["baseline_gap"].apply(
-        lambda gap: "needs review" if gap <= threshold else "normal range"
+        lambda gap: "review" if gap <= threshold else "no_flag"
     )
     if threshold == selected_review_gap_threshold:
         selected_output_table = output_table.copy()
     threshold_results.append(
         {
             "review_gap_threshold": threshold,
-            "review_count": int((output_table["output"] == "needs review").sum()),
+            "review_count": int((output_table["output"] == "review").sum()),
             "review_samples": ",".join(
-                output_table.loc[output_table["output"] == "needs review", "sample_id"]
+                output_table.loc[output_table["output"] == "review", "sample_id"]
             )
             or "none",
         }
     )
 
-print("6) final output structure when review_gap_threshold = -0.20")
+print(f"6) final output structure when review_gap_threshold = {selected_review_gap_threshold:.2f}")
 print(selected_output_table.round(2))
 print()
 print("7) threshold sensitivity")
@@ -195,10 +208,10 @@ shape: (36, 4)
 5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35
 
 6) final output structure when review_gap_threshold = -0.20
-  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap        output
-3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27  needs review
-4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  normal range
-5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35  needs review
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap   output
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27   review
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  no_flag
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35   review
 
 7) threshold sensitivity
    review_gap_threshold  review_count review_samples
@@ -221,31 +234,27 @@ shape: (36, 4)
 
 这张表说明，`数据集候选` 并不是单纯指“列很多的表”，而是指同一行里放着 `样本`、`描述值`、`比较结果`、`结果形式`，并且这些部分彼此分工的结构。
 
-这里还要再固定一个重要差别。输出结构并不一定意味着 `已经有正确标签的训练数据`。`需要复核`、`正常范围` 这样的输出，看起来可能和 `yes/no` 这样的监督学习标签很像，但在实际里它们并不一定相同。
+`review` 和 `no_flag` 是本例规则产生的结果。若要把它们当作真实故障标签，还需要检查记录、故障判定标准等独立依据。这份 CSV 不包含这些依据。
 
-| 输出结构表示什么 | 在当前阶段应该怎么读 |
+| 区分 | 本例中能够确认的内容 |
 | --- | --- |
-| `需要复核`、`注意`、`正常范围` | 人要先检查的运营结果 |
-| `正常/异常` 这类固定标签 | 以后可以送进预测问题的目标标签候选 |
+| 规则结果 | 是否按设定的阈值选为待检查样本 |
+| 真实故障标签 | 是否通过独立检查确认了故障；仅凭当前 CSV 无法得知 |
 
-只要先把这个区分放好，后面再谈 `输出结构` 时，就不容易误解成 `标签已经完全做好了`。
+列的作用也会随用途改变。例如，后续模型可以把 `baseline_gap` 用作输入特征。这里为了理解计算过程，将原有特征、与基准线的比较结果、检查规则的结果分开说明。并不是所有数值列都承担相同的作用。
 
-把这条流程再压短一点，可以记成下面这个顺序。
-
-1. 先决定什么算一条样本。
-2. 留下描述这条样本的特征。
-3. 建立比较近期与平常状态的基准线。
-4. 决定人要读、或模型要接收的输出结构。
-
-这四个阶段在后面会分别展开成不同章节，但在实际里，它们是一条连续判断。所以无论读到哪一章，只要一起追问 `现在这段说明属于样本、特征、基准线、输出结构里的哪一步`，就不容易迷失。一旦抓住 `先定样本才有特征，先定特征才有比较结构，有了比较结构输出结构才会整理出来` 这层关系，就会更清楚：数据集候选不是某一个文件名，而是一张让这四种结构彼此咬合的设计表。从更宽一点的角度看，这一节建立的是一个最小契约：它整理了 `example 单位`、`描述变量`、`比较基准`、`结果形式` 在同一个数据问题里按什么顺序咬合。因此，数据集候选不该被读成 `列很多的表`，而该被读成：在同一个 example 里，描述值、比较基准、结果形式各自分工的结构。
+确定样本、选择描述值、设定比较基准与输出规则之后，请把一行数据追溯到原始记录。如果能用 R1 的两个测量值计算斜率，再结合由 B1、B2、B3 得出的基准斜率和复核阈值，重现差值与 `review` 结果，就读懂了本例的结构。
 
 ## 检查清单
 
-- 你是否在表中指出了样本、特征、标签和基准线各自的作用？
-- 你是否区分了本例的比较结构与数据集也可以没有标签这一事实？
+- 能否解释测量值或运行模式等原始值也可以作为特征？
+- 能否从 CSV 找到 R1 第 4、5 秒的值，算出斜率 −0.32，再减去基准斜率重现差值？
+- 能否说明 −0.32−(−0.05) 为何是负数，以及其单位表示什么？
+- 是否检查了 −0.21、−0.20、−0.19 中哪些值被复核规则包含？
+- 能否区分只改变阈值时哪些列改变、哪些列保持不变，并避免把 `review` 当作实际故障标签？
 
 ## 来源与参考资料
 
 - Google for Developers, `Machine Learning Glossary` 中的 `example`、`labeled example`、`feature`、`label`。它分开说明 feature 和 label 在一个 example 里的角色，因此支持本节把样本、特征、基准线、输出结构读成同一张表里的分工结构。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“比较用参考区段”的一般概念，因此强化了本节的说明：当前样本的值只有在和基准线比较之后，才真正产生意义。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“比较用参考区段”的一般概念，因此补充了本例中用参考值理解相对平时变化的说明。这并不意味着所有特征都必须与基准线比较才有意义。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - W3C, `PROV-Overview`. 它说明 derivation 和 activity context 应当一起保留，因此强化了本节的上位框架：输出结构是前面的样本设定、特征计算、基准线比较之后才生成的结果。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

@@ -1,0 +1,646 @@
+{
+  "source_job": "2026-09-27_22-28-43-78d4c5bc",
+  "copied_date": "2026-09-28",
+  "source_request_sha256": "889ee73a59af042cee62c52a8b468bf12de1f28aa136b1ae2e0d0a86d1f1a719",
+  "request_settings": {
+    "motion": "walking-v13",
+    "character": "character-default",
+    "source": "anny",
+    "start_frame": 8,
+    "end_frame": 29,
+    "source_frames_per_direction": 60,
+    "selected_frame_numbers": [
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+    ],
+    "fps": 4,
+    "source_fps": 4,
+    "speed": 4,
+    "sampling": "target-fps",
+    "resolution": 512,
+    "steps": 4,
+    "motion_manifest_sha256": "8eac2b24fc54a77a95fad8288c946d4b2f1edaf2396e89ebb8e0df40cd6cb206",
+    "character_manifest_sha256": "83e43d0c19407b1e8ec924113fc3f9e659b03045f3ab91f1af639af815845b2e"
+  },
+  "runtime": {
+    "model_id": "Qwen/Qwen-Image-Edit-2511",
+    "revision": "6f3ccc0b56e431dc6a0c2b2039706d7d26f22cb9",
+    "seed": 10107,
+    "true_cfg_scale": 1.0,
+    "guidance_scale": 1.0,
+    "dtype": "bfloat16",
+    "execution_device": "cuda",
+    "weight_offload": "sequential_cpu_offload",
+    "torch_version": "2.11.0+cu128",
+    "diffusers_version": "0.37.0",
+    "reference_vae_size": [
+      512,
+      512
+    ],
+    "reference_condition_size": [
+      384,
+      384
+    ],
+    "execution_preset": "anypose-lightning-v1",
+    "adapters": [
+      {
+        "name": "anypose_base",
+        "repository": "lilylilith/AnyPose",
+        "revision": "27c4b1f7688940d39767e652fe8d87faf44a0881",
+        "filename": "2511-AnyPose-base-000006250.safetensors",
+        "sha256": "0396314e43b94f7520cf5242e6aa6e8e9095d784f7e87ee45980c2e541ee8c4d",
+        "size": 295146208,
+        "strength": 0.7,
+        "path": "/home/cbsim/ws/slime-workflow/.model/qwen-anypose/lilylilith--AnyPose/27c4b1f7688940d39767e652fe8d87faf44a0881/2511-AnyPose-base-000006250.safetensors"
+      },
+      {
+        "name": "anypose_helper",
+        "repository": "lilylilith/AnyPose",
+        "revision": "27c4b1f7688940d39767e652fe8d87faf44a0881",
+        "filename": "2511-AnyPose-helper-00006000.safetensors",
+        "sha256": "674340c62fff3cf981d0cfc55daf2f0e6f51c56b50159e241d931748200cf1eb",
+        "size": 295146216,
+        "strength": 0.7,
+        "path": "/home/cbsim/ws/slime-workflow/.model/qwen-anypose/lilylilith--AnyPose/27c4b1f7688940d39767e652fe8d87faf44a0881/2511-AnyPose-helper-00006000.safetensors"
+      },
+      {
+        "name": "lightning",
+        "repository": "lightx2v/Qwen-Image-Edit-2511-Lightning",
+        "revision": "d74eba145674fd7e31b949324e148e21e7118abd",
+        "filename": "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+        "sha256": "22226e8d05d354bb356627d428809f5afd7819399b077238a2b70a82883a904f",
+        "size": 849608296,
+        "strength": 1.0,
+        "path": "/home/cbsim/ws/slime-workflow/.model/qwen-anypose/lightx2v--Qwen-Image-Edit-2511-Lightning/d74eba145674fd7e31b949324e148e21e7118abd/Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "direction": "down_left",
+      "frame": 8,
+      "elapsed_seconds": 179.55,
+      "seed": 10107,
+      "prompt_sha256": "d2cad4e36867f06de4e74df884e212891ea6b74e63b7c8754fc07e6842a7f212"
+    },
+    {
+      "direction": "down_left",
+      "frame": 12,
+      "elapsed_seconds": 276.59,
+      "seed": 10107,
+      "prompt_sha256": "d2cad4e36867f06de4e74df884e212891ea6b74e63b7c8754fc07e6842a7f212"
+    },
+    {
+      "direction": "down_left",
+      "frame": 16,
+      "elapsed_seconds": 272.58,
+      "seed": 10107,
+      "prompt_sha256": "d2cad4e36867f06de4e74df884e212891ea6b74e63b7c8754fc07e6842a7f212"
+    },
+    {
+      "direction": "down_left",
+      "frame": 20,
+      "elapsed_seconds": 128.8,
+      "seed": 10107,
+      "prompt_sha256": "d2cad4e36867f06de4e74df884e212891ea6b74e63b7c8754fc07e6842a7f212"
+    },
+    {
+      "direction": "down_left",
+      "frame": 24,
+      "elapsed_seconds": 111.88,
+      "seed": 10107,
+      "prompt_sha256": "d2cad4e36867f06de4e74df884e212891ea6b74e63b7c8754fc07e6842a7f212"
+    },
+    {
+      "direction": "down_left",
+      "frame": 28,
+      "elapsed_seconds": 249.73,
+      "seed": 10107,
+      "prompt_sha256": "d2cad4e36867f06de4e74df884e212891ea6b74e63b7c8754fc07e6842a7f212"
+    },
+    {
+      "direction": "down_right",
+      "frame": 8,
+      "elapsed_seconds": 254.85,
+      "seed": 10107,
+      "prompt_sha256": "497c31f6fbc2ed26336f4f7164ebb0a8347a955a6f7c9ad6eafb915a64c31176"
+    },
+    {
+      "direction": "down_right",
+      "frame": 12,
+      "elapsed_seconds": 314.46,
+      "seed": 10107,
+      "prompt_sha256": "497c31f6fbc2ed26336f4f7164ebb0a8347a955a6f7c9ad6eafb915a64c31176"
+    },
+    {
+      "direction": "down_right",
+      "frame": 16,
+      "elapsed_seconds": 304.6,
+      "seed": 10107,
+      "prompt_sha256": "497c31f6fbc2ed26336f4f7164ebb0a8347a955a6f7c9ad6eafb915a64c31176"
+    },
+    {
+      "direction": "down_right",
+      "frame": 20,
+      "elapsed_seconds": 294.97,
+      "seed": 10107,
+      "prompt_sha256": "497c31f6fbc2ed26336f4f7164ebb0a8347a955a6f7c9ad6eafb915a64c31176"
+    },
+    {
+      "direction": "down_right",
+      "frame": 24,
+      "elapsed_seconds": 282.38,
+      "seed": 10107,
+      "prompt_sha256": "497c31f6fbc2ed26336f4f7164ebb0a8347a955a6f7c9ad6eafb915a64c31176"
+    },
+    {
+      "direction": "down_right",
+      "frame": 28,
+      "elapsed_seconds": 123.96,
+      "seed": 10107,
+      "prompt_sha256": "497c31f6fbc2ed26336f4f7164ebb0a8347a955a6f7c9ad6eafb915a64c31176"
+    },
+    {
+      "direction": "up_left",
+      "frame": 8,
+      "elapsed_seconds": 273.87,
+      "seed": 10107,
+      "prompt_sha256": "4bd372af8d45a6a32974e600183704dda5fdccc80c0cc5e68a6dda8a4b261c0d"
+    },
+    {
+      "direction": "up_left",
+      "frame": 12,
+      "elapsed_seconds": 118.93,
+      "seed": 10107,
+      "prompt_sha256": "4bd372af8d45a6a32974e600183704dda5fdccc80c0cc5e68a6dda8a4b261c0d"
+    },
+    {
+      "direction": "up_left",
+      "frame": 16,
+      "elapsed_seconds": 234.28,
+      "seed": 10107,
+      "prompt_sha256": "4bd372af8d45a6a32974e600183704dda5fdccc80c0cc5e68a6dda8a4b261c0d"
+    },
+    {
+      "direction": "up_left",
+      "frame": 20,
+      "elapsed_seconds": 259.58,
+      "seed": 10107,
+      "prompt_sha256": "4bd372af8d45a6a32974e600183704dda5fdccc80c0cc5e68a6dda8a4b261c0d"
+    },
+    {
+      "direction": "up_left",
+      "frame": 24,
+      "elapsed_seconds": 289.1,
+      "seed": 10107,
+      "prompt_sha256": "4bd372af8d45a6a32974e600183704dda5fdccc80c0cc5e68a6dda8a4b261c0d"
+    },
+    {
+      "direction": "up_left",
+      "frame": 28,
+      "elapsed_seconds": 193.79,
+      "seed": 10107,
+      "prompt_sha256": "4bd372af8d45a6a32974e600183704dda5fdccc80c0cc5e68a6dda8a4b261c0d"
+    },
+    {
+      "direction": "up_right",
+      "frame": 8,
+      "elapsed_seconds": 184.86,
+      "seed": 10107,
+      "prompt_sha256": "e058300e6e00735ed7c7310677289e34fa494dc9eb0a17729399d5b8c607952d"
+    },
+    {
+      "direction": "up_right",
+      "frame": 12,
+      "elapsed_seconds": 250.73,
+      "seed": 10107,
+      "prompt_sha256": "e058300e6e00735ed7c7310677289e34fa494dc9eb0a17729399d5b8c607952d"
+    },
+    {
+      "direction": "up_right",
+      "frame": 16,
+      "elapsed_seconds": 191.57,
+      "seed": 10107,
+      "prompt_sha256": "e058300e6e00735ed7c7310677289e34fa494dc9eb0a17729399d5b8c607952d"
+    },
+    {
+      "direction": "up_right",
+      "frame": 20,
+      "elapsed_seconds": 181.62,
+      "seed": 10107,
+      "prompt_sha256": "e058300e6e00735ed7c7310677289e34fa494dc9eb0a17729399d5b8c607952d"
+    },
+    {
+      "direction": "up_right",
+      "frame": 24,
+      "elapsed_seconds": 182.38,
+      "seed": 10107,
+      "prompt_sha256": "e058300e6e00735ed7c7310677289e34fa494dc9eb0a17729399d5b8c607952d"
+    },
+    {
+      "direction": "up_right",
+      "frame": 28,
+      "elapsed_seconds": 173.72,
+      "seed": 10107,
+      "prompt_sha256": "e058300e6e00735ed7c7310677289e34fa494dc9eb0a17729399d5b8c607952d"
+    }
+  ],
+  "frame_elapsed_seconds_sum": 5328.78,
+  "scope": "Existing image-edit outputs copied; no new inference. GIFs are book-derived previews; completion does not mean approved animation quality.",
+  "files": [
+    {
+      "file": "result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/result.json",
+      "sha256": "e7b8a944cd8a53d78776094abc7cdce5ff0c946c1dca26b82921430c6b74381b"
+    },
+    {
+      "file": "status.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/status.json",
+      "sha256": "873da5b43d47fd04cbe960e8a4a50364854278bd5450c802db6edbb85355b525"
+    },
+    {
+      "file": "references/down_left.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0008/character-reference.png",
+      "sha256": "2385964adcc926fc68473e986c03f8c5a43b2630702c789f87846e8a0053c25b"
+    },
+    {
+      "file": "down_left/frame-0008/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0008/result.png",
+      "sha256": "392b760b90528b957fd117d9cff7df122814fb3d28f98212420902210163383e"
+    },
+    {
+      "file": "down_left/frame-0008/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0008/pose-reference.png",
+      "sha256": "b7d4559191ac7760b2c51d94caf93710ab8c233810446d5489ba59f87e09225c"
+    },
+    {
+      "file": "down_left/frame-0008/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0008/result.json",
+      "sha256": "bcb362997811fe8516d92e8eb0029b3580e8631fc638dc7581ed0b3bf94c1bb6"
+    },
+    {
+      "file": "down_left/frame-0012/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0012/result.png",
+      "sha256": "1139101718c4188f0765b93c0492c17151fdfb4d983a7f842a9ac7bb485161bc"
+    },
+    {
+      "file": "down_left/frame-0012/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0012/pose-reference.png",
+      "sha256": "9d5b30ab4134e28ed96183c0621c036a46e80c2a20a1d0d47dff3360860ee85c"
+    },
+    {
+      "file": "down_left/frame-0012/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0012/result.json",
+      "sha256": "3f93cf35456db7f082a76139eac38caa9c9e956d4f42c14d13b6ca4871cc1553"
+    },
+    {
+      "file": "down_left/frame-0016/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0016/result.png",
+      "sha256": "225a373c5b77304e9df80a791c4cb7582e45e27670770b47f0c1b8cdb9f23769"
+    },
+    {
+      "file": "down_left/frame-0016/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0016/pose-reference.png",
+      "sha256": "cabad327e43bfcba9f0b9b2088e1b3a095b6bdfa046851562233b01106006983"
+    },
+    {
+      "file": "down_left/frame-0016/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0016/result.json",
+      "sha256": "be59c1d36db234760f6bd18467192201ace84735de8607279076cc95c3a2bfbb"
+    },
+    {
+      "file": "down_left/frame-0020/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0020/result.png",
+      "sha256": "bc9da9393c43d1072162abb30316a20d98f5cb3b6bbd25e2117e2b6b84e691b0"
+    },
+    {
+      "file": "down_left/frame-0020/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0020/pose-reference.png",
+      "sha256": "27152fb5198d8d6dba53c36754e79a497a133718dcd87e1f125049c11e46803c"
+    },
+    {
+      "file": "down_left/frame-0020/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0020/result.json",
+      "sha256": "dbd932f21cb4ea4f1bafdb9976e263836fefd25d70db490db7c9532904f51837"
+    },
+    {
+      "file": "down_left/frame-0024/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0024/result.png",
+      "sha256": "ef7fd0bc893d75d8fa02d54633839662facd03c7bd98ca080f2809a1a6522506"
+    },
+    {
+      "file": "down_left/frame-0024/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0024/pose-reference.png",
+      "sha256": "71bb5ba751fe30a598b8f16096804b685113b201cc2e4d23e4beded52f7040ac"
+    },
+    {
+      "file": "down_left/frame-0024/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0024/result.json",
+      "sha256": "8936a8f4d530ab23ca826ab019d524f14815310be3078c7b464c8710b634f1ac"
+    },
+    {
+      "file": "down_left/frame-0028/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0028/result.png",
+      "sha256": "02099eb240e5d71c0ed437fbe1f8e112b08a1c83bca46ded97008e084dafa323"
+    },
+    {
+      "file": "down_left/frame-0028/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0028/pose-reference.png",
+      "sha256": "4950ec758d662d09f89ea5739eee7411a9ae4a5cb24705b7f9697f570346f728"
+    },
+    {
+      "file": "down_left/frame-0028/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_left/frame-0028/result.json",
+      "sha256": "52f21fa652f2888c0ae28108613f5194179a8abbcfc89246abefce6cdfe7c6b2"
+    },
+    {
+      "file": "references/down_right.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0008/character-reference.png",
+      "sha256": "1735425453606746628f005b5ea7130059e44050d76df6a1d4cf345f3de37e44"
+    },
+    {
+      "file": "down_right/frame-0008/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0008/result.png",
+      "sha256": "9cba98f14c901e005d6afe4e4e780af64e98d58a00dfa048d2e45770dc0ddcfc"
+    },
+    {
+      "file": "down_right/frame-0008/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0008/pose-reference.png",
+      "sha256": "26463b37b6562a8748554c00903f8f575ef9b0e818c805decfed21dc2beaf5e4"
+    },
+    {
+      "file": "down_right/frame-0008/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0008/result.json",
+      "sha256": "1e3b2f9263f4eda37f2c598d97ac378383a9f134cbf8cd27ebf6f8a38a45e045"
+    },
+    {
+      "file": "down_right/frame-0012/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0012/result.png",
+      "sha256": "24f11ab761f447ae55786e50e181ed13c08f81b6f3082c40b19f9922c4016caf"
+    },
+    {
+      "file": "down_right/frame-0012/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0012/pose-reference.png",
+      "sha256": "d820ee5701293cc0afb4fbc19b7cc95a0a71c1e72ed1f89098efc131afaff016"
+    },
+    {
+      "file": "down_right/frame-0012/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0012/result.json",
+      "sha256": "2ea82a5a36991865e53287ed07529b848e3f064e430b44c49542919953d5217d"
+    },
+    {
+      "file": "down_right/frame-0016/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0016/result.png",
+      "sha256": "c5552993d749e75239f263063f9ac247be914f578fc578cabd3410fd328a35c9"
+    },
+    {
+      "file": "down_right/frame-0016/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0016/pose-reference.png",
+      "sha256": "e318f0cbf564b5b682eca3f774527920a0ee5776100a1b0edc66b2d4404fee86"
+    },
+    {
+      "file": "down_right/frame-0016/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0016/result.json",
+      "sha256": "fd3c858d1a03b055a15a635fabe19bc9a40d77f4c1ea596a8c20b1ad21cb1f7f"
+    },
+    {
+      "file": "down_right/frame-0020/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0020/result.png",
+      "sha256": "48de541651ff9ec38b9e506e5d950044edfdf8372ac302e3a4a9f798e1c3e501"
+    },
+    {
+      "file": "down_right/frame-0020/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0020/pose-reference.png",
+      "sha256": "5871551f5b12fc84f0ddb1fd8aa9e930c7ee7dce0ac61f7db5b9aa1a39dd191d"
+    },
+    {
+      "file": "down_right/frame-0020/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0020/result.json",
+      "sha256": "d8e3319d5ebce126edd919a13124f143a40173727831314f95ae2e39868b1f49"
+    },
+    {
+      "file": "down_right/frame-0024/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0024/result.png",
+      "sha256": "974520eaf738d10aed8bde592f0db6a898a247f3300a5a162711ea1a17deff08"
+    },
+    {
+      "file": "down_right/frame-0024/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0024/pose-reference.png",
+      "sha256": "97ee795b570f092a40d719923fcc68373f90f50fb00930564af4788e943ba8f7"
+    },
+    {
+      "file": "down_right/frame-0024/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0024/result.json",
+      "sha256": "b4d159d6062b4eafc337d8efbfe531ff2e5f7f1f896c93e374fd913e19b2bc92"
+    },
+    {
+      "file": "down_right/frame-0028/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0028/result.png",
+      "sha256": "d86146dede640d4b1fc4138319016eb87abc27901808059a14ca3d216dfbdb3c"
+    },
+    {
+      "file": "down_right/frame-0028/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0028/pose-reference.png",
+      "sha256": "1be6bf423f868a44bf99ac4ae9bd66775ce0730f364735105bff536d8cf80c76"
+    },
+    {
+      "file": "down_right/frame-0028/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/down_right/frame-0028/result.json",
+      "sha256": "f2a372fb75e6534dae1b442347dae6e983e206f2336257b3015ac280a12599f3"
+    },
+    {
+      "file": "references/up_left.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0008/character-reference.png",
+      "sha256": "a9e28c979a2ae26738af5cd1a9047c77c77b0f878b096cd16cb9c695e932e569"
+    },
+    {
+      "file": "up_left/frame-0008/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0008/result.png",
+      "sha256": "6b54402519dfa4784b4862cb76b54e51ceede75900a615714713c1f88e3451da"
+    },
+    {
+      "file": "up_left/frame-0008/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0008/pose-reference.png",
+      "sha256": "3078f9dd11f48793e05d837e08a96f24383402e8a4a7c52efada1c74324c89bb"
+    },
+    {
+      "file": "up_left/frame-0008/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0008/result.json",
+      "sha256": "e707a0af2857c40d69504b03212a52a009014eba2473b676c0d9e7a04872c990"
+    },
+    {
+      "file": "up_left/frame-0012/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0012/result.png",
+      "sha256": "2795bfa33ee81ee07ccfd347b2f987555bd1f95bcc482f32e65494a135497f8c"
+    },
+    {
+      "file": "up_left/frame-0012/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0012/pose-reference.png",
+      "sha256": "8c515f20d03167695312c2b87a6396fd416634bfbc50f5d18d93b063fa19fe6f"
+    },
+    {
+      "file": "up_left/frame-0012/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0012/result.json",
+      "sha256": "e4ad07da9ce32b20464775aede3ff2d9f380dddff8c8481074517b0fc5fb3758"
+    },
+    {
+      "file": "up_left/frame-0016/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0016/result.png",
+      "sha256": "9e3ee5d4989d075f8bc26915ec6668465fd9364865398a502a15450c26794009"
+    },
+    {
+      "file": "up_left/frame-0016/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0016/pose-reference.png",
+      "sha256": "12b5e8d16327b255b072037bca8f70838bcde9ca263387daa367336f5e63dd14"
+    },
+    {
+      "file": "up_left/frame-0016/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0016/result.json",
+      "sha256": "11dd3f448c427c068c52eb12b7998ab00286825c1208beff4e01fbfcdea95f45"
+    },
+    {
+      "file": "up_left/frame-0020/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0020/result.png",
+      "sha256": "0cf163880b3108f9bd2b40673d0471f0b5015a50f255a7e2ffd407dd3bb90d90"
+    },
+    {
+      "file": "up_left/frame-0020/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0020/pose-reference.png",
+      "sha256": "b2b2e2ce94ef9aee2b74b1ae82bcce29b05fb454644b2815b047e2892ac055a6"
+    },
+    {
+      "file": "up_left/frame-0020/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0020/result.json",
+      "sha256": "cfd34311dd1f2b05082e7678b8e7b258d7bae9e81ad375e4ee32cf5148eab4aa"
+    },
+    {
+      "file": "up_left/frame-0024/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0024/result.png",
+      "sha256": "5fc637106ffdfd3e559fe551ecdfd080d494f037f63fe0f8c5e8f5df94b2421c"
+    },
+    {
+      "file": "up_left/frame-0024/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0024/pose-reference.png",
+      "sha256": "3c08a4df6870c1cc1cbb696f49072ed62cbdbc28e2d3651cb81ad34d553c918d"
+    },
+    {
+      "file": "up_left/frame-0024/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0024/result.json",
+      "sha256": "62f3d5e468ef5317b1f2efa3f22c16d1920f451523592ac4d1456e9640ed624c"
+    },
+    {
+      "file": "up_left/frame-0028/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0028/result.png",
+      "sha256": "e33cb6e506ac80f2f4bbb2efc3e0fc7e4e993a3ce612d0b1437f80f2131a024e"
+    },
+    {
+      "file": "up_left/frame-0028/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0028/pose-reference.png",
+      "sha256": "bc60ffef12ff6d13e73e9d19d9bf16de68707eacdcce183b6642009706670dc4"
+    },
+    {
+      "file": "up_left/frame-0028/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_left/frame-0028/result.json",
+      "sha256": "55ef918035f5922a016b4dc3cc2a433335a3c137b2d06a5367b370c57d0b8969"
+    },
+    {
+      "file": "references/up_right.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0008/character-reference.png",
+      "sha256": "8f500b512818eb2ce1f0b2e1cfb0c52431b41ad371a0a4ff384c11de8808f09f"
+    },
+    {
+      "file": "up_right/frame-0008/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0008/result.png",
+      "sha256": "1cc7821315d995b0a4a499abb8937b40ff72dfff6a5032af38019ce5f16106e0"
+    },
+    {
+      "file": "up_right/frame-0008/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0008/pose-reference.png",
+      "sha256": "c7d46f3f45ed1c231b69e416bc0e0fd7d705e5e02310470b8a1daf4e524be91b"
+    },
+    {
+      "file": "up_right/frame-0008/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0008/result.json",
+      "sha256": "f76ad4a3007bfdd74bd465ca38d436292db645457fa6858c058c70e6a33242e9"
+    },
+    {
+      "file": "up_right/frame-0012/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0012/result.png",
+      "sha256": "fd98a485692df53484e9e1442d9577c4d308742b4021a4e7406a782658ce555d"
+    },
+    {
+      "file": "up_right/frame-0012/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0012/pose-reference.png",
+      "sha256": "7d14494a5d3d5e339a67a7e0b17d60fb4a9d1541b3ce2bc482f32493d0219528"
+    },
+    {
+      "file": "up_right/frame-0012/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0012/result.json",
+      "sha256": "ae5e54fdb3370a5b2c0ff828388286ce14bd8abd277471d286f455e76603931a"
+    },
+    {
+      "file": "up_right/frame-0016/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0016/result.png",
+      "sha256": "819fd248bfacd05645236548aa13ca186f36376935819678abf0cbe8a6b8ecb1"
+    },
+    {
+      "file": "up_right/frame-0016/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0016/pose-reference.png",
+      "sha256": "63685f21a81bb0f36408e598d38c7f4705e1f6f11b2eb606eee2fa09dabd82eb"
+    },
+    {
+      "file": "up_right/frame-0016/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0016/result.json",
+      "sha256": "27b8a5087298596083e9e7e4f8cc831a85cb0483b57cf5d715f5529c7a55a199"
+    },
+    {
+      "file": "up_right/frame-0020/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0020/result.png",
+      "sha256": "a869e964dd714b2a689f0e878a54b1fd12d50afd1310249de076359fa1a2a514"
+    },
+    {
+      "file": "up_right/frame-0020/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0020/pose-reference.png",
+      "sha256": "724c5fdab5d1144fe57c1c0db9fad287c0a0a35049dff44b258477cc1d06ecae"
+    },
+    {
+      "file": "up_right/frame-0020/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0020/result.json",
+      "sha256": "16f41dd990ff7c0802cfdb205829cde23b1e9d43f4d4396a843db3299a9a5da8"
+    },
+    {
+      "file": "up_right/frame-0024/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0024/result.png",
+      "sha256": "159e7412ac7a3eb37862addd681449fe9975ff67e887037737386c0e08b1318f"
+    },
+    {
+      "file": "up_right/frame-0024/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0024/pose-reference.png",
+      "sha256": "d9cad2c730025d11dd0b2dd72e722b7d3834f3605bf8e05938bcdab432b6975e"
+    },
+    {
+      "file": "up_right/frame-0024/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0024/result.json",
+      "sha256": "8f132a4ae8830c0c709e6d459b47c58dcd2b847a7f2a54cc922b19cf06452823"
+    },
+    {
+      "file": "up_right/frame-0028/result.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0028/result.png",
+      "sha256": "ae31f45bf537fd4c4fff28ea019ea5c37ea7929056b84250e02c55c290f5ef32"
+    },
+    {
+      "file": "up_right/frame-0028/pose-reference.png",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0028/pose-reference.png",
+      "sha256": "279d510561d632a708d82cb93dcfe828847e8081caa43b3827cfb91b62bbc3e0"
+    },
+    {
+      "file": "up_right/frame-0028/result.json",
+      "source": "/home/cbsim/ws/slime-workflow/.tmp/test/character-animation/2026-09-27_22-28-43/2026-09-27_22-28-43-78d4c5bc/up_right/frame-0028/result.json",
+      "sha256": "d5ab15e5116ed5aa7265460bae3793b9e5a70e06d85b92ddf6da439e05bb3097"
+    }
+  ]
+}

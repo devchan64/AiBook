@@ -1,5 +1,5 @@
 flowchart TD
-    A[Sample with missing values or segments] --> B{Can its start and end be established?}
+    A[Sample with missing observations or segment means] --> B{Can its start and end be established?}
     B -->|No| C[Recheck raw logs<br/>Hold the current sample]
     B -->|Yes| D[Record affected features and missingness scope]
     D --> E{Does the remaining information support this comparison?}

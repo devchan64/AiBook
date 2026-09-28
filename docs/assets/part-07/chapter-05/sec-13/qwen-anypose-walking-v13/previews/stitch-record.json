@@ -1,0 +1,57 @@
+{
+  "fps": 4,
+  "duration_ms": 250,
+  "interpolation": false,
+  "loop": 0,
+  "outputs": {
+    "down_left.gif": {
+      "source_files": [
+        "down_left/frame-0008/result.png",
+        "down_left/frame-0012/result.png",
+        "down_left/frame-0016/result.png",
+        "down_left/frame-0020/result.png",
+        "down_left/frame-0024/result.png",
+        "down_left/frame-0028/result.png"
+      ],
+      "frames": 6,
+      "sha256": "073093be6d6b5d1ac0aa4b9d47eb660a6e74aefb83dfaef0be356993f479fe72"
+    },
+    "down_right.gif": {
+      "source_files": [
+        "down_right/frame-0008/result.png",
+        "down_right/frame-0012/result.png",
+        "down_right/frame-0016/result.png",
+        "down_right/frame-0020/result.png",
+        "down_right/frame-0024/result.png",
+        "down_right/frame-0028/result.png"
+      ],
+      "frames": 6,
+      "sha256": "8e701b24b9ac5284bd155f60a2f4f0a2dd2e7db15fa2846f7c96d4ac7df76a4b"
+    },
+    "up_left.gif": {
+      "source_files": [
+        "up_left/frame-0008/result.png",
+        "up_left/frame-0012/result.png",
+        "up_left/frame-0016/result.png",
+        "up_left/frame-0020/result.png",
+        "up_left/frame-0024/result.png",
+        "up_left/frame-0028/result.png"
+      ],
+      "frames": 6,
+      "sha256": "dee37ca8ef104538cd45deddee3a1cce0298767b81bc4b8d8512834cb2c7134b"
+    },
+    "up_right.gif": {
+      "source_files": [
+        "up_right/frame-0008/result.png",
+        "up_right/frame-0012/result.png",
+        "up_right/frame-0016/result.png",
+        "up_right/frame-0020/result.png",
+        "up_right/frame-0024/result.png",
+        "up_right/frame-0028/result.png"
+      ],
+      "frames": 6,
+      "sha256": "ef2cc4f4c85267d8fa85b4306dcfa447604a0e62087bf5f2dce1ca9d70a08f27"
+    }
+  },
+  "code_sha256": "cf0e28f15c63ea5e86ef891669ed206dfce98cc50fad99210b536019ac534b62"
+}

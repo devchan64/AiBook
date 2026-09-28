@@ -1,91 +1,89 @@
 # P3-1.3 How Should a Data Question Be Written So the Problem Structure Appears Before the Model
 
 > Section ID: `P3-1.3`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-A good [data question](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) should first reveal `what will count as one case`, `what will be compared with what`, and `what we ultimately want to know`. Only when this question structure is in place before model names or technology names do the later sample unit, table structure, features, baselines, and output structure also settle into place together. In particular, the question that selects what a person should inspect first should visibly lead to a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), while the question that defines what should later be predicted should lead to a target candidate. A bad question, by contrast, has a model name but leaves the sample unit and comparison reference empty.
+“Is the equipment abnormal?” does not identify which records to seek. It may mean a lower flow level or a rapid decline near the end of an operation. Making a [data question](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) concrete turns a broad concern into a sentence stating **what to check, for which subject, and when**.
 
-| Still too early a phrasing | A better data question |
-| --- | --- |
-| Let us build an anomaly-detection model | Has one recent execution become more unstable than the usual executions? |
-| Let us make it a classification problem | Which one execution should a person review first? |
-| Let us use time-series deep learning | Can we decide whether the raw time series should be read as one action input or as a bundle of recent segments? |
-| Let us improve accuracy | Have we distinguished whether the current result is a review candidate or a prediction label? |
+[P3-1.2](section-02.en.md) stopped calculation and revisited earlier decisions when the required interval was missing. Now put the subject, time, required records, and desired output into the question itself to distinguish what available data can answer. Not every question needs a historical baseline: comparing with usual behavior needs comparable conditions, while classifying a document needs categories and their criteria.
 
-This table matters not because the goal is to write `good-sounding questions`. It matters because once the question sentence changes, the sample, table, features, baselines, and output structure that come next change with it.
+## Turn “Abnormal” into an Observable Difference
 
-## Three things that must appear in the question sentence
+Assume the same fictional equipment runs from 0 to 2 seconds. Instead of attaching every condition at once, fill in what is missing one step at a time.
 
-At the front of Part 3, the data question does not have to be written in a highly complex form. It is enough to check first whether the following three things are visible.
-
-1. What will count as one case
-2. What do we want to know
-3. What is the comparison reference or the result format
-
-Condensed into a table, those three become the following.
-
-| Question element | Why it is needed |
-| --- | --- |
-| Sample unit | Because we have to decide what one row will mean |
-| Desired knowledge | Because it determines the direction in which features and comparison structure will be designed |
-| Comparison reference or result format | Because it determines whether we need a baseline, a review candidate, or a target-label candidate |
-
-For example, the sentence `Is recent behavior abnormal?` is still too broad. Once it is rewritten as `If one action is treated as one case, have the most recent 20 actions become shakier than the usual 200?`, the comparison unit and baseline structure finally start to become visible together.
-
-## How to rewrite the question into a better form
-
-At first, it is usually easier not to write the finished question in one attempt, but to revise an overly broad sentence step by step.
-
-| Initial thought | First revision | Second revision |
+| Revision of the question | What becomes explicit | What remains to decide |
 | --- | --- | --- |
-| I want to catch anomalies | I want to know which actions to inspect first | Treating one action as one sample, I want to select recent cases for people to review first |
-| I want to predict an outcome | I want to define the outcome to predict later | I want to see whether features available at action completion can predict failure within the next 7 days |
-| I want to try deep learning | I want to decide whether to retain the raw time series | I want to first choose between a summary vector for one action and the time series of that same action |
+| Is the equipment abnormal? | Interest in equipment condition | Which operation and which difference? |
+| Did flow decline near the end of one completed operation? | One operation and a late decline | Which interval is the end? |
+| After completion, can we check the flow slope from 1 to 2 seconds after operation start? | Assessment time and calculation interval | Is the question about decline itself or deviation from usual behavior? |
+| After completion, can we compare the 1–2-second decline with past operations under matching conditions and flag review? | Subject, timing, interval, comparison conditions, and output form | Are matching historical records and a review rule actually available? |
 
-So rewriting the question is not a matter of polishing the sentence. It is the work of revealing the problem structure step by step.
+In the third question, “after completion” is when the answer is assessed; “1–2 seconds” is the interval read relative to operation start. Separate them to identify when information is used and which records it covers.
 
-## Good questions and questions that are still too early
+A-101 in [P3-1.1](section-01.en.md) had a 1–2-second slope of −1.2 L/min/s, steeper than the assumed baseline of 0.0 L/min/s. But that baseline and review threshold were illustrative assumptions. Without matching historical records, state “decline observed; difference from usual behavior not yet established.” A concrete question does not create the data needed to answer it.
 
-The comparison below shows a confusion that appears especially often in Part 3.
+We say “declined faster in a specified interval,” not “fluctuated more,” to identify the difference being observed. Dispersion around a mean calls for a separate question comparing standard deviations. Choose the metric for the question.
 
-| Question type | Why it is still too early, or why it is better |
-| --- | --- |
-| `Which model would improve accuracy?` | It is too early if there is not yet a label or sample unit |
-| `In this one execution, is the late-stage drop larger than in usual executions?` | It is better because the sample unit and comparison reference are visible |
-| `Would deep learning solve it?` | It is too broad because the input structure and target structure are empty |
-| `Can the raw time series be cut into action-level units and turned into comparable inputs?` | It immediately forces the sample unit and input structure to be decided |
+## Questions About Current Differences and Future Outcomes
 
-The important point here is not that a `good question` must always be short. It is that it must contain the clues required for the design that follows.
+Comparing a current state and predicting later failure require different outcome records, even when they begin with the same operations. Compare these questions.
+
+| Element | Observation and comparison | Future prediction |
+| --- | --- | --- |
+| Question | Did 1–2-second flow in a completed operation fall faster than usual under matching conditions? | From records available at completion, can we predict failure of that equipment within the next seven days? |
+| One case and assessment time | One operation, inspected after completion | One completed operation as the reference point, with prediction at completion |
+| Required inputs | Interval times and flows, operating conditions, comparison history | Sensor values and operating conditions available by completion |
+| Output | Slope difference, rule-based review decision, or insufficient information | Prediction of failure during the next seven days |
+| Additional evidence to check the answer | Matching baseline and explicit review rule | Failure definition, equipment ID, later failure times, and observation-completion records |
+
+Collecting operations for people to inspect first produces a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure). Inclusion is not an answer about future failure. Learning and evaluating prediction require linking actual subsequent outcomes.
+
+The previous example's six sensor rows allow slope calculation but not knowledge of the following seven days. If follow-up covers only two days after completion, the remaining five are still unknown. Keep observation incomplete rather than fill in no failure. Chapter 9 develops label and timing boundaries; here we mark records required by the question but currently absent.
 
 ## Making the Question Concrete with Samples, Comparisons, and Outputs {#a-small-diagram}
 
-The same scene can lead into a completely different Part 3 flow depending on how the question is written.
+Changing the question changes the meaning of a result row and its required columns. The same source records can produce these different outputs.
 
-| Question sentence | The next stage that follows immediately |
-| --- | --- |
-| Has one recent execution become shakier than usual? | Set the sample unit to one action and build a summary table |
-| Have the most recent 20 cases changed relative to the prior 200? | Build an aggregate table and a baseline-comparison structure |
-| Which actions should a person inspect first? | Build a review queue and output structure |
-| Can a candidate future result be defined? | Separate target candidates from the input feature table |
+| What we want to know | One result-table row | Information to retain |
+| --- | --- | --- |
+| Is this operation's late decline unusual? | One operation | Operation ID, conditions, interval, slope, baseline difference |
+| Do mean late slopes differ between the latest 20 and previous 200 operations? | One comparison of two operation groups | Each group's period, conditions, valid count, interval definition, means and difference |
+| Can daily operation be summarized with specified items? | One day | Aggregation start and end, operation count, missing count, chosen summaries |
+| Can failure within seven days of completion be learned? | One case anchored at operation completion | Historical inputs, equipment ID, later outcome, observation completeness |
 
-In other words, one question immediately determines the direction of the next Chapter.
-What matters in this example is not code execution but the correspondence itself. When the question changes, the table structure that comes next changes with it, so even with the same source data the next table the reader should imagine first also changes.
+The counts 20 and 200 are illustrative group sizes, not guarantees of sufficient data. Check for shared operations between groups and matching conditions and record coverage.
+
+The diagram summarizes question-to-table relationships. Choosing a table form does not establish that the necessary records actually exist.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-01/p3-1-3-mermaid-01-en.mmd"
 ```
 
-Rewrite `Is the machine abnormal?` by specifying one case, its reference, and the output. Assuming that completed actions from one machine are being compared, one answer is: `Treat each action as one case, compare its late-stage mean with past actions in the same operating mode, and flag candidates for human review.` This requires one row per action, operating mode, late-stage mean, a baseline, and a review flag. It does not ask for failure prediction, so the question alone does not supply future failure labels.
+Rewrite “Is the equipment abnormal?” as a per-operation comparison, then as “Summarize the day's overall operation at the end of each day.” A row in the first table is an operation; in the second, a day. If operating conditions vary within a day, decide whether to separate or combine them. Write the changed row unit and columns, not just revised wording.
 
-What changes if the question becomes `Summarize the entire day's operating state at the end of each day`? The first table has one row per action; the second output table has one row per day. The daily table also needs an action count and an aggregation period. Checking whether the row unit and required columns change with the question distinguishes a wording change from a design change.
+Comparing summarized versus raw time-series inputs for the same operation instead holds the operation ID, question, and observation interval fixed while changing representation. That differs from changing a per-operation question into a daily question.
+
+## Apply the Same Questions to One Document
+
+“Classify documents with AI” can become the following fictional question.
+
+> At receipt of a customer inquiry, can we read one document's title and body, assign `delivery`, `payment`, or `other` according to its main request, and route it to the responsible review list?
+
+The subject is one document, the time is receipt, inputs are title and body, and output is one of three categories. No historical flow mean or slope baseline is needed. Instead, specify how to classify a document containing both delivery and payment requests. A title-only record lacks the body this question requires; a reply added later by an agent is not an input available at receipt.
+
+Revise this document example yourself. If multiple categories are allowed per document, what changes in the output? It must hold multiple categories instead of one, and labeling criteria must change. More important than having a baseline is aligning the subject, timing, inputs, and outcomes with the current question.
 
 ## Checklist
 
-- Did you write a question specifying the sample unit, desired outcome, and comparison reference without naming a model?
-- Did you distinguish what stays fixed and what changes when comparing a summary vector with the time series of the same action?
+- Have you replaced “abnormal” or “fluctuating” with a measurable difference and stated the subject, time, interval, and output form?
+- Can you separate what is knowable from what remains unknown without matching historical records?
+- Have you separated records needed for current comparison and seven-day failure prediction, marking absent information?
+- When changing per-operation to daily questions, did you change the row unit and required columns too?
+- Have you specified information available at document receipt and classification criteria, identifying unresolved choices?
 
-## Sources and Further Reading
+## Sources and References
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`, `label`, `label leakage`. Because it explains that the unit combining example and label must be fixed first, it supports the judgment in this section that the sample unit and result structure should appear together inside the data question. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general concept of a reference period for comparison, it strengthens the explanation that a good data question should also reveal `what is being compared with what`. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. Because it explains a broader knowledge-discovery flow that does not separate problem definition from data preparation, it becomes the general background for the claim that a data question is the starting point that opens the later table structure and comparison structure. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [Google, Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }. Terminology for inputs, labels and leakage; the question-writing format is this book's construction. / 2026-07-20
+- [U.S. Bureau of Labor Statistics, Base period](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }. Reference periods support comparisons with usual behavior; not every data question needs a historical baseline. / 2026-07-20
+- [Fayyad, Piatetsky-Shapiro and Smyth, From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" }. Background connecting problem definition, data preparation and subsequent structures. / 2026-07-20
+- [Google, Framing an ML problem](https://developers.google.com/machine-learning/problem-framing/ml-framing){: target="_blank" rel="noopener noreferrer" }. Distinguishes desired outcomes and model outputs, classes and proxy labels. The sensor and document questions are fictional examples. / 2026-09-19

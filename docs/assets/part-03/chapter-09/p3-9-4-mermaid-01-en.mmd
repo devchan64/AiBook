@@ -1,9 +1,6 @@
 flowchart TD
-    A[Review queue result<br/>event_id + review_needed + review note]
-    A --> B[Free-form notes accumulate]
-    B --> C[Shared note patterns<br/>repeated late drop<br/>record only]
-    C --> D[Target-candidate columns]
-
-    D --> D1[late_drop_repeated]
-    D --> D2[needs_manual_review]
-    D --> D3[note_source]
+    A["Preserve note, target, and author"]
+    A --> B["Separate reports, requests, and hypotheses"]
+    B --> C["Apply note-v1; retain unknowns"]
+    C --> D["Candidate columns + source and annotator"]
+    D --> E["Check target meaning and factual evidence separately"]

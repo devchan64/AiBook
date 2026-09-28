@@ -1,7 +1,9 @@
 flowchart TD
-    A[One dataset exposes several target candidates] --> B{Has the representative target been fixed?}
-    B -- No --> C[The problem statement keeps wobbling]
-    B -- Yes --> D[Fix the representative question]
-    D --> E[Write the definition version and change date]
-    E --> F[Keep other targets as auxiliary candidates]
-    F --> G[Evaluate with one stable target]
+    A["Choose the question and target for this task"] --> B["Separate outcome definition from confirmation status"]
+    B --> C["Check criteria versions and effective dates"]
+    C --> D{"Same criteria?"}
+    D -- "Yes" --> E["Prepare learning and evaluation with a common definition"]
+    D -- "No" --> F{"Can source records support reassessment under common criteria?"}
+    F -- "Yes" --> G["Preserve original judgments and link reassessments"]
+    G --> E
+    F -- "No" --> H["Separate versions and document missing evidence"]

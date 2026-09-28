@@ -1,50 +1,73 @@
 # P3-9.8 Which Rules Turn Prediction Scores into Actions
 
 > Section ID: `P3-9.8`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-When handing this over as an actual table, separate fields at different levels, such as `prediction_unit`, `score_column`, `decision_threshold`, `policy_version`, and `action_column`. Written this way, the model output, the rule that turns it into an action, and the action that is actually executed do not collapse into the same thing.
+[P3-9.7](section-07.en.md) distinguished inputs available at prediction time from later outcomes. After a model produces a [score](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-score), we still need to decide whom to review. The score is a model output; a [policy rule](/AiBook/en/reference/concept-glossary-alpha/b/#decision) specifies how that output becomes an action.
 
-Even after inputs and results are defined, a prediction problem is still only half specified. Even the same `review_needed` prediction can mean different things depending on whether it raises one operating event into a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) or adjusts the warning strength of an entire recent window. In addition, the [score](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-score) output by a model and the [policy rule](/AiBook/en/reference/concept-glossary-alpha/b/#decision) that turns that score into real action are not the same thing.
+## State the Score's Source and the Unit of Prediction
 
-One predicted value needs to be written together with the unit of action it connects to, and model scores need to be read separately from operating policy.
+The values below are **hypothetical model outputs supplied for this section**. They are not results of training or running a model, nor are they the manually defined queues sorted by comparison differences or safety conditions in earlier chapters. Assume this model predicts whether one completed operation needs additional review. `review_score` is its score for that judgment; higher values receive earlier consideration for review.
 
-| Category | Question |
-| --- | --- |
-| Unit targeted by one prediction | Does this one value refer to one run, one recent window, or the next single case? |
-| Model output | Does the model emit a score, a 0/1 value, or a ranking? |
-| [Policy rule](/AiBook/en/reference/concept-glossary-alpha/b/#decision) | By what rule is that output turned into action? |
-| [Real action](/AiBook/en/reference/concept-glossary-alpha/a/#action) | Does it register a review queue entry, hold back, or trigger automatic action? |
+A–D are operation IDs local to this section. Assume the same hypothetical model, `demo-model-v1`, scored each operation at completion, and D joins before this review batch is finalized. A–C are not rescored. The action unit is also fixed: assigning one operation for review.
 
-| Level | Example |
-| --- | --- |
-| Model output | `0.82`, `warning_score` |
-| [Policy rule](/AiBook/en/reference/concept-glossary-alpha/b/#decision) | `review if above 0.8`, `look only at the top 10%` |
-| Real action | Register in review queue, adjust priority |
+| event_id | Supplied `review_score` | Entry into the candidate batch |
+| --- | ---: | --- |
+| A | 0.82 | Initial batch |
+| B | 0.80 | Initial batch |
+| C | 0.79 | Initial batch |
+| D | 0.95 | Added before assignments are finalized |
 
-Even with the same score, the action can change when the policy changes. Also, some problems use the score only for [ranking](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-ranking), while others want to read the number itself almost like a [probability estimate](/AiBook/en/reference/concept-glossary-alpha/p/#probability-estimate). That difference also needs to be written down first. The meaning of one prediction is therefore not just `producing one number`. It includes the decision structure by which that number goes through a rule and leads to an action. More broadly, this section separates `model output`, `decision rule`, and `real action` as different levels, so that one predicted value is read inside an operational decision structure.
+A score between 0 and 1 is not automatically a probability of failure or of needing review. This section uses score order and applies policies. Actual review outcomes have not been supplied, so selected operations must not become actual positives, nor unselected operations confirmed normal cases.
+
+## A Threshold and the Top Two Are Different Rules
+
+Today's capacity is two reviews. First compare threshold eligibility before imposing capacity with selection by rank. Here, **“at least 0.80” means `score >= 0.80`**, including exactly 0.80. Break ties by `event_id` in ascending alphabetical order. These are rules of this teaching policy, not defaults shared by every tool.
+
+| Policy being compared | A, B, and C only | After D joins |
+| --- | --- | --- |
+| Threshold: all candidates scoring at least 0.80 | A, B — 2 candidates | D, A, B — 3 candidates |
+| Top two: descending score, then ascending ID | A, B — 2 candidates | D, A — 2 candidates |
+
+The threshold row lists eligible candidates, not finalized assignments for today's two slots. D's arrival changes neither B's score nor its eligibility. B's position among candidates changes. Conversely, a top-two-only rule has no minimum score and can select up to two candidates even if all their scores are low.
+
+## Separate Eligibility from Today's Assignment Status
+
+Call the combined policy `threshold-capacity-v1`. First keep candidates with scores of at least 0.80. Within that set, assign up to two for review today in descending score order, breaking ties by ascending ID. Do not fill spare slots with candidates below the threshold.
+
+| event_id | Score | `meets_threshold` | `selected_today` | Assignment status determined by policy |
+| --- | ---: | ---: | ---: | --- |
+| D | 0.95 | 1 | 1 | Assigned for review today |
+| A | 0.82 | 1 | 1 | Assigned for review today |
+| B | 0.80 | 1 | 0 | Eligible; waiting because of capacity |
+| C | 0.79 | 0 | 0 | Below threshold; excluded from this assignment |
+
+Both B and C have `selected_today=0`, for different reasons. B waits because of capacity; C does not meet the current threshold. Neither status is a review outcome or evidence of failure or its absence. Likewise, `selected_today=1` means assigned for review, not that a reviewer has finished the work. Check separate completion records for execution.
 
 ## From Scores to Thresholds and Operational Policies {#a-small-diagram}
-
-One prediction does not end with a score. It must be read all the way through the policy rule into the resulting action.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-8-mermaid-01-en.mmd"
 ```
 
-If only 10 cases can be reviewed per day, selecting the top 10 scores and selecting `scores at least 0.7` can yield different results. Thirty cases above 0.7 would exceed capacity. Nor should a score be interpreted as an occurrence probability merely because it lies between 0 and 1. Record the score's meaning, action rule, and processing capacity separately.
+The diagram applies `threshold-capacity-v1` to the batch including D. To reproduce assignments for the same batch and policy, retain the model version, prediction subjects and times, scores, candidate roster, threshold, capacity, tie rule, and policy version. Keeping B's 0.80 together with its waiting reason distinguishes model output from the assignment decision.
 
-In a fictional example, A, B, and C score 0.82, 0.80, and 0.79, and today's review capacity is two cases. Both `at least 0.80` and `top two` select A and B. What happens when D arrives with 0.95? The threshold selects three cases—D, A, and B—while the top-two rule selects only D and A. B's score has not changed, but its selection status has.
+## Change the Boundary and Capacity
 
-If only two of the three qualifying cases can be handled today, record B as `qualifies, waiting because of capacity`, rather than `below threshold`. Keep threshold eligibility and today's processing status in separate columns. This lets a later reviewer distinguish a low model score from insufficient processing capacity.
+Exercise: Keep the four candidates including D fixed. ① What happens to B and C if only capacity rises to three? ② With capacity two, if the threshold rises to 0.83, should A fill the spare slot? ③ In a separate case, add E with 0.82 and use threshold 0.80 and capacity two: who is assigned?
+
+Answer: ① D, A, and B are assigned; C remains below threshold. ② Only D qualifies, so assign just one candidate. Do not fill the spare slot with A. B's reason for nonselection also changes from capacity waiting to being below threshold. ③ After D, A and E tie, but ascending ID puts A first, so assign D and A. E and B are eligible but waiting. The ID rule makes ordering reproducible; it is not evidence that A is riskier than E.
+
+The existing candidates' model scores remain fixed throughout these policy changes. Changed selections under a new threshold or capacity do not establish improved model accuracy. [P3-9.12](section-12.en.md) continues with the costs of decision errors.
 
 ## Checklist
 
-- Did you specify a threshold or top-count rule connecting scores to actions?
-- Can you explain what happens when candidates exceed daily review capacity?
+- Can you explain the hypothetical scores' source and the units of prediction and action?
+- Can you distinguish why B's 0.80 qualifies from why B waits after D joins?
+- Can you apply the tie, spare-slot, and below-threshold rules, and distinguish review assignment from completion?
 
 ## Sources and References
 
-- Google, *Thresholds and the confusion matrix*. Used to check that a classification threshold is chosen to convert a model's raw numerical output into a category, and that different thresholds can produce different predictions. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google, *Thresholds and the confusion matrix*. Used to check that a classification threshold is chosen to convert a model's raw numerical output into a category, and that different thresholds can produce different predictions. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-09-20
 - Google, *Classification: ROC and AUC*. Used to check that AUC is tied to ranking positive examples above negative examples, while the actual classification depends on the chosen threshold. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - Google, *Machine Learning Glossary*, `classification threshold`, `AUC`. Used to check the term basis for classification threshold and AUC. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

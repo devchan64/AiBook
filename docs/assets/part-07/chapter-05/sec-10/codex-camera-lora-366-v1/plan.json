@@ -1,0 +1,615 @@
+{
+  "model": "Qwen/Qwen-Image-Edit-2511",
+  "dataset_sha256": "5a58994c9b3e969851fc0408bdefa826b5d5e850bcf704e19e75c8a1531ebf55",
+  "evaluation_type": "new_synthetic_inputs",
+  "input_manifest_sha256": "27ca0814d4931b61baca2f40e55e3ad6ede6c81873c1422c6aec6429a21813df",
+  "checkpoint": "/home/cbsim/ws/AiBook/.tmp/p7-5-10/bfs-paired-366-v1/checkpoints/mira_bfs.safetensors",
+  "checkpoint_sha256": "9cddfaec307af146ce5311669c2e0ab42fdf68abe836364fa329e32861e9e37e",
+  "size": 512,
+  "vae_reference_size": 512,
+  "vl_reference_size": 384,
+  "preprocessing": "match_training_control_512_no_crop",
+  "steps": 20,
+  "cfg": 4.0,
+  "scales": [
+    1
+  ],
+  "cases": [
+    {
+      "id": "man-low-minus-90",
+      "management_code": "P712-CAM-001",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-low-minus-90-512.png",
+        "sha256": "e5b320b4554c11f3de393c3040f7ea6a1c9a49f429603d1b5e4918145cd6a09c"
+      },
+      "subject": "man",
+      "vertical": "low",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-low-minus-45",
+      "management_code": "P712-CAM-002",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-low-minus-45-512.png",
+        "sha256": "43ea223d3cf2111e61a84212be916ceb956bc85d74ae5bac9a9a5eaf45997a97"
+      },
+      "subject": "man",
+      "vertical": "low",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-low-zero",
+      "management_code": "P712-CAM-003",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-low-zero-512.png",
+        "sha256": "0e35ac4ef65b54bab1aa5e2bc1bab7717aa4b2483ebbd02be0122c53b78db0fc"
+      },
+      "subject": "man",
+      "vertical": "low",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-low-plus-45",
+      "management_code": "P712-CAM-004",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-low-plus-45-512.png",
+        "sha256": "1aca4e3f659823f62e798bd33082416f89df3ca284aa954437fd972bd60e9778"
+      },
+      "subject": "man",
+      "vertical": "low",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-low-plus-90",
+      "management_code": "P712-CAM-005",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-low-plus-90-512.png",
+        "sha256": "d914d9a2cd9f337f4c263dc1085b226a0b2b7dec406639998e75c57236c4f7f7"
+      },
+      "subject": "man",
+      "vertical": "low",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-level-minus-90",
+      "management_code": "P712-CAM-006",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-level-minus-90-512.png",
+        "sha256": "6942052db445d4baa2d9c256df8fe890cb80692d73c4224217e4bd7c42c9f10a"
+      },
+      "subject": "man",
+      "vertical": "level",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-level-minus-45",
+      "management_code": "P712-CAM-007",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-level-minus-45-512.png",
+        "sha256": "abc76419688207f7b4be4391711235c083a1f3d35f5f33f7f1148ca21765a353"
+      },
+      "subject": "man",
+      "vertical": "level",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-level-zero",
+      "management_code": "P712-CAM-008",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-level-zero-512.png",
+        "sha256": "fd925b1e0e6762d8749115fb7d091af020130c76909f10d577b7071196fffeec"
+      },
+      "subject": "man",
+      "vertical": "level",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-level-plus-45",
+      "management_code": "P712-CAM-009",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-level-plus-45-512.png",
+        "sha256": "d2bc2b578418638700767c55234cf430d26da84eb9ec8c5c805432a4c41905ce"
+      },
+      "subject": "man",
+      "vertical": "level",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-level-plus-90",
+      "management_code": "P712-CAM-010",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-level-plus-90-512.png",
+        "sha256": "b2fbea6a3f8f64b34471d5a334a370cfa9c4515dc84fd78d995f8de25fbcaa2e"
+      },
+      "subject": "man",
+      "vertical": "level",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-elevated-minus-90",
+      "management_code": "P712-CAM-011",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-elevated-minus-90-512.png",
+        "sha256": "038cf7182c5d4f1fefe800d630d2d45f2479625babc32c3fd0f9bb0797883579"
+      },
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-elevated-minus-45",
+      "management_code": "P712-CAM-012",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-elevated-minus-45-512.png",
+        "sha256": "5d4aa6488af1891990d0ba51ec3ee598fc4060a16a5dd00118b4e4b44836e2d6"
+      },
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-elevated-zero",
+      "management_code": "P712-CAM-013",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-elevated-zero-512.png",
+        "sha256": "5ae3c5a8946819c862702d5126786afb2ef3d3420c6349d8e766d3cec11d2ca2"
+      },
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-elevated-plus-45",
+      "management_code": "P712-CAM-014",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-elevated-plus-45-512.png",
+        "sha256": "c863f482f68f1b1f65ddb2162cac1e21d78c53bdc961aed26dac661dbcc8f585"
+      },
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "man-elevated-plus-90",
+      "management_code": "P712-CAM-015",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/man-elevated-plus-90-512.png",
+        "sha256": "e0cc02ade02109b38a46c51929b2512af5337af36b04ca9a9543fdb010a8e960"
+      },
+      "subject": "man",
+      "vertical": "elevated",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-low-minus-90",
+      "management_code": "P712-CAM-016",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-low-minus-90-512.png",
+        "sha256": "44fa15dd3b5ffdafa8053668976a2e00923811fcf1aeee5c94d0cc3297018385"
+      },
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-low-minus-45",
+      "management_code": "P712-CAM-017",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-low-minus-45-512.png",
+        "sha256": "dc947b00e4f2e5094e59dac9eea2757dfe438467ae68aee062e0fee6dfbdb77f"
+      },
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-low-zero",
+      "management_code": "P712-CAM-018",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-low-zero-512.png",
+        "sha256": "3b2b5fea8c2465cf268c8db9984cb53a15ee7f076b9a78cff67e739258e27652"
+      },
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-low-plus-45",
+      "management_code": "P712-CAM-019",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-low-plus-45-512.png",
+        "sha256": "46e8ccfaf0378388ff6906922533884efdd2fe090e207427db5270c58ca0eb1c"
+      },
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-low-plus-90",
+      "management_code": "P712-CAM-020",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-low-plus-90-512.png",
+        "sha256": "21e3bb2d3e35def362345d9894caca12d6c028348c0ec32fda5a62422ca560ec"
+      },
+      "subject": "woman",
+      "vertical": "low",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-level-minus-90",
+      "management_code": "P712-CAM-021",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-level-minus-90-512.png",
+        "sha256": "f8cfa0127f432d798934f59672aa74895ef86bd7d9754fa1f821a688c13c81e4"
+      },
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-level-minus-45",
+      "management_code": "P712-CAM-022",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-level-minus-45-512.png",
+        "sha256": "59dc518ae3c274f063542123b48e246bd4fcd57e71b57c7198ddd8965b9fba87"
+      },
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-level-zero",
+      "management_code": "P712-CAM-023",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-level-zero-512.png",
+        "sha256": "317fbebe05fd07966504f410e0ac1dc46755f67f78e6e9e4365d2cf4b1ad78d1"
+      },
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-level-plus-45",
+      "management_code": "P712-CAM-024",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-level-plus-45-512.png",
+        "sha256": "2b590dac82b79083ffd72e399fefb90dbeeeb8aea2c0e8971279fa414acb9579"
+      },
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-level-plus-90",
+      "management_code": "P712-CAM-025",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-level-plus-90-512.png",
+        "sha256": "eb48e51d16ffd374df573d358c97ba44ed1c3cdddd0ee4880648cb789fe65a92"
+      },
+      "subject": "woman",
+      "vertical": "level",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-elevated-minus-90",
+      "management_code": "P712-CAM-026",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-elevated-minus-90-512.png",
+        "sha256": "5bd77f5b423c6c4a20232bd989213e685485241edba64314882fd034ce4f970a"
+      },
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-elevated-minus-45",
+      "management_code": "P712-CAM-027",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-elevated-minus-45-512.png",
+        "sha256": "b6e5b47e62b0c386c0b16fb0ed2e40f44284e166cee701bf6c679cd605ad9b09"
+      },
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-elevated-zero",
+      "management_code": "P712-CAM-028",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-elevated-zero-512.png",
+        "sha256": "a8d47b68c5fb81465ec60ccd6312a8238717d54bf8604a4ca3240e0cfe5316f2"
+      },
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-elevated-plus-45",
+      "management_code": "P712-CAM-029",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-elevated-plus-45-512.png",
+        "sha256": "149fe8f9bf7b2c3a7a08acad4b7bab272416cbb0bcb4802c41065ac39ff21ac0"
+      },
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "woman-elevated-plus-90",
+      "management_code": "P712-CAM-030",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/woman-elevated-plus-90-512.png",
+        "sha256": "ca6ad347166ae75b5a3956d888634579512cddaf054d975a9b4b6e255fa1dfa8"
+      },
+      "subject": "woman",
+      "vertical": "elevated",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-low-minus-90",
+      "management_code": "P712-CAM-031",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-low-minus-90-512.png",
+        "sha256": "72751bccb408b7f84f075b7716a0b6182f93c6e8b443cc1856d651e2b9f2b09e"
+      },
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-low-minus-45",
+      "management_code": "P712-CAM-032",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-low-minus-45-512.png",
+        "sha256": "38eb582fe593cf310f34e8fca9bfe4483383b2ade137cc8bacbbe4ed1f4a6227"
+      },
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-low-zero",
+      "management_code": "P712-CAM-033",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-low-zero-512.png",
+        "sha256": "25dcf712054d13ddb90bce831f6259a142020020f03d4bc0146e54cab76b43db"
+      },
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-low-plus-45",
+      "management_code": "P712-CAM-034",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-low-plus-45-512.png",
+        "sha256": "e24c181eceb48d737fdc606000a8378cd86c4f454e000171e43dd9711c473a3d"
+      },
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-low-plus-90",
+      "management_code": "P712-CAM-035",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-low-plus-90-512.png",
+        "sha256": "911af1bbe9cc3df16d7407b43dffa6e3c2bbec808024981ab5b8b98e7b9842ff"
+      },
+      "subject": "toddler",
+      "vertical": "low",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-level-minus-90",
+      "management_code": "P712-CAM-036",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-level-minus-90-512.png",
+        "sha256": "1a87bf12d04dacc87f66e62b6c5b1b72681c6623852d9187b93306eaf9a44ba5"
+      },
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-level-minus-45",
+      "management_code": "P712-CAM-037",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-level-minus-45-512.png",
+        "sha256": "b1148e52eb45f453553f0b926e382f3f08d925a2f07bb754b146ecf083b8ef51"
+      },
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-level-zero",
+      "management_code": "P712-CAM-038",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-level-zero-512.png",
+        "sha256": "ee11650f50688b169efeffb6d79344f9a7d5a1bc321a3a552af3471a2b728450"
+      },
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-level-plus-45",
+      "management_code": "P712-CAM-039",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-level-plus-45-512.png",
+        "sha256": "aba9d32d2a36eb25a79f00412443b1ae183655054ccfba3febc6b0b33b10ece2"
+      },
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-level-plus-90",
+      "management_code": "P712-CAM-040",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-level-plus-90-512.png",
+        "sha256": "2be615c8e8490baf3b2f3be51da3f4ffd9fe9234c2d409ba33c37090b665e68b"
+      },
+      "subject": "toddler",
+      "vertical": "level",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-elevated-minus-90",
+      "management_code": "P712-CAM-041",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-elevated-minus-90-512.png",
+        "sha256": "ad32897266d3b948e7fed4390dce1522f4a02a952287b5355c84b42a7d43f0ae"
+      },
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": -90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-elevated-minus-45",
+      "management_code": "P712-CAM-042",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-elevated-minus-45-512.png",
+        "sha256": "18ef70f1e7b7888dca5b1caf6a451ab35aa9cca08da35e9ad23eefd4a39fcc8c"
+      },
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": -45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-elevated-zero",
+      "management_code": "P712-CAM-043",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-elevated-zero-512.png",
+        "sha256": "e90dc2b399ea0e0e27db800900afc5b3af599eb567b6cad5fddd8cf16e21fc4f"
+      },
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": 0,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-elevated-plus-45",
+      "management_code": "P712-CAM-044",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-elevated-plus-45-512.png",
+        "sha256": "67120330eaf28db9334e2697611975789ed9af091a1fa3704f1f723bb21384f4"
+      },
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": 45,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    },
+    {
+      "id": "toddler-elevated-plus-90",
+      "management_code": "P712-CAM-045",
+      "reference": {
+        "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-elevated-plus-90-512.png",
+        "sha256": "b98ba590e3eac0ad6ed0c8df12ce1a825e427fef4eb81c180f3f3284d9a3386f"
+      },
+      "subject": "toddler",
+      "vertical": "elevated",
+      "yaw": 90,
+      "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+      "seed": 62294
+    }
+  ],
+  "code_sha256": "96f8bc5cdcb1215ea736e064a70df9787576c651253c4700884beb2a30f2a213",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  }
+}

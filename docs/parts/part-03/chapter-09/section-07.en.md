@@ -1,114 +1,84 @@
 # P3-9.7 How Do We Separate Inputs Available at Prediction Time from Later Outcomes
 
 > Section ID: `P3-9.7`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Do not leave this distinction only in explanatory sentences; keep it as minimum fields in the handoff data table. For example, `feature_available_at`, `target_window_start`, `target_window_end`, `cutoff_at`, `horizon_days`, and `leakage_check_note` let you check row by row which input was available at what time and which result period it tries to predict.
+[P3-9.6](section-06.en.md) checked label meanings and judgment conditions. Now we must construct inputs from information actually available before the outcome was known. A [prediction contract](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-prediction-contract) specifies the prediction subject, when and how inputs are constructed, and the outcome to predict. Check when each value became usable, not just its column name.
 
-Once you decide to raise the problem into a prediction problem, you now need to settle whether its structure satisfies an actual [prediction contract](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-prediction-contract). What matters is not a long theory but four checks: which columns are inputs, which columns are result candidates, whether information from after the prediction time has leaked in, and up to what information you look while predicting a result from what time point.
+## Use the 10:00 Inputs to Predict the Next Seven Days
 
-This section settles four things first: the split between inputs and results, leakage prevention, reproducibility at the operating time point, and the time boundary.
+This fictional equipment example illustrates time boundaries. One prediction concerns `equipment_id=M-01` at `2026-09-01 10:00`; all times use Korea Standard Time (KST). Different prediction times for the same equipment identify different samples.
 
-| What should be confirmed first | If turned into a question |
+| Item | Definition in this example |
 | --- | --- |
-| Split between inputs and results | Which columns are [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) and which are target candidates? |
-| Preventing future-information leakage | Is there no [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-leakage) from values still unknown at prediction time? |
-| Reproducibility at the operating time point | Can the inputs built during training be rebuilt in operations by the same rule? |
-| Cutoff / horizon | Up to what information do you look, and what later result are you trying to predict? |
+| Input cutoff `cutoff_at` | 2026-09-01 10:00. Use only information the system could actually read by this time |
+| Prediction horizon `horizon_days` | 7 days |
+| Outcome window | At or after 2026-09-01 10:00, before 2026-09-08 10:00. Start included, end excluded |
+| Target `failure_within_7d` | 1 if an equipment failure is confirmed in this window; 0 if the full window is checked and no failure occurred |
+| Unconfirmed outcome | Keep unknown. Do not fill unreviewed or incompletely observed outcomes with 0 |
 
-## One Scene at a Time
+Here, failure means that the equipment could not complete a scheduled operation because of an equipment fault whose cause was confirmed in a maintenance record. Exclude planned stops and record this definition as `failure-v1`. Values and IDs below are illustrative, not estimates of actual equipment risk.
 
-Even with the same event table, the structure breaks immediately if `columns knowable before prediction` and `columns created after prediction` are mixed together as below.
+## An Earlier Measurement Can Arrive Too Late
 
-| event_id | recent_diff | repeatability | review_result | target_candidate |
-| --- | --- | --- | --- | --- |
-| A | -0.32 | high | manual_reviewed | review_needed |
-| B | -0.06 | low | skipped | normal |
+A [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) is an input value supplied to a model. Here, `recent_diff` subtracts baseline mean flow from recent mean flow under the same measurement conditions. A recent mean of 2.20 L/min and baseline of 2.52 L/min give `2.20 − 2.52 = −0.32 L/min`.
 
-Here, `recent_diff` and `repeatability` are columns that can be built before prediction. By contrast, `review_result` appears only after a person has already completed the review. If that column is placed together with the inputs, the table may still look normal in shape, but in reality it becomes a structure in which `the inputs were built after looking at the answer`. In that case, even if the score is high during training, the model is effectively using information that does not exist at the real prediction time, so it is no longer the same problem.
+| Information or calculation | Occurrence or covered time | Actual availability | Input decision for September 1 at 10:00 |
+| --- | --- | --- | --- |
+| `base-v1` baseline, 2.52 | Finalized records through August 31, 17:00 | August 31, 18:00 | Usable. Preserve the finalized records and calculation version |
+| Recent mean 2.20 and `recent_diff=-0.32` | Operations completed by September 1, 09:55 | September 1, 09:58 | Usable. Assume source records had arrived and been checked by then |
+| Additional sensor measurement | Measured September 1, 09:59 | Arrived September 1, 10:02 | Exclude. It occurred earlier but arrived after cutoff |
+| Later recalculation of `recent_diff` | Baseline includes records through September 2, 17:00 | September 2, 18:00 | Exclude. Future records enter the calculation |
+| `review_result` | Review completed September 1, 10:20 | Recorded September 1, 10:21 | Exclude. Judgment arose after prediction |
+| `failure_within_7d=1` | Failure September 3, 14:00, confirmed through maintenance | Entered in the outcome table September 8, 10:10 in this example | Join as a training outcome; exclude from September 1 inputs |
 
-The next example checks this difference through actual model output. `available_at_cutoff` uses only columns that can be made at prediction time, while `leaky_after_review` uses only `review_result_code`, which is created after prediction. Even if the second model looks better, it breaks the prediction contract because the column is unavailable in operations.
+`feature_available_at` is when the feature value became usable by the system. Required calculations must be complete as well as source records received. The value finalized on September 1 and a value recalculated using September 2 records differ even if both are called `recent_diff`. Giving a later table an earlier date does not make its values historical inputs.
 
-Problem situation: We want to see how model scores look different when we compare inputs available at prediction time with a leaky input created after prediction.
+## Putting Later Outcomes into Inputs Gives Away the Answer
 
-Input: `recent_diff`, `repeatability`, `review_result_code`, and `target`.
+Using information unavailable at prediction time to construct a model is [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-leakage). Joining a subsequently confirmed outcome as the training answer is necessary, but also placing that value in the same sample's inputs supplies future information.
 
-Expected output: The columns used by each feature set, test accuracy, and prediction/actual comparison.
+| Separate teaching sample | `failure_within_7d` confirmed after the window | `result_code` copied from that outcome | Answer obtained by copying `result_code` |
+| --- | ---: | ---: | ---: |
+| E | 1 | 1 | 1 |
+| F | 0 | 0 | 0 |
 
-Concept to check: If a column created after prediction is put into the inputs, the score may look better, but the structure is not a valid operational prediction problem.
+Copying the answers gets `2 / 2 = 100%` correct on these two rows. This does not test a model's ability to predict future outcomes. The example illustrates leakage; it does not mean leakage always raises scores by this amount. Check input availability regardless of whether a score is high or low.
 
-```python
-# This example checks the difference between prediction-time inputs and a leaky post-review column.
-import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeClassifier
-
-records = pd.DataFrame(
-    [
-        {"event_id": "A", "recent_diff": -0.32, "repeatability": 3, "review_result_code": 1, "target": 1},
-        {"event_id": "B", "recent_diff": -0.06, "repeatability": 1, "review_result_code": 0, "target": 0},
-        {"event_id": "C", "recent_diff": -0.28, "repeatability": 2, "review_result_code": 1, "target": 1},
-        {"event_id": "D", "recent_diff": -0.04, "repeatability": 1, "review_result_code": 0, "target": 0},
-        {"event_id": "E", "recent_diff": -0.18, "repeatability": 1, "review_result_code": 1, "target": 1},
-        {"event_id": "F", "recent_diff": -0.12, "repeatability": 3, "review_result_code": 0, "target": 0},
-    ]
-)
-
-train = records.iloc[:4]
-test = records.iloc[4:]
-feature_sets = {
-    "available_at_cutoff": ["recent_diff", "repeatability"],
-    "leaky_after_review": ["review_result_code"],
-}
-
-for name, columns in feature_sets.items():
-    model = DecisionTreeClassifier(random_state=0, max_depth=2)
-    model.fit(train[columns], train["target"])
-    predicted = model.predict(test[columns])
-    comparison = [
-        (event_id, int(prediction), int(actual))
-        for event_id, prediction, actual in zip(test["event_id"], predicted, test["target"])
-    ]
-    print(name, "features:", columns)
-    print(name, "accuracy:", accuracy_score(test["target"], predicted))
-    print(name, "predictions:", comparison)
-```
-
-Expected output:
-
-```text
-available_at_cutoff features: ['recent_diff', 'repeatability']
-available_at_cutoff accuracy: 0.0
-available_at_cutoff predictions: [('E', 0, 1), ('F', 1, 0)]
-leaky_after_review features: ['review_result_code']
-leaky_after_review accuracy: 1.0
-leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
-```
-
-`leaky_after_review` has accuracy `1.0`, but this should not be read as a good prediction problem. `review_result_code` is created only after a person has already completed the review. At the real operating prediction time, that value is still unknown. So the point of this example is not to find a high-scoring model, but to settle first whether this column can actually be made at prediction time.
-
-### Occurrence Time Differs from Availability Time
-
-Suppose a prediction is made at 10:00. A sensor measurement taken at 09:59 but received by the server at 10:02 cannot be included in the 10:00 inputs. Even if a column carries a past timestamp, verify that the prediction system could actually read it then. Even `recent_diff` is unsuitable if its baseline was calculated using future records.
-
-Here, `cutoff` is the deadline for input information and `horizon` is the future period to predict. State both boundaries together, for example: `Use information available by 10:00 to predict failure within the following 7 days.` An answer arriving later can be joined as the training outcome, but must be excluded when reconstructing the inputs available at that time.
+Nor does `review_result=skipped` mean no failure or normal operation. It is a processing status indicating that review was skipped. A task requiring later failure outcomes needs separate observation and confirmation records.
 
 ## Separating Available Inputs from Later Outcomes at Prediction Time {#a-small-diagram}
-
-The input/result contract does not end with `separate the columns`. It must also settle in the order below so that only values available at prediction time remain.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-7-mermaid-01-en.mmd"
 ```
 
-So confirming the input/result contract is not only a matter of `splitting column names`. You must also write down `when each column is created`. For one sample input row to be valid, all values in that row must be values that can actually be produced at the same prediction time.
+Arrows show chronological order and record links, not elapsed time to scale. Although the 09:59 measurement precedes the 10:00 cutoff, its 10:02 arrival prevents inclusion in those inputs. When constructing a training table later, reconstruct the inputs available at cutoff and join the outcome as a separate column.
 
-Even when the same sample boundary is kept, the input representation does not need to stay fixed as only one form. In some cases, a one-row feature vector is more natural. In others, a grouped input that preserves time order is more natural. What matters is that regardless of representation style, the contract `is this an input that can actually be used at prediction time` and `is the result candidate confirmed together with the time boundary` must be satisfied first. What is being handled here is therefore not `just any table`, but an input structure whose sample boundary and time boundary are confirmed. The core is not `passing along a table`, but `confirming the input/result contract that holds at prediction time`. More broadly, what is settled here is a prediction contract in which `input definition`, `result definition`, `time-point availability`, and `reproducibility` all match together.
+## Evidence to Hand Over with One Row to Part 4
+
+| Handoff field | What to retain in this example |
+| --- | --- |
+| Sample identity | `equipment_id=M-01` + `cutoff_at=2026-09-01 10:00 KST` |
+| Input and availability | `recent_diff=-0.32 L/min`, `feature_available_at=2026-09-01 09:58 KST` |
+| Calculation evidence | Recent mean 2.20, `base-v1` mean 2.52, source record IDs, covered period, aggregation rule |
+| Outcome boundaries | `target_window_start=2026-09-01 10:00 KST`, `target_window_end=2026-09-08 10:00 KST`, `horizon_days=7`, start included and end excluded |
+| Outcome and evidence | `failure-v1`, `failure_within_7d=1`, failure and maintenance record IDs, outcome-table entry September 8 at 10:10 |
+| `leakage_check_note` | Exclude the 10:02 arrival, recalculation with a future baseline, and post-review results from inputs |
+
+An actual handoff must supply specific source, failure, and maintenance record IDs. This table identifies the kinds of records to link, so it is not itself real data ready for training. If there are multiple features, check availability separately for each one.
+
+Exercise: ① If the 09:59 measurement arrived earlier, at 09:59:30, could it enter the mean? ② Could a value recalculated with the September 2 baseline overwrite the September 1 row? ③ Could an unreviewed status become outcome 0?
+
+Answer: ① Earlier arrival does not automatically qualify it. This example averages operations completed by 09:55, so first check whether the measurement belongs to that aggregation scope. Changing the input definition requires source checks and feature calculations to finish before 10:00, with the same rule reproducible in operation. ② No: future information enters the calculation. Preserve the historical baseline and input versions. ③ No: unreviewed means the outcome remains unconfirmed, not 0.
+
+These time boundaries apply to both feature vectors and inputs that retain a sequence. Send Part 4 the input values, outcomes, and evidence needed to reconstruct those historical inputs. Training and evaluation splits connect to the handoff items in [P3-9.13](section-13.en.md).
 
 ## Checklist
 
-- Did you mark prediction time and the outcome observation period on a timeline?
-- Did you check whether inputs contain values that occurred before prediction but arrived afterward?
+- Can you specify the start, end, and endpoint inclusion of the seven days, separating input timing from outcome observation?
+- Can you explain why the 09:59 measurement arriving at 10:02, future-baseline recalculations, and post-review results are excluded from inputs?
+- Can you reproduce inputs using historical records and versions, and distinguish unreviewed status from outcome 0?
 
 ## Sources and References
 
@@ -116,4 +86,4 @@ Even when the same sample boundary is kept, the input representation does not ne
 - Google, *Datasets: Dividing the original dataset*. Used to check the view that train/validation/test data should be separated, the same feature transformation should also apply to real-world data, and validation/test data should match the real-world data the model will encounter. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. Used to check the provenance basis for preserving processing steps, reproducibility, versioning, and derivation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 
-- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }. Checked leakage of information unavailable during actual prediction. Checked: 2026-09-15.
+- [scikit-learn, Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }. Used to check leakage of unavailable information and consistent input transformations in training and production. Accessed: 2026-09-20.

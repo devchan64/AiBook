@@ -17,33 +17,33 @@ tags:
 
 An educational LoRA for **Mira character consistency across different input people and scenes**, trained for AiBook supplementary section P7-5.10. Face, hairstyle and illustration style are the learned identity cues. The concept was inspired by [BFS Head V5](https://huggingface.co/mr2along/BFS). This adapter was trained anew on Qwen-Image-Edit-2511; BFS weights were not used as initialization.
 
-The intended edit changes the input person's face and hair into Mira's identity (including a teal bob) and renders the whole image in the target illustration style. The input expression, head direction, pose, clothing design, framing, props and scene layout should remain. These preservation goals are not fully achieved; see limitations below.
+The intended edit changes the input person's face and hair into Mira's identity (including a teal bob) and renders the whole image in the target illustration style. The input expression, head direction, pose, clothing design, framing, props and scene layout should remain. These are training goals, not guarantees. The follow-up review compares 1600 and cumulative 3200 training steps and LoRA strengths 0.5, 0.75 and 1.0. The current experimental recommendation is **3200 steps / strength 0.75**; the downloadable adapter below remains the **1600-step** release.
 
 ## AiBook manuscript
 
-The supplementary lesson **P7-5.10: LoRA training and evaluation for character consistency** explains the LoRA purpose, the BFS-inspired concept, training-image generation, paired dataset construction, training, evaluation on 19 held-out pairs, and additional evaluation on 45 independently generated synthetic inputs (15 each for a man, woman and toddler).
+The supplementary lesson **P7-5.10: LoRA training and evaluation for character consistency** explains the LoRA purpose, the BFS-inspired concept, training-image generation, paired dataset construction, training, a planned evaluation on 19 held-out pairs, and completed generation on 45 independently generated synthetic inputs (15 each for a man, woman and toddler).
 
-[Read the Korean lesson P7-5.10](https://devchan64.github.io/AiBook/parts/part-07/chapter-05/section-10) — publication pending: the manuscript has been reorganized locally; this Pages URL was not live when this card was updated. The 45-input evaluation is generating and has not been fully visually reviewed. Existing 19-pair findings below remain the evaluated evidence for this release.
+[Read the Korean lesson P7-5.10](https://devchan64.github.io/AiBook/parts/part-07/chapter-05/section-10).
 
 ## Quick start: download the trained adapter
 
 You can try the trained adapter without generating a dataset or running training again. Download **mira_bfs.safetensors** (590,153,704 bytes; about 590 MB) and prepare the Qwen-Image-Edit-2511 base model and a GPU inference environment separately.
 
-[Download the evaluated 1600-step LoRA](https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/83c28cc630d01f887c401769ab1504fdaa1447a6/mira_bfs.safetensors?download=true)
+[Download the 366-pair dataset / 1600-step LoRA](https://huggingface.co/devchan64/mira-bfs-qwen-image-edit-2511-lora/resolve/main/mira_bfs.safetensors?download=true)
 
 ```bash
 hf download devchan64/mira-bfs-qwen-image-edit-2511-lora mira_bfs.safetensors \
-  --revision 83c28cc630d01f887c401769ab1504fdaa1447a6 \
+  --revision main \
   --local-dir ./mira-bfs
 ```
 
-The pinned revision identifies the exact evaluated weights. SHA-256: `4606552aecbe5a50880c666ddc89a16138d7bd8e532255888712cb5daab794fb`. The adapter has rank 16 and alpha 16; it is not a standalone model. See `SHA256SUMS` and `training-settings.json`.
+The main branch provides this release; verify the exact weights using the checksum. SHA-256: `9cddfaec307af146ce5311669c2e0ab42fdf68abe836364fa329e32861e9e37e`. The adapter has rank 16 and alpha 16; it is not a standalone model. See `SHA256SUMS` and `training-settings.json`.
 
-**한국어 안내:** 이 LoRA는 BFS의 얼굴·헤어 편집을 참고하여 Mira의 얼굴·헤어·화풍을 일관되게 표현하도록 학습한 실습용 어댑터입니다. 학습을 다시 실행하지 않고 위 파일을 내려받아 사용할 수 있습니다. 입력 한 장만 전달하고, 출력의 캐릭터 특징과 입력 자세·표정·배경 보존을 따로 검수합니다. 자세한 설명은 위의 5.10 원고 링크에서 제공할 예정이며, 현재 사이트 배포는 대기 중입니다.
+**한국어 안내:** 현재 실험 권장값은 **누적 3200스텝·강도 0.75**입니다. 사용자 검수에서는 1600스텝의 홍채·이목구비 간 거리 차이가 3200스텝에서 거의 보이지 않았고, 강도 1.0보다 0.75에서 머리 방향 오류가 적다고 판단했습니다. 아래 샘플과 비교시트에 근거를 정리했습니다. **이 저장소에서 내려받는 가중치는 여전히 1600스텝 모델**이며, 이번 문서 업데이트에 3200스텝 가중치 배포는 포함되지 않습니다.
 
 ## Apply with Diffusers
 
-The example follows the tested Diffusers 0.37.0 pipeline. The process-local VAE reference size override is important: the default 1024 reference processing caused severe zoom/cropping in our initial 512-resolution evaluation. It is an internal API and should be checked before changing Diffusers versions. The vision-language condition retains its default 384 size.
+This example reproduces the published **1600-step / strength 1.0** evaluation, not the 3200-step recommendation. Changing strength alone does not change the training checkpoint. The example follows the tested Diffusers 0.37.0 pipeline. The process-local VAE reference size override matches the 512-resolution training control. It is an internal API and should be checked before changing Diffusers versions. The vision-language condition retains its default 384 size.
 
 ```python
 import torch
@@ -64,14 +64,8 @@ pipe.set_adapters("mira", adapter_weights=1.0)
 pipe.enable_sequential_cpu_offload()
 pipe.vae.enable_slicing()
 image = Image.open("input.png").convert("RGB")
-assert image.size == (512, 512), "Use a square 512x512 input for this evaluated setup"
-prompt = (
-    "Transform the woman into mira_person with Mira's facial identity and hairstyle, "
-    "and render the entire image in Mira's target illustration style. "
-    "Preserve the input facial expression, head direction, pose, clothing design, "
-    "camera viewpoint, perspective, framing, subject position, apparent body scale, "
-    "background objects and scene layout."
-)
+assert image.size == (512, 512), "Use a square 512x512 input for this generation setup"
+prompt = "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout."
 with torch.inference_mode():
     result = pipe(
         image=[image], prompt=prompt, negative_prompt=" ",
@@ -86,30 +80,41 @@ Only the input image is passed to the model. Do not provide the target portrait 
 
 ## Training data and settings
 
-Synthetic paired edits: 193 accepted input/target pairs, split into 174 training and 19 validation pairs. They use 41 unique Mira targets (37 training, 4 validation). Inputs were generated in five appearances/styles from existing Mira targets; training reverses that generation direction. Variants of the same target remain in the same split. The extra 123 target candidates are not in this training set.
+Synthetic paired edits: **366 accepted pairs**, split into **347 training and 19 held-out validation pairs**. There are 42 unique training targets and 4 validation targets (46 total). Variants of the same target remain in the same split. The original 193 pairs were supplemented with 173 accepted proportion inputs; torso targets reuse the existing section 5.2 direction images. The separate 123 target candidates are not in this training set.
 
-Training used Musubi Tuner commit `e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1`, resolution/control resolution 512, batch size 1, rank/alpha 16, learning rate 1e-4, 1600 steps, seed 62294, FP8 base/scaled processing and 55 swapped blocks. No optimizer/resume state or base-model weights are distributed here. Training settings are in `training-settings.json`.
+Training used Musubi Tuner commit `e0cbd8f3dfe38365b10f8bc790b980f8894e8ba1`, resolution/control resolution 512, batch size 1, rank/alpha 16, learning rate 1e-4, **1600 total steps**, seed 62294, FP8 base/scaled processing and 55 swapped blocks. This is a new training run, not the former 193-pair adapter. A step uses one pair: 1600 steps is approximately 4.6 passes over 347 pairs, not 1600 steps per image.
 
-## Evaluation and limitations
+Optimizer/resume state and base-model weights are not distributed here. A continuation restoring the final training state completed another 1600 steps, reaching **3200 cumulative steps**; those weights are **not included in this release**. This resumed run is not assumed numerically identical to an uninterrupted 3200-step run. See `training-settings.json` for the exact configuration and dataset checksum.
 
-All 19 held-out inputs were generated with and without the final adapter (38 outputs): seed 62294, 20 inference steps, CFG 4.0, strength 1.0, 512 output and 512 VAE reference processing. Visual inspection found Mira facial/hair features and target illustration styling. Educational end-to-end training and application goals were met.
+## Evaluation and current recommendation
 
-However, all five corridor variants lost substantial plants or architecture; two became nearly blank backgrounds. Mouth opening often decreased and clothing details sometimes changed. This is not a general-purpose identity or scene-preservation guarantee. The 19 validation pairs derive from only four target scenes and do not establish external-scene generalization. Only one seed, final step and adapter strength were evaluated here; 1600 is not a proven optimal training duration.
+**Current experimental recommendation: cumulative 3200 training steps, LoRA strength 0.75.** This is a qualitative selection for this experiment, not a measured error rate or a universal optimum.
 
-Representative gallery and corridor examples below include both a stronger preservation case and a clear background-loss case. Targets are comparison-only.
+| Criterion | Review finding | Decision |
+| --- | --- | --- |
+| Mira facial identity | User review found iris and facial-feature spacing differences at 1600 steps, with almost no such errors visible at 3200 steps. | Prefer cumulative 3200 steps. |
+| Head direction | User review found more head-direction errors at strength 1.0 than at 0.75. | Prefer strength 0.75. |
+| Clothing, hands, gaze and proportions | Existing AI per-case observations still record preservation errors. | Review separately from facial identity. |
 
-| Input | No LoRA | LoRA 1600 | Target (comparison only) |
-| --- | --- | --- | --- |
-| ![input](../input-images/bfs-input-21-soft-photo.png) | ![base](../bfs-evaluation-control512/bfs-input-21-soft-photo-base.png) | ![lora](../bfs-evaluation-control512/bfs-input-21-soft-photo-lora.png) | ![target](../validation/images/p7-5-10-mira-v2-evaluation-05.png) |
-| ![input](../input-images/bfs-input-20-soft-photo.png) | ![base](../bfs-evaluation-control512/bfs-input-20-soft-photo-base.png) | ![lora](../bfs-evaluation-control512/bfs-input-20-soft-photo-lora.png) | ![target](../validation/images/p7-5-10-mira-v2-evaluation-04.png) |
+The earlier assessment that face and hair were generally consistent is retained as historical context; the follow-up checks examine finer facial details. AI observations and the user's final setting preference are distinguished in the detailed records.
 
-## Additional evaluation: 45 independent synthetic inputs
+### Comparison sheets / 결과 검수 비교시트
 
-A separate run applies the same final adapter to 45 newly generated 512x512 inputs: a fictional adult man, adult woman and toddler, with 15 requested view labels each (three camera heights by five horizontal directions). These images were not part of the 193 training/validation pairs. No target face reference is supplied and no paired Mira ground truth is available for these new scenes.
 
-The run uses adapter strength 1.0, seed 62294, 20 steps, CFG 4.0, and 512 VAE reference processing. Its prompt changes only `the woman` to `the person` for use across the three input groups. These are synthetic out-of-dataset inputs, not a real-world benchmark; pose, expression and background also vary, so this is not an isolated camera-angle test.
+The detailed review Markdown files and their rendered sample images are not packaged in this Hugging Face release. Read the versioned AiBook source instead: [review summary and case guide](https://github.com/devchan64/AiBook/blob/dev/docs/assets/part-07/chapter-05/sec-10/bfs-camera-366-review.md), [45-input step comparison](https://github.com/devchan64/AiBook/blob/dev/docs/assets/part-07/chapter-05/sec-10/bfs-camera-366-step-review.md), and [12-input strength comparison](https://github.com/devchan64/AiBook/blob/dev/docs/assets/part-07/chapter-05/sec-10/bfs-camera-366-scale-review.md).
 
-Generation is in progress and full visual review is pending. No additional quality claim is made from this run yet. Review will separately assess Mira face/hair/style consistency and input pose, expression, clothing, age appearance and scene preservation.
+Each detailed case compares the input, a direction-matched Mira torso reference, and the outputs. The Mira image is a visual identity/style reference only; it was **not passed to the inference pipeline**. Clothing, pose and scene preservation must be judged against the input, not against the Mira torso.
+
+<details>
+<summary>Evaluation conditions and limitations / 검수 조건과 한계 펼치기</summary>
+
+The 45 external synthetic inputs (15 each for man, woman and toddler) are separate from the 19 held-out validation pairs. Input hashes do not overlap the training inputs. Comparing both checkpoints at strength 1.0 gives 90 outputs. The strength experiment selected 12 of those inputs to examine preservation issues: 12 no-adapter outputs plus 48 new outputs at strengths 0.5/0.75 and 24 reused strength-1.0 outputs, for 84 compared outputs.
+
+Settings: seed 62294, 20 inference steps, CFG 4.0, 512×512 output and VAE reference, 384×384 vision-language reference, no crop. Only the input image is passed to the pipeline. Generation and file integrity were checked. The selected 12 inputs are not an independent test set; this single-seed qualitative comparison does not establish general performance or overfitting. The 19 held-out pairs have not yet been evaluated with this checkpoint.
+
+The cumulative 3200-step comparison checkpoint has SHA-256 `3614fd3e83d9f99408cab412ff678a82c5b8a8700e2d5e731507de5b2ee75cc5`. This identifies the experimental checkpoint, not the downloadable 1600-step file.
+
+</details>
 
 ## Sources and license
 

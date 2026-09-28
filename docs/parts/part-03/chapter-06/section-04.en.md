@@ -1,114 +1,69 @@
 # P3-6.4 Why Not Every Column in a Summary Table Is a Feature
 
 > Section ID: `P3-6.4`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-The fact that a column appears in a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) and the judgment that it is a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) are not the same statement. A summary table can contain features that describe sample structure, but it can also contain columns for comparison, candidate result columns, and columns for identification and context. So the distinction to hold first in this section is that `a column in the summary table` and `a feature to be read as model input` do not automatically match.
+A summary table can contain comparison values, input candidates, outcomes, and identifiers or context. A column name or numeric format cannot determine whether it belongs in model input. **First specify what is predicted and when, then check whether the value is actually available at that time.** One column can serve both comparison and input roles.
 
-## Why Is This Distinction Needed
+## Predict the Next Seven Days at Action Completion
 
-Once we create a one-action summary table, many kinds of columns can sit together inside one table like this.
+In this fictional example, immediately after an action ends, predict whether a failure record will appear within the next seven days. Assume sensor summaries are ready at completion and the baseline was computed beforehand using only earlier actions. If current summaries are recalculated later, revisit that availability assumption.
 
-| Example of a column name | Is it directly a feature? | A more natural role |
-| --- | --- | --- |
-| `mid_flow_mean` | usually yes | A feature that describes sample structure |
-| `late_minus_early` | usually yes | A feature that shows change structure |
-| `baseline_mid_flow_mean` | it depends | A comparison-reference column |
-| `review_needed` | no | A result or target-label candidate |
-| `event_id` | no | An identification column |
-| `captured_at` | no | A time-context column |
+The outcome `failure_within_7d` is 1 if any failure is recorded after completion and within seven days, excluding the completion instant and including the seven-day endpoint. It is 0 only after complete follow-up with no failure record. A and B below form a training table with outcomes attached after follow-up; those outcomes are unknown at prediction time.
 
-This table matters because it slows the habit of reading `if it is a numerical column, it must be a feature`. Some columns describe the structure of the sample, some were attached for comparison, and some may record an outcome we later want to predict.
-
-## Why Do Several Roles Mix Inside One Table
-
-A summary table is a table that turns `one-action samples into readable rows`. But the information a person needs when reading the table and the information that should immediately be used as model input are not always exactly the same.
-
-For example, we can imagine a table like this.
-
-| event_id | mid_flow_mean | late_minus_early | baseline_mid_flow_mean | review_needed |
+| event_id | mid_flow_mean | baseline_mid_flow_mean | delta_from_baseline | failure_within_7d |
 | --- | ---: | ---: | ---: | ---: |
-| A | 2.40 | -0.80 | 3.05 | 1 |
-| B | 2.55 | -0.10 | 2.60 | 0 |
+| A | 2.40 | 3.05 | −0.65 | 1 |
+| B | 2.55 | 2.60 | −0.05 | 0 |
 
-If we look at this table, all of them may appear numerical, but their roles differ.
+Flow is measured in L/min. A's difference is `2.40−3.05=−0.65 L/min`: 0.65 below its historical baseline. B's is `2.55−2.60=−0.05 L/min`. A negative value is not itself a failure diagnosis, and two rows cannot establish a prediction rule or its performance.
 
-- `mid_flow_mean`, `late_minus_early` describe the structure of the sample.
-- `baseline_mid_flow_mean` is a reference column attached for comparison with the usual state.
-- `review_needed` can be a candidate result we later want to predict.
-- `event_id` is the name that points to the sample.
+## Mark Comparison and Input Roles Separately
 
-So one table can temporarily contain together `comparison for people to read`, `input to be passed later into learning`, and `candidate results`.
+The following decisions apply to this prediction task. A candidate is eligible for consideration, not guaranteed to be adopted or useful. Comparison use means examining values and conditions in reports independently of model training.
 
-## It Gets Less Confusing If We First Split into Four Kinds
+| Column or representation | Comparison use | Input candidate | Available at completion |
+| --- | --- | --- | --- |
+| mid_flow_mean | Inspect current level | Yes | Yes under the completed-summary assumption |
+| baseline_mid_flow_mean | Inspect historical reference | Yes | If computed beforehand from past data |
+| delta_from_baseline | Inspect difference from baseline | Yes | If both source values are available then |
+| event_id | Link source records and check duplicates | Excluded in this example | Yes |
+| Time of day derived from completion time | Compare conditions by time of day | Depending on the objective | If the timestamp is recorded immediately |
+| failure_within_7d | Compare outcomes after follow-up | Excluded from input for this prediction | No |
 
-When reading for the first time, it is better not to think too complicatedly, but to split the columns first into four kinds.
+The event ID is excluded because it is only an identifier here, not because identifiers are permanently prohibited in every task. A recurring machine ID can carry meaningful context, but deployment on new machines and the possibility of memorizing IDs require separate consideration. A timestamp may be used directly or converted to time of day, so context columns are not categorically excluded from input.
 
-| Column kind | The question to ask first | Example |
-| --- | --- | --- |
-| Feature column | Does this value describe sample structure? | Average, slope, variability |
-| Comparison column | Does this value let us read the difference between usual and recent state? | Baseline average, difference value |
-| Candidate result column | Is this a result that we later want to predict? | `review_needed`, `final_status` |
-| Identification / context column | Does this value distinguish the sample or explain its time point? | `event_id`, `captured_at` |
+## Identical Differences Can Have Different Availability
 
-Once split into these four boxes, it becomes clearer why even columns that sit together in the same working table still play different roles. Comparison columns let us read the difference between usual and recent state, candidate result columns make us set aside values we may later want to predict, and identification/context columns keep us from losing which sample and which time point produced the judgment. So the distinction here is not a simple classification chart. It is a criterion for organizing why the columns inside one table should not all be read in the same way.
+Now suppose A's baseline of 3.05 includes measurements from the week after the action ended. Even if the resulting difference is still −0.65, that baseline could not be constructed at completion. The value can support retrospective comparison, but using it as completion-time prediction input introduces future information.
 
-## Even the Same Numerical Column Is Not Always a Feature
+Even a baseline using only past records is unavailable immediately if its calculation finishes the next day. **Check both when source data arose and when the computed value became available.** Training rows should link to baseline versions available at their prediction times, rather than a single baseline recomputed from the entire dataset.
 
-What is especially easy to confuse is a column such as `baseline_mid_flow_mean` or `delta_from_baseline`. Because it is numerical, it looks like a feature, but we should first inspect why that column was attached.
+Moving prediction to just before the action starts also makes the current middle-segment mean unavailable. The same table names and values now require different input choices. A historical baseline may remain eligible, while the current middle mean and its difference from baseline must be excluded.
 
-| Numerical column | The misunderstanding that first comes to mind | What to check first |
-| --- | --- | --- |
-| `baseline_mid_flow_mean` | It is a number, so it must be a feature | Is it the baseline itself, or a value to be used as an input feature? |
-| `delta_from_baseline` | It is a difference value, so it must be a feature | Is it a column that explains the comparison structure, or will it actually be passed as input? |
-| `review_score` | It is a number, so it must be a feature | Is it an outcome score, or an input description value? |
+## Record Column Roles and Calculation Sources Together {#a-small-diagram}
 
-So the format `numerical column` comes after the question `why was this column created?`
-
-A column's role is not permanently fixed by its name. Time of day derived from a timestamp or an operating mode determined before prediction can be candidate input features. Conversely, even `mid_flow_mean` is not yet available when predicting before an action starts. A `Yes` in the table below means it is a candidate when used after measurements for that action are complete. Selecting an input requires checking not only its purpose, but also when it actually becomes available.
-
-## Small Check Table
-
-In this section, separating column roles matters more than a calculation experiment. We can reread the columns in a working table by `why the column was created`, not by `the format of the value`.
-
-| Column name | Example value | Role to read first | Use directly as model input? | Reason for the judgment |
-| --- | ---: | --- | --- | --- |
-| `event_id` | A | context | no | It identifies the sample. |
-| `mid_flow_mean` | 2.40 | feature | yes | It describes the sample's own middle-segment average. |
-| `late_minus_early` | -0.80 | feature | yes | It describes the early-to-late change structure inside the sample. |
-| `baseline_mid_flow_mean` | 3.05 | comparison | depends | It stores the baseline itself. |
-| `delta_from_baseline` | -0.65 | comparison | depends | It expresses the gap versus the baseline. |
-| `review_score` | 87 | target candidate | no | It may be an outcome score we later want to predict. |
-| `review_needed` | 1 | target candidate | no | It is a result candidate: whether review is needed. |
-| `captured_at` | 2026-07-08 09:10 | context | no | It records when the sample was captured. |
-
-What this table shows is not a grand classification rule. The core point is that one working table can temporarily contain several kinds of columns side by side, and that those columns need to be read again with role-specific reasons. In particular, `baseline_mid_flow_mean` and `delta_from_baseline` are numerical columns, yet they are first read as comparison columns, while `review_score` and `review_needed` are numerical columns, yet they are first read as candidate results. This also explains why `depends` appears. The baseline itself or a difference-from-baseline value was created for comparison explanation, so whether it should immediately be passed on as an input feature has to be judged again later according to what prediction problem will be built.
-
-This also explains the `Depends` entries. The baseline itself and differences from it were created for comparative explanations, so whether to pass them directly as input features must be reconsidered according to the prediction task eventually defined.
-
-If we touch this distinction once right after feature design, the illusion `aren't they all features anyway?` becomes weaker. A summary table is not a table that stores only features. It is a working table where feature candidates, comparison columns, candidate results, and identification/context columns can temporarily sit together. Once we read it this way, the roles of baseline-comparison columns and target-candidate columns also feel less abrupt when they reappear later.
-
-This section can be read not only as the question `which numerical column is a feature?`, but as the problem of [column-role separation in a working table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling).
-
-So instead of the misunderstanding `if it is a numerical column, it must be a feature`, we should first ask whether each column describes the sample, holds a comparison reference, records a result, or merely keeps context.
-
-## Separating Identifier, Context, Input, and Outcome Columns {#a-small-diagram}
-
-The core point of this section is that not every column in a working table should be read as the same kind. Even inside one table, columns split into feature, comparison, target-candidate, and context columns, and that role separation has to come first.
-
+```mermaid
 --8<-- "assets/part-03/chapter-06/p3-6-4-mermaid-01-en.mmd"
+```
 
-Turn `it depends` into a concrete choice. Suppose the task predicts failure within seven days immediately after an action ends, and both the current action's mean and a baseline made only from past actions are available then. In this case, `delta_from_baseline = mid_flow_mean − baseline_mid_flow_mean` can be an input candidate. If the baseline instead includes measurements taken after the current action, the difference column cannot be used as input even though its name is unchanged.
+Mark “comparison use/input candidate/available then” for `delta_from_baseline`. All three are yes in the first case, where a past-only baseline is immediately available. With future records or a delayed calculation, retrospective comparison is possible but input at the specified prediction time is excluded. Being a comparison column does not disqualify it, and being numeric does not qualify it.
 
-Mark each column separately as `used for comparison`, `input candidate`, and `available at prediction time`. The first difference column can satisfy all three. Column roles are not mutually exclusive labels: using a column for comparison does not automatically exclude it from input, and being numeric does not automatically qualify it.
+Attaching outcomes later to a training table is not itself a problem; input and target columns must be used separately. Can B be labeled 0 merely because no failure is recorded while follow-up remains incomplete? No. Record follow-up completion separately and hold incomplete outcomes.
+
+Retain source event IDs, the period included in the baseline, baseline version, and calculation completion time to reconstruct each difference. Roles are records of purpose and timing, not mutually exclusive labels.
 
 ## Checklist
 
-- Did you distinguish identifier, context, input, and outcome columns?
-- Did you choose a context column and check whether it is actually available at prediction time?
+- Can you calculate A's and B's baseline differences with units?
+- Can you explain why comparison and input-candidate roles can overlap?
+- Can you check both future-data inclusion and calculation completion time?
+- Can you identify excluded columns when prediction moves before action start?
+
+Related concepts: [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature).
 
 ## Sources and Further Reading
 
 - Google for Developers, `Machine Learning Glossary`: `labeled example`. Because it explains a labeled example as the combination of features and label, it provides the basic frame for distinguishing input-description columns from candidate result columns. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains the design flaw in which a feature becomes a proxy for the label, it provides a basis for not carelessly mixing candidate result columns such as `review_needed` or `review_score` into the feature set. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains the design flaw in which a feature becomes a proxy for the label, it provides a basis for not carelessly mixing candidate result columns such as `failure_within_7d` into the feature set. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, `PROV-Overview`. Because it provides a standard context for recording and tracing provenance information separately, it can serve as a general basis for leaving identification/context columns such as `event_id` and `captured_at` as information with a role different from features that describe the sample itself. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

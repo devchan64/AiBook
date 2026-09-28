@@ -1,0 +1,27 @@
+{
+  "case": {
+    "id": "toddler-level-minus-45",
+    "management_code": "P712-CAM-037",
+    "reference": {
+      "path": "docs/assets/part-07/chapter-05/sec-12/codex-camera-inputs-v1/toddler-level-minus-45-512.png",
+      "sha256": "b1148e52eb45f453553f0b926e382f3f08d925a2f07bb754b146ecf083b8ef51"
+    },
+    "subject": "toddler",
+    "vertical": "level",
+    "yaw": -45,
+    "prompt": "Transform the person into mira_person with Mira's facial identity and hairstyle, and render the entire image in Mira's target illustration style. Preserve the input facial expression, head direction, pose, clothing design, camera viewpoint, perspective, framing, subject position, apparent body scale, background objects and scene layout.",
+    "seed": 62294
+  },
+  "scale": 0.5,
+  "observed_vae_input_sizes": [
+    [
+      512,
+      512
+    ]
+  ],
+  "checkpoint_sha256": "9cddfaec307af146ce5311669c2e0ab42fdf68abe836364fa329e32861e9e37e",
+  "plan_sha256": "dfbe584399e553898f7ff47ec5866716ccd7f425f4dd46daa0485aba4302c505",
+  "output_sha256": "6301212255c4afa5c5d9f5e1dcb462d4ad223d5a869ef8994e1a0ff66174afc4",
+  "elapsed_seconds": 965.81,
+  "status": "pending_visual_review"
+}

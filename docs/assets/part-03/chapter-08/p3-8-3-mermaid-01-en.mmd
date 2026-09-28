@@ -1,10 +1,6 @@
 flowchart TD
-    A[Comparison result]
-    A --> B[State the difference first]
-    B --> C{How strong is the evidence?}
-    C -->|Few cases| D[Add low-confidence condition]
-    C -->|Repeated and enough cases| E[Add stronger review condition]
-    D --> F[End with next action<br/>keep observing]
-    E --> G[End with next action<br/>raise review priority]
-    F --> H[Do not add cause claim]
-    G --> H
+    A["Extract comparison and counts"]
+    A --> B["Write what was observed"]
+    B --> C["Name specific missing information"]
+    C --> D["Specify records and checking work"]
+    D --> E["Check for unsupported causes or delayed action"]

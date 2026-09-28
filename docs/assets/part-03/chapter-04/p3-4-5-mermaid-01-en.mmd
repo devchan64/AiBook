@@ -1,11 +1,5 @@
 flowchart TD
-    A[Current sample set]
-    A --> B[Mostly day shift]
-    A --> C[Mostly machine M1]
-    A --> D[Only one high-load case]
-    A --> E[Only one after-maintenance case]
-
-    B --> F[Coverage is uneven]
-    C --> F
-    D --> F
-    E --> F
+    A["Define target conditions and shares"] --> B["Count collected actions"]
+    B["Count collected actions"] --> C["Check absent conditions"]
+    C["Check absent conditions"] --> D["Check important combinations"]
+    D["Check important combinations"] --> E["Record gaps and evaluation limits"]

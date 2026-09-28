@@ -1,143 +1,84 @@
 # P3-8.6 일부 사례에만 남은 확정 라벨
 
 > Section ID: `P3-8.6`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-_보조제목: 확정 라벨이 검토된 사례에만 있을 때 해석에 무엇을 함께 적어야 하는가_
+검토 큐에서 일부 사건만 사람이 확인하면, 확정 결과도 그 사건에만 남을 수 있습니다. 이때 **미검토는 정상이라는 뜻이 아닙니다**. [선택적 라벨](../../../reference/concept-glossary-parts/07-siot.md#glossary-selective-labels)은 어떤 사례가 결과 확인을 받았는지가 라벨의 관측 범위를 결정하는 문제입니다. 라벨이 정확하더라도 그 라벨을 가진 집합이 전체를 대표하는지는 별도 질문입니다.
 
-해석 단계에서는 숫자 차이뿐 아니라 누가 확정 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)을 얻었는가도 함께 봐야 할 때가 있습니다. 현실 운영에서는 모든 사건에 같은 깊이의 검토가 들어가지 않습니다. 이상해 보인 일부 사례만 사람이 다시 보고, 그 사례에만 확정 라벨이 남을 수 있습니다. 이 [선택적 라벨(selective labels)](../../../reference/concept-glossary-parts/07-siot.md#glossary-selective-labels) 상태를 숨기면 독자는 `라벨이 있는 사례 집합`을 `전체 사건 집합`처럼 읽기 쉽습니다.
+## 전체 10건 중 어떤 4건을 보았는가
 
-확정 라벨이 검토된 사례에만 남아 있다면, 그 라벨은 전체를 대표한다고 바로 읽으면 안 됩니다.
+다음은 자체 구성한 가상 사건 10건입니다. `review_score`는 검토 대상을 고르는 예시 점수이며 고장 확률이 아닙니다. `review_score ≥ 0.75`인 사건만 검토를 완료했다고 가정합니다. `fixed_prediction`은 검토 범위를 바꾸어도 그대로 둘 가상 이진 예측값입니다. 점수에서 계산하거나 이 표로 모델을 학습해 만든 값이 아닙니다. 1은 고장 예측, 0은 비고장 예측입니다.
 
-| 보이는 상태 | 해석에서 함께 적어야 하는 것 |
-| --- | --- |
-| 일부 사례에만 확정 라벨이 있다 | 어떤 기준으로 그 사례들만 검토됐는가 |
-| `review_needed=0` 사례는 거의 재확인되지 않았다 | 라벨 없음이 정상인지 미확인인지 |
-| 특정 기간·장비에만 라벨이 몰린다 | 라벨 집합의 [편향(bias)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-bias) 가능성 |
+`confirmed_failure`는 검토 결과이며 1은 고장 확인, 0은 비고장 확인, `?`는 미확인입니다. 여기서는 검토를 완료하면 정확한 라벨을 얻는다고 가정하여 라벨 오류와 선택 문제를 분리합니다. 고장 여부를 확인한 것이 특정 근본 원인까지 확인했다는 뜻은 아닙니다.
 
-예를 들어 아래 표를 보겠습니다.
-
-| event_id | review_needed | manually_reviewed | confirmed_root_cause |
+| event_id | review_score | fixed_prediction | confirmed_failure |
 | --- | ---: | ---: | --- |
-| A | 1 | 1 | sensor_drop |
-| B | 1 | 1 | valve_delay |
-| C | 0 | 0 | None |
-| D | 0 | 0 | None |
+| A | 0.92 | 1 | 1 |
+| B | 0.88 | 1 | 1 |
+| C | 0.81 | 0 | 0 |
+| D | 0.76 | 1 | 1 |
+| E | 0.69 | 1 | ? |
+| F | 0.62 | 1 | ? |
+| G | 0.55 | 1 | ? |
+| H | 0.48 | 1 | ? |
+| I | 0.37 | 1 | ? |
+| J | 0.29 | 1 | ? |
 
-이때 `confirmed_root_cause`가 있는 두 건만 보고 전체 운영의 원인 분포를 말하면 과장될 수 있습니다. 왜 A와 B만 사람이 봤는지, C와 D는 정말 정상이라 비었는지, 아니면 단지 아직 안 봤는지를 같이 적어야 합니다.
-
-해석 단계에서는 아래 메모면 충분합니다.
-
-| 먼저 적을 메모 | 왜 필요한가 |
-| --- | --- |
-| 검토 대상이 되는 기준 | 선택적으로 라벨이 남는 구조를 드러내기 위해 |
-| 라벨 없음의 뜻 | 정상과 미확인을 섞지 않기 위해 |
-| 라벨 있는 집합의 범위 편중 | 해석 강도를 과장하지 않기 위해 |
-
-여기서 중요한 점은 `선택적으로 붙은 확정 라벨은 해석 근거가 될 수는 있지만, 전체 사건을 대표하는 정답 집합처럼 읽기 전에 검토 경로와 편중을 먼저 적어야 한다`는 사실입니다. 따라서 확정 라벨 표는 `전체 사건의 정답표`가 아니라, [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure) 같은 검토 경로를 거친 일부 사건의 확인 결과일 수 있다는 점을 먼저 봐야 합니다.
-
-아래 예제는 이 문제를 작은 모델 평가로 축소해 봅니다. 실제 운영에서는 검토되지 않은 사건의 최종 결과를 모를 수 있습니다. 그래서 코드의 `actual_failure_for_demo`는 학습용으로만 둔 숨은 결과입니다. 목적은 이 값을 정답표처럼 쓰는 것이 아니라, 검토된 사례에만 남은 라벨로 모델을 평가하면 어떤 착시가 생기는지 확인하는 데 있습니다.
-
-문제 상황: 검토된 사례에만 확정 라벨이 있을 때, 모델 점수가 검토 경로에 따라 어떻게 달라져 보이는지 확인합니다.
-
-입력(input): `risk_score`, `manually_reviewed`, 데모용 숨은 결과 `actual_failure_for_demo`.
-
-기대 출력(output): 라벨 coverage, 검토된 라벨에서의 정확도, 전체 사건을 데모로 열어 봤을 때의 정확도와 검토 경로별 오류 수.
-
-확인할 개념: 선택적으로 검토된 라벨만 보면 모델이 좋아 보일 수 있지만, 검토되지 않은 구간에서는 오류가 숨어 있을 수 있습니다.
-
-```python
-# 선택적으로 검토된 라벨만 사용할 때 평가가 어떻게 치우칠 수 있는지 확인합니다.
-import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeClassifier
-
-events = pd.DataFrame(
-    [
-        {"event_id": "A", "risk_score": 0.92, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "B", "risk_score": 0.88, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "C", "risk_score": 0.81, "manually_reviewed": 1, "actual_failure_for_demo": 0},
-        {"event_id": "D", "risk_score": 0.76, "manually_reviewed": 1, "actual_failure_for_demo": 1},
-        {"event_id": "E", "risk_score": 0.69, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "F", "risk_score": 0.62, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-        {"event_id": "G", "risk_score": 0.55, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "H", "risk_score": 0.48, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-        {"event_id": "I", "risk_score": 0.37, "manually_reviewed": 0, "actual_failure_for_demo": 1},
-        {"event_id": "J", "risk_score": 0.29, "manually_reviewed": 0, "actual_failure_for_demo": 0},
-    ]
-)
-
-reviewed = events[events["manually_reviewed"].eq(1)]
-
-model = DecisionTreeClassifier(random_state=0, max_depth=2)
-model.fit(reviewed[["risk_score"]], reviewed["actual_failure_for_demo"])
-events["predicted_from_reviewed_only"] = model.predict(events[["risk_score"]])
-events["error"] = events["predicted_from_reviewed_only"].ne(events["actual_failure_for_demo"])
-
-print("label coverage")
-print(events.groupby("manually_reviewed")["event_id"].count().to_dict())
-print("failure rate in reviewed labels:", reviewed["actual_failure_for_demo"].mean())
-print("failure rate in all events for demo:", events["actual_failure_for_demo"].mean())
-print(
-    "accuracy on reviewed labels:",
-    accuracy_score(reviewed["actual_failure_for_demo"], model.predict(reviewed[["risk_score"]])),
-)
-print(
-    "accuracy on all events for demo:",
-    accuracy_score(events["actual_failure_for_demo"], events["predicted_from_reviewed_only"]),
-)
-print("errors by review path:", events.groupby("manually_reviewed")["error"].sum().to_dict())
-print(
-    events[
-        [
-            "event_id",
-            "manually_reviewed",
-            "actual_failure_for_demo",
-            "predicted_from_reviewed_only",
-            "error",
-        ]
-    ].to_string(index=False)
-)
-```
-
-예상 출력:
-
-```text
-label coverage
-{0: 6, 1: 4}
-failure rate in reviewed labels: 0.75
-failure rate in all events for demo: 0.6
-accuracy on reviewed labels: 1.0
-accuracy on all events for demo: 0.7
-errors by review path: {0: 3, 1: 0}
-event_id  manually_reviewed  actual_failure_for_demo  predicted_from_reviewed_only  error
-       A                  1                        1                             1  False
-       B                  1                        1                             1  False
-       C                  1                        0                             0  False
-       D                  1                        1                             1  False
-       E                  0                        1                             1  False
-       F                  0                        0                             1   True
-       G                  0                        1                             1  False
-       H                  0                        0                             1   True
-       I                  0                        1                             1  False
-       J                  0                        0                             1   True
-```
-
-검토된 라벨만 보면 정확도가 `1.0`입니다. 하지만 데모용으로 전체 사건의 실제 결과를 열어 보면 정확도는 `0.7`로 내려가고, 오류 3건은 모두 `manually_reviewed=0` 경로에 있습니다. 이 출력은 확정 라벨이 붙은 사례가 전체 사건을 대표하지 않을 수 있음을 보여 줍니다. 실제 운영에서는 검토되지 않은 사건의 결과를 모를 수 있으므로, 더더욱 `라벨 없음은 정상인가, 미확인인가`, `어떤 기준으로 사람이 검토했는가`를 함께 남겨야 합니다.
+A~D 네 건만 라벨이 있고 E~J 여섯 건은 미확인입니다. 라벨 확보율(coverage)은 **라벨이 있는 건수/전체 건수**, 따라서 `4/10=40%`입니다. 검토된 집합의 고장 비율은 **고장 확인 건수/검토 건수**, 즉 `3/4=75%`입니다. 두 값은 분모도 질문도 다릅니다. 75%를 전체 고장 비율로 옮겨 쓰면 안 됩니다.
 
 ## 선택된 검토 사례와 전체 평가 범위 구분하기 {#_1}
 
-이 절의 핵심은 `검토된 사례에만 남은 확정 라벨`을 전체 사건의 정답표처럼 읽지 않는 데 있습니다. 확정 라벨이 보이면, 그와 함께 `라벨 없음의 뜻`, `검토 경로`, `편중 가능성`을 같이 적어야 해석 강도가 과장되지 않습니다.
-
+```mermaid
 --8<-- "assets/part-03/chapter-08/p3-8-6-mermaid-01-ko.mmd"
+```
+
+정확도는 예측과 확정 결과가 같은 건수를 평가한 건수로 나눈 값입니다. A~D에서는 네 예측이 모두 맞아 **검토된 집합의 정확도는 `4/4=100%`**입니다. 이 예제에는 학습 단계가 없으므로 학습 데이터 재평가 점수가 아닙니다. 그렇다고 새로운 사건이나 미검토 집합의 성능이 입증된 것도 아닙니다. 점수가 높은 네 건만 선택해 확인한 결과입니다.
+
+전체 정확도를 구하려면 E~J에서 예측이 맞았는지도 알아야 합니다. `?`를 0으로 채워 계산하면 모르는 결과를 비고장으로 발명하는 셈입니다. 네 건이 맞았다는 정보만으로 전체 열 건의 정확도를 하나의 값으로 확정할 수 없습니다.
+
+## 교육용으로 숨은 결과를 열어 보기
+
+선택된 집합과 전체의 차이를 계산해 보기 위해서만, 다음 여섯 결과를 **교육용 숨은 정답**으로 가정합니다. 실제 운영에서 자동으로 얻을 수 있는 열이 아닙니다. 현실에서는 추가 검토나 적절한 후속 결과 확인이 필요합니다.
+
+| event_id | actual_failure_for_demo | fixed_prediction | 예측 일치 여부 |
+| --- | ---: | ---: | --- |
+| E | 1 | 1 | 일치 |
+| F | 0 | 1 | 불일치 |
+| G | 1 | 1 | 일치 |
+| H | 0 | 1 | 불일치 |
+| I | 1 | 1 | 일치 |
+| J | 0 | 1 | 불일치 |
+
+숨은 결과를 열면 미검토 여섯 건 중 고장은 E·G·I의 세 건이고 예측 일치도 세 건입니다. 전체 고장 비율은 `(3+3)/10=60%`, 전체 데모 정확도는 `(4+3)/10=70%`입니다. 60%는 고장 구성 비율이고 70%는 예측 일치 비율이므로 서로 바꿔 읽지 않습니다.
+
+| 지표 | 분자/분모 | 현재 검토 기록만으로 계산 가능한가 |
+| --- | --- | --- |
+| 라벨 확보율 | 4/10=40% | 가능 |
+| 검토 집합 고장 비율 | 3/4=75% | 가능 |
+| 전체 데모 고장 비율 | 6/10=60% | 불가, 숨은 결과 필요 |
+| 검토 집합 정확도 | 4/4=100% | 가능, 검토 집합으로 범위 제한 |
+| 전체 데모 정확도 | 7/10=70% | 불가, 숨은 결과 필요 |
+
+100%와 70%는 같은 고정 예측을 서로 다른 집합에서 계산한 값입니다. 오류 세 건은 F·H·J로 모두 처음에는 미검토였지만, 모든 선택적 검토에서 정확도가 반드시 높게 나오는 것은 아닙니다. 이 사례가 보여 주는 것은 검토된 정확도를 전체 성능으로 그대로 일반화할 수 없다는 점입니다.
+
+## 검토 범위와 결과 확인 경로를 함께 남기기
+
+보고에는 “전체 10건 중 점수 0.75 이상인 4건을 검토했고 라벨 확보율은 40%다. 검토 집합 정확도는 100%이며, 나머지 6건의 결과가 없어 전체 정확도는 미확인이다”라고 씁니다. 검토 정책·실제 완료 여부·라벨 정의·확인 시점과 출처도 함께 보존합니다. 검토 요청이 생성되었다는 사실만으로 확정 라벨을 얻었다고 처리하지 않습니다.
+
+추가 확인을 설계할 때는 낮은 점수 구간에서도 무작위로 일부 사례를 뽑거나 점수 구간별로 표본을 확보하는 방식을 고려할 수 있습니다. 선택 규칙과 선정 확률, 미완료 사례를 기록하고 같은 라벨 정의와 결과 확인 기간을 적용합니다. 추가 라벨 몇 건을 얻었다고 전체 대표성이 자동 확보되지는 않으며, 전체 추정에는 그 표본 설계를 반영해야 합니다.
+
+## 직접 계산하기
+
+교육용 숨은 결과를 사용할 수 있다는 가정 아래, 검토 기준을 `review_score ≥ 0.60`으로 바꾸고 해당 사건의 검토를 모두 완료해 보세요. 예측값은 고정합니다. 라벨 확보율, 검토 집합 고장 비율, 검토 집합 정확도는 각각 얼마일까요?
+
+해설: E·F가 추가되어 A~F 여섯 건을 검토합니다. 확보율은 `6/10=60%`, 고장 비율은 A·B·D·E의 `4/6≈66.7%`, 정확도는 F만 틀리므로 `5/6≈83.3%`입니다. 전체 데모 정확도는 예측과 실제 결과가 바뀌지 않아 여전히 `7/10=70%`입니다. 검토 집합 정확도 변화는 모델 재학습의 효과가 아닙니다. 실제로 E·F 결과를 확인하지 않았다면 이 연습의 새 수치를 계산할 수 없습니다.
 
 ## 체크리스트
 
-- 검토된 사례만 남았을 때 전체 성능을 추정하기 어려운 이유를 설명했는가?
-- 검토되지 않은 사례의 결과를 추가 확인할 방법을 적었는가?
+- 확보율·고장 비율·정확도 각각의 분자와 분모를 말할 수 있는가?
+- 미확인을 비고장으로 채우지 않고, 현재 기록으로 계산할 수 없는 지표를 구분하는가?
+- 고정 예측의 평가 집합 변경과 학습 효과를 구분하고, 추가 결과 확인 경로를 제안할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. label은 각 example에 붙은 결과 정보라는 기본 틀을 제공하므로, 일부 사례에만 확정 라벨이 남아 있다면 그 라벨 집합이 전체 사건 집합과 같은 범위를 대표하지 않을 수 있다는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Himabindu Lakkaraju, Jon Kleinberg, Jure Leskovec, Jens Ludwig, Sendhil Mullainathan, `The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables`, KDD 2017. 관측된 결과가 기존 의사결정자의 선택 결과로만 남는 selectively labeled data에서는 관측된 outcome이 전체 모집단의 무작위 표본이 아니어서 잘못된 결론으로 이어질 수 있다고 설명하므로, 확정 라벨이 검토된 사례에만 남아 있을 때 그 라벨 집합을 전체 사건의 정답표처럼 읽으면 안 된다는 이 절의 핵심 근거가 됩니다. [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- W3C, `PROV-Overview`. 어떤 결과가 어떤 검토 절차를 거쳐 생성되었는지를 provenance information으로 남기는 관점을 제공하므로, 확정 라벨이 붙은 사례 집합에서는 검토 경로와 라벨 없음의 뜻을 함께 적어야 한다는 이 절의 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- [Lakkaraju 외, The Selective Labels Problem, KDD 2017](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } — 학회 공식 초록에서 선택적 결과 관측이 평가를 왜곡할 수 있다는 문제 설정을 확인했습니다. 본문의 사건·고정 예측·숨은 결과는 자체 가상 예시이며 논문의 실험 결과가 아닙니다. 확인일: 2026-09-20.

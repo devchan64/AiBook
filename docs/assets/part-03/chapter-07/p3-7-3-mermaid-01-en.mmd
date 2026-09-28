@@ -1,8 +1,18 @@
-```mermaid
 flowchart TD
-    U[Usual structure chosen as reference] --> B[Data baseline]
-    B --> D[Difference between current state and reference]
-    C[Current or recent state] --> D
-    M[Baseline model] --> E[Compare new-model and baseline-model performance]
-    N[New model] --> E
-```
+    A["Current measurement 108 kPa"]
+    B["Historical reference 100 kPa"]
+    C["State difference +8 kPa"]
+    D["Upper limit 105 kPa"]
+    E["Limit exceeded by 3 kPa"]
+    F["Same 12 test cases"]
+    G["dummy: 5 correct"]
+    H["tree: 9 correct"]
+    I["Accuracy difference about 33.3 percentage points"]
+    A --> C
+    B --> C
+    A --> E
+    D --> E
+    F --> G
+    F --> H
+    G --> I
+    H --> I

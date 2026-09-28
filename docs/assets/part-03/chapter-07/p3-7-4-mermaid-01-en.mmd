@@ -1,11 +1,7 @@
 flowchart TD
-    A[Baseline candidates]
-    A --> B{Same sample unit?}
-    B -->|No| X[Do not use]
-    B -->|Yes| C{Same process and mode?}
-    C -->|No| X
-    C -->|Yes| D{Enough event count?}
-    D -->|No| X
-    D -->|Yes| E{Same operational phase?}
-    E -->|No| X
-    E -->|Yes| F[Use as baseline candidate]
+    A["State comparison question before inspecting results"]
+    B["Separate matching conditions from intended differences"]
+    C["Review candidate periods, definitions, and counts"]
+    D["Record selection, exclusion, and uncertainty"]
+    E["Use provisional reference or collect more data if needed"]
+    A --> B --> C --> D --> E

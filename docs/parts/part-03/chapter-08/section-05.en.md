@@ -1,82 +1,61 @@
-# P3-8.5 How Are Multiple Comparison Columns Grouped into One Review-Priority Candidate
+# P3-8.5 How Do Multiple Comparison Columns Become a Review Priority?
 
 > Section ID: `P3-8.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` From the viewpoint of [column-role separation](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), as the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
+A table with many columns does not require combining every column into one score. When creating a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), distinguish columns that determine order from columns retained to explain evidence. The same data can produce different orders under different sorting policies. Priority is a policy result, not an automatic property of an observation.
 
-The priority of a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) is not determined by taking one difference value as it is. It is decided after first grouping multiple comparison columns into a few judgment axes such as `change magnitude`, `repeatability`, `interpretation confidence`, and `operational importance`.
+## Define one row and every input column
 
-## Why You Should Not Jump Straight to One Number
+The following fictional data describe three comparison windows already selected for review. Each row represents a **comparison window** containing multiple completed operations, not one operation; its identifier is therefore `window_id`. A, B, and C are local identifiers, not continuations of the same letters in the preceding section. Here we determine order among selected candidates, not admission to review.
 
-[Comparison tables](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) often contain columns like these.
-
-| Example comparison column | Meaning visible at first glance |
+| Input column | Meaning in this example |
 | --- | --- |
-| `diff_mean` | Difference in average level |
-| `diff_std` | Difference in amount of fluctuation |
-| `repeatability_score` | Degree to which the same-direction change repeats |
-| `recent_count` | Sample size in the recent window |
-| `segment_shift` | Difference in summarized pattern |
+| window_id | Unique identifier of a comparison window |
+| diff_mean | Recent average of per-operation late-period means minus the corresponding baseline average, in L/min |
+| recent_count | Number of distinct completed operations in the recent window |
+| decline_count | Recent operations with late-period mean−early-period mean ≤ −0.30 L/min; equality included, each operation counted once |
+| safety_related | yes if the item belongs to a safety-related category in a predefined process-review classification; otherwise no |
 
-It is fast to combine these columns directly into one number. But that approach easily erases the explanation of why one case rose to the top and another moved down. In Part 3, a step is therefore needed first to regroup the columns by `what kind of signal is this`.
+The decline condition matches [P3-7.2](../chapter-07/section-02.en.md). `safety_related` comes from process-classification records, not the difference or sample count. `yes` does not mean an incident or limit violation has occurred, and `no` does not guarantee safety. This sorting exercise does not replace separate emergency response procedures when they apply.
 
-## The Four Judgment Axes to Group First
+Assume required measurements and classification flags are available, each baseline and recent group matches in measurement definitions and operating conditions, and all differences are comparable in the same flow unit. Do not fill a missing safety classification with no or sort differences expressed in incompatible units.
 
-Multiple comparison columns can first be reduced into the following four axes.
+## Read differences alongside rule-satisfaction counts {#looking-at-the-comparison-table-first}
 
-| Judgment axis | Main columns used | If turned into a question |
-| --- | --- | --- |
-| Change magnitude | Mean difference, ratio difference, window difference | How different is it from the usual state right now? |
-| Repeatability | Repeated direction, repeated signals across windows | Is this change continuing rather than happening once? |
-| Interpretation confidence | Recent count, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) sample size | With what strength can this difference be stated? |
-| Operational importance | Specific process condition, near-end window, safety-related columns | Is there an operational reason to let a person look first? |
-
-Seen through these four axes, the feeling that `there are too many columns, so it is complicated` becomes smaller. You can see that each column answers a different question.
-
-## Even the Same Difference Value Can Lead to Different Priority
-
-Suppose two cases share the same mean difference value of `-0.35`. Even then, review priority can differ if the conditions below are different.
-
-| Case | Change magnitude | Repeatability | Interpretation confidence | Operational importance |
-| --- | --- | --- | --- | --- |
-| A | High | High | High | High |
-| B | High | Low | Low | Medium |
-
-So if you look only at `diff`, both cases appear similar. In practice, however, A may need review earlier than B. Review priority asks not only `how different is it` but also the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) and `does practice require this to be seen first`.
-
-## How Human Review Sentences Connect to Priority Candidates
-
-In the previous section, conservative sentences were written in the order `comparison result -> strength condition -> next action`. If you compress that sentence again, it can move into priority-candidate axes like this.
-
-| What was said at the sentence stage | Meaning when moved into a priority candidate |
-| --- | --- |
-| The difference from the baseline is large | High change magnitude |
-| It repeats across several recent windows | High repeatability |
-| The recent count is sufficient | High interpretation confidence |
-| It belongs to a process condition a person should inspect first | High operational importance |
-
-So a priority candidate does not discard the explanation. It is the result of compressing the sentence again into `judgment axes`.
-
-## Comparing Priority by Differences, Repetition, and Cost {#looking-at-the-comparison-table-first}
-
-| event_id | diff_mean | repeatability_score | recent_count | safety_related |
+| window_id | diff_mean (L/min) | recent_count | decline_count | safety_related |
 | --- | ---: | ---: | ---: | --- |
-| A | -0.35 | 4 | 20 | yes |
-| B | -0.35 | 1 | 3 | no |
-| C | -0.18 | 4 | 18 | yes |
+| A | -0.35 | 20 | 14 | yes |
+| B | -0.35 | 3 | 1 | no |
+| C | -0.18 | 18 | 12 | yes |
 
-Before turning this table directly into a `priority_score`, you can first group and read it like this.
+Calculate the decline proportion as `decline_count/recent_count`: A is `14/20=70%`, B is `1/3≈33.3%`, and C is `12/18≈66.7%`. These values replace an undefined repetition score, but they contain no occurrence order and must not be read as consecutive-decline counts.
 
-| event_id | Change magnitude | Repeatability | Interpretation confidence | Operational importance |
-| --- | --- | --- | --- | --- |
-| A | High | High | High | High |
-| B | High | Low | Low | Low |
-| C | Medium | High | High | High |
+Difference magnitude is the absolute value, ignoring the sign. For A and B, `|−0.35|=0.35`; for C, `|−0.18|=0.18 L/min`. Retain the original sign because absolute values discard increase versus decrease. This policy treats magnitudes in both directions equally; detecting decreases specifically would require a direction-aware rule.
 
-The high, medium, and low entries in this table are illustrative judgments. Reproducing the final ranking requires an explicit sorting and tie-breaking rule, such as `safety-related cases first, then magnitude of change under the same conditions`. Even `repeatability_score=4` needs a definition: four repetitions or a grade of four? Operationally important cases may deserve early checking even when interpretive confidence is low.
+Neither 20 or 18 observations nor a small spread certifies “high confidence.” Coverage, dependence between operations, and baseline suitability need separate checks. B's small sample does not automatically assign it last place either.
 
-Only at that point does it become explainable why A comes first and why B can move one level down even though its difference value is large.
+## Policy 1: safety category, difference magnitude, then ID
+
+The fictional policy `queue-v1` uses the following order. Once an earlier criterion decides the order, a later criterion cannot overturn it.
+
+1. Put windows with `safety_related=yes` before those with no.
+2. Within the same category, put larger absolute `diff_mean` values first.
+3. If both values tie, use ascending alphabetical `window_id` order.
+
+First separate A and C into the yes group and B into the no group. Within yes, `0.35 > 0.18`, so A precedes C. The result is **A → C → B**. C precedes B because of the first classification rule, not because of higher failure probability or a larger sample.
+
+## Policy 2: difference magnitude, then ID
+
+The alternative fictional policy `queue-v2` uses only **absolute difference descending → ID ascending**. Safety category is not a sorting criterion in this policy. A and B tie at 0.35, so ID puts A first; C follows at 0.18. The result is **A → B → C**. These policies illustrate calculations; the example does not establish which is more suitable for actual operations.
+
+| window_id | queue-v1 rank | queue-v2 rank | Decisive reason |
+| --- | ---: | ---: | --- |
+| A | 1 | 1 | v1: larger difference within yes; v2: ID breaks its tie with B |
+| B | 3 | 2 | v1: no group; v2: larger difference than C |
+| C | 2 | 3 | v1: yes group; v2: smallest difference |
+
+Neither policy **uses the decline proportion or recent count for sorting**. Retain those columns to explain observations and interpretive limitations. Spread and pattern summaries are also absent from these ranking rules. Saying “A ranks first because repetition is high” would therefore give a reason the rules did not use. To change order using those columns, specify their precedence and tie handling in a new policy.
 
 ## Connecting Comparison Evidence to Review Priority {#a-small-diagram}
 
@@ -84,18 +63,20 @@ Only at that point does it become explainable why A comes first and why B can mo
 --8<-- "assets/part-03/chapter-08/p3-8-5-mermaid-01-en.mmd"
 ```
 
-This diagram shows that the columns should not be collapsed straight into one score. They first need to be regrouped by `what judgment axis is this`. What should be seen first here is not the complexity that `there are many columns`, but the structure that `different questions are grouped into a few judgment axes`. Review priority is a candidate judgment created by grouping change magnitude, repeatability, interpretation confidence, and operational importance together, not by reading one difference value in isolation. The core of this section is therefore not `how should one implement a single-line score`, but `into what bundles of questions are multiple comparison columns compressed first`.
+Store `window_id`, `rank`, and `policy_version` in the output and link them to the input row used. Rank 1 means review first within this candidate set, not failure probability 1 or a confirmed diagnosis. The ID tie-breaker ensures consistent ordering; the name A is not itself stronger evidence of importance.
 
-Apply an explicit illustrative rule to this table: place `safety_related=yes` first, sort within each group by descending absolute `diff_mean`, and break remaining ties by ascending `event_id`. The order is A → C → B. C precedes B despite its smaller difference because safety relevance comes first. This is the chosen review order, not a ranking of failure probabilities.
+## Change the order yourself
 
-If absolute difference becomes the primary criterion, the order is A → B → C. A and B have equal difference magnitudes, so the tie rule puts A first. The same data produces a different order when the policy changes; store the rule version alongside the ranking. These are calculation examples, and an appropriate operational rule must be chosen separately.
+What happens under each policy if only B's `diff_mean` changes to −0.40? Then return to the original table and change only C's `decline_count` from 12 to 18: do the ranks change?
+
+Explanation: In the first change, queue-v1 still gives **A → C → B** because safety category comes first. Queue-v2 gives **B → A → C** because difference magnitude comes first. In the second change, only C's decline proportion becomes `18/18=100%`. Neither policy uses that proportion, so they retain the original orders **A → C → B** and **A → B → C**. Again, 100% is not a failure probability.
 
 ## Checklist
 
-- Did you specify the ordering rule and tie-breaking procedure for candidates?
-- Can you explain a ranking decision for a case with both a large difference and few samples?
+- Can you explain the row unit, every input column, and the numerator and denominator of the decline proportion?
+- Can you reproduce both policies and their tie-breaks without citing unused columns as ranking reasons?
+- Can you distinguish rank from failure probability and retain the policy version and input evidence?
 
-## Sources and References
+## Sources and references
 
-- Google for Developers, `Thresholds and the confusion matrix`. It explains that a score does not become action immediately, but is interpreted through thresholds and cost structure, which supports this section's explanation that multiple comparison columns should first be grouped into judgment axes rather than merged at once into a single number. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Google for Developers, `Classification: ROC and AUC`. It shows that one of the main uses of model scores is ranking, which supports this section's generalized view that review-priority candidates are built by compressing signals into axes such as change magnitude, repeatability, interpretation confidence, and operational importance. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- [Python documentation, Sorting Techniques](https://docs.python.org/3/howto/sorting.html){: target="_blank" rel="noopener noreferrer" } — Reference for comparing multiple sorting keys in order and using the next key when earlier keys tie. The data and two operational policies are fictional examples constructed for this book. Accessed: 2026-09-20.

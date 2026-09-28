@@ -1,7 +1,7 @@
 # P3-2.1 Why Must Stored Records Be Reorganized for the Analysis Purpose
 
 > Section ID: `P3-2.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
 In databases, data modeling represents the objects and relationships to be stored. This Part focuses on deciding which questions stored records should answer and organizing samples and columns accordingly. When storage and analysis serve different purposes, the same records need different groupings.
 
@@ -30,14 +30,14 @@ Applied to a real table, this distinction can first be checked with the followin
 
 These three questions quickly distinguish whether the current dataset can answer the current question directly or needs restructuring. The first asks what a row means, the second asks about comparability, and the third asks when the raw logs must be reopened. Data modeling represents stored records in a form that lets us answer all three.
 
-In storage structure, what matters is preserving everything without omission. In problem-representation structure, by contrast, we have to decide `what should remain` and `what should be discarded`. For example, once we decide to treat one full action as one sample, we can replace hundreds of time-point rows with new columns such as total action time, early-stage mean, late-stage drop rate, or tracking error. This does not damage the storage structure. It designs a new representation to answer a different question.
+In storage structure, what matters is preserving everything without omission. In problem-representation structure, by contrast, we have to decide `what should remain` and `what should be discarded`. For example, once we decide to treat one full action as one sample, we can preserve the raw records and separately create columns such as the observed time span, mean flow, and slope of the last observed interval. This does not damage the storage structure. It designs a new representation to answer a different question.
 
 The small table below immediately shows how the same source data is read differently depending on the purpose.
 
 | Structure | Example columns | What one row means |
 | --- | --- | --- |
 | Storage structure | `timestamp`, `sensor_name`, `value` | one time-point record |
-| Problem-representation structure | `event_id`, `mid_flow_mean`, `late_drop_rate` | a summary of one action |
+| Problem-representation structure | `event_id`, `mean_flow`, `last_interval_slope` | a summary of one action |
 
 ## From Preserving Records to Restructuring for a Question {#a-small-diagram}
 
@@ -53,24 +53,46 @@ The possible need to reorganize stored records for a question becomes clearer wh
 </div>
 </div>
 
-Problem situation: confirm that the same source record remains as time-point rows in storage structure, but is regrouped into an action-level summary table in the dataset candidate.
+## Tracing a summary row back to the original records
 
-Input: a flow-log table stored as time-point records under each `event_id` and the minimum number of time points required to treat an action as one event, `min_points_per_event`
+The following fictional records A, B, and C are separate from A-101 in the previous chapter. `event_id` identifies the action, `second` is elapsed time since its start, and `flow` is flow in L/min. First, look at A's three records.
 
-Expected output: a display in which the same records are separated into two different table roles, `stored time-step records` and `event-level dataset candidate`, and events that do not meet the criterion are excluded from comparison candidates
+| event_id | second | flow (L/min) |
+| --- | ---: | ---: |
+| A | 0 | 0.8 |
+| A | 1 | 1.4 |
+| A | 2 | 1.2 |
 
-Concept to check: the fact that stored records exist is not the same as the fact that a dataset candidate able to answer a question has been prepared. If `min_points_per_event` changes, which records are accepted as one action sample also changes.
+Grouping A into one row gives 3 records, an observed time span of `2−0 = 2 seconds`, and mean flow `(0.8+1.4+1.2)/3 ≈ 1.13 L/min`. The slope of the last observed interval is `(1.2−1.4)/(2−1) = −0.2 L/min/s`. The meaning of these calculations is the same as in [P3-1.1](../chapter-01/section-01.en.md).
 
-These measurements are one second apart, so the difference between the final two flow values equals the change per second. With a different interval, divide by the elapsed time between them.
+| What the summary retains | What this summary cannot reconstruct | Evidence to revisit |
+| --- | --- | --- |
+| Identifier A, 3 points, 2-second observed span | All individual measurements and their times | Rows with `event_id=A` in the raw table |
+| Mean 1.13 L/min, final-interval slope −0.2 L/min/s | The full sequence, including the rise to 1.4 at 1 second | A's time and flow records in order |
+| Whether the stored point count passes a condition | Whether the actual end was observed or intermediate records are missing | Action-end records and checks of sampling intervals and missing records |
+
+Keeping the identifier allows a return from the summary to the raw records. If action IDs repeat across equipment, include the equipment ID as well. Here, assume A, B, and C uniquely identify distinct actions.
+
+## Changing the point-count condition changes the candidate set
+
+Problem: A and B have 3 observations, while C has 2. Apply the same aggregation code, then change the point-count condition from 3 to 2 to see which actions pass.
+
+Input: Time-point records grouped by `event_id`, and the minimum observation count `min_points_per_event`.
+
+Expected output: The raw table, an action-summary table, and rows passing the point-count condition. Passing does not establish that an action is complete or that actions are comparable.
+
+Concept to inspect: Separate having values that can be calculated, passing a count condition, and observing the entire action. Two points suffice to calculate the last observed interval's slope. The default 3 is a candidate-selection condition for this experiment, not the mathematical minimum for every metric.
+
+There are no missing values or duplicate timestamps in this input, and all observed intervals are 1 second. The slope calculation below assumes this fixed interval. If you change the timestamps, also change the calculation to divide by the actual time difference. `observed_span_seconds` is the difference between the last and first stored timestamps; it is not necessarily the actual duration of an action with a confirmed end.
 
 ```python
-# This example regroupes stored time-step records into an event-level dataset candidate.
+# Regroup stored time-point records into event-level dataset candidates.
 import pandas as pd
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 120)
 
-min_points_per_event = 3
+min_points_per_event = 3  # Lower to 2 to check C; this is not a completion check.
 
 storage_table = pd.DataFrame(
     [
@@ -91,16 +113,16 @@ dataset_candidate = (
     storage_table.groupby("event_id")
     .agg(
         point_count=("second", "count"),
-        duration_seconds=("second", lambda values: values.max() - values.min()),
+        observed_span_seconds=("second", lambda values: values.max() - values.min()),
         mean_flow=("flow", "mean"),
-        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2] if len(values) >= 2 else float("nan")),
+        last_interval_slope=("flow", lambda values: values.iloc[-1] - values.iloc[-2] if len(values) >= 2 else float("nan")),
     )
     .reset_index()
 )
-dataset_candidate["usable_as_event_sample"] = (
+dataset_candidate["passes_point_count"] = (
     dataset_candidate["point_count"] >= min_points_per_event
 )
-usable_candidate = dataset_candidate[dataset_candidate["usable_as_event_sample"]]
+count_filtered_candidate = dataset_candidate[dataset_candidate["passes_point_count"]]
 
 print("1) stored time-step records")
 print(storage_table)
@@ -108,8 +130,8 @@ print()
 print(f"2) event-level dataset candidate when min_points_per_event = {min_points_per_event}")
 print(dataset_candidate.round(2))
 print()
-print("3) usable event-level rows for comparison")
-print(usable_candidate.round(2))
+print("3) rows passing the point-count condition")
+print(count_filtered_candidate.round(2))
 ```
 
 Expected output:
@@ -127,26 +149,54 @@ Expected output:
 7        C       1   1.0
 
 2) event-level dataset candidate when min_points_per_event = 3
-  event_id  point_count  duration_seconds  mean_flow  late_drop_rate  usable_as_event_sample
-0        A            3                 2       1.13            -0.2                    True
-1        B            3                 2       0.80            -0.5                    True
-2        C            2                 1       0.95             0.1                   False
+  event_id  point_count  observed_span_seconds  mean_flow  last_interval_slope  passes_point_count
+0        A            3                      2       1.13                 -0.2                True
+1        B            3                      2       0.80                 -0.5                True
+2        C            2                      1       0.95                  0.1               False
 
-3) usable event-level rows for comparison
-  event_id  point_count  duration_seconds  mean_flow  late_drop_rate  usable_as_event_sample
-0        A            3                 2       1.13            -0.2                    True
-1        B            3                 2       0.80            -0.5                    True
+3) rows passing the point-count condition
+  event_id  point_count  observed_span_seconds  mean_flow  last_interval_slope  passes_point_count
+0        A            3                      2       1.13                 -0.2                True
+1        B            3                      2       0.80                 -0.5                True
 ```
 
-What must be seen first in this output is the difference between `the table that shows the same records as they are` and `the table remade to match the question`. In the first table, one row is one time-point record, so `the average flow of this action` or `the late-stage drop rate` is not yet visible. Only after regrouping into the second table does one action become one row, and only then do columns appear that can be used directly for comparison. The value to manipulate here is `min_points_per_event`. If the value is `3`, C has stored records but is excluded from the comparable one-action samples. If the value is lowered to `2`, C also becomes a candidate, but we must ask again whether its late-stage drop rate can be compared with the same meaning. The fact that stored records exist is not the same statement as the fact that a dataset candidate able to answer a question has been prepared.
+In the first table, each row is a time-point record; in the second, it summarizes the records associated with one action identifier. True in `passes_point_count` means **only that the count condition was met**. At the default 3, only A and B pass. Lowering it to 2 also admits C, but C's slope of +0.1 describes 0–1 seconds, while A and B describe 1–2 seconds. Identically named columns refer to different intervals, so these values alone cannot compare the ends of the actions.
+
+The following chart aligns the three actions on identical axes. Dots are observations; thick segments mark each action's last observed interval. Connecting lines indicate measurement order and do not establish the path between observations.
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Chart: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" style="min-width: 700px" markdown="1">
+
+![A and B have a last interval of 1–2 seconds, while C has only 0–1 seconds](/AiBook/assets/part-03/chapter-02/p3-2-1-observed-intervals-en.png)
+
+</div>
+</div>
+
+The gray region after C's 1-second observation means there are no later records. It does not mean flow is zero or that the action ended. No line is extended into that region.
+
+In particular, C's `observed_span_seconds=1` does not establish that the action ended after 1 second. It may actually have ended then, or continued without further records. Nor do A and B's three points prove that their ends were observed. This input has no confirmation of action completion.
+
+Point count and measurement spacing are also separate. If only A's timestamps change to 0, 1, and 4 seconds, the count remains 3 and mean flow is unchanged. But the observed span becomes 4 seconds, and the last slope is `(1.2−1.4)/(4−1) ≈ −0.067 L/min/s`. Code that assumes 1-second spacing still returns −0.2, leading to an incorrect interpretation. Thus, **counting enough points does not replace checking the time axis**.
+
+The two panels below use the same axis ranges and flow values. Only the time of the last observation changes from 2 to 4 seconds.
+
+<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="Chart: scroll horizontally to read" markdown="1">
+<div class="aibook-diagram-canvas" style="min-width: 700px" markdown="1">
+
+![The same three flow values give different slopes when the last interval changes from 1 to 3 seconds](/AiBook/assets/part-03/chapter-02/p3-2-1-time-spacing-en.png)
+
+</div>
+</div>
+
+The flow difference is −0.2 L/min in both panels, but it spans 1 second above and 3 seconds below. The shallower slope is caused by the changed time denominator, not a different point count or flow difference. The connecting segments do not confirm constant change throughout either interval.
 
 It is also useful to check briefly where we get stuck if we keep the same data in storage structure without changing it.
 
 | Question we immediately want to ask | The problem when storage structure is used as-is |
 | --- | --- |
-| Was this one action longer than usual? | One row is a time-point record, so `the length of one action` is not directly visible |
+| Was this one action longer than usual? | Time-point records alone do not confirm completion; start and end records are also needed |
 | Can we select only the actions with a slow late-stage drop? | Unless the late segment is grouped and summarized first, there is no comparison column |
-| Can we directly compare the most recent 20 cases with the prior 200? | Storage structure has no comparison unit that points to `one action` or `the recent segment` |
+| Can we directly compare the most recent 20 cases with the prior 200? | Even with action identifiers, the periods and conditions for recent and past groups must be defined separately |
 
 So storage structure shows `what was recorded`, but it does not automatically decide `what should be compared as one case`. Rebuilding a dataset candidate means filling in exactly that blank.
 
@@ -162,20 +212,23 @@ This relationship can be summarized more briefly as follows.
 
 This table shows that the difference between storage structure and problem-representation structure is not merely `a difference in table shape`, but `a difference in the questions that can be answered`. How a table was stored and which questions it can answer are not the same problem. That is why the first task at the front of Part 3 is not to look at records and imagine model names, but to ask into what dataset candidate those records should be reread.
 
-More broadly, this section separates `preserving source records`, `resetting the analysis unit`, and `creating derived representations` as work at different levels, and organizes the starting conditions for lifting record structure into problem-representation structure.
+More broadly, this section separates `preserving source records`, `resetting the analysis unit`, and `creating derived representations` as work at different levels, and determines what regrouping and additional checks the current question requires.
 
 The first thing to check is therefore not what the material is called, but whether the unit and derived representation needed to answer the current question have been defined.
 
 ## Checklist
 
-- Can you explain why raw logs can be a dataset yet still be unready for the current question?
-- Did you specify the identifier and grouping rule needed to build an action-comparison table?
+- Can you trace A's summary row back to its three original records and reproduce its mean and last-interval slope?
+- Can you name one piece of information retained in the summary and one that requires reopening the raw table?
+- Why does C passing after `min_points_per_event` is lowered to 2 not mean its slope describes the same interval as A and B?
+- What action-end information and sampling intervals must you check before claiming that three points cover the entire action?
+- Can you verify in the output that C's raw records and summary candidate remain even when C fails the count condition?
 
 ## Sources and Further Reading
 
 - Google for Developers, `Machine Learning Glossary`: `example`, `labeled example`, `feature`. Because it explains the example unit and the role of features separately, it supports the core point of this section that a stored row and a comparable sample row may differ. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- Oracle, `Introduction to Data Warehousing Concepts`. Because it explains that a data warehouse is designed for business intelligence activities, query and analysis, maintaining historical records, and data analysis, it supports the opening context that `DSS/BI/DW/OLAP` connects stored data to decision making and analysis. [https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html](https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Oracle, `Introduction to Data Warehousing Concepts`. Because it explains that a data warehouse is designed for business intelligence activities, query and analysis, maintaining historical records, and data analysis, it provides background on storage structures designed for analysis. This does not mean stored tables are always unsuitable for analysis. [https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html](https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - W3C, `PROV-Overview`. Because it treats provenance, derivation, and traceability together, it strengthens the higher-level frame that storage structure preserves raw evidence while problem-representation structure creates derived representations for different questions. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 - Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. Because it organizes the relationship among variables, observations, and table structure, it provides the general principle behind the explanation that one row in storage structure and one row in an analysis table may not mean the same thing. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
 
-- [Google Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){ target="_blank" rel="noopener noreferrer" }. Checked the distinction among datasets, labeled examples, and unlabeled examples. Checked: 2026-09-15.
+- [Google Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }. Checked the distinction among datasets, labeled examples, and unlabeled examples. Checked: 2026-09-15.

@@ -1,228 +1,80 @@
 # P3-5.5 数值缺失或区间为空的样本应该怎样处理
 
 > Section ID: `P3-5.5`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-这个判断也应留在表内。设置 `keep_sample`、`missing_scope`、`avoid_features`、`missing_indicator`、`raw_log_recheck_needed` 等列，就能重新看到空值按什么策略处理。尤其是保留样本但决定不生成某个特征时，要一起留下原因是 `late_segment_missing` 还是 `end_detected=0`，后面才能区分缺失处理只是简单预处理，还是样本边界问题。
+遇到[缺失值](/AiBook/zh/reference/concept-glossary-pinyin/q/#glossary-missing-value)，应先确认缺了什么。一个观测缺失、区段均值未获得、动作结束未确认，并不是同一个问题。**保留样本与能否计算某项特征，是两个不同的判断。**
 
-当我们已经来到“把源日志变成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)”的阶段后，像 `动作是有的，但部分传感器值为空怎么办？`、`中间区间记录缺了，这条样本该丢掉，还是部分使用？` 这样的问题就会立刻出现。这时首先要看的，不是怎么填值，而是这些[缺失值(missing value)](/AiBook/zh/reference/concept-glossary-pinyin/q/#glossary-missing-value)会在多大程度上动摇[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)边界和[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)含义。
+## 实测零值与未测量，连分母也不同
 
-“值缺了”这件事，不只是一个清洗问题，它更像是一个数据建模信号，要求我们重新问一次：`这条样本还能不能被看成同一种案例？`
+观测为 2、4，第三个值缺失时，已观测值的均值为 `(2+4)/2 = 3`。填零后得到 `(2+4+0)/3 = 2`，相当于假定未观测值为零。如果第三个值确实测得为零，2 才是三个观测的均值。
 
-## 缺失如何动摇样本结构
+已观测均值 3 也不表示已经得知包含缺失值的原来三个值的均值。因此要保留观测数、缺失数与是否填充。记录为零时也需另查传感器有效性，不能把空白直接理解为“流量停止”。
 
-如果只看到空值，就立刻觉得 `把 NaN 补上就行`，就很容易漏掉：样本边界是不是已经塌掉了，以及哪些特征的含义是不是已经丢失了。实际上，更早就必须问清下面这些问题。
+## 区别读取 E01～E03 的空白 {#_7}
 
-| 现在看到的现象 | 在 Part 3 里更应该先问的问题 |
-| --- | --- |
-| 整个后段传感器区间都空了 | 这条样本还能作为一次动作级比较单位来使用吗？ |
-| 只有少数时点缺失 | 做出汇总值后，还能保持同样的结构比较吗？ |
-| 只有某一个传感器经常缺失 | 缺失本身是不是一种运行信号？ |
+[虚构区段摘要 CSV](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv) 包含 36 个事件的候选摘要，平均流量单位为 L/min。空白表示未获得该均值。`end_detected=1` 表示结束已确认，0 表示未确认；仅凭 0 无法区分动作尚未结束，还是遗漏了结束记录。
 
-所以，带有缺失值的样本，不只是 `一张等着填值的表`，而是 `需要重新检查样本边界和特征含义的案例`。对于第一次看这张表的读者来说，先区分 `部分缺失`、`区间缺失`、`样本边界坍塌`，理解通常会更快。
+| event_id | early_flow_mean | mid_flow_mean | late_flow_mean | end_detected |
+| --- | ---: | ---: | ---: | ---: |
+| E01 | 1.10 | 2.40 | 1.80 | 1 |
+| E02 | 1.00 | 2.50 | 未获得 | 1 |
+| E03 | 1.20 | 未获得 | 未获得 | 0 |
 
-## 先要区分的三种情况
+本例假设开始边界与事件关联正确，且结束已确认事件中填写的区段均值已核查。在这些前提下，针对“比较中段−前段差值”的问题，可以作如下判断。需要后段的比较另行处理。
 
-有空值时，与其先谈复杂方法，不如先区分下面三种情况。
+| 事件与状态 | 允许部分缺失时 | 可使用的值 | 不计算或不确认的值 |
+| --- | --- | --- | --- |
+| E01：三个均值、结束已确认 | 保留 | 中段−前段 1.30，后段−中段 −0.60 | 没有时间信息，不能确定每秒变化率 |
+| E02：结束已确认、后段均值缺失 | 保留用于前中段比较 | 中段−前段 1.50 | 后段均值及后段−中段差值 |
+| E03：结束未确认 | 暂缓完整动作比较 | 保留 1.20 作为追查原始记录的线索 | 总时长及依赖结束边界的区段特征 |
 
-| 先区分什么 | 换成问题就是 |
-| --- | --- |
-| 只是部分值缺失吗 | 是某个区间平均值的一部分缺了，还是某个传感器的一部分缺了？ |
-| 是不是整段区间都缺了 | 前段/中段/后段里，有没有一整个块消失了？ |
-| 样本本身的意义是不是已经坏掉了 | 整次动作还容易被当作同一种案例吗？ |
+保留 E02 不会使它变得可用于后段比较。E03 的 1.20 也无须删除，但如果前段定义依赖结束边界，就应重新检查它作为动作特征是否有效。“暂缓”指不纳入当前比较并回查原始记录，而不是删除原始资料。
 
-之所以需要这种区分，是因为 `什么算缺失` 的定义不同，后面的判断就会完全不同。`只是缺了一部分值` 和 `动作的结尾已经没了`，表面上都像空白，但真正要做的决定并不一样。
+区段均值空白也不证明该区段所有传感器记录都消失了。要区分观测不足、未通过质量要求或汇总失败，还需要原始记录和汇总规则。
 
-## 看起来都像缺失，其实可能是不同问题
+## 改变保留政策后，哪十二个事件被排除
 
-例如，下面三种情况都看起来像是 `没有值`，但实际含义并不相同。
+以 `keep_partial_samples` 命名是否保留部分缺失事件作为当前比较候选的政策。`True` 表示结束已确认且前中段均值存在时，保留用于该范围的比较；`False` 表示只保留三个均值都存在的事件。两种政策都暂缓结束未确认的事件。这是本例的政策，并非适用于所有缺失资料的通用规则。
 
-| 看见的问题 | 更接近的解释 |
-| --- | --- |
-| 缺了 1 到 2 个时点 | 局部测量缺失 |
-| 后 20% 区间整段都缺了 | 会动摇结构比较的区间缺失 |
-| 没有 `event_end`，连结束时点都不知道 | 样本边界坍塌 |
+| CSV 状态 | 事件数 | True 时保留 | False 时保留 |
+| --- | ---: | ---: | ---: |
+| 三个均值、结束已确认 | 12 | 12 | 12 |
+| 结束已确认、后段均值缺失 | 12 | 12 | 0 |
+| 结束未确认、中后段均值缺失 | 12 | 0 | 0 |
+| 合计 | 36 | 24 | 12 |
 
-第一种情况，可能仍然是在同一条样本结构里丢掉了部分信息。第二种情况则会直接动摇“后段下降率”这类特征的含义。第三种情况则更严重，因为整次动作的开始和结束都没有确认，样本本身可能都要重新判断。
+不要修改原始文件，找出从 True 改为 False 后新增的排除事件。答案为 **E02, E05, E08, E11, E14, E17, E20, E23, E26, E29, E32, E35**。E03 这类结束未确认的十二个事件原本就已暂缓，不是政策改变后才新增的排除对象。
 
-## 所以，在这个阶段最先要决定什么
+保留事件由 24 减为 12，但**使用后段均值的比较，两种政策都只有十二个事件**。True 额外保留的十二个事件没有后段值，因此不能把样本保留数直接作为所有特征的计算分母。
 
-比起复杂的缺失值补全技术，更重要的是先把下面四个判断写下来。
+## 运行条件与缺失状态需要分别检查
 
-| 先要写下来的判断 | 为什么需要 |
-| --- | --- |
-| 这条样本是否保留 | 为了判断它还能不能作为同一种可比较案例 |
-| 哪些特征不应该生成 | 为了阻止那些因为区间缺失而失去意义的特征 |
-| 缺失本身要不要保留成标记列 | 因为缺失本身可能就是运行信号 |
-| 是否需要重新查看原始日志 | 因为这可能不是单纯空值，而是样本边界问题 |
+当前 CSV 能确认的是各缺失状态的数量。它没有设备、日夜班、负载或采集期间列，因此无法判断哪种运行条件被排除得更多。需要通过 `event_id` 关联条件资料，再比较排除前后的各条件数量与比例，不能从 E01 等编号顺序推断条件。
 
-所以，这里真正关心的，与其说是 `怎么补`，不如说更接近 `这条样本现在应该被归到什么状态`。常见的判断顺序通常是 `是否保留样本 -> 哪些特征不能做 -> 缺失本身要不要作为标记列保留`。
+另作假设：缺少后段均值的十二个事件全发生在夜间。那么严格政策会排除这十二个夜间事件；是否仍有其他夜间事件保留，需要进一步查看条件资料。这说明排除可能改变覆盖范围，并不是在描述实际 CSV 的夜间分布。
 
-## 按缺失位置选择样本处理方式 {#_5}
+## 缺失标记是记录，不自动成为有效特征 {#_5}
 
-<div class="aibook-diagram-scroll" role="region" tabindex="0" aria-label="图示：左右滚动查看" markdown="1">
-<div class="aibook-diagram-canvas" markdown="1">
+保留 `late_mean_missing`、`end_detected`、`keep_sample` 和 `exclusion_reason`，可以追踪哪里缺失、为何被排除。缺失是否与通信、传感器或运行条件有关，需要另行调查；仅凭空白无法确定故障原因。
+
+把缺失标记用作模型输入前，应检查预测时是否已知、是否在目标结果出现后才产生，以及训练与应用环境中是否含义一致。创建标记列，并不证明它对预测有用或能提高性能。
 
 ```mermaid
 --8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-zh.mmd"
 ```
 
-</div>
-</div>
-
-这张图说明：我们并不把 `为空` 看成单一状态。判断会随着缺失发生的位置和样本边界状态而分叉。也就是说，这一节的例子重点，与其说是在展示数值本身，不如说是在先展示一个判断结构：它会分成 `保留`、`排除特征`、`结构坍塌` 三条路。
-
-把缺失值替换为 0 之前，先确认 0 的含义。流量为 0 表示实际测得流动停止；缺失则表示未能取得测量。如果观测值为 2 和 4，第三个值缺失，观测值均值为 3。把空位填成 0 后得到均值 2，是引入了另一种假设的结果。排除缺失样本还可能使某些运行条件消失，因此也要保留排除前后各条件的数量。
-
-## 为什么缺失本身也可以保留成一列
-
-人们常常只会想到 `空白应该去掉`。但在实际场景里，缺失本身也可能带有含义。
-
-| 缺失状态 | 为什么可以保留成标记列 |
-| --- | --- |
-| 某个传感器只在特定条件下经常缺失 | 它可能是运行模式或通信状态的信号 |
-| 临近结束前的区间经常缺失 | 它可能和事件结束识别失败有关 |
-| 只在某一段时期缺失 | 它可能和系统变更或维护状态有关 |
-
-所以，在 Part 3 里，也有必要判断像 `missing_sensor_flag`、`late_segment_missing` 这样的标记列是否值得留下来。这并不是说它们已经被固定成模型输入，而是说：在立刻删掉缺失之前，先判断缺失本身是否应该作为结构信息留下来。
-
-只要先做了这个判断，就不会把 `可以补的值` 和 `已经破坏样本结构的缺失` 混在一起。关键不在于某种处理技术的名字，而在于更早地分清：这条样本是否仍然是同一种比较单位，以及缺失本身是否应作为结构信息留下。
-
-## 按缺失位置判断是否保留样本 {#_7}
-
-问题情境：确认带有缺失值的样本并不都处于同一种状态；有些只是需要避开特定特征，有些则是样本结构本身已经坏掉了。
-
-输入：[`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){ .csv-preview }。一行汇总一次动作，空值表示未能形成相应区段的均值。通过 `keep_partial_samples` 控制是否保留部分缺失的样本。
-
-期望输出(output)：把 `late_segment_missing`、`sample_structure_broken`、`keep_sample`、`avoid_features` 一起整理出来的输出。改变 `keep_partial_samples` 时，只存在部分区间缺失的样本是否保留也会改变。
-
-要确认的概念：在补缺失之前，应先把情况分类成 `保留样本`、`排除特征`、`结构坍塌`。是否允许部分缺失，应该作为明确的策略留下来。
-
-```python
-# 这个例子在聚合前检查并标记数值缺失或区间为空的样本。
-import csv
-from collections import Counter
-from pathlib import Path
-
-keep_partial_samples = True
-preview_count = 9
-
-data_path = Path("docs/assets/part-03/chapter-05/p3_5_5_missing_segments.csv")
-
-def parse_optional_float(value):
-    return None if value == "" else float(value)
-
-with data_path.open(newline="", encoding="utf-8") as file:
-    summary = []
-    for row in csv.DictReader(file):
-        early = parse_optional_float(row["early_flow_mean"])
-        mid = parse_optional_float(row["mid_flow_mean"])
-        late = parse_optional_float(row["late_flow_mean"])
-        end_detected = int(row["end_detected"])
-        late_segment_missing = int(late is None)
-        sample_structure_broken = int(end_detected == 0)
-
-        if sample_structure_broken:
-            keep_sample = "no"
-            avoid_features = "all event-level features"
-        elif late_segment_missing and not keep_partial_samples:
-            keep_sample = "no"
-            avoid_features = "late_drop features"
-        elif late_segment_missing:
-            keep_sample = "yes"
-            avoid_features = "late_drop features"
-        else:
-            keep_sample = "yes"
-            avoid_features = "none"
-
-        summary.append(
-            {
-                "event_id": row["event_id"],
-                "early_flow_mean": early,
-                "mid_flow_mean": mid,
-                "late_flow_mean": late,
-                "late_segment_missing": late_segment_missing,
-                "sample_structure_broken": sample_structure_broken,
-                "keep_sample": keep_sample,
-                "avoid_features": avoid_features,
-            }
-        )
-
-def fmt(value):
-    return "missing" if value is None else f"{value:.2f}"
-
-print("1) missingness flags")
-for row in summary[:preview_count]:
-    print(
-        f'{row["event_id"]}: '
-        f'late={fmt(row["late_flow_mean"]):<7} '
-        f'late_missing={row["late_segment_missing"]} '
-        f'boundary_broken={row["sample_structure_broken"]}'
-    )
-print(f"... {len(summary) - preview_count} more event summaries")
-print()
-print("2) sample decision")
-for row in summary[:preview_count]:
-    print(
-        f'{row["event_id"]}: keep={row["keep_sample"]:<3} '
-        f'avoid={row["avoid_features"]}'
-    )
-print()
-print("3) decision counts")
-for decision, count in sorted(Counter(row["keep_sample"] for row in summary).items()):
-    print(f"keep_sample={decision}: {count}")
-for feature_group, count in sorted(Counter(row["avoid_features"] for row in summary).items()):
-    print(f"avoid={feature_group}: {count}")
-```
-
-期望输出：
-
-```text
-1) missingness flags
-E01: late=1.80    late_missing=0 boundary_broken=0
-E02: late=missing late_missing=1 boundary_broken=0
-E03: late=missing late_missing=1 boundary_broken=1
-E04: late=1.75    late_missing=0 boundary_broken=0
-E05: late=missing late_missing=1 boundary_broken=0
-E06: late=missing late_missing=1 boundary_broken=1
-E07: late=1.82    late_missing=0 boundary_broken=0
-E08: late=missing late_missing=1 boundary_broken=0
-E09: late=missing late_missing=1 boundary_broken=1
-... 27 more event summaries
-
-2) sample decision
-E01: keep=yes avoid=none
-E02: keep=yes avoid=late_drop features
-E03: keep=no  avoid=all event-level features
-E04: keep=yes avoid=none
-E05: keep=yes avoid=late_drop features
-E06: keep=no  avoid=all event-level features
-E07: keep=yes avoid=none
-E08: keep=yes avoid=late_drop features
-E09: keep=no  avoid=all event-level features
-
-3) decision counts
-keep_sample=no: 12
-keep_sample=yes: 24
-avoid=all event-level features: 12
-avoid=late_drop features: 12
-avoid=none: 12
-```
-
-这个例子的核心，不是如何填值，而是 `局部区间缺失` 和 `样本结构坍塌` 不能被当成同一种空白来处理。这里可以操作的值是 `keep_partial_samples`。如果它是 `True`，像 `E02` 这样的行会作为样本保留，但后段下降特征会被保守地排除。改成 `False` 时，存在部分区间缺失的 12 行也会从比较候选中排除。相反，像 `E03` 这样的行，样本边界本身已经不稳定，因此不管采用哪种策略，都很难立刻作为动作级比较样本使用。第 1 步里，我们先区分缺失发生在什么位置；第 2 步里，这种区分又会直接通向 `样本是否保留` 和 `哪些特征不应继续生成` 的判断。
-
-这里最后要确认的是三件事：这条样本是否仍然是同一种比较单位；因缺失而不该生成的特征是否已经区分出来；缺失本身要不要作为标记列保留。只有这三点一起成立，空白才不只是 `待清洗对象`，而会变成一个夹带着样本结构判断的数据建模项。
-
-值缺失这件事，不只是[预处理(preprocessing)](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing)问题。它更像一个数据建模信号，要求我们重新问：这条样本是否仍然是同一种比较单位，以及缺失本身是否应被保留成结构信息。所以，说“处理缺失”，与其说是补空白，不如说更接近重新划定边界：哪些样本还应继续比较，哪些样本应从比较中撤回。
+请改写“既然保留了 E02，就把后段填零后比较”。参考答案是：“保留 E02 作为前中段比较候选，后段均值及其差值仍标为未获得。需要后段值的比较不纳入该事件，并记录原因和该项比较的分母。”
 
 ## 检查清单
 
-- 你是否区分实际的 0 与缺失值，并计算了相应均值？
-- 排除不完整样本后，你是否检查了哪些运行条件可能更少被保留？
+- 能否说明已观测均值 3 与填零均值 2 回答不同问题？
+- 能否区分 E02 的后段均值未获得与 E03 的结束未确认？
+- 是否确认了政策改变后新增排除的十二个事件有何共同状态？
+- 能否区分 24 个保留事件与 12 个可用于后段比较的事件？
+- 是否写明检查运行条件排除影响所需的额外资料？
+- 能否区分缺失标记的记录价值与作为模型输入的适用性？
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary`, `example`, `labeled example`. example 可以没有标签；labeled example 同时包含特征与标签。 按缺失位置决定是否保留样本，是本节案例采用的设计标准。 [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-09-15
-- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为把原始数据变成更适合学习和比较的形式，因此强化了这一节的判断：那些因为区间缺失而失去意义的特征，不应该继续生成。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- W3C, `PROV-Overview`. provenance framework 说明派生关系和处理步骤应当可解释，因此它提供了一个更高层的框架：缺失发生的位置，以及样本结构是否已经坍塌，都应作为独立信息保留下来，后面才能再次判断质量和可复现性。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
-- scikit-learn developers, `Imputation of missing values`. 它说明删除含缺失值的行或列可能造成有价值数据的损失，`MissingIndicator` 可以保留哪些值曾经缺失的信息，因此支持这一节的说明：应先判断缺失本身是否需要作为标记列留下来。 [https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- scikit-learn developers，[Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" }。说明删除不完整行可能丢失信息，缺失标记可保留原来的缺失状态。本节的保留、暂缓政策及数值案例均为自行设计的虚构方案。/ 查阅日期：2026-09-19

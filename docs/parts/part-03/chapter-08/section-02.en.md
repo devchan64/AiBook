@@ -1,60 +1,47 @@
-# P3-8.2 How Far Should You Describe a Change Signal, and Where Should You Stop on Cause
+# P3-8.2 How Far Can We Describe Change Before Claiming a Cause?
 
 > Section ID: `P3-8.2`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-Once you have a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), you can read the difference between a recent window and the usual state. But it is still very risky to think, `if a difference appears, the cause must be obvious too`. A visible change signal and a confirmed cause are completely different stages. After adjusting interpretation strength, you next need to define the [interpretation boundary](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) more clearly.
+What can we say when recent values look higher than a reference in a chart? We can first describe the observed difference. The cause “because the sensor failed” is not contained in the chart. An [interpretation boundary](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) starts by separating observations, candidate causes, and records to check.
 
-Another perspective that needs to be recovered in this chapter is `visual interpretation`. Overinterpretation can happen when comparison tables are read numerically, but the risk becomes even larger in graphs that draw the eye quickly, such as line charts, bar charts, and distribution plots. A split line or a taller bar can help you spot a change signal quickly, but that alone does not mean the cause is confirmed or that a strong conclusion is justified. The first boundary to hold here is that `a difference is visible` and `the cause has been confirmed` should not be merged into the same sentence.
+## Read the same raw values as dots and boxes
 
-Suppose the late-stage drop rate became larger than usual in the most recent 20 cases. That may be an important change signal. But the table alone still cannot tell you whether the reason is a sensor problem, a change in input conditions, a shift in control settings, or a temporary environmental factor. What the comparison table shows is that `a structure different from the usual state exists`, not that a finished diagnosis of `why` already exists.
+We reuse the existing [fictional measurement log](/AiBook/assets/part-03/chapter-04/p3_4_1_measurement_log.csv) from [P3-4.1](../chapter-04/section-01.en.md). Take one `flow` value per operation from the row where `elapsed_seconds=2`. The six operations with `is_recent=0` form the Reference group; the six with `is_recent=1` form the Recent group. Each dot is one operation's flow at two seconds, not a late-period mean or a within-operation decline rate.
 
-The same judgment applies when reading a figure. A recent line may sit below the baseline line, or a recent box plot may look wider than the usual range. Such figures help you catch `what looks different` quickly, but the figure alone cannot confirm whether the difference comes from too few samples, from a few outliers, or from a sustained structural shift.
-
-| What the chart first shows | Risky conclusion from the chart alone | More cautious interpretation |
+| Group | Operation ID order | Flow in that order (L/min) |
 | --- | --- | --- |
-| The recent line is below baseline | The state has definitely worsened | The recent period appears lower than baseline and needs checking |
-| The recent bar is larger | The cause is already clear | A comparison difference is visible; review it without confirming a cause |
-| The boxplot covers a wider range | The system has become unstable | Check whether the box or whisker range widened and examine the raw-data spread |
+| Reference | E02, E04, E06, E08, E10, E12 | 1.2, 1.0, 1.1, 1.1, 1.0, 0.9 |
+| Recent | E01, E03, E05, E07, E09, E11 | 1.6, 1.8, 1.3, 1.5, 1.9, 1.7 |
 
-A boxplot's box usually represents the interquartile range containing the middle 50%, not variance itself. The box, whiskers, and extreme-value markers carry different information. Changes to axis limits or aggregation intervals can also make a change look larger, so first check that scales and aggregation conditions match.
+These group flags serve a comparison exercise. Actual dates, equipment settings, and material batches are missing, so equal conditions and a normal reference group have not been established. Keep this limitation visible: observation coverage needs checking before interpreting the chart.
 
-| Expression | Meaning | Can you say it at this stage? |
+![Flow at two seconds for six operations in each group. Medians are 1.05 and 1.65 L/min; all observations are shown as dots.](/AiBook/assets/part-03/chapter-08/p3-8-2-boxplot.svg)
+
+The horizontal axis separates Reference and Recent; it is not time order. The vertical axis is a shared flow scale in L/min. Dots are spread slightly sideways to avoid overlap, not to encode another variable. Here, whiskers extend to the minimum and maximum. Other box plots may use different whisker rules, so check their legends or descriptions.
+
+The median is the middle of the sorted values. For six values, average the two central ones. Reference sorts to `0.9, 1.0, 1.0, 1.1, 1.1, 1.2`, giving `(1.0+1.1)/2=1.05`. Recent sorts to `1.3, 1.5, 1.6, 1.7, 1.8, 1.9`, giving `(1.6+1.7)/2=1.65`. The observed median difference is therefore `1.65−1.05=0.60 L/min`.
+
+The box runs from the lower quartile (Q1) to the upper quartile (Q3), summarizing the middle 50%. Here we split the six sorted values into the lower three and upper three, then take their respective medians as Q1 and Q3. Small-sample quartiles can differ across calculation methods; this example fixes that rule explicitly.
+
+| Group | Q1 | Median | Q3 | Interquartile range Q3−Q1 (L/min) |
+| --- | ---: | ---: | ---: | ---: |
+| Reference | 1.00 | 1.05 | 1.10 | 0.10 |
+| Recent | 1.50 | 1.65 | 1.80 | 0.30 |
+
+Recent's box is taller, showing greater spread in the central interval. Horizontal widths are set equal for display and do not encode dispersion. The interquartile range is not variance, and differences between six-observation groups do not establish long-term instability or a safety problem. Nor should these two groups be read as a trajectory increasing over time.
+
+## Pair one difference with several possible causes
+
+“The observed Recent median is 0.60 L/min higher” reports a calculation. “It is 0.60 L/min higher because of sensor error” adds an unverified cause. The same high readings admit several possible explanations. The following table organizes hypotheses to check, not established events.
+
+| Candidate cause | Records to check next | What to distinguish |
 | --- | --- | --- |
-| Change signal | A structure different from the usual state has been observed | Yes |
-| Warning candidate | It is worth human review | Yes |
-| Review needed | Additional checking is needed | Yes |
-| Cause confirmed | The reason has already been determined | Usually not yet |
+| The sensor reads above the actual flow | Simultaneous independent reference-meter readings and calibration history | Did actual flow and sensor readings both increase? |
+| The flow setpoint increased | Per-operation setpoints and control-change history | Does the difference remain at the same setting? |
+| The mix of materials or operating conditions changed | Per-operation material batches and operating conditions | Does the difference remain within matched conditions? |
 
-As this table shows, the comparison structure directly supports statements mostly up to the level of `change signal`, `warning candidate`, and `review needed`. By contrast, `cause confirmed` requires more evidence. You may need raw log rechecks, operational context, extra sensors, downstream outcomes, and human judgment.
-
-So saying that [comparison tables](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) are powerful is not the same as saying they can say everything on their own. They are strong at showing `what looks different from the usual state`, but they are not standalone tools for deciding `why`. Keeping this boundary clear prevents warnings and diagnoses, [review queues](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) and automatic classification, from being mixed together.
-
-Statistical conservatism matters exactly here. If the sample size is small or repeatability is weak, the wording should stay softer even when a difference is visible. The default stance is therefore `a change is observed, but the cause is not yet confirmed`.
-
-This is not needed because AI is weak. It is needed because the structure of the problem is originally like this. Comparison tables are strong at showing `what changed`, but often do not provide enough basis to explain `why it changed` on their own. At the modeling stage, that is why it can be more honest to design the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) around `warning candidate`, `review needed`, and `comparison report` rather than `automatic diagnosis`.
-
-This boundary matters especially when reading correlation. Even if two values move together, you cannot immediately say that one caused the other. For example, if a certain input condition often appears together with late-stage decline, hidden operating conditions, seasonality, or changes in measurement procedure may still lie between them. In Part 3, it is therefore important to build the habit of not putting `moved together` and `is the cause` into the same sentence.
-
-This becomes even more sensitive in areas such as financial modeling, where the cost of misinterpretation is high. Values such as price movement, trading volume, risk score, and delinquency probability can look highly correlated on the surface, but linking them directly to action can lead to losses or unfair decisions. At the Part 3 stage, it is safer to separate `prediction score` from `actual decision`, and to talk about cause confirmation or automatic action only when stronger evidence exists.
-
-Visualization is especially double-edged here. A well-made chart can show more structure than a single average, but it can also make a visible pattern feel like a larger signal than it really is. A figure is therefore strong as a tool for `finding whether a difference exists`, but it should not be used immediately as a tool for `deciding whether the cause is confirmed`.
-
-Compare the two sentences below.
-
-| Expression | Why it is safer or riskier |
-| --- | --- |
-| The recent window shows a larger late-stage drop than the baseline | It reports the comparison result |
-| The recent window shows a larger late-stage drop because of sensor abnormality | It has already fixed the cause |
-
-Operational sentences are usually built in the following order.
-
-1. State the comparison result first.
-2. Adjust the wording strength to the sample size and repeatability.
-3. Attach the next action a person should take.
-4. Mention cause confirmation only when separate evidence exists.
-
-For example, a sentence like `The recent window shows a larger late-stage drop than the baseline, and because the recent count is 6, the review priority is raised without cause confirmation` reflects both the comparison structure and the interpretation boundary. By contrast, a sentence like `A sensor abnormality occurred` brings in evidence that is not there yet. The warning needs to stay a signal that narrows what a person should look at first, not an automatic diagnosis.
+Finding a setting change does not prove it was the sole cause. A sensor replacement or material change could have happened at the same time. Check temporal alignment and alternative explanations together; if needed, design further comparisons with controlled conditions. Observing values move together differs from claiming that one caused the other.
 
 ## The Boundary Between Observing Change and Inferring Causes {#a-small-diagram}
 
@@ -62,30 +49,21 @@ For example, a sentence like `The recent window shows a larger late-stage drop t
 --8<-- "assets/part-03/chapter-08/p3-8-2-mermaid-01-en.mmd"
 ```
 
-This diagram shows that a comparison result does not go directly to confirmed cause. You first describe the change signal, then you can move as far as the level of review needed, but a causal claim should move to the next stage only when separate evidence exists. The issue here is not the calculation itself but the interpretation boundary of `how far you speak` and `where you stop`.
+A suitable record is: “For six operations per group, the Recent median flow at two seconds was 0.60 L/min higher. Differences in group conditions and sensor status remain unverified. First check per-operation setting histories and simultaneous reference-meter records.” Also distinguish obtaining further records from validating a cause using them. An unverified cause does not mean necessary checks should stop.
 
-This section is not about the stylistic preference to `write operational sentences conservatively`. It is about separating the levels of `observation`, `review`, and `causal claim`. Visual interpretation belongs to the same frame. A figure can make the `observed signal` easier to see, but it does not let you jump directly to the `cause claim` stage by itself.
+## Check your understanding
 
-Comparison tables support the observation and review stages well, but they do not automatically complete a causal claim.
+Rewrite “Recent's box is three times as tall, so its variance is three times as large and sensor failure is confirmed” as an observation and a checking action.
 
-The same boundary can be compressed like this.
-
-| Sentence being spoken now | The closer level |
-| --- | --- |
-| A structure different from the usual state is visible | Change signal |
-| It is worth a person looking first | Review candidate |
-| Sensor abnormality is the cause | Cause confirmed |
-
-The key point of this table is not to mix the level directly supported by the comparison structure with the level that still needs additional evidence.
+Explanation: Under this rule, the interquartile range is `0.30/0.10=3` times as large, but variance was not calculated. One correction is: “Recent's observed interquartile range is 0.30 L/min, above Reference's 0.10 L/min. The cause is unverified; check simultaneous reference-meter readings and calibration history.” Settings and materials remain alternative explanations, so their records also need checking.
 
 ## Checklist
 
-- Did you read the median and interquartile range of the boxplot separately?
-- Did you distinguish an observed change from an unverified causal explanation?
+- Can you calculate both medians and interquartile ranges from the raw values and connect them to the vertical axis, boxes, and whiskers?
+- Can you write separate sentences for an observed difference and an unverified cause?
+- Can you name additional records that help distinguish each candidate cause?
 
-## Sources and References
+## Sources and references
 
-- W3C, `PROV-Overview`. It offers a provenance perspective that separates an observed result from the procedure and evidence through which that result was produced, which helps generalize this section's claim that comparison tables directly support change observation and review candidates, but not cause confirmation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It explains signal structures that compare current performance with past performance and distinguishes control limits from specification limits, which reinforces this section's boundary that change signals and cause confirmation or functional judgment should not be treated as the same level. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
-
-- [NIST Box Plot](https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm){ target="_blank" rel="noopener noreferrer" }. Checked how to interpret the median and interquartile range. Checked: 2026-09-15.
+- [NIST/SEMATECH, Box Plot](https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm){: target="_blank" rel="noopener noreferrer" } — Reference for medians, quartile intervals, and different whisker conventions. Our chart is generated from the existing fictional log. Accessed: 2026-09-20.
+- [NIST/SEMATECH, Scatter Plot](https://www.itl.nist.gov/div898/handbook/eda/section3/scatterp.htm){: target="_blank" rel="noopener noreferrer" } — Reference for why observed association alone does not prove causality. Accessed: 2026-09-20.

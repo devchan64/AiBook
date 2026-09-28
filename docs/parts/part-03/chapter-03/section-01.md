@@ -1,17 +1,11 @@
 # P3-3.1 원천데이터를 왜 곧바로 학습 문제로 읽으면 안 되는가
 
 > Section ID: `P3-3.1`
-> Version: `v2026.09.15`
+> Version: `v2026.09.19`
 
-원천데이터를 처음 받으면 많은 사람이 거의 반사적으로 `이걸로 무엇을 예측할까`부터 떠올립니다. 표가 있고 값이 많고 시간이 흐르며 측정된 기록도 보이니, 곧바로 어떤 학습 문제로 바꿀 수 있을 것처럼 느껴지기 때문입니다. 하지만 이 반응은 대개 너무 빠릅니다. 눈앞의 표는 아직 `학습용 데이터셋`이 아니라 [기록된 원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)이거나, 많아야 [데이터셋 후보(dataset candidate)](../../../reference/concept-glossary-parts/03-digeut.md#dataset)일 가능성이 더 크기 때문입니다.
+원천데이터에 표와 시간 기록이 있다고 해서 현재의 지도학습 질문에 필요한 입력과 결과가 이미 정의된 것은 아닙니다. [기록된 원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)도 데이터셋입니다. 여기서 확인할 것은 데이터셋의 존재가 아니라, 이를 어떤 질문에 쓸 [데이터셋 후보(dataset candidate)](../../../reference/concept-glossary-parts/03-digeut.md#dataset)로 구성할지입니다.
 
-여기서는 `학습 문제의 틀`보다 [문제 표현 구조(problem-representation structure)](../../../reference/concept-glossary-parts/05-mieum.md#task-definition)가 먼저라는 점을 고정합니다. 아직 예측 문제, 분류 문제, 이상 징후 판별 문제처럼 학습 문제의 틀을 고르는 단계가 아니라는 경고를 먼저 분명히 해야 합니다.
-
-이 장으로 들어오면 Chapter 2에서 만든 `데이터셋 후보` 관점이 한 번 더 좁혀집니다.
-
-| 이전 Chapter에서 남긴 것 | 이번 Chapter에서 추가로 정하는 것 | 다음 Chapter로 넘길 구조 |
-| --- | --- | --- |
-| 저장 구조와 데이터셋 후보의 차이, 새 표를 읽는 첫 점검 | 원천데이터를 아직 학습 문제로 올리지 말아야 하는 이유 | 샘플 단위와 표 구조를 실제로 정하는 판단 |
+여기서는 [문제 표현 구조(problem-representation structure)](../../../reference/concept-glossary-parts/05-mieum.md#task-definition)를 샘플·입력·목표를 연결하는 설계로 봅니다. 분류나 예측이라는 아이디어를 먼저 떠올릴 수는 있지만, 그 이름만으로 현재 자료가 준비되었다고 판단할 수는 없습니다.
 
 자동으로 실행되는 동작 1회마다 제어 파라미터 시계열과 센서 시계열이 남는 상황을 보겠습니다. 이런 표를 보면 다음 같은 생각이 먼저 나옵니다.
 
@@ -21,9 +15,7 @@
 
 이 생각들 자체가 틀린 것은 아닙니다. 문제는 `무엇을 한 건으로 볼지`, `무엇을 맞히려는지`, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 실제로 있는지도 정하지 않은 상태에서 학습 문제의 틀이 먼저 등장한다는 점입니다. 이 상태에서는 아직 데이터 문제를 정의한 것이 아니라, 데이터보다 학습 문제 틀을 먼저 떠올린 것입니다.
 
-이런 일이 자주 생기는 이유는 분명합니다. 첫째, 표가 보이면 사람은 `이미 정리된 데이터셋`이라고 곧바로 받아들이곤 합니다. 둘째, AI 학습 경험이 학습 문제 유형 중심으로 남아 있으면 문제 표현보다 예측 방식이 먼저 떠오릅니다. 셋째, 원천 시계열이 길고 복잡할수록 `이걸 그대로 학습 문제로 넘길 수 있지 않을까`라는 기대가 먼저 앞섭니다.
-
-하지만 원천데이터를 곧바로 데이터셋처럼 읽으면 중요한 질문이 빠집니다.
+하지만 원천데이터를 현재 지도학습 질문에 바로 사용할 준비가 끝난 표로 읽으면 중요한 질문이 빠집니다.
 
 | 먼저 떠올리기 쉬운 질문 | 실제로 더 먼저 필요한 질문 |
 | --- | --- |
@@ -43,6 +35,16 @@
 
 이 표만 보면 `분류 문제`, `예측 문제`, `시계열 학습 문제` 같은 말을 쉽게 떠올릴 수 있습니다. 표의 한 행은 한 시점 기록입니다. 아직 정하지 않은 것은 이 행을 그대로 샘플로 쓸지, 동작 단위로 묶을지와 어떤 결과를 예측할지입니다. 따라서 여기서 바로 학습 문제 틀을 고르면 문제보다 문제 형식이 먼저 앞서게 됩니다.
 
+이 절의 예제는 **동작 1회를 샘플로 삼아 동작 결과를 분류하려는 경우**입니다. 이 경우에는 입력 기록과 사건별 결과 라벨을 연결하고, 라벨의 판정 기준을 확인해야 합니다. 라벨이 없는 데이터셋이나 지도학습 이외의 분석이 불가능하다는 뜻은 아닙니다.
+
+| 서로 다른 확인 항목 | 무엇으로 확인하는가 | 현재 CSV의 상태 |
+| --- | --- | --- |
+| 라벨 열 존재 | `review_label` 열이 실제로 있는가 | 없음 |
+| 사건별 연결 | 각 사건에 누락·충돌 없이 결과 하나가 대응하는가 | 열이 없어 미확인 |
+| 판정 기준 | 누가 어떤 기준·버전으로 결과를 정했는가 | 근거가 없어 미확인 |
+
+사건마다 같은 라벨을 반복해서 붙이면 연결 검사는 통과할 수 있습니다. 그래도 그 라벨이 실제 점검 결과인지, 임의 규칙인지, 사건마다 같은 기준을 썼는지는 별도로 확인해야 합니다.
+
 ## 원천 기록에서 학습 문제까지 필요한 결정 {#_1}
 
 원천데이터를 바로 학습 문제로 올리면 어떤 질문이 비어 있는지, 아래처럼 `원천 기록 -> 빈 질문 확인 -> 샘플/라벨 후보 정리` 순서로 읽으면 더 분명합니다.
@@ -51,151 +53,39 @@
 --8<-- "assets/part-03/chapter-03/p3-3-1-mermaid-01-ko.mmd"
 ```
 
-문제 상황: 시점별 로그 표를 받았을 때, 이를 곧바로 학습 문제로 읽으면 어떤 핵심 질문이 비어 있는지 확인합니다.
+## 라벨 열·연결·판정 근거를 따로 확인하기
 
-입력(input): `event_id`별 여러 시점 측정값이 섞여 있는 원시 로그 표 [p3_3_1_source_operation_log.csv](../../../assets/part-03/chapter-03/p3_3_1_source_operation_log.csv){ .csv-preview }와 라벨 후보로 확인할 열 이름 `label_column_to_try`
+[p3_3_1_source_operation_log.csv](../../../assets/part-03/chapter-03/p3_3_1_source_operation_log.csv)는 이 책의 가상 동작 로그입니다. 한 행은 한 동작의 특정 초에서 얻은 센서 기록이며, A~I의 9개 동작에 각각 4개 기록이 있습니다. `event_id`는 동작 식별자, `second`는 관측 시각입니다. 파일에는 `flow`가 있지만 `review_label`은 없습니다.
 
-입력 파일의 한 행은 한 동작(`event_id`) 안의 특정 초(`second`)에서 측정한 센서 기록입니다. `batch_id`, `recipe`, `pressure`, `flow`, `vibration`, `temperature`가 함께 있지만, 아직 이 중 무엇이 샘플 식별자이고 무엇이 라벨인지는 정하지 않은 상태입니다.
+동작 결과 분류에 쓸 수 있는지 판단하려고 합니다. 아래 상황마다 **라벨 열 존재, 사건별 연결, 판정 기준**을 `확인됨 / 조건 불충족 / 미확인`으로 적어 보세요. ③·④는 원본 CSV에 들어 있지 않은 가상 추가 자료입니다.
 
-기대 출력(output): `지금 바로 분류 문제로 읽기`와 `먼저 비어 있는 질문 채우기`가 다른 결과를 만든다는 점이 드러납니다. `label_column_to_try`를 바꾸면 열 존재 여부와 라벨 후보 사용 가능 여부가 서로 다를 수 있다는 점도 드러납니다.
-
-확인할 개념: 원천데이터를 학습 문제처럼 읽기 전에 `샘플 1건`, `라벨 후보`, `비교 표`가 무엇인지 먼저 정해야 한다. 학습 문제 판정은 고정 문장이 아니라 현재 표의 열과 묶음 기준에서 확인해야 한다.
-
-```python
-# 원천 로그를 바로 학습 문제로 읽지 않고 event 단위 요약표로 다시 보는 예제입니다.
-import pandas as pd
-
-pd.set_option("display.max_columns", None)
-pd.set_option("display.width", 160)
-
-raw_log_path = "docs/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv"
-label_column_to_try = "review_label"
-
-column_unit = {
-    "batch_id": "operation_context",
-    "recipe": "operation_context",
-    "pressure": "time_point_sensor_value",
-    "flow": "time_point_sensor_value",
-    "vibration": "time_point_sensor_value",
-    "temperature": "time_point_sensor_value",
-    "review_label": "event_label",
-}
-
-raw = pd.read_csv(raw_log_path)
-
-print("1) raw input shape and first rows")
-print("shape:", raw.shape)
-print(raw.head())
-print()
-
-print("2) too-early reading")
-print("- maybe this is a classification problem")
-print("- label column:", "found" if label_column_to_try in raw.columns else "not found yet")
-print("- one training sample:", "not decided yet")
-print()
-
-column_exists = label_column_to_try in raw.columns
-candidate_unit = column_unit.get(label_column_to_try, "unknown")
-same_unit_as_sample = column_exists and candidate_unit == "event_label"
-stable_label_meaning_known = same_unit_as_sample
-usable_label_candidate = column_exists and same_unit_as_sample and stable_label_meaning_known
-
-print("3) label candidate check")
-print("- column to try:", label_column_to_try)
-print("- column exists:", column_exists)
-print("- candidate unit:", candidate_unit)
-print("- same unit as one event:", same_unit_as_sample)
-print("- stable label meaning known:", stable_label_meaning_known)
-print("- usable label candidate:", usable_label_candidate)
-print()
-
-event_summary = (
-    raw.groupby("event_id", as_index=False)
-    .agg(
-        batch_id=("batch_id", "first"),
-        recipe=("recipe", "first"),
-        row_count=("second", "count"),
-        duration_seconds=("second", "max"),
-        max_pressure=("pressure", "max"),
-        mean_flow=("flow", "mean"),
-        max_vibration=("vibration", "max"),
-        end_temperature=("temperature", "last"),
-    )
-)
-print("4) questions that must be settled first")
-print("- one sample: one event")
-print("- candidate comparison table: one row per event")
-print("- label candidate:", "usable" if usable_label_candidate else "still not decided")
-print()
-
-print("5) event-level table after defining the sample")
-print(event_summary.round(2))
-```
-
-예상 출력:
-
-```text
-1) raw input shape and first rows
-shape: (36, 8)
-  event_id batch_id    recipe  second  pressure  flow  vibration  temperature
-0        A     B-17  standard       0       1.0   0.0       0.02         24.1
-1        A     B-17  standard       1       2.0   1.4       0.04         24.4
-2        A     B-17  standard       2       2.4   1.6       0.07         24.8
-3        A     B-17  standard       3       2.2   1.2       0.08         25.0
-4        B     B-17  standard       0       1.1   0.1       0.03         24.0
-
-2) too-early reading
-- maybe this is a classification problem
-- label column: not found yet
-- one training sample: not decided yet
-
-3) label candidate check
-- column to try: review_label
-- column exists: False
-- candidate unit: event_label
-- same unit as one event: False
-- stable label meaning known: False
-- usable label candidate: False
-
-4) questions that must be settled first
-- one sample: one event
-- candidate comparison table: one row per event
-- label candidate: still not decided
-
-5) event-level table after defining the sample
-  event_id batch_id     recipe  row_count  duration_seconds  max_pressure  mean_flow  max_vibration  end_temperature
-0        A     B-17   standard          4                 3           2.4       1.05           0.08             25.0
-1        B     B-17   standard          4                 3           1.9       0.78           0.06             24.7
-2        C     B-18       fast          4                 3           2.8       1.05           0.22             26.8
-3        D     B-18       fast          4                 3           2.6       1.02           0.16             26.2
-4        E     B-19   standard          4                 3           2.1       0.90           0.07             24.8
-5        F     B-19   standard          4                 3           2.5       1.12           0.09             25.3
-6        G     B-20  high-load          4                 3           3.1       1.35           0.28             27.5
-7        H     B-20  high-load          4                 3           2.9       1.30           0.24             27.0
-8        I     B-21   standard          4                 3           2.3       0.98           0.08             25.1
-```
-
-이 예제의 핵심은 2단계와 3단계의 차이입니다. 2단계에서는 `분류 문제일지도 모른다`는 말만 먼저 나오지만, 실제로는 `label_column_to_try`로 지정한 `review_label` 열도 없고 샘플 1건도 아직 정해지지 않았습니다. 여기서 조작할 값은 `label_column_to_try`입니다. 값을 `"flow"`로 바꾸면 `column exists`는 `True`가 되지만, `candidate unit`은 `time_point_sensor_value`이고 `usable label candidate`는 여전히 `False`입니다. `flow`는 동작 1회에 붙은 안정 라벨이 아니라 시점별 센서값이기 때문입니다. 반대로 4단계에서는 먼저 `한 샘플은 동작 1회`, `비교 표는 동작별 1행`이라는 구조를 정합니다. 그 뒤에야 5단계처럼 `row_count`, `duration_seconds`, `max_pressure`, `mean_flow`, `max_vibration`, `end_temperature`를 가진 동작 단위 비교 표가 생깁니다. 즉 원천데이터를 너무 빨리 학습 문제로 읽으면, 아직 비어 있는 질문을 덮어 둔 채 문제 형식만 먼저 정하게 됩니다.
-
-실제로 학습 문제의 틀이 먼저 떠오를 때 비어 있는 질문을 나란히 적어 보면 문제가 더 분명해집니다.
-
-| 먼저 튀어나오기 쉬운 말 | 아직 비어 있는 질문 |
+| 상황 | 주어진 근거 |
 | --- | --- |
-| `이상 징후 판별 문제` | 무엇을 이상이라고 부를 것인가 |
-| `분류 문제` | 라벨이 실제로 안정적으로 있는가 |
-| `시계열 학습 문제` | 한 샘플은 한 시점 묶음인가, 동작 1회인가 |
+| ① 원본의 `review_label`을 결과로 선택 | 해당 열이 없음 |
+| ② 원본의 `flow`를 동작 결과로 선택 | A의 0·1·2초 값은 각각 0.0·1.4·1.6으로, 시점별 측정값임 |
+| ③ 별도 결과표를 받음 | 각 사건에 `pass` 또는 `fail` 하나가 연결되지만 판정 문서가 없음 |
+| ④ ③에 판정 문서와 점검 이력이 추가됨 | 이 연습에서는 담당자·기준 버전·적용 이력을 확인했고 모든 사건에 같은 기준을 썼다고 가정 |
 
-이 표의 핵심은 학습 문제의 이름이 틀렸다는 데 있지 않습니다. 문제는 그 틀보다 먼저 답해야 할 질문이 아직 비어 있다는 점입니다. 데이터 모델링은 바로 그 빈칸을 채우는 앞단 설계입니다.
+①은 라벨 열 존재 조건을 충족하지 않습니다. 연결과 판정 기준은 확인할 자료가 없으므로 미확인입니다. ②는 열 존재는 확인되지만, 현재 질문에서 요구하는 사건별 결과 라벨은 아닙니다. 센서값을 어떤 결과 범주로 바꿀지 정한 근거도 없으므로 판정 기준은 미확인입니다.
 
-즉 원천데이터를 처음 받았을 때 가장 흔한 실수는 `기록 구조`를 `학습 구조`로 착각하는 것입니다. 시점별 로그가 있다는 사실만으로 아직 예측 문제가 정해진 것은 아닙니다. 그 로그를 어떤 단위로 묶고, 무엇을 남기고, 무엇을 맞힐지 정해야 현재 학습 문제에 적합한 데이터셋인지 판단할 수 있습니다. 학습 문제의 틀이 먼저 떠오르면 이 앞단 설계가 건너뛰어지기 쉽고, 뒤에서 샘플 단위와 표 구조를 다시 뜯어고치게 됩니다. 이 절을 `문제 승격(problem escalation)`의 시점을 관리하는 문제로 다시 보면, 핵심은 `모델 이름을 늦게 떠올리자`가 아니라 샘플 단위와 라벨 후보가 정리되기 전까지는 학습 문제로 성급히 승격하지 않는 판단에 있다는 점이 더 분명해집니다.
+③은 열 존재와 사건별 연결이 확인되어도 판정 기준이 미확인입니다. `pass`라는 단어만으로 무엇을 통과했는지 알 수 없습니다. ④는 이 연습의 세 항목이 확인된 경우입니다. 그래도 사용할 입력의 범위와 평가 방법까지 정해진 것은 아니므로 학습 준비 전체가 끝났다고 결론내리지는 않습니다.
+
+이제 질문을 “0~2초의 기록으로 3초의 유량을 예측한다”로 바꾸어 보세요. A의 입력은 0·1·2초 기록이고 목표는 3초의 `flow=1.2`입니다. 3초의 유량이나 그 이후 기록을 입력에 섞지 않습니다. 같은 `flow`도 질문과 시점을 정하면 목표값이 될 수 있습니다.
+
+마지막으로 판단 메모를 남깁니다. “현재 결과 분류에는 사건별 라벨과 판정 근거가 부족하다. 센서 기록의 비교·탐색은 가능하며, 라벨 근거는 별도로 확인한다.” 원본 파일의 버전과 추가 결과표·판정 문서의 출처를 함께 적어야 나중에 같은 판단을 다시 확인할 수 있습니다.
+
+원천 기록에서 센서값을 비교하거나 요약할 수 있다는 것과, 원하는 결과를 학습할 근거가 있다는 것은 다른 판단입니다. 현재 질문에 필요한 샘플과 입력, 목표의 대응 관계를 적고, 확인되지 않은 근거는 미확인으로 남깁니다.
 
 ## 체크리스트
 
-- 시점 한 행과 동작 한 건을 구분해 각각의 질문을 적었는가?
-- 원천 로그에 결과 라벨이 없다면 무엇을 비교까지 할 수 있는지 설명했는가?
+- 원시 로그도 데이터셋이라는 사실과 현재 지도학습 질문의 준비 상태를 구분하는가?
+- 상황 ①~④에서 라벨 열 존재·사건별 연결·판정 기준을 각각 판정할 수 있는가?
+- 사건별 결과가 하나씩 있어도 그 의미는 미확인일 수 있는 이유를 설명하는가?
+- A의 3초 유량을 예측할 때 입력 기록과 목표값을 분리할 수 있는가?
+- 현재 가능한 탐색과 추가로 확인할 라벨 근거를 한 문장으로 적었는가?
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. labeled example은 features와 label로 구성된다고 설명하므로, 아직 샘플 1건과 label이 정해지지 않은 원천데이터를 곧바로 학습 문제로 읽으면 안 된다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 문제 틀을 먼저 고르면 아직 정리되지 않은 원천 열을 잘못된 학습 구조로 읽을 위험이 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
-- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, 무엇을 한 대상(example)로 보고 어떤 변환을 거쳐 데이터셋 후보를 만들었는지 먼저 정리해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label`, `labeled example`, `unlabeled example`. 지도학습의 입력과 결과 역할 및 라벨 없는 사례의 구분을 확인했다. [원문](https://developers.google.com/machine-learning/glossary#labeled-example){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-19
+- Google for Developers, `Machine Learning Glossary`: `label leakage`. 예측할 결과를 드러내는 정보를 입력에 섞는 문제를 확인했다. [원문](https://developers.google.com/machine-learning/glossary#label-leakage){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-19
+- W3C, `PROV-Overview` (2013). 데이터 생성에 관여한 대상·활동·담당자와 처리·버전 이력을 추적하는 근거로 참조했다. [원문](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-09-19

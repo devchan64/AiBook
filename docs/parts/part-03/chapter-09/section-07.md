@@ -1,114 +1,84 @@
 # P3-9.7 예측 시점에 쓸 입력과 이후 결과는 어떻게 구분하는가
 
 > Section ID: `P3-9.7`
-> Version: `v2026.09.15`
+> Version: `v2026.09.20`
 
-문제를 예측 문제로 올리기로 했다면, 이제는 그 구조가 실제 [예측 계약(prediction contract)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-prediction-contract)을 만족하는지 닫아야 합니다. 중요한 것은 긴 이론이 아니라 네 가지 확인입니다. 어떤 열이 입력인지, 어떤 열이 결과 후보인지, 예측 시점 이후 정보가 섞이지 않았는지, 그리고 어디까지의 정보를 보고 언제의 결과를 맞히는지입니다.
+[P3-9.6](section-06.md)에서 같은 라벨의 뜻과 판정 조건을 확인했습니다. 이제 결과가 정해지기 전에 실제로 사용할 수 있었던 정보로 입력을 만들어야 합니다. [예측 계약](../../../reference/concept-glossary-parts/08-ieung.md#glossary-prediction-contract)은 예측 대상, 입력을 만드는 시점과 규칙, 맞힐 결과의 정의를 함께 정한 약속입니다. 열 이름뿐 아니라 각 값이 언제 사용 가능했는지를 확인합니다.
 
-이 절에서는 입력/결과 구분, 누수 방지, 운영 시점 재현성, 시간 경계를 먼저 닫아 둡니다.
+## 10시의 입력으로 이후 7일을 예측한다
 
-| 먼저 닫아 둘 것 | 질문으로 바꾸면 |
+다음은 시간 경계를 설명하기 위한 가상 장비 사례입니다. 예측 한 번의 대상은 `equipment_id=M-01`의 `2026-09-01 10:00` 상태이며, 모든 시각은 한국 표준시(KST)입니다. 같은 장비라도 예측 시점이 다르면 별도 샘플로 구분합니다.
+
+| 항목 | 이 사례에서 정한 값과 뜻 |
 | --- | --- |
-| 입력과 결과 구분 | 어떤 열이 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)이고 어떤 열이 목표 후보(target candidate)인가 |
-| 미래 정보 누수 방지 | 예측 시점에 아직 모르는 값이 섞이는 [데이터 누수(data leakage)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-leakage)가 없는가 |
-| 운영 시점 재현성 | 학습 때 만든 입력을 운영에서도 같은 규칙으로 다시 만들 수 있는가 |
-| cutoff / horizon | 어디까지의 정보를 보고 언제의 결과를 맞히는가 |
+| 입력 마감 `cutoff_at` | 2026-09-01 10:00. 이 시각까지 시스템이 실제 읽을 수 있는 정보만 사용 |
+| 예측 기간 `horizon_days` | 7일 |
+| 결과 기간 | 2026-09-01 10:00 이상, 2026-09-08 10:00 미만. 시작 포함·끝 제외 |
+| 목표 `failure_within_7d` | 위 기간에 장비 고장이 확인되면 1, 기간 전체를 확인해 고장이 없으면 0 |
+| 아직 확인하지 못한 결과 | 미확인으로 보존. 미검토·관측 미완료를 0으로 채우지 않음 |
 
-이 구분은 표의 설명 문장으로만 남기지 않고, 인계용 데이터 표에도 최소 필드로 남겨야 합니다. 예를 들어 `feature_available_at`, `target_window_start`, `target_window_end`, `cutoff_at`, `horizon_days`, `leakage_check_note`를 함께 두면, 어떤 입력이 어느 시점에 사용 가능했고 어떤 결과 기간을 맞히려는지 한 줄 단위로 다시 확인할 수 있습니다.
+이 사례에서 고장은 “장비 자체의 이상으로 예정된 동작을 완료하지 못했고 정비 기록에서 원인이 확인된 경우”로 정합니다. 계획 정지는 제외하고 이 정의를 `failure-v1`으로 기록합니다. 아래 수치와 ID는 설명용이며 실제 장비의 위험을 뜻하지 않습니다.
 
-## 한 장면으로 보기
+## 과거에 측정했어도 늦게 도착하면 쓸 수 없다
 
-같은 사건 표라도 아래처럼 `예측 전에 알 수 있는 열`과 `예측 뒤에 생기는 열`이 섞이면 문제 구조가 바로 깨집니다.
+[특징](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)은 모델에 넣는 입력 값입니다. `recent_diff`는 여기서 같은 측정 조건의 최근 평균 유량에서 기준선 평균 유량을 뺀 값입니다. 최근 평균 2.20 L/min과 기준선 2.52 L/min을 사용하면 `2.20 − 2.52 = −0.32 L/min`입니다.
 
-| event_id | recent_diff | repeatability | review_result | target_candidate |
-| --- | --- | --- | --- | --- |
-| A | -0.32 | high | manual_reviewed | review_needed |
-| B | -0.06 | low | skipped | normal |
+| 정보 또는 계산 | 발생·대상 시각 | 실제 사용 가능 시각 | 9월 1일 10시 입력 판단 |
+| --- | --- | --- | --- |
+| `base-v1` 기준선 2.52 | 8월 31일 17:00까지의 확정 자료 | 8월 31일 18:00 | 사용 가능. 당시 확정한 자료와 계산 버전 보존 |
+| 최근 평균 2.20과 `recent_diff=-0.32` | 9월 1일 09:55까지 완료된 동작 | 9월 1일 09:58 | 사용 가능. 원자료도 이때까지 도착·확인되었다고 가정 |
+| 추가 센서 측정 | 9월 1일 09:59 측정 | 9월 1일 10:02 도착 | 제외. 발생은 과거지만 마감 뒤에 도착 |
+| 나중에 다시 계산한 `recent_diff` | 기준선에 9월 2일 17:00까지의 자료 포함 | 9월 2일 18:00 | 제외. 미래 자료가 계산 재료에 포함 |
+| `review_result` | 9월 1일 10:20 검토 완료 | 9월 1일 10:21 기록 | 제외. 예측 뒤에 생긴 판단 |
+| `failure_within_7d=1` | 9월 3일 14:00 고장, 정비로 확인 | 이 예에서는 9월 8일 10:10 결과 표에 반영 | 학습용 결과로 연결. 9월 1일 입력으로는 제외 |
 
-여기서 `recent_diff`와 `repeatability`는 예측 전에 만들 수 있는 열입니다. 반면 `review_result`는 사람이 이미 검토를 끝낸 뒤에야 생기는 열입니다. 그런데 이 열을 입력에 같이 두면, 표 모양만 보면 멀쩡해 보여도 실제로는 `정답을 보고 입력을 만든 구조`가 됩니다. 이렇게 되면 학습 시점에는 높은 점수가 나와도, 실제 예측 시점에는 존재하지 않는 정보를 써서 맞힌 셈이므로 같은 문제로 볼 수 없습니다.
+`feature_available_at`은 해당 특징 값이 시스템에서 실제 사용 가능해진 시각입니다. 원자료의 도착뿐 아니라 필요한 계산이 완료되어야 합니다. 같은 `recent_diff`라는 이름이어도 9월 1일에 확정한 값과 9월 2일 자료로 다시 만든 값은 다릅니다. 나중에 작성한 표에서 날짜만 과거로 표시해도 당시 입력이 되지는 않습니다.
 
-아래 예제는 이 차이를 실제 모델 출력으로 확인합니다. `available_at_cutoff`는 예측 시점에 만들 수 있는 열만 사용하고, `leaky_after_review`는 예측 뒤에 생기는 `review_result_code`만 사용합니다. 두 번째 모델의 점수가 좋아 보여도, 운영 시점에는 쓸 수 없는 열이므로 예측 계약이 깨진 예입니다.
+## 이후 결과를 입력으로 넣으면 답을 미리 준다
 
-문제 상황: 예측 시점에 사용 가능한 입력과 예측 뒤에 생기는 누수 입력이 모델 점수를 어떻게 다르게 보이게 하는지 확인합니다.
+예측 때 알 수 없는 정보를 모델 구성에 사용하는 것은 [데이터 누수](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-leakage)입니다. 뒤늦게 확인한 결과를 학습의 정답으로 연결하는 것은 필요하지만, 그 값을 같은 샘플의 입력에도 넣으면 미래 정보를 준 셈입니다.
 
-입력(input): `recent_diff`, `repeatability`, `review_result_code`, `target`.
+| 별도 교육용 샘플 | 기간 후 확정한 `failure_within_7d` | 그 결과를 복사한 `result_code` | `result_code`를 그대로 답으로 쓰면 |
+| --- | ---: | ---: | ---: |
+| E | 1 | 1 | 1 |
+| F | 0 | 0 | 0 |
 
-기대 출력(output): feature set별 사용 열, 테스트 정확도, 예측/실제 비교.
+이 두 행에서는 답을 복사했으므로 `2 / 2 = 100%`가 맞습니다. 모델의 미래 예측 능력을 시험한 결과가 아닙니다. 누수의 영향을 설명하려고 만든 사례이며, 누수가 항상 점수를 이만큼 올린다는 뜻도 아닙니다. 점수의 높고 낮음과 별개로 입력의 시점 가용성을 먼저 확인해야 합니다.
 
-확인할 개념: 예측 뒤에 생기는 열을 입력에 넣으면 점수는 좋아 보일 수 있지만 실제 운영 예측 문제로는 성립하지 않습니다.
-
-```python
-# 예측 시점에 쓸 수 있는 열과 예측 뒤에 생기는 누수 열의 차이를 확인합니다.
-import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeClassifier
-
-records = pd.DataFrame(
-    [
-        {"event_id": "A", "recent_diff": -0.32, "repeatability": 3, "review_result_code": 1, "target": 1},
-        {"event_id": "B", "recent_diff": -0.06, "repeatability": 1, "review_result_code": 0, "target": 0},
-        {"event_id": "C", "recent_diff": -0.28, "repeatability": 2, "review_result_code": 1, "target": 1},
-        {"event_id": "D", "recent_diff": -0.04, "repeatability": 1, "review_result_code": 0, "target": 0},
-        {"event_id": "E", "recent_diff": -0.18, "repeatability": 1, "review_result_code": 1, "target": 1},
-        {"event_id": "F", "recent_diff": -0.12, "repeatability": 3, "review_result_code": 0, "target": 0},
-    ]
-)
-
-train = records.iloc[:4]
-test = records.iloc[4:]
-feature_sets = {
-    "available_at_cutoff": ["recent_diff", "repeatability"],
-    "leaky_after_review": ["review_result_code"],
-}
-
-for name, columns in feature_sets.items():
-    model = DecisionTreeClassifier(random_state=0, max_depth=2)
-    model.fit(train[columns], train["target"])
-    predicted = model.predict(test[columns])
-    comparison = [
-        (event_id, int(prediction), int(actual))
-        for event_id, prediction, actual in zip(test["event_id"], predicted, test["target"])
-    ]
-    print(name, "features:", columns)
-    print(name, "accuracy:", accuracy_score(test["target"], predicted))
-    print(name, "predictions:", comparison)
-```
-
-예상 출력:
-
-```text
-available_at_cutoff features: ['recent_diff', 'repeatability']
-available_at_cutoff accuracy: 0.0
-available_at_cutoff predictions: [('E', 0, 1), ('F', 1, 0)]
-leaky_after_review features: ['review_result_code']
-leaky_after_review accuracy: 1.0
-leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
-```
-
-`leaky_after_review`는 정확도가 `1.0`이지만, 이 결과를 좋은 예측 문제라고 읽으면 안 됩니다. `review_result_code`는 사람이 이미 검토한 뒤에 생기는 열이기 때문입니다. 실제 운영 시점에는 이 값을 아직 모릅니다. 따라서 이 예제의 핵심은 높은 점수를 얻는 모델을 찾는 것이 아니라, `이 열을 예측 시점에 실제로 만들 수 있는가`를 먼저 닫아야 한다는 점입니다.
-
-### 발생 시각과 사용 가능 시각은 다르다
-
-10시에 예측한다고 가정합시다. 센서 측정은 9시 59분에 발생했지만 서버에는 10시 2분에 도착했다면, 그 값은 10시 입력에 넣을 수 없습니다. 과거 시각이 적힌 열이라도 예측 시스템이 그때 실제로 읽을 수 있었는지 확인해야 합니다. `recent_diff`도 기준선을 계산할 때 미래 기록을 섞었다면 입력으로 쓸 수 없습니다.
-
-여기서 `cutoff`는 입력 정보의 마감 시점, `horizon`은 예측할 미래 기간입니다. `10시까지 사용 가능한 정보로 이후 7일 내 실패를 예측한다`처럼 두 경계를 함께 적습니다. 나중에 도착한 정답은 학습용 결과로 결합할 수 있지만, 당시 입력을 다시 만들 때에는 포함하지 않습니다.
+`review_result=skipped`도 고장 없음이나 정상이라는 결과가 아닙니다. 이것은 검토를 건너뛰었다는 처리 상태입니다. 이후 고장 결과가 필요한 문제에서는 별도의 관측·확정 기록을 찾아야 합니다.
 
 ## 예측 시점에서 입력과 이후 결과 나누기 {#_3}
-
-입력과 결과 계약은 `열을 나눈다`에서 끝나지 않고, 예측 시점에 실제로 쓸 수 있는 값만 남는지까지 아래 순서로 닫혀야 합니다.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-7-mermaid-01-ko.mmd"
 ```
 
-즉 입력/결과 계약을 닫는다는 것은 `열 이름을 나누는 일`만이 아니라, 각 열이 `언제 생기는가`까지 함께 적는 일입니다. 샘플 입력 한 줄이 성립하려면 그 줄 안의 값들이 모두 같은 예측 시점에서 실제로 만들 수 있어야 합니다.
+화살표는 시간 순서와 기록의 연결을 나타내며 시간 간격의 길이를 나타내지는 않습니다. 09:59 측정은 10시 마감보다 앞에 있어도 10:02에 도착하므로 당시 입력에 합칠 수 없습니다. 나중에 학습 표를 만들 때도 마감 당시 사용할 수 있었던 입력을 재구성하고 결과는 별도 열로 연결합니다.
 
-같은 샘플 경계를 유지하더라도 입력 표현은 하나로만 고정되지 않습니다. 어떤 경우에는 한 줄 특징 벡터가 더 자연스럽고, 어떤 경우에는 시간 순서를 남긴 입력 묶음이 더 자연스러울 수 있습니다. 중요한 점은 표현 방식이 달라도 `예측 시점에 실제로 쓸 수 있는 입력인가`, `결과 후보와 시간 경계가 닫혀 있는가`라는 계약이 먼저 맞아야 한다는 사실입니다. 즉 여기서 다루는 것은 `아무 표`가 아니라, 샘플 경계와 시간 경계가 닫힌 입력 구조입니다. 핵심은 `표를 전달하는 일`이 아니라 `예측 시점에 성립하는 입력/결과 계약을 닫는 일`입니다. 더 넓게 보면 여기서 닫아 두는 것은 `입력 정의`, `결과 정의`, `시점 가용성`, `재현 가능성`이 함께 맞는 예측 계약입니다.
+## Part 4로 넘길 한 행의 근거
+
+| 인계 필드 | 이 사례에서 남길 내용 |
+| --- | --- |
+| 샘플 식별 | `equipment_id=M-01` + `cutoff_at=2026-09-01 10:00 KST` |
+| 입력과 가용 시각 | `recent_diff=-0.32 L/min`, `feature_available_at=2026-09-01 09:58 KST` |
+| 계산 근거 | 최근 평균 2.20, `base-v1` 평균 2.52, 원자료 ID 목록·대상 기간·집계 규칙 |
+| 결과 경계 | `target_window_start=2026-09-01 10:00 KST`, `target_window_end=2026-09-08 10:00 KST`, `horizon_days=7`, 시작 포함·끝 제외 |
+| 결과와 근거 | `failure-v1`, `failure_within_7d=1`, 고장·정비 기록 ID, 결과 표 반영 9월 8일 10:10 |
+| `leakage_check_note` | 10:02 도착 측정, 미래 기준선 재계산, 검토 후 결과를 입력에서 제외 |
+
+표의 원자료·고장·정비 기록 ID는 실제 인계 때 구체적인 값으로 채워야 합니다. 여기서는 연결할 기록의 종류만 제시했으므로 이 표 자체가 학습 준비를 마친 실제 데이터는 아닙니다. 특징이 여러 개라면 각 특징의 사용 가능 시각을 따로 확인합니다.
+
+연습: ① 09:59 측정의 도착이 09:59:30으로 빨라졌다면 이를 평균에 넣을 수 있을까요? ② 9월 2일 기준선으로 다시 계산한 값을 9월 1일 행에 덮어써도 될까요? ③ 미검토 상태를 결과 0으로 바꾸어도 될까요?
+
+해설: ① 도착만 빨라졌다고 자동 포함하지 않습니다. 이 사례의 평균은 09:55까지 완료된 동작이 대상이므로 먼저 집계 범위에 해당하는지 확인해야 합니다. 입력 정의를 바꾸려면 원자료 확인과 특징 계산까지 10시 전에 끝나고 운영에서도 같은 규칙을 재현할 수 있어야 합니다. ② 미래 정보가 들어가므로 덮어쓰지 않습니다. 당시 기준선과 입력 버전을 보존합니다. ③ 미검토는 결과 미확인이므로 0으로 바꾸지 않습니다.
+
+한 줄 특징 벡터든 시간 순서를 보존한 입력 묶음이든 이 시간 경계는 같습니다. Part 4에는 입력 값과 결과뿐 아니라 당시 입력을 다시 만들 수 있는 근거도 넘깁니다. 실제 학습·평가 분할은 [P3-9.13](section-13.md)의 인계 항목과 이어집니다.
 
 ## 체크리스트
 
-- 예측 시점과 결과 관측 기간을 시간축에 표시했는가?
-- 예측 시점 전에 발생했지만 이후에 도착한 값이 입력에 들어가는지 확인했는가?
+- 7일의 시작·끝과 포함 여부를 적고, 입력 시각과 결과 관측 기간을 구분할 수 있는가?
+- 09:59 측정·10:02 도착, 미래 기준선 재계산, 검토 후 결과를 입력에서 제외하는 이유를 설명할 수 있는가?
+- 같은 입력을 당시 자료와 버전으로 재현하고, 미검토 상태를 결과 0과 구분할 수 있는가?
 
 ## 출처와 참고 자료
 
@@ -116,4 +86,4 @@ leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
 - Google, *Datasets: Dividing the original dataset*. 훈련·검증·테스트 분리, 같은 특징 변환을 실제 운영 데이터에도 적용해야 한다는 설명, 테스트/검증 데이터가 실제 데이터와 맞아야 한다는 관점을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. 처리 단계, 재현 가능성, 버전 관리, 파생 관계를 provenance 관점에서 남기는 기준을 확인하는 데 참고했습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 
-- [scikit-learn Common pitfalls](https://scikit-learn.org/stable/common_pitfalls.html){ target="_blank" rel="noopener noreferrer" }. 실제 예측 때 쓸 수 없는 정보의 누출를 확인했다. 확인일: 2026-09-15.
+- [scikit-learn, Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }. 예측 때 사용할 수 없는 정보의 누수와 학습·운영의 동일한 입력 변환 기준을 확인했습니다. 확인일: 2026-09-20.
