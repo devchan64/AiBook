@@ -23,7 +23,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-006 입력](../sec-12/codex-camera-inputs-v1/man-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-006 미적용](camera-preservation-scale-v1-step1600/man-level-minus-90-base.png) |
+| ![P712-CAM-006 입력](codex-camera-inputs-v1/man-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-006 미적용](camera-preservation-scale-v1-step1600/man-level-minus-90-base.png) |
 
 미적용 관찰: 좌향 측면·칼라·단추·포켓·컵은 남지만 청록 단발로 변환되지 않음. 몸통·얼굴 비율과 컵 크기도 바뀌어 미적용이 원본 보존의 완전한 기준은 아님.
 
@@ -44,7 +44,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-009 입력](../sec-12/codex-camera-inputs-v1/man-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![P712-CAM-009 미적용](camera-preservation-scale-v1-step1600/man-level-plus-45-base.png) |
+| ![P712-CAM-009 입력](codex-camera-inputs-v1/man-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) | ![P712-CAM-009 미적용](camera-preservation-scale-v1-step1600/man-level-plus-45-base.png) |
 
 미적용 관찰: 칼라·단추·가슴 위 손·컵 유지. 머리와 얼굴은 적용 결과의 공통 인상과 다르고 인물 크기도 줄어듦.
 
@@ -65,7 +65,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-010 입력](../sec-12/codex-camera-inputs-v1/man-level-plus-90-512.png) | ![Mira 토르소 참조 · level / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-010 미적용](camera-preservation-scale-v1-step1600/man-level-plus-90-base.png) |
+| ![P712-CAM-010 입력](codex-camera-inputs-v1/man-level-plus-90-512.png) | ![Mira 토르소 참조 · level / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-010 미적용](camera-preservation-scale-v1-step1600/man-level-plus-90-base.png) |
 
 미적용 관찰: 우향 측면·열린 웃음·책·포켓 없는 셔츠 유지. 짙은 갈색 단발로 바뀌어 적용 결과와 헤어·얼굴 인상이 다름.
 
@@ -86,7 +86,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-015 입력](../sec-12/codex-camera-inputs-v1/man-elevated-plus-90-512.png) | ![Mira 토르소 참조 · elevated / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-015 미적용](camera-preservation-scale-v1-step1600/man-elevated-plus-90-base.png) |
+| ![P712-CAM-015 입력](codex-camera-inputs-v1/man-elevated-plus-90-512.png) | ![Mira 토르소 참조 · elevated / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-015 미적용](camera-preservation-scale-v1-step1600/man-elevated-plus-90-base.png) |
 
 미적용 관찰: 높은 시점·열린 웃음·칼라·단추·책 유지. 검은 머리와 다른 얼굴 인상이며 몸통·손 비율 변화는 있음.
 
@@ -107,7 +107,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-017 입력](../sec-12/codex-camera-inputs-v1/woman-low-minus-45-512.png) | ![Mira 토르소 참조 · low / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-017 미적용](camera-preservation-scale-v1-step1600/woman-low-minus-45-base.png) |
+| ![P712-CAM-017 입력](codex-camera-inputs-v1/woman-low-minus-45-512.png) | ![Mira 토르소 참조 · low / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-017 미적용](camera-preservation-scale-v1-step1600/woman-low-minus-45-base.png) |
 
 미적용 관찰: 손 흔들기·웃음·V형 트임은 남지만 검은 곱슬머리가 이어짐. 인물 채색과 배경 질감 차이가 큼.
 
@@ -128,7 +128,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-023 입력](../sec-12/codex-camera-inputs-v1/woman-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-023 미적용](camera-preservation-scale-v1-step1600/woman-level-zero-base.png) |
+| ![P712-CAM-023 입력](codex-camera-inputs-v1/woman-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-023 미적용](camera-preservation-scale-v1-step1600/woman-level-zero-base.png) |
 
 미적용 관찰: V형 목선·단추·모은 손은 남으나 눈이 가늘어지고 굵은 윤곽선의 다른 얼굴·곱슬머리로 표현됨.
 
@@ -149,7 +149,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-026 입력](../sec-12/codex-camera-inputs-v1/woman-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-026 미적용](camera-preservation-scale-v1-step1600/woman-elevated-minus-90-base.png) |
+| ![P712-CAM-026 입력](codex-camera-inputs-v1/woman-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-026 미적용](camera-preservation-scale-v1-step1600/woman-elevated-minus-90-base.png) |
 
 미적용 관찰: 좌향·높은 시점·트임·단추·주머니 손은 비교적 남음. 검은 곱슬머리가 유지되어 목표 단발 변환과 다름.
 
@@ -170,7 +170,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-028 입력](../sec-12/codex-camera-inputs-v1/woman-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-028 미적용](camera-preservation-scale-v1-step1600/woman-elevated-zero-base.png) |
+| ![P712-CAM-028 입력](codex-camera-inputs-v1/woman-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-028 미적용](camera-preservation-scale-v1-step1600/woman-elevated-zero-base.png) |
 
 미적용 관찰: V형 목선·모은 손·높은 시점 유지. 눈 방향과 검은 곱슬머리·얼굴 인상은 입력 및 적용 결과와 다름.
 
@@ -191,7 +191,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-037 입력](../sec-12/codex-camera-inputs-v1/toddler-level-minus-45-512.png) | ![Mira 토르소 참조 · level / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-037 미적용](camera-preservation-scale-v1-step1600/toddler-level-minus-45-base.png) |
+| ![P712-CAM-037 입력](codex-camera-inputs-v1/toddler-level-minus-45-512.png) | ![Mira 토르소 참조 · level / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-037 미적용](camera-preservation-scale-v1-step1600/toddler-level-minus-45-base.png) |
 
 미적용 관찰: 손 흔들기·열린 웃음·민트 긴소매 유지. 검은 단발·큰 눈의 다른 캐릭터 인상이며 손·체형도 달라짐.
 
@@ -212,7 +212,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-038 입력](../sec-12/codex-camera-inputs-v1/toddler-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-038 미적용](camera-preservation-scale-v1-step1600/toddler-level-zero-base.png) |
+| ![P712-CAM-038 입력](codex-camera-inputs-v1/toddler-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-038 미적용](camera-preservation-scale-v1-step1600/toddler-level-zero-base.png) |
 
 미적용 관찰: 정면·모은 손·긴소매 유지. 굵은 선과 큰 눈·짙은 단발의 다른 얼굴 인상이며 몸 비율도 바뀜.
 
@@ -233,7 +233,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-041 입력](../sec-12/codex-camera-inputs-v1/toddler-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-041 미적용](camera-preservation-scale-v1-step1600/toddler-elevated-minus-90-base.png) |
+| ![P712-CAM-041 입력](codex-camera-inputs-v1/toddler-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-041 미적용](camera-preservation-scale-v1-step1600/toddler-elevated-minus-90-base.png) |
 
 미적용 관찰: 긴소매·긴 바지·높은 시점 유지. 검은 짧은 머리와 크게 바뀐 눈·얼굴 인상. 목선·몸 비율 차이도 있음.
 
@@ -254,7 +254,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 | 미적용 |
 | --- | --- | --- |
-| ![P712-CAM-043 입력](../sec-12/codex-camera-inputs-v1/toddler-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-043 미적용](camera-preservation-scale-v1-step1600/toddler-elevated-zero-base.png) |
+| ![P712-CAM-043 입력](codex-camera-inputs-v1/toddler-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) | ![P712-CAM-043 미적용](camera-preservation-scale-v1-step1600/toddler-elevated-zero-base.png) |
 
 미적용 관찰: 아래 시선·모은 손·긴소매 유지. 가슴 포켓은 미적용에서도 사라짐. 검은 단발과 다른 얼굴 인상.
 
@@ -299,6 +299,6 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 미적용 결과는 대체로 청록 단발과 학습된 공통 얼굴 인상을 만들지 못하며, 원본 인물 비율·얼굴·의상도 일부 바꾼다. 따라서 미적용을 완전 보존 결과나 Mira 정체성의 정답으로 쓰지 않는다.
 
-사용자 선택 이전의 AI 검수에서는 **1600·0.5와 3200·0.5를 후속 비교 후보**로 제안했다. 현재 권장 설정은 사용자 판단에 따른 **3200·0.75**다. 3200·0.5에서 큰 의상 오류가 줄었더라도 1600·1.0보다 시선·손 보존이 나빠지는 항목이 있고 기준 얼굴·전체 화풍의 항목별 비열화도 아직 입증하지 않았다. 관리 문서 `management/authoring/part-07-p7-5-10-preservation-improvement-plan.md`의 “새로운 악화 없이 개선” 조건 충족을 선언하지 않는다. 45장 자동 확대나 재학습은 이 검수 작성에서 실행하지 않았다. 다음 우선 작업은 남은 오류와 관련된 학습 입력·목표의 대응 점검이다.
+사용자 선택 이전의 AI 검수에서는 **1600·0.5와 3200·0.5를 후속 비교 후보**로 제안했다. 현재 권장 설정은 사용자 판단에 따른 **3200·0.75**다. 3200·0.5에서 큰 의상 오류가 줄었더라도 1600·1.0보다 시선·손 보존이 나빠지는 항목이 있고 기준 얼굴·전체 화풍의 항목별 비열화도 아직 입증하지 않았다. “새로운 악화 없이 개선” 조건 충족을 선언하지 않는다. 45장 자동 확대나 재학습은 이 검수 작성에서 실행하지 않았다. 다음 우선 작업은 남은 오류와 관련된 학습 입력·목표의 대응 점검이다.
 
 한 시드에서 오류를 중심으로 선택한 12개 입력의 정성 비교다. 독립 테스트 성능·전체 오류율·과적합의 증거로 일반화하지 않는다. 과거 생성 결과 JSON의 상태는 당시 실행 기록으로 유지하며 이번 시각 검수 완료 사실은 이 표에 기록한다.

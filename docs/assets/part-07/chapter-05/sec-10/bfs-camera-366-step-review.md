@@ -24,7 +24,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-001 입력](../sec-12/codex-camera-inputs-v1/man-low-minus-90-512.png) | ![Mira 토르소 참조 · low / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-001 입력](codex-camera-inputs-v1/man-low-minus-90-512.png) | ![Mira 토르소 참조 · low / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -40,7 +40,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-002 입력](../sec-12/codex-camera-inputs-v1/man-low-minus-45-512.png) | ![Mira 토르소 참조 · low / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-002 입력](codex-camera-inputs-v1/man-low-minus-45-512.png) | ![Mira 토르소 참조 · low / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -56,7 +56,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-003 입력](../sec-12/codex-camera-inputs-v1/man-low-zero-512.png) | ![Mira 토르소 참조 · low / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) |
+| ![P712-CAM-003 입력](codex-camera-inputs-v1/man-low-zero-512.png) | ![Mira 토르소 참조 · low / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -72,7 +72,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-004 입력](../sec-12/codex-camera-inputs-v1/man-low-plus-45-512.png) | ![Mira 토르소 참조 · low / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-004 입력](codex-camera-inputs-v1/man-low-plus-45-512.png) | ![Mira 토르소 참조 · low / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -88,7 +88,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-005 입력](../sec-12/codex-camera-inputs-v1/man-low-plus-90-512.png) | ![Mira 토르소 참조 · low / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-005 입력](codex-camera-inputs-v1/man-low-plus-90-512.png) | ![Mira 토르소 참조 · low / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -104,7 +104,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-006 입력](../sec-12/codex-camera-inputs-v1/man-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-006 입력](codex-camera-inputs-v1/man-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -122,7 +122,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-007 입력](../sec-12/codex-camera-inputs-v1/man-level-minus-45-512.png) | ![Mira 토르소 참조 · level / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-007 입력](codex-camera-inputs-v1/man-level-minus-45-512.png) | ![Mira 토르소 참조 · level / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -138,7 +138,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-008 입력](../sec-12/codex-camera-inputs-v1/man-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-008 입력](codex-camera-inputs-v1/man-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -154,7 +154,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-009 입력](../sec-12/codex-camera-inputs-v1/man-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
+| ![P712-CAM-009 입력](codex-camera-inputs-v1/man-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -172,7 +172,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-010 입력](../sec-12/codex-camera-inputs-v1/man-level-plus-90-512.png) | ![Mira 토르소 참조 · level / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-010 입력](codex-camera-inputs-v1/man-level-plus-90-512.png) | ![Mira 토르소 참조 · level / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -190,7 +190,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-011 입력](../sec-12/codex-camera-inputs-v1/man-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-011 입력](codex-camera-inputs-v1/man-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -206,7 +206,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-012 입력](../sec-12/codex-camera-inputs-v1/man-elevated-minus-45-512.png) | ![Mira 토르소 참조 · elevated / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-012 입력](codex-camera-inputs-v1/man-elevated-minus-45-512.png) | ![Mira 토르소 참조 · elevated / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -222,7 +222,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-013 입력](../sec-12/codex-camera-inputs-v1/man-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-013 입력](codex-camera-inputs-v1/man-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -238,7 +238,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-014 입력](../sec-12/codex-camera-inputs-v1/man-elevated-plus-45-512.png) | ![Mira 토르소 참조 · elevated / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
+| ![P712-CAM-014 입력](codex-camera-inputs-v1/man-elevated-plus-45-512.png) | ![Mira 토르소 참조 · elevated / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -254,7 +254,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-015 입력](../sec-12/codex-camera-inputs-v1/man-elevated-plus-90-512.png) | ![Mira 토르소 참조 · elevated / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-015 입력](codex-camera-inputs-v1/man-elevated-plus-90-512.png) | ![Mira 토르소 참조 · elevated / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -274,7 +274,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-016 입력](../sec-12/codex-camera-inputs-v1/woman-low-minus-90-512.png) | ![Mira 토르소 참조 · low / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-016 입력](codex-camera-inputs-v1/woman-low-minus-90-512.png) | ![Mira 토르소 참조 · low / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -290,7 +290,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-017 입력](../sec-12/codex-camera-inputs-v1/woman-low-minus-45-512.png) | ![Mira 토르소 참조 · low / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-017 입력](codex-camera-inputs-v1/woman-low-minus-45-512.png) | ![Mira 토르소 참조 · low / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -308,7 +308,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-018 입력](../sec-12/codex-camera-inputs-v1/woman-low-zero-512.png) | ![Mira 토르소 참조 · low / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) |
+| ![P712-CAM-018 입력](codex-camera-inputs-v1/woman-low-zero-512.png) | ![Mira 토르소 참조 · low / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -324,7 +324,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-019 입력](../sec-12/codex-camera-inputs-v1/woman-low-plus-45-512.png) | ![Mira 토르소 참조 · low / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-019 입력](codex-camera-inputs-v1/woman-low-plus-45-512.png) | ![Mira 토르소 참조 · low / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -340,7 +340,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-020 입력](../sec-12/codex-camera-inputs-v1/woman-low-plus-90-512.png) | ![Mira 토르소 참조 · low / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-020 입력](codex-camera-inputs-v1/woman-low-plus-90-512.png) | ![Mira 토르소 참조 · low / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -356,7 +356,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-021 입력](../sec-12/codex-camera-inputs-v1/woman-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-021 입력](codex-camera-inputs-v1/woman-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -372,7 +372,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-022 입력](../sec-12/codex-camera-inputs-v1/woman-level-minus-45-512.png) | ![Mira 토르소 참조 · level / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-022 입력](codex-camera-inputs-v1/woman-level-minus-45-512.png) | ![Mira 토르소 참조 · level / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -388,7 +388,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-023 입력](../sec-12/codex-camera-inputs-v1/woman-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-023 입력](codex-camera-inputs-v1/woman-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -406,7 +406,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-024 입력](../sec-12/codex-camera-inputs-v1/woman-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
+| ![P712-CAM-024 입력](codex-camera-inputs-v1/woman-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -422,7 +422,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-025 입력](../sec-12/codex-camera-inputs-v1/woman-level-plus-90-512.png) | ![Mira 토르소 참조 · level / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-025 입력](codex-camera-inputs-v1/woman-level-plus-90-512.png) | ![Mira 토르소 참조 · level / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -438,7 +438,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-026 입력](../sec-12/codex-camera-inputs-v1/woman-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-026 입력](codex-camera-inputs-v1/woman-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -456,7 +456,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-027 입력](../sec-12/codex-camera-inputs-v1/woman-elevated-minus-45-512.png) | ![Mira 토르소 참조 · elevated / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-027 입력](codex-camera-inputs-v1/woman-elevated-minus-45-512.png) | ![Mira 토르소 참조 · elevated / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -472,7 +472,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-028 입력](../sec-12/codex-camera-inputs-v1/woman-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-028 입력](codex-camera-inputs-v1/woman-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -490,7 +490,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-029 입력](../sec-12/codex-camera-inputs-v1/woman-elevated-plus-45-512.png) | ![Mira 토르소 참조 · elevated / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
+| ![P712-CAM-029 입력](codex-camera-inputs-v1/woman-elevated-plus-45-512.png) | ![Mira 토르소 참조 · elevated / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -506,7 +506,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-030 입력](../sec-12/codex-camera-inputs-v1/woman-elevated-plus-90-512.png) | ![Mira 토르소 참조 · elevated / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-030 입력](codex-camera-inputs-v1/woman-elevated-plus-90-512.png) | ![Mira 토르소 참조 · elevated / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -524,7 +524,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-031 입력](../sec-12/codex-camera-inputs-v1/toddler-low-minus-90-512.png) | ![Mira 토르소 참조 · low / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-031 입력](codex-camera-inputs-v1/toddler-low-minus-90-512.png) | ![Mira 토르소 참조 · low / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -540,7 +540,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-032 입력](../sec-12/codex-camera-inputs-v1/toddler-low-minus-45-512.png) | ![Mira 토르소 참조 · low / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-032 입력](codex-camera-inputs-v1/toddler-low-minus-45-512.png) | ![Mira 토르소 참조 · low / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -556,7 +556,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-033 입력](../sec-12/codex-camera-inputs-v1/toddler-low-zero-512.png) | ![Mira 토르소 참조 · low / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) |
+| ![P712-CAM-033 입력](codex-camera-inputs-v1/toddler-low-zero-512.png) | ![Mira 토르소 참조 · low / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-zero-lowzero-repeat-v1-size-1280x1280-seed-62295-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -572,7 +572,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-034 입력](../sec-12/codex-camera-inputs-v1/toddler-low-plus-45-512.png) | ![Mira 토르소 참조 · low / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-034 입력](codex-camera-inputs-v1/toddler-low-plus-45-512.png) | ![Mira 토르소 참조 · low / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -588,7 +588,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-035 입력](../sec-12/codex-camera-inputs-v1/toddler-low-plus-90-512.png) | ![Mira 토르소 참조 · low / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-035 입력](codex-camera-inputs-v1/toddler-low-plus-90-512.png) | ![Mira 토르소 참조 · low / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-low-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -604,7 +604,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-036 입력](../sec-12/codex-camera-inputs-v1/toddler-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-036 입력](codex-camera-inputs-v1/toddler-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -620,7 +620,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-037 입력](../sec-12/codex-camera-inputs-v1/toddler-level-minus-45-512.png) | ![Mira 토르소 참조 · level / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-037 입력](codex-camera-inputs-v1/toddler-level-minus-45-512.png) | ![Mira 토르소 참조 · level / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -638,7 +638,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-038 입력](../sec-12/codex-camera-inputs-v1/toddler-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-038 입력](codex-camera-inputs-v1/toddler-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -656,7 +656,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-039 입력](../sec-12/codex-camera-inputs-v1/toddler-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
+| ![P712-CAM-039 입력](codex-camera-inputs-v1/toddler-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -672,7 +672,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-040 입력](../sec-12/codex-camera-inputs-v1/toddler-level-plus-90-512.png) | ![Mira 토르소 참조 · level / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-040 입력](codex-camera-inputs-v1/toddler-level-plus-90-512.png) | ![Mira 토르소 참조 · level / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -688,7 +688,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-041 입력](../sec-12/codex-camera-inputs-v1/toddler-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-041 입력](codex-camera-inputs-v1/toddler-elevated-minus-90-512.png) | ![Mira 토르소 참조 · elevated / -90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -706,7 +706,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-042 입력](../sec-12/codex-camera-inputs-v1/toddler-elevated-minus-45-512.png) | ![Mira 토르소 참조 · elevated / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-042 입력](codex-camera-inputs-v1/toddler-elevated-minus-45-512.png) | ![Mira 토르소 참조 · elevated / -45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-minus-45-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -722,7 +722,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-043 입력](../sec-12/codex-camera-inputs-v1/toddler-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-043 입력](codex-camera-inputs-v1/toddler-elevated-zero-512.png) | ![Mira 토르소 참조 · elevated / 0°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -740,7 +740,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-044 입력](../sec-12/codex-camera-inputs-v1/toddler-elevated-plus-45-512.png) | ![Mira 토르소 참조 · elevated / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
+| ![P712-CAM-044 입력](codex-camera-inputs-v1/toddler-elevated-plus-45-512.png) | ![Mira 토르소 참조 · elevated / 45°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |
@@ -756,7 +756,7 @@ Mira 토르소 참조는 [P7-5.2의 15방향 원본](../../../../parts/part-07/c
 
 | 입력 | Mira 토르소 참조 |
 | --- | --- |
-| ![P712-CAM-045 입력](../sec-12/codex-camera-inputs-v1/toddler-elevated-plus-90-512.png) | ![Mira 토르소 참조 · elevated / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+| ![P712-CAM-045 입력](codex-camera-inputs-v1/toddler-elevated-plus-90-512.png) | ![Mira 토르소 참조 · elevated / 90°](../sec-02/p7-5-2-qwen-2511-mira-torso-multiview-vertical-elevated-yaw-plus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
 
 | 1600 · 1.0 | 3200 · 1.0 |
 | --- | --- |

@@ -217,6 +217,16 @@ P710-PROP-001과 P710-PROP-009는 같은 5.2 측면 목표 파일을 공유한�
 
 [LoRA 편집 평가 코드](../../../assets/part-07/chapter-05/sec-12/p7_5_12_evaluate_bfs.py)
 
+### 외부 평가 입력 45장을 준비한다
+
+이 절의 평가 입력은 **남성·여성·유아 3종 × 높이 3종 × 수평 방향 5종 = 45장**의 합성 이미지다. 각 이미지는 512×512이며, 학습·검증용 366쌍과 별도로 결과를 비교할 때 사용한다. 입력·생성 기록·전체 목록은 `sec-10/codex-camera-inputs-v1/`에서 함께 관리한다.
+
+[외부 평가 입력 45장 · 인물과 방향별 이미지 목록](../../../assets/part-07/chapter-05/sec-10/codex-camera-inputs-v1/README.md){ .aibook-markdown-preview }
+
+[45장 생성 목록 · 프롬프트·파일명·해시](../../../assets/part-07/chapter-05/sec-10/codex-camera-inputs-v1/generation-manifest.json)
+
+평가기의 `--input-manifest`에는 위 생성 목록을 지정한다. 같은 입력을 체크포인트·강도별로 재사용하고, 결과는 아래 비교시트에서 대조한다. 높이·방향은 생성 요청의 범주이며 측정한 카메라 좌표가 아니다. 배경·자세·표정도 달라지므로 각도만 바꾼 통제 실험이나 정량 성능 점수로 해석하지 않는다.
+
 ### 핵심 결과와 권장 설정
 
 **현재 권장 설정은 누적 3200스텝 · LoRA 강도 0.75다.** 여기서 스텝은 학습 중 가중치를 갱신한 횟수이고, 강도는 추론할 때 학습된 LoRA를 반영하는 정도다. 두 값을 따로 비교해야 학습량의 영향과 적용 강도의 영향을 구분할 수 있다.
@@ -228,6 +238,52 @@ P710-PROP-001과 P710-PROP-009는 같은 5.2 측면 목표 파일을 공유한�
 | 의상·손·시선·몸 비율 보존 | 기존 AI 검수에서는 일부 개선과 함께 남은 오류도 관찰됨 | 얼굴 재현과 별도로 항목별 확인 |
 
 이는 이번 입력과 설정에 대한 시각 검수 판단이며, 오류율을 계수한 결과는 아니다. 캐릭터 얼굴이 잘 재현되어도 의상이나 방향은 달라질 수 있으므로, 외형 변환과 입력 보존을 하나의 성공·실패로 묶지 않는다.
+
+### 대표 샘플을 본문에서 비교한다
+
+다음 세 사례는 위 판단을 읽는 방법을 보여준다. **위쪽은 입력과 Mira 참조, 아래쪽은 조건을 달리한 결과**다. 참조는 검수용이며 모델에는 입력 한 장만 전달했다. 이미지 아래의 조건을 확인하고, 얼굴 재현과 입력 보존을 나누어 살펴본다.
+
+#### 023 · 같은 강도에서 얼굴·헤어를 비교한다
+
+강도를 0.75로 고정하고 학습 스텝만 달리한 두 결과다. Mira 참조와 눈·코·입의 배치, 얼굴 윤곽, 단발의 형태를 비교한다. 홍채와 이목구비 간 거리도 확대해서 살펴보되, 두 결과의 자세·크기가 다르면 같은 화면상 거리만으로 얼굴 재현을 판단하지 않는다.
+
+| 입력 · 보존할 장면 | Mira 토르소 참조 · 바꿀 외형 |
+| --- | --- |
+| ![P712-CAM-023 입력](../../../assets/part-07/chapter-05/sec-10/codex-camera-inputs-v1/woman-level-zero-512.png) | ![Mira 토르소 참조 · level / 0°](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-zero-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+
+| 1600스텝 · 강도 0.75 | 누적 3200스텝 · 강도 0.75 |
+| --- | --- |
+| ![P712-CAM-023 1600 · 0.75](../../../assets/part-07/chapter-05/sec-10/camera-preservation-scale-v1-step1600/woman-level-zero-lora-scale-0.75.png) | ![P712-CAM-023 3200 · 0.75](../../../assets/part-07/chapter-05/sec-10/camera-preservation-scale-v1-step3200/woman-level-zero-lora-scale-0.75.png) |
+
+얼굴 비교와 함께 입력의 모은 손·상의 길이·도서관 배치가 이어지는지도 따로 확인한다. 이 사례 하나가 전체 오류율이나 3200스텝의 우월성을 증명하는 것은 아니다.
+
+#### 006 · 같은 학습량에서 머리 방향을 비교한다
+
+이번에는 누적 3200스텝 가중치를 고정하고 적용 강도만 바꾼다. 입력의 코가 향하는 방향과 얼굴의 측면 윤곽을 먼저 확인한 뒤 두 결과를 비교한다.
+
+| 입력 · 보존할 장면 | Mira 토르소 참조 · 바꿀 외형 |
+| --- | --- |
+| ![P712-CAM-006 입력](../../../assets/part-07/chapter-05/sec-10/codex-camera-inputs-v1/man-level-minus-90-512.png) | ![Mira 토르소 참조 · level / -90°](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-minus-90-native1280-v1-size-1280x1280-seed-62294-steps-4.png) |
+
+| 누적 3200스텝 · 강도 0.75 | 누적 3200스텝 · 강도 1.0 |
+| --- | --- |
+| ![P712-CAM-006 3200 · 0.75](../../../assets/part-07/chapter-05/sec-10/camera-preservation-scale-v1-step3200/man-level-minus-90-lora-scale-0.75.png) | ![P712-CAM-006 3200 · 1.0](../../../assets/part-07/chapter-05/sec-10/codex-camera-lora-366-step3200-v1/man-level-minus-90-lora.png) |
+
+강도 1.0에서는 얼굴이 정면 쪽으로 돌아오고 인물 크기도 줄었다. 0.75에서는 측면 방향이 더 잘 유지되지만 머리·몸 비율은 입력과 차이가 남는다. 머리색이 Mira와 같아진 것과 입력의 방향을 유지한 것은 서로 다른 검수 항목이다.
+
+#### 009 · 얼굴 변환과 의상 보존을 구분한다
+
+셔츠 목 부분의 접힌 칼라를 기준으로 비교한다. Mira 참조는 얼굴·헤어의 기준이며, 의상 보존의 기준은 왼쪽 입력이다.
+
+| 입력 · 보존할 장면 | Mira 토르소 참조 · 바꿀 외형 |
+| --- | --- |
+| ![P712-CAM-009 입력](../../../assets/part-07/chapter-05/sec-10/codex-camera-inputs-v1/man-level-plus-45-512.png) | ![Mira 토르소 참조 · level / 45°](../../../assets/part-07/chapter-05/sec-10/training-images/target-images/p7-5-2-qwen-2511-mira-torso-multiview-vertical-level-yaw-plus-45-native1024-v1-size-1024x1024-seed-62294-steps-4.png) |
+
+| 1600스텝 · 강도 0.75 | 1600스텝 · 강도 1.0 |
+| --- | --- |
+| ![P712-CAM-009 1600 · 0.75](../../../assets/part-07/chapter-05/sec-10/camera-preservation-scale-v1-step1600/man-level-plus-45-lora-scale-0.75.png) | ![P712-CAM-009 1600 · 1.0](../../../assets/part-07/chapter-05/sec-10/codex-camera-lora-366-v1/man-level-plus-45-lora.png) |
+
+1600스텝의 강도 1.0 결과에서는 칼라가 사라지고 둥근 목선으로 바뀌었다. 강도 0.75에서는 칼라가 남는다. 청록색 옷과 Mira의 얼굴이 나타나더라도 의상 디자인까지 보존됐다고 판단할 수 없으며, 낮은 강도에서도 방향·손·몸 비율은 따로 확인해야 한다.
 
 ### 결과 비교시트를 내용보기로 확인한다
 
